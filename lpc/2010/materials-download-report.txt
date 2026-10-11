@@ -1,0 +1,119 @@
+Source JSON: lpc2010-sessions.json
+Total sessions: 47
+Sessions with file attachments: 18
+Sessions without file attachments: 29
+Attachment count: 18
+Distinct source-file count: 18
+Saved: 18
+Already present: 0
+Unresolved: 0
+
+Session: The kernel report [sessions-417]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/417/original/kreport.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/The kernel report/kreport.pdf
+  Status: saved
+
+Session: Linux Multitenant File Servers using Likewise-CIFS [sessions-501]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/501/original/Likewise-Multi-Domain-Lsass.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Linux Multitenant File Servers using Likewise-CIFS/Likewise-Multi-Domain-Lsass.pdf
+  Status: saved
+
+Session: Hot and cold data management in filesystem [sessions-219]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/219/original/hot_cold_data_LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Hot and cold data management in filesystem/hot_cold_data_LPC.pdf
+  Status: saved
+
+Session: VirtFS—A paravirtual File System pass-through in KVM/QEMU [sessions-597]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/597/original/VirtFS_LPC_2010_Final.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/VirtFS—A paravirtual File System pass-through in KVM／QEMU/VirtFS_LPC_2010_Final.pdf
+  Status: saved
+
+Session: Patchwork: pursuing productive project participation [sessions-297]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/297/original/patchwork-lpc2010.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Patchwork: pursuing productive project participation/patchwork-lpc2010.pdf
+  Status: saved
+
+Session: Perf Tools: Recent Improvements [sessions-579]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/579/original/perf-plumbers2010.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Perf Tools: Recent Improvements/perf-plumbers2010.pdf
+  Status: saved
+
+Session: Testing the real-time Kernel on Arbitrary Hardware. [sessions-645]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/645/original/measuring.odp
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Testing the real-time Kernel on Arbitrary Hardware./measuring.odp
+  Status: saved
+
+Session: Runtime Power Management in the PCI Subsystem [sessions-279]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/279/original/PCI_runtime_PM.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Runtime Power Management in the PCI Subsystem/PCI_runtime_PM.pdf
+  Status: saved
+
+Session: Porting the Linux kernel to a new architecture, done right [sessions-237]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/237/original/porting.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Porting the Linux kernel to a new architecture, done right/porting.pdf
+  Status: saved
+
+Session: The state of video [sessions-399]
+  Attachment: slides
+  Source URL: https://www.linuxplumbersconf.org/2010/ocw//system/presentations/399/original/state-of-video.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/The state of video/state-of-video.pdf
+  Status: saved
+
+Session: The Linux Bluetooth Stack [sessions-477]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/477/original/Bluetooth_plumbers.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/The Linux Bluetooth Stack/Bluetooth_plumbers.pdf
+  Status: saved
+
+Session: Unified energy-aware scheduling [sessions-381]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/381/original/unified-energy-Nov05b.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Unified energy-aware scheduling/unified-energy-Nov05b.pdf
+  Status: saved
+
+Session: Idle scheduling support in the Linux Kernel [sessions-519]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/519/original/Idle_Scheduling_in_Linux.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Idle scheduling support in the Linux Kernel/Idle_Scheduling_in_Linux.pdf
+  Status: saved
+
+Session: Wi-Fi Direct on Linux [sessions-639]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/639/original/lpc-p2p.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Wi-Fi Direct on Linux/lpc-p2p.pdf
+  Status: saved
+
+Session: API for Real-Time Scheduling with Temporal Isolation on Linux [sessions-669]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/669/original/LPC-2010-Real-Time-API-MainConf.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/API for Real-Time Scheduling with Temporal Isolation on Linux/LPC-2010-Real-Time-API-MainConf.pdf
+  Status: saved
+
+Session: Optimizing the QEMU/KVM Storage Stack [sessions-651]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/651/original/Optimizing_the_QEMU_Storage_Stack.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/Optimizing the QEMU／KVM Storage Stack/Optimizing_the_QEMU_Storage_Stack.pdf
+  Status: saved
+
+Session: TCP-NV: Congestion Avoidance for Data Centers [sessions-525]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/525/original/TCP_NV_LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/TCP-NV: Congestion Avoidance for Data Centers/TCP_NV_LPC.pdf
+  Status: saved
+
+Session: The wonderful world of LibreOffice [sessions-1179]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2010/ocw/system/presentations/1179/original/libre-office.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2010/The wonderful world of LibreOffice/libre-office.pdf
+  Status: saved
+
+Sessions with no attachment links: 29

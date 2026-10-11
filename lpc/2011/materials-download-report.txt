@@ -1,0 +1,308 @@
+Source JSON: lpc2011-sessions.json
+Total sessions: 104
+Sessions with file attachments: 49
+Sessions without file attachments: 55
+Attachment count: 49
+Distinct source-file count: 49
+Saved: 3
+Already present: 46
+Unresolved: 0
+
+Sessions without file attachments have no attachment links; they are not failed downloads.
+
+Session: Some challenges for the plumbing community [ID 711]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.net/2011/ocw//system/presentations/711/original/lpc-challenges.pdf
+  Local path: Some challenges for the plumbing community/lpc-challenges.pdf
+  Status: already present
+
+Session: BITS: Testing BIOS/platform issues with Python in a bootloader [ID 867]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/867/original/bits.pdf
+  Local path: BITS: Testing BIOS_platform issues with Python in a bootloader/bits.pdf
+  Status: already present
+
+Session: Optimizing igb and ixgbe network driver scaling performance [ID 423]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/423/original/optimizing-ixgbe-performance.pdf
+  Local path: Optimizing igb and ixgbe network driver scaling performance/optimizing-ixgbe-performance.pdf
+  Status: already present
+
+Session: Why Video calls on a mobile device don't just work. [ID 555]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/555/original/Why_Voip_Calls_Dont_Just_Work.pdf
+  Local path: Why Video calls on a mobile device don't just work/Why_Voip_Calls_Dont_Just_Work.pdf
+  Status: already present
+
+Session: x32 - a native 32-bit ABI for x86-64 [ID 531]
+  Attachment: slides
+  Source URL: http://www.linuxplumbersconf.net/2011/ocw//system/presentations/531/original/x32-LPC-2011-0906.pptx
+  Local path: x32 - a native 32-bit ABI for x86-64/x32-LPC-2011-0906.pptx
+  Status: already present
+
+Session: Virtual Machine Memory Overcommitment [ID 351]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/351/original/Kernel_KVM_MemOvercommit_May2010.pdf
+  Local path: Virtual Machine Memory Overcommitment/Kernel_KVM_MemOvercommit_May2010.pdf
+  Status: already present
+
+Session: Control is the New Community: What Linux can Learn from Android [ID 897]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/897/original/LPC2011.odp
+  Local path: Control is the New Community: What Linux can Learn from Android/LPC2011.odp
+  Status: already present
+
+Session: Finding and burying Configuration Defects in Linux with the undertaker [ID 33]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/33/original/plumbers-presentation-tartler.pdf
+  Local path: Finding and burying Configuration Defects in Linux with the undertaker/plumbers-presentation-tartler.pdf
+  Status: already present
+
+Session: Ad Hoc Synchronization Considered Harmful [ID 69]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/69/original/SyncFinder-LPC.pptx
+  Local path: Ad Hoc Synchronization Considered Harmful/SyncFinder-LPC.pptx
+  Status: already present
+
+Session: Diagnosing Linux/Firmware related Issues with the Firmware Test Suite [ID 159]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/159/original/fwts-plumbers-2011.pdf
+  Local path: Diagnosing Linux_Firmware related Issues with the Firmware Test Suite/fwts-plumbers-2011.pdf
+  Status: already present
+
+Session: Killing Bugs in C with Smatch [ID 165]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/165/original/transcript.txt
+  Local path: Killing Bugs in C with Smatch/transcript.txt
+  Status: already present
+
+Session: Reducing your patch workload with Patchwork [ID 255]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/255/original/patchwork.pdf
+  Local path: Reducing your patch workload with Patchwork/patchwork.pdf
+  Status: already present
+
+Session: Codemap, google maps for source code [ID 297]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/297/original/codemap-plumbers-2011.ppt
+  Local path: Codemap, google maps for source code/codemap-plumbers-2011.ppt
+  Status: already present
+
+Session: Tolerating hardware device failures in software [ID 363]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/363/original/plumbers-conf.pptx
+  Local path: Tolerating hardware device failures in software/plumbers-conf.pptx
+  Status: already present
+
+Session: Reproducible builds and infrastructure [ID 441]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/441/original/apters.pdf
+  Local path: Reproducible builds and infrastructure/apters.pdf
+  Status: already present
+
+Session: Runtime PM vs System Sleep [ID 27]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/27/original/system_sleep_vs_runtime_PM.pdf
+  Local path: Runtime PM vs System Sleep/system_sleep_vs_runtime_PM.pdf
+  Status: already present
+
+Session: Linux OS Infrastructure for Memory Power Management [ID 417]
+  Attachment: slides
+  Source URL: http://www.linuxplumbersconf.com/2011/ocw//system/presentations/417/original/LinuxMemoryPowerSaving.pdf
+  Local path: Linux OS Infrastructure for Memory Power Management/LinuxMemoryPowerSaving.pdf
+  Status: already present
+
+Session: Relativistic Development [ID 717]
+  Attachment: slides
+  Source URL: http://www.linuxplumbersconf.com/2011/ocw//system/presentations/717/original/development_models.pdf
+  Local path: Relativistic Development/development_models.pdf
+  Status: already present
+
+Session: Extending (Disk) Data Integrity Support in Linux [ID 381]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/381/original/lpc2011_slides.odp
+  Local path: Extending (Disk) Data Integrity Support in Linux/lpc2011_slides.odp
+  Status: already present
+
+Session: Unified Memory Management [ID 567]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/567/original/umm.odp
+  Local path: Unified Memory Management/umm.odp
+  Status: already present
+
+Session: Seeking a path to zero-copy paravirtualised networking in the Linux kernel [ID 129]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/129/original/2011-09-LPC-Towards-Zero-Copy-PV-Networking.pdf
+  Local path: Seeking a path to zero-copy paravirtualised networking in the Linux kernel/2011-09-LPC-Towards-Zero-Copy-PV-Networking.pdf
+  Status: already present
+
+Session: Virtio on Xen [ID 135]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/135/original/VirtIO_on_Xen.pdf
+  Local path: Virtio on Xen/VirtIO_on_Xen.pdf
+  Status: already present
+
+Session: Yabusame: Postcopy Live Migration for Qemu/KVM [ID 669]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/669/original/lpc-post-copy.pdf
+  Local path: Yabusame: Postcopy Live Migration for Qemu_KVM/lpc-post-copy.pdf
+  Status: already present
+
+Session: VFIO: PCI device assignment breaks free of KVM [ID 777]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/777/original/LPC-VFIO.pdf
+  Local path: VFIO: PCI device assignment breaks free of KVM/LPC-VFIO.pdf
+  Status: already present
+
+Session: New filesystem freeze API [ID 873]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/873/original/plumbers2011-newfsfreezeapi.pdf
+  Local path: New filesystem freeze API/plumbers2011-newfsfreezeapi.pdf
+  Status: already present
+
+Session: OSWALD: Lessons from and for the Open Hardware Movement [ID 525]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/525/original/oswald_lpc-2011.pdf
+  Local path: OSWALD: Lessons from and for the Open Hardware Movement/oswald_lpc-2011.pdf
+  Status: already present
+
+Session: Linux Power Management Experiences on Moorestown [ID 9]
+  Attachment: slides
+  Source URL: http://www.linuxplumbersconf.net/2011/ocw//system/presentations/9/original/LPC2011-MRST.pdf
+  Local path: Linux Power Management Experiences on Moorestown/LPC2011-MRST.pdf
+  Status: already present
+
+Session: Control loops in userspace [ID 705]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/705/original/Control_Loops_In_Userspace.pdf
+  Local path: Control loops in userspace/Control_Loops_In_Userspace.pdf
+  Status: already present
+
+Session: Checkpoint/restart in the userspace [ID 831]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/831/original/LinuxPlumbers-Santa-Rosa-miniconf-2011.odp
+  Local path: Checkpoint_restart in the userspace/LinuxPlumbers-Santa-Rosa-miniconf-2011.odp
+  Status: already present
+
+Session: GPU kernel and userspace border [ID 513]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/513/original/glisse-lpc2011.pdf
+  Local path: GPU kernel and userspace border/glisse-lpc2011.pdf
+  Status: already present
+
+Session: OpenGL (and friends) in the Future: A notional view [ID 801]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/801/original/OpenGL and Friends in the Future.pdf
+  Local path: OpenGL (and friends) in the Future: A notional view/OpenGL and Friends in the Future.pdf
+  Status: saved
+
+Session: Virtualization: Writing (and testing) device drivers without hardware [ID 243]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/243/original/QEMU KVM for new Devices - Plumbers-2.odp
+  Local path: Virtualization: Writing (and testing) device drivers without hardware/QEMU KVM for new Devices - Plumbers-2.odp
+  Status: saved
+  Archive URL: https://web.archive.org/web/20111114093545id_/http://linuxplumbersconf.org/2011/ocw//system/presentations/243/original/QEMU KVM for new Devices - Plumbers-2.odp
+
+Session: Where is the Linux kernel on scalability? [ID 225]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/225/original/plumbers-scalability_v3.pdf
+  Local path: Where is the Linux kernel on scalability?/plumbers-scalability_v3.pdf
+  Status: already present
+
+Session: Linux Idle Power Checkup [ID 15]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/15/original/LPC2011-IDLE.pdf
+  Local path: Linux Idle Power Checkup/LPC2011-IDLE.pdf
+  Status: already present
+
+Session: Session Lead [ID 21]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/21/original/PM_development.pdf
+  Local path: Session Lead/PM_development.pdf
+  Status: already present
+
+Session: Holistic power management [ID 735]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/735/original/lpc2011_pm.odp
+  Local path: Holistic power management/lpc2011_pm.odp
+  Status: already present
+
+Session: Userspace RCU Library: RCU Synchronization and RCU/Lock-Free Data Containers for Userspace [ID 729]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/729/original/Presentation-lpc2011-desnoyers-urcu.pdf
+  Local path: Userspace RCU Library: RCU Synchronization and RCU_Lock-Free Data Containers for Userspace/Presentation-lpc2011-desnoyers-urcu.pdf
+  Status: already present
+
+Session: Scalability problems in/caused by fork [ID 753]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/753/original/plumbers-fork-locks_v2.pdf
+  Local path: Scalability problems in_caused by fork/plumbers-fork-locks_v2.pdf
+  Status: already present
+
+Session: Backporting the Linux kernel, for good [ID 771]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/771/original/kernel-backport-for-good.odp
+  Local path: Backporting the Linux kernel, for good/kernel-backport-for-good.odp
+  Status: already present
+
+Session: Can Linux Cope with Diversity? [ID 891]
+  Attachment: slides
+  Source URL: http://www.linuxplumbersconf.com/2011/ocw//system/presentations/891/original/LP v4.pdf
+  Local path: Can Linux Cope with Diversity?/LP v4.pdf
+  Status: saved
+  Download URL: https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/891/original/LP v4.pdf
+
+Session: The Linux NFC subsystem [ID 453]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/453/original/Linux_NFC_Subsystem_LPC2011_v5.pdf
+  Local path: The Linux NFC subsystem/Linux_NFC_Subsystem_LPC2011_v5.pdf
+  Status: already present
+
+Session: trace - the new hope? [ID 609]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.net/2011/ocw//system/presentations/609/original/trace-new-hope-lpc-2011.odp
+  Local path: trace - the new hope?/trace-new-hope-lpc-2011.odp
+  Status: already present
+
+Session: Tracing KVM guests from the host (discussion) [ID 903]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/903/original/IMG_20110909_121950.jpg
+  Local path: Tracing KVM guests from the host (discussion)/IMG_20110909_121950.jpg
+  Status: already present
+
+Session: PowerNap Dynamic Power Management [ID 105]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/105/original/PowerNap.pdf
+  Local path: PowerNap Dynamic Power Management/PowerNap.pdf
+  Status: already present
+
+Session: ThunderboltTechnology – What is it and what are the Open Source implications [ID 99]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2011/ocw/system/presentations/99/original/Plumbers-Thunderbolt.odp
+  Local path: ThunderboltTechnology – What is it and what are the Open Source implications/Plumbers-Thunderbolt.odp
+  Status: already present
+
+Session: IRQ naming and routing [ID 93]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/93/original/irq-routing.svg
+  Local path: IRQ naming and routing/irq-routing.svg
+  Status: already present
+
+Session: Towards consistent interfaces to expose DCB attributes to applications [ID 561]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/561/original/Plumbers2011.pdf
+  Local path: Towards consistent interfaces to expose DCB attributes to applications/Plumbers2011.pdf
+  Status: already present
+
+Session: lockdep: How to read its cryptic output [ID 153]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/153/original/lockdep-plumbers-2011.odp
+  Local path: lockdep: How to read its cryptic output/lockdep-plumbers-2011.odp
+  Status: already present
+
+Session: Globally fair group CPU scheduling [ID 309]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2011/ocw//system/presentations/309/original/LPC_2011_Global_Lag.pdf
+  Local path: Globally fair group CPU scheduling/LPC_2011_Global_Lag.pdf
+  Status: already present
+

@@ -1,0 +1,485 @@
+{
+  "event": "Kernel Recipes 2014",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library の Tag=2014 に該当する全13件を収録。概要・動画・追加資料は個別ページから取得。掲載されていない日時・会場は空欄。リンク先ファイルと動画の再生可否は未検査。",
+  "counts": {
+    "sessions": 13,
+    "with_description": 13,
+    "with_materials": 13,
+    "attachments": 26,
+    "files": 13,
+    "links": 13
+  },
+  "sessions": [
+    {
+      "id": "xen-as-a-foundation-for-cloud-infrastructure",
+      "url": "https://archives.kernel-recipes.org/document/xen-as-a-foundation-for-cloud-infrastructure/",
+      "title": "Xen as a foundation for cloud infrastructure",
+      "listing_title": "Xen as a foundation for cloud infrastructure",
+      "description": "It is no accident that Xen software powers some of the largest Clouds in existence. From its outset, the Xen Project was intended to enable what we now call Cloud Computing.\n\nThis session will explore how the Xen Architecture addresses the needs of the Cloud in ways which facilitate security, throughput, and agility. It will also cover some of the hot new developments of the Xen Project.",
+      "description_html": "<p>It is no accident that Xen software powers some of the largest Clouds in existence. From its outset, the Xen Project was intended to enable what we now call Cloud Computing.<br />\nThis session will explore how the Xen Architecture addresses the needs of the Cloud in ways which facilitate security, throughput, and agility. It will also cover some of the hot new developments of the Xen Project.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/xen-as-a-foundation-for-cloud-infrastructure/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Julien GRALL",
+      "metadata": {
+        "Speakers": "Julien GRALL",
+        "Category": "virtualization",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-xen-cloud-140929152944-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=SCHNLVuSNbk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/xen-as-a-foundation-for-cloud-infrastructure/"
+        }
+      ]
+    },
+    {
+      "id": "x86-instruction-encoding-and-the-nasty-hacks-we-do-in-the-kernel",
+      "url": "https://archives.kernel-recipes.org/document/x86-instruction-encoding-and-the-nasty-hacks-we-do-in-the-kernel/",
+      "title": "x86 instruction encoding and the nasty hacks we do in the kernel",
+      "listing_title": "x86 instruction encoding and the nasty hacks we do in the kernel",
+      "description": "I have always wanted to understand x86 instruction encoding in detail but never gotten around to it. Of course not, who has time nowadays?! So, in order to force me to do it, I decided to write an x86 instruction decoder.\n\nThis talk attempts to show what I have learned in the process and how instruction encoding is done on x86.\n\nAs a practical aspect, the decoder I’ve scratched together tries to verbosely show some of the crazy low-level hacks^Wtechniques we do in the Linux kernel like alternatives patching, jump labels, exception tables, etc – they have a lot to do with deep knowledge of x86 instructions and how code is generally laid out in the binary kernel image. Maybe this talk can help shed some light on the whole lowlevel fun that’s happening under the hood in the kernel and so many are missing out on. And maybe it’ll make it more interesting and palatable to people and they wont scare so fast anymore when we go deep into the bowels of the kernel and the machine.",
+      "description_html": "<p>I have always wanted to understand x86 instruction encoding in detail but never gotten around to it. Of course not, who has time nowadays?! So, in order to force me to do it, I decided to write an x86 instruction decoder.<br />\nThis talk attempts to show what I have learned in the process and how instruction encoding is done on x86.<br />\nAs a practical aspect, the decoder I’ve scratched together tries to verbosely show some of the crazy low-level hacks^Wtechniques we do in the Linux kernel like alternatives patching, jump labels, exception tables, etc – they have a lot to do with deep knowledge of x86 instructions and how code is generally laid out in the binary kernel image. Maybe this talk can help shed some light on the whole lowlevel fun that’s happening under the hood in the kernel and so many are missing out on. And maybe it’ll make it more interesting and palatable to people and they wont scare so fast anymore when we go deep into the bowels of the kernel and the machine.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/x86-instruction-encoding-and-the-nasty-hacks-we-do-in-the-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Borislav PETKOV",
+      "metadata": {
+        "Speakers": "Borislav PETKOV",
+        "Category": "arm",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-x86-instructions-140930075044-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=qsWe9pVkTvc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/x86-instruction-encoding-and-the-nasty-hacks-we-do-in-the-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "writing-code-keep-it-short-stupid",
+      "url": "https://archives.kernel-recipes.org/document/writing-code-keep-it-short-stupid/",
+      "title": "Writing Code: Keep It Short Stupid!",
+      "listing_title": "Writing Code: Keep It Short Stupid!",
+      "description": "The traditional KISS principle says that you are stupid if you can’t keep it simple. However, keeping it simple is actually very, very hard. But my lasting impression after reading a lot of code (linux kernel and otherwise) over the years is that there is no excuse for not keeping your code short. And usually, keeping it short is a very good first step towards keeping it simple. This presentation will give some simple tricks and pointers to keep your code short and I will also give some guidelines how to do design and implementation from a high-level point of view. These simple rules should make it easier for you to get your code accepted in open source projects such as the linux kernel.",
+      "description_html": "<p>The traditional KISS principle says that you are stupid if you can’t keep it simple. However, keeping it simple is actually very, very hard. But my lasting impression after reading a lot of code (linux kernel and otherwise) over the years is that there is no excuse for not keeping your code short. And usually, keeping it short is a very good first step towards keeping it simple. This presentation will give some simple tricks and pointers to keep your code short and I will also give some guidelines how to do design and implementation from a high-level point of view. These simple rules should make it easier for you to get your code accepted in open source projects such as the linux kernel.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/writing-code-keep-it-short-stupid/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Hans VERKUIL",
+      "metadata": {
+        "Speakers": "Hans VERKUIL",
+        "Category": "development",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-kiss-dev-140928040625-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=i64USZYhENI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/writing-code-keep-it-short-stupid/"
+        }
+      ]
+    },
+    {
+      "id": "whats-new-in-nftables",
+      "url": "https://archives.kernel-recipes.org/document/whats-new-in-nftables/",
+      "title": "What’s new in Nftables",
+      "listing_title": "What’s new in Nftables",
+      "description": "Nftables is a new packet filtering framework which aims at replacing iptables. It has been developed by the Netfilter team who wanted after 10 years of development to get rid of iptables. After a successful introduction in the 3.13 kernel and more than one year in vanilla kernel, nftables evolution has been important. If the main concepts did not change a lot of technical problem and improvement have been made.\n\nThis talk will do a summary of these changes describing the one being the most challenging at the technical level. It will alsod focus on the decisions and orientations chosen during the Netfilter workshop in July.",
+      "description_html": "<p>Nftables is a new packet filtering framework which aims at replacing iptables. It has been developed by the Netfilter team who wanted after 10 years of development to get rid of iptables. After a successful introduction in the 3.13 kernel and more than one year in vanilla kernel, nftables evolution has been important. If the main concepts did not change a lot of technical problem and improvement have been made.<br />\nThis talk will do a summary of these changes describing the one being the most challenging at the technical level. It will alsod focus on the decisions and orientations chosen during the Netfilter workshop in July.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/whats-new-in-nftables/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Eric LEBLOND",
+      "metadata": {
+        "Speakers": "Eric LEBLOND",
+        "Category": "networking",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-nftables-140928040958-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=GIp2g3W6RIg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/whats-new-in-nftables/"
+        }
+      ]
+    },
+    {
+      "id": "the-linux-kernel-how-fast-it-is-developed-and-how-we-stay-sane-doing-it",
+      "url": "https://archives.kernel-recipes.org/document/the-linux-kernel-how-fast-it-is-developed-and-how-we-stay-sane-doing-it/",
+      "title": "The Linux Kernel how fast it is developed and how we stay sane doing it",
+      "listing_title": "The Linux Kernel how fast it is developed and how we stay sane doing it",
+      "description": "This talk will go into the latest statistics for the development of the Linux kernel.\n\nIt will describe how the many thousand developers all work together and are able to release a stable kernel every 3 months with no planning.",
+      "description_html": "<p>This talk will go into the latest statistics for the development of the Linux kernel.<br />\nIt will describe how the many thousand developers all work together and are able to release a stable kernel every 3 months with no planning.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-linux-kernel-how-fast-it-is-developed-and-how-we-stay-sane-doing-it/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Category": "development",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-kernel-development-140928040131-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=DmDmXDtaz-U",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-linux-kernel-how-fast-it-is-developed-and-how-we-stay-sane-doing-it/"
+        }
+      ]
+    },
+    {
+      "id": "the-linux-graphics-stack-and-nouveau-driver",
+      "url": "https://archives.kernel-recipes.org/document/the-linux-graphics-stack-and-nouveau-driver/",
+      "title": "The Linux graphics stack and Nouveau driver",
+      "listing_title": "The Linux graphics stack and Nouveau driver",
+      "description": "The Linux graphics stack is constantly evolving to add support for new hardware. This evolution and new software specifications have forced the X graphical server to be split into several components including a now rotates in the Linux kernel, the Direct Rendering Manager (DRM). A quick presentation of these components and their role will be carried out before looking at new major change in the common code, the NVIDIA Optimus technology.\n\nOne equipped with Optimus technology laptop has two graphics processing units (GPUs), one from Intel and one from NVIDIA. This technology combines the low power Intel GPU when the machine is not used to the performance of NVIDIA GPUs when the user plays. This technology, however, is a nightmare to manage kernel-side although the final building blocks necessary for its complete management are being finalized. Further explanation of this issue will be made and we’ll see how this new software architecture has added graphics acceleration on embedded processor SoCs like Tegra.\n\nThe case of open source NVIDIA driver, called “New” will then be studied. This is the graphics driver community as it is developed without the help of NVIDIA and attracted several regular contributors, including myself! We’ll take a quick history of the project before talking about the current developments and issues related to the lack of documentation.\n\nThe end of this presentation will then be left to the participants so they can ask more general questions about the graphics stack, if they wish.",
+      "description_html": "<p>The Linux graphics stack is constantly evolving to add support for new hardware. This evolution and new software specifications have forced the X graphical server to be split into several components including a now rotates in the Linux kernel, the Direct Rendering Manager (DRM). A quick presentation of these components and their role will be carried out before looking at new major change in the common code, the NVIDIA Optimus technology.<br />\nOne equipped with Optimus technology laptop has two graphics processing units (GPUs), one from Intel and one from NVIDIA. This technology combines the low power Intel GPU when the machine is not used to the performance of NVIDIA GPUs when the user plays. This technology, however, is a nightmare to manage kernel-side although the final building blocks necessary for its complete management are being finalized. Further explanation of this issue will be made and we’ll see how this new software architecture has added graphics acceleration on embedded processor SoCs like Tegra.<br />\nThe case of open source NVIDIA driver, called “New” will then be studied. This is the graphics driver community as it is developed without the help of NVIDIA and attracted several regular contributors, including myself! We’ll take a quick history of the project before talking about the current developments and issues related to the lack of documentation.<br />\nThe end of this presentation will then be left to the participants so they can ask more general questions about the graphics stack, if they wish.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-linux-graphics-stack-and-nouveau-driver/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Martin PERES",
+      "metadata": {
+        "Speakers": "Martin PERES",
+        "Category": "graphics",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-nouveau-140928134314-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=7ouplNN4yBU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-linux-graphics-stack-and-nouveau-driver/"
+        }
+      ]
+    },
+    {
+      "id": "testing-video4linux-applications-and-drivers",
+      "url": "https://archives.kernel-recipes.org/document/testing-video4linux-applications-and-drivers/",
+      "title": "Testing Video4Linux Applications and Drivers",
+      "listing_title": "Testing Video4Linux Applications and Drivers",
+      "description": "The video4linux subsystem of the kernel is a very large API with many ioctls, settings, options and capabilities. This poses a problem both for the kernel developer and for the application developer.\n\nSince early this year major improvements have been made to both the v4l2-compliance utility for verifying drivers, and to the virtual video driver that applications can use as a reference input.\n\nThis presentation will explain and demonstrate this utility and driver and show how to use them to ensure your driver or application works correctly.",
+      "description_html": "<p>The video4linux subsystem of the kernel is a very large API with many ioctls, settings, options and capabilities. This poses a problem both for the kernel developer and for the application developer.<br />\nSince early this year major improvements have been made to both the v4l2-compliance utility for verifying drivers, and to the virtual video driver that applications can use as a reference input.<br />\nThis presentation will explain and demonstrate this utility and driver and show how to use them to ensure your driver or application works correctly.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/testing-video4linux-applications-and-drivers/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Hans VERKUIL",
+      "metadata": {
+        "Speakers": "Hans VERKUIL",
+        "Category": "graphics",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-v4l2-testing-140928041312-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=nE28EiL8MXg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/testing-video4linux-applications-and-drivers/"
+        }
+      ]
+    },
+    {
+      "id": "supporting-a-new-arm-platform-the-allwinner-example",
+      "url": "https://archives.kernel-recipes.org/document/supporting-a-new-arm-platform-the-allwinner-example/",
+      "title": "Supporting a new ARM platform: the Allwinner example",
+      "listing_title": "Supporting a new ARM platform: the Allwinner example",
+      "description": "Since last year, we have been working on supporting the SoCs from Allwinner, a chinese SoC vendor, in the mainline kernel. These SoCs are cheap, wide-spread, backed by a strong community and, until last year, only supported by an out-of-tree kernel.\n\nThrough this talk, we would like to share the status of this effort: where we were a year ago, what solutions were in place, where we are currently, and what to expect from the future. We will also focus on the community around these SoCs, the work that is done there, etc.\n\nThis talk will be useful to developers working on ARM hardware interested in platform code and anyone interested by cool and cheap hardware to hack on.",
+      "description_html": "<p>Since last year, we have been working on supporting the SoCs from Allwinner, a chinese SoC vendor, in the mainline kernel. These SoCs are cheap, wide-spread, backed by a strong community and, until last year, only supported by an out-of-tree kernel.<br />\nThrough this talk, we would like to share the status of this effort: where we were a year ago, what solutions were in place, where we are currently, and what to expect from the future. We will also focus on the community around these SoCs, the work that is done there, etc.<br />\nThis talk will be useful to developers working on ARM hardware interested in platform code and anyone interested by cool and cheap hardware to hack on.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/supporting-a-new-arm-platform-the-allwinner-example/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Mxime RIPARD",
+      "metadata": {
+        "Speakers": "Mxime RIPARD",
+        "Category": "arm",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-arm-mainlining-out-of-tree-socs-140929133627-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=yJmZkzq651Q",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/supporting-a-new-arm-platform-the-allwinner-example/"
+        }
+      ]
+    },
+    {
+      "id": "quick-state-of-the-art-of-clang",
+      "url": "https://archives.kernel-recipes.org/document/quick-state-of-the-art-of-clang/",
+      "title": "Quick state of the art of clang",
+      "listing_title": "Quick state of the art of clang",
+      "description": "Working on clang for a while now, I will propose a review of my work on debian rebuild and comment results.",
+      "description_html": "<p>Working on clang for a while now, I will propose a review of my work on debian rebuild and comment results.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/quick-state-of-the-art-of-clang/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Sylvestre LEDRU",
+      "metadata": {
+        "Speakers": "Sylvestre LEDRU",
+        "Category": "tooling",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-clang-140929150426-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=JH-UqhZa8-k",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/quick-state-of-the-art-of-clang/"
+        }
+      ]
+    },
+    {
+      "id": "ndiv-a-low-overhead-network-traffic-diverter",
+      "url": "https://archives.kernel-recipes.org/document/ndiv-a-low-overhead-network-traffic-diverter/",
+      "title": "NDIV: a low overhead network traffic diverter",
+      "listing_title": "NDIV: a low overhead network traffic diverter",
+      "description": "NDIV is a young, very simple, yet efficient network traffic diverter. Its purpose is to help build network applications that intercept packets at line rate with a very low processing overhead. A first example application is a stateless HTTP server reaching line rate on all packet sizes.",
+      "description_html": "<p>NDIV is a young, very simple, yet efficient network traffic diverter. Its purpose is to help build network applications that intercept packets at line rate with a very low processing overhead. A first example application is a stateless HTTP server reaching line rate on all packet sizes.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/ndiv-a-low-overhead-network-traffic-diverter/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Willy TARREAU",
+      "metadata": {
+        "Speakers": "Willy TARREAU",
+        "Category": "networking",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-ndiv-140930040201-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=0hoZPfWYY1E",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/ndiv-a-low-overhead-network-traffic-diverter/"
+        }
+      ]
+    },
+    {
+      "id": "manage-patches-with-quilt",
+      "url": "https://archives.kernel-recipes.org/document/manage-patches-with-quilt/",
+      "title": "Manage patches with Quilt",
+      "listing_title": "Manage patches with Quilt",
+      "description": "A presentation of the quilt patch management tool, including use cases (SUSE kernel, OBS) and practical usability tips.\n\nQuick presentation of what quilt is, what it can be used for, its most useful commands and what they do\n\n3 typical use cases, step by step\n\nPackage version update in OBS\n\nPatch review as an upstream maintainer\n\nAdding a patch to the SUSE kernel\n\nQuilt vs Git discussion\n\nKnown caveats and how to work around them\n\nCool tips: how to get the better of quilt\n\nQ&A",
+      "description_html": "<p>A presentation of the quilt patch management tool, including use cases (SUSE kernel, OBS) and practical usability tips.<br />\nQuick presentation of what quilt is, what it can be used for, its most useful commands and what they do<br />\n3 typical use cases, step by step<br />\nPackage version update in OBS<br />\nPatch review as an upstream maintainer<br />\nAdding a patch to the SUSE kernel<br />\nQuilt vs Git discussion<br />\nKnown caveats and how to work around them<br />\nCool tips: how to get the better of quilt<br />\nQ&#038;A</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/manage-patches-with-quilt/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jean DELVARE",
+      "metadata": {
+        "Speakers": "Jean DELVARE",
+        "Category": "tooling",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-introductiontoquilt-140929133255-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=PFxZLgGxgqE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/manage-patches-with-quilt/"
+        }
+      ]
+    },
+    {
+      "id": "linux-security-modules-tracing-deciding-acting",
+      "url": "https://archives.kernel-recipes.org/document/linux-security-modules-tracing-deciding-acting/",
+      "title": "Linux Security Modules: tracing deciding acting",
+      "listing_title": "Linux Security Modules: tracing deciding acting",
+      "description": "Linux Security Modules – LSM – is a framework that allows to support a number of security models for Linux kernel.\n\nAt Kernel Recipes 2012 and 2013, we discussed about generic principles of operating system security and formal security models in the Linux kernel. This year, we are going to discuss about the opportunity to use LSM hooks to build an generic system to manage informations inside the operating system.\n\nThis talk will cover a brief presentation of LSM hooks framework, then we will talk about future goals for the LSM subsystem, and finally a possible design of this infrastructure.",
+      "description_html": "<p>Linux Security Modules – LSM – is a framework that allows to support a number of security models for Linux kernel.<br />\nAt Kernel Recipes 2012 and 2013, we discussed about generic principles of operating system security and formal security models in the Linux kernel. This year, we are going to discuss about the opportunity to use LSM hooks to build an generic system to manage informations inside the operating system.<br />\nThis talk will cover a brief presentation of LSM hooks framework, then we will talk about future goals for the LSM subsystem, and finally a possible design of this infrastructure.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/linux-security-modules-tracing-deciding-acting/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Samir BELLABES",
+      "metadata": {
+        "Speakers": "Samir BELLABES",
+        "Category": "security",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/linux-security-modules-tracing-deciding-acting/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=R1g-x7uZzDM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/linux-security-modules-tracing-deciding-acting/"
+        }
+      ]
+    },
+    {
+      "id": "kgraft-live-patching-of-the-linux-kernel",
+      "url": "https://archives.kernel-recipes.org/document/kgraft-live-patching-of-the-linux-kernel/",
+      "title": "kGraft: Live Patching of the Linux Kernel",
+      "listing_title": "kGraft: Live Patching of the Linux Kernel",
+      "description": "The talk introduces the need of live kernel patching. Further, it explains what is kGraft, how it works, what are its limitations, and our plans with the implementation in the future. The presentation includes also a live demo if stars constellation allows.",
+      "description_html": "<p>The talk introduces the need of live kernel patching. Further, it explains what is kGraft, how it works, what are its limitations, and our plans with the implementation in the future. The presentation includes also a live demo if stars constellation allows.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/kgraft-live-patching-of-the-linux-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jiri SLABY",
+      "metadata": {
+        "Speakers": "Jiri SLABY",
+        "Category": "patching",
+        "Year": "2014"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-kgraft-140928040426-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=IRTl0Uj-I3g",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/kgraft-live-patching-of-the-linux-kernel/"
+        }
+      ]
+    }
+  ]
+}

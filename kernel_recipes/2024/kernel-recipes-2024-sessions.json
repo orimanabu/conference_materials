@@ -1,0 +1,737 @@
+{
+  "event": "Kernel Recipes 2024",
+  "source_url": "https://kernel-recipes.org/en/2024/schedule/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "Europe/Paris",
+  "notes": "旧 Document Library に Tag=2024 がないため、公式の2024年 Schedule に掲載された全20講演を収録。歓迎、休憩、昼食、チャリティオークションは講演ではないため除外。個別ページの SpeakerDeck・PDF・YouTube・本文リンクを資料に収録し、リンク先の閲覧可否は未検査。",
+  "counts": {
+    "sessions": 20,
+    "with_description": 19,
+    "with_materials": 20,
+    "attachments": 40,
+    "files": 1,
+    "links": 39
+  },
+  "sessions": [
+    {
+      "id": "assisted-reorganization-of-data-structures",
+      "url": "https://kernel-recipes.org/en/2024/schedule/assisted-reorganization-of-data-structures/",
+      "title": "Assisted reorganization of data structures",
+      "listing_title": "Assisted reorganization of data structures",
+      "description": "Assisted reorganization of data structures.\n\nThe kernel git history is littered with patches moving struct members around to improve performance by grouping together related fields and moving apart unrelated ones that cause false sharing.\n\nAll this to improve the use of the cache hierarchy, which can lead to great performance improvements.\n\nThis is done by careful inspection, painstakingly looking at profiles, can we do better?\n\nRecent additions to processors help and recent improvements in perf to use these hardware facilities to do data-type profiling gets us closer to that.\n\nThis talk will look at what we can do to further improve our current toolset to find groups of related fields to automate both finding better struct layouts and to have it in regression testing to avoid messing with good struct layouts when adding new fields.",
+      "description_html": "<p style=\"text-align: justify;\">Assisted reorganization of data structures.</p>\n<p style=\"text-align: justify;\">The kernel git history is littered with patches moving struct members around to improve performance by grouping together related fields and moving apart unrelated ones that cause false sharing.</p>\n<p style=\"text-align: justify;\">All this to improve the use of the cache hierarchy, which can lead to great performance improvements.</p>\n<p style=\"text-align: justify;\">This is done by careful inspection, painstakingly looking at profiles, can we do better?</p>\n<p style=\"text-align: justify;\">Recent additions to processors help and recent improvements in perf to use these hardware facilities to do data-type profiling gets us closer to that.</p>\n<p style=\"text-align: justify;\">This talk will look at what we can do to further improve our current toolset to find groups of related fields to automate both finding better struct layouts and to have it in regression testing to avoid messing with good struct layouts when adding new fields.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/assisted-reorganization-of-data-structures/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Arnaldo CARVALHO DE MELO",
+      "metadata": {
+        "Speakers": "Arnaldo CARVALHO DE MELO",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-23",
+      "time": "10:00-10:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/b22ffbafb1094af2959fcc320bb87013",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/assisted-reorganization-of-data-structures/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=xl3UJbMKy9o",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/assisted-reorganization-of-data-structures/"
+        }
+      ]
+    },
+    {
+      "id": "interfacing-kernel-c-apis-from-rust",
+      "url": "https://kernel-recipes.org/en/2024/schedule/interfacing-kernel-c-apis-from-rust/",
+      "title": "Interfacing Kernel C APIs from Rust",
+      "listing_title": "Interfacing Kernel C APIs from Rust",
+      "description": "Rust for Linux has brought in Rust as a second programming language in the Linux Kernel, with initial support merged in December 2022 with kernel 6.1. Since then, the community has been making good progress towards building a general framework for writing Linux kernel device drivers in safe Rust.\n\nIn this talk we take a closer look at some of the challenges we have encountered while making the kernel block device driver APIs available to Rust consumers. We dive into how the Rust block device driver is different from the C APIs, and the guarantees for correctness that the Rust APIs provide. We discuss how these safety guarantees some times come with additional overhead (although minimal, as demonstrated), and why the overheads are necessary to gain the benefits provided by safe Rust code.",
+      "description_html": "<p style=\"text-align: justify;\">Rust for Linux has brought in Rust as a second programming language in the Linux Kernel, with initial support merged in December 2022 with kernel 6.1. Since then, the community has been making good progress towards building a general framework for writing Linux kernel device drivers in safe Rust.</p>\n<p style=\"text-align: justify;\">In this talk we take a closer look at some of the challenges we have encountered while making the kernel block device driver APIs available to Rust consumers. We dive into how the Rust block device driver is different from the C APIs, and the guarantees for correctness that the Rust APIs provide. We discuss how these safety guarantees some times come with additional overhead (although minimal, as demonstrated), and why the overheads are necessary to gain the benefits provided by safe Rust code.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/interfacing-kernel-c-apis-from-rust/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Andreas HINDBORG",
+      "metadata": {
+        "Speakers": "Andreas HINDBORG",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-23",
+      "time": "10:50-11:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/7c61c3647ee94d54ab74ff850bbd3b1b",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/interfacing-kernel-c-apis-from-rust/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=1LEvgkhU-t4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/interfacing-kernel-c-apis-from-rust/"
+        }
+      ]
+    },
+    {
+      "id": "how-cern-serves-1eb-of-data-via-fuse",
+      "url": "https://kernel-recipes.org/en/2024/schedule/how-cern-serves-1eb-of-data-via-fuse/",
+      "title": "How CERN serves 1EB of data via FUSE",
+      "listing_title": "How CERN serves 1EB of data via FUSE",
+      "description": "CERN, the European Organization for Nuclear Research, generates vast amounts of data from experiments at the Large Hadron Collider (LHC). CERN’s Storage and Data Management Group at the IT department is responsible for managing this data, including its long-term archival on tape, distribution across the Worldwide LHC Computing Grid (WLCG), as well as providing secure and convenient forms of data access to more than 30000 users that need it.\n\nIn this talk we will give an overview of the open source projects leveraged by CERN to satisfy the storage needs of the  organization, such as CERNBox and EOS, and discuss some of the unique challenges faced by the high-energy physics community in data storage and management. Additionally, we discuss how FUSE is used to allow users to access data securely from anywhere in the world.",
+      "description_html": "<p style=\"text-align: justify;\">CERN, the European Organization for Nuclear Research, generates vast amounts of data from experiments at the Large Hadron Collider (LHC). CERN&#8217;s Storage and Data Management Group at the IT department is responsible for managing this data, including its long-term archival on tape, distribution across the Worldwide LHC Computing Grid (WLCG), as well as providing secure and convenient forms of data access to more than 30000 users that need it.</p>\n<p style=\"text-align: justify;\">In this talk we will give an overview of the open source projects leveraged by CERN to satisfy the storage needs of the  organization, such as CERNBox and EOS, and discuss some of the unique challenges faced by the high-energy physics community in data storage and management. Additionally, we discuss how FUSE is used to allow users to access data securely from anywhere in the world.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/how-cern-serves-1eb-of-data-via-fuse/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Guilherme Amadio",
+      "metadata": {
+        "Speakers": "Guilherme Amadio",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-23",
+      "time": "11:40-12:20",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/7afa8d145a1f40bcb8b57ab906665743",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/how-cern-serves-1eb-of-data-via-fuse/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=1WVZa3JYYKU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/how-cern-serves-1eb-of-data-via-fuse/"
+        }
+      ]
+    },
+    {
+      "id": "cves-are-alive-but-no-not-panic",
+      "url": "https://kernel-recipes.org/en/2024/cves-are-alive-but-no-not-panic/",
+      "title": "CVEs are alive, but no not panic!",
+      "listing_title": "CVEs are alive, but no not panic!",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://kernel-recipes.org/en/2024/cves-are-alive-but-no-not-panic/",
+      "description_status": "missing",
+      "track": "Talk",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-23",
+      "time": "14:00-14:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/6f761081432e48999902ccf11cbc2633",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/cves-are-alive-but-no-not-panic/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=bf3MYWtI4E4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/cves-are-alive-but-no-not-panic/"
+        }
+      ]
+    },
+    {
+      "id": "giving-rust-a-chance-for-in-kernel-codecs",
+      "url": "https://kernel-recipes.org/en/2024/schedule/giving-rust-a-chance-for-in-kernel-codecs/",
+      "title": "Giving Rust a chance for in-kernel codecs",
+      "listing_title": "Giving Rust a chance for in-kernel codecs",
+      "description": "This talk will show how it is possible to write Rust code in the kernel without a binding layer, and how this drastically reduces the number of Rust abstractions needed, with a focus on V4L2 codec drivers and  libraries. It will present a strategy wherein only a few critical functions are converted to Rust while accounting for the role of the “cbindgen” tool in keeping ABI compatibility. The source code of a previously submitted proof-of-concept will be used to provide examples.",
+      "description_html": "<p style=\"text-align: justify;\">\n<p style=\"text-align: justify;\">This talk will show how it is possible to write Rust code in the kernel without a binding layer, and how this drastically reduces the number of Rust abstractions needed, with a focus on V4L2 codec drivers and  libraries. It will present a strategy wherein only a few critical functions are converted to Rust while accounting for the role of the &#8220;cbindgen&#8221; tool in keeping ABI compatibility. The source code of a previously submitted proof-of-concept will be used to provide examples.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/giving-rust-a-chance-for-in-kernel-codecs/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Daniel ALMEIDA",
+      "metadata": {
+        "Speakers": "Daniel ALMEIDA",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-23",
+      "time": "14:50-15:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/ef5ef44db2294ea3b5663e43b2b7ece9",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/giving-rust-a-chance-for-in-kernel-codecs/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=44HXKvOpvn0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/giving-rust-a-chance-for-in-kernel-codecs/"
+        }
+      ]
+    },
+    {
+      "id": "tracking-down-sources-of-kernel-errors-with-retsnoop",
+      "url": "https://kernel-recipes.org/en/2024/schedule/tracking-down-sources-of-kernel-errors-with-retsnoop/",
+      "title": "Tracking down sources of kernel errors with retsnoop",
+      "listing_title": "Tracking down sources of kernel errors with retsnoop",
+      "description": "Have you ever gotten an -EINVAL from kernel syscall and had no idea why? Even with the kernel source code at hand, it often is hard to understand exactly where such errors originate and under which conditions. Retsnoop is a BPF-based tool built to make tracking down the source of such errors possible and (sometimes) easy. No kernel modification, printk()’s and rebuilds required. Retsnoop can do more than that, though, and over time has grown into a general-purpose kernel tracing and introspection tool. In this talk we’ll go over retsnoop’s functionality and see how it can be applied flexibly in practice when debugging kernel issues and just discovering kernel’s inner workings.",
+      "description_html": "<p style=\"text-align: justify;\">Have you ever gotten an -EINVAL from kernel syscall and had no idea why? Even with the kernel source code at hand, it often is hard to understand exactly where such errors originate and under which conditions. Retsnoop is a BPF-based tool built to make tracking down the source of such errors possible and (sometimes) easy. No kernel modification, printk()&#8217;s and rebuilds required. Retsnoop can do more than that, though, and over time has grown into a general-purpose kernel tracing and introspection tool. In this talk we&#8217;ll go over retsnoop&#8217;s functionality and see how it can be applied flexibly in practice when debugging kernel issues and just discovering kernel&#8217;s inner workings.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/tracking-down-sources-of-kernel-errors-with-retsnoop/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Andrii NAKRYIKO",
+      "metadata": {
+        "Speakers": "Andrii NAKRYIKO",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-23",
+      "time": "16:00-16:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/ec00b479d7884eb4bca8cc80ee1a84c0",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/tracking-down-sources-of-kernel-errors-with-retsnoop/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=NvTBrx6EdF8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/tracking-down-sources-of-kernel-errors-with-retsnoop/"
+        }
+      ]
+    },
+    {
+      "id": "efficient-zero-copy-networking-using-io_uring",
+      "url": "https://kernel-recipes.org/en/2024/schedule/efficient-zero-copy-networking-using-io_uring/",
+      "title": "Efficient zero-copy networking using io_uring",
+      "listing_title": "Efficient zero-copy networking using io_uring",
+      "description": "Zero copy receive has had its fair share of troubles, where approaches have various shortcomings, whether it’s bypassing the kernel network stack or resorting to expensive page flipping tricks.\n\nHowever, it doesn’t have to be this way! In this talk, we present a solution that utilises the kernel networking stack, is efficient even with small transfer sizes, and compatible with vanilla TCP and protocol agnostic in general. We’ll go over the design, initial performance results, as well as some of the nifty work that went into making it happen.",
+      "description_html": "<p style=\"text-align: justify;\">Zero copy receive has had its fair share of troubles, where approaches have various shortcomings, whether it&#8217;s bypassing the kernel network stack or resorting to expensive page flipping tricks.</p>\n<p>However, it doesn’t have to be this way! In this talk, we present a solution that utilises the kernel networking stack, is efficient even with small transfer sizes, and compatible with vanilla TCP and protocol agnostic in general. We&#8217;ll go over the design, initial performance results, as well as some of the nifty work that went into making it happen.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/efficient-zero-copy-networking-using-io_uring/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Pavel BEGUNKOV, David WEI",
+      "metadata": {
+        "Speakers": "Pavel BEGUNKOV, David WEI",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-23",
+      "time": "16:50-17:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/4a01b2b2c48f405cad565f38265882de",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/efficient-zero-copy-networking-using-io_uring/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=WQ22zAPBSnQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/efficient-zero-copy-networking-using-io_uring/"
+        }
+      ]
+    },
+    {
+      "id": "case-study-concurrent-counting",
+      "url": "https://kernel-recipes.org/en/2024/schedule/case-study-concurrent-counting/",
+      "title": "Case Study: Concurrent Counting",
+      "listing_title": "Case Study: Concurrent Counting",
+      "description": "Counting is perhaps the simplest and most natural possible form of mathematics. However, counting efficiently and scalably on a large multicore system is quite challenging. And this is all to the good, because the simplicity of the underlying concept of counting allows us to explore the fundamental issues of concurrency without the distractions of elaborate data structures or complex synchronization primitives. These issues include design, coding, and validation.\n\nThis talk will therefore use counting as an introduction to concurrency.",
+      "description_html": "<h3 style=\"text-align: justify;\"></h3>\n<p style=\"text-align: justify;\">Counting is perhaps the simplest and most natural possible form of mathematics. However, counting efficiently and scalably on a large multicore system is quite challenging. And this is all to the good, because the simplicity of the underlying concept of counting allows us to explore the fundamental issues of concurrency without the distractions of elaborate data structures or complex synchronization primitives. These issues include design, coding, and validation.</p>\n<p style=\"text-align: justify;\">This talk will therefore use counting as an introduction to concurrency.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/case-study-concurrent-counting/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Paul MCKENNEY",
+      "metadata": {
+        "Speakers": "Paul MCKENNEY",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-24",
+      "time": "10:00-10:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/099b86cc047942baaeccf781a8cd1a04",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/case-study-concurrent-counting/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=mD78298bEUA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/case-study-concurrent-counting/"
+        },
+        {
+          "title": "slides",
+          "url": "https://files.speakerdeck.com/presentations/099b86cc047942baaeccf781a8cd1a04/perfbook-5-count.2024.09.24a.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/case-study-concurrent-counting/"
+        }
+      ]
+    },
+    {
+      "id": "reader-writer-semaphore-design-atomic-contention-on-cgroups-kernfs-rwsem-and-potential-reader-optimizations",
+      "url": "https://kernel-recipes.org/en/2024/schedule/reader-writer-semaphore-design-atomic-contention-on-cgroups-kernfs-rwsem-and-potential-reader-optimizations/",
+      "title": "Reader Writer Semaphore design, atomic contention on cgroups/kernfs rwsem and potential reader optimizations",
+      "listing_title": "Reader Writer Semaphore design, atomic contention on cgroups…",
+      "description": "Reader Writer Semaphore (rwsem) is a synchronization mechanism in Linux which is used for read-heavy sleepable critical sections. Its design uses various techniques like optimistic spinning, lock handoff, non-spinnable to balance the performance and fairness for long duration waiters.\n\nFor read-heavy use cases, the atomics contention during reader lock acquisition impacts scalability of some of the container applications. While the scalable alternative of using percCPU reader-writer semaphore addresses reader side scalability, it heavily impacts writer performance. In this talk, we present current design of reader writer semaphore. We also discuss the scalability problem and describe approaches to address the writer heavy problem with perCPU rwsem.",
+      "description_html": "<p style=\"text-align: justify;\"><span data-sheets-root=\"1\" data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;Reader Writer Semaphore (rwsem) is a synchronization mechanism in Linux which is used for read-heavy sleepable critical sections. Its design uses various techniques like optimistic spinning, lock handoff, non-spinnable to balance the performance and fairness for long duration waiters.\\n\\nFor read-heavy use cases, the atomics contention during reader lock acquisition impacts scalability of some of the container applications. While the scalable alternative of using percCPU reader-writer semaphore addresses reader side scalability, it heavily impacts writer performance. In this talk, we present current design of reader writer semaphore. We also discuss the scalability problem and describe approaches to address the writer heavy problem with perCPU rwsem.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:9215,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16777215},&quot;5&quot;:{&quot;1&quot;:&#091;{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:3},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}&#093;},&quot;6&quot;:{&quot;1&quot;:&#091;{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:3},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}&#093;},&quot;7&quot;:{&quot;1&quot;:&#091;{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:3},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}&#093;},&quot;8&quot;:{&quot;1&quot;:&#091;{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:3},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}&#093;},&quot;9&quot;:0,&quot;10&quot;:1,&quot;11&quot;:4,&quot;12&quot;:0,&quot;16&quot;:10}\">Reader Writer Semaphore (rwsem) is a synchronization mechanism in Linux which is used for read-heavy sleepable critical sections. Its design uses various techniques like optimistic spinning, lock handoff, non-spinnable to balance the performance and fairness for long duration waiters.</span></p>\n<p>For read-heavy use cases, the atomics contention during reader lock acquisition impacts scalability of some of the container applications. While the scalable alternative of using percCPU reader-writer semaphore addresses reader side scalability, it heavily impacts writer performance. In this talk, we present current design of reader writer semaphore. We also discuss the scalability problem and describe approaches to address the writer heavy problem with perCPU rwsem.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/reader-writer-semaphore-design-atomic-contention-on-cgroups-kernfs-rwsem-and-potential-reader-optimizations/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Neeraj UPADHYAY",
+      "metadata": {
+        "Speakers": "Neeraj UPADHYAY",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-24",
+      "time": "10:50-11:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=nqoQvBnCz4U",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/reader-writer-semaphore-design-atomic-contention-on-cgroups-kernfs-rwsem-and-potential-reader-optimizations/"
+        }
+      ]
+    },
+    {
+      "id": "dual-level-of-task-scheduling-for-vm-workloads-pain-points-solutions",
+      "url": "https://kernel-recipes.org/en/2024/schedule/dual-level-of-task-scheduling-for-vm-workloads-pain-points-solutions/",
+      "title": "Dual level of task scheduling for VM workloads – Pain points & Solutions",
+      "listing_title": "Dual level of task scheduling for VM workloads",
+      "description": "When a multi-threaded application runs inside a virtual machine, it experiences a dual level of task scheduling. The guest OS’ task scheduler decides how to place application threads on the vCPUs, and the host OS’ task scheduler decides how to place these vCPU threads on the pCPUs. While the guest is aware of the application threads’ activities inside the VM, it is often oblivious about the status of its vCPUs on the host. On the other hand, the host is aware of the status of the vCPUs, but it is oblivious about the application threads’ activities inside the VM. Thus, neither the guest nor the host have the complete information to make optimal task placement decisions across both the levels. This leads to the well-known semantic gap between the host and the guest task schedulers. Many existing academic as well as in-kernel solutions partially help by targeting specific issues spanning from the semantic gap. And more recently, we might be getting closer to achieving a generic and complete solution with the efforts of standardizing the paravirt scheduling interface[1].\n\nIn this talk, we will take a deep dive into the issues spanning from the semantic gap. We will review the paravirt scheduling proposal as well as some of the noteworthy partial solutions. And finally, we will learn about the semantic gap related research at Whisper that builds upon the idea of paravirt scheduling and proposes a new use-case for it.\n\n[1] [RFC PATCH v2 0/5] Paravirt Scheduling (Dynamic vcpu priority\nmanagement) – https://lore.kernel.org/kvm/20240403140116.3002809-5-vineeth@bitbyteword.org/T/",
+      "description_html": "<p style=\"text-align: justify;\"><span data-sheets-root=\"1\" data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;When a multi-threaded application runs inside a virtual machine, it experiences a dual level of task scheduling. The guest OS' task scheduler decides how to place application threads on the vCPUs, and the host OS' task scheduler decides how to place these vCPU threads on the pCPUs. While the guest is aware of the application threads' activities inside the VM, it is often oblivious about the status of its vCPUs on the host. On the other hand, the host is aware of the status of the vCPUs, but it is oblivious about the application threads' activities inside the VM. Thus, neither the guest nor the host have the complete information to make optimal task placement decisions across both the levels. This leads to the well-known semantic gap between the host and the guest task schedulers. Many existing academic as well as in-kernel solutions partially help by targeting specific issues spanning from the semantic gap. And more recently, we might be getting closer to achieving a generic and complete solution with the efforts of standardizing the paravirt scheduling interface&#091;1&#093;.\\n\\nIn this talk, we will take a deep dive into the issues spanning from the semantic gap. We will review the paravirt scheduling proposal as well as some of the noteworthy partial solutions. And finally, we will learn about the semantic gap related research at Whisper that builds upon the idea of paravirt scheduling and proposes a new use-case for it.\\n\\n&#091;1&#093; &#091;RFC PATCH v2 0/5&#093; Paravirt Scheduling (Dynamic vcpu priority\\nmanagement) - https://lore.kernel.org/kvm/20240403140116.3002809-5-vineeth@bitbyteword.org/T/ &quot;}\" data-sheets-userformat=\"{&quot;2&quot;:1049347,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16777215},&quot;11&quot;:4,&quot;12&quot;:0,&quot;23&quot;:1}\" data-sheets-textstyleruns=\"{&quot;1&quot;:0}{&quot;1&quot;:1517,&quot;2&quot;:{&quot;2&quot;:{&quot;1&quot;:2,&quot;2&quot;:1136076},&quot;9&quot;:1}}{&quot;1&quot;:1596}\" data-sheets-hyperlinkruns=\"{&quot;1&quot;:1517,&quot;2&quot;:&quot;https://lore.kernel.org/kvm/20240403140116.3002809-5-vineeth@bitbyteword.org/T/&quot;}{&quot;1&quot;:1596}\">When a multi-threaded application runs inside a virtual machine, it experiences a dual level of task scheduling. The guest OS&#8217; task scheduler decides how to place application threads on the vCPUs, and the host OS&#8217; task scheduler decides how to place these vCPU threads on the pCPUs. While the guest is aware of the application threads&#8217; activities inside the VM, it is often oblivious about the status of its vCPUs on the host. On the other hand, the host is aware of the status of the vCPUs, but it is oblivious about the application threads&#8217; activities inside the VM. Thus, neither the guest nor the host have the complete information to make optimal task placement decisions across both the levels. This leads to the well-known semantic gap between the host and the guest task schedulers. Many existing academic as well as in-kernel solutions partially help by targeting specific issues spanning from the semantic gap. And more recently, we might be getting closer to achieving a generic and complete solution with the efforts of standardizing the paravirt scheduling interface[1].</span></p>\n<p>In this talk, we will take a deep dive into the issues spanning from the semantic gap. We will review the paravirt scheduling proposal as well as some of the noteworthy partial solutions. And finally, we will learn about the semantic gap related research at Whisper that builds upon the idea of paravirt scheduling and proposes a new use-case for it.</p>\n<p>[1] [RFC PATCH v2 0/5] Paravirt Scheduling (Dynamic vcpu priority<br />management) &#8211; <a class=\"in-cell-link\" target=\"_blank\" href=\"https://lore.kernel.org/kvm/20240403140116.3002809-5-vineeth@bitbyteword.org/T/\" rel=\"noopener\">https://lore.kernel.org/kvm/20240403140116.3002809-5-vineeth@bitbyteword.org/T/</a></p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/dual-level-of-task-scheduling-for-vm-workloads-pain-points-solutions/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Himadri CHHAYA-SHAILESH",
+      "metadata": {
+        "Speakers": "Himadri CHHAYA-SHAILESH",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-24",
+      "time": "11:40-12:20",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/debc6dab550c45748f5e24bee8ccffef",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/dual-level-of-task-scheduling-for-vm-workloads-pain-points-solutions/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=L9o5Eb-3nHg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/dual-level-of-task-scheduling-for-vm-workloads-pain-points-solutions/"
+        },
+        {
+          "title": "additional material",
+          "url": "https://lore.kernel.org/kvm/20240403140116.3002809-5-vineeth@bitbyteword.org/T/",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/dual-level-of-task-scheduling-for-vm-workloads-pain-points-solutions/"
+        }
+      ]
+    },
+    {
+      "id": "diving-into-the-kernel-mitigations",
+      "url": "https://kernel-recipes.org/en/2024/schedule/diving-into-the-kernel-mitigations/",
+      "title": "Diving into the kernel mitigations",
+      "listing_title": "Diving into the kernel mitigations",
+      "description": "This presentation delves into the kernel mitigations within the Linux kernel designed to counter hardware bugs, offering insights into major strategies and their implications. It also addresses the performance ramifications observed in real-world production environments and outlines the trade-offs developers face when operating kernels with mitigations enabled, particularly in low-level and assembly analysis scenarios where mitigations like retpoline can disrupt code readability.\n\nGiven the persistence of hardware bugs, this presentation aims to equip attendees with the knowledge needed to effectively manage them.\n\nThrough this comprehensive exploration, attendees will gain a deeper understanding of Linux kernel mitigations and their implications for both system performance and development workflows.",
+      "description_html": "<p style=\"text-align: justify;\">This presentation delves into the kernel mitigations within the Linux kernel designed to counter hardware bugs, offering insights into major strategies and their implications. It also addresses the performance ramifications observed in real-world production environments and outlines the trade-offs developers face when operating kernels with mitigations enabled, particularly in low-level and assembly analysis scenarios where mitigations like retpoline can disrupt code readability.</p>\n<p style=\"text-align: justify;\">Given the persistence of hardware bugs, this presentation aims to equip attendees with the knowledge needed to effectively manage them.</p>\n<p style=\"text-align: justify;\">Through this comprehensive exploration, attendees will gain a deeper understanding of Linux kernel mitigations and their implications for both system performance and development workflows.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/diving-into-the-kernel-mitigations/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Breno LEITAO",
+      "metadata": {
+        "Speakers": "Breno LEITAO",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-24",
+      "time": "14:00-14:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=srPeMl9FZI8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/diving-into-the-kernel-mitigations/"
+        }
+      ]
+    },
+    {
+      "id": "virtme-ng",
+      "url": "https://kernel-recipes.org/en/2024/virtme-ng/",
+      "title": "virtme-ng",
+      "listing_title": "virtme-ng",
+      "description": "Building kernels, deploying and booting them can be a very time-consuming part of kernel development.\n\nvirtme-ng (https://github.com/arighi/virtme-ng) aims to provide a quick and easy way for kernel developers to expedite this process. It uses a combination of QEMU/KVM, microVM, virtio-fs and overlayfs to boot any recompiled kernel inside a virtualized copy-on-write (CoW) live snapshot of the running system.\n\nThis allows to basically “fork” a live system with a new kernel, creating a safe sandbox for executing tests, with performance comparable to native host execution, all while eliminating the need for the deployment and maintenance of dedicated testing systems.\n\nRecently, virtme-ng has gained increased adoption beyond local kernel testing, being integrated into some relevant kernel projects’ CI/CD infrastructure, like netdev, sched-ext, Mutter, etc.\n\nThis talk aims to explore some internals of this tool and demonstrate how it can be integrated into CI/CD workflows for faster kernel testing, so that other kernel developers and projects can potentially benefit from it.",
+      "description_html": "<p style=\"text-align: justify;\"><span data-sheets-root=\"1\" data-sheets-value=\"{&quot;1&quot;:2,&quot;2&quot;:&quot;Building kernels, deploying and booting them can be a very time-consuming part of kernel development.\\n\\nvirtme-ng (https://github.com/arighi/virtme-ng) aims to provide a quick and easy way for kernel developers to expedite this process. It uses a combination of QEMU/KVM, microVM, virtio-fs and overlayfs to boot any recompiled kernel inside a virtualized copy-on-write (CoW) live snapshot of the running system.\\n\\nThis allows to basically \\&quot;fork\\&quot; a live system with a new kernel, creating a safe sandbox for executing tests, with performance comparable to native host execution, all while eliminating the need for the deployment and maintenance of dedicated testing systems.\\n\\nRecently, virtme-ng has gained increased adoption beyond local kernel testing, being integrated into some relevant kernel projects' CI/CD infrastructure, like netdev, sched-ext, Mutter, etc.\\n\\nThis talk aims to explore some internals of this tool and demonstrate how it can be integrated into CI/CD workflows for faster kernel testing, so that other kernel developers and projects can potentially benefit from it.&quot;}\" data-sheets-userformat=\"{&quot;2&quot;:9215,&quot;3&quot;:{&quot;1&quot;:0},&quot;4&quot;:{&quot;1&quot;:2,&quot;2&quot;:16777215},&quot;5&quot;:{&quot;1&quot;:&#091;{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:3},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}&#093;},&quot;6&quot;:{&quot;1&quot;:&#091;{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:3},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}&#093;},&quot;7&quot;:{&quot;1&quot;:&#091;{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:3},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}&#093;},&quot;8&quot;:{&quot;1&quot;:&#091;{&quot;1&quot;:2,&quot;2&quot;:0,&quot;5&quot;:{&quot;1&quot;:2,&quot;2&quot;:0}},{&quot;1&quot;:0,&quot;2&quot;:0,&quot;3&quot;:3},{&quot;1&quot;:1,&quot;2&quot;:0,&quot;4&quot;:1}&#093;},&quot;9&quot;:0,&quot;10&quot;:1,&quot;11&quot;:4,&quot;12&quot;:0,&quot;16&quot;:10}\">Building kernels, deploying and booting them can be a very time-consuming part of kernel development.</span></p>\n<p style=\"text-align: justify;\">virtme-ng (https://github.com/arighi/virtme-ng) aims to provide a quick and easy way for kernel developers to expedite this process. It uses a combination of QEMU/KVM, microVM, virtio-fs and overlayfs to boot any recompiled kernel inside a virtualized copy-on-write (CoW) live snapshot of the running system.</p>\n<p style=\"text-align: justify;\">This allows to basically &#8220;fork&#8221; a live system with a new kernel, creating a safe sandbox for executing tests, with performance comparable to native host execution, all while eliminating the need for the deployment and maintenance of dedicated testing systems.</p>\n<p style=\"text-align: justify;\">Recently, virtme-ng has gained increased adoption beyond local kernel testing, being integrated into some relevant kernel projects&#8217; CI/CD infrastructure, like netdev, sched-ext, Mutter, etc.</p>\n<p style=\"text-align: justify;\">This talk aims to explore some internals of this tool and demonstrate how it can be integrated into CI/CD workflows for faster kernel testing, so that other kernel developers and projects can potentially benefit from it.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/virtme-ng/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Andrea RIGHI",
+      "metadata": {
+        "Speakers": "Andrea RIGHI",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-24",
+      "time": "14:50-15:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/1163008a468543719bc3d828adf290bd",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/virtme-ng/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=pw0kA9w3kUo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/virtme-ng/"
+        },
+        {
+          "title": "additional material",
+          "url": "https://github.com/arighi/virtme-ng",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/virtme-ng/"
+        }
+      ]
+    },
+    {
+      "id": "hazard-pointers-with-reference-counter",
+      "url": "https://kernel-recipes.org/en/2024/schedule/hazard-pointers-with-reference-counter/",
+      "title": "Hazard pointers with reference counter",
+      "listing_title": "Hazard pointers with reference counters",
+      "description": "Present a new synchronization API that combines hazard pointers and reference counters to leverage the benefits of each mechanism.\n\nIt uses hazard pointers as fast-paths, and falls back to reference counters either explicitly when the reader expects to hold the object for a long time, or when no hazard pointer slots are available.\n\nThis leverages the fact that both synchronization mechanisms aim to guarantee existence of objects, and those existence guarantees can be chained. Each mechanism achieves its purpose in a different way with different tradeoffs. The hazard pointers are faster to read and scale better than reference counters, but they consume more memory than a per-object reference counter.",
+      "description_html": "<p style=\"text-align: justify;\">Present a new synchronization API that combines hazard pointers and reference counters to leverage the benefits of each mechanism.</p>\n<p style=\"text-align: justify;\">It uses hazard pointers as fast-paths, and falls back to reference counters either explicitly when the reader expects to hold the object for a long time, or when no hazard pointer slots are available.</p>\n<p style=\"text-align: justify;\">This leverages the fact that both synchronization mechanisms aim to guarantee existence of objects, and those existence guarantees can be chained. Each mechanism achieves its purpose in a different way with different tradeoffs. The hazard pointers are faster to read and scale better than reference counters, but they consume more memory than a per-object reference counter.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/hazard-pointers-with-reference-counter/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Mathieu DESNOYERS",
+      "metadata": {
+        "Speakers": "Mathieu DESNOYERS",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-24",
+      "time": "16:00-16:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/d5d427024ca94bcaaee0b08aef67739d",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/hazard-pointers-with-reference-counter/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=mnQlQXZn5EI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/hazard-pointers-with-reference-counter/"
+        }
+      ]
+    },
+    {
+      "id": "all-your-memory-are-belong-to-whom",
+      "url": "https://kernel-recipes.org/en/2024/schedule/all-your-memory-are-belong-to-whom/",
+      "title": "All your memory are belong to… whom?",
+      "listing_title": "All your memory are belong to… whom?",
+      "description": "Have you ever wondered how exactly your RAM is being used in Linux and how you can find out?\n\nHow much memory will be freed when killing a particular process? What exactly does the “top”s RES column even mean, and why is the sum of it over all processes much larger than what “free” reports as used? Or much smaller?\n\nWhy in /proc/meminfo is the value of AnonPages different from Active(anon) plus Inactive(anon)? Which of the fields there should actually sum up to MemTotal? How can I find out where the missing memory went when the proper sum is much smaller than MemTotal? What even is MemAvailable? Why is sometimes swap used even when there seems to be enough free memory?\n\nThis talk will provide recipes for answering questions like these and explain why the answers are often not trivial.",
+      "description_html": "<p style=\"text-align: justify;\">Have you ever wondered how exactly your RAM is being used in Linux and how you can find out?</p>\n<p style=\"text-align: justify;\">How much memory will be freed when killing a particular process? What exactly does the &#8220;top&#8221;s RES column even mean, and why is the sum of it over all processes much larger than what &#8220;free&#8221; reports as used? Or much smaller?</p>\n<p style=\"text-align: justify;\">Why in /proc/meminfo is the value of AnonPages different from Active(anon) plus Inactive(anon)? Which of the fields there should actually sum up to MemTotal? How can I find out where the missing memory went when the proper sum is much smaller than MemTotal? What even is MemAvailable? Why is sometimes swap used even when there seems to be enough free memory?</p>\n<p style=\"text-align: justify;\">This talk will provide recipes for answering questions like these and explain why the answers are often not trivial. </p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/all-your-memory-are-belong-to-whom/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Vlastimil BABKA",
+      "metadata": {
+        "Speakers": "Vlastimil BABKA",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-24",
+      "time": "16:50-17:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/fc2779430d4f48eba71aa725fdeb12fa",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/all-your-memory-are-belong-to-whom/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=1RSKNTVf7tU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/all-your-memory-are-belong-to-whom/"
+        }
+      ]
+    },
+    {
+      "id": "making-the-kernel-suck-less",
+      "url": "https://kernel-recipes.org/en/2024/schedule/making-the-kernel-suck-less/",
+      "title": "Making the kernel suck less!",
+      "listing_title": "Making the kernel less suck!",
+      "description": "“From a performance perspective, there’s a lot in the kernel that focuses on optimizations. But not everything is on by default. There’s options in the kernel config that can both improve performance and also slow it down. Then there’s tweaks you can do on a running system. This talk will talk about ways to make your system work a bit faster. Different workloads call for different approaches as there is no “”one size fits all””. Are you focused on performance, reaction time, or power savings. What you care about is the deciding factor on how you set up your environment.”",
+      "description_html": "<p style=\"text-align: justify;\">&#8220;From a performance perspective, there&#8217;s a lot in the kernel that focuses on optimizations. But not everything is on by default. There&#8217;s options in the kernel config that can both improve performance and also slow it down. Then there&#8217;s tweaks you can do on a running system. This talk will talk about ways to make your system work a bit faster. Different workloads call for different approaches as there is no &#8220;&#8221;one size fits all&#8221;&#8221;. Are you focused on performance, reaction time, or power savings. What you care about is the deciding factor on how you set up your environment.&#8221;</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/making-the-kernel-suck-less/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Steven ROSTEDT",
+      "metadata": {
+        "Speakers": "Steven ROSTEDT",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-25",
+      "time": "10:50-11:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/505e5ad72a824df4baff86b0b407d9d9",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/making-the-kernel-suck-less/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=AjFTVxAU3Vg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/making-the-kernel-suck-less/"
+        }
+      ]
+    },
+    {
+      "id": "working-towards-upstream-first",
+      "url": "https://kernel-recipes.org/en/2024/working-towards-upstream-first/",
+      "title": "Working Towards Upstream-First",
+      "listing_title": "Working towards upstream first",
+      "description": "Working Towards Upstream-First: Reducing Downstream Kernel Patch Footprint at AWS EC2 Nitro Hypervisor\n\nIn this talk, I will talk about the composition of our downstream kernel patch set in the Nitro hypervisor and the processes involved in maintaining and rebasing them. Furthermore, I’ll share our ongoing efforts to minimize our downstream footprint and move toward an “upstream-first” approach, where our changes are first merged into the mainline kernel. Finally, I’ll outline our future plans and long-term vision for maintaining kernel patches with upstream-first principles at the core.",
+      "description_html": "<h2 style=\"text-align: justify;\"><span>Working Towards Upstream-First: Reducing Downstream Kernel Patch Footprint at AWS EC2 Nitro Hypervisor</span></h2>\n<p><span></span></p>\n<p style=\"text-align: justify;\"><span>In this talk, I will talk about the composition of our downstream kernel patch set in the Nitro hypervisor and the processes involved in maintaining and rebasing them. Furthermore, I&#8217;ll share our ongoing efforts to minimize our downstream footprint and move toward an &#8220;upstream-first&#8221; approach, where our changes are first merged into the mainline kernel. Finally, I’ll outline our future plans and long-term vision for maintaining kernel patches with upstream-first principles at the core.</span></p>",
+      "description_source": "https://kernel-recipes.org/en/2024/working-towards-upstream-first/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Anel ORAZGALIYEVA",
+      "metadata": {
+        "Speakers": "Anel ORAZGALIYEVA",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-25",
+      "time": "11:40-12:20",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=BfRsAdAUo1I",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/working-towards-upstream-first/"
+        }
+      ]
+    },
+    {
+      "id": "enhancing-spatial-safety-fixing-thousands-of-wflex-array-member-not-at-end-warnings",
+      "url": "https://kernel-recipes.org/en/2024/schedule/enhancing-spatial-safety-fixing-thousands-of-wflex-array-member-not-at-end-warnings/",
+      "title": "Enhancing spatial safety: Fixing thousands of -Wflex-array-member-not-at-end warnings",
+      "listing_title": "Enhancing spatial safety: Fixing thousands of -Wflex-array-member-not-at-end warnings",
+      "description": "The introduction of the new -Wflex-array-member-not-at-end compiler option, released in GCC-14, has revealed approximately 60,000 warnings in the Linux kernel. Among them, some legitimate bugs have been uncovered.\n\nIn this presentation, we will explore in detail the different strategies we are employing to resolve all these warnings. These methods have already helped us resolve about 30% of them. Our ultimate goal in the Kernel Self-Protection Project is to globally enable this option in mainline, further enhancing the security of the kernel in the spatial safety domain.",
+      "description_html": "<p style=\"text-align: justify;\">The introduction of the new -Wflex-array-member-not-at-end compiler option, released in GCC-14, has revealed approximately 60,000 warnings in the Linux kernel. Among them, some legitimate bugs have been uncovered.</p>\n<p>In this presentation, we will explore in detail the different strategies we are employing to resolve all these warnings. These methods have already helped us resolve about 30% of them. Our ultimate goal in the Kernel Self-Protection Project is to globally enable this option in mainline, further enhancing the security of the kernel in the spatial safety domain.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/enhancing-spatial-safety-fixing-thousands-of-wflex-array-member-not-at-end-warnings/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Gustavo AR SILVA",
+      "metadata": {
+        "Speakers": "Gustavo AR SILVA",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-25",
+      "time": "14:00-14:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/8b75f90ce29049ab8955f9d6776647d4",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/enhancing-spatial-safety-fixing-thousands-of-wflex-array-member-not-at-end-warnings/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=N-pcG0C0Ex4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/enhancing-spatial-safety-fixing-thousands-of-wflex-array-member-not-at-end-warnings/"
+        }
+      ]
+    },
+    {
+      "id": "scheduling-with-superpowers",
+      "url": "https://kernel-recipes.org/en/2024/scheduling-with-superpowers/",
+      "title": "Scheduling with superpowers",
+      "listing_title": "Scheduling with superpowers: Using sched_ext to get big perf gains",
+      "description": "Scheduling with superpowers: Using sched_ext to get big perf gains\n\nLast year, we presented on sched_ext: a new pluggable CPU scheduling framework that enables writing and safely running host-wide kernel CPU scheduling policies in BPF. Since then, the project has grown significantly; both in terms of its technical capabilities, as well as in the number of contributors and users of the project. sched_ext now runs at massive scale at Meta, and will also soon run as the default scheduler on Steam Deck devices (the year of Linux gaming is upon us at last)!\n\nIn this talk we’ll take a look at some of the cutting edge sched_ext schedulers, and learn about why they enable such great performance on certain workloads. We’ll also discuss some of the new, powerful features available in sched_ext, such as cpufreq integration, and why they hold so much promise for awesome scheduling features that can fundamentally improve both datacenter and handheld workloads.",
+      "description_html": "<h3 style=\"text-align: justify;\">Scheduling with superpowers: Using sched_ext to get big perf gains</h3>\n<p style=\"text-align: justify;\">Last year, we presented on sched_ext: a new pluggable CPU scheduling framework that enables writing and safely running host-wide kernel CPU scheduling policies in BPF. Since then, the project has grown significantly; both in terms of its technical capabilities, as well as in the number of contributors and users of the project. sched_ext now runs at massive scale at Meta, and will also soon run as the default scheduler on Steam Deck devices (the year of Linux gaming is upon us at last)!</p>\n<p style=\"text-align: justify;\">In this talk we&#8217;ll take a look at some of the cutting edge sched_ext schedulers, and learn about why they enable such great performance on certain workloads. We&#8217;ll also discuss some of the new, powerful features available in sched_ext, such as cpufreq integration, and why they hold so much promise for awesome scheduling features that can fundamentally improve both datacenter and handheld workloads.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/scheduling-with-superpowers/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "David VERNET",
+      "metadata": {
+        "Speakers": "David VERNET",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-25",
+      "time": "14:50-15:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/97673318cd394a61bc2174cfe84a7a05",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/scheduling-with-superpowers/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Cy7-oqdcUCs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/scheduling-with-superpowers/"
+        }
+      ]
+    },
+    {
+      "id": "preempt_rt-over-the-years",
+      "url": "https://kernel-recipes.org/en/2024/schedule/preempt_rt-over-the-years/",
+      "title": "PREEMPT_RT over the years",
+      "listing_title": "PREEMPT-RT over the years",
+      "description": "Real time Linux with PREEMPT_RT started 20 years ago. Over the years the project contributed bits from  its out of tree patch to the common code base. Today almost all required parts of the PREEMPT_RT are part of the common Linux code base. Lets look some of some of the code parts that were merged, how PREEMPT_RT is used and what are the current challenges that need to be solved and why.",
+      "description_html": "<p style=\"text-align: justify;\">Real time Linux with PREEMPT_RT started 20 years ago. Over the years the project contributed bits from  its out of tree patch to the common code base. Today almost all required parts of the PREEMPT_RT are part of the common Linux code base. Lets look some of some of the code parts that were merged, how PREEMPT_RT is used and what are the current challenges that need to be solved and why.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/preempt_rt-over-the-years/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Sebastian A SIEWIOR",
+      "metadata": {
+        "Speakers": "Sebastian A SIEWIOR",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-25",
+      "time": "16:00-16:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/0620b5b3a00b42fc91fba6cc4092d278",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/preempt_rt-over-the-years/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=1dBK7Wp1NMY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/preempt_rt-over-the-years/"
+        }
+      ]
+    },
+    {
+      "id": "consoles-printk-nested-nmi-oh-my",
+      "url": "https://kernel-recipes.org/en/2024/schedule/consoles-printk-nested-nmi-oh-my/",
+      "title": "Consoles, printk, nested-NMI!? Oh my!",
+      "listing_title": "Consoles, printk, nested-NMI!? oh my!",
+      "description": "Everyone has to start somewhere.\n\nFor some, their developer journey begins with being thrown head-first into a root-cause analysis of an *interesting* corner case between console log buffers, Nested NMIs, x86 iret, printk, panics, crash dumps & more. All whilst being entirely in-over-their-head.\n\nThis simple (yet hopefully not boring) talk will highlight some of the challenges, quirks and behaviors of a new-to-industry developer tackling some “fun” bugs in a large, monolithic and horrendously intimidating (legacy?) “piece” of software — the Linux Kernel.\n\nJoin me as I talk about my blunders, thoughts, and general naivete while walking through scenarios that may be unfamiliar for new grads, young developers and other kernel-newbies like myself.",
+      "description_html": "<p style=\"text-align: justify;\">Everyone has to start somewhere.</p>\n<p style=\"text-align: justify;\">For some, their developer journey begins with being thrown head-first into a root-cause analysis of an *interesting* corner case between console log buffers, Nested NMIs, x86 iret, printk, panics, crash dumps &amp; more. All whilst being entirely in-over-their-head.</p>\n<p style=\"text-align: justify;\">This simple (yet hopefully not boring) talk will highlight some of the challenges, quirks and behaviors of a new-to-industry developer tackling some &#8220;fun&#8221; bugs in a large, monolithic and horrendously intimidating (legacy?) &#8220;piece&#8221; of software &#8212; the Linux Kernel.</p>\n<p style=\"text-align: justify;\">Join me as I talk about my blunders, thoughts, and general naivete while walking through scenarios that may be unfamiliar for new grads, young developers and other kernel-newbies like myself.</p>",
+      "description_source": "https://kernel-recipes.org/en/2024/schedule/consoles-printk-nested-nmi-oh-my/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Derek BARBOSA",
+      "metadata": {
+        "Speakers": "Derek BARBOSA",
+        "Session Type": "Talk",
+        "Year": "2024"
+      },
+      "date": "2024-09-25",
+      "time": "16:50-17:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/2260499dc4184cee877fed599cd0ccd2",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/consoles-printk-nested-nmi-oh-my/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=7OEGv7uw4XI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2024/schedule/consoles-printk-nested-nmi-oh-my/"
+        }
+      ]
+    }
+  ]
+}

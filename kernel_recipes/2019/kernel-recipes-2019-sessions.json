@@ -1,0 +1,773 @@
+{
+  "event": "Kernel Recipes 2019",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library の Tag=2019 に該当する全21件を収録。概要・動画・追加資料は個別ページから取得。掲載されていない日時・会場は空欄。リンク先ファイルと動画の再生可否は未検査。",
+  "counts": {
+    "sessions": 21,
+    "with_description": 21,
+    "with_materials": 21,
+    "attachments": 42,
+    "files": 21,
+    "links": 21
+  },
+  "sessions": [
+    {
+      "id": "xdp-closer-integration-with-network-stack",
+      "url": "https://archives.kernel-recipes.org/document/xdp-closer-integration-with-network-stack/",
+      "title": "XDP closer integration with network stack",
+      "listing_title": "XDP closer integration with network stack",
+      "description": "XDP (eXpress Data Path) is the new programmable in-kernel fast-path, which is placed as a layer before the existing Linux kernel network stack (netstack).\n\nWe claim XDP is not kernel-bypass, as it is a layer before and it can easily fall-through to netstack. Reality is that it can easily be (ab)used to create a kernel-bypass situation, where non of the kernel facilities are used (in form of BPF-helpers and in-kernel tables). The main disadvantage with kernel-bypass, is the need to re-implement everything, even basic building blocks, like routing tables and ARP protocol handling.\n\nIt is part of the concept and speed gain, that XDP allows users to avoid calling part of the kernel code. Users have the freedom to do kernel-bypass and re-implement everything, but the kernel should provide access to more in-kernel tables, via BPF-helpers, such that users can leverage other parts of the Open Source ecosystem, like router daemons etc.\n\nThis talk is about how XDP can work in-concert with netstack, and proposal on how we can take this even-further. Crazy ideas like using XDP frames to move SKB allocation out of driver code, will also be proposed.",
+      "description_html": "<p>XDP (eXpress Data Path) is the new programmable in-kernel fast-path, which is placed as a layer before the existing Linux kernel network stack (netstack).<br />\nWe claim XDP is not kernel-bypass, as it is a layer before and it can easily fall-through to netstack. Reality is that it can easily be (ab)used to create a kernel-bypass situation, where non of the kernel facilities are used (in form of BPF-helpers and in-kernel tables). The main disadvantage with kernel-bypass, is the need to re-implement everything, even basic building blocks, like routing tables and ARP protocol handling.<br />\nIt is part of the concept and speed gain, that XDP allows users to avoid calling part of the kernel code. Users have the freedom to do kernel-bypass and re-implement everything, but the kernel should provide access to more in-kernel tables, via BPF-helpers, such that users can leverage other parts of the Open Source ecosystem, like router daemons etc.<br />\nThis talk is about how XDP can work in-concert with netstack, and proposal on how we can take this even-further. Crazy ideas like using XDP frames to move SKB allocation out of driver code, will also be proposed.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/xdp-closer-integration-with-network-stack/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jesper DANGAARD BROUER",
+      "metadata": {
+        "Speakers": "Jesper DANGAARD BROUER",
+        "Category": "networking",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/xdp-netstack-concert.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=JgJQpcaaCR8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/xdp-closer-integration-with-network-stack/"
+        }
+      ]
+    },
+    {
+      "id": "what-to-do-when-your-device-depends-on-another-one",
+      "url": "https://archives.kernel-recipes.org/document/what-to-do-when-your-device-depends-on-another-one/",
+      "title": "What To Do When Your Device Depends on Another One",
+      "listing_title": "What To Do When Your Device Depends on Another One",
+      "description": "Contemporary computer systems are quite complicated. There may be multiple connections between various components in them and the components may depend on each other in various ways. At the same time, however, in many cases it is practical to use a separate device driver for each sufficiently distinct system component, depending on the functionality provided by them. Each driver may then focus on providing the required functionality without worrying about the rest of the system too much, but the dependencies between different system components are still there and need to be taken into account in some situations, for example related to power management.\n\nThe Linux kernel’s driver model allows the system to be represented as a hierarchy of device objects with a proper tree structure. In that hierarchy, a device can be a leaf, in which case no other devices should depend on it, or it can be a parent of some other device and, as a rule, device drivers bind to individual devices. That is sufficient if the system topology is a proper tree too, but it may not be entirely adequate otherwise. There are cases in which one device uses resources provided by another device that is not its parent and it may not function correctly if the device providing those resources becomes unavailable, for example due to power management.\n\nThe device links framework was added to the Linux kernel with such use cases in mind and it has been revamped recently, which is a good opportunity to look at it again. It allows a dependency between two devices to be represented as a link between the corresponding device objects. If such a link is added, the driver core will automatically take it into account in power management, among other places, so that the device providing resources, referred to as the supplier, is always available as long as the device using them, referred to as the consumer, is active. However, there are two types of device links and there are flags to specify at the link creation time to let the driver core know what to use the link for and how to handle it going forward, so some care needs to be taken in order to get the desired results. I will explain how device links work, what the driver core can be expected to do with then depending on the flags used at the link creation time and why it always is a good idea to check the return value of device_link_add().",
+      "description_html": "<p>Contemporary computer systems are quite complicated. There may be multiple connections between various components in them and the components may depend on each other in various ways. At the same time, however, in many cases it is practical to use a separate device driver for each sufficiently distinct system component, depending on the functionality provided by them. Each driver may then focus on providing the required functionality without worrying about the rest of the system too much, but the dependencies between different system components are still there and need to be taken into account in some situations, for example related to power management.<br />\nThe Linux kernel’s driver model allows the system to be represented as a hierarchy of device objects with a proper tree structure. In that hierarchy, a device can be a leaf, in which case no other devices should depend on it, or it can be a parent of some other device and, as a rule, device drivers bind to individual devices. That is sufficient if the system topology is a proper tree too, but it may not be entirely adequate otherwise. There are cases in which one device uses resources provided by another device that is not its parent and it may not function correctly if the device providing those resources becomes unavailable, for example due to power management.<br />\nThe device links framework was added to the Linux kernel with such use cases in mind and it has been revamped recently, which is a good opportunity to look at it again. It allows a dependency between two devices to be represented as a link between the corresponding device objects. If such a link is added, the driver core will automatically take it into account in power management, among other places, so that the device providing resources, referred to as the supplier, is always available as long as the device using them, referred to as the consumer, is active. However, there are two types of device links and there are flags to specify at the link creation time to let the driver core know what to use the link for and how to handle it going forward, so some care needs to be taken in order to get the desired results. I will explain how device links work, what the driver core can be expected to do with then depending on the flags used at the link creation time and why it always is a good idea to check the return value of device_link_add().</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/what-to-do-when-your-device-depends-on-another-one/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Raphael Wysocki",
+      "metadata": {
+        "Speakers": "Raphael Wysocki",
+        "Category": "device",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/devicelinkswysocki.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Nkh-EDGD8HM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/what-to-do-when-your-device-depends-on-another-one/"
+        }
+      ]
+    },
+    {
+      "id": "the-ubiquity-but-also-the-necessity-of-ebpf-as-a-technology-to-keep-the-kernel-relevant",
+      "url": "https://archives.kernel-recipes.org/document/the-ubiquity-but-also-the-necessity-of-ebpf-as-a-technology-to-keep-the-kernel-relevant/",
+      "title": "The ubiquity but also the necessity of eBPF as a technology to keep the kernel relevant",
+      "listing_title": "The ubiquity but also the necessity of eBPF as a technology to keep the kernel relevant",
+      "description": "Traditionally operating systems are black boxes designed by system engineers that users simply have to “fit into”. Users do not want to be placed in a box, rather they want to use a system that is flexible enough for their needs. In this sense, traditional system developers are arrogant.\n\nKernel development has to be done in a careful and well crafted manner, it should not be rushed. But this rate of change absolutely cannot keep up with the continually changing needs of users.\n\nWithout the necessary level of flexibility, the resulting rigidity will open the doors for competing operating systems to replace Linux as their platform. These systems would simply be giving the users what they actually want. So we must evolve or die.\n\nTherefore, my talk will be about how eBPF is essential as not just a fancy framework for cool fast networking and interesting tracing and introspection, but rather it is an essential component for the long term longevity and survival of the Linux kernel.",
+      "description_html": "<p>Traditionally operating systems are black boxes designed by system engineers that users simply have to “fit into”. Users do not want to be placed in a box, rather they want to use a system that is flexible enough for their needs. In this sense, traditional system developers are arrogant.<br />\nKernel development has to be done in a careful and well crafted manner, it should not be rushed. But this rate of change absolutely cannot keep up with the continually changing needs of users.<br />\nWithout the necessary level of flexibility, the resulting rigidity will open the doors for competing operating systems to replace Linux as their platform. These systems would simply be giving the users what they actually want. So we must evolve or die.<br />\nTherefore, my talk will be about how eBPF is essential as not just a fancy framework for cool fast networking and interesting tracing and introspection, but rather it is an essential component for the long term longevity and survival of the Linux kernel.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-ubiquity-but-also-the-necessity-of-ebpf-as-a-technology-to-keep-the-kernel-relevant/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "David MILLER",
+      "metadata": {
+        "Speakers": "David MILLER",
+        "Category": "tracing",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipes2019davidmiller.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=mFxs3VXABPU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-ubiquity-but-also-the-necessity-of-ebpf-as-a-technology-to-keep-the-kernel-relevant/"
+        }
+      ]
+    },
+    {
+      "id": "the-next-steps-toward-software-freedom-for-linux",
+      "url": "https://archives.kernel-recipes.org/document/the-next-steps-toward-software-freedom-for-linux/",
+      "title": "The Next Steps toward Software Freedom for Linux",
+      "listing_title": "The Next Steps toward Software Freedom for Linux",
+      "description": "Linux is likely the most important software project ever undertaken; it is essential to the future of freedom for users and developers alike. Many in our community believe that Linux’s continued success and certainty of collaborative shared development depends on its strong copyleft license. Indeed, Linux’s  large contributor base gives some indication that copyleft is (at least) a factor in its success.\n\nA copyleft license like Linux’s GPLv2 only functions when it is fairly and regularly enforced. Software Freedom Conservancy coordinates the Compliance Project for Linux Developers, which brings together key individual and small-size corporate contributors who wish to enforce the GPL fairly for Linux. This coalition works collaboratively on GPL enforcement with Conservancy. Together, we seek strategic actions that advance software freedom for users and serve as a key component to assure software freedom for Linux users and developers alike.\n\nThis coallition stands in stark contrast to the abuses of copyleft that are now commonplace. Some recent Linux enforcement sought to inappropriately monetize the GPL and many companies still regularly profit from Linux GPL violations. In response to these behaviors, Conservancy co-published the Principles of\n\nCommunity Oriented GPL Enforcement. These principles were endorsed by the Netfilter team, and some of them have been adopted as recommended policy upstream.\n\nIn this keynote, Bradley M. Kuhn from Conservancy will talk about how the coalition approaches GPL enforcement, how we should expect great successes, partial successes and the occasional failure as we stand up for copyleft-protected software freedom for Linux users. Bradley also will leave ample time for Q&A about copyleft licensing, GPL enforcement and any other related topic that is of importance to the Linux kernel developer community.\n\nPlease note that Bradley is not a lawyer, and nothing in this talk will be legal advice. Conservancy is not a law firm, but rather a charity that, among many software freedom activities, helps Linux developers who care about copyleft to best pursue the goal of universal software freedom through GPL compliance and enforcement.",
+      "description_html": "<p>Linux is likely the most important software project ever undertaken; it is essential to the future of freedom for users and developers alike. Many in our community believe that Linux’s continued success and certainty of collaborative shared development depends on its strong copyleft license. Indeed, Linux’s  large contributor base gives some indication that copyleft is (at least) a factor in its success.<br />\nA copyleft license like Linux’s GPLv2 only functions when it is fairly and regularly enforced. Software Freedom Conservancy coordinates the Compliance Project for Linux Developers, which brings together key individual and small-size corporate contributors who wish to enforce the GPL fairly for Linux. This coalition works collaboratively on GPL enforcement with Conservancy. Together, we seek strategic actions that advance software freedom for users and serve as a key component to assure software freedom for Linux users and developers alike.<br />\nThis coallition stands in stark contrast to the abuses of copyleft that are now commonplace. Some recent Linux enforcement sought to inappropriately monetize the GPL and many companies still regularly profit from Linux GPL violations. In response to these behaviors, Conservancy co-published the Principles of<br />\nCommunity Oriented GPL Enforcement. These principles were endorsed by the Netfilter team, and some of them have been adopted as recommended policy upstream.<br />\nIn this keynote, Bradley M. Kuhn from Conservancy will talk about how the coalition approaches GPL enforcement, how we should expect great successes, partial successes and the occasional failure as we stand up for copyleft-protected software freedom for Linux users. Bradley also will leave ample time for Q&#038;A about copyleft licensing, GPL enforcement and any other related topic that is of importance to the Linux kernel developer community.<br />\nPlease note that Bradley is not a lawyer, and nothing in this talk will be legal advice. Conservancy is not a law firm, but rather a charity that, among many software freedom activities, helps Linux developers who care about copyleft to best pursue the goal of universal software freedom through GPL compliance and enforcement.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-next-steps-toward-software-freedom-for-linux/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Bradley KUHN",
+      "metadata": {
+        "Speakers": "Bradley KUHN",
+        "Category": "community",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/the-next-steps-toward-software-freedom-for-linux/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ihZfuySw64s",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-next-steps-toward-software-freedom-for-linux/"
+        }
+      ]
+    },
+    {
+      "id": "suricata-and-xdp",
+      "url": "https://archives.kernel-recipes.org/document/suricata-and-xdp/",
+      "title": "Suricata and XDP",
+      "listing_title": "Suricata and XDP",
+      "description": "Suricata is a network threat detection engine using network packets capture to reconstruct the traffic till the application layer and find threats on the network using rules that define behavior to detect. This task is really CPU intensive and discarding non interesting traffic is a solution to enable a scaling of Suricata to 40gbps and other.\n\nThis talk will present the latest evolution of Suricata that knows uses eBPF and XDP to bypass traffic. Suricata 5.0 is supporting the hardware XDP to provide ypass with network card such as Netronome. It also takes advantage of pinned maps to get persistance of the bypassed flows. This talk will cover the different usage of XDP and eBPF in Suricata and shows how it impact performance and usability. If development time permit, the talk will also cover AF_XDP and the impact on this new capture method on Suricata.",
+      "description_html": "<p>Suricata is a network threat detection engine using network packets capture to reconstruct the traffic till the application layer and find threats on the network using rules that define behavior to detect. This task is really CPU intensive and discarding non interesting traffic is a solution to enable a scaling of Suricata to 40gbps and other.<br />\nThis talk will present the latest evolution of Suricata that knows uses eBPF and XDP to bypass traffic. Suricata 5.0 is supporting the hardware XDP to provide ypass with network card such as Netronome. It also takes advantage of pinned maps to get persistance of the bypassed flows. This talk will cover the different usage of XDP and eBPF in Suricata and shows how it impact performance and usability. If development time permit, the talk will also cover AF_XDP and the impact on this new capture method on Suricata.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/suricata-and-xdp/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Eric LEBLOND",
+      "metadata": {
+        "Speakers": "Eric LEBLOND",
+        "Category": "security",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/eleblond-suricata-xdp.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=G4BumtvNIQ4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/suricata-and-xdp/"
+        }
+      ]
+    },
+    {
+      "id": "rcu-in-2019",
+      "url": "https://archives.kernel-recipes.org/document/rcu-in-2019/",
+      "title": "RCU in 2019",
+      "listing_title": "RCU in 2019",
+      "description": "RCU has seen lots of changes in the last 2 years. Of note is the RCU flavor consolidation and tree RCU’s lock contention improvements. There have been also improvements with static checking, fixes to scheduler deadlocks and improvements to RCU-based linked lists. This talk starts with an introduction of RCU along with presenting the recent Improvements and changes in RCU’s behavior.",
+      "description_html": "<p>RCU has seen lots of changes in the last 2 years. Of note is the RCU flavor consolidation and tree RCU’s lock contention improvements. There have been also improvements with static checking, fixes to scheduler deadlocks and improvements to RCU-based linked lists. This talk starts with an introduction of RCU along with presenting the recent Improvements and changes in RCU’s behavior.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/rcu-in-2019/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Joël FERNANDES",
+      "metadata": {
+        "Speakers": "Joël FERNANDES",
+        "Category": "concurrency",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/rcuin2019kernelrecipes2.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=bsyXDAouI6E",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/rcu-in-2019/"
+        }
+      ]
+    },
+    {
+      "id": "pidfds-process-file-descriptors-on-linux",
+      "url": "https://archives.kernel-recipes.org/document/pidfds-process-file-descriptors-on-linux/",
+      "title": "pidfds: Process file descriptors on Linux",
+      "listing_title": "pidfds: Process file descriptors on Linux",
+      "description": "Traditionally processes are identified globally via process identifiers (PIDs). Due to how pid allocation works the kernel is free to recycle PIDs once a process has been reaped. As such, PIDs do not allow another process to maintain a private, stable reference on a process. On systems under pressure it is thus possible that a PID is recycled without other (non-parent) processes being aware of it. This becomes rather problematic when (non-parent) processes are in charge of managing other processes as is the case for system managers or userspace implementations of OOM killers.\n\nOver the last months we have been working on solving these and other problems by introducing pidfds – process file descriptors. Among other nice properties, the allow callers to maintain a private, stable reference on a process.\n\nIn this talk I will explain the challenges we faces, the different approaches people pushed for. We will see what already has been implement and pushed upstream, look into various implementation details and outline what we have planned for the future.",
+      "description_html": "<p>Traditionally processes are identified globally via process identifiers (PIDs). Due to how pid allocation works the kernel is free to recycle PIDs once a process has been reaped. As such, PIDs do not allow another process to maintain a private, stable reference on a process. On systems under pressure it is thus possible that a PID is recycled without other (non-parent) processes being aware of it. This becomes rather problematic when (non-parent) processes are in charge of managing other processes as is the case for system managers or userspace implementations of OOM killers.<br />\nOver the last months we have been working on solving these and other problems by introducing pidfds – process file descriptors. Among other nice properties, the allow callers to maintain a private, stable reference on a process.<br />\nIn this talk I will explain the challenges we faces, the different approaches people pushed for. We will see what already has been implement and pushed upstream, look into various implementation details and outline what we have planned for the future.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/pidfds-process-file-descriptors-on-linux/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Christian BRAUNER",
+      "metadata": {
+        "Speakers": "Christian BRAUNER",
+        "Category": "file-systems",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/pidfds.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=19SlR_zjPxc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/pidfds-process-file-descriptors-on-linux/"
+        }
+      ]
+    },
+    {
+      "id": "no-nmi-no-problem-implementing-arm64-pseudo-nmi",
+      "url": "https://archives.kernel-recipes.org/document/no-nmi-no-problem-implementing-arm64-pseudo-nmi/",
+      "title": "No NMI? No Problem! – Implementing Arm64 Pseudo-NMI",
+      "listing_title": "No NMI? No Problem! – Implementing Arm64 Pseudo-NMI",
+      "description": "As the name would suggest, a Non-Maskable Interrupt (NMI) is an interrupt-like feature that is unaffected by the disabling of classic interrupts. In Linux, NMIs are involved in some features such as performance event monitoring, hard-lockup detector, on demand state dumping, etc… Their potential to fire when least expected can fill the most seasoned kernel hackers with dread.\n\nAArch64 (aka arm64 in the Linux tree) does not provide architected NMIs, a consequence being that features benefiting from NMIs see their use limited on AArch64. However, the Arm Generic Interrupt Controller (GIC) supports interrupt prioritization and masking, which, among other things, provides a way to control whether or not a set of interrupts can be signaled to a CPU.\n\nThis talk will cover how, using the GIC interrupt priorities, we provide a way to configure some interrupts to behave in an NMI-like manner on AArch64. We’ll discuss the implementation, some of the complications that ensued and also some of the benefits obtained from it.",
+      "description_html": "<p>As the name would suggest, a Non-Maskable Interrupt (NMI) is an interrupt-like feature that is unaffected by the disabling of classic interrupts. In Linux, NMIs are involved in some features such as performance event monitoring, hard-lockup detector, on demand state dumping, etc… Their potential to fire when least expected can fill the most seasoned kernel hackers with dread.<br />\nAArch64 (aka arm64 in the Linux tree) does not provide architected NMIs, a consequence being that features benefiting from NMIs see their use limited on AArch64. However, the Arm Generic Interrupt Controller (GIC) supports interrupt prioritization and masking, which, among other things, provides a way to control whether or not a set of interrupts can be signaled to a CPU.<br />\nThis talk will cover how, using the GIC interrupt priorities, we provide a way to configure some interrupts to behave in an NMI-like manner on AArch64. We’ll discuss the implementation, some of the complications that ensued and also some of the benefits obtained from it.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/no-nmi-no-problem-implementing-arm64-pseudo-nmi/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Julien THIERRY",
+      "metadata": {
+        "Speakers": "Julien THIERRY",
+        "Category": "arm",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/No_NMI__No_Problem__-_0AImplemenƟng_Arm64_0APseudo-NMI.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=7cVaEiaeSmo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/no-nmi-no-problem-implementing-arm64-pseudo-nmi/"
+        }
+      ]
+    },
+    {
+      "id": "metrics-are-money",
+      "url": "https://archives.kernel-recipes.org/document/metrics-are-money/",
+      "title": "Metrics are money",
+      "listing_title": "Metrics are money",
+      "description": "In I.T. we all use all kinds of metrics. Operations teams rely heavily on these, especially when things go south. These metrics are sometimes overrated. Let’s dive into a few real life stories  together.",
+      "description_html": "<p>In I.T. we all use all kinds of metrics. Operations teams rely heavily on these, especially when things go south. These metrics are sometimes overrated. Let’s dive into a few real life stories  together.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/metrics-are-money/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Aurélien ROUGEMONT",
+      "metadata": {
+        "Speakers": "Aurélien ROUGEMONT",
+        "Category": "tooling",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2019-metricsaremoney.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=SS9LBlXL5Xg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/metrics-are-money/"
+        }
+      ]
+    },
+    {
+      "id": "marvels-of-memory-auto-configuration-spd",
+      "url": "https://archives.kernel-recipes.org/document/marvels-of-memory-auto-configuration-spd/",
+      "title": "Marvels of Memory Auto-configuration (SPD)",
+      "listing_title": "Marvels of Memory Auto-configuration (SPD)",
+      "description": "System memory configuration is a transparent operation nowadays, something that we all came to expect to just work out of the box. Still, it does happen behind the scenes every single time we boot our computers. This requires the cooperation of hardware components on the mainboard and on memory modules themselves, as well as firmware code to drive these. While it is possible to just let it happen, having a deeper understanding of how it works makes it possible to access valuable information from the operating system at run-time.\n\nI will take you through the history of system memory configuration from the mid 70s to now. We will explore the different types of memory modules, how their configuration data is stored and how the firmware can access them. We will see which problems had to be solved along the way and how they were solved. Lastly we will see how Linux supports reading the memory configuration information and what you can do with that information.",
+      "description_html": "<p>System memory configuration is a transparent operation nowadays, something that we all came to expect to just work out of the box. Still, it does happen behind the scenes every single time we boot our computers. This requires the cooperation of hardware components on the mainboard and on memory modules themselves, as well as firmware code to drive these. While it is possible to just let it happen, having a deeper understanding of how it works makes it possible to access valuable information from the operating system at run-time.<br />\nI will take you through the history of system memory configuration from the mid 70s to now. We will explore the different types of memory modules, how their configuration data is stored and how the firmware can access them. We will see which problems had to be solved along the way and how they were solved. Lastly we will see how Linux supports reading the memory configuration information and what you can do with that information.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/marvels-of-memory-auto-configuration-spd/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jean DELVARE",
+      "metadata": {
+        "Speakers": "Jean DELVARE",
+        "Category": "memory",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/memoryconfigbyspd.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=MVDeJKGvtlM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/marvels-of-memory-auto-configuration-spd/"
+        }
+      ]
+    },
+    {
+      "id": "kernel-hacking-behind-closed-doors",
+      "url": "https://archives.kernel-recipes.org/document/kernel-hacking-behind-closed-doors/",
+      "title": "Kernel hacking behind closed doors",
+      "listing_title": "Kernel hacking behind closed doors",
+      "description": "The recent hardware security vulnerabilites exposed the kernel community to unprecedented restrictions and bureaucrazy. Pure software bugs which only affect the Linux kernel are a completely different category and the kernel community has established and well working ways to handle them.\n\nHardware issues like Meltdown, Spectre, L1TF etc. must be treated differently because they usually affect all Operating Systems and therefore need coordination across different OS vendors, distributions, hardware vendors and other parties. For some of the issues, software mitigations can depend on microcode or firmware updates, which need further coordination.\n\nMeltdown/Spectre hit all affected parties completely unprepared, which was nicely reflected in the resulting chaos all over the place. With that experience the kernel community started to push for workable scenarios to handle these kind of issues as it was entirely clear to everyone that this was just the start and the tip of the iceberg.\n\nThis talk will take a look at the difference between hardware and software vulnerabilities, gives insight into the events  surrounding Meltdown/Spectre and explains how the later issues, e.g. L1TF, have been dealt with. It also looks at the approach the kernel community has taken to further reduce the annoyance for future issues of that kind",
+      "description_html": "<p>The recent hardware security vulnerabilites exposed the kernel community to unprecedented restrictions and bureaucrazy. Pure software bugs which only affect the Linux kernel are a completely different category and the kernel community has established and well working ways to handle them.<br />\nHardware issues like Meltdown, Spectre, L1TF etc. must be treated differently because they usually affect all Operating Systems and therefore need coordination across different OS vendors, distributions, hardware vendors and other parties. For some of the issues, software mitigations can depend on microcode or firmware updates, which need further coordination.<br />\nMeltdown/Spectre hit all affected parties completely unprepared, which was nicely reflected in the resulting chaos all over the place. With that experience the kernel community started to push for workable scenarios to handle these kind of issues as it was entirely clear to everyone that this was just the start and the tip of the iceberg.<br />\nThis talk will take a look at the difference between hardware and software vulnerabilities, gives insight into the events  surrounding Meltdown/Spectre and explains how the later issues, e.g. L1TF, have been dealt with. It also looks at the approach the kernel community has taken to further reduce the annoyance for future issues of that kind</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/kernel-hacking-behind-closed-doors/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Thomas GLEIXNER",
+      "metadata": {
+        "Speakers": "Thomas GLEIXNER",
+        "Category": "community",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr-2019-tglx.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=D152ld9eptg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/kernel-hacking-behind-closed-doors/"
+        }
+      ]
+    },
+    {
+      "id": "kernel-documentation-past-present-and-future",
+      "url": "https://archives.kernel-recipes.org/document/kernel-documentation-past-present-and-future/",
+      "title": "Kernel documentation: past, present and future",
+      "listing_title": "Kernel documentation: past, present and future",
+      "description": "The Linux kernel project includes a huge amount of documentation, but that information has seen little in the way of care over the\n\nyears. The amount of care has increased significantly recently, though, and things are improving quickly. Listen as the kernel’s documentation maintainer discusses the current state of the kernel’s docs, how we got here, where we’re trying to go, and how you can help.",
+      "description_html": "<p>The Linux kernel project includes a huge amount of documentation, but that information has seen little in the way of care over the<br />\nyears. The amount of care has increased significantly recently, though, and things are improving quickly. Listen as the kernel’s documentation maintainer discusses the current state of the kernel’s docs, how we got here, where we’re trying to go, and how you can help.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/kernel-documentation-past-present-and-future/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jonathan CORBET",
+      "metadata": {
+        "Speakers": "Jonathan CORBET",
+        "Category": "documentation",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/corbet.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=1LuAIUKqKDk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/kernel-documentation-past-present-and-future/"
+        }
+      ]
+    },
+    {
+      "id": "hunting-and-fixing-bugs-all-over-the-linux-kernel",
+      "url": "https://archives.kernel-recipes.org/document/hunting-and-fixing-bugs-all-over-the-linux-kernel/",
+      "title": "Hunting and fixing bugs all over the Linux kernel",
+      "listing_title": "Hunting and fixing bugs all over the Linux kernel",
+      "description": "At a rate of almost 9 changes per hour (24/7), the Linux kernel is definitely a scary beast. Bugs are introduced on a daily basis and, through the use of multiple code analyzers, *some* of them are detected and fixed before they hit mainline. Over the course of the last few years, Gustavo has been fixing such bugs and many different issues in every corner of the Linux kernel. Recently, he was in charge of leading the efforts to globally enable -Wimplicit-fallthrough; which appears by default in Linux v5.3. This presentation is a report on all the stuff Gustavo has found and fixed in the kernel with the support of the Core Infrastructure Initiative.",
+      "description_html": "<p>At a rate of almost 9 changes per hour (24/7), the Linux kernel is definitely a scary beast. Bugs are introduced on a daily basis and, through the use of multiple code analyzers, *some* of them are detected and fixed before they hit mainline. Over the course of the last few years, Gustavo has been fixing such bugs and many different issues in every corner of the Linux kernel. Recently, he was in charge of leading the efforts to globally enable -Wimplicit-fallthrough; which appears by default in Linux v5.3. This presentation is a report on all the stuff Gustavo has found and fixed in the kernel with the support of the Core Infrastructure Initiative.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/hunting-and-fixing-bugs-all-over-the-linux-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Gustavo AR SILVA",
+      "metadata": {
+        "Speakers": "Gustavo AR SILVA",
+        "Category": "debugging",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/gustavoarsilvakr2019.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=9UQs1ca5Uwk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/hunting-and-fixing-bugs-all-over-the-linux-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "gnu-poke-an-extensible-editor-for-structured-binary-data",
+      "url": "https://archives.kernel-recipes.org/document/gnu-poke-an-extensible-editor-for-structured-binary-data/",
+      "title": "GNU poke an extensible editor for structured binary data",
+      "listing_title": "GNU poke an extensible editor for structured binary data",
+      "description": "GNU poke is a new interactive editor for binary data. Not limited to editing basic ntities such as bits and bytes, it provides a full-fledged procedural, interactive programming language designed to describe data structures and to operate on them. Once a user has defined a structure for binary data (usually matching some file format) she can search, inspect, create, shuffle and modify abstract entities such as ELF relocations, MP3 tags, DWARF expressions, partition table entries, and so on, with primitives resembling simple editing of bits and bytes. The program comes with a library of already written descriptions (or “pickles” in poke parlance) for many binary formats.\n\nGNU poke is useful in many domains. It is very well suited to aid in the development of programs that operate on binary files, such as assemblers and linkers. This was in fact the primary inspiration that brought me to write it: easily injecting flaws into ELF files in order to reproduce toolchain bugs. Also, due to its flexibility, poke is also very useful for reverse engineering, where the real structure of the data being edited is discovered by experiment, interactively. It is also good for the fast development of prototypes for programs like linkers, compressors or filters, and it provides a convenient foundation to write other utilities such as diff and patch tools for binary files.\n\nThis talk (unlike Gaul) is divided into four parts. First I will introduce the program and show what it does: from simple bits/bytes editing to user-defined structures. Then I will show some of the internals, and how poke is implemented. The third block will cover the way of using Poke to describe user data, which is to say the art of writing “pickles”. The presentation ends with a status of the project, a call for hackers, and a hint at future works.",
+      "description_html": "<p>GNU poke is a new interactive editor for binary data. Not limited to editing basic ntities such as bits and bytes, it provides a full-fledged procedural, interactive programming language designed to describe data structures and to operate on them. Once a user has defined a structure for binary data (usually matching some file format) she can search, inspect, create, shuffle and modify abstract entities such as ELF relocations, MP3 tags, DWARF expressions, partition table entries, and so on, with primitives resembling simple editing of bits and bytes. The program comes with a library of already written descriptions (or “pickles” in poke parlance) for many binary formats.<br />\nGNU poke is useful in many domains. It is very well suited to aid in the development of programs that operate on binary files, such as assemblers and linkers. This was in fact the primary inspiration that brought me to write it: easily injecting flaws into ELF files in order to reproduce toolchain bugs. Also, due to its flexibility, poke is also very useful for reverse engineering, where the real structure of the data being edited is discovered by experiment, interactively. It is also good for the fast development of prototypes for programs like linkers, compressors or filters, and it provides a convenient foundation to write other utilities such as diff and patch tools for binary files.<br />\nThis talk (unlike Gaul) is divided into four parts. First I will introduce the program and show what it does: from simple bits/bytes editing to user-defined structures. Then I will show some of the internals, and how poke is implemented. The third block will cover the way of using Poke to describe user data, which is to say the art of writing “pickles”. The presentation ends with a status of the project, a call for hackers, and a hint at future works.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/gnu-poke-an-extensible-editor-for-structured-binary-data/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jose E MARCHESI",
+      "metadata": {
+        "Speakers": "Jose E MARCHESI",
+        "Category": "tooling",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/poke.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=92Sykut06N8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/gnu-poke-an-extensible-editor-for-structured-binary-data/"
+        }
+      ]
+    },
+    {
+      "id": "ftrace-where-modifying-a-running-kernel-all-started",
+      "url": "https://archives.kernel-recipes.org/document/ftrace-where-modifying-a-running-kernel-all-started/",
+      "title": "ftrace: Where modifying a running kernel all started",
+      "listing_title": "ftrace: Where modifying a running kernel all started",
+      "description": "Ftrace’s most powerful feature is the function tracer (and function graph tracer which is built from it). But to have this enabled on production systems, it had to have its overhead be negligible when disabled. As the function tracer uses gcc’s profiling mechanism, which adds a call to “mcount” (or more recently fentry, don’t worry if you don’t know what this is, it will all be explained) at the start of almost all functions, it had to do something about the overhead that causes. The solution was to turn those calls into “nops” (an instruction that the CPU simply ignores). But this was no easy feat. It took a lot to come up with a solution (and also turning a few network cards into bricks). This talk will explain the history of how ftrace came about implementing the function tracer, and brought with it the possibility of static branches and soon static calls!",
+      "description_html": "<p>Ftrace’s most powerful feature is the function tracer (and function graph tracer which is built from it). But to have this enabled on production systems, it had to have its overhead be negligible when disabled. As the function tracer uses gcc’s profiling mechanism, which adds a call to “mcount” (or more recently fentry, don’t worry if you don’t know what this is, it will all be explained) at the start of almost all functions, it had to do something about the overhead that causes. The solution was to turn those calls into “nops” (an instruction that the CPU simply ignores). But this was no easy feat. It took a lot to come up with a solution (and also turning a few network cards into bricks). This talk will explain the history of how ftrace came about implementing the function tracer, and brought with it the possibility of static branches and soon static calls!<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2019 - ftrace: Where modifying a running kernel all started\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/93uE_kWWQjs?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/ftrace-where-modifying-a-running-kernel-all-started/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Steven ROSTEDT",
+      "metadata": {
+        "Speakers": "Steven ROSTEDT",
+        "Category": "tracing",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/ftrace-modifying-the-kernel-kr2019.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=93uE_kWWQjs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/ftrace-where-modifying-a-running-kernel-all-started/"
+        }
+      ]
+    },
+    {
+      "id": "formal-modeling-made-easy",
+      "url": "https://archives.kernel-recipes.org/document/formal-modeling-made-easy/",
+      "title": "Formal modeling made easy",
+      "listing_title": "Formal modeling made easy",
+      "description": "Modeling parts of Linux has become a recurring topic. For instance, the memory model, the model for PREEMPT_RT synchronization, and so on. But the term “formal model” causes panic for most of the developers. Mainly because of the complex notations and reasoning that involves formal languages. It seems to be a very theoretical thing, far from our day-by-day reality.\n\nBelieve me. Modeling can be more practical than you might guess!\n\nThis talk will discuss the challenges and benefits of modeling, based on the experience of developing the PREEMPT_RT model. It will present a methodology for modeling the Linux behavior as Finite-State Machines (automata), using terms that are very known by kernel developers: tracing events! With the particular focus on how to use models for the formal verification of Linux kernel, at runtime, with low overhead, and in many cases, without even modifying Linux kernel!",
+      "description_html": "<p>Modeling parts of Linux has become a recurring topic. For instance, the memory model, the model for PREEMPT_RT synchronization, and so on. But the term “formal model” causes panic for most of the developers. Mainly because of the complex notations and reasoning that involves formal languages. It seems to be a very theoretical thing, far from our day-by-day reality.<br />\nBelieve me. Modeling can be more practical than you might guess!<br />\nThis talk will discuss the challenges and benefits of modeling, based on the experience of developing the PREEMPT_RT model. It will present a methodology for modeling the Linux behavior as Finite-State Machines (automata), using terms that are very known by kernel developers: tracing events! With the particular focus on how to use models for the formal verification of Linux kernel, at runtime, with low overhead, and in many cases, without even modifying Linux kernel!</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/formal-modeling-made-easy/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Daniel BRISTOT DE OLIVEIRA",
+      "metadata": {
+        "Speakers": "Daniel BRISTOT DE OLIVEIRA",
+        "Category": "development",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/bristot.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=zzJV7U37QHs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/formal-modeling-made-easy/"
+        }
+      ]
+    },
+    {
+      "id": "faster-io-through-io_uring",
+      "url": "https://archives.kernel-recipes.org/document/faster-io-through-io_uring/",
+      "title": "Faster IO through io_uring",
+      "listing_title": "Faster IO through io_uring",
+      "description": "Since the dawn of time, Linux has had to make do with inferior IO interfaces. Native Linux AIO supports only a niche application class (O_DIRECT), and even for that use case, it’s far too slow for modern storage. This talk will detail io_uring, a modern IO interface for Linux, that’s both fully featured and performant.",
+      "description_html": "<p>Since the dawn of time, Linux has had to make do with inferior IO interfaces. Native Linux AIO supports only a niche application class (O_DIRECT), and even for that use case, it’s far too slow for modern storage. This talk will detail io_uring, a modern IO interface for Linux, that’s both fully featured and performant.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/faster-io-through-io_uring/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jens AXBOE",
+      "metadata": {
+        "Speakers": "Jens AXBOE",
+        "Category": "storage",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-recipes-2019-axboe.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=-5T4Cjw46ys",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/faster-io-through-io_uring/"
+        }
+      ]
+    },
+    {
+      "id": "driving-the-industry-toward-upstream-first",
+      "url": "https://archives.kernel-recipes.org/document/driving-the-industry-toward-upstream-first/",
+      "title": "Driving the industry toward upstream first",
+      "listing_title": "Driving the industry toward upstream first",
+      "description": "Wanting to avoid the Android experience, Google developers always aimed to make their Chrome OS Linux kernels as close to mainline as possible. However, when Chromebooks were first created, Google was left with no choice, the mainline kernel, in some subsystems, still did not have all the functionalities needed by Chromebooks. Hence, similarly to Android, Chrome OS had to develop their own out-of-tree code for the kernel and maintain that for a few different kernel versions.\n\nLuckily, over the last few years a strong and consistent effort has been happening to bring Chromebook devices closer to mainline. It has led to significant improvements that now make it possible to run mainline on Chrome OS devices. And not only Chromebooks, as these significant strides are also improving Arm-based SOCs and other key components of the rich Chromebook hardware ecosystem. In this talk, we will look at how and why upstream support for Chromebooks improved, the current status of various models, and what we expect in the future.",
+      "description_html": "<p>Wanting to avoid the Android experience, Google developers always aimed to make their Chrome OS Linux kernels as close to mainline as possible. However, when Chromebooks were first created, Google was left with no choice, the mainline kernel, in some subsystems, still did not have all the functionalities needed by Chromebooks. Hence, similarly to Android, Chrome OS had to develop their own out-of-tree code for the kernel and maintain that for a few different kernel versions.<br />\nLuckily, over the last few years a strong and consistent effort has been happening to bring Chromebook devices closer to mainline. It has led to significant improvements that now make it possible to run mainline on Chrome OS devices. And not only Chromebooks, as these significant strides are also improving Arm-based SOCs and other key components of the rich Chromebook hardware ecosystem. In this talk, we will look at how and why upstream support for Chromebooks improved, the current status of various models, and what we expect in the future.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/driving-the-industry-toward-upstream-first/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Enric BALLETBO I SERRA",
+      "metadata": {
+        "Speakers": "Enric BALLETBO I SERRA",
+        "Category": "community",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/drivingtheindustrytowardupstreamfirst-eballetbo-191004115451.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ayZYdAxkaQw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/driving-the-industry-toward-upstream-first/"
+        }
+      ]
+    },
+    {
+      "id": "cves-are-dead-long-live-the-cve",
+      "url": "https://archives.kernel-recipes.org/document/cves-are-dead-long-live-the-cve/",
+      "title": "CVEs are dead long live the CVE!",
+      "listing_title": "CVEs are dead long live the CVE!",
+      "description": "For the Linux kernel, CVEs do not work at all given the rate of fixes being applied and rapidly backported and pushed to users through a huge variety of different ways. The average “request to fix” date for Linux CVEs is -100 days, showing that either no one cares about CVEs for Linux, or engineers are using them to game their internal release processes, or no one happens to notice when the kernel developers resolve an issue, or all of the above. This talk will go into the problems with CVEs when it comes to a fast moving project like Linux, and show the decentralized solution that we have been using for the past 14 years instead. All other open source projects are encouraged to use these same methods to help resolve the problems that CVEs have.",
+      "description_html": "<p>For the Linux kernel, CVEs do not work at all given the rate of fixes being applied and rapidly backported and pushed to users through a huge variety of different ways. The average “request to fix” date for Linux CVEs is -100 days, showing that either no one cares about CVEs for Linux, or engineers are using them to game their internal release processes, or no one happens to notice when the kernel developers resolve an issue, or all of the above. This talk will go into the problems with CVEs when it comes to a fast moving project like Linux, and show the decentralized solution that we have been using for the past 14 years instead. All other open source projects are encouraged to use these same methods to help resolve the problems that CVEs have.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/cves-are-dead-long-live-the-cve/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Category": "security",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/cve-linux-kernel2.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=HeeoTE9jLjM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/cves-are-dead-long-live-the-cve/"
+        }
+      ]
+    },
+    {
+      "id": "bpf-at-facebook",
+      "url": "https://archives.kernel-recipes.org/document/bpf-at-facebook/",
+      "title": "BPF at Facebook",
+      "listing_title": "BPF at Facebook",
+      "description": "This talk will provide several examples of how Facebook engineers use BPF to scale the networking, prevent denial of service, secure containers, analyze performance. It’s suitable for BPF newbies and experts.",
+      "description_html": "<p>This talk will provide several examples of how Facebook engineers use BPF to scale the networking, prevent denial of service, secure containers, analyze performance. It’s suitable for BPF newbies and experts.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2019 - BPF at Facebook\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/bbHFg9IsTk8?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/bpf-at-facebook/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Alexei STAROVOITOV",
+      "metadata": {
+        "Speakers": "Alexei STAROVOITOV",
+        "Category": "networking",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/krbpfatfb.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=bbHFg9IsTk8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/bpf-at-facebook/"
+        }
+      ]
+    },
+    {
+      "id": "analyzing-changes-to-the-binary-interface-exposed-by-the-kernel-to-its-modules",
+      "url": "https://archives.kernel-recipes.org/document/analyzing-changes-to-the-binary-interface-exposed-by-the-kernel-to-its-modules/",
+      "title": "Analyzing changes to the binary interface exposed by the Kernel to its modules",
+      "listing_title": "Analyzing changes to the binary interface exposed by the Kernel to its modules",
+      "description": "Operating system distributors often face challenges that are somewhat different from that of upstream kernel developers. For instance, some kernel updates often need to stay at least binary compatible with modules that might be “out of tree” for some time.\n\nIn that context, being able to automatically detect and analyze changes to the binary interface exposed by the kernel to its module does have some noticeable value.\n\nThe Libabigail framework is capable of analyzing ELF binaries along with their accompanying debug info in the DWARF format, detect and report changes in types, functions, variables and ELF symbols. It has historically supported that for user space shared libraries and application so we worked to make it understand the Linux kernel\n\nbinaries.\n\nIn this presentation, we are going to present the current support of ABI analysis for Linux Kernel binaries, the challenges we face, how we address them and the plans we have for the future.",
+      "description_html": "<p>Operating system distributors often face challenges that are somewhat different from that of upstream kernel developers. For instance, some kernel updates often need to stay at least binary compatible with modules that might be “out of tree” for some time.<br />\nIn that context, being able to automatically detect and analyze changes to the binary interface exposed by the kernel to its module does have some noticeable value.<br />\nThe Libabigail framework is capable of analyzing ELF binaries along with their accompanying debug info in the DWARF format, detect and report changes in types, functions, variables and ELF symbols. It has historically supported that for user space shared libraries and application so we worked to make it understand the Linux kernel<br />\nbinaries.<br />\nIn this presentation, we are going to present the current support of ABI analysis for Linux Kernel binaries, the challenges we face, how we address them and the plans we have for the future.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/analyzing-changes-to-the-binary-interface-exposed-by-the-kernel-to-its-modules/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Dodji SEKETELI – Matthias MANNICH – Jessica YU",
+      "metadata": {
+        "Speakers": "Dodji SEKETELI – Matthias MANNICH – Jessica YU",
+        "Category": "abi",
+        "Year": "2019"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/abitalk-kernelrecipes.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=FWxnMiJHVDY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/analyzing-changes-to-the-binary-interface-exposed-by-the-kernel-to-its-modules/"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "event": "Kernel Recipes 2021",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library に Tag=2021 と該当セッションはない。2020年と2021年の開催は中止された（https://bootlin.com/blog/bootlin-at-embedded-recipes-and-kernel-recipes-2022-paris/）。",
+  "counts": {
+    "sessions": 0,
+    "with_description": 0,
+    "with_materials": 0,
+    "attachments": 0,
+    "files": 0,
+    "links": 0
+  },
+  "sessions": []
+}

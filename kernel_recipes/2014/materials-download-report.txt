@@ -1,0 +1,89 @@
+Source JSON: kernel-recipes-2014-sessions.json
+Total sessions: 13
+Sessions with file attachments: 13
+Sessions without file attachments: 0
+Attachment count: 13
+Distinct source-file count: 13
+Saved: 12
+Already present: 0
+Unresolved: 1
+Planned: 0
+
+Session: Xen as a foundation for cloud infrastructure
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-xen-cloud-140929152944-phpapp02.pdf
+  Local path: Xen as a foundation for cloud infrastructure/kr2014-xen-cloud-140929152944-phpapp02.pdf
+  Status: saved
+
+Session: x86 instruction encoding and the nasty hacks we do in the kernel
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-x86-instructions-140930075044-phpapp02.pdf
+  Local path: x86 instruction encoding and the nasty hacks we do in the kernel/kr2014-x86-instructions-140930075044-phpapp02.pdf
+  Status: saved
+
+Session: Writing Code: Keep It Short Stupid!
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-kiss-dev-140928040625-phpapp01.pdf
+  Local path: Writing Code: Keep It Short Stupid!/kr2014-kiss-dev-140928040625-phpapp01.pdf
+  Status: saved
+
+Session: What’s new in Nftables
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-nftables-140928040958-phpapp01.pdf
+  Local path: What’s new in Nftables/kr2014-nftables-140928040958-phpapp01.pdf
+  Status: saved
+
+Session: The Linux Kernel how fast it is developed and how we stay sane doing it
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-kernel-development-140928040131-phpapp02.pdf
+  Local path: The Linux Kernel how fast it is developed and how we stay sane doing it/kr2014-kernel-development-140928040131-phpapp02.pdf
+  Status: saved
+
+Session: The Linux graphics stack and Nouveau driver
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-nouveau-140928134314-phpapp02.pdf
+  Local path: The Linux graphics stack and Nouveau driver/kr2014-nouveau-140928134314-phpapp02.pdf
+  Status: saved
+
+Session: Testing Video4Linux Applications and Drivers
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-v4l2-testing-140928041312-phpapp01.pdf
+  Local path: Testing Video4Linux Applications and Drivers/kr2014-v4l2-testing-140928041312-phpapp01.pdf
+  Status: saved
+
+Session: Supporting a new ARM platform: the Allwinner example
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-arm-mainlining-out-of-tree-socs-140929133627-phpapp02.pdf
+  Local path: Supporting a new ARM platform: the Allwinner example/kr2014-arm-mainlining-out-of-tree-socs-140929133627-phpapp02.pdf
+  Status: saved
+
+Session: Quick state of the art of clang
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-clang-140929150426-phpapp02.pdf
+  Local path: Quick state of the art of clang/kr2014-clang-140929150426-phpapp02.pdf
+  Status: saved
+
+Session: NDIV: a low overhead network traffic diverter
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-ndiv-140930040201-phpapp01.pdf
+  Local path: NDIV: a low overhead network traffic diverter/kr2014-ndiv-140930040201-phpapp01.pdf
+  Status: saved
+
+Session: Manage patches with Quilt
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-introductiontoquilt-140929133255-phpapp01.pdf
+  Local path: Manage patches with Quilt/kr2014-introductiontoquilt-140929133255-phpapp01.pdf
+  Status: saved
+
+Session: Linux Security Modules: tracing deciding acting
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/document/linux-security-modules-tracing-deciding-acting/
+  Local path: Linux Security Modules: tracing deciding acting/linux-security-modules-tracing-deciding-acting
+  Status: unresolved (response does not match the expected file format)
+
+Session: kGraft: Live Patching of the Linux Kernel
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2014-kgraft-140928040426-phpapp02.pdf
+  Local path: kGraft: Live Patching of the Linux Kernel/kr2014-kgraft-140928040426-phpapp02.pdf
+  Status: saved
+

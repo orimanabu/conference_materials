@@ -1,0 +1,738 @@
+{
+  "event": "Kernel Recipes 2016",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library の Tag=2016 に該当する全21件を収録。概要・動画・追加資料は個別ページから取得。掲載されていない日時・会場は空欄。リンク先ファイルと動画の再生可否は未検査。 Maintainer’s Don’t Scale and Patches carved into stone tablets… share video ID gZE5ovQq9g8 in the archive",
+  "counts": {
+    "sessions": 21,
+    "with_description": 21,
+    "with_materials": 21,
+    "attachments": 37,
+    "files": 21,
+    "links": 16
+  },
+  "sessions": [
+    {
+      "id": "the-free-software-bastard-guide",
+      "url": "https://archives.kernel-recipes.org/document/the-free-software-bastard-guide/",
+      "title": "The Free Software Bastard Guide",
+      "listing_title": "The Free Software Bastard Guide",
+      "description": "Developer, Enterprise, there are many ways to be a Free Software bastard. This talk will give you some useful hints to become the best asshole in communities.",
+      "description_html": "<p>Developer, Enterprise, there are many ways to be a Free Software bastard. This talk will give you some useful hints to become the best asshole in communities. </p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-free-software-bastard-guide/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Clément OUDOT",
+      "metadata": {
+        "Speakers": "Clément OUDOT",
+        "Category": "community",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-freesoftwarebastardguide-161005200551.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=yHjtjoqE7V0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-free-software-bastard-guide/"
+        }
+      ]
+    },
+    {
+      "id": "would-an-abi-changes-visualization-tool-be-useful-to-linux-kernel-maintenance",
+      "url": "https://archives.kernel-recipes.org/document/would-an-abi-changes-visualization-tool-be-useful-to-linux-kernel-maintenance/",
+      "title": "Would an ABI changes visualization tool be useful to Linux Kernel maintenance?",
+      "listing_title": "Would an ABI changes visualization tool be useful to Linux Kernel maintenance?",
+      "description": "Libabigail is a new infrastructure for semantic analysis of ELF binaries containing C or C++ programs that has emerged lately. It powers command line tools like ‘abidiff’, which let users compare ABI changes between two different versions of a given ELF binary by analyzing just the binary and its ancillary debug information.\n\nThe result of the binary comparison is a kind of hierarchical ‘diff’ which shows changes up to the types of the interfaces that constitute the ABI of an ELF program.\n\nThis interactive talk intents to spark discussions around the idea of having a libabigail-based tool specifically targeted to comparing the ABI of two Linux Kernel binary trees and how it could be useful to maintainers of the stable kernel tree. The main goal of such a tool would be to show the ABI differences between two kernels, in terms of which function or variable — part of the ABI exposed by the kernel to its modules — changed and what the details of the changes are.\n\nThis interactive talk will present what libabigail and its associated tools can do today, and how the library can be used to build an hypothetical “kabidiff” new tool. Discussions are going to be very welcome so please make sure to attend.",
+      "description_html": "<p>Libabigail is a new infrastructure for semantic analysis of ELF binaries containing C or C++ programs that has emerged lately. It powers command line tools like ‘abidiff’, which let users compare ABI changes between two different versions of a given ELF binary by analyzing just the binary and its ancillary debug information.</p>\n<p>The result of the binary comparison is a kind of hierarchical ‘diff’ which shows changes up to the types of the interfaces that constitute the ABI of an ELF program.</p>\n<p>This interactive talk intents to spark discussions around the idea of having a libabigail-based tool specifically targeted to comparing the ABI of two Linux Kernel binary trees and how it could be useful to maintainers of the stable kernel tree. The main goal of such a tool would be to show the ABI differences between two kernels, in terms of which function or variable — part of the ABI exposed by the kernel to its modules — changed and what the details of the changes are.</p>\n<p>This interactive talk will present what libabigail and its associated tools can do today, and how the library can be used to build an hypothetical “kabidiff” new tool. Discussions are going to be very welcome so please make sure to attend.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/would-an-abi-changes-visualization-tool-be-useful-to-linux-kernel-maintenance/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Dodji SEKETELI",
+      "metadata": {
+        "Speakers": "Dodji SEKETELI",
+        "Category": "abi",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-kabidiff-161005200551.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        }
+      ]
+    },
+    {
+      "id": "why-you-need-a-test-strategy-for-your-kernel-development",
+      "url": "https://archives.kernel-recipes.org/document/why-you-need-a-test-strategy-for-your-kernel-development/",
+      "title": "Why you need a test strategy for your kernel development",
+      "listing_title": "Why you need a test strategy for your kernel development",
+      "description": "Testing is important. That’s a well known fact that very few developers will dispute. Why is then so little kernel code covered by a clear testing strategy ? Through real stories about test plans (or the lack thereof), this talk will convince you that none of your excuses for not having a test strategy are valid. You will learn how various parts of the Linux kernel have approached testing and how you can benefit from their experience. The talk will use the V4L2 subsystem to demonstrate the use of test tools, but will be applicable to kernel development in general.",
+      "description_html": "<p>Testing is important. That’s a well known fact that very few developers will dispute. Why is then so little kernel code covered by a clear testing strategy ? Through real stories about test plans (or the lack thereof), this talk will convince you that none of your excuses for not having a test strategy are valid. You will learn how various parts of the Linux kernel have approached testing and how you can benefit from their experience. The talk will use the V4L2 subsystem to demonstrate the use of test tools, but will be applicable to kernel development in general.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/why-you-need-a-test-strategy-for-your-kernel-development/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Laurent PINCHART",
+      "metadata": {
+        "Speakers": "Laurent PINCHART",
+        "Category": "testing",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-kernel-strategy-161005201545.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=aksNeWAsDPg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/why-you-need-a-test-strategy-for-your-kernel-development/"
+        }
+      ]
+    },
+    {
+      "id": "who-needs-a-real-time-operating-system-not-you",
+      "url": "https://archives.kernel-recipes.org/document/who-needs-a-real-time-operating-system-not-you/",
+      "title": "Who needs a Real-Time Operating System (Not You!)",
+      "listing_title": "Who needs a Real-Time Operating System (Not You!)",
+      "description": "A Real-Time Operating System (RTOS) is used for mission critical projects that require a deterministic response time for external stimuli. Many times project managers request an RTOS even though they don’t fully understand what exactly an RTOS gives them. And many times, a normal OS would do just fine, and perhaps even better, as an RTOS sacrifices throughput for determinism.\n\nThis talk will discuss exactly what an RTOS is and what it is good for. What types of requirements that require having an RTOS will be explained, as well as requirements where not having on RTOS would be more appropriate. You do not need to be a programmer to enjoy this talk. It will be discussed at a very high level but still contain enough information for a seasoned developer to get something out of it too.",
+      "description_html": "<p>A Real-Time Operating System (RTOS) is used for mission critical projects that require a deterministic response time for external stimuli. Many times project managers request an RTOS even though they don’t fully understand what exactly an RTOS gives them. And many times, a normal OS would do just fine, and perhaps even better, as an RTOS sacrifices throughput for determinism.<br />\nThis talk will discuss exactly what an RTOS is and what it is good for. What types of requirements that require having an RTOS will be explained, as well as requirements where not having on RTOS would be more appropriate. You do not need to be a programmer to enjoy this talk. It will be discussed at a very high level but still contain enough information for a seasoned developer to get something out of it too.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/who-needs-a-real-time-operating-system-not-you/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Steven ROSTEDT",
+      "metadata": {
+        "Speakers": "Steven ROSTEDT",
+        "Category": "real-time",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-kr2016-rt-who-needs-it-161005200502.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=4UY7hQjEW34",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/who-needs-a-real-time-operating-system-not-you/"
+        }
+      ]
+    },
+    {
+      "id": "video-and-colorspaces",
+      "url": "https://archives.kernel-recipes.org/document/video-and-colorspaces/",
+      "title": "Video and Colorspaces",
+      "listing_title": "Video and Colorspaces",
+      "description": "In order to correctly reproduce the colors encoded in a video (or a still image for that matter) you need to know the colorspace information associated with the video. But what exactly is a colorspace and what is the nformation that describes how color is encoded? And, most importantly. what do you have to do to in order to correctly reproduce those colors on a display using this information? This talk will dive into the crazy world of colorspaces and it gives you a practical guide to colorspace handling using HDMI receivers and transmitters as a real-world example. I will also demonstrate colorspace handling, both right and wrong. In the end successful colorspace handling depends on a long chain of software (drivers, applications) and hardware (HDMI receivers and  transmitters) all doing ‘the right thing’.",
+      "description_html": "<p>In order to correctly reproduce the colors encoded in a video (or a still image for that matter) you need to know the colorspace information associated with the video. But what exactly is a colorspace and what is the nformation that describes how color is encoded? And, most importantly. what do you have to do to in order to correctly reproduce those colors on a display using this information? This talk will dive into the crazy world of colorspaces and it gives you a practical guide to colorspace handling using HDMI receivers and transmitters as a real-world example. I will also demonstrate colorspace handling, both right and wrong. In the end successful colorspace handling depends on a long chain of software (drivers, applications) and hardware (HDMI receivers and  transmitters) all doing ‘the right thing’.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/video-and-colorspaces/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Hans VERKUIL",
+      "metadata": {
+        "Speakers": "Hans VERKUIL",
+        "Category": "graphics",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-colorspaces-krec-161005200508.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        }
+      ]
+    },
+    {
+      "id": "upstream-kernel-graphics-is-finally-winning",
+      "url": "https://archives.kernel-recipes.org/document/upstream-kernel-graphics-is-finally-winning/",
+      "title": "Upstream Kernel Graphics is (Finally) Winning",
+      "listing_title": "Upstream Kernel Graphics is (Finally) Winning",
+      "description": "About 5 years ago I was at a big conference on the topic of what’s needed for upstream graphics. I spent a lot of time apologizing for and ranting about the various horror shows in the DRM graphics subsystems. And eventually some engineer from a hardware vendor asked:\n\n“If this all such crap, why should we bother with upstream graphics?“\n\nNow I can finally and honestly answer this, because upstream supports everything, has helpers for all possible and impossible display standards, is supported by ever Linux-based OS out there and every vendor has a driver. In this talk I will present about how we got there, and especially what’s been going on recently.",
+      "description_html": "<p>About 5 years ago I was at a big conference on the topic of what’s needed for upstream graphics. I spent a lot of time apologizing for and ranting about the various horror shows in the DRM graphics subsystems. And eventually some engineer from a hardware vendor asked:<br />\n“If this all such crap, why should we bother with upstream graphics?“<br />\nNow I can finally and honestly answer this, because upstream supports everything, has helpers for all possible and impossible display standards, is supported by ever Linux-based OS out there and every vendor has a driver. In this talk I will present about how we got there, and especially what’s been going on recently.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/upstream-kernel-graphics-is-finally-winning/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Daniel VETTER",
+      "metadata": {
+        "Speakers": "Daniel VETTER",
+        "Category": "graphics",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-state-of-drm-161005203508.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        }
+      ]
+    },
+    {
+      "id": "understanding-a-real-time-system-more-than-just-a-kernel",
+      "url": "https://archives.kernel-recipes.org/document/understanding-a-real-time-system-more-than-just-a-kernel/",
+      "title": "Understanding a Real-Time System (more than just a kernel)",
+      "listing_title": "Understanding a Real-Time System (more than just a kernel)",
+      "description": "The PREEMPT_RT patch turns Linux into a hard Real-Time designed operating system. But it takes more than just a kernel to make sure you can meet all your requirements. This talk explains all aspects of the system that is being used for a mission critical project that must be considered. Creating a Real-Time environment is difficult and there is no simple solution to make sure that your system is capable to fulfill its needs. One must be vigilant with all aspects of the system to make sure there are no surprises. This talk will discuss most of the “gotchas” that come with putting together a Real-Time system.\n\nYou don’t need to be a developer to enjoy this talk. If you are curious to know how your computer is an unpredictable mess you should definitely come to this talk.",
+      "description_html": "<p>The PREEMPT_RT patch turns Linux into a hard Real-Time designed operating system. But it takes more than just a kernel to make sure you can meet all your requirements. This talk explains all aspects of the system that is being used for a mission critical project that must be considered. Creating a Real-Time environment is difficult and there is no simple solution to make sure that your system is capable to fulfill its needs. One must be vigilant with all aspects of the system to make sure there are no surprises. This talk will discuss most of the “gotchas” that come with putting together a Real-Time system.<br />\nYou don’t need to be a developer to enjoy this talk. If you are curious to know how your computer is an unpredictable mess you should definitely come to this talk.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/understanding-a-real-time-system-more-than-just-a-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Steven ROSTEDT",
+      "metadata": {
+        "Speakers": "Steven ROSTEDT",
+        "Category": "real-time",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-understanding-rt-system-2016-161005203510.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=w3yT8zJe0Uw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/understanding-a-real-time-system-more-than-just-a-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "the-linux-driver-model",
+      "url": "https://archives.kernel-recipes.org/document/the-linux-driver-model/",
+      "title": "The Linux Driver Model",
+      "listing_title": "The Linux Driver Model",
+      "description": "The Linux driver model was created over a decade ago with the goal of unifying all hardware drivers in the kernel in a way to provide both consitant device naming and properly power management control. This talk will go into how well those goals were reached, how the model works today, and what remains to be done.",
+      "description_html": "<p>The Linux driver model was created over a decade ago with the goal of unifying all hardware drivers in the kernel in a way to provide both consitant device naming and properly power management control. This talk will go into how well those goals were reached, how the model works today, and what remains to be done.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-linux-driver-model/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Category": "drivers",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-kernel-driver-model-161005201503.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=AdPxeGHIZ74",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-linux-driver-model/"
+        }
+      ]
+    },
+    {
+      "id": "the-kernel-report",
+      "url": "https://archives.kernel-recipes.org/document/the-kernel-report/",
+      "title": "The kernel report",
+      "listing_title": "The kernel report",
+      "description": "The Linux kernel is at the core of any Linux system; the performance and capabilities of the kernel will, in the end, place an upper bound on what he system as a whole can do. This talk will review recent events in the kernel development community, discuss the current state of the kernel and the challenges it faces, and look forward to how the kernel may address those challenges. Attendees of any technical ability should gain a better understanding of how the kernel got to its current state and what can be expected in the near future.",
+      "description_html": "<p>The Linux kernel is at the core of any Linux system; the performance and capabilities of the kernel will, in the end, place an upper bound on what he system as a whole can do. This talk will review recent events in the kernel development community, discuss the current state of the kernel and the challenges it faces, and look forward to how the kernel may address those challenges. Attendees of any technical ability should gain a better understanding of how the kernel got to its current state and what can be expected in the near future.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-kernel-report/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jonathan CORBET",
+      "metadata": {
+        "Speakers": "Jonathan CORBET",
+        "Category": "community",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-kernel-report-161005201526.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=9DM3DaQkbGw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-kernel-report/"
+        }
+      ]
+    },
+    {
+      "id": "speeding-up-development-by-setting-up-a-kernel-build-farm",
+      "url": "https://archives.kernel-recipes.org/document/speeding-up-development-by-setting-up-a-kernel-build-farm/",
+      "title": "Speeding up development by setting up a kernel build farm",
+      "listing_title": "Speeding up development by setting up a kernel build farm",
+      "description": "Building a full kernel takes time but is often necessary during development or when backporting patches. The nature of the kernel makes it easy to distribute its build on multiple cheap machines. This presentation will explain how to set up a build farm based on cost, size, and performance.",
+      "description_html": "<p>Building a full kernel takes time but is often necessary during development or when backporting patches. The nature of the kernel makes it easy to distribute its build on multiple cheap machines. This presentation will explain how to set up a build farm based on cost, size, and performance.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/speeding-up-development-by-setting-up-a-kernel-build-farm/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Willy TARREAU",
+      "metadata": {
+        "Speakers": "Willy TARREAU",
+        "Category": "tooling",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-kernel-build-farm-161005201457.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=vwQ-KcjskRw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/speeding-up-development-by-setting-up-a-kernel-build-farm/"
+        }
+      ]
+    },
+    {
+      "id": "patches-carved-into-stone-tablets",
+      "url": "https://archives.kernel-recipes.org/document/patches-carved-into-stone-tablets/",
+      "title": "Patches carved into stone tablets…",
+      "listing_title": "Patches carved into stone tablets…",
+      "description": "With the wide variety of more “modern” development tools such as github, gerrit, and other methods of software development, why is the Linux kernel team still stuck in the 1990’s with ancient requirements of plain text email in order to get patches accepted? This talk will discuss just how the kernel development process works, why we rely on these “ancient” tools, and how they still work so much better than anything else. Patches carved into stone tablets, why the Linux kernel developers rely on plain text email instead of using “modern” development tools.\n\nWith the wide variety of more “modern” development tools such as github, gerrit, and other methods of software development, why is the Linux kernel team still stuck in the 1990’s with ancient requirements of plain text email in order to get patches accepted? This talk will discuss just how the kernel development process works, why we rely on these “ancient” tools, and how they still work so much better than anything else.",
+      "description_html": "<p>With the wide variety of more “modern” development tools such as github, gerrit, and other methods of software development, why is the Linux kernel team still stuck in the 1990’s with ancient requirements of plain text email in order to get patches accepted? This talk will discuss just how the kernel development process works, why we rely on these “ancient” tools, and how they still work so much better than anything else. Patches carved into stone tablets, why the Linux kernel developers rely on plain text email instead of using “modern” development tools.<br />\nWith the wide variety of more “modern” development tools such as github, gerrit, and other methods of software development, why is the Linux kernel team still stuck in the 1990’s with ancient requirements of plain text email in order to get patches accepted? This talk will discuss just how the kernel development process works, why we rely on these “ancient” tools, and how they still work so much better than anything else.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/patches-carved-into-stone-tablets/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Category": "tooling",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/stone-tools-161006073058.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=gZE5ovQq9g8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/patches-carved-into-stone-tablets/"
+        }
+      ]
+    },
+    {
+      "id": "new-hwmon-device-registration-api",
+      "url": "https://archives.kernel-recipes.org/document/new-hwmon-device-registration-api/",
+      "title": "New hwmon device registration API",
+      "listing_title": "New hwmon device registration API",
+      "description": "The hwmon subsystem originates from the 1998 project lm-sensors. Along the way, there have been a lot of effort done to have all drivers present a standard interface to user-space, and consolidate the common plumbing into an easy-to-use, hard-to-get-wrong API. The final step of this long-running effort is happening right now.",
+      "description_html": "<p>The hwmon subsystem originates from the 1998 project lm-sensors. Along the way, there have been a lot of effort done to have all drivers present a standard interface to user-space, and consolidate the common plumbing into an easy-to-use, hard-to-get-wrong API. The final step of this long-running effort is happening right now.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/new-hwmon-device-registration-api/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jean DELVARE",
+      "metadata": {
+        "Speakers": "Jean DELVARE",
+        "Category": "hardware",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-newhwmonapi-161013115943.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        }
+      ]
+    },
+    {
+      "id": "man-pages-discovery-feedback-loops-and-the-perfect-kernel-commit-message",
+      "url": "https://archives.kernel-recipes.org/document/man-pages-discovery-feedback-loops-and-the-perfect-kernel-commit-message/",
+      "title": "Man-pages: discovery feedback loops and the perfect kernel commit message",
+      "listing_title": "Man-pages: discovery feedback loops and the perfect kernel commit message",
+      "description": "The Linux man-pages project lives on the boundary between two worlds that are not always mutually intelligible: the kernel and user-space programs. One subgoal of that project is to allow the two worlds to hold mutually intelligible conversations. Living on this boundary–testing, reviewing, and documenting the APIs–provides some interesting perspectives on the kernel-user-space interface. In this session, I’ll briefly outline some of the problems that I’ve observed in the design and implementation of kernel-user-space APIs and then look at some of the challenges faced by the man-pages project. (Several of these challenges are faced by other projects that also live at the boundary, such as C libraries, strace, fuzz testers, and various testing projects.) One problem of special interest for me is “the problem of discovery”: how do we even know if the interface has changed, where “change” can range, at one end, from the introduction of a bug, through the addition of a new flag in a system call, and and at, the other end, to the addition of a new system call or /proc file? (In some unfortunate cases, kernel developers do not even realize they’ve made such changes.) Related to “the problem of discovery” is “the problem of the feedback loop”: when (how long) does it take us to discover changes to the interface? I’ll also like to look at (and solicit ideas for) possible solutions to these problems; in particular, to talk about what–from a user-space perspective–the perfect kernel commit message looks like.",
+      "description_html": "<p>The Linux man-pages project lives on the boundary between two worlds that are not always mutually intelligible: the kernel and user-space programs. One subgoal of that project is to allow the two worlds to hold mutually intelligible conversations. Living on this boundary–testing, reviewing, and documenting the APIs–provides some interesting perspectives on the kernel-user-space interface. In this session, I’ll briefly outline some of the problems that I’ve observed in the design and implementation of kernel-user-space APIs and then look at some of the challenges faced by the man-pages project. (Several of these challenges are faced by other projects that also live at the boundary, such as C libraries, strace, fuzz testers, and various testing projects.) One problem of special interest for me is “the problem of discovery”: how do we even know if the interface has changed, where “change” can range, at one end, from the introduction of a bug, through the addition of a new flag in a system call, and and at, the other end, to the addition of a new system call or /proc file? (In some unfortunate cases, kernel developers do not even realize they’ve made such changes.) Related to “the problem of discovery” is “the problem of the feedback loop”: when (how long) does it take us to discover changes to the interface? I’ll also like to look at (and solicit ideas for) possible solutions to these problems; in particular, to talk about what–from a user-space perspective–the perfect kernel commit message looks like.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/man-pages-discovery-feedback-loops-and-the-perfect-kernel-commit-message/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Michael KERRISK",
+      "metadata": {
+        "Speakers": "Michael KERRISK",
+        "Category": "documentation",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-man-pages-discovery-feedback-and-commit-messages-161005203507.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=TbKtpLHjG1I",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/man-pages-discovery-feedback-loops-and-the-perfect-kernel-commit-message/"
+        }
+      ]
+    },
+    {
+      "id": "maintainers-dont-scale",
+      "url": "https://archives.kernel-recipes.org/document/maintainers-dont-scale/",
+      "title": "Maintainer’s Don’t Scale",
+      "listing_title": "Maintainer’s Don’t Scale",
+      "description": "A tale from one of the busier places (by patch churn at least) in the kernel, and how to make it all work well. Since about 1 year the drm/i915 kernel driver is maintained by 2 maintainers and a team of 15 people who can apply patches directly to the main branch – in a way it’s group maintainership, but with a fairly large group, by kernel standards. It all started as an experiment, with the expectation that worst case I’ll burry it quietly again. Which hasn’t happened, at least yet.\n\nI’ll talk about why I considered trying this out, what I feared could happen, what’s actually happened and what I think, with a bit of hindsight, are the key ingredients to make this work, and where it could be useful model in other places.",
+      "description_html": "<p>A tale from one of the busier places (by patch churn at least) in the kernel, and how to make it all work well. Since about 1 year the drm/i915 kernel driver is maintained by 2 maintainers and a team of 15 people who can apply patches directly to the main branch – in a way it’s group maintainership, but with a fairly large group, by kernel standards. It all started as an experiment, with the expectation that worst case I’ll burry it quietly again. Which hasn’t happened, at least yet.<br />\nI’ll talk about why I considered trying this out, what I feared could happen, what’s actually happened and what I think, with a bit of hindsight, are the key ingredients to make this work, and where it could be useful model in other places.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/maintainers-dont-scale/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Daniel VETTER",
+      "metadata": {
+        "Speakers": "Daniel VETTER",
+        "Category": "community",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-maintainers-161005201617.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=gZE5ovQq9g8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/maintainers-dont-scale/"
+        }
+      ]
+    },
+    {
+      "id": "landlock-lsm-unprivileged-sandboxing",
+      "url": "https://archives.kernel-recipes.org/document/landlock-lsm-unprivileged-sandboxing/",
+      "title": "Landlock LSM: Unprivileged sandboxing",
+      "listing_title": "Landlock LSM: Unprivileged sandboxing",
+      "description": "Linux has multiple access-control features, which help to contain the damage from a malicious process. However, it is difficult and complex, especially for unprivileged users, to create a sandboxed application because of the currently administrator-oriented security.\n\nseccomp-bpf was a big step forward in empowering any user with the ability to filter syscalls and therefore limit access to some resources. Nevertheless, it lacks the ability to create a full standalone sandbox (e.g. restrict access to a set of files), unlike Seatbelt/XNU Sandbox or OpenBSD Pledge.\n\nIn this talk, we present Landlock, a new Linux Security Module for unprivileged users. This brings some interesting challenges, from architecture design to userland API definition.",
+      "description_html": "<p>Linux has multiple access-control features, which help to contain the damage from a malicious process. However, it is difficult and complex, especially for unprivileged users, to create a sandboxed application because of the currently administrator-oriented security.<br />\nseccomp-bpf was a big step forward in empowering any user with the ability to filter syscalls and therefore limit access to some resources. Nevertheless, it lacks the ability to create a full standalone sandbox (e.g. restrict access to a set of files), unlike Seatbelt/XNU Sandbox or OpenBSD Pledge.<br />\nIn this talk, we present Landlock, a new Linux Security Module for unprivileged users. This brings some interesting challenges, from architecture design to userland API definition.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/landlock-lsm-unprivileged-sandboxing/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Mickael SALAUN",
+      "metadata": {
+        "Speakers": "Mickael SALAUN",
+        "Category": "security",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-landlock-161005201616.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=OJ9LuNEP-D8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/landlock-lsm-unprivileged-sandboxing/"
+        }
+      ]
+    },
+    {
+      "id": "kernelci-org-1-5-million-kernel-boots-and-counting",
+      "url": "https://archives.kernel-recipes.org/document/kernelci-org-1-5-million-kernel-boots-and-counting/",
+      "title": "kernelci.org: 1.5 million kernel boots (and counting)",
+      "listing_title": "kernelci.org: 1.5 million kernel boots (and counting)",
+      "description": "The kernelci.org project performs over 2000 kernel boot tests per day for upstream kernels on a wide variety of hardware.  This talk will provide an overview of kernelci.org, how distributed board farms are used, how it is used by kernel maintainers and developers, and how you can make use of the reports, logs and pre-built images.",
+      "description_html": "<p>The kernelci.org project performs over 2000 kernel boot tests per day for upstream kernels on a wide variety of hardware.  This talk will provide an overview of kernelci.org, how distributed board farms are used, how it is used by kernel maintainers and developers, and how you can make use of the reports, logs and pre-built images.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/kernelci-org-1-5-million-kernel-boots-and-counting/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Kevin HILMAN",
+      "metadata": {
+        "Speakers": "Kevin HILMAN",
+        "Category": "tooling",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-kernelci-161005201615.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=kSe5GMJvqOI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/kernelci-org-1-5-million-kernel-boots-and-counting/"
+        }
+      ]
+    },
+    {
+      "id": "kernel-documentation-what-we-have-and-where-its-going",
+      "url": "https://archives.kernel-recipes.org/document/kernel-documentation-what-we-have-and-where-its-going/",
+      "title": "Kernel documentation: what we have and where it’s going",
+      "listing_title": "Kernel documentation: what we have and where it’s going",
+      "description": "The Linux kernel features an extensive array of, to put it kindly, somewhat disorganized documentation. A significant effort is underway to make things better, though. This talk will review the state of kernel documentation, cover the changes that are being made (including the adoption of a new system for formatted documentation), and discuss how interested developers can help.",
+      "description_html": "<p>The Linux kernel features an extensive array of, to put it kindly, somewhat disorganized documentation. A significant effort is underway to make things better, though. This talk will review the state of kernel documentation, cover the changes that are being made (including the adoption of a new system for formatted documentation), and discuss how interested developers can help.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/kernel-documentation-what-we-have-and-where-its-going/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jonathan CORBET",
+      "metadata": {
+        "Speakers": "Jonathan CORBET",
+        "Category": "documentation",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-kernel-documentation-161005201501.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=UHbq1SzmfUE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/kernel-documentation-what-we-have-and-where-its-going/"
+        }
+      ]
+    },
+    {
+      "id": "from-git-tag-to-the-front-page-how-kernel-releases-are-made",
+      "url": "https://archives.kernel-recipes.org/document/from-git-tag-to-the-front-page-how-kernel-releases-are-made/",
+      "title": "From ‘git tag’ to the front page: how kernel releases are made",
+      "listing_title": "From ‘git tag’ to the front page: how kernel releases are made",
+      "description": "Go on a detailed journey through the kernel.org infrastructure all the way from the moment Linus does “git tag” to when the front page of kernel.org says that there is a new kernel release available.",
+      "description_html": "<p>Go on a detailed journey through the kernel.org infrastructure all the way from the moment Linus does “git tag” to when the front page of kernel.org says that there is a new kernel release available.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/from-git-tag-to-the-front-page-how-kernel-releases-are-made/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Konstentin RYABITSEV",
+      "metadata": {
+        "Speakers": "Konstentin RYABITSEV",
+        "Category": "community",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/from-git-tag-to-the-front-page-how-kernel-releases-are-made/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=vohrz14S6JE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/from-git-tag-to-the-front-page-how-kernel-releases-are-made/"
+        }
+      ]
+    },
+    {
+      "id": "entry_-s-a-carefree-stroll-through-kernel-entry-code",
+      "url": "https://archives.kernel-recipes.org/document/entry_-s-a-carefree-stroll-through-kernel-entry-code/",
+      "title": "entry_*.S: A carefree stroll through kernel entry code",
+      "listing_title": "entry_*.S: A carefree stroll through kernel entry code",
+      "description": "I have always wondered what happens when we enter the kernel from userspace: what preparations does the hardware meet when the userspace to kernel space switch instructions are executed and back, and what does the kernel do when it executes a system call. There are also a bunch of things it does before it executes the actual syscall so I try to look at those too.\n\nThis talk is an attempt to demystify some of the aspects of the cryptic x86 entry code in arch/x86/entry/ written in assembly and how does that all fit with software-visible architecture of x86, what hardware features are being used and how.\n\nWith the hope to get more people excited about this funky piece of the kernel and maybe have the same fun we’re having.",
+      "description_html": "<p>I have always wondered what happens when we enter the kernel from userspace: what preparations does the hardware meet when the userspace to kernel space switch instructions are executed and back, and what does the kernel do when it executes a system call. There are also a bunch of things it does before it executes the actual syscall so I try to look at those too.<br />\nThis talk is an attempt to demystify some of the aspects of the cryptic x86 entry code in arch/x86/entry/ written in assembly and how does that all fit with software-visible architecture of x86, what hardware features are being used and how.<br />\nWith the hope to get more people excited about this funky piece of the kernel and maybe have the same fun we’re having.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/entry_-s-a-carefree-stroll-through-kernel-entry-code/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Borislav PETKOV",
+      "metadata": {
+        "Speakers": "Borislav PETKOV",
+        "Category": "development",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-entry-161005200526.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=f0mEz0XQQMY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/entry_-s-a-carefree-stroll-through-kernel-entry-code/"
+        }
+      ]
+    },
+    {
+      "id": "debians-support-for-secure-boot-on-x86-and-arm",
+      "url": "https://archives.kernel-recipes.org/document/debians-support-for-secure-boot-on-x86-and-arm/",
+      "title": "Debian’s support for Secure Boot on x86 and ARM",
+      "listing_title": "Debian’s support for Secure Boot on x86 and ARM",
+      "description": "Desktop and laptop PCs designed to run Windows will now only run a boot loader signed by Microsoft or by their manufacturer, unless manually reconfigured. Several Linux distributions now include the necessary chain of signed code, but for various reasons Debian has been slow to do so. I explain some of the difficulties and how we’re finally supporting UEFI Secure Boot – not only on PCs but also on some ARM-based systems.",
+      "description_html": "<p>Desktop and laptop PCs designed to run Windows will now only run a boot loader signed by Microsoft or by their manufacturer, unless manually reconfigured. Several Linux distributions now include the necessary chain of signed code, but for various reasons Debian has been slow to do so. I explain some of the difficulties and how we’re finally supporting UEFI Secure Boot – not only on PCs but also on some ARM-based systems.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/debians-support-for-secure-boot-on-x86-and-arm/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Ben HUTCHINGS",
+      "metadata": {
+        "Speakers": "Ben HUTCHINGS",
+        "Category": "security",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/debians-support-for-secure-boot-on-x86-and-arm/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        }
+      ]
+    },
+    {
+      "id": "control-group-status-update",
+      "url": "https://archives.kernel-recipes.org/document/control-group-status-update/",
+      "title": "Control Group Status Update",
+      "listing_title": "Control Group Status Update",
+      "description": "cgroup has seen a lot of activities recently especially with the v2 effort. This talk goes over the v2 interface and discusses the recent developments and what’s to come in cgroup.",
+      "description_html": "<p>cgroup has seen a lot of activities recently especially with the v2 effort. This talk goes over the v2 interface and discusses the recent developments and what’s to come in cgroup.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/control-group-status-update/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Tejun HEO",
+      "metadata": {
+        "Speakers": "Tejun HEO",
+        "Category": "cgroup",
+        "Year": "2016"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2016-cgroups-161005200503.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=RLqXG4ArPe4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/control-group-status-update/"
+        }
+      ]
+    }
+  ]
+}

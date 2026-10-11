@@ -1,0 +1,709 @@
+{
+  "event": "Kernel Recipes 2025",
+  "source_url": "https://kernel-recipes.org/en/2025/schedule/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "Europe/Paris",
+  "notes": "旧 Document Library に Tag=2025 がないため、公式の2025年 Schedule に掲載された全20講演を収録。歓迎、休憩、昼食、朝食、チャリティオークションは講演ではないため除外。個別ページの SpeakerDeck・PDF・YouTube・本文リンクを資料に収録し、リンク先の閲覧可否は未検査。 Program verification for the Linux kernel の個別ページには BPFize Your Kernel Subsystem と同じ説明文が掲載されているが、原文を保持した。",
+  "counts": {
+    "sessions": 20,
+    "with_description": 20,
+    "with_materials": 20,
+    "attachments": 36,
+    "files": 0,
+    "links": 36
+  },
+  "sessions": [
+    {
+      "id": "breaking-up-is-hard-to-do",
+      "url": "https://kernel-recipes.org/en/2025/schedule/breaking-up-is-hard-to-do/",
+      "title": "Breaking Up is Hard to Do",
+      "listing_title": "Breaking Up is Hard to Do",
+      "description": "When writing concurrent code, we use locks to protect data. But how do we decide what data is to be protected by which lock, or, for that matter, how many locks we should provide? After all, too few locks limits performance due to lock contention, while too many locks limits performance due to lock-acquisition overhead, and, worse yet, invites deadlock.\n\nThis locking dilemma is a special case of a larger problem. Concurrency requires that we break up the required processing into separate tasks, and that these separate tasks be able to communicate as needed. To paraphrase Douglas Schmidt, how do we partition the “”big ball of mud”” that all too aptly describes many sequential programs?\n\nThis talk will give an overview of this process, with the goal of making breaking up easier to do. Breaking up of software, anyway. This talk will leave other types of break-ups to wiser heads.",
+      "description_html": "<p style=\"text-align: justify;\"><span data-sheets-root=\"1\"></span></p>\n<p style=\"text-align: justify;\">\n<p style=\"text-align: justify;\">When writing concurrent code, we use locks to protect data. But how do we decide what data is to be protected by which lock, or, for that matter, how many locks we should provide? After all, too few locks limits performance due to lock contention, while too many locks limits performance due to lock-acquisition overhead, and, worse yet, invites deadlock.</p>\n<p style=\"text-align: justify;\">This locking dilemma is a special case of a larger problem. Concurrency requires that we break up the required processing into separate tasks, and that these separate tasks be able to communicate as needed. To paraphrase Douglas Schmidt, how do we partition the &#8220;&#8221;big ball of mud&#8221;&#8221; that all too aptly describes many sequential programs?</p>\n<p style=\"text-align: justify;\">This talk will give an overview of this process, with the goal of making breaking up easier to do. Breaking up of software, anyway. This talk will leave other types of break-ups to wiser heads.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/breaking-up-is-hard-to-do/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Paul MCKENNEY",
+      "metadata": {
+        "Speakers": "Paul MCKENNEY",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-22",
+      "time": "10:00-10:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=qYPCL1KGdQA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/breaking-up-is-hard-to-do/"
+        }
+      ]
+    },
+    {
+      "id": "kworkflow-mix-match-kernel-recipes-end-to-end",
+      "url": "https://kernel-recipes.org/en/2025/schedule/kworkflow-mix-match-kernel-recipes-end-to-end/",
+      "title": "Kworkflow: Mix & Match Kernel Recipes End-to-end",
+      "listing_title": "Kworkflow: Mix & Match Kernel Recipes End-to-end",
+      "description": "The Linux kernel community thrives on shared knowledge. Kworkflow (kw) takes this spirit a step further by providing a unified platform for kernel development tools and best practices.\n\nThis talk introduces kw, a project designed to optimize your kernel workflow, automate common practices, and standardize data exchange. By consolidating valuable tools, scripts and recipes from the kernel community, kw aims to boost efficiency and collaboration.\n\nDiscover how you can contribute your expertise and become part of the kworkflow movement.",
+      "description_html": "<h2 style=\"text-align: justify;\"></h2>\n<p style=\"text-align: justify;\">The Linux kernel community thrives on shared knowledge. Kworkflow (kw) takes this spirit a step further by providing a unified platform for kernel development tools and best practices.</p>\n<p style=\"text-align: justify;\">This talk introduces kw, a project designed to optimize your kernel workflow, automate common practices, and standardize data exchange. By consolidating valuable tools, scripts and recipes from the kernel community, kw aims to boost efficiency and collaboration.</p>\n<p style=\"text-align: justify;\">Discover how you can contribute your expertise and become part of the kworkflow movement.</p>\n<div style=\"text-align: justify;\"></div>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/kworkflow-mix-match-kernel-recipes-end-to-end/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Melissa WEN",
+      "metadata": {
+        "Speakers": "Melissa WEN",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-22",
+      "time": "10:50-11:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/29bf0cf9ee11429dac62fb54b088feeb",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/kworkflow-mix-match-kernel-recipes-end-to-end/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=9zKGK-XWLAU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/kworkflow-mix-match-kernel-recipes-end-to-end/"
+        }
+      ]
+    },
+    {
+      "id": "so-you-want-to-write-a-driver-in-rust",
+      "url": "https://kernel-recipes.org/en/2025/schedule/so-you-want-to-write-a-driver-in-rust/",
+      "title": "So you want to write a driver in Rust?",
+      "listing_title": "So you want to write a driver in Rust?",
+      "description": "Ever wondered if Rust is a good fit for writing drivers? Spoiler: it can be! Join “So you want to write a driver in Rust?” to explore the journey. We’ll tackle why Rust’s features are compelling for this domain, what hurdles you might encounter, and how you can begin writing safer drivers.",
+      "description_html": "<p style=\"text-align: justify;\">Ever wondered if Rust is a good fit for writing drivers? Spoiler: it can be! Join &#8220;So you want to write a driver in Rust?&#8221; to explore the journey. We&#8217;ll tackle why Rust&#8217;s features are compelling for this domain, what hurdles you might encounter, and how you can begin writing safer drivers.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/so-you-want-to-write-a-driver-in-rust/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Alice RHYL",
+      "metadata": {
+        "Speakers": "Alice RHYL",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-22",
+      "time": "11:40-12:20",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=sGbNzu_5FUI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/so-you-want-to-write-a-driver-in-rust/"
+        }
+      ]
+    },
+    {
+      "id": "where-does-my-memory-come-from",
+      "url": "https://kernel-recipes.org/en/2025/schedule/where-does-my-memory-come-from/",
+      "title": "Where does my memory come from?",
+      "listing_title": "Where does my memory come from?",
+      "description": "This talk provides a deep-ish dive into the APIs the kernel provides to userland to map memory, how they work internally, how the kernel tracks everything, what might happen to that memory (e.g. reclaim, migration) and how we handle that, the dread terror of forking, VMA merging and splitting and all those intricate cogs that must keep turning to do what seems the most fundamental thing any program might do – allocating memory.",
+      "description_html": "<p style=\"text-align: justify;\">This talk provides a deep-ish dive into the APIs the kernel provides to userland to map memory, how they work internally, how the kernel tracks everything, what might happen to that memory (e.g. reclaim, migration) and how we handle that, the dread terror of forking, VMA merging and splitting and all those intricate cogs that must keep turning to do what seems the most fundamental thing any program might do &#8211; allocating memory.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/where-does-my-memory-come-from/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Lorenzo STOAKES",
+      "metadata": {
+        "Speakers": "Lorenzo STOAKES",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-22",
+      "time": "14:00-14:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/421bd0317baa4c789bf55db634e5cc28",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/where-does-my-memory-come-from/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=vZBXXyBpK_M",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/where-does-my-memory-come-from/"
+        }
+      ]
+    },
+    {
+      "id": "linux-virtualization-based-security-why-what-and-how",
+      "url": "https://kernel-recipes.org/en/2025/schedule/linux-virtualization-based-security-why-what-and-how/",
+      "title": "Linux Virtualization Based Security – Why, What and How ?",
+      "listing_title": "Linux Virtualization Based Security",
+      "description": "The Linux kernel incorporates self-protection mechanisms, such as control-register pinning, module and file authentication, and protection restrictions. However, sophisticated attackers operating at the kernel level can still circumvent these built-in defenses. To achieve significantly stronger protection, enforcement of such mechanisms can occur at the hypervisor level or through a hypervisor-backed trusted entity. This approach also enables safeguarding and monitoring of other critical system assets, including passwords, keys and essential kernel data structures, within a trusted environment.\n\nThis talk introduces the concept of Linux Virtualization Based Security (LVBS) as an umbrella term for various hypervisor-backed kernel protection solutions. LVBS implements a common, hypervisor-agnostic, and extendable architecture in the Linux kernel that should allow any hypervisor to implement and expand upon Linux kernel protections. This architecture enables different hypervisor frameworks-Hyper-V, as an example of a type-1 hypervisor, and KVM, as an example of a type-2 hypervisor-to connect with the common layer and enhance Linux kernel security.\n\nThe discussion then addresses ongoing efforts to implement the proposed architecture, focusing on several key areas:\nHistory, development and status of the hypervisor-agnostic common layer\n\nUtilization of Hyper-V’s Virtual Secure Mode (VSM) in combination with the common layer to reinforce Linux kernel protection, including current progress\n\nApplication of the proposed architecture by KVM and the current development status",
+      "description_html": "<p style=\"text-align: justify;\">The Linux kernel incorporates self-protection mechanisms, such as control-register pinning, module and file authentication, and protection restrictions. However, sophisticated attackers operating at the kernel level can still circumvent these built-in defenses. To achieve significantly stronger protection, enforcement of such mechanisms can occur at the hypervisor level or through a hypervisor-backed trusted entity. This approach also enables safeguarding and monitoring of other critical system assets, including passwords, keys and essential kernel data structures, within a trusted environment.</p>\n<p style=\"text-align: justify;\">This talk introduces the concept of Linux Virtualization Based Security (LVBS) as an umbrella term for various hypervisor-backed kernel protection solutions. LVBS implements a common, hypervisor-agnostic, and extendable architecture in the Linux kernel that should allow any hypervisor to implement and expand upon Linux kernel protections. This architecture enables different hypervisor frameworks-Hyper-V, as an example of a type-1 hypervisor, and KVM, as an example of a type-2 hypervisor-to connect with the common layer and enhance Linux kernel security.</p>\n<ul>\n<li style=\"text-align: justify;\">The discussion then addresses ongoing efforts to implement the proposed architecture, focusing on several key areas:<br />History, development and status of the hypervisor-agnostic common layer</li>\n<li style=\"text-align: justify;\">Utilization of Hyper-V&#8217;s Virtual Secure Mode (VSM) in combination with the common layer to reinforce Linux kernel protection, including current progress</li>\n<li style=\"text-align: justify;\">Application of the proposed architecture by KVM and the current development status</li>\n</ul>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/linux-virtualization-based-security-why-what-and-how/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Thara GOPINATH",
+      "metadata": {
+        "Speakers": "Thara GOPINATH",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-22",
+      "time": "14:50-15:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/775c824e5ee04cf5b210c3cd6078dd65",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/linux-virtualization-based-security-why-what-and-how/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=kvrIE_1cbTU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/linux-virtualization-based-security-why-what-and-how/"
+        }
+      ]
+    },
+    {
+      "id": "schedule-recipes",
+      "url": "https://kernel-recipes.org/en/2025/schedule/schedule-recipes/",
+      "title": "Schedule Recipes",
+      "listing_title": "Schedule recipes",
+      "description": "In this talk, we’ll explore a collection of minimal schedulers built using the Linux kernel’s sched_ext framework.\n\nSome are practical, others (intentionally) less so, but all highlight the expressive power and creativity that sched_ext can bring. Like a good set of recipes, these examples are meant to nspire experimentation, lower the barrier of kernel scheduler development, and help you cook up your own ideas, whether it’s for performance tuning, research, or just for fun.",
+      "description_html": "<p style=\"text-align: justify;\">In this talk, we&#8217;ll explore a collection of minimal schedulers built using the Linux kernel&#8217;s sched_ext framework.</p>\n<p style=\"text-align: justify;\">Some are practical, others (intentionally) less so, but all highlight the expressive power and creativity that sched_ext can bring. Like a good set of recipes, these examples are meant to nspire experimentation, lower the barrier of kernel scheduler development, and help you cook up your own ideas, whether it&#8217;s for performance tuning, research, or just for fun.<br /><span data-sheets-root=\"1\"></span></p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/schedule-recipes/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Andrea RIGHI",
+      "metadata": {
+        "Speakers": "Andrea RIGHI",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-22",
+      "time": "16:00-16:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/8d00a165b91b4a8baf172a7d9588cb52",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/schedule-recipes/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=NEwCs7EqAbU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/schedule-recipes/"
+        }
+      ]
+    },
+    {
+      "id": "bpfoom-using-ebpf-to-customize-the-oom-handling",
+      "url": "https://kernel-recipes.org/en/2025/schedule/bpfoom-using-ebpf-to-customize-the-oom-handling/",
+      "title": "BPFOOM: using eBPF to customize the OOM handling",
+      "listing_title": "BPFOOM: using eBPF to customize the OOM handling",
+      "description": "The OOM killer is supposed to save the system from being deadlocked when there is not enough memory to continue the normal operation, preferably by getting rid of something not particularly useful and without damaging anything really useful.\n\nPrevious 25+ years of the OOM killer development showed that there are as many opinions on what the best policy is as there are engineers who are working in this area.\n\nFinally eBPF allows everybody to develop their own policy, so no more arguments, right?",
+      "description_html": "<p style=\"text-align: justify;\"><span data-sheets-root=\"1\">The OOM killer is supposed to save the system from being deadlocked when there is not enough memory to continue the normal operation, preferably by getting rid of something not particularly useful and without damaging anything really useful. </span></p>\n<p style=\"text-align: justify;\"><span data-sheets-root=\"1\">Previous 25+ years of the OOM killer development showed that there are as many opinions on what the best policy is as there are engineers who are working in this area. </span></p>\n<p style=\"text-align: justify;\"><span data-sheets-root=\"1\">Finally eBPF allows everybody to develop their own policy, so no more arguments, right?</span></p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/bpfoom-using-ebpf-to-customize-the-oom-handling/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Roman GUSHCHIN",
+      "metadata": {
+        "Speakers": "Roman GUSHCHIN",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-22",
+      "time": "16:50-17:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=pgDI6Psr-6Q",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/bpfoom-using-ebpf-to-customize-the-oom-handling/"
+        }
+      ]
+    },
+    {
+      "id": "recipe-for-baking-a-gcc-ingredients-and-community-of-the-gnu-compiler-collection-2025",
+      "url": "https://kernel-recipes.org/en/2025/recipe-for-baking-a-gcc-ingredients-and-community-of-the-gnu-compiler-collection-2025/",
+      "title": "Recipe for baking a GCC: Ingredients and community of the GNU Compiler Collection, 2025",
+      "listing_title": "Recipe for baking a GCC",
+      "description": "This presentation explores the essential “ingredients” that make up GCC: source code, external dependencies, project infrastructure, development tools, and most importantly the community around it: how we organize and operate, in order to maintain the many pieces that comprise this decades-old-yet-modern compiler and related tools. Rounded off with some recent updates, including GPU code offloading, GCC/Rust, and GCC/BPF.",
+      "description_html": "<p style=\"text-align: justify;\">This presentation explores the essential &#8220;ingredients&#8221; that make up GCC: source code, external dependencies, project infrastructure, development tools, and most importantly the community around it: how we organize and operate, in order to maintain the many pieces that comprise this decades-old-yet-modern compiler and related tools. Rounded off with some recent updates, including GPU code offloading, GCC/Rust, and GCC/BPF.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/recipe-for-baking-a-gcc-ingredients-and-community-of-the-gnu-compiler-collection-2025/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Thomas SCHWINGE",
+      "metadata": {
+        "Speakers": "Thomas SCHWINGE",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-23",
+      "time": "10:00-10:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/37d98b0db9604a4fbf0a577b1de9fd51",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/recipe-for-baking-a-gcc-ingredients-and-community-of-the-gnu-compiler-collection-2025/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Bv4cJuQxF80",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/recipe-for-baking-a-gcc-ingredients-and-community-of-the-gnu-compiler-collection-2025/"
+        }
+      ]
+    },
+    {
+      "id": "the-cra-and-what-it-means-for-us",
+      "url": "https://kernel-recipes.org/en/2025/schedule/the-cra-and-what-it-means-for-us/",
+      "title": "The CRA and what it means for us",
+      "listing_title": "The CRA and what it means for us",
+      "description": "With the ratification of the Cyber Resilience Act (CRA) in Europe, there has been a lot of misunderstanding of what this means for Linux developers, Linux  users, and manufacturers of devices with Linux inside of them. This talk will attempt to provide a rough understanding of the issues involved, who is affected, and what this means for everyone in our ecosystem. It is an updated talk from the Embedded Recipes version, as things have changed since then.",
+      "description_html": "<p style=\"text-align: justify;\">With the ratification of the Cyber Resilience Act (CRA) in Europe, there has been a lot of misunderstanding of what this means for Linux developers, Linux  users, and manufacturers of devices with Linux inside of them. This talk will attempt to provide a rough understanding of the issues involved, who is affected, and what this means for everyone in our ecosystem. It is an updated talk from the Embedded Recipes version, as things have changed since then.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/the-cra-and-what-it-means-for-us/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-23",
+      "time": "10:50-11:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/310cb40d01d84d8e8d6d57efcadd018c",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/the-cra-and-what-it-means-for-us/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=PdmleXSMBbw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/the-cra-and-what-it-means-for-us/"
+        }
+      ]
+    },
+    {
+      "id": "a-rusty-odyssey-a-timeline-of-rust-in-the-drm-subsystem",
+      "url": "https://kernel-recipes.org/en/2025/schedule/a-rusty-odyssey-a-timeline-of-rust-in-the-drm-subsystem/",
+      "title": "A Rusty Odyssey: A Timeline of Rust in the DRM subsystem",
+      "listing_title": "A Rusty Odyssey: A Timeline of Rust in the DRM subsystem",
+      "description": "The integration of Rust into the Linux Kernel has opened new avenues for enhancing safety and performance, particularly within the DRM subsystem. This initiative began gaining traction with early discussions and the construction of full-blown drivers, such as Asahi (Apple M1/M2), Nova (NVIDIA), Tyr (ARM Mali), and RVKMS.\n\nThis talk will explore the evolution of Rust initiatives within the DRM community, ighlighting key milestones and ongoing projects. We will dive into the leadership driving these efforts, providing insights into the nature of the different stakeholders involved.\n\nJoin us as we navigate the timeline of developments in the DRM subsystem towards Rust, showcasing how these advancements might be shaping the future of GPU driver development.",
+      "description_html": "<p style=\"text-align: justify;\"><span data-sheets-root=\"1\"></span></p>\n<p style=\"text-align: justify;\">The integration of Rust into the Linux Kernel has opened new avenues for enhancing safety and performance, particularly within the DRM subsystem. This initiative began gaining traction with early discussions and the construction of full-blown drivers, such as Asahi (Apple M1/M2), Nova (NVIDIA), Tyr (ARM Mali), and RVKMS.</p>\n<p style=\"text-align: justify;\">This talk will explore the evolution of Rust initiatives within the DRM community, ighlighting key milestones and ongoing projects. We will dive into the leadership driving these efforts, providing insights into the nature of the different stakeholders involved.</p>\n<p style=\"text-align: justify;\">Join us as we navigate the timeline of developments in the DRM subsystem towards Rust, showcasing how these advancements might be shaping the future of GPU driver development.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/a-rusty-odyssey-a-timeline-of-rust-in-the-drm-subsystem/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Maira CANAL",
+      "metadata": {
+        "Speakers": "Maira CANAL",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-23",
+      "time": "11:40-12:20",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/5f4f7f5ee7184d29b21be4596e06906f",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/a-rusty-odyssey-a-timeline-of-rust-in-the-drm-subsystem/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=HiHikARjCI4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/a-rusty-odyssey-a-timeline-of-rust-in-the-drm-subsystem/"
+        }
+      ]
+    },
+    {
+      "id": "overcoming-observer-effects-in-memory-management-with-damon",
+      "url": "https://kernel-recipes.org/en/2025/schedule/overcoming-observer-effects-in-memory-management-with-damon/",
+      "title": "Overcoming Observer Effects in Memory Management with DAMON",
+      "listing_title": "Overcoming Observer Effects in Memory Management with DAMON",
+      "description": "Knowing the data access pattern of a system and its workloads is crucial for efficient memory management. However, accurate measurement can be challenging due to observer effects.\n\nThis talk will introduce how the Linux kernel overcomes this problem using the DAMON subsystem and share practical use cases of it for improving memory efficiencies on real world product Linux systems.",
+      "description_html": "<p style=\"text-align: justify;\">Knowing the data access pattern of a system and its workloads is crucial for efficient memory management. However, accurate measurement can be challenging due to observer effects.</p>\n<p style=\"text-align: justify;\">This talk will introduce how the Linux kernel overcomes this problem using the <a href=\"https://docs.kernel.org/mm/damon/index.html\">DAMON subsystem</a> and share practical use cases of it for improving memory efficiencies on real world product Linux systems.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/overcoming-observer-effects-in-memory-management-with-damon/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "SJ PARK",
+      "metadata": {
+        "Speakers": "SJ PARK",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-23",
+      "time": "14:50-15:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=lvRuBxli_yU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/overcoming-observer-effects-in-memory-management-with-damon/"
+        },
+        {
+          "title": "additional material",
+          "url": "https://docs.kernel.org/mm/damon/index.html",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/overcoming-observer-effects-in-memory-management-with-damon/"
+        }
+      ]
+    },
+    {
+      "id": "linux-for-real-time-workloads-bare-metal-and-kvm",
+      "url": "https://kernel-recipes.org/en/2025/schedule/linux-for-real-time-workloads-bare-metal-and-kvm/",
+      "title": "Linux for Real Time Workloads: bare metal and KVM",
+      "listing_title": "Linux for Real Time Workloads: bare metal and KVM",
+      "description": "Introduction\n\nWhat is Real-Time & why does it matter\n\nWhat is a deadline\n\nWhy a Real-Time Operating System, and examples\n\nWhat about Linux? Does it work?\n\nImproving Real-Time behavior on Linux\n\nReal-time scheduling policies\n\nPREEMPT_RT\n\nCPU Isolation\n\nNOHZ_FULL\n\nLatency numbers (bare-metal)\n\nTests & results\n\nWhat about Real-Time Virtual Machines?\n\nMotivation & Drawbacks\n\nLatency numbers (VMs)",
+      "description_html": "<p style=\"text-align: justify;\"> <strong>Introduction</strong></p>\n<ul>\n<li style=\"text-align: justify;\">What is Real-Time &amp; why does it matter</li>\n<li style=\"text-align: justify;\">What is a deadline</li>\n<li style=\"text-align: justify;\">Why a Real-Time Operating System, and examples</li>\n<li style=\"text-align: justify;\">What about Linux? Does it work?</li>\n</ul>\n<p style=\"text-align: justify;\"><strong>Improving Real-Time behavior on Linux</strong></p>\n<ul>\n<li style=\"text-align: justify;\">Real-time scheduling policies</li>\n<li style=\"text-align: justify;\">PREEMPT_RT</li>\n<li style=\"text-align: justify;\">CPU Isolation</li>\n<li style=\"text-align: justify;\">NOHZ_FULL</li>\n</ul>\n<p style=\"text-align: justify;\"><strong>Latency numbers (bare-metal)</strong></p>\n<ul>\n<li style=\"text-align: justify;\">Tests &amp; results</li>\n</ul>\n<p style=\"text-align: justify;\"><strong>What about Real-Time Virtual Machines?</strong></p>\n<ul>\n<li style=\"text-align: justify;\">Motivation &amp; Drawbacks</li>\n<li style=\"text-align: justify;\">Latency numbers (VMs)</li>\n</ul>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/linux-for-real-time-workloads-bare-metal-and-kvm/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Leonardo BRAS",
+      "metadata": {
+        "Speakers": "Leonardo BRAS",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-23",
+      "time": "16:00-16:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/d50a7eb17bcc4b6e8795612acf3bf219",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/linux-for-real-time-workloads-bare-metal-and-kvm/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=GoNFugnhfAc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/linux-for-real-time-workloads-bare-metal-and-kvm/"
+        }
+      ]
+    },
+    {
+      "id": "program-verification-for-the-linux-kernel-potential-costs-and-benefits-tentative",
+      "url": "https://kernel-recipes.org/en/2025/schedule/program-verification-for-the-linux-kernel-potential-costs-and-benefits-tentative/",
+      "title": "Program verification for the Linux kernel: Potential costs and benefits (tentative)",
+      "listing_title": "Program verification for the Linux kernel",
+      "description": "BPF enables the user to implement policies safely in BPF programs. Over the years, the best practice of extending the kernel with BPF has evolved significantly. In this talk, we will go over the state-of-the-art best practice to “BPFize” a kernel subsystem with the fanotify example. Specifically, we will talk about: 1) implementing the hook points with struct_ops; 2) adding kfuncs for critical functionalities, and 3) suggestions on how to work with the BPF community.",
+      "description_html": "<p style=\"text-align: justify;\"><span data-sheets-root=\"1\"></span>BPF enables the user to implement policies safely in BPF programs. Over the years, the best practice of extending the kernel with BPF has evolved significantly. In this talk, we will go over the state-of-the-art best practice to “BPFize” a kernel subsystem with the fanotify example. Specifically, we will talk about: 1) implementing the hook points with struct_ops; 2) adding kfuncs for critical functionalities, and 3) suggestions on how to work with the BPF community.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/program-verification-for-the-linux-kernel-potential-costs-and-benefits-tentative/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Julia LAWALL",
+      "metadata": {
+        "Speakers": "Julia LAWALL",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-23",
+      "time": "16:50-17:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/f52f9110923e4870aa2c09c0e44efb72",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/program-verification-for-the-linux-kernel-potential-costs-and-benefits-tentative/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=mSjOyrtA1sk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/program-verification-for-the-linux-kernel-potential-costs-and-benefits-tentative/"
+        }
+      ]
+    },
+    {
+      "id": "modernizing-virtio-gpu",
+      "url": "https://kernel-recipes.org/en/2025/schedule/modernizing-virtio-gpu/",
+      "title": "Modernizing Virtio GPU",
+      "listing_title": "Modernizing Virtio GPU: A Rust-Powered Approach with vhost-device-gpu",
+      "description": "Modernizing Virtio GPU: A Rust-Powered Approach with vhost-device-gpu\n\nThe expansion of virtio-GPU into QEMU and Crosvm as well as Android automotive virtualization has generated demand for improved safety and maintainability of device backends thus leading to the development of vhost-device-gpu which functions independently using Rust and the vhost-user protocol.\n\nThis presentation illustrates the ways vhost-device-gpu reshapes virtual graphics architecture through its innovative design:\n\nReducing the attack surface requires isolating the device backend from the VMM.\n\nThe development achieves greater security through Rust’s memory safety features.\n\nThe implementation supports modular renderer backends such as virglrenderer and gfxstream through rutabaga_gfx.\n\nWe’ll walk through:\n\nHow the vhost-user-gpu protocol demonstrates functionality through existing capabilities like control and cursor queue handling, feature bit negotiation, and compatibility with modern renderers like virglrenderer and gfxstream.\n\nHow the Rust-based internal components of the device work alongside Rust-vmm integration while working through Rutabaga difficulties and enabling Vulkan support through host-visible memory.\n\nSupport for shared memory and host-visible memory region, is under active development to meet Vulkan and gfxstream demands.\n\nReal-world performance observations with Android AAOS and Linux guests.\n\nThe session will end with a demo of running vhost-device-gpu as a standalone process connected to a QEMU VM.",
+      "description_html": "<h2 style=\"text-align: justify;\">Modernizing Virtio GPU: A Rust-Powered Approach with vhost-device-gpu</h2>\n<p>&nbsp;</p>\n<div style=\"text-align: justify;\">The expansion of virtio-GPU into QEMU and Crosvm as well as Android automotive virtualization has generated demand for improved safety and maintainability of device backends thus leading to the development of vhost-device-gpu which functions independently using Rust and the vhost-user protocol.</div>\n<div style=\"text-align: justify;\"></div>\n<div style=\"text-align: justify;\">\n<p>This presentation illustrates the ways vhost-device-gpu reshapes virtual graphics architecture through its innovative design:</p>\n<ul>\n<li>Reducing the attack surface requires isolating the device backend from the VMM.</li>\n<li>The development achieves greater security through Rust&#8217;s memory safety features.</li>\n<li>The implementation supports modular renderer backends such as virglrenderer and gfxstream through rutabaga_gfx.</li>\n</ul>\n<p>We&#8217;ll walk through:</p>\n<ul>\n<li>How the vhost-user-gpu protocol demonstrates functionality through existing capabilities like control and cursor queue handling, feature bit negotiation, and compatibility with modern renderers like virglrenderer and gfxstream.</li>\n<li>How the Rust-based internal components of the device work alongside Rust-vmm integration while working through Rutabaga difficulties and enabling Vulkan support through host-visible memory.</li>\n<li>Support for shared memory and host-visible memory region, is under active development to meet Vulkan and gfxstream demands.</li>\n<li>Real-world performance observations with Android AAOS and Linux guests.</li>\n</ul>\n<p>The session will end with a demo of running vhost-device-gpu as a standalone process connected to a QEMU VM.</p>\n</div>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/modernizing-virtio-gpu/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Dorinda BASSEY",
+      "metadata": {
+        "Speakers": "Dorinda BASSEY",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-24",
+      "time": "10:00-10:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/946a6f4b6d6f45dab52e8fac83fe823a",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/modernizing-virtio-gpu/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=7A_m7lfEzMc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/modernizing-virtio-gpu/"
+        }
+      ]
+    },
+    {
+      "id": "observing-the-memory-mills-running",
+      "url": "https://kernel-recipes.org/en/2025/schedule/observing-the-memory-mills-running/",
+      "title": "Observing the memory mills running",
+      "listing_title": "Observing the memory mills running",
+      "description": "Last year we have explored how to make sense of where RAM is being used in Linux, including looking at all the information that /proc/meminfo provides.\n\nSince the memory usage is rarely static, the memory management subsystem has to satisfy the memory allocation requests coming from both userspace and other kernel subsystems, while not running out of the available RAM. This results in performing various actions such as memory reclaim and compaction.\n\nIn this talk we will look at how these actions can be observed, mainly from the event counters provided in /proc/vmstat, and put those counters in the bigger context. This knowledge can help determining what might be wrong when your system is not performing well in low-memory conditions.",
+      "description_html": "<p style=\"text-align: justify;\">Last year we have explored how to make sense of where RAM is being used in Linux, including looking at all the information that /proc/meminfo provides.</p>\n<p style=\"text-align: justify;\">Since the memory usage is rarely static, the memory management subsystem has to satisfy the memory allocation requests coming from both userspace and other kernel subsystems, while not running out of the available RAM. This results in performing various actions such as memory reclaim and compaction.</p>\n<p style=\"text-align: justify;\">In this talk we will look at how these actions can be observed, mainly from the event counters provided in /proc/vmstat, and put those counters in the bigger context. This knowledge can help determining what might be wrong when your system is not performing well in low-memory conditions.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/observing-the-memory-mills-running/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Vlastimil BABKA",
+      "metadata": {
+        "Speakers": "Vlastimil BABKA",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-24",
+      "time": "10:50-11:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/675e0e51539d49708104cc37ed298167",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/observing-the-memory-mills-running/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=vE11JSt5BpU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/observing-the-memory-mills-running/"
+        }
+      ]
+    },
+    {
+      "id": "bpfize-your-kernel-subsystem-the-fanotify-experience",
+      "url": "https://kernel-recipes.org/en/2025/schedule/bpfize-your-kernel-subsystem-the-fanotify-experience/",
+      "title": "BPFize Your Kernel Subsystem: The fanotify Experience",
+      "listing_title": "BPFize Your Kernel Subsystem: The fanotify Experience",
+      "description": "BPF enables the user to implement policies safely in BPF programs. Over the years, the best practice of extending the kernel with BPF has evolved significantly. In this talk, we will go over the state-of-the-art best practice to “BPFize” a kernel subsystem with the fanotify example. Specifically, we will talk about: 1) implementing the hook points with struct_ops; 2) adding kfuncs for critical functionalities, and 3) suggestions on how to work with the BPF community.",
+      "description_html": "<p style=\"text-align: justify;\"><span data-sheets-root=\"1\"></span>BPF enables the user to implement policies safely in BPF programs. Over the years, the best practice of extending the kernel with BPF has evolved significantly. In this talk, we will go over the state-of-the-art best practice to “BPFize” a kernel subsystem with the fanotify example. Specifically, we will talk about: 1) implementing the hook points with struct_ops; 2) adding kfuncs for critical functionalities, and 3) suggestions on how to work with the BPF community.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/bpfize-your-kernel-subsystem-the-fanotify-experience/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Song LIU",
+      "metadata": {
+        "Speakers": "Song LIU",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-24",
+      "time": "11:40-12:20",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/ede6a1a06de540bb8622f0ec92b21a43",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/bpfize-your-kernel-subsystem-the-fanotify-experience/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=4AWOdWJl3qk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/bpfize-your-kernel-subsystem-the-fanotify-experience/"
+        }
+      ]
+    },
+    {
+      "id": "filesystem-and-memory-reclaim",
+      "url": "https://kernel-recipes.org/en/2025/schedule/filesystem-and-memory-reclaim/",
+      "title": "Filesystem and Memory Reclaim",
+      "listing_title": "Filesystem and memory reclaim",
+      "description": "When we want to allocate memory, but it’s all in use, it’s time to ask various users to give some of the memory back. Filesystems are some of the more complicated users of memory, and asking them to free memory is correspondingly complicated.\n\nMuch previous work in this area has focused on avoiding deadlocks between filesystems allocating memory and then being asked to reclaim memory. A set of recent bug reports alerted us to a new way for filesystems to allocate memory in order to free memory.\n\nThis talk will cover the existing ways we avoid deadlocks, and how we might solve the exciting new problem.",
+      "description_html": "<p style=\"text-align: justify;\">When we want to allocate memory, but it&#8217;s all in use, it&#8217;s time to ask various users to give some of the memory back. Filesystems are some of the more complicated users of memory, and asking them to free memory is correspondingly complicated.</p>\n<p style=\"text-align: justify;\">Much previous work in this area has focused on avoiding deadlocks between filesystems allocating memory and then being asked to reclaim memory. A set of recent bug reports alerted us to a new way for filesystems to allocate memory in order to free memory.</p>\n<p style=\"text-align: justify;\">This talk will cover the existing ways we avoid deadlocks, and how we might solve the exciting new problem.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/filesystem-and-memory-reclaim/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Matthew WILCOX",
+      "metadata": {
+        "Speakers": "Matthew WILCOX",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-24",
+      "time": "14:00-14:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/c6af1afcac0b4c34a18eccdb8e4bcc7e",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/filesystem-and-memory-reclaim/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=d2HvN0v7V24",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/filesystem-and-memory-reclaim/"
+        }
+      ]
+    },
+    {
+      "id": "stack-tracing-simplified-the-sframe-story",
+      "url": "https://kernel-recipes.org/en/2025/schedule/stack-tracing-simplified-the-sframe-story/",
+      "title": "Stack Tracing, Simplified: The SFrame Story",
+      "listing_title": "Stack Tracing, Simplified: The SFrame Story",
+      "description": "Fast and precise stack tracing is crucial for most profiling and debugging needs, but the current available methods often come with complexity and overhead. This talk is about SFrame, the Simple Frame stack trace format, an approach designed for fast, precise, and low-overhead stack tracing.\n\nSFrame is similar to the ORC format used in the Linux kernel, but generalized to userspace. SFrame tracks minimal necessary information for stack tracing; This directly translates to stack tracers that are both simple to implement and low complexity. This paves the way for more efficient tracing and debugging in production environments. We will also talk about SFrame’s technical maturation, detailing how its specification is being refined to address critical requirements related to alignment, size, and overall expressiveness, especially in the context of its proposed integration into glibc and the Linux kernel.",
+      "description_html": "<p style=\"text-align: justify;\">Fast and precise stack tracing is crucial for most profiling and debugging needs, but the current available methods often come with complexity and overhead. This talk is about SFrame, the Simple Frame stack trace format, an approach designed for fast, precise, and low-overhead stack tracing.</p>\n<p style=\"text-align: justify;\">SFrame is similar to the ORC format used in the Linux kernel, but generalized to userspace. SFrame tracks minimal necessary information for stack tracing; This directly translates to stack tracers that are both simple to implement and low complexity. This paves the way for more efficient tracing and debugging in production environments. We will also talk about SFrame&#8217;s technical maturation, detailing how its specification is being refined to address critical requirements related to alignment, size, and overall expressiveness, especially in the context of its proposed integration into glibc and the Linux kernel.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/stack-tracing-simplified-the-sframe-story/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Indu BHAGAT",
+      "metadata": {
+        "Speakers": "Indu BHAGAT",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-24",
+      "time": "14:50-15:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/35234d1878b941b7a2ee3c34ba002582",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/stack-tracing-simplified-the-sframe-story/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=s3BtU2Bdyts",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/stack-tracing-simplified-the-sframe-story/"
+        }
+      ]
+    },
+    {
+      "id": "nolibc-a-userspace-libc-in-the-kernel-tree",
+      "url": "https://kernel-recipes.org/en/2025/schedule/nolibc-a-userspace-libc-in-the-kernel-tree/",
+      "title": "nolibc: a userspace libc in the kernel tree",
+      "listing_title": "nolibc: a userspace libc in the kernel tree",
+      "description": "nolibc is a C standard library for Linux which is developed and distributed as part of the kernel source tree. It has support for a wide range of architectures^1, many features and is easy to extend, especially for kernel developers. It consists solely of header files which allows building very small applications with bare-metal toolchains.\n\nThis talk will explain why it makes sense to have nolibc in the kernel tree, how it ended up there, its strengths and limitations and how it is used currently. Furthermore a new framework is proposed which uses nolibc to combine kselftests with KUnit to improve the developer experience.\n\n^1 i386, x86_64, arm, aarch64, riscv32, riscv64, loongarch64, mipso32, m68k, s390, s390x, SPARC32, SPARC64",
+      "description_html": "<p style=\"text-align: justify;\">nolibc is a C standard library for Linux which is developed and distributed as part of the kernel source tree. It has support for a wide range of architectures^1, many features and is easy to extend, especially for kernel developers. It consists solely of header files which allows building very small applications with bare-metal toolchains.</p>\n<p style=\"text-align: justify;\">This talk will explain why it makes sense to have nolibc in the kernel tree, how it ended up there, its strengths and limitations and how it is used currently. Furthermore a new framework is proposed which uses nolibc to combine kselftests with KUnit to improve the developer experience.</p>\n<p style=\"text-align: justify;\">^1 i386, x86_64, arm, aarch64, riscv32, riscv64, loongarch64, mipso32, m68k, s390, s390x, SPARC32, SPARC64</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/nolibc-a-userspace-libc-in-the-kernel-tree/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Thomas Weissschuh",
+      "metadata": {
+        "Speakers": "Thomas Weissschuh",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-24",
+      "time": "16:00-16:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/6d51daf6eb464d8b8c2534a466fa640c",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/nolibc-a-userspace-libc-in-the-kernel-tree/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ZIoMh64P4rY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/nolibc-a-userspace-libc-in-the-kernel-tree/"
+        }
+      ]
+    },
+    {
+      "id": "how-to-tame-a-panthor",
+      "url": "https://kernel-recipes.org/en/2025/schedule/how-to-tame-a-panthor/",
+      "title": "How to tame a Panthor",
+      "listing_title": "How to tame a Panthor",
+      "description": "GPU drivers are probably among the most complicated drivers I have had a chance to work on. Some coding god[ess] might find it fairly trivial, but for the rest of us, mere mortals, it is often too much of a mountain to climb.\n\nIn this talk, I will try to demystify what GPU drivers are doing and how, by taking Panthor/PanVK (the kernel+userspace drivers for Mali GPUs) as a case study. I will also go through some of the components provided by the DRM subsystem that makes writing of modern kernel GPU drivers slightly easier.",
+      "description_html": "<p style=\"text-align: justify;\">GPU drivers are probably among the most complicated drivers I have had a chance to work on. Some coding god[ess] might find it fairly trivial, but for the rest of us, mere mortals, it is often too much of a mountain to climb.</p>\n<p style=\"text-align: justify;\">In this talk, I will try to demystify what GPU drivers are doing and how, by taking Panthor/PanVK (the kernel+userspace drivers for Mali GPUs) as a case study. I will also go through some of the components provided by the DRM subsystem that makes writing of modern kernel GPU drivers slightly easier.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/how-to-tame-a-panthor/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Boris BREZILLON",
+      "metadata": {
+        "Speakers": "Boris BREZILLON",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-24",
+      "time": "16:50-17:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=wFPEkGCZEU4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2025/schedule/how-to-tame-a-panthor/"
+        }
+      ]
+    }
+  ]
+}

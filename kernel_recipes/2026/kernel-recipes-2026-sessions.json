@@ -1,0 +1,695 @@
+{
+  "event": "Kernel Recipes 2026",
+  "source_url": "https://kernel-recipes.org/en/2026/schedule/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "Europe/Paris",
+  "notes": "旧 Document Library に Tag=2026 がないため、公式の2026年 Schedule に掲載された全20講演を収録。歓迎、休憩、昼食、朝食、チャリティオークションは講演ではないため除外。個別ページの SpeakerDeck・PDF・YouTube・本文リンクを資料に収録し、リンク先の閲覧可否は未検査。 Security in the LLM age、The Sashiko review system、Rust for Linux の個別ページには講演概要がないため空欄とした。",
+  "counts": {
+    "sessions": 20,
+    "with_description": 17,
+    "with_materials": 20,
+    "attachments": 34,
+    "files": 0,
+    "links": 34
+  },
+  "sessions": [
+    {
+      "id": "the-kernel-report",
+      "url": "https://kernel-recipes.org/en/2026/schedule/the-kernel-report/",
+      "title": "The Kernel Report",
+      "listing_title": "The Kernel Report",
+      "description": "After a two-year hiatus, the Kernel Report is back. Kernel development is going through a period of accelerated change. This talk will take a look at what is happening in the kernel community and where it might go, with an eye on the Maintainers Summit, to be held in October.",
+      "description_html": "<p style=\"text-align: justify;\"><strong>After a two-year hiatus, the Kernel Report is back.</strong> Kernel development is going through a period of accelerated change. This talk will take a look at what is happening in the kernel community and where it might go, with an eye on the Maintainers Summit, to be held in October.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/the-kernel-report/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Jonathan CORBET",
+      "metadata": {
+        "Speakers": "Jonathan CORBET",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-21",
+      "time": "10:00-10:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/c46d0eca32434f1f927348ddf993f979",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/the-kernel-report/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=-KAx6m1XIlM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/the-kernel-report/"
+        }
+      ]
+    },
+    {
+      "id": "undefined-behavior-in-c-a-lost-cause",
+      "url": "https://kernel-recipes.org/en/2026/schedule/undefined-behavior-in-c-a-lost-cause/",
+      "title": "Undefined Behavior in C – A Lost Cause?",
+      "listing_title": "Undefined behavior in C: a lost cause ?",
+      "description": "C is a very stable programming language. This sometimes leads to the impression that nothing can be improved. This talk will try to correct this impression. I will give an overview about what is happening in the C world. In particular, I will cover the topic of undefined behavior in C and talk about existing and emerging compiler features related to undefined behavior and memory safety. With regard to the C standard, I will summarize the improvements made to ISO C 23 and give an outlook about what is currently planned for the next revision of the C standard. Finally, I will use the opportunity to explain how the standardization process works and how the kernel community could become more involved.",
+      "description_html": "<p style=\"text-align: justify;\">C is a very stable programming language. This sometimes leads to the impression that nothing can be improved. This talk will try to correct this impression. I will give an overview about what is happening in the C world. In particular, I will cover the topic of undefined behavior in C and talk about existing and emerging compiler features related to undefined behavior and memory safety. With regard to the C standard, I will summarize the improvements made to ISO C 23 and give an outlook about what is currently planned for the next revision of the C standard. Finally, I will use the opportunity to explain how the standardization process works and how the kernel community could become more involved.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/undefined-behavior-in-c-a-lost-cause/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Martin UECKER",
+      "metadata": {
+        "Speakers": "Martin UECKER",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-21",
+      "time": "10:50-11:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=dhlYcmX_oBQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/undefined-behavior-in-c-a-lost-cause/"
+        }
+      ]
+    },
+    {
+      "id": "damos-the-smart-cruise-control-for-ram",
+      "url": "https://kernel-recipes.org/en/2026/schedule/damos-the-smart-cruise-control-for-ram/",
+      "title": "DAMOS: The Smart Cruise Control for RAM",
+      "listing_title": "DAMOS: The Smart Cruise Control for RAM",
+      "description": "Last year, we saw how the Linux kernel’s DAMON subsystem lets us safely watch the real memory usage of applications (data access pattern) without slowing them down. But looking at charts is only half the battle.\n\nWhat do we actually do with that data? This talk introduces DAMOS (DAMON-based Operation Schemes) — the engine that turns passive observation into automatic action. We will explain how DAMOS works using simple mental models, showing how it automatically parks “cold” memory to save money and optimizes “hot” memory for raw speed.\n\nDesigned for kernel veterans and curious beginners alike, this session will show you how to write basic rules to make your Linux systems automatically manage their own memory footprint safely, predictably, and with zero code changes.",
+      "description_html": "<p style=\"text-align: justify;\">Last year, we saw how the Linux kernel&#8217;s DAMON subsystem lets us safely watch the real memory usage of applications (data access pattern) without slowing them down. But looking at charts is only half the battle.</p>\n<p style=\"text-align: justify;\">What do we actually do with that data? This talk introduces DAMOS (DAMON-based Operation Schemes) — the engine that turns passive observation into automatic action. We will explain how DAMOS works using simple mental models, showing how it automatically parks &#8220;cold&#8221; memory to save money and optimizes &#8220;hot&#8221; memory for raw speed.</p>\n<p style=\"text-align: justify;\">Designed for kernel veterans and curious beginners alike, this session will show you how to write basic rules to make your Linux systems automatically manage their own memory footprint safely, predictably, and with zero code changes.</p>\n<ul></ul>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/damos-the-smart-cruise-control-for-ram/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "SeongJae PARK",
+      "metadata": {
+        "Speakers": "SeongJae PARK",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-21",
+      "time": "11:40-12:20",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/0a65d439a9a246d0af821868634a5f17",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/damos-the-smart-cruise-control-for-ram/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=cFGxYJ_oeVM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/damos-the-smart-cruise-control-for-ram/"
+        }
+      ]
+    },
+    {
+      "id": "linux-secure-by-default-are-we-there-yet",
+      "url": "https://kernel-recipes.org/en/2026/schedule/linux-secure-by-default-are-we-there-yet/",
+      "title": "Linux Secure by Default: Are We There Yet?",
+      "listing_title": "Linux Secure by Default: Are We There Yet?",
+      "description": "Linux has gained an impressive collection of security features over the last two decades. The Kernel Self Protection Project (KSPP), compiler-assisted hardening, seccomp, mandatory access control systems, and more recent memory-safety initiatives have made life harder for attackers.\n\nYet in the embedded world, products are often built on kernels several years old, security features are selectively enabled, and applications frequently run with privileges that would be considered excessive on a desktop or cloud system.\n\nDuring my work with embedded companies, I regularly encounter a striking contrast: upstream Linux is becoming increasingly secure by default, while many deployed devices continue to rely on only a small subset of the protections available to them.\n\nThis talk explores that gap.\n\nUsing examples from embedded Linux systems, Yocto Project-based products, and upstream kernel development, we will examine how Linux performs against key security principles such as least privilege, attack-surface reduction, isolation, exploit mitigation, and memory safety. We will look at the progress achieved through KSPP and related initiatives, discuss why some security mechanisms are widely deployed while others remain rare in embedded products, and evaluate how close Linux is to being secure by default in practice.\n\nThe goal is not to review every security feature in the kernel, but to answer a practical question relevant to both kernel developers and product builders: Have we reached the point where a modern embedded Linux device is secure by default, or are the hardest problems now outside the kernel itself?",
+      "description_html": "<p style=\"text-align: justify;\">Linux has gained an impressive collection of security features over the last two decades. The Kernel Self Protection Project (KSPP), compiler-assisted hardening, seccomp, mandatory access control systems, and more recent memory-safety initiatives have made life harder for attackers.</p>\n<p style=\"text-align: justify;\">Yet in the embedded world, products are often built on kernels several years old, security features are selectively enabled, and applications frequently run with privileges that would be considered excessive on a desktop or cloud system.</p>\n<p style=\"text-align: justify;\">During my work with embedded companies, I regularly encounter a striking contrast: upstream Linux is becoming increasingly secure by default, while many deployed devices continue to rely on only a small subset of the protections available to them.</p>\n<p style=\"text-align: justify;\">This talk explores that gap.</p>\n<p style=\"text-align: justify;\">Using examples from embedded Linux systems, Yocto Project-based products, and upstream kernel development, we will examine how Linux performs against key security principles such as least privilege, attack-surface reduction, isolation, exploit mitigation, and memory safety. We will look at the progress achieved through KSPP and related initiatives, discuss why some security mechanisms are widely deployed while others remain rare in embedded products, and evaluate how close Linux is to being secure by default in practice.</p>\n<p style=\"text-align: justify;\">The goal is not to review every security feature in the kernel, but to answer a practical question relevant to both kernel developers and product builders: Have we reached the point where a modern embedded Linux device is secure by default, or are the hardest problems now outside the kernel itself?</p>\n<ul></ul>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/linux-secure-by-default-are-we-there-yet/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Marta RYBCZYNSKA",
+      "metadata": {
+        "Speakers": "Marta RYBCZYNSKA",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-21",
+      "time": "14:00-14:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/40525175dbef4786bebfe8cc36eab3a2",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/linux-secure-by-default-are-we-there-yet/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=MJXXaUAPHy0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/linux-secure-by-default-are-we-there-yet/"
+        }
+      ]
+    },
+    {
+      "id": "user-space-assissted-scheduling-with-sched-qos",
+      "url": "https://kernel-recipes.org/en/2026/schedule/user-space-assissted-scheduling-with-sched-qos/",
+      "title": "User Space Assissted Scheduling with Sched QoS",
+      "listing_title": "User Space Assissted Scheduling with Sched QoS",
+      "description": "At LPC  we layed out a plan on how a single scheduler can be used to manage the conflicting and diverse requirements of workloads that can run on a single machine, and how we can make this be portable to hopefully Just Work on all other machines.\n\nThe major problem is that heuristics can’t be used to fix this. We need to provide mechanisms to allow for smarter management of system resources.\n\nBut how this should look like?\n\nFirst pitfall is that this is NOT a kernel space interface problem. It is a userspace management problem. We need a higher level description of tasks behavior that with the help of an all knowing Perf Manager can be translated into the right attributes at kernel level.\n\nschedqos utility was created to execute on this plan. It is in alpha stage, but pretty much usable for power users and to help iterate and develop the concepts further.\n\nWe picked an existing industry high level description that is successful in practice as initial guide to grow (if needed) on.\n\nTo counter the adoption problem of introducing new APIs and circumvent the ABI issue of having to support potentially kernel interfaces forever, we propose a zero API approach. No binary has to ship to take advantage of the proposal. Apps are described in config files which the Perf Manager reads and apply immediately for all instances of an application that are running, and any new one when executed.\n\nThe devil is in many details though. This talk will provide a quick overview of what was proposed and discussed, what is next and how can we cultivate help to grow this to become The Way to manage performance and power on all systems and workloads. We will cover use cases and examples of how it should all ultimately fit together.",
+      "description_html": "<p style=\"text-align: justify;\">At <a href=\"https://lpc.events/event/19/contributions/2089/\">LPC</a>  we layed out a plan on how a single scheduler can be used to manage the conflicting and diverse requirements of workloads that can run on a single machine, and how we can make this be portable to hopefully Just Work on all other machines.</p>\n<p style=\"text-align: justify;\">The major problem is that heuristics can&#8217;t be used to fix this. We need to provide mechanisms to allow for smarter management of system resources.</p>\n<p style=\"text-align: justify;\">But how this should look like?</p>\n<p style=\"text-align: justify;\">First pitfall is that this is NOT a kernel space interface problem. It is a userspace management problem. We need a higher level description of tasks behavior that with the help of an all knowing Perf Manager can be translated into the right attributes at kernel level.</p>\n<p style=\"text-align: justify;\"><a href=\"https://github.com/qais-yousef/schedqos\">schedqos utility</a> was created to execute on this plan. It is in alpha stage, but pretty much usable for power users and to help iterate and develop the concepts further.</p>\n<p style=\"text-align: justify;\">We picked <a href=\"https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1\">an existing industry high level description</a> that is successful in practice as initial guide to grow (if needed) on.</p>\n<p style=\"text-align: justify;\">To counter the adoption problem of introducing new APIs and circumvent the ABI issue of having to support potentially kernel interfaces forever, we propose a zero API approach. No binary has to ship to take advantage of the proposal. Apps are described in config files which the Perf Manager reads and apply immediately for all instances of an application that are running, and any new one when executed.</p>\n<p style=\"text-align: justify;\">The devil is in many details though. This talk will provide a quick overview of what was proposed and discussed, what is next and how can we cultivate help to grow this to become The Way to manage performance and power on all systems and workloads. We will cover use cases and examples of how it should all ultimately fit together.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/user-space-assissted-scheduling-with-sched-qos/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Qais YOUSEF",
+      "metadata": {
+        "Speakers": "Qais YOUSEF",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-21",
+      "time": "14:50-15:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/fe541af53843488baa5849f5801eb73d",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/user-space-assissted-scheduling-with-sched-qos/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=UL7PfLAisbE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/user-space-assissted-scheduling-with-sched-qos/"
+        },
+        {
+          "title": "additional material",
+          "url": "https://lpc.events/event/19/contributions/2089/",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/user-space-assissted-scheduling-with-sched-qos/"
+        },
+        {
+          "title": "additional material",
+          "url": "https://github.com/qais-yousef/schedqos",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/user-space-assissted-scheduling-with-sched-qos/"
+        },
+        {
+          "title": "additional material",
+          "url": "https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/user-space-assissted-scheduling-with-sched-qos/"
+        }
+      ]
+    },
+    {
+      "id": "kernel-testing-frameworks",
+      "url": "https://kernel-recipes.org/en/2026/schedule/kernel-testing-frameworks/",
+      "title": "Kernel Testing Frameworks",
+      "listing_title": "Kernel testing frameworks",
+      "description": "We can all agree that it is important to test the kernel. There are a number of tools for code coverage, dynamic and static analysis to choose from to test the kernel. Linux kernel provides two testing frameworks to write and run tests. A majority of kernel tests are written using these two frameworks. Having a rich set of tools and frameworks is great. However it can be challenging to know which one to chose.\n\nIn this talk, Shuah will give an overview of tools and frameworks and their differences, and how to use them to achieve the your kernel testing objectives and goals.",
+      "description_html": "<p style=\"text-align: justify;\">We can all agree that it is important to test the kernel. There are a number of tools for code coverage, dynamic and static analysis to choose from to test the kernel. Linux kernel provides two testing frameworks to write and run tests. A majority of kernel tests are written using these two frameworks. Having a rich set of tools and frameworks is great. However it can be challenging to know which one to chose.</p>\n<p style=\"text-align: justify;\">In this talk, Shuah will give an overview of tools and frameworks and their differences, and how to use them to achieve the your kernel testing objectives and goals.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/kernel-testing-frameworks/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Shuah Khan",
+      "metadata": {
+        "Speakers": "Shuah Khan",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-21",
+      "time": "16:00-16:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/0c1007fd15ff4cdc90bc5817ce83d48b",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/kernel-testing-frameworks/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=BbATAIfSLjs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/kernel-testing-frameworks/"
+        }
+      ]
+    },
+    {
+      "id": "dual-core-video-decoding-on-rk3588-upstreaming-vdpu381-and-the-road-to-multi-core",
+      "url": "https://kernel-recipes.org/en/2026/schedule/dual-core-video-decoding-on-rk3588-upstreaming-vdpu381-and-the-road-to-multi-core/",
+      "title": "Dual-core video decoding on RK3588: Upstreaming VDPU381 and the road to multi-core",
+      "listing_title": "Dual-core video decoding on RK3588: Upstreaming…",
+      "description": "The Rockchip RK3588 features two VDPU381 video decoder cores capable of parallel hardware decoding, but getting them working correctly in mainline Linux is anything but straightforward.\n\nThis talk covers Collabora’s work to upstream H.264 and HEVC decoding for the RK3588 and RK3576 (VDPU381/383), including the new V4L2 HEVC UAPI extensions for explicit short- and long-term Reference Picture Set handling, designed to mirror Vulkan Video’s descriptor model and reduce userspace impedance mismatch.\n\nWe’ll dig into two decisions that shaped the driver architecture with multi-core in mind: why we moved away from individual MMIO reads and writes to a struct-based register model that decouples job preparation from core assignment, and how we diagnosed and fixed a subtle IOMMU restore bug triggered by decoder-embedded IOMMU resets during error recovery.\n\nWith the single-core path now merged, we’ll look honestly at what full multi-core support requires: scheduling decode jobs across independent cores, per-core reset isolation, and IOMMU management, and where that work stands today.",
+      "description_html": "<p style=\"text-align: justify;\"><span style=\"font-size: 14px;\">The Rockchip RK3588 features two VDPU381 video decoder cores capable of parallel hardware decoding, but getting them working correctly in mainline Linux is anything but straightforward.</span></p>\n<p style=\"text-align: justify;\">This talk covers Collabora&#8217;s work to upstream H.264 and HEVC decoding for the RK3588 and RK3576 (VDPU381/383), including the new V4L2 HEVC UAPI extensions for explicit short- and long-term Reference Picture Set handling, designed to mirror Vulkan Video&#8217;s descriptor model and reduce userspace impedance mismatch.</p>\n<p style=\"text-align: justify;\">We&#8217;ll dig into two decisions that shaped the driver architecture with multi-core in mind: why we moved away from individual MMIO reads and writes to a struct-based register model that decouples job preparation from core assignment, and how we diagnosed and fixed a subtle IOMMU restore bug triggered by decoder-embedded IOMMU resets during error recovery.</p>\n<p style=\"text-align: justify;\">With the single-core path now merged, we&#8217;ll look honestly at what full multi-core support requires: scheduling decode jobs across independent cores, per-core reset isolation, and IOMMU management, and where that work stands today.</p>\n<ul></ul>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/dual-core-video-decoding-on-rk3588-upstreaming-vdpu381-and-the-road-to-multi-core/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Detlev CASANOVA",
+      "metadata": {
+        "Speakers": "Detlev CASANOVA",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-21",
+      "time": "16:50-17:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=pNVac5VcmmU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/dual-core-video-decoding-on-rk3588-upstreaming-vdpu381-and-the-road-to-multi-core/"
+        }
+      ]
+    },
+    {
+      "id": "futex-the-good-the-bad-and-the-ugly-mostly-ugly",
+      "url": "https://kernel-recipes.org/en/2026/schedule/futex-the-good-the-bad-and-the-ugly-mostly-ugly/",
+      "title": "Futex: The good, the bad and the ugly! (mostly ugly)",
+      "listing_title": "Futex: The good, the bad and the ugly! (mostly ugly)",
+      "description": "A futex is a fast user space mutex that allows user space programs to handle concurrency lock protection mostly from user space, avoiding expensive system calls. On contention, it still requires system calls but it does not need to make them in the non-contended case. It is implemented by sharing a 4 byte user space memory location with the kernel and any other process that requires the synchronization provided by the lock. Implementing this is not trivial. There are lots of hidden gotchas that the kernel must take care of. The futex system call was first introduced into Linux 2.5.6 in 2002. Since then, there’s been a lot of enhancements made to the code as well as new obstacles to overcome.\n\nThis talk will go into how a futex is implemented, the various versions of it, and the horror stories that caused those that worked on it to age decades for the few weeks they spent on it.",
+      "description_html": "<p style=\"text-align: justify;\">A futex is a fast user space mutex that allows user space programs to handle concurrency lock protection mostly from user space, avoiding expensive system calls. On contention, it still requires system calls but it does not need to make them in the non-contended case. It is implemented by sharing a 4 byte user space memory location with the kernel and any other process that requires the synchronization provided by the lock. Implementing this is not trivial. There are lots of hidden gotchas that the kernel must take care of. The futex system call was first introduced into Linux 2.5.6 in 2002. Since then, there&#8217;s been a lot of enhancements made to the code as well as new obstacles to overcome.</p>\n<p style=\"text-align: justify;\">This talk will go into how a futex is implemented, the various versions of it, and the horror stories that caused those that worked on it to age decades for the few weeks they spent on it.</p>\n<ul></ul>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/futex-the-good-the-bad-and-the-ugly-mostly-ugly/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Steven ROSTEDT",
+      "metadata": {
+        "Speakers": "Steven ROSTEDT",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-22",
+      "time": "10:00-10:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/94f405d22d5d48bcb2f5eadf492b3a64",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/futex-the-good-the-bad-and-the-ugly-mostly-ugly/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=KPDkA8_wyJU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/futex-the-good-the-bad-and-the-ugly-mostly-ugly/"
+        }
+      ]
+    },
+    {
+      "id": "lavd-from-gaming-to-server-fleets-a-bpf-scheduler-for-cloud-ml-and-edge",
+      "url": "https://kernel-recipes.org/en/2026/schedule/lavd-from-gaming-to-server-fleets-a-bpf-scheduler-for-cloud-ml-and-edge/",
+      "title": "LAVD: From Gaming to Server Fleets — a BPF Scheduler for Cloud, ML, and Edge",
+      "listing_title": "LAVD: From Gaming to Server Fleets — a BPF Scheduler …",
+      "description": "scx_lavd is a sched_ext scheduler implemented in BPF — dynamically loadable at runtime without a kernel rebuild. It started in 2024 as a Linux gaming experiment for Valve’s Steam Deck, and has since matured into a serious contender for server workloads.\n\nAt Linux Plumbers Conference 2025, Meta engineers presented LAVD as a candidate default scheduler for their server fleet.\n\nThis session would reveal its core design ideas and how recent development benefits cloud and server workloads — such as the `cpu.max` cgroup controller, IRQ-aware task steering, latency criticality propagation, and the task-size-aware load balancer. Beyond cloud, the same design supports power-aware mobile/edge deployments and hybrid CPU architectures — making LAVD relevant across cloud, automotive, and mobile vendors.",
+      "description_html": "<p style=\"text-align: justify;\">scx_lavd is a sched_ext scheduler implemented in BPF — dynamically loadable at runtime without a kernel rebuild. It started in 2024 as a Linux gaming experiment for Valve&#8217;s Steam Deck, and has since matured into a serious contender for server workloads.</p>\n<p style=\"text-align: justify;\">At Linux Plumbers Conference 2025, Meta engineers presented LAVD as a candidate default scheduler for their server fleet.</p>\n<p style=\"text-align: justify;\">This session would reveal its core design ideas and how recent development benefits cloud and server workloads — such as the `cpu.max` cgroup controller, IRQ-aware task steering, latency criticality propagation, and the task-size-aware load balancer. Beyond cloud, the same design supports power-aware mobile/edge deployments and hybrid CPU architectures — making LAVD relevant across cloud, automotive, and mobile vendors.</p>\n<ul></ul>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/lavd-from-gaming-to-server-fleets-a-bpf-scheduler-for-cloud-ml-and-edge/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Changwoo Min and Gavin GUO",
+      "metadata": {
+        "Speakers": "Changwoo Min and Gavin GUO",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-22",
+      "time": "10:50-11:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=wh9GJDnbaMs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/lavd-from-gaming-to-server-fleets-a-bpf-scheduler-for-cloud-ml-and-edge/"
+        }
+      ]
+    },
+    {
+      "id": "the-maintainer-container",
+      "url": "https://kernel-recipes.org/en/2026/the-maintainer-container/",
+      "title": "The Maintainer Container",
+      "listing_title": "The Maintainer Container",
+      "description": "Kernel maintainers still work in git and mail, but the chores around that have multiplied: CI reports, Sashiko comments, LLM-assisted submissions now layer on top of the usual burden of code review. We’re introducing “b4 review,” which aims to help organize the subsystem maintainer’s job in a clean simple TUI that integrates well with existing workflows. Plus, we’re offering a “maintainer container”: a self-hosted image that continuously mirrors the parts of git.kernel.org and lore.kernel.org you care about and serves them locally, offering an integration with agents that may help a busy subsystem maintainer stay afloat.",
+      "description_html": "<p style=\"text-align: justify;\">Kernel maintainers still work in git and mail, but the chores around that have multiplied: CI reports, Sashiko comments, LLM-assisted submissions now layer on top of the usual burden of code review. We&#8217;re introducing &#8220;b4 review,&#8221; which aims to help organize the subsystem maintainer&#8217;s job in a clean simple TUI that integrates well with existing workflows. Plus, we&#8217;re offering a &#8220;maintainer container&#8221;: a self-hosted image that continuously mirrors the parts of git.kernel.org and lore.kernel.org you care about and serves them locally, offering an integration with agents that may help a busy subsystem maintainer stay afloat.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/the-maintainer-container/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Konstantin RYABITSEV",
+      "metadata": {
+        "Speakers": "Konstantin RYABITSEV",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-22",
+      "time": "11:40-12:20",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/63d8c276326449babfd03e549e8fd4db",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/the-maintainer-container/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=MF_4bRsZZoY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/the-maintainer-container/"
+        }
+      ]
+    },
+    {
+      "id": "security-in-the-llm-age",
+      "url": "https://kernel-recipes.org/en/2026/security-in-the-llm-age/",
+      "title": "Security in the LLM age",
+      "listing_title": "Security in the LLM age",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://kernel-recipes.org/en/2026/security-in-the-llm-age/",
+      "description_status": "missing",
+      "track": "Talk",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-22",
+      "time": "15:10-15:50",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=NnV_cWeoo5Q",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/security-in-the-llm-age/"
+        }
+      ]
+    },
+    {
+      "id": "whats-cooking-in-git",
+      "url": "https://kernel-recipes.org/en/2026/schedule/whats-cooking-in-git/",
+      "title": "What’s Cooking in Git?",
+      "listing_title": "What’s Cooking in Git?",
+      "description": "Git turned 20 last year. Many kernel maintainers learned it shortly after it appeared, and many have not had a reason to revisit their workflow since. In the meantime, Git has gained a number of features that make a maintainer’s life easier, and some of its fundamentals are currently undergoing large transitions.\n\nThis talk has two halves. The first half gives an overview of comparatively new features and tools that you may not be familiar with yet, as well as a primer on the new `git history` command for easier history rewriting. The second half is a tour of what is coming: the SHA-256 transition, the reftable backend, and Git’s ongoing work toward first-class support for large binary files.- Show Git features that may improve maintainer’s daily workflows.\n\nGive a primer on the new `git history(1)` command\n\nProvide an insider view of upcoming changes: SHA-256, reftable, large objects\n\nWarn about Git 3.0 changes that may break scripts and tooling",
+      "description_html": "<p style=\"text-align: justify;\">Git turned 20 last year. Many kernel maintainers learned it shortly after it appeared, and many have not had a reason to revisit their workflow since. In the meantime, Git has gained a number of features that make a maintainer&#8217;s life easier, and some of its fundamentals are currently undergoing large transitions.</p>\n<p style=\"text-align: justify;\">This talk has two halves. The first half gives an overview of comparatively new features and tools that you may not be familiar with yet, as well as a primer on the new `git history` command for easier history rewriting. The second half is a tour of what is coming: the SHA-256 transition, the reftable backend, and Git&#8217;s ongoing work toward first-class support for large binary files.- Show Git features that may improve maintainer&#8217;s daily workflows.</p>\n<p style=\"text-align: justify;\">\n<ul>\n<li style=\"text-align: justify;\">Give a primer on the new `git history(1)` command</li>\n<li style=\"text-align: justify;\">Provide an insider view of upcoming changes: SHA-256, reftable, large objects</li>\n<li style=\"text-align: justify;\">Warn about Git 3.0 changes that may break scripts and tooling</li>\n</ul>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/whats-cooking-in-git/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Patrick STEINHARDT",
+      "metadata": {
+        "Speakers": "Patrick STEINHARDT",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-22",
+      "time": "16:20-17:00",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=gbxCamrCt2o",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/whats-cooking-in-git/"
+        }
+      ]
+    },
+    {
+      "id": "flexguard-vs-time-slice-extension-handling-lock-holder-preemption",
+      "url": "https://kernel-recipes.org/en/2026/schedule/flexguard-vs-time-slice-extension-handling-lock-holder-preemption/",
+      "title": "FlexGuard vs. Time-Slice Extension: Handling Lock Holder Preemption",
+      "listing_title": "FlexGuard vs. Time-Slice Extension: Handling Lock …",
+      "description": "Modern hardware scales by adding cores, but synchronization overhead increasingly limits scalability in user-space. Blocking locks are reliable but incur high handover costs due to frequent context switches. Spinlocks, in contrast, minimize handover latency, but their performance collapses in oversubscription (i.e., more threads than hardware contexts) as busy-waiting threads preempt lock holders in preemptible contexts. In an attempt to get the best of both worlds, many performance-oriented applications still rely on spin-then-park locks (e.g., POSIX mutexes). owever, like other locks that balance spinning and blocking, spin-then-park locks rely on arbitrary heuristics that often lead to suboptimal performance.\n\nFlexGuard (SOSP’25) is a non-heuristic synchronization technique that leverages eBPF to monitor context switches and detect critical-section preemptions. When a lock holder is preempted, FlexGuard proactively transitions waiting threads from spinning to blocking, freeing CPU resources to quickly resume the preempted critical section. By reacting to actual execution events rather than static thresholds, FlexGuard can improve performance by up to 6 times compared to POSIX mutexes.\n\nAnother approach, often discussed in the Linux community (and used in Solaris), instead aims to prevent lock-holder preemptions altogether by extending scheduler time slices. Recent Linux proposals, including a patch by Thomas Gleixner (2025), use rseq to efficiently notify the kernel when a thread holds the lock. Rather than preempting such a thread, the scheduler allows it to run until the lock is released, preserving forward progress. Timeslice extensions have long been a subject of debate among maintainers.\n\nTo better understand whether timeslice extensions should be integrated into the Linux kernel, we evaluate both techniques across microbenchmarks and applications, including a memory-optimized database index, LevelDB, PARSEC’s Dedup, and SPLASH2X’s Raytrace and Streamcluster. Our results show that the two approaches address different bottlenecks and complement rather than replace each other, delivering benefits in both oversubscribed and non-oversubscribed settings.",
+      "description_html": "<p style=\"text-align: justify;\">Modern hardware scales by adding cores, but synchronization overhead increasingly limits scalability in user-space. Blocking locks are reliable but incur high handover costs due to frequent context switches. Spinlocks, in contrast, minimize handover latency, but their performance collapses in oversubscription (i.e., more threads than hardware contexts) as busy-waiting threads preempt lock holders in preemptible contexts. In an attempt to get the best of both worlds, many performance-oriented applications still rely on spin-then-park locks (e.g., POSIX mutexes). owever, like other locks that balance spinning and blocking, spin-then-park locks rely on arbitrary heuristics that often lead to suboptimal performance.</p>\n<p style=\"text-align: justify;\">FlexGuard (SOSP&#8217;25) is a non-heuristic synchronization technique that leverages eBPF to monitor context switches and detect critical-section preemptions. When a lock holder is preempted, FlexGuard proactively transitions waiting threads from spinning to blocking, freeing CPU resources to quickly resume the preempted critical section. By reacting to actual execution events rather than static thresholds, FlexGuard can improve performance by up to 6 times compared to POSIX mutexes.</p>\n<p style=\"text-align: justify;\">Another approach, often discussed in the Linux community (and used in Solaris), instead aims to prevent lock-holder preemptions altogether by extending scheduler time slices. Recent Linux proposals, including a patch by Thomas Gleixner (2025), use rseq to efficiently notify the kernel when a thread holds the lock. Rather than preempting such a thread, the scheduler allows it to run until the lock is released, preserving forward progress. Timeslice extensions have long been a subject of debate among maintainers.</p>\n<p style=\"text-align: justify;\">To better understand whether timeslice extensions should be integrated into the Linux kernel, we evaluate both techniques across microbenchmarks and applications, including a memory-optimized database index, LevelDB, PARSEC&#8217;s Dedup, and SPLASH2X&#8217;s Raytrace and Streamcluster. Our results show that the two approaches address different bottlenecks and complement rather than replace each other, delivering benefits in both oversubscribed and non-oversubscribed settings.</p>\n<ul></ul>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/flexguard-vs-time-slice-extension-handling-lock-holder-preemption/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Victor LAFORET",
+      "metadata": {
+        "Speakers": "Victor LAFORET",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-22",
+      "time": "17:10-17:50",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/a7e17abe70374e719fe915ee657ac951",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/flexguard-vs-time-slice-extension-handling-lock-holder-preemption/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=SFBJvfb2tHs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/flexguard-vs-time-slice-extension-handling-lock-holder-preemption/"
+        }
+      ]
+    },
+    {
+      "id": "swap-and-memory-reclaim-squeezing-out-more-ram",
+      "url": "https://kernel-recipes.org/en/2026/schedule/swap-and-memory-reclaim-squeezing-out-more-ram/",
+      "title": "Swap and Memory Reclaim: Squeezing Out More RAM",
+      "listing_title": "Swap and Memory Reclaim: Squeezing Out More RAM",
+      "description": "Making better use of physical memory is a continuous, long-term effort within the kernel community. Immense effort has been directed toward this goal via offloading and compressing cold memory, caching and evicting file cache, and many more. Swap and memory reclaim are two of the key subsystems in the Linux kernel.\n\nThis session will provide an overview of current reclaim and swap strategies along with a bit of historical context, covering the reclaim pathways for both anonymous and file folios. We will discuss new developments in the swap subsystem, and the recent debates and progress surrounding traditional LRU and the Multi-Gen LRU (MGLRU), and how they may reshape system behavior under memory pressure.\n\nHistorically, heavy memory pressure often led to dramatic performance degradation and catastrophic latency spikes, making it difficult for many workloads to remain usable. We will look at how upstream work and usage may make it worth reconsidering.",
+      "description_html": "<p style=\"text-align: justify;\">Making better use of physical memory is a continuous, long-term effort within the kernel community. Immense effort has been directed toward this goal via offloading and compressing cold memory, caching and evicting file cache, and many more. Swap and memory reclaim are two of the key subsystems in the Linux kernel.</p>\n<p style=\"text-align: justify;\">This session will provide an overview of current reclaim and swap strategies along with a bit of historical context, covering the reclaim pathways for both anonymous and file folios. We will discuss new developments in the swap subsystem, and the recent debates and progress surrounding traditional LRU and the Multi-Gen LRU (MGLRU), and how they may reshape system behavior under memory pressure.</p>\n<p style=\"text-align: justify;\">Historically, heavy memory pressure often led to dramatic performance degradation and catastrophic latency spikes, making it difficult for many workloads to remain usable. We will look at how upstream work and usage may make it worth reconsidering.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/swap-and-memory-reclaim-squeezing-out-more-ram/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Kairui SONG",
+      "metadata": {
+        "Speakers": "Kairui SONG",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-23",
+      "time": "10:00-10:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/92cdce0ebdc645a2a86567b7d5ab3ec5",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/swap-and-memory-reclaim-squeezing-out-more-ram/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=XEhDipqOpsI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/swap-and-memory-reclaim-squeezing-out-more-ram/"
+        }
+      ]
+    },
+    {
+      "id": "enforcing-device-driver-lifecycle-rules-at-compile-time",
+      "url": "https://kernel-recipes.org/en/2026/schedule/enforcing-device-driver-lifecycle-rules-at-compile-time/",
+      "title": "Enforcing Device Driver Lifecycle Rules at Compile Time",
+      "listing_title": "Enforcing Device Driver Lifecycle Rules at Compile Time",
+      "description": "The Linux device model defines a set of lifecycle rules that every driver must follow: when a device is bound to a driver, in what order initializations and registrations must be performed, and what invariants hold at each stage. In C, these rules are enforced by convention, code review, and documentation and often are largely up to the driver to get right — getting them wrong leads to use-after-free, resource leaks, or subtle ordering bugs that are hard to catch and hard to debug. In this talk, we walk through how the Rust driver model turns these conventions into compile-time guarantees.\n\nThe infrastructure models the device/driver binding scope through Rust’s lifetime system and uses type-state patterns on device references to control which operations are available at each stage of the lifecycle. Device resources such as MMIO mappings, interrupts, and DMA allocations are tied to this binding scope, and registrations — such as class device registrations — carry their own scoped private data, enforcing initialization ordering and preventing access beyond their valid scope.\n\nWe trace this design through the layers of the stack: the bus device layer, where lifetimes and typed device contexts enforce the binding scope; the class device layer, where devices that outlive their parent bus binding introduce additional lifetime challenges; and the I/O architecture that drivers use to interact with hardware.\n\nAlong the way, we compare to the corresponding C patterns and discuss how compile-time lifecycle enforcement shapes driver and subsystem design in practice.",
+      "description_html": "<p style=\"text-align: justify;\">The Linux device model defines a set of lifecycle rules that every driver must follow: when a device is bound to a driver, in what order initializations and registrations must be performed, and what invariants hold at each stage. In C, these rules are enforced by convention, code review, and documentation and often are largely up to the driver to get right &#8212; getting them wrong leads to use-after-free, resource leaks, or subtle ordering bugs that are hard to catch and hard to debug. In this talk, we walk through how the Rust driver model turns these conventions into compile-time guarantees.</p>\n<p style=\"text-align: justify;\">The infrastructure models the device/driver binding scope through Rust&#8217;s lifetime system and uses type-state patterns on device references to control which operations are available at each stage of the lifecycle. Device resources such as MMIO mappings, interrupts, and DMA allocations are tied to this binding scope, and registrations &#8212; such as class device registrations &#8212; carry their own scoped private data, enforcing initialization ordering and preventing access beyond their valid scope.</p>\n<p style=\"text-align: justify;\">We trace this design through the layers of the stack: the bus device layer, where lifetimes and typed device contexts enforce the binding scope; the class device layer, where devices that outlive their parent bus binding introduce additional lifetime challenges; and the I/O architecture that drivers use to interact with hardware.</p>\n<p style=\"text-align: justify;\">Along the way, we compare to the corresponding C patterns and discuss how compile-time lifecycle enforcement shapes driver and subsystem design in practice.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/enforcing-device-driver-lifecycle-rules-at-compile-time/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Danilo KRUMMRICH",
+      "metadata": {
+        "Speakers": "Danilo KRUMMRICH",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-23",
+      "time": "10:50-11:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=A5awIY4UTG0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/enforcing-device-driver-lifecycle-rules-at-compile-time/"
+        }
+      ]
+    },
+    {
+      "id": "mptcp-when-one-path-is-not-enough",
+      "url": "https://kernel-recipes.org/en/2026/schedule/mptcp-when-one-path-is-not-enough/",
+      "title": "MPTCP: when one path is not enough",
+      "listing_title": "MPTCP: when one path is not enough",
+      "description": "Multipath TCP (MPTCP) started to appear in the Linux kernel in the v5.6 version, released in 2020. Before a rewrite to fit Netdev maintainers requirements, this complex protocol was supported in a fork, with millions of users. A lot of changes have been introduced since then.\n\nThis session will cover different aspects about MPTCP and its development. First, what is MPTCP, its use-cases, and  he different components. Then how easy it is to use MPTCP today on Linux. There will be some words about the current status, what has been built around, what are the planned next steps, and eventually some discussions about what would be great to have later on.",
+      "description_html": "<p style=\"text-align: justify;\">\n<p style=\"text-align: justify;\">Multipath TCP (MPTCP) started to appear in the Linux kernel in the v5.6 version, released in 2020. Before a rewrite to fit Netdev maintainers requirements, this complex protocol was supported in a fork, with millions of users. A lot of changes have been introduced since then.</p>\n<p style=\"text-align: justify;\">This session will cover different aspects about MPTCP and its development. First, what is MPTCP, its use-cases, and  he different components. Then how easy it is to use MPTCP today on Linux. There will be some words about the current status, what has been built around, what are the planned next steps, and eventually some discussions about what would be great to have later on.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/mptcp-when-one-path-is-not-enough/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Matthieu BAERTS",
+      "metadata": {
+        "Speakers": "Matthieu BAERTS",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-23",
+      "time": "11:40-12:20",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/6063a6c2dc65474191b714ece39c2bef",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/mptcp-when-one-path-is-not-enough/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=uU079w98ink",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/mptcp-when-one-path-is-not-enough/"
+        }
+      ]
+    },
+    {
+      "id": "large-scale-kernel-build-testing-on-a-desktop",
+      "url": "https://kernel-recipes.org/en/2026/schedule/large-scale-kernel-build-testing-on-a-desktop/",
+      "title": "Large scale kernel build testing on a desktop",
+      "listing_title": "Large scale kernel build testing on a desktop",
+      "description": "For the past 15 years, Arnd has been using a custom kernel build setup for regression testing linux-next kernels. Initially set up purely for the maintenance of the SoC tree, this has also helped in a number of other initiatives for cross-tree code changes and produced thousands of bugfixes across every major subsystems of the kernel.\n\nIn this talk, Arnd will share how this is set up to run efficiently in the background of his development workstation and how this complements compares to and complements larger initiatives like kernelci and tuxsuite.",
+      "description_html": "<p style=\"text-align: justify;\">\n<p style=\"text-align: justify;\">For the past 15 years, Arnd has been using a custom kernel build setup for regression testing linux-next kernels. Initially set up purely for the maintenance of the SoC tree, this has also helped in a number of other initiatives for cross-tree code changes and produced thousands of bugfixes across every major subsystems of the kernel.</p>\n<p style=\"text-align: justify;\">In this talk, Arnd will share how this is set up to run efficiently in the background of his development workstation and how this complements compares to and complements larger initiatives like kernelci and tuxsuite.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/schedule/large-scale-kernel-build-testing-on-a-desktop/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Arnd BERGMANN",
+      "metadata": {
+        "Speakers": "Arnd BERGMANN",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-23",
+      "time": "14:00-14:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://speakerdeck.com/player/73a0bb1dcdcb4a459bd3b06ee92683a7",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/large-scale-kernel-build-testing-on-a-desktop/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Gxw7lorBEKA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/schedule/large-scale-kernel-build-testing-on-a-desktop/"
+        }
+      ]
+    },
+    {
+      "id": "postgres-on-vs-with-linux",
+      "url": "https://kernel-recipes.org/en/2026/postgres-on-vs-with-linux/",
+      "title": "Postgres (on, vs, with) Linux",
+      "listing_title": "Postgres (on, vs, with) Linux",
+      "description": "The experience of collaborating with linux folks from the perspective of a maintainer of postgres, what problems we’re seeing on linux, how linux could help us (features, process) and the other way round.",
+      "description_html": "<p style=\"text-align: justify;\">The experience of collaborating with linux folks from the perspective of a maintainer of postgres, what problems we&#8217;re seeing on linux, how linux could help us (features, process) and the other way round.</p>",
+      "description_source": "https://kernel-recipes.org/en/2026/postgres-on-vs-with-linux/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Andres FREUND",
+      "metadata": {
+        "Speakers": "Andres FREUND",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-23",
+      "time": "14:50-15:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=isATpooTax8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/postgres-on-vs-with-linux/"
+        }
+      ]
+    },
+    {
+      "id": "the-sashiko-review-system",
+      "url": "https://kernel-recipes.org/en/2026/the-sashiko-review-system/",
+      "title": "The Sashiko review system",
+      "listing_title": "The Sashiko review system",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://kernel-recipes.org/en/2026/the-sashiko-review-system/",
+      "description_status": "missing",
+      "track": "Talk",
+      "speakers": "Roman GUSHCHIN",
+      "metadata": {
+        "Speakers": "Roman GUSHCHIN",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-23",
+      "time": "16:00-16:40",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=gE7dBZBLvBc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/the-sashiko-review-system/"
+        }
+      ]
+    },
+    {
+      "id": "rust-for-linux",
+      "url": "https://kernel-recipes.org/en/2026/rust-for-linux/",
+      "title": "Rust for Linux",
+      "listing_title": "Rust for Linux",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://kernel-recipes.org/en/2026/rust-for-linux/",
+      "description_status": "missing",
+      "track": "Talk",
+      "speakers": "Miguel OJEDA",
+      "metadata": {
+        "Speakers": "Miguel OJEDA",
+        "Session Type": "Talk",
+        "Year": "2026"
+      },
+      "date": "2026-09-23",
+      "time": "16:50-17:30",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=7kPn2Kf7AJM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://kernel-recipes.org/en/2026/rust-for-linux/"
+        }
+      ]
+    }
+  ]
+}

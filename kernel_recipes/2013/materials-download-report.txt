@@ -1,0 +1,95 @@
+Source JSON: kernel-recipes-2013-sessions.json
+Total sessions: 14
+Sessions with file attachments: 14
+Sessions without file attachments: 0
+Attachment count: 14
+Distinct source-file count: 14
+Saved: 14
+Already present: 0
+Unresolved: 0
+Planned: 0
+
+Session: Viewing real time ltt trace using gtkwave
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipeslttgtkwave-130926023138-phpapp01.pdf
+  Local path: Viewing real time ltt trace using gtkwave/2013kernelrecipeslttgtkwave-130926023138-phpapp01.pdf
+  Status: saved
+
+Session: Easy rootfs using Buildroot
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-rootfs-kernel-developer-130926023233-phpapp02.pdf
+  Local path: Easy rootfs using Buildroot/2013kernelrecipes-rootfs-kernel-developer-130926023233-phpapp02.pdf
+  Status: saved
+
+Session: kconfig-frontends, a packaging of the kconfig parser and frontends
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipes2013-kconfig-frontends-131014101335-phpapp02.pdf
+  Local path: kconfig-frontends, a packaging of the kconfig parser and frontends/kernelrecipes2013-kconfig-frontends-131014101335-phpapp02.pdf
+  Status: saved
+
+Session: Persistent logs using UBI
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/lsm2012nandmtdlinuxcastet-130926023339-phpapp02.pdf
+  Local path: Persistent logs using UBI/lsm2012nandmtdlinuxcastet-130926023339-phpapp02.pdf
+  Status: saved
+
+Session: VNT Design and implementation
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-vtrill-130926023310-phpapp01.pdf
+  Local path: VNT Design and implementation/2013kernelrecipes-vtrill-130926023310-phpapp01.pdf
+  Status: saved
+
+Session: Nftables Why and how?
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipesnftables-130926023223-phpapp02.pdf
+  Local path: Nftables Why and how?/2013kernelrecipesnftables-130926023223-phpapp02.pdf
+  Status: saved
+
+Session: Linux Security Modules Formal concepts
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-lsm-130930050725-phpapp01.pdf
+  Local path: Linux Security Modules Formal concepts/2013kernelrecipes-lsm-130930050725-phpapp01.pdf
+  Status: saved
+
+Session: Developping drivers on small machines
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013-kernel-recipes-drivers-130926160417-phpapp01.pdf
+  Local path: Developping drivers on small machines/2013-kernel-recipes-drivers-130926160417-phpapp01.pdf
+  Status: saved
+
+Session: Distributions and Kernel Debian
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-debian-kernel-130926050552-phpapp02.pdf
+  Local path: Distributions and Kernel Debian/2013kernelrecipes-debian-kernel-130926050552-phpapp02.pdf
+  Status: saved
+
+Session: Display and kernel: review and future
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-display-131002165325-phpapp01.pdf
+  Local path: Display and kernel: review and future/2013kernelrecipes-display-131002165325-phpapp01.pdf
+  Status: saved
+
+Session: Deciphering Oopsies How to debug kernel oops
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-oops-130928133032-phpapp02.pdf
+  Local path: Deciphering Oopsies How to debug kernel oops/2013kernelrecipes-oops-130928133032-phpapp02.pdf
+  Status: saved
+
+Session: Crosstool-ng A cross-toolchain generator
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipes2013-crosstool-ng-130926161027-phpapp01.pdf
+  Local path: Crosstool-ng A cross-toolchain generator/kernelrecipes2013-crosstool-ng-130926161027-phpapp01.pdf
+  Status: saved
+
+Session: Automating source code evolutions using Coccinelle
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-coccinelle-130926045451-phpapp01.pdf
+  Local path: Automating source code evolutions using Coccinelle/2013kernelrecipes-coccinelle-130926045451-phpapp01.pdf
+  Status: saved
+
+Session: ARM support in kernel Overview and understand
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-arm-support-kernel-130926023120-phpapp01.pdf
+  Local path: ARM support in kernel Overview and understand/2013kernelrecipes-arm-support-kernel-130926023120-phpapp01.pdf
+  Status: saved
+

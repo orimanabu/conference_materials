@@ -1,0 +1,521 @@
+{
+  "event": "Kernel Recipes 2013",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library の Tag=2013 に該当する全14件を収録。概要・動画・追加資料は個別ページから取得。掲載されていない日時・会場は空欄。リンク先ファイルと動画の再生可否は未検査。 Automating source code evolutions using Coccinelle and Nftables Why and how? share video ID ohyn1DTuh18 in the archive",
+  "counts": {
+    "sessions": 14,
+    "with_description": 12,
+    "with_materials": 14,
+    "attachments": 28,
+    "files": 14,
+    "links": 14
+  },
+  "sessions": [
+    {
+      "id": "viewing-real-time-ltt-trace-using-gtkwave",
+      "url": "https://archives.kernel-recipes.org/document/viewing-real-time-ltt-trace-using-gtkwave/",
+      "title": "Viewing real time ltt trace using gtkwave",
+      "listing_title": "Viewing real time ltt trace using gtkwave",
+      "description": "This presentation will explain how to use some ltt to be viewd in gtkwave, a graphical visualization tool, developped by the Parrot team.\n\nIt will also explain why this tool was developed, review some of the problems that have been analyzed using these traces. It will finally end up on the ongoing integration with LTTng 2.x.",
+      "description_html": "<p>This presentation will explain how to use some ltt to be viewd in gtkwave, a graphical visualization tool, developped by the Parrot team.<br />\nIt will also explain why this tool was developed, review some of the problems that have been analyzed using these traces. It will finally end up on the ongoing integration with LTTng 2.x.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/viewing-real-time-ltt-trace-using-gtkwave/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Ivan DJELIC",
+      "metadata": {
+        "Speakers": "Ivan DJELIC",
+        "Category": "tracing",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipeslttgtkwave-130926023138-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=GzQ7CIsno0A",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/viewing-real-time-ltt-trace-using-gtkwave/"
+        }
+      ]
+    },
+    {
+      "id": "easy-rootfs-using-buildroot",
+      "url": "https://archives.kernel-recipes.org/document/easy-rootfs-using-buildroot/",
+      "title": "Easy rootfs using Buildroot",
+      "listing_title": "Easy rootfs using Buildroot",
+      "description": "The Linux kernel is an exciting world. But  if you want to get a working system, it is still essential to provide our kernel a root filesystem. The kernel developers often struggle to find a simple rootfs, adapted to their architecture, together with the tools that fits properly.\n\nWe will present how Buildroot, a tool for building embedded Linux systems, can meet the needs of kernel developers in the build of minimal rootfs for their developments.",
+      "description_html": "<p>The Linux kernel is an exciting world. But  if you want to get a working system, it is still essential to provide our kernel a root filesystem. The kernel developers often struggle to find a simple rootfs, adapted to their architecture, together with the tools that fits properly.<br />\nWe will present how Buildroot, a tool for building embedded Linux systems, can meet the needs of kernel developers in the build of minimal rootfs for their developments.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/easy-rootfs-using-buildroot/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Thomas PETAZZONI",
+      "metadata": {
+        "Speakers": "Thomas PETAZZONI",
+        "Category": "tooling",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-rootfs-kernel-developer-130926023233-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=VXsGAjVLwfM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/easy-rootfs-using-buildroot/"
+        }
+      ]
+    },
+    {
+      "id": "kconfig-frontends-a-packaging-of-the-kconfig-parser-and-frontends",
+      "url": "https://archives.kernel-recipes.org/document/kconfig-frontends-a-packaging-of-the-kconfig-parser-and-frontends/",
+      "title": "kconfig-frontends, a packaging of the kconfig parser and frontends",
+      "listing_title": "kconfig-frontends, a packaging of the kconfig parser and frontends",
+      "description": "The configuration language used by the Linux kernel, known as kconfig, has gained some traction in the community, and is increasingly used by  third-party projects. The kconfig-frontends package aims at centralising the effort of keeping an up-to-date, out of the Linux source tree, packaging of the kconfig infrastructure, ready for use by third party projects.\n\nThe state of the project will be presented: what has been done so far, and ideas on future evolutions. Some kconfig tips and tricks will also be demonstrated.",
+      "description_html": "<p>The configuration language used by the Linux kernel, known as kconfig, has gained some traction in the community, and is increasingly used by  third-party projects. The kconfig-frontends package aims at centralising the effort of keeping an up-to-date, out of the Linux source tree, packaging of the kconfig infrastructure, ready for use by third party projects.<br />\nThe state of the project will be presented: what has been done so far, and ideas on future evolutions. Some kconfig tips and tricks will also be demonstrated.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/kconfig-frontends-a-packaging-of-the-kconfig-parser-and-frontends/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Yann E MORIN",
+      "metadata": {
+        "Speakers": "Yann E MORIN",
+        "Category": "tooling",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipes2013-kconfig-frontends-131014101335-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=uG6F5iRmqr8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/kconfig-frontends-a-packaging-of-the-kconfig-parser-and-frontends/"
+        }
+      ]
+    },
+    {
+      "id": "persistent-logs-using-ubi",
+      "url": "https://archives.kernel-recipes.org/document/persistent-logs-using-ubi/",
+      "title": "Persistent logs using UBI",
+      "listing_title": "Persistent logs using UBI",
+      "description": "A short presentation about a library for persistent log based on the UBI layer. The goal is to enable an embedded software component to log persistent messages  (even after a full update of the system)  without requiring the use of a file system.",
+      "description_html": "<p>A short presentation about a library for persistent log based on the UBI layer. The goal is to enable an embedded software component to log persistent messages  (even after a full update of the system)  without requiring the use of a file system.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/persistent-logs-using-ubi/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Matthew CASTET",
+      "metadata": {
+        "Speakers": "Matthew CASTET",
+        "Category": "tooling",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/lsm2012nandmtdlinuxcastet-130926023339-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=vFCQwdbz7t0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/persistent-logs-using-ubi/"
+        }
+      ]
+    },
+    {
+      "id": "vnt-design-and-implementation",
+      "url": "https://archives.kernel-recipes.org/document/vnt-design-and-implementation/",
+      "title": "VNT Design and implementation",
+      "listing_title": "VNT Design and implementation",
+      "description": "IaaS Providers need next-generation virtualized networks, providing large-scale multi-tenancy services and meeting new requirements in terms of efficiency and availability. The main limitation of current network architectures mainly comes from inadequate design standards.\n\nIn this presentation, we present a TRILL based multi-tenant network architecture for virtualized data center networks. This architecture allows the best of both layers (bridging and routing), thus building a large-scale layer-2 network while ensuring scalability, efficiency, fault-tolerance and simplified management.\n\nThis enables also the creation of large numbers of logical networks within a virtualized data center.\n\nThe kernel part of our solution is currently developped in the Linux kernel.",
+      "description_html": "<p>IaaS Providers need next-generation virtualized networks, providing large-scale multi-tenancy services and meeting new requirements in terms of efficiency and availability. The main limitation of current network architectures mainly comes from inadequate design standards.<br />\nIn this presentation, we present a TRILL based multi-tenant network architecture for virtualized data center networks. This architecture allows the best of both layers (bridging and routing), thus building a large-scale layer-2 network while ensuring scalability, efficiency, fault-tolerance and simplified management.<br />\nThis enables also the creation of large numbers of logical networks within a virtualized data center.<br />\nThe kernel part of our solution is currently developped in the Linux kernel.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/vnt-design-and-implementation/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "William DAUCHY",
+      "metadata": {
+        "Speakers": "William DAUCHY",
+        "Category": "development",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-vtrill-130926023310-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=W8c-jI2LAhI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/vnt-design-and-implementation/"
+        }
+      ]
+    },
+    {
+      "id": "nftables-why-and-how",
+      "url": "https://archives.kernel-recipes.org/document/nftables-why-and-how/",
+      "title": "Nftables Why and how?",
+      "listing_title": "Nftables Why and how?",
+      "description": "Iptables and Netfilter were introduced in 2001 along with Linux 2.4 as  the full  layer for firewall. The functionalities and the codes changed quite a lot during this decade, but nothing like what has been done with nftables.\n\nThe motivation for this change is to overcome the limitations of iptables that was beginning to date both foncionnal level and in the code design: problem with the system update rules (very expensive when the number of rules increases  which has become a problem to manage  not static rules), code duplication, problematic for code maintenance and users.\n\nNftables  is a replacement for iptables that has been developed since 2008 by Patri ck McHardy who is the head of the Netfilter project. After a period of sleep, the developments around the project resumed in 2012 and a team of developers was formed and is working on the project.\n\nNftables solves the problem of updates performance using a communication message between the kernel and user space. Infrastructure Netlink was used because it is the basis of the latest major Netfilter developments.\n\nThe most notable changes:\n\nincremental update and atomic rules guaranteeing the performance and consistency of the set of rules\n\nexpression of the rules using a pseudo machine for avoiding complex operations of writing core modules and additional extensions\n\nNftables exceeds the limitations of iptables and brings news that should resolve elegant and efficient way many problems. The work is already significant and only the high-level library has not yet been developed. Given the remaining work, the first official release is planned for late 2013.",
+      "description_html": "<p>Iptables and Netfilter were introduced in 2001 along with Linux 2.4 as  the full  layer for firewall. The functionalities and the codes changed quite a lot during this decade, but nothing like what has been done with nftables.<br />\nThe motivation for this change is to overcome the limitations of iptables that was beginning to date both foncionnal level and in the code design: problem with the system update rules (very expensive when the number of rules increases  which has become a problem to manage  not static rules), code duplication, problematic for code maintenance and users.<br />\nNftables  is a replacement for iptables that has been developed since 2008 by Patri ck McHardy who is the head of the Netfilter project. After a period of sleep, the developments around the project resumed in 2012 and a team of developers was formed and is working on the project.<br />\nNftables solves the problem of updates performance using a communication message between the kernel and user space. Infrastructure Netlink was used because it is the basis of the latest major Netfilter developments.<br />\nThe most notable changes:<br />\nincremental update and atomic rules guaranteeing the performance and consistency of the set of rules<br />\nexpression of the rules using a pseudo machine for avoiding complex operations of writing core modules and additional extensions<br />\nNftables exceeds the limitations of iptables and brings news that should resolve elegant and efficient way many problems. The work is already significant and only the high-level library has not yet been developed. Given the remaining work, the first official release is planned for late 2013.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/nftables-why-and-how/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Eric LEBLOND",
+      "metadata": {
+        "Speakers": "Eric LEBLOND",
+        "Category": "networking",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipesnftables-130926023223-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ohyn1DTuh18",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/nftables-why-and-how/"
+        }
+      ]
+    },
+    {
+      "id": "linux-security-modules-formal-concepts",
+      "url": "https://archives.kernel-recipes.org/document/linux-security-modules-formal-concepts/",
+      "title": "Linux Security Modules Formal concepts",
+      "listing_title": "Linux Security Modules Formal concepts",
+      "description": "This conference proposes to browse the differences between the models that make up the security modules of Linux kernels.\n\nAn introduction to implementation will be presented in order to understand how to develop a security module.",
+      "description_html": "<p>This conference proposes to browse the differences between the models that make up the security modules of Linux kernels.<br />\nAn introduction to implementation will be presented in order to understand how to develop a security module.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/linux-security-modules-formal-concepts/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Samir BELLABES",
+      "metadata": {
+        "Speakers": "Samir BELLABES",
+        "Category": "security",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-lsm-130930050725-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=l9Shepu1wrs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/linux-security-modules-formal-concepts/"
+        }
+      ]
+    },
+    {
+      "id": "developping-drivers-on-small-machines",
+      "url": "https://archives.kernel-recipes.org/document/developping-drivers-on-small-machines/",
+      "title": "Developping drivers on small machines",
+      "listing_title": "Developping drivers on small machines",
+      "description": "The objective of this conference is to explain how to develop on small machines that can boot fast,  fanless …  It’s convenient and often more realistic than to work in virtual machines, especially when working on developping drivers.\n\nWilly will list all the necessary items to setup an optimal environment to be as efficient as possible. Among these one: the importance of investing time to speed up the boot, etc …\n\nHe will also speak a bit  about crosstool-ng, used in this environement.",
+      "description_html": "<p>The objective of this conference is to explain how to develop on small machines that can boot fast,  fanless …  It’s convenient and often more realistic than to work in virtual machines, especially when working on developping drivers.<br />\nWilly will list all the necessary items to setup an optimal environment to be as efficient as possible. Among these one: the importance of investing time to speed up the boot, etc …<br />\nHe will also speak a bit  about crosstool-ng, used in this environement.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/developping-drivers-on-small-machines/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Willy TARREAU",
+      "metadata": {
+        "Speakers": "Willy TARREAU",
+        "Category": "development",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013-kernel-recipes-drivers-130926160417-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=g3mCgL8r-Uk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/developping-drivers-on-small-machines/"
+        }
+      ]
+    },
+    {
+      "id": "distributions-and-kernel-debian",
+      "url": "https://archives.kernel-recipes.org/document/distributions-and-kernel-debian/",
+      "title": "Distributions and Kernel Debian",
+      "listing_title": "Distributions and Kernel Debian",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://archives.kernel-recipes.org/document/distributions-and-kernel-debian/",
+      "description_status": "missing",
+      "track": "",
+      "speakers": "Maximilian ATTEMS",
+      "metadata": {
+        "Speakers": "Maximilian ATTEMS",
+        "Category": "community",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-debian-kernel-130926050552-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=HdEi3RazZao",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/distributions-and-kernel-debian/"
+        }
+      ]
+    },
+    {
+      "id": "display-and-kernel-review-and-future",
+      "url": "https://archives.kernel-recipes.org/document/display-and-kernel-review-and-future/",
+      "title": "Display and kernel: review and future",
+      "listing_title": "Display and kernel: review and future",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://archives.kernel-recipes.org/document/display-and-kernel-review-and-future/",
+      "description_status": "missing",
+      "track": "",
+      "speakers": "Laurent PINCHART",
+      "metadata": {
+        "Speakers": "Laurent PINCHART",
+        "Category": "graphics",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-display-131002165325-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Tiz6RoBqFaM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/display-and-kernel-review-and-future/"
+        }
+      ]
+    },
+    {
+      "id": "deciphering-oopsies-how-to-debug-kernel-oops",
+      "url": "https://archives.kernel-recipes.org/document/deciphering-oopsies-how-to-debug-kernel-oops/",
+      "title": "Deciphering Oopsies How to debug kernel oops",
+      "listing_title": "Deciphering Oopsies How to debug kernel oops",
+      "description": "The Linux kernel is a very complex beast living in millions of households and data centers around the world. Normally, you’re not supposed to notice its presence but when it gets cranky because of something not suiting it, it spits crazy messages called colloquially\n\noopses and panics.\n\nIn this talk, we’re going to try to understand how to read those messages in order to be able to address its complaints so that it can get back to work for us.",
+      "description_html": "<p>The Linux kernel is a very complex beast living in millions of households and data centers around the world. Normally, you’re not supposed to notice its presence but when it gets cranky because of something not suiting it, it spits crazy messages called colloquially<br />\noopses and panics.<br />\nIn this talk, we’re going to try to understand how to read those messages in order to be able to address its complaints so that it can get back to work for us.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/deciphering-oopsies-how-to-debug-kernel-oops/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Borislav PETKOV",
+      "metadata": {
+        "Speakers": "Borislav PETKOV",
+        "Category": "debugging",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-oops-130928133032-phpapp02.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=71me-nacusA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/deciphering-oopsies-how-to-debug-kernel-oops/"
+        }
+      ]
+    },
+    {
+      "id": "crosstool-ng-a-cross-toolchain-generator",
+      "url": "https://archives.kernel-recipes.org/document/crosstool-ng-a-cross-toolchain-generator/",
+      "title": "Crosstool-ng A cross-toolchain generator",
+      "listing_title": "Crosstool-ng A cross-toolchain generator",
+      "description": "A toolchain is an essential component in a software development project. It will compile, assemble and link the code that is being  developed, and thus is a very sensitive piece of any build system. Toolchains are made of different, complex pieces of software, requiring specially crafted options to build and work seamlessly.\n\nCrosstool-NG allows to easily configure and build cross-toolchains, based on the standard FLOSS components, and targetting many of the classical architectures. After an overview of the tool and a quick sample usage session, we’ll have a look at the inside, and how easy it is to add new components. Finally, we’ll see where crosstool-NG has come up to, and the short-term and longer-term goals will be presented.",
+      "description_html": "<p>A toolchain is an essential component in a software development project. It will compile, assemble and link the code that is being  developed, and thus is a very sensitive piece of any build system. Toolchains are made of different, complex pieces of software, requiring specially crafted options to build and work seamlessly.<br />\nCrosstool-NG allows to easily configure and build cross-toolchains, based on the standard FLOSS components, and targetting many of the classical architectures. After an overview of the tool and a quick sample usage session, we’ll have a look at the inside, and how easy it is to add new components. Finally, we’ll see where crosstool-NG has come up to, and the short-term and longer-term goals will be presented.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/crosstool-ng-a-cross-toolchain-generator/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Yann E MORIN",
+      "metadata": {
+        "Speakers": "Yann E MORIN",
+        "Category": "tooling",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipes2013-crosstool-ng-130926161027-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=1xAIaNBIh8I",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/crosstool-ng-a-cross-toolchain-generator/"
+        }
+      ]
+    },
+    {
+      "id": "automating-source-code-evolutions-using-coccinelle",
+      "url": "https://archives.kernel-recipes.org/document/automating-source-code-evolutions-using-coccinelle/",
+      "title": "Automating source code evolutions using Coccinelle",
+      "listing_title": "Automating source code evolutions using Coccinelle",
+      "description": "New APIs are continually added to the Linux kernel, to improve functionality, reliability, or performance.  Nevertheless, it is a challenge to update old code to use these new APIs.  Coccinelle is a program matching and transformation tool for C code that has been extensively been applied to the Linux kernel.  This talk will introduce Coccinelle and illustrate how it can be used for this kind of code renovation.",
+      "description_html": "<p>New APIs are continually added to the Linux kernel, to improve functionality, reliability, or performance.  Nevertheless, it is a challenge to update old code to use these new APIs.  Coccinelle is a program matching and transformation tool for C code that has been extensively been applied to the Linux kernel.  This talk will introduce Coccinelle and illustrate how it can be used for this kind of code renovation. </p>",
+      "description_source": "https://archives.kernel-recipes.org/document/automating-source-code-evolutions-using-coccinelle/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Julia LAWALL",
+      "metadata": {
+        "Speakers": "Julia LAWALL",
+        "Category": "debugging",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-coccinelle-130926045451-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ohyn1DTuh18",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/automating-source-code-evolutions-using-coccinelle/"
+        }
+      ]
+    },
+    {
+      "id": "arm-support-in-kernel-overview-and-understand",
+      "url": "https://archives.kernel-recipes.org/document/arm-support-in-kernel-overview-and-understand/",
+      "title": "ARM support in kernel Overview and understand",
+      "listing_title": "ARM support in kernel Overview and understand",
+      "description": "Over the past two years, the support of the platforms based on ARM processor in the Linux kernel  has evolved considerably. Between the use of the Device Tree, moving drivers in many features like clock management or multiplexing of pines, the platform mechanism, the changes have been numerous.\n\nThrough the experience of the speaker about the addition to the core support for ARM Marvell Armada 370/XP processors, this intervention will provide an overview of these changes in order to better understand the new organization of the code for ARM architecture in the kernel.\n\nThis talk is intended to be useful both for developers who want to add support for a new ARM processor in the kernel, but also to those wishing to understand the ARM code for porting Linux to a new card, or just the curious one.",
+      "description_html": "<p>Over the past two years, the support of the platforms based on ARM processor in the Linux kernel  has evolved considerably. Between the use of the Device Tree, moving drivers in many features like clock management or multiplexing of pines, the platform mechanism, the changes have been numerous.<br />\nThrough the experience of the speaker about the addition to the core support for ARM Marvell Armada 370/XP processors, this intervention will provide an overview of these changes in order to better understand the new organization of the code for ARM architecture in the kernel.<br />\nThis talk is intended to be useful both for developers who want to add support for a new ARM processor in the kernel, but also to those wishing to understand the ARM code for porting Linux to a new card, or just the curious one.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/arm-support-in-kernel-overview-and-understand/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Thomas PETAZZONI",
+      "metadata": {
+        "Speakers": "Thomas PETAZZONI",
+        "Category": "arm",
+        "Year": "2013"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2013kernelrecipes-arm-support-kernel-130926023120-phpapp01.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=yBDoB-vscaA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/arm-support-in-kernel-overview-and-understand/"
+        }
+      ]
+    }
+  ]
+}

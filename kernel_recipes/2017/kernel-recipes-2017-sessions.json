@@ -1,0 +1,773 @@
+{
+  "event": "Kernel Recipes 2017",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library の Tag=2017 に該当する全21件を収録。概要・動画・追加資料は個別ページから取得。掲載されていない日時・会場は空欄。リンク先ファイルと動画の再生可否は未検査。",
+  "counts": {
+    "sessions": 21,
+    "with_description": 21,
+    "with_materials": 21,
+    "attachments": 42,
+    "files": 21,
+    "links": 21
+  },
+  "sessions": [
+    {
+      "id": "build-farm-again",
+      "url": "https://archives.kernel-recipes.org/document/build-farm-again/",
+      "title": "Build farm again",
+      "listing_title": "Build farm again",
+      "description": "Following a talk last year, Willy will present a review about how he used his build farm, some feedbacks about hardware and what improvment he could provide in coming months.",
+      "description_html": "<p>Following a talk last year, Willy will present a review about how he used his build farm, some feedbacks about hardware and what improvment he could provide in coming months.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/build-farm-again/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Willy TARREAU",
+      "metadata": {
+        "Speakers": "Willy TARREAU",
+        "Category": "tooling",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/build-farm-again-171007142555.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=sJwMRA34_SI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/build-farm-again/"
+        }
+      ]
+    },
+    {
+      "id": "fixing-coverity-bugs-all-around-the-linux-kernel",
+      "url": "https://archives.kernel-recipes.org/document/fixing-coverity-bugs-all-around-the-linux-kernel/",
+      "title": "Fixing coverity bugs all around the Linux kernel",
+      "listing_title": "Fixing coverity bugs all around the Linux kernel",
+      "description": "Coverity scans the kernel code and reports issues that can hide coding mistakes and vulnerabilities. It reports around 6,000 outstanding defects in the Linux kernel, some of which were identified 11 years ago. I’m dedicated to fix those defects and this is a presentation about my work. I’m looking forward to getting your feedback as I’m looking for ways to improve my workflow and also helping others to get started with kernel hacking.",
+      "description_html": "<p>Coverity scans the kernel code and reports issues that can hide coding mistakes and vulnerabilities. It reports around 6,000 outstanding defects in the Linux kernel, some of which were identified 11 years ago. I’m dedicated to fix those defects and this is a presentation about my work. I’m looking forward to getting your feedback as I’m looking for ways to improve my workflow and also helping others to get started with kernel hacking.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/fixing-coverity-bugs-all-around-the-linux-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Gustavo AR SILVA",
+      "metadata": {
+        "Speakers": "Gustavo AR SILVA",
+        "Category": "debugging",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/fixing-coverity-bugs-all-around-the-linux-kernel/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=y0__yxM0New",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/fixing-coverity-bugs-all-around-the-linux-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "software-heritage-our-software-commons-forever",
+      "url": "https://archives.kernel-recipes.org/document/software-heritage-our-software-commons-forever/",
+      "title": "Software Heritage: our Software Commons, forever",
+      "listing_title": "Software Heritage: our Software Commons, forever",
+      "description": "Software Heritage￼, the universal source code archive, was announced to the public in the spring of 2016. Since then, our development has been running in the open, using all Free Software; we have a preview API available to the public, and Inria, our umbrella institution, signed an agreement on software preservation with UNESCO. So far, our archive contains more than 3.6 billion source files, spanning 825 million revisions across almost 65 million projects. We’re archiving git repositories, subversion repositories, source packages of Debian-based distributions, and we’re doing the legwork to import mercurial repositories, all in a uniform, VCS-agnostic archive. Archiving this amount of data, and building the largest (virtual) VCS graph in history, on the infrastructure provided by a public research institution, isn’t without challenges; This lightning talk will review the current infrastructure choices made by the project, and open a conversation about how we’ll make it evolve so that it can outlast us all.",
+      "description_html": "<p>Software Heritage￼, the universal source code archive, was announced to the public in the spring of 2016. Since then, our development has been running in the open, using all Free Software; we have a preview API available to the public, and Inria, our umbrella institution, signed an agreement on software preservation with UNESCO. So far, our archive contains more than 3.6 billion source files, spanning 825 million revisions across almost 65 million projects. We’re archiving git repositories, subversion repositories, source packages of Debian-based distributions, and we’re doing the legwork to import mercurial repositories, all in a uniform, VCS-agnostic archive. Archiving this amount of data, and building the largest (virtual) VCS graph in history, on the infrastructure provided by a public research institution, isn’t without challenges; This lightning talk will review the current infrastructure choices made by the project, and open a conversation about how we’ll make it evolve so that it can outlast us all.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2017 - Software Heritage: our Software Commons, forever\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/msZnYhO8xiY?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/software-heritage-our-software-commons-forever/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Nicolas DANDRIMONT",
+      "metadata": {
+        "Speakers": "Nicolas DANDRIMONT",
+        "Category": "community",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/software-heritage-our-software-commons-forever/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=msZnYhO8xiY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/software-heritage-our-software-commons-forever/"
+        }
+      ]
+    },
+    {
+      "id": "whats-new-in-the-world-of-storage-for-linux",
+      "url": "https://archives.kernel-recipes.org/document/whats-new-in-the-world-of-storage-for-linux/",
+      "title": "What’s new in the world of storage for linux",
+      "listing_title": "What’s new in the world of storage for linux",
+      "description": "Storage keeps moving forward, and so does the Linux IO stack. This talk will detail some of the recent  additions and changes that have gone into the Linux kernel storage stack, helping Linux get the most out of industry innovations in that space.",
+      "description_html": "<p>Storage keeps moving forward, and so does the Linux IO stack. This talk will detail some of the recent  additions and changes that have gone into the Linux kernel storage stack, helping Linux get the most out of industry innovations in that space.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/whats-new-in-the-world-of-storage-for-linux/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jens AXBOE",
+      "metadata": {
+        "Speakers": "Jens AXBOE",
+        "Category": "storage",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-recipes-2017-axboe-2-171007142600.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=g14zAvrU3Jg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/whats-new-in-the-world-of-storage-for-linux/"
+        }
+      ]
+    },
+    {
+      "id": "whats-inside-the-input-stack",
+      "url": "https://archives.kernel-recipes.org/document/whats-inside-the-input-stack/",
+      "title": "What’s Inside The Input Stack?",
+      "listing_title": "What’s Inside The Input Stack?",
+      "description": "Everybody uses at least one input device when dealing with a computer. And hopefully, this input device “just” works. However, when dealing with the brand-new latest laptop model, it’s common enough that the input devices are not working, or are not working as expected by the users. The reasons are manifold: OEMs want to have more power efficient laptops and are generally refusing to use well-tested PS/2 ball mice from 15 years ago. So they are introducing new touchpads using weird communication protocols. Or they simply want to introduce brand new types of interaction with their laptops (think the latest Macbook Pro and their function bar, but Lenovo had something equivalent 3 years ago on their X1 Carbon). Alongside new devices came the development of Wayland. The end result is that the input stack has evolved a lot in the past few years, and it’s a good thing to give an update of it.\n\nIn this talk, we will present what work has been conducted throughout the whole input stack, from the kernel to toolkits (with an emphasize on the kernel). We will explain the choices we made, and why the plans don’t always work. After an overview of the full input stack in current distributions, we will outline the development efforts to support the various device types (mice, touchpads, touchscreens, etc.). Of course, we will tell you the most crusty problems we had to face because who doesn’t like a nice anecdote about hardware oddities.\n\nWe hope to make a pleasant talk where no requirements is necessary. We also hope attendees will learn how the input stack is structured. And of course, we hope the attendees will have a more compassionate eye regarding their preferred mouse, touchpad, keyboard or any other device, thinking of the dedication we put in to make their life easier (one can always hope).",
+      "description_html": "<p>Everybody uses at least one input device when dealing with a computer. And hopefully, this input device “just” works. However, when dealing with the brand-new latest laptop model, it’s common enough that the input devices are not working, or are not working as expected by the users. The reasons are manifold: OEMs want to have more power efficient laptops and are generally refusing to use well-tested PS/2 ball mice from 15 years ago. So they are introducing new touchpads using weird communication protocols. Or they simply want to introduce brand new types of interaction with their laptops (think the latest Macbook Pro and their function bar, but Lenovo had something equivalent 3 years ago on their X1 Carbon). Alongside new devices came the development of Wayland. The end result is that the input stack has evolved a lot in the past few years, and it’s a good thing to give an update of it.<br />\nIn this talk, we will present what work has been conducted throughout the whole input stack, from the kernel to toolkits (with an emphasize on the kernel). We will explain the choices we made, and why the plans don’t always work. After an overview of the full input stack in current distributions, we will outline the development efforts to support the various device types (mice, touchpads, touchscreens, etc.). Of course, we will tell you the most crusty problems we had to face because who doesn’t like a nice anecdote about hardware oddities.<br />\nWe hope to make a pleasant talk where no requirements is necessary. We also hope attendees will learn how the input stack is structured. And of course, we hope the attendees will have a more compassionate eye regarding their preferred mouse, touchpad, keyboard or any other device, thinking of the dedication we put in to make their life easier (one can always hope).</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/whats-inside-the-input-stack/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Benjamin TISSOIRE",
+      "metadata": {
+        "Speakers": "Benjamin TISSOIRE",
+        "Category": "input",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/whats-inside-the-input-stack/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=4DFgOOxtpEM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/whats-inside-the-input-stack/"
+        }
+      ]
+    },
+    {
+      "id": "understanding-the-linux-kernel-via-ftrace",
+      "url": "https://archives.kernel-recipes.org/document/understanding-the-linux-kernel-via-ftrace/",
+      "title": "Understanding the Linux Kernel via Ftrace",
+      "listing_title": "Understanding the Linux Kernel via Ftrace",
+      "description": "Ftrace is the official tracer of the Linux kernel. It has been apart of Linux since 2.6.31, and has grown tremendously ever since. Ftrace’s name comes from its most powerful feature: function tracing. But the ftrace infrastructure is much more than that. It also encompasses the trace events that are used by perf, as well as kprobes that can dynamically add trace events that the user defines.\n\nThis talk will focus on learning how the kernel works by using the ftrace infrastructure. It will show how to see what happens within the kernel during a system call; learn how interrupts work; see how ones processes are being scheduled, and more. A quick introduction to some tools like trace-cmd and KernelShark will also be demonstrated.",
+      "description_html": "<p>Ftrace is the official tracer of the Linux kernel. It has been apart of Linux since 2.6.31, and has grown tremendously ever since. Ftrace’s name comes from its most powerful feature: function tracing. But the ftrace infrastructure is much more than that. It also encompasses the trace events that are used by perf, as well as kprobes that can dynamically add trace events that the user defines.<br />\nThis talk will focus on learning how the kernel works by using the ftrace infrastructure. It will show how to see what happens within the kernel during a system call; learn how interrupts work; see how ones processes are being scheduled, and more. A quick introduction to some tools like trace-cmd and KernelShark will also be demonstrated.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/understanding-the-linux-kernel-via-ftrace/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Steven ROSTEDT",
+      "metadata": {
+        "Speakers": "Steven ROSTEDT",
+        "Category": "tracing",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/understanding-linux-ftrace-kernel-recipes-2017-171007150617.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=2ff-7UTg5rE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/understanding-the-linux-kernel-via-ftrace/"
+        }
+      ]
+    },
+    {
+      "id": "the-state-of-kernel-self-protection",
+      "url": "https://archives.kernel-recipes.org/document/the-state-of-kernel-self-protection/",
+      "title": "The State of Kernel Self-Protection",
+      "listing_title": "The State of Kernel Self-Protection",
+      "description": "The Kernel Self-Protection Project focuses on addressing gaps in Linux’s defensive technologies. With Linux reaching into every corner of modern life, and userspace frequently being very locked-down, the kernel has become an ever-increasing target for attackers and much more needs to be done to harden the kernel so it can protect itself. A quick overview will be shown of what we’re trying to protect Linux against, as well as the state of the art in available technologies. Also presented will be a summary of the last year’s participation by many people over a wide range of technologies, with a review of KSPP attempts, accomplishments, active efforts, and an examination of future projects and goals.",
+      "description_html": "<p>The Kernel Self-Protection Project focuses on addressing gaps in Linux’s defensive technologies. With Linux reaching into every corner of modern life, and userspace frequently being very locked-down, the kernel has become an ever-increasing target for attackers and much more needs to be done to harden the kernel so it can protect itself. A quick overview will be shown of what we’re trying to protect Linux against, as well as the state of the art in available technologies. Also presented will be a summary of the last year’s participation by many people over a wide range of technologies, with a review of KSPP attempts, accomplishments, active efforts, and an examination of future projects and goals.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-state-of-kernel-self-protection/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Kees COOK",
+      "metadata": {
+        "Speakers": "Kees COOK",
+        "Category": "security",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kspp-171007142619.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=b2_HAH2kX04",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-state-of-kernel-self-protection/"
+        }
+      ]
+    },
+    {
+      "id": "the-serial-device-bus",
+      "url": "https://archives.kernel-recipes.org/document/the-serial-device-bus/",
+      "title": "The Serial Device Bus",
+      "listing_title": "The Serial Device Bus",
+      "description": "UARTs and RS-232 have been around since the 1960s, and despite the advent of technologies like USB and PCIe, it seems UART-attached devices are not going away anytime soon. In embedded systems, UARTs are a\n\ncommonly used peripheral interface (e.g. for Bluetooth, NFC, and GPS) even if the kernel infrastructure for dealing with such devices has been both limited in what it can provide (e.g. in terms of power  management) and cumbersome to use (e.g. requiring user-space daemons).\n\nThis presentation will give an introduction to the recently merged Serial Device Bus, which aims to overcome some of these limitations by making UART-attached devices fit better into the Linux device model. After providing some historical background, the design and interfaces of the new bus will be reviewed, and some known limitations and possibilities for future enhancements will be discussed.",
+      "description_html": "<p>UARTs and RS-232 have been around since the 1960s, and despite the advent of technologies like USB and PCIe, it seems UART-attached devices are not going away anytime soon. In embedded systems, UARTs are a<br />\ncommonly used peripheral interface (e.g. for Bluetooth, NFC, and GPS) even if the kernel infrastructure for dealing with such devices has been both limited in what it can provide (e.g. in terms of power  management) and cumbersome to use (e.g. requiring user-space daemons).<br />\nThis presentation will give an introduction to the recently merged Serial Device Bus, which aims to overcome some of these limitations by making UART-attached devices fit better into the Linux device model. After providing some historical background, the design and interfaces of the new bus will be reviewed, and some known limitations and possibilities for future enhancements will be discussed.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-serial-device-bus/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Johan HOVOLD",
+      "metadata": {
+        "Speakers": "Johan HOVOLD",
+        "Category": "hardware",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/serdev-kernel-recipes-2017-171011173554.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=yZ5ppH2MmpM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-serial-device-bus/"
+        }
+      ]
+    },
+    {
+      "id": "testing-on-device-with-lava-continuous-integration",
+      "url": "https://archives.kernel-recipes.org/document/testing-on-device-with-lava-continuous-integration/",
+      "title": "Testing on-device with LAVA / Continuous Integration",
+      "listing_title": "Testing on-device with LAVA / Continuous Integration",
+      "description": "Continous integration has gained a lot of popularity in the open source world in recent years, with the loud/web world at the forefront. The kernel world has however been somewhat slow to catch-up, especially in the embedded world, services like KernelCi and the 0-day are incredibly useful services once patches are flowing upstream but are limited in their scope.\n\nIn this talk we’ll go over how CI best practices can be used when doing kernel development, and how with a little bit of infrastructure and tooling one can setup a “mini-kernelci” to run tests relevant to the current development on actual embedded hardware.",
+      "description_html": "<p>Continous integration has gained a lot of popularity in the open source world in recent years, with the loud/web world at the forefront. The kernel world has however been somewhat slow to catch-up, especially in the embedded world, services like KernelCi and the 0-day are incredibly useful services once patches are flowing upstream but are limited in their scope.<br />\nIn this talk we’ll go over how CI best practices can be used when doing kernel development, and how with a little bit of infrastructure and tooling one can setup a “mini-kernelci” to run tests relevant to the current development on actual embedded hardware.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/testing-on-device-with-lava-continuous-integration/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Olivier CRETE",
+      "metadata": {
+        "Speakers": "Olivier CRETE",
+        "Category": "tooling",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/testing-on-device-with-lava-continuous-integration/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=QppBu42PENs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/testing-on-device-with-lava-continuous-integration/"
+        }
+      ]
+    },
+    {
+      "id": "refactoring-the-linux-kernel",
+      "url": "https://archives.kernel-recipes.org/document/refactoring-the-linux-kernel/",
+      "title": "Refactoring the Linux Kernel",
+      "listing_title": "Refactoring the Linux Kernel",
+      "description": "The effort to merge the real-time preemption patch into the mainline kernel requires to refactor existing infrastructure in the kernel. Such refactoring work is intrusive and potentially disruptive.\n\nThis talk will take a close look at recent refactoring work and explain the scope, the benefits and the pitfalls. This includes a deep dive into some of the oldest parts of the kernel and their historical evolvement.",
+      "description_html": "<p>The effort to merge the real-time preemption patch into the mainline kernel requires to refactor existing infrastructure in the kernel. Such refactoring work is intrusive and potentially disruptive.<br />\nThis talk will take a close look at recent refactoring work and explain the scope, the benefits and the pitfalls. This includes a deep dive into some of the oldest parts of the kernel and their historical evolvement.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/refactoring-the-linux-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Thomas GLEIXNER",
+      "metadata": {
+        "Speakers": "Thomas GLEIXNER",
+        "Category": "development",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/refactoring-the-linux-kernel/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=mxxicJZ8cis",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/refactoring-the-linux-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "performance-analysis-with-bpf",
+      "url": "https://archives.kernel-recipes.org/document/performance-analysis-with-bpf/",
+      "title": "Performance Analysis with BPF",
+      "listing_title": "Performance Analysis with BPF",
+      "description": "The in-kernel Berkeley Packet Filter (BPF) has been enhanced in recent  kernels to do much more than just filtering packets. It can now run user-defined programs on events, such as on tracepoints, kprobes, uprobes, and perf_events, allowing advanced performance analysis tools to be created. These can be used in production as the BPF virtual machine is sandboxed and will reject unsafe code, and are already in use at Netflix.\n\nBeginning with the bpf() syscall in 3.18, enhancements have been added in many kernel versions since, with major features for BPF analysis landing in Linux 4.1, 4.4, 4.7, and 4.9. Specific capabilities these provide include custom in-kernel summaries of metrics, custom latency measurements, and frequency counting kernel and user stack traces on events. One interesting case involves saving stack traces on wake up events, and associating them with the blocked stack trace: so that we can see the blocking stack trace and the waker together, merged in kernel by a BPF program (that particular example is in the kernel as samples/bpf/offwaketime).\n\nThis talk will discuss the new BPF capabilities for performance analysis and debugging, and demonstrate the new open source tools that have been developed to use it, many of which are in the Linux Foundation iovisor bcc (BPF Compiler Collection) project. These include tools to analyze the CPU scheduler, TCP performance, file system performance, block I/O, and more.",
+      "description_html": "<p>The in-kernel Berkeley Packet Filter (BPF) has been enhanced in recent  kernels to do much more than just filtering packets. It can now run user-defined programs on events, such as on tracepoints, kprobes, uprobes, and perf_events, allowing advanced performance analysis tools to be created. These can be used in production as the BPF virtual machine is sandboxed and will reject unsafe code, and are already in use at Netflix.<br />\nBeginning with the bpf() syscall in 3.18, enhancements have been added in many kernel versions since, with major features for BPF analysis landing in Linux 4.1, 4.4, 4.7, and 4.9. Specific capabilities these provide include custom in-kernel summaries of metrics, custom latency measurements, and frequency counting kernel and user stack traces on events. One interesting case involves saving stack traces on wake up events, and associating them with the blocked stack trace: so that we can see the blocking stack trace and the waker together, merged in kernel by a BPF program (that particular example is in the kernel as samples/bpf/offwaketime).<br />\nThis talk will discuss the new BPF capabilities for performance analysis and debugging, and demonstrate the new open source tools that have been developed to use it, many of which are in the Linux Foundation iovisor bcc (BPF Compiler Collection) project. These include tools to analyze the CPU scheduler, TCP performance, file system performance, block I/O, and more.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/performance-analysis-with-bpf/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Brendan GREGG",
+      "metadata": {
+        "Speakers": "Brendan GREGG",
+        "Category": "performance",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipesbpfperfanalysis-170928143954-171007142604.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=nhxq6jLGc_w",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/performance-analysis-with-bpf/"
+        }
+      ]
+    },
+    {
+      "id": "perf-in-netflix",
+      "url": "https://archives.kernel-recipes.org/document/perf-in-netflix/",
+      "title": "Perf in Netflix",
+      "listing_title": "Perf in Netflix",
+      "description": "Linux perf is a crucial performance analysis tool at Netflix, and is used by a self-service GUI for generating CPU flame graphs and other reports. This sounds like an easy task, however, getting perf to work properly in VM guests running Java, Node.js, containers, and other software, has been at times a challenge. This talk summarizes Linux perf, how we use it at Netflix, the various gotchas we have encountered, and a summary of advanced features.",
+      "description_html": "<p>Linux perf is a crucial performance analysis tool at Netflix, and is used by a self-service GUI for generating CPU flame graphs and other reports. This sounds like an easy task, however, getting perf to work properly in VM guests running Java, Node.js, containers, and other software, has been at times a challenge. This talk summarizes Linux perf, how we use it at Netflix, the various gotchas we have encountered, and a summary of advanced features.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/perf-in-netflix/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Brendan GREGG",
+      "metadata": {
+        "Speakers": "Brendan GREGG",
+        "Category": "performance",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipesperfevents-170929090404-171007142608.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=UVM3WX8Lq2k",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/perf-in-netflix/"
+        }
+      ]
+    },
+    {
+      "id": "overview-of-generic-pm-domains-genpd",
+      "url": "https://archives.kernel-recipes.org/document/overview-of-generic-pm-domains-genpd/",
+      "title": "Overview of Generic PM Domains (genpd)",
+      "listing_title": "Overview of Generic PM Domains (genpd)",
+      "description": "The generic PM domains (genpd) framework in the kernel provides a way of grouping devices together that have common power management (PM) operations. It is commonly used to represent hardware power domains (a.k.a power islands) that share a common voltage rail, but can also be used more generically. The genpd framework is also tighly coupled with the runtime power-management framework (runtime PM) which manages idle power states of individual devices.\n\nThis talk will give an overview of genpd, its common uses, how it interacts with hardware power domains, runtime PM, and how device driver writers interact with it through the runtime PM framework.",
+      "description_html": "<p>The generic PM domains (genpd) framework in the kernel provides a way of grouping devices together that have common power management (PM) operations. It is commonly used to represent hardware power domains (a.k.a power islands) that share a common voltage rail, but can also be used more generically. The genpd framework is also tighly coupled with the runtime power-management framework (runtime PM) which manages idle power states of individual devices.<br />\nThis talk will give an overview of genpd, its common uses, how it interacts with hardware power domains, runtime PM, and how device driver writers interact with it through the runtime PM framework.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/overview-of-generic-pm-domains-genpd/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Kevin HILMAN",
+      "metadata": {
+        "Speakers": "Kevin HILMAN",
+        "Category": "power-management",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/pmgenpd-171011212225.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=SctfvoskABM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/overview-of-generic-pm-domains-genpd/"
+        }
+      ]
+    },
+    {
+      "id": "modern-key-management-with-gpg",
+      "url": "https://archives.kernel-recipes.org/document/modern-key-management-with-gpg/",
+      "title": "Modern Key Management with GPG",
+      "listing_title": "Modern Key Management with GPG",
+      "description": "This talk describes how the Linux kernel development model works, what a long term supported kernel is, and why all Linux-based systems devices should be using all of the stable releases and not attempting to pick and choose random patches.\n\nIt also goes into how the kernel community approaches “security” patches, and the reasoning why they do it in the manner they do.\n\nThis is an expanded talk based on a lighting talk presented at Kernel Recipes 2015, and the speaker’s interactions with companies reaction to the supposedly confusing development model on which they rely on.",
+      "description_html": "<p>This talk describes how the Linux kernel development model works, what a long term supported kernel is, and why all Linux-based systems devices should be using all of the stable releases and not attempting to pick and choose random patches.<br />\nIt also goes into how the kernel community approaches “security” patches, and the reasoning why they do it in the manner they do.<br />\nThis is an expanded talk based on a lighting talk presented at Kernel Recipes 2015, and the speaker’s interactions with companies reaction to the supposedly confusing development model on which they rely on.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/modern-key-management-with-gpg/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Werner KOCH",
+      "metadata": {
+        "Speakers": "Werner KOCH",
+        "Category": "security",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-recipes-2017-modern-key-management-171007162445.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Y2sqQzgMY1w",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/modern-key-management-with-gpg/"
+        }
+      ]
+    },
+    {
+      "id": "linux-kernel-release-model",
+      "url": "https://archives.kernel-recipes.org/document/linux-kernel-release-model/",
+      "title": "Linux Kernel release model",
+      "listing_title": "Linux Kernel release model",
+      "description": "This talk describes how the Linux kernel development model works, what a long term supported kernel is, and why all Linux-based systems devices should be using all of the stable releases and not attempting to pick and choose random patches.\n\nIt also goes into how the kernel community approaches “security” patches, and the reasoning why they do it in the manner they do.\n\nThis is an expanded talk based on a lighting talk presented at Kernel Recipes 2015, and the speaker’s interactions with companies reaction to the supposedly confusing development model on which they rely on.",
+      "description_html": "<p>This talk describes how the Linux kernel development model works, what a long term supported kernel is, and why all Linux-based systems devices should be using all of the stable releases and not attempting to pick and choose random patches.<br />\nIt also goes into how the kernel community approaches “security” patches, and the reasoning why they do it in the manner they do.<br />\nThis is an expanded talk based on a lighting talk presented at Kernel Recipes 2015, and the speaker’s interactions with companies reaction to the supposedly confusing development model on which they rely on.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/linux-kernel-release-model/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Category": "community",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/gregkhrelease-model-171007142559.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=RKadXpQLmPU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/linux-kernel-release-model/"
+        }
+      ]
+    },
+    {
+      "id": "linux-kernel-abi-specification",
+      "url": "https://archives.kernel-recipes.org/document/linux-kernel-abi-specification/",
+      "title": "Linux kernel ABI specification",
+      "listing_title": "Linux kernel ABI specification",
+      "description": "The ABI, the layer that joins the kernel and userspace is quite a mess. Various different interfaces, lacking documentation, and constant changes make it hard for anyone who uses the kernel to know that they can expect from the kernel when their userspace application makes a request. The purpose of the ABI specification project is to fully document the ABI interface in both a human readable and a machine readable form; this will allow verification that both the userspace application and the kernel behave as agreed in the “contract”. This would also allow for more research into subsets of the kernel’s ABI, and how to limit certain functions of the kernel by either allowing or blocking parts of the ABI.",
+      "description_html": "<p>The ABI, the layer that joins the kernel and userspace is quite a mess. Various different interfaces, lacking documentation, and constant changes make it hard for anyone who uses the kernel to know that they can expect from the kernel when their userspace application makes a request. The purpose of the ABI specification project is to fully document the ABI interface in both a human readable and a machine readable form; this will allow verification that both the userspace application and the kernel behave as agreed in the “contract”. This would also allow for more research into subsets of the kernel’s ABI, and how to limit certain functions of the kernel by either allowing or blocking parts of the ABI.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/linux-kernel-abi-specification/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Sasha LEVIN",
+      "metadata": {
+        "Speakers": "Sasha LEVIN",
+        "Category": "abi",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/linux-kernel-abi-specification/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Yes39F_Y1-4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/linux-kernel-abi-specification/"
+        }
+      ]
+    },
+    {
+      "id": "hdmi-cec-status-report",
+      "url": "https://archives.kernel-recipes.org/document/hdmi-cec-status-report/",
+      "title": "HDMI CEC: Status Report",
+      "listing_title": "HDMI CEC: Status Report",
+      "description": "The HDMI connector features a CEC (Consumer Electronics Control) pin that allows connected devices to detect and control one another. A new framework to handle CEC was added to the kernel in 2016.\n\nThis talk describes the current state of the CEC support, how to implement new CEC drivers and the various complications you will encounter when using CEC.",
+      "description_html": "<p>The HDMI connector features a CEC (Consumer Electronics Control) pin that allows connected devices to detect and control one another. A new framework to handle CEC was added to the kernel in 2016.<br />\nThis talk describes the current state of the CEC support, how to implement new CEC drivers and the various complications you will encounter when using CEC.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/hdmi-cec-status-report/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Hans VERKUIL",
+      "metadata": {
+        "Speakers": "Hans VERKUIL",
+        "Category": "graphics",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/cec-kr-171007142554.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=4D8Om3NPikU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/hdmi-cec-status-report/"
+        }
+      ]
+    },
+    {
+      "id": "ebpf-and-xdp",
+      "url": "https://archives.kernel-recipes.org/document/ebpf-and-xdp/",
+      "title": "EBPF and XDP",
+      "listing_title": "EBPF and XDP",
+      "description": "Berkeley Packet Filter is an old friend for most people that deal with network under Linux. But its extended version eBPF is completely redefining the scope of usage and interaction with the kernel. It can indeed be used to instrument most parts of the kernel. This goes from network tracing to process or I/O monitoring.\n\nThis talk will provide an overview of eBPF, from concept to tools like BCC. It will then focus on XDP for eXtreme Data Path and the possible applications in term of networking provided by this new framework.",
+      "description_html": "<p>Berkeley Packet Filter is an old friend for most people that deal with network under Linux. But its extended version eBPF is completely redefining the scope of usage and interaction with the kernel. It can indeed be used to instrument most parts of the kernel. This goes from network tracing to process or I/O monitoring.<br />\nThis talk will provide an overview of eBPF, from concept to tools like BCC. It will then focus on XDP for eXtreme Data Path and the possible applications in term of networking provided by this new framework.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/ebpf-and-xdp/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Eric LEBLOND",
+      "metadata": {
+        "Speakers": "Eric LEBLOND",
+        "Category": "networking",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/ebpf-xdp-171007142558.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=PbW5Ladoj5E",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/ebpf-and-xdp/"
+        }
+      ]
+    },
+    {
+      "id": "container-fs-interfaces",
+      "url": "https://archives.kernel-recipes.org/document/container-fs-interfaces/",
+      "title": "Container FS interfaces",
+      "listing_title": "Container FS interfaces",
+      "description": "Many talks about containers start with Orchestration systems like Docker or Kubernetes. However, this one will look at the storage impacts on the actual in-kernel container API. With the addition of the superblock namespace (essentially a user namespace for the kernel to filesystem boundary) much of the stage is now set for fixing one of the biggest underlying container problems: that of translating unprivileged container writes into real filesystem uid/gids. This talk will examine how this system works, why it is necessary and what pieces still need to be added for orchestration systems to make use of it, what the problems are, what happened at the Linux Storage, Filesystems and Memory management summit and how we might move forwards.",
+      "description_html": "<p>Many talks about containers start with Orchestration systems like Docker or Kubernetes. However, this one will look at the storage impacts on the actual in-kernel container API. With the addition of the superblock namespace (essentially a user namespace for the kernel to filesystem boundary) much of the stage is now set for fixing one of the biggest underlying container problems: that of translating unprivileged container writes into real filesystem uid/gids. This talk will examine how this system works, why it is necessary and what pieces still need to be added for orchestration systems to make use of it, what the problems are, what happened at the Linux Storage, Filesystems and Memory management summit and how we might move forwards.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/container-fs-interfaces/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "James BOTTOMLEY",
+      "metadata": {
+        "Speakers": "James BOTTOMLEY",
+        "Category": "containers",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/container-fs-interfaces/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=av_OcM79-sw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/container-fs-interfaces/"
+        }
+      ]
+    },
+    {
+      "id": "an-introduction-to-the-linux-drm-subsystem",
+      "url": "https://archives.kernel-recipes.org/document/an-introduction-to-the-linux-drm-subsystem/",
+      "title": "An introduction to the Linux DRM subsystem",
+      "listing_title": "An introduction to the Linux DRM subsystem",
+      "description": "Every modern multimedia-oriented ARM SoC usually has a number of display controllers, to drive a screen or an LCD panel, and a GPU, to provide 3D acceleration. The Linux kernel framework of choice to support these controllers is the DRM subsystem.\n\nThis talk will walk through the DRM stack, the architecture of a DRM/KMS driver and the interaction between the display and GPU drivers. The presentation is based on the work we have done to develop a DRM driver for the Allwinner SoCs display controller with multiple outputs, such as parallel display interfaces, HDMI or MIPI-DSI. The work done to make the ARM Mali OpenGL driver work on top of a mainline DRM/KMS driver will also be detailed, as well as the more traditional, Mesa-based, solution used in a variety of other platforms.",
+      "description_html": "<p>Every modern multimedia-oriented ARM SoC usually has a number of display controllers, to drive a screen or an LCD panel, and a GPU, to provide 3D acceleration. The Linux kernel framework of choice to support these controllers is the DRM subsystem.<br />\nThis talk will walk through the DRM stack, the architecture of a DRM/KMS driver and the interaction between the display and GPU drivers. The presentation is based on the work we have done to develop a DRM driver for the Allwinner SoCs display controller with multiple outputs, such as parallel display interfaces, HDMI or MIPI-DSI. The work done to make the ARM Mali OpenGL driver work on top of a mainline DRM/KMS driver will also be detailed, as well as the more traditional, Mesa-based, solution used in a variety of other platforms.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/an-introduction-to-the-linux-drm-subsystem/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Maxime RIPARD",
+      "metadata": {
+        "Speakers": "Maxime RIPARD",
+        "Category": "graphics",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/ripard-drm-171012092210.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=LbDOCJcDRoo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/an-introduction-to-the-linux-drm-subsystem/"
+        }
+      ]
+    },
+    {
+      "id": "20-years-of-linux-virtual-memory",
+      "url": "https://archives.kernel-recipes.org/document/20-years-of-linux-virtual-memory/",
+      "title": "20 years of Linux virtual memory",
+      "listing_title": "20 years of Linux virtual memory",
+      "description": "Andrea will provide a short high level view of the most notable milestones in the evolution of the Linux Virtual Memory over the years. He will then focus on the various Memory Management features such as Transparent Huge Pages(THP), automatic NUMA balancing and userfaultd/postcopy live migration of Kernel Virtual Machines (KVM). Andrea will cover best practices, providing the audience with an understanding of when and how to leverage these features in their environments.",
+      "description_html": "<p>Andrea will provide a short high level view of the most notable milestones in the evolution of the Linux Virtual Memory over the years. He will then focus on the various Memory Management features such as Transparent Huge Pages(THP), automatic NUMA balancing and userfaultd/postcopy live migration of Kernel Virtual Machines (KVM). Andrea will cover best practices, providing the audience with an understanding of when and how to leverage these features in their environments.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/20-years-of-linux-virtual-memory/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Andrea ARCANGELI",
+      "metadata": {
+        "Speakers": "Andrea ARCANGELI",
+        "Category": "memory",
+        "Year": "2017"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/vm-overview-171007162314.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=pZghXbeCH5s",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/20-years-of-linux-virtual-memory/"
+        }
+      ]
+    }
+  ]
+}

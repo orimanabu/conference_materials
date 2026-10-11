@@ -1,0 +1,615 @@
+{
+  "event": "Kernel Recipes 2015",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library の Tag=2015 に該当する全17件を収録。概要・動画・追加資料は個別ページから取得。掲載されていない日時・会場は空欄。リンク先ファイルと動画の再生可否は未検査。",
+  "counts": {
+    "sessions": 17,
+    "with_description": 16,
+    "with_materials": 17,
+    "attachments": 32,
+    "files": 17,
+    "links": 15
+  },
+  "sessions": [
+    {
+      "id": "wireguard-a-kernelspace-vpn",
+      "url": "https://archives.kernel-recipes.org/document/wireguard-a-kernelspace-vpn/",
+      "title": "WireGuard: A Kernelspace VPN",
+      "listing_title": "WireGuard: A Kernelspace VPN",
+      "description": "WireGuard is an upcoming project to replace IPSec with a newer more modern and secure VPN protocol. It lives inside the kernel and provides a very simple and novel interface for setting up secure encrypted network tunnels. All the cryptography is cutting edge — DJB’s Curve25519, ChaCha20, and Poly1305 — and deployment aims to be a model as simple as SSH’s authorized_keys file. There are a number of interesting kernel programming techniques that have been utilized to make this extremely performant, and some interesting uses of the netdevice sub queuing system.",
+      "description_html": "<p>WireGuard is an upcoming project to replace IPSec with a newer more modern and secure VPN protocol. It lives inside the kernel and provides a very simple and novel interface for setting up secure encrypted network tunnels. All the cryptography is cutting edge &#8212; DJB&#8217;s Curve25519, ChaCha20, and Poly1305 &#8212; and deployment aims to be a model as simple as SSH&#8217;s authorized_keys file. There are a number of interesting kernel programming techniques that have been utilized to make this extremely performant, and some interesting uses of the netdevice sub queuing system. </p>",
+      "description_source": "https://archives.kernel-recipes.org/document/wireguard-a-kernelspace-vpn/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jason DONENFELD",
+      "metadata": {
+        "Speakers": "Jason DONENFELD",
+        "Category": "security",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/wireguard-a-kernelspace-vpn/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=9Rk4doELmwM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/wireguard-a-kernelspace-vpn/"
+        }
+      ]
+    },
+    {
+      "id": "speed-up-your-kernel-development-cycle-with-qemu",
+      "url": "https://archives.kernel-recipes.org/document/speed-up-your-kernel-development-cycle-with-qemu/",
+      "title": "Speed up your kernel development cycle with QEMU",
+      "listing_title": "Speed up your kernel development cycle with QEMU",
+      "description": "Kernel development is often associated with rebooting crashed machines, debugging over serial consoles, and an unwiedly development cycle. Developers know that short development cycles are incredibly important for programmer productivity.\n\nThe QEMU machine emulator and virtualizer offers a way to test kernels inside virtual machines without risk of hanging the physical machine. It also makes kernel debugging easier than between physical machines. The kernel development with QEMU allows kernel code changes to be tested within seconds.\n\nThis talk covers methods of compiling, testing, and debugging kernels using QEMU. Common approaches include building a custom initramfs or sharing the host file system with a virtual machine. Advanced use cases like cross-architecture development and device driver bringup are also possible using QEMU.\n\nThis presentation is aimed at anyone wishing to shorten their kernel development cycle and overcome some of the hurdles of developing low-level software.",
+      "description_html": "<p>Kernel development is often associated with rebooting crashed machines, debugging over serial consoles, and an unwiedly development cycle. Developers know that short development cycles are incredibly important for programmer productivity.<br />\nThe QEMU machine emulator and virtualizer offers a way to test kernels inside virtual machines without risk of hanging the physical machine. It also makes kernel debugging easier than between physical machines. The kernel development with QEMU allows kernel code changes to be tested within seconds.<br />\nThis talk covers methods of compiling, testing, and debugging kernels using QEMU. Common approaches include building a custom initramfs or sharing the host file system with a virtual machine. Advanced use cases like cross-architecture development and device driver bringup are also possible using QEMU.<br />\nThis presentation is aimed at anyone wishing to shorten their kernel development cycle and overcome some of the hurdles of developing low-level software.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/speed-up-your-kernel-development-cycle-with-qemu/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Stefan HAJNOCZI",
+      "metadata": {
+        "Speakers": "Stefan HAJNOCZI",
+        "Category": "development",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/stefanha-kernel-recipes-2015-151005202146-lva1-app6892.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=PBY9l97-lto",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/speed-up-your-kernel-development-cycle-with-qemu/"
+        }
+      ]
+    },
+    {
+      "id": "solving-the-linux-storage-scalability-bottlenecks",
+      "url": "https://archives.kernel-recipes.org/document/solving-the-linux-storage-scalability-bottlenecks/",
+      "title": "Solving the Linux storage scalability bottlenecks",
+      "listing_title": "Solving the Linux storage scalability bottlenecks",
+      "description": "Flash devices introduced a sudden shift in the performance profile of direct attached storage. With IOPS rates orders of magnitude higher than rotating storage, it became clear that Linux needed a re-design of its storage stack to properly support and get the most out of these new devices.\n\nThis talk will detail the architecture of blk-mq, the redesign of the core of the Linux storage stack, and the later set of changes made to adapt the SCSI stack to this new queuing model. Early results of running Facebook infrastructure production workloads on top of the new stack will also be shared.",
+      "description_html": "<p>Flash devices introduced a sudden shift in the performance profile of direct attached storage. With IOPS rates orders of magnitude higher than rotating storage, it became clear that Linux needed a re-design of its storage stack to properly support and get the most out of these new devices.<br />\nThis talk will detail the architecture of blk-mq, the redesign of the core of the Linux storage stack, and the later set of changes made to adapt the SCSI stack to this new queuing model. Early results of running Facebook infrastructure production workloads on top of the new stack will also be shared.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/solving-the-linux-storage-scalability-bottlenecks/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jens AXBOE",
+      "metadata": {
+        "Speakers": "Jens AXBOE",
+        "Category": "storage",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-recipes-2015-axboe-151004144251-lva1-app6892.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=VIdKBD9-Ozg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/solving-the-linux-storage-scalability-bottlenecks/"
+        }
+      ]
+    },
+    {
+      "id": "so-you-want-to-write-a-linux-driver-framework",
+      "url": "https://archives.kernel-recipes.org/document/so-you-want-to-write-a-linux-driver-framework/",
+      "title": "So you want to write a Linux driver framework",
+      "listing_title": "So you want to write a Linux driver framework",
+      "description": "Writing a new driver framework in Linux is hard. There are many pitfalls along the way; this talk hopes to point out some of those pitfalls and hard lessons learned through examples, advice and humorous anecdotes in the hope that it will aid those adventurous enough to take on the task of writing a new driver framework. The scope of the talk includes internal framework design as well as external API design exposed to drivers and consumers of the framework. This presentation pulls directly from the Michael Turquette’s experience authoring the Common Clock\n\nFramework and maintaining that code for the last four years.\n\nAdditionally Mike has solicited tips and advice from other subsystem maintainers, for a well-rounded overview. Be prepared to learn some winning design patterns and hear some embarrassing stories of framework design gone wrong.",
+      "description_html": "<p>Writing a new driver framework in Linux is hard. There are many pitfalls along the way; this talk hopes to point out some of those pitfalls and hard lessons learned through examples, advice and humorous anecdotes in the hope that it will aid those adventurous enough to take on the task of writing a new driver framework. The scope of the talk includes internal framework design as well as external API design exposed to drivers and consumers of the framework. This presentation pulls directly from the Michael Turquette’s experience authoring the Common Clock<br />\nFramework and maintaining that code for the last four years.<br />\nAdditionally Mike has solicited tips and advice from other subsystem maintainers, for a well-rounded overview. Be prepared to learn some winning design patterns and hear some embarrassing stories of framework design gone wrong.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/so-you-want-to-write-a-linux-driver-framework/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Mike TURQUETTE",
+      "metadata": {
+        "Speakers": "Mike TURQUETTE",
+        "Category": "drivers",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/soyouwanttowritealinuxdriversubsystem-151105092237-lva1-app6891.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=A4woBKRJbi8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/so-you-want-to-write-a-linux-driver-framework/"
+        }
+      ]
+    },
+    {
+      "id": "representing-device-tree-peripherals-in-acpi",
+      "url": "https://archives.kernel-recipes.org/document/representing-device-tree-peripherals-in-acpi/",
+      "title": "Representing device-tree peripherals in ACPI",
+      "listing_title": "Representing device-tree peripherals in ACPI",
+      "description": "Platforms using ACPI firmware are becoming increasingly interesting to embedded developers. This presentation will demonstrate the new features in the ACPI 5.1 specification which make it possible for ACPI to transparently represent devices using existing device-tree bindings, and for Linux to use existing device drivers which should automatically work for both ACPI and device-tree.",
+      "description_html": "<p>Platforms using ACPI firmware are becoming increasingly interesting to embedded developers. This presentation will demonstrate the new features in the ACPI 5.1 specification which make it possible for ACPI to transparently represent devices using existing device-tree bindings, and for Linux to use existing device drivers which should automatically work for both ACPI and device-tree.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/representing-device-tree-peripherals-in-acpi/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "David WOODHOUSE",
+      "metadata": {
+        "Speakers": "David WOODHOUSE",
+        "Category": "firmware",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2015-acpi-dt-151004191730-lva1-app6892.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=p7MoTngjMcI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/representing-device-tree-peripherals-in-acpi/"
+        }
+      ]
+    },
+    {
+      "id": "multi-campus-layer-2-network-fabric-what-why-how",
+      "url": "https://archives.kernel-recipes.org/document/multi-campus-layer-2-network-fabric-what-why-how/",
+      "title": "Multi-campus Layer 2 Network Fabric: what? why? How?",
+      "listing_title": "Multi-campus Layer 2 Network Fabric: what? why? How?",
+      "description": "Two years ago we presented our implementation of Virtual Network over TRILL in the Linux kernel. We were able to build lots of logic networks within a datacenter. Now the work continue but at a different level, we need to expand it to multiples datacenters.\n\nThe traditional network architecture (3-tier: access/aggregation/core) is undergoing a transformation due to the adoption of server virtualization in cloud data center. The main limitation of current network architectures mainly comes from inadequate design standards : TCAM insufficient, VLAN limitation (802.1Q) and STP convergence.\n\nIn this presentation we study the deportation of switch functionality in the host to produce Multi-campus Layer 2 Network Fabric. This architecture achieves the best of both layers (bridging and routing), thus building a large-scale layer-2 network while ensuring scalability, efficiency, fault-tolerance and to support thousands of physical nodes and hundreds of thousands of tenants with only negligible overhead on geographically distinct campuses. Our implemention is still based on the Linux kernel.",
+      "description_html": "<p>Two years ago we presented our implementation of Virtual Network over TRILL in the Linux kernel. We were able to build lots of logic networks within a datacenter. Now the work continue but at a different level, we need to expand it to multiples datacenters.<br />\nThe traditional network architecture (3-tier: access/aggregation/core) is undergoing a transformation due to the adoption of server virtualization in cloud data center. The main limitation of current network architectures mainly comes from inadequate design standards : TCAM insufficient, VLAN limitation (802.1Q) and STP convergence.<br />\nIn this presentation we study the deportation of switch functionality in the host to produce Multi-campus Layer 2 Network Fabric. This architecture achieves the best of both layers (bridging and routing), thus building a large-scale layer-2 network while ensuring scalability, efficiency, fault-tolerance and to support thousands of physical nodes and hundreds of thousands of tenants with only negligible overhead on geographically distinct campuses. Our implemention is still based on the Linux kernel.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/multi-campus-layer-2-network-fabric-what-why-how/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "William DAUCHY",
+      "metadata": {
+        "Speakers": "William DAUCHY",
+        "Category": "networking",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/multi-tenantisolationinatrillbasedmulti-campusnetwork-151004212654-lva1-app6891.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=0pmcOxvfi5k",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/multi-campus-layer-2-network-fabric-what-why-how/"
+        }
+      ]
+    },
+    {
+      "id": "linux-stable-release-process",
+      "url": "https://archives.kernel-recipes.org/document/linux-stable-release-process/",
+      "title": "Linux Stable Release process",
+      "listing_title": "Linux Stable Release process",
+      "description": "The Linux kernel gets a stable release about once every week.\n\nThis talk will go into the process of getting a patch accepted into the stable releases, how the release process works, and how Greg does a review and release cycle. It will consist of live examples of patches submitted to be added to the stable releases, as well as doing a release “live” on stage.",
+      "description_html": "<p>The Linux kernel gets a stable release about once every week.<br />\nThis talk will go into the process of getting a patch accepted into the stable releases, how the release process works, and how Greg does a review and release cycle. It will consist of live examples of patches submitted to be added to the stable releases, as well as doing a release “live” on stage.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/linux-stable-release-process/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Category": "community",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/gregkhstablekernel-151005202128-lva1-app6891.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=grHAFt95oTw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/linux-stable-release-process/"
+        }
+      ]
+    },
+    {
+      "id": "linux-kernel-io-subsystem-how-it-works-and-how-can-i-see-what-is-it-doing",
+      "url": "https://archives.kernel-recipes.org/document/linux-kernel-io-subsystem-how-it-works-and-how-can-i-see-what-is-it-doing/",
+      "title": "Linux kernel IO subsystem: How it works and how can I see what is it doing?",
+      "listing_title": "Linux kernel IO subsystem: How it works and how can I see what is it doing?",
+      "description": "Understanding how Linux kernel IO subsystem works is a key to analysis of a wide variety of issues occurring when running a Linux system. This talk is aimed at helping Linux users understand what is going on and how to get more insight into what is happening.\n\nFirst we present an overview of Linux kernel block layer including different IO schedulers. We also talk about a new block multiqueue implementation that gets used for more and more devices.\n\nAfter surveying the basic architecture we will be prepared to talk about tools to peek into it. We start with lightweight monitoring like iostat and continue with more heavy blktrace and variety of tools that are based on it. We demonstrate use of the tools on analysis of real world issues.",
+      "description_html": "<p>Understanding how Linux kernel IO subsystem works is a key to analysis of a wide variety of issues occurring when running a Linux system. This talk is aimed at helping Linux users understand what is going on and how to get more insight into what is happening.<br />\nFirst we present an overview of Linux kernel block layer including different IO schedulers. We also talk about a new block multiqueue implementation that gets used for more and more devices.<br />\nAfter surveying the basic architecture we will be prepared to talk about tools to peek into it. We start with lightweight monitoring like iostat and continue with more heavy blktrace and variety of tools that are based on it. We demonstrate use of the tools on analysis of real world issues.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/linux-kernel-io-subsystem-how-it-works-and-how-can-i-see-what-is-it-doing/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jan KARA",
+      "metadata": {
+        "Speakers": "Jan KARA",
+        "Category": "storage",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/linux-kernel-io-subsystem-how-it-works-and-how-can-i-see-what-is-it-doing/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=2tu__ZHC0mI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/linux-kernel-io-subsystem-how-it-works-and-how-can-i-see-what-is-it-doing/"
+        }
+      ]
+    },
+    {
+      "id": "kernel-packet-capture-technologies",
+      "url": "https://archives.kernel-recipes.org/document/kernel-packet-capture-technologies/",
+      "title": "Kernel packet capture technologies",
+      "listing_title": "Kernel packet capture technologies",
+      "description": "Capturing packets running on the wire to send them to a software doing analysis seems at first sight a simple tasks. But one has not to forget that with current network this can means capturing 30M packets per second. The objective of this talk is to show what methods and techniques have been implemented in Linux and how they have evolved over time.\n\nThe talk will cover AF_PACKET capture as well as PF_RING, dpdk and netmap. It will try to show how the various evolution of hardware and software have had an impact on the design of these technologies. Regarding software a special focus will be made on Suricata IDS which is implementing most of these capture methods.",
+      "description_html": "<p>Capturing packets running on the wire to send them to a software doing analysis seems at first sight a simple tasks. But one has not to forget that with current network this can means capturing 30M packets per second. The objective of this talk is to show what methods and techniques have been implemented in Linux and how they have evolved over time.<br />\nThe talk will cover AF_PACKET capture as well as PF_RING, dpdk and netmap. It will try to show how the various evolution of hardware and software have had an impact on the design of these technologies. Regarding software a special focus will be made on Suricata IDS which is implementing most of these capture methods.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/kernel-packet-capture-technologies/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Eric LEBLOND",
+      "metadata": {
+        "Speakers": "Eric LEBLOND",
+        "Category": "networking",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/2015kernelrecipescapture-151005202119-lva1-app6891.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=5gEWyCW-qx8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/kernel-packet-capture-technologies/"
+        }
+      ]
+    },
+    {
+      "id": "introduction-to-kernel-power-management",
+      "url": "https://archives.kernel-recipes.org/document/introduction-to-kernel-power-management/",
+      "title": "Introduction to Kernel Power Management",
+      "listing_title": "Introduction to Kernel Power Management",
+      "description": "In order to keep up with the complexities of SoCs, the Linux kernel has an ever-growing set of features for power management. For the uninitiated, it can be confusing how each of these features work and even more confusing how they should work together. This talk will be a high-level introduction and overview of each of the various features, as well as discuss how all they fit together and interact.\n\nSome of the features/subsystems covered: suspend/resume, CPUidle, CPUfreq, clocks, regulators, runtime PM, generic power domains, PM QoS.",
+      "description_html": "<p>In order to keep up with the complexities of SoCs, the Linux kernel has an ever-growing set of features for power management. For the uninitiated, it can be confusing how each of these features work and even more confusing how they should work together. This talk will be a high-level introduction and overview of each of the various features, as well as discuss how all they fit together and interact.<br />\nSome of the features/subsystems covered: suspend/resume, CPUidle, CPUfreq, clocks, regulators, runtime PM, generic power domains, PM QoS.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/introduction-to-kernel-power-management/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Kevin HILMAN",
+      "metadata": {
+        "Speakers": "Kevin HILMAN",
+        "Category": "power-management",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/introkernelpm-151004181642-lva1-app6891.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=juJJZORgVwI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/introduction-to-kernel-power-management/"
+        }
+      ]
+    },
+    {
+      "id": "how-to-choose-a-kernel-for-your-products",
+      "url": "https://archives.kernel-recipes.org/document/how-to-choose-a-kernel-for-your-products/",
+      "title": "How to choose a kernel for your products?",
+      "listing_title": "How to choose a kernel for your products?",
+      "description": "It’s often difficult to select a kernel for products that are shipped to customers. Several branches exist, bugs need to be avoided as much as possible and updates must be rare enough not to upset customers. All this must be true during all the product’s lifecycle. This presentation will show how the quality of stable kernels evolves over time and when it’s best to pick them and how to help improve them.",
+      "description_html": "<p>It’s often difficult to select a kernel for products that are shipped to customers. Several branches exist, bugs need to be avoided as much as possible and updates must be rare enough not to upset customers. All this must be true during all the product’s lifecycle. This presentation will show how the quality of stable kernels evolves over time and when it’s best to pick them and how to help improve them.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2015 - How to choose a kernel for your products? - by Willy Tarreau\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/eiOrQ1bT6CU?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/how-to-choose-a-kernel-for-your-products/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Willy TARREAU",
+      "metadata": {
+        "Speakers": "Willy TARREAU",
+        "Category": "community",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2015-wht4-151004144256-lva1-app6891.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=eiOrQ1bT6CU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/how-to-choose-a-kernel-for-your-products/"
+        }
+      ]
+    },
+    {
+      "id": "hardware-manufacturer-and-linux-kernel-relationships",
+      "url": "https://archives.kernel-recipes.org/document/hardware-manufacturer-and-linux-kernel-relationships/",
+      "title": "Hardware Manufacturer and Linux kernel relationships",
+      "listing_title": "Hardware Manufacturer and Linux kernel relationships",
+      "description": "Every Linux kernel needs a hardware platform to run it. Compared to twenty years ago, the relationships between hardware manufacturers and the Linux kernel community has improved in order to render the Linux kernel usage easy. This requires an organization on both parts largely unknown from the FLOSS users to obtain the level of quality required (dedicated Labs, QA teams, relationship management with upstream kernel as well as downstream)\n\nThis presentation will cover these aspects, the difficulties encounterd and success obtained. It will demonstrate through HP based examples how we have progressed as a community up to now, and how we will need to continue to cooperate in the coming years to follow and cope with the technology (r)evolutions both on the hardware and the software side.\n\nThe audience expected for this talk is everybody interested by IT technology, community work, hardware evolution, and history of IT.\n\nThe benefits expected from this presentation are that the Linux community understands better the constraints that hardware manufacturer encounters while supporting their OS of choice, in order to improve the bi-directional communication needed to cope with the rythm of evolution, and have a view on which of these (r)evolutions may disrupt our ecosystem, and how to prepare ourselves at best to support them as early as possible and benefit from them.",
+      "description_html": "<p>Every Linux kernel needs a hardware platform to run it. Compared to twenty years ago, the relationships between hardware manufacturers and the Linux kernel community has improved in order to render the Linux kernel usage easy. This requires an organization on both parts largely unknown from the FLOSS users to obtain the level of quality required (dedicated Labs, QA teams, relationship management with upstream kernel as well as downstream)<br />\nThis presentation will cover these aspects, the difficulties encounterd and success obtained. It will demonstrate through HP based examples how we have progressed as a community up to now, and how we will need to continue to cooperate in the coming years to follow and cope with the technology (r)evolutions both on the hardware and the software side.<br />\nThe audience expected for this talk is everybody interested by IT technology, community work, hardware evolution, and history of IT.<br />\nThe benefits expected from this presentation are that the Linux community understands better the constraints that hardware manufacturer encounters while supporting their OS of choice, in order to improve the bi-directional communication needed to cope with the rythm of evolution, and have a view on which of these (r)evolutions may disrupt our ecosystem, and how to prepare ourselves at best to support them as early as possible and benefit from them.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/hardware-manufacturer-and-linux-kernel-relationships/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Bruno CORNEC",
+      "metadata": {
+        "Speakers": "Bruno CORNEC",
+        "Category": "hardware",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/hardware-manufacturer-and-linux-kernel-relationships/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=lrx_j9ieqpw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/hardware-manufacturer-and-linux-kernel-relationships/"
+        }
+      ]
+    },
+    {
+      "id": "hardened-kernels-for-everyone",
+      "url": "https://archives.kernel-recipes.org/document/hardened-kernels-for-everyone/",
+      "title": "Hardened kernels for everyone",
+      "listing_title": "Hardened kernels for everyone",
+      "description": "Grsecurity is a Linux kernel hardening patch. The PaX patchset it includes pioneered some security features like ASLR which where later included in basically every operating system. But the patch itself is still standalone (not included mainline), so most Linux users don’t benefit its security features.\n\nA lot of people only use binary distribution kernels, and this talk will present some challenges found when trying to provide a distribution kernel with Grsecurity included.\n\nI’ll first quickly present the grsecurity patch, then the attempt to include it in the Debian distribution kernel as a featureset. Finally there will be some pointers on how to provide hardened kernels easily for as many people as possible.",
+      "description_html": "<p>Grsecurity is a Linux kernel hardening patch. The PaX patchset it includes pioneered some security features like ASLR which where later included in basically every operating system. But the patch itself is still standalone (not included mainline), so most Linux users don’t benefit its security features.<br />\nA lot of people only use binary distribution kernels, and this talk will present some challenges found when trying to provide a distribution kernel with Grsecurity included.<br />\nI’ll first quickly present the grsecurity patch, then the attempt to include it in the Debian distribution kernel as a featureset. Finally there will be some pointers on how to provide hardened kernels easily for as many people as possible.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/hardened-kernels-for-everyone/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Yves-Alexis PEREZ",
+      "metadata": {
+        "Speakers": "Yves-Alexis PEREZ",
+        "Category": "security",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/perezyves-alexishardened-kernels-151004144258-lva1-app6891.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=IWjuY4kfCzs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/hardened-kernels-for-everyone/"
+        }
+      ]
+    },
+    {
+      "id": "cpu-isolation",
+      "url": "https://archives.kernel-recipes.org/document/cpu-isolation/",
+      "title": "CPU isolation",
+      "listing_title": "CPU isolation",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://archives.kernel-recipes.org/document/cpu-isolation/",
+      "description_status": "missing",
+      "track": "",
+      "speakers": "Frédéric WEISBECKER",
+      "metadata": {
+        "Speakers": "Frédéric WEISBECKER",
+        "Category": "cpu",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/cpu-isolation/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        }
+      ]
+    },
+    {
+      "id": "anatomy-of-an-atomic-kms-driver",
+      "url": "https://archives.kernel-recipes.org/document/anatomy-of-an-atomic-kms-driver/",
+      "title": "Anatomy of an Atomic KMS Driver",
+      "listing_title": "Anatomy of an Atomic KMS Driver",
+      "description": "The DRM and KMS APIs have won in the Linux graphics ecosystem. Long gone are the days when KMS meant only a handful of desktop graphics drivers. As a side effect, new problems have been uncovered, and API extensions are being designed to address advanced use cases. Atomic updates is the latest significant of such extensions.\n\nWhile the userspace API extension is simple, a lot of work went under the hood and the in-kernel KMS helpers went through major changes that are not trivial to implement in drivers. This talk will present KMS atomic updates and explain how to update KMS drivers to take advantage of the new API, using the Renesas rcar-du-drm driver as an example.",
+      "description_html": "<p>The DRM and KMS APIs have won in the Linux graphics ecosystem. Long gone are the days when KMS meant only a handful of desktop graphics drivers. As a side effect, new problems have been uncovered, and API extensions are being designed to address advanced use cases. Atomic updates is the latest significant of such extensions.<br />\nWhile the userspace API extension is simple, a lot of work went under the hood and the in-kernel KMS helpers went through major changes that are not trivial to implement in drivers. This talk will present KMS atomic updates and explain how to update KMS drivers to take advantage of the new API, using the Renesas rcar-du-drm driver as an example.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/anatomy-of-an-atomic-kms-driver/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Laurent PINCHART",
+      "metadata": {
+        "Speakers": "Laurent PINCHART",
+        "Category": "graphics",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr2015-laurentpinchart-151005202141-lva1-app6892.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=lihqR9sENpc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/anatomy-of-an-atomic-kms-driver/"
+        }
+      ]
+    },
+    {
+      "id": "an-introduction-to-greybus",
+      "url": "https://archives.kernel-recipes.org/document/an-introduction-to-greybus/",
+      "title": "An Introduction to Greybus",
+      "listing_title": "An Introduction to Greybus",
+      "description": "Greybus is the name for a new application layer protocol on top of Unipro that controls the Ara Phone from Google. This protocol turns a phone into a modular device, allowing any part of the system to be hotplugged while the phone is running.\n\nThis talk will describe what this protocol is, why it was designed, and give the basics for how it works. It will discuss how this is implemented in the Linux kernel, and how it easily bridges existing hardware like USB, I2C, GPIO and others with little to no changes needed to existing kernel drivers.",
+      "description_html": "<p>Greybus is the name for a new application layer protocol on top of Unipro that controls the Ara Phone from Google. This protocol turns a phone into a modular device, allowing any part of the system to be hotplugged while the phone is running.<br />\nThis talk will describe what this protocol is, why it was designed, and give the basics for how it works. It will discuss how this is implemented in the Linux kernel, and how it easily bridges existing hardware like USB, I2C, GPIO and others with little to no changes needed to existing kernel drivers.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/an-introduction-to-greybus/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Category": "hardware",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/gregkhgreybus-151005202121-lva1-app6891.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        }
+      ]
+    },
+    {
+      "id": "amateur-practice-of-ethernet-drivers",
+      "url": "https://archives.kernel-recipes.org/document/amateur-practice-of-ethernet-drivers/",
+      "title": "Amateur practice of ethernet drivers",
+      "listing_title": "Amateur practice of ethernet drivers",
+      "description": "This talk will  focus on various highlights of ethernet drivers and their maintenance as the speaker was able to practice for several years to the Linux kernel.",
+      "description_html": "<p>This talk will  focus on various highlights of ethernet drivers and their maintenance as the speaker was able to practice for several years to the Linux kernel.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/amateur-practice-of-ethernet-drivers/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "François ROMIEU",
+      "metadata": {
+        "Speakers": "François ROMIEU",
+        "Category": "networking",
+        "Year": "2015"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/amateur-practice-of-ethernet-drivers/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=uabmLiMRuuE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/amateur-practice-of-ethernet-drivers/"
+        }
+      ]
+    }
+  ]
+}

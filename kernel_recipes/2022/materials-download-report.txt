@@ -1,0 +1,131 @@
+Source JSON: kernel-recipes-2022-sessions.json
+Total sessions: 20
+Sessions with file attachments: 20
+Sessions without file attachments: 0
+Attachment count: 20
+Distinct source-file count: 20
+Saved: 20
+Already present: 0
+Unresolved: 0
+Planned: 0
+
+Session: What’s new with io_uring
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/axboe-kr2022.pdf
+  Local path: What’s new with io_uring/axboe-kr2022.pdf
+  Status: saved
+
+Session: We won’t live forever so what does that mean?
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/david-miller-KR2022.pdf
+  Local path: We won’t live forever so what does that mean?/david-miller-KR2022.pdf
+  Status: saved
+
+Session: Trust and the Linux development model
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/linux-trust.pdf
+  Local path: Trust and the Linux development model/linux-trust.pdf
+  Status: saved
+
+Session: The untold story of BPF
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/story_of_bpf-1.pdf
+  Local path: The untold story of BPF/story_of_bpf-1.pdf
+  Status: saved
+
+Session: The Kernel Self-Protection Project and how you can help
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Gustavo_A._R._Silva_kr2022-1.pdf
+  Local path: The Kernel Self-Protection Project and how you can help/Gustavo_A._R._Silva_kr2022-1.pdf
+  Status: saved
+
+Session: The complete story of the in-kernel sloppy GPIO logic analyzer
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/sloppy_analyzer.pdf
+  Local path: The complete story of the in-kernel sloppy GPIO logic analyzer/sloppy_analyzer.pdf
+  Status: saved
+
+Session: Test-driven kernel releases
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-recipes-2022-gtucker-001-1.pdf
+  Local path: Test-driven kernel releases/kernel-recipes-2022-gtucker-001-1.pdf
+  Status: saved
+
+Session: Rethinking the kernel camera framework
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Kernel-recipes-2022.pdf
+  Local path: Rethinking the kernel camera framework/Kernel-recipes-2022.pdf
+  Status: saved
+
+Session: Powerful and Programmable Kernel Debugging with drgn
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/drgn.pdf
+  Local path: Powerful and Programmable Kernel Debugging with drgn/drgn.pdf
+  Status: saved
+
+Session: Once upon an API
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/once-upon-an-API-Kernel-Recipes-2022-Kerrisk.pdf
+  Local path: Once upon an API/once-upon-an-API-Kernel-Recipes-2022-Kerrisk.pdf
+  Status: saved
+
+Session: New userspace API for display panel brightness-control
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-recipes-backlight-2022-16x9-1.pdf
+  Local path: New userspace API for display panel brightness-control/kernel-recipes-backlight-2022-16x9-1.pdf
+  Status: saved
+
+Session: Make Linux developers fix your kernel bug
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/thorsten-202206-kr22-issuereporting-1.pdf
+  Local path: Make Linux developers fix your kernel bug/thorsten-202206-kr22-issuereporting-1.pdf
+  Status: saved
+
+Session: Looking at yourself: Linux Introspection tales
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Looking-at-yourself_-Linux-introspection-tales.pdf
+  Local path: Looking at yourself: Linux Introspection tales/Looking-at-yourself_-Linux-introspection-tales.pdf
+  Status: saved
+
+Session: Linux on RISC-V
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/fustini_riscv_kr2022-compresse.pdf
+  Local path: Linux on RISC-V/fustini_riscv_kr2022-compresse.pdf
+  Status: saved
+
+Session: io_uring: path to zerocopy I/O
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Pavel_Begunkov_slides.pdf
+  Local path: io_uring: path to zerocopy I／O/Pavel_Begunkov_slides.pdf
+  Status: saved
+
+Session: Idmapped Mounts
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/brauner_christian_idmapped_mounts.pdf
+  Local path: Idmapped Mounts/brauner_christian_idmapped_mounts.pdf
+  Status: saved
+
+Session: HID-BPF
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/tissoire-slides-export.pdf
+  Local path: HID-BPF/tissoire-slides-export.pdf
+  Status: saved
+
+Session: Ftrace update
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Whats-new-in-Ftrace.pdf
+  Local path: Ftrace update/Whats-new-in-Ftrace.pdf
+  Status: saved
+
+Session: Developing Tilck a Tiny Linux-compatible kernel
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Developing-Tilck-ver2.pdf
+  Local path: Developing Tilck a Tiny Linux-compatible kernel/Developing-Tilck-ver2.pdf
+  Status: saved
+
+Session: Checking your work: validating the kernel by building and testing in CI
+  Attachment: slides
+  Source URL: https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Linux_20kernel_20testing_20and_20CI.pdf
+  Local path: Checking your work: validating the kernel by building and testing in CI/Linux_20kernel_20testing_20and_20CI.pdf
+  Status: saved
+

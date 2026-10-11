@@ -1,0 +1,744 @@
+{
+  "event": "Kernel Recipes 2022",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library の Tag=2022 に該当する全20件を収録。概要・動画・追加資料は個別ページから取得。掲載されていない日時・会場は空欄。リンク先ファイルと動画の再生可否は未検査。",
+  "counts": {
+    "sessions": 20,
+    "with_description": 19,
+    "with_materials": 20,
+    "attachments": 41,
+    "files": 20,
+    "links": 21
+  },
+  "sessions": [
+    {
+      "id": "whats-new-with-io_uring",
+      "url": "https://archives.kernel-recipes.org/document/whats-new-with-io_uring/",
+      "title": "What’s new with io_uring",
+      "listing_title": "What’s new with io_uring",
+      "description": "A review about what’s new with io_uring. Faster IO with a consistent model.",
+      "description_html": "<p>A review about what’s new with io_uring. Faster IO with a consistent model.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2022 - What’s new with io_uring\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/ToSRCSijRuE?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/whats-new-with-io_uring/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jens AXBOE",
+      "metadata": {
+        "Speakers": "Jens AXBOE",
+        "Category": "storage",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/axboe-kr2022.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ToSRCSijRuE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/whats-new-with-io_uring/"
+        }
+      ]
+    },
+    {
+      "id": "we-wont-live-forever-so-what-does-that-mean",
+      "url": "https://archives.kernel-recipes.org/document/we-wont-live-forever-so-what-does-that-mean/",
+      "title": "We won’t live forever so what does that mean?",
+      "listing_title": "We won’t live forever so what does that mean?",
+      "description": "Speaking about my stroke, how that effected me as a developer and my approach to delegation.",
+      "description_html": "<p>Speaking about my stroke, how that effected me as a developer and my approach to delegation.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/we-wont-live-forever-so-what-does-that-mean/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "David MILLER",
+      "metadata": {
+        "Speakers": "David MILLER",
+        "Category": "community",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/david-miller-KR2022.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=7i_D42HGh7g",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/we-wont-live-forever-so-what-does-that-mean/"
+        }
+      ]
+    },
+    {
+      "id": "trust-and-the-linux-development-model",
+      "url": "https://archives.kernel-recipes.org/document/trust-and-the-linux-development-model/",
+      "title": "Trust and the Linux development model",
+      "listing_title": "Trust and the Linux development model",
+      "description": "In 2020, the University of Minnesota was found to have submitted a number of hypocrite commits to the Linux kernel development community in an attempt to prove that the kernel development model was insecure. Because of this, the University was banned from future kernel development. This talk will go through the whole timeline of the issue up to the present day.\n\nThe talk will then attempt to describe what the real kernel development trust model is as it became very obvious during this incident that many people outside of the community do not understand what it is.",
+      "description_html": "<p>In 2020, the University of Minnesota was found to have submitted a number of hypocrite commits to the Linux kernel development community in an attempt to prove that the kernel development model was insecure. Because of this, the University was banned from future kernel development. This talk will go through the whole timeline of the issue up to the present day.<br />\nThe talk will then attempt to describe what the real kernel development trust model is as it became very obvious during this incident that many people outside of the community do not understand what it is.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/trust-and-the-linux-development-model/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Category": "development",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/linux-trust.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=wBjbfQjSZXw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/trust-and-the-linux-development-model/"
+        }
+      ]
+    },
+    {
+      "id": "the-untold-story-of-bpf",
+      "url": "https://archives.kernel-recipes.org/document/the-untold-story-of-bpf/",
+      "title": "The untold story of BPF",
+      "listing_title": "The untold story of BPF",
+      "description": "This talk will uncover for the first time the true origin of ‘Extended Berkley Packet Filter’. It would be fascinating for aspiring and expert open source developers to discover BPF’s path into one of the most sophisticated and challenging parts of software stack. Innovating in the large projects like GCC, LLVM, Linux Kernel is challenging. The story of BPF is an example and a call to challenge what’s possible. Its past is a clear vision of what’s coming next.",
+      "description_html": "<p>This talk will uncover for the first time the true origin of ‘Extended Berkley Packet Filter’. It would be fascinating for aspiring and expert open source developers to discover BPF’s path into one of the most sophisticated and challenging parts of software stack. Innovating in the large projects like GCC, LLVM, Linux Kernel is challenging. The story of BPF is an example and a call to challenge what’s possible. Its past is a clear vision of what’s coming next.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-untold-story-of-bpf/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Alexei STAROVOITOV",
+      "metadata": {
+        "Speakers": "Alexei STAROVOITOV",
+        "Category": "tracing",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/story_of_bpf-1.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=DAvZH13725I",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-untold-story-of-bpf/"
+        }
+      ]
+    },
+    {
+      "id": "the-kernel-self-protection-project-and-how-you-can-help",
+      "url": "https://archives.kernel-recipes.org/document/the-kernel-self-protection-project-and-how-you-can-help/",
+      "title": "The Kernel Self-Protection Project and how you can help",
+      "listing_title": "The Kernel Self-Protection Project and how you can help",
+      "description": "This presentation will cover some of the most recent KSPP accomplishments, as well as some currently active efforts. Also, a brief explanation of how you can help us complete some particularly challenging work will be presented.",
+      "description_html": "<p>This presentation will cover some of the most recent KSPP accomplishments, as well as some currently active efforts. Also, a brief explanation of how you can help us complete some particularly challenging work will be presented.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-kernel-self-protection-project-and-how-you-can-help/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Gustavo A.R SILVA",
+      "metadata": {
+        "Speakers": "Gustavo A.R SILVA",
+        "Category": "security",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Gustavo_A._R._Silva_kr2022-1.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=-IvSAkhJ26I",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-kernel-self-protection-project-and-how-you-can-help/"
+        }
+      ]
+    },
+    {
+      "id": "the-complete-story-of-the-in-kernel-sloppy-gpio-logic-analyzer",
+      "url": "https://archives.kernel-recipes.org/document/the-complete-story-of-the-in-kernel-sloppy-gpio-logic-analyzer/",
+      "title": "The complete story of the in-kernel sloppy GPIO logic analyzer",
+      "listing_title": "The complete story of the in-kernel sloppy GPIO logic analyzer",
+      "description": "You know the rules, right? You should not implement a logic analyzer in software because equidistant sampling points cannot be guaranteed. You should also not disable interrupts in your kernel code, and if you really need to, it should be as short as possible. And surely you should not allow userspace to allocate memory without any constraints. Now, one big joy with hacking is breaking such rules and go wild. Listen to Wolfram’s story about the sloppy GPIO logic analyzer. How it started as an internal tool to debug a remote system and evolved into something which is making its way to mainline. You will learn details about upstreaming, the GPIO subsystem, that isolating a CPU core for one specific task is harder than it looks, and that Murphy’s law is still all around in 2022. Oh, and that Kernel hacking is tons of fun, of course.",
+      "description_html": "<p>You know the rules, right? You should not implement a logic analyzer in software because equidistant sampling points cannot be guaranteed. You should also not disable interrupts in your kernel code, and if you really need to, it should be as short as possible. And surely you should not allow userspace to allocate memory without any constraints. Now, one big joy with hacking is breaking such rules and go wild. Listen to Wolfram’s story about the sloppy GPIO logic analyzer. How it started as an internal tool to debug a remote system and evolved into something which is making its way to mainline. You will learn details about upstreaming, the GPIO subsystem, that isolating a CPU core for one specific task is harder than it looks, and that Murphy’s law is still all around in 2022. Oh, and that Kernel hacking is tons of fun, of course.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-complete-story-of-the-in-kernel-sloppy-gpio-logic-analyzer/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Wolfram SANG",
+      "metadata": {
+        "Speakers": "Wolfram SANG",
+        "Category": "gpio",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/sloppy_analyzer.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=5oq_JE7DWO4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-complete-story-of-the-in-kernel-sloppy-gpio-logic-analyzer/"
+        }
+      ]
+    },
+    {
+      "id": "test-driven-kernel-releases",
+      "url": "https://archives.kernel-recipes.org/document/test-driven-kernel-releases/",
+      "title": "Test-driven kernel releases",
+      "listing_title": "Test-driven kernel releases",
+      "description": "Upstream Linux kernel testing has grown exponentially on many fronts during the past few years: kselftest is now more stable, KUnit gaining coverage and many out-of-tree test suites have kept growing. Many automated systems are running those tests continuously and regzbot has now become a central place for tracking regressions with weekly reports for mainline.\n\nDespite these monumental achievements, mainline and stable releases still happen entirely at their maintainers’ discretion, in the absence of any known blocking regression. Linux kernel development has worked for many years while relying on subsystem maintainers’ testing tools and best-effort test reports. But in the same way that open-source has brought contributors together with a single code base, testing can bring kernel users together. Rather than having to rely heavily on downstream testing, we could bring some of the real-world quality control upstream too.\n\nThe aim of this talk is to raise a number of critical questions: What would it take to gate releases on a set of passing test results, even basic ones to start with? Can the upstream kernel community ever make such a culture shift? Could release tags include certified test results as a meaningful quality measurement for its users?",
+      "description_html": "<p>Upstream Linux kernel testing has grown exponentially on many fronts during the past few years: kselftest is now more stable, KUnit gaining coverage and many out-of-tree test suites have kept growing. Many automated systems are running those tests continuously and regzbot has now become a central place for tracking regressions with weekly reports for mainline.<br />\nDespite these monumental achievements, mainline and stable releases still happen entirely at their maintainers’ discretion, in the absence of any known blocking regression. Linux kernel development has worked for many years while relying on subsystem maintainers’ testing tools and best-effort test reports. But in the same way that open-source has brought contributors together with a single code base, testing can bring kernel users together. Rather than having to rely heavily on downstream testing, we could bring some of the real-world quality control upstream too.<br />\nThe aim of this talk is to raise a number of critical questions: What would it take to gate releases on a set of passing test results, even basic ones to start with? Can the upstream kernel community ever make such a culture shift? Could release tags include certified test results as a meaningful quality measurement for its users?</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/test-driven-kernel-releases/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Guillaume TUCKER",
+      "metadata": {
+        "Speakers": "Guillaume TUCKER",
+        "Category": "testing",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-recipes-2022-gtucker-001-1.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=qLexl0RxIX4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/test-driven-kernel-releases/"
+        }
+      ]
+    },
+    {
+      "id": "rethinking-the-kernel-camera-framework",
+      "url": "https://archives.kernel-recipes.org/document/rethinking-the-kernel-camera-framework/",
+      "title": "Rethinking the kernel camera framework",
+      "listing_title": "Rethinking the kernel camera framework",
+      "description": "Video4Linux (V4L2) has enabled hundreds of different multimedia devices, from TV tuners to the webcam that has accompanied you during the pandemic. Unfortunately, it has been neglected by vendors when they have implemented camera stacks for mobile devices.\n\nIn this talk we will explore the reasons why V4L2 has not proliferated with complex ISP systems and what can be done to support those devices from an Open Source perspective.",
+      "description_html": "<p>Video4Linux (V4L2) has enabled hundreds of different multimedia devices, from TV tuners to the webcam that has accompanied you during the pandemic. Unfortunately, it has been neglected by vendors when they have implemented camera stacks for mobile devices.<br />\nIn this talk we will explore the reasons why V4L2 has not proliferated with complex ISP systems and what can be done to support those devices from an Open Source perspective.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/rethinking-the-kernel-camera-framework/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Ricardo RIBALDA",
+      "metadata": {
+        "Speakers": "Ricardo RIBALDA",
+        "Category": "device",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Kernel-recipes-2022.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=KL3ajTu8VzU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/rethinking-the-kernel-camera-framework/"
+        }
+      ]
+    },
+    {
+      "id": "powerful-and-programmable-kernel-debugging-with-drgn",
+      "url": "https://archives.kernel-recipes.org/document/powerful-and-programmable-kernel-debugging-with-drgn/",
+      "title": "Powerful and Programmable Kernel Debugging with drgn",
+      "listing_title": "Powerful and Programmable Kernel Debugging with drgn",
+      "description": "Kernel bugs that sneak past testing into production tend to be tricky, convoluted, and hard to reproduce. When investigating such bugs, you often want to explore various data structures, look for patterns, and check your assumptions. After falling victim to some particularly difficult bugs which were tedious to analyze with existing tools, we at Meta built drgn (https://github.com/osandov/drgn), a debugger with an emphasis on programmability. With drgn, you can essentially write code to debug your code. This unlocks huge potential for debugging complex bugs.\n\nThis talk will demonstrate drgn’s capabilities and how we have used it to solve real kernel issues. I will also discuss some new use cases we have found for it beyond kernel debugging, including monitoring, replacing debugfs, and userspace memory profiling. Finally, I will discuss future development plans and solicit feedback from the audience: what do you wish your debugger did?",
+      "description_html": "<p>Kernel bugs that sneak past testing into production tend to be tricky, convoluted, and hard to reproduce. When investigating such bugs, you often want to explore various data structures, look for patterns, and check your assumptions. After falling victim to some particularly difficult bugs which were tedious to analyze with existing tools, we at Meta built drgn (<a class=\"waffle-rich-text-link\" href=\"https://github.com/osandov/drgn\">https://github.com/osandov/drgn</a>), a debugger with an emphasis on programmability. With drgn, you can essentially write code to debug your code. This unlocks huge potential for debugging complex bugs.</p>\n<p>This talk will demonstrate drgn’s capabilities and how we have used it to solve real kernel issues. I will also discuss some new use cases we have found for it beyond kernel debugging, including monitoring, replacing debugfs, and userspace memory profiling. Finally, I will discuss future development plans and solicit feedback from the audience: what do you wish your debugger did?</p>\n<p>&nbsp;</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/powerful-and-programmable-kernel-debugging-with-drgn/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Omar SANDOVAL",
+      "metadata": {
+        "Speakers": "Omar SANDOVAL",
+        "Category": "debugging",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/drgn.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ukxH_55BiQE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/powerful-and-programmable-kernel-debugging-with-drgn/"
+        },
+        {
+          "title": "additional material",
+          "url": "https://github.com/osandov/drgn",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/powerful-and-programmable-kernel-debugging-with-drgn/"
+        }
+      ]
+    },
+    {
+      "id": "once-upon-an-api",
+      "url": "https://archives.kernel-recipes.org/document/once-upon-an-api/",
+      "title": "Once upon an API",
+      "listing_title": "Once upon an API",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://archives.kernel-recipes.org/document/once-upon-an-api/",
+      "description_status": "missing",
+      "track": "",
+      "speakers": "Michael KERRISK",
+      "metadata": {
+        "Speakers": "Michael KERRISK",
+        "Category": "development",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/once-upon-an-API-Kernel-Recipes-2022-Kerrisk.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=l-i1DVjlAyA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/once-upon-an-api/"
+        }
+      ]
+    },
+    {
+      "id": "new-userspace-api-for-display-panel-brightness-control",
+      "url": "https://archives.kernel-recipes.org/document/new-userspace-api-for-display-panel-brightness-control/",
+      "title": "New userspace API for display panel brightness-control",
+      "listing_title": "New userspace API for display panel brightness-control",
+      "description": "The current userspace API for brightness control offered by /sys/class/backlight devices has various problems:\n\n1. There is no way to map the backlight device to a specific display-output / panel\n\n2. On x86 there can be multiple firmware + direct-hw-access methods for controlling the backlight and the kernel may register multiple backlight-devices based on this which are all controlling the brightness for the same display-panel. To make things worse sometimes only one of the registered\n\nbacklight devices actually works.\n\n3. Controlling the brightness requires root-rights requiring desktop-environments to use suid-root helpers for this.\n\n4. The scale of the brightness value is unclear, the API does not define if “perceived brightness” or electrical power is being controlled and in practice both are used without userspace knowing which is which.\n\n5. The API does not define if a brightness value of 0 means off, or lowest brightness at which the screen is still readable (in a low lit room), again in practice both variants happen.\n\nThis talk will present a proposal for a new userspace API which intends to address these problems in the form of a number of new properties for drm/kms properties on the drm_connector object for the display-panel.\n\nThis talk will also focus on how to implement this proposal which brings several challenges with it:\n\n1. The mess of having multiple interfaces to control a laptop’s internal-panel will have to be sorted out because with the new API we can no longer just register multiple backlight devices and let userspace sort things out.\n\n2. In various cases the drm/kms driver driving the panel does not control the brightness itself, but the brightness is controlled through some (ACPI) firmware interface such as the acpi_video or nvidia-wmi-ec-backlight interfaces.\n\nThis introduces some challenging probe-ordering issues, the solution for which is not entirely clear yet, so this part of the talk will be actively seeking audience input on this topic.",
+      "description_html": "<p>The current userspace API for brightness control offered by /sys/class/backlight devices has various problems:<br />\n1. There is no way to map the backlight device to a specific display-output / panel<br />\n2. On x86 there can be multiple firmware + direct-hw-access methods for controlling the backlight and the kernel may register multiple backlight-devices based on this which are all controlling the brightness for the same display-panel. To make things worse sometimes only one of the registered<br />\nbacklight devices actually works.<br />\n3. Controlling the brightness requires root-rights requiring desktop-environments to use suid-root helpers for this.<br />\n4. The scale of the brightness value is unclear, the API does not define if “perceived brightness” or electrical power is being controlled and in practice both are used without userspace knowing which is which.<br />\n5. The API does not define if a brightness value of 0 means off, or lowest brightness at which the screen is still readable (in a low lit room), again in practice both variants happen.<br />\nThis talk will present a proposal for a new userspace API which intends to address these problems in the form of a number of new properties for drm/kms properties on the drm_connector object for the display-panel.<br />\nThis talk will also focus on how to implement this proposal which brings several challenges with it:<br />\n1. The mess of having multiple interfaces to control a laptop’s internal-panel will have to be sorted out because with the new API we can no longer just register multiple backlight devices and let userspace sort things out.<br />\n2. In various cases the drm/kms driver driving the panel does not control the brightness itself, but the brightness is controlled through some (ACPI) firmware interface such as the acpi_video or nvidia-wmi-ec-backlight interfaces.<br />\nThis introduces some challenging probe-ordering issues, the solution for which is not entirely clear yet, so this part of the talk will be actively seeking audience input on this topic.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2022 - New userspace api for display panel brightness-control\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/rzhY2bEYq04?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/new-userspace-api-for-display-panel-brightness-control/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Hans DE GOEDE",
+      "metadata": {
+        "Speakers": "Hans DE GOEDE",
+        "Category": "graphics",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-recipes-backlight-2022-16x9-1.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=rzhY2bEYq04",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/new-userspace-api-for-display-panel-brightness-control/"
+        }
+      ]
+    },
+    {
+      "id": "make-linux-developers-fix-your-kernel-bug",
+      "url": "https://archives.kernel-recipes.org/document/make-linux-developers-fix-your-kernel-bug/",
+      "title": "Make Linux developers fix your kernel bug",
+      "listing_title": "Make Linux developers fix your kernel bug",
+      "description": "Pssst! Don’t tell anyone, but there is a rule that forces Linux developers to fix certain kind of kernel bugs. This is pretty strictly enforced by Linux creator and lead-developer Linus Torvalds himself, who occasionally even steps up to fix such problems himself. You can benefit from this, but for that you have to do some diagnostics and report your issue properly.\n\nThis talk will explain what you need to do and what kind of problems the aforementioned rule covers. Known this will even help you when dealing with other kind of bugs: a proper report will then dramatically increase the chance that someone takes a closer look and provides a fix. To round things up the talk will also explain how to spot problems that are unlikely to get fixed, to save you from wasting time.",
+      "description_html": "<p>Pssst! Don’t tell anyone, but there is a rule that forces Linux developers to fix certain kind of kernel bugs. This is pretty strictly enforced by Linux creator and lead-developer Linus Torvalds himself, who occasionally even steps up to fix such problems himself. You can benefit from this, but for that you have to do some diagnostics and report your issue properly.<br />\nThis talk will explain what you need to do and what kind of problems the aforementioned rule covers. Known this will even help you when dealing with other kind of bugs: a proper report will then dramatically increase the chance that someone takes a closer look and provides a fix. To round things up the talk will also explain how to spot problems that are unlikely to get fixed, to save you from wasting time.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/make-linux-developers-fix-your-kernel-bug/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Thorsten LEEMHUIS",
+      "metadata": {
+        "Speakers": "Thorsten LEEMHUIS",
+        "Category": "community",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/thorsten-202206-kr22-issuereporting-1.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Uh_mWWMJHDY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/make-linux-developers-fix-your-kernel-bug/"
+        }
+      ]
+    },
+    {
+      "id": "looking-at-yourself-linux-introspection-tales",
+      "url": "https://archives.kernel-recipes.org/document/looking-at-yourself-linux-introspection-tales/",
+      "title": "Looking at yourself: Linux Introspection tales",
+      "listing_title": "Looking at yourself: Linux Introspection tales",
+      "description": "Introspection information, used originally by debuggers, has come a long way into playing a greater role in the functioning of Linux.\n\nNow its used by tracers, profilers, and then by eBPF, in libbpf, in the verifier and other parts of the kernel, being always available and fast to access.\n\nThis talk will tell the history of a tool initially used for looking for alignment holes, all the way to being used in the kernel build process, and will touch many aspects of this journey.\n\nOld and new tricks will be described, touching perf, eBPF, rust, clang, you name it.",
+      "description_html": "<p>Introspection information, used originally by debuggers, has come a long way into playing a greater role in the functioning of Linux.<br />\nNow its used by tracers, profilers, and then by eBPF, in libbpf, in the verifier and other parts of the kernel, being always available and fast to access.<br />\nThis talk will tell the history of a tool initially used for looking for alignment holes, all the way to being used in the kernel build process, and will touch many aspects of this journey.<br />\nOld and new tricks will be described, touching perf, eBPF, rust, clang, you name it.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/looking-at-yourself-linux-introspection-tales/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Arnaldo CARVALHO DE MELO",
+      "metadata": {
+        "Speakers": "Arnaldo CARVALHO DE MELO",
+        "Category": "debugging",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Looking-at-yourself_-Linux-introspection-tales.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=_wdBeN175OI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/looking-at-yourself-linux-introspection-tales/"
+        }
+      ]
+    },
+    {
+      "id": "linux-on-risc-v",
+      "url": "https://archives.kernel-recipes.org/document/linux-on-risc-v/",
+      "title": "Linux on RISC-V",
+      "listing_title": "Linux on RISC-V",
+      "description": "It is an exciting time for Linux on RISC-V, the open instruction set (ISA) that is quickly gaining critical mass.  I will introduce the pieces needed to boot Linux on RISC-V including the Privileged Architecture, OpenSBI and U-Boot, and how that fits into the upcoming RISC-V Platform Specification.  I will break down support for existing hardware and current upstreaming efforts.  I will also discuss how the arch/riscv maintenance guidelines try to avoid unnecessary churn as the landscape of RISC-V extensions continues to evolve.",
+      "description_html": "<p>It is an exciting time for Linux on RISC-V, the open instruction set (ISA) that is quickly gaining critical mass.  I will introduce the pieces needed to boot Linux on RISC-V including the Privileged Architecture, OpenSBI and U-Boot, and how that fits into the upcoming RISC-V Platform Specification.  I will break down support for existing hardware and current upstreaming efforts.  I will also discuss how the arch/riscv maintenance guidelines try to avoid unnecessary churn as the landscape of RISC-V extensions continues to evolve.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/linux-on-risc-v/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Drew FUSTINI",
+      "metadata": {
+        "Speakers": "Drew FUSTINI",
+        "Category": "arm",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/fustini_riscv_kr2022-compresse.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=vcAVx8CV2fY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/linux-on-risc-v/"
+        }
+      ]
+    },
+    {
+      "id": "io_uring-path-to-zerocopy-i-o",
+      "url": "https://archives.kernel-recipes.org/document/io_uring-path-to-zerocopy-i-o/",
+      "title": "io_uring: path to zerocopy I/O",
+      "listing_title": "io_uring: path to zerocopy I/O",
+      "description": "With I/O devices getting faster each year, memory copies are becoming more and more expensive, wasting a lot of CPU cycles and being a burden to the memory subsystem. The problem goes even deeper, as device-to-device transfers usually require intermediate steps, pumping the data through the RAM. We’re going to explore what io_uring has to offer and plans in the areas of zerocopy and peer-to-peer I/O.",
+      "description_html": "<p>With I/O devices getting faster each year, memory copies are becoming more and more expensive, wasting a lot of CPU cycles and being a burden to the memory subsystem. The problem goes even deeper, as device-to-device transfers usually require intermediate steps, pumping the data through the RAM. We’re going to explore what io_uring has to offer and plans in the areas of zerocopy and peer-to-peer I/O.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/io_uring-path-to-zerocopy-i-o/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Pavel BEGUNKOV",
+      "metadata": {
+        "Speakers": "Pavel BEGUNKOV",
+        "Category": "storage",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Pavel_Begunkov_slides.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Xu4FEgMljvA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/io_uring-path-to-zerocopy-i-o/"
+        }
+      ]
+    },
+    {
+      "id": "idmapped-mounts",
+      "url": "https://archives.kernel-recipes.org/document/idmapped-mounts/",
+      "title": "Idmapped Mounts",
+      "listing_title": "Idmapped Mounts",
+      "description": "On most Linux filesystems ownership is expressed in the form of user identifiers (uid) and group identifiers (gid). The only way to alter ownership of a filesystem object is to use a system call from the chown* family to specify a new uid and gid. Changing ownership in this way is a systemd-wide and permanent operation.\n\nBut various use-cases exist that require an API which allows to change ownership of filesystem objects in a localized and temporary way. This API is available in Linux in the form of idmapped mounts. Idmapped mounts allow ownership changs which are restricted to and bound to the lifetime of a mount.\n\nThis talk will introduce the various use-cases that exist and give a detailed explanation and demo how idmapped mounts work and touch on some outstanding problems that still need to be solved.",
+      "description_html": "<p>On most Linux filesystems ownership is expressed in the form of user identifiers (uid) and group identifiers (gid). The only way to alter ownership of a filesystem object is to use a system call from the chown* family to specify a new uid and gid. Changing ownership in this way is a systemd-wide and permanent operation.<br />\nBut various use-cases exist that require an API which allows to change ownership of filesystem objects in a localized and temporary way. This API is available in Linux in the form of idmapped mounts. Idmapped mounts allow ownership changs which are restricted to and bound to the lifetime of a mount.<br />\nThis talk will introduce the various use-cases that exist and give a detailed explanation and demo how idmapped mounts work and touch on some outstanding problems that still need to be solved.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/idmapped-mounts/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Christian BRAUNER",
+      "metadata": {
+        "Speakers": "Christian BRAUNER",
+        "Category": "file-systems",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/brauner_christian_idmapped_mounts.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=DZ-ut7RtR2I",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/idmapped-mounts/"
+        }
+      ]
+    },
+    {
+      "id": "hid-bpf",
+      "url": "https://archives.kernel-recipes.org/document/hid-bpf/",
+      "title": "HID-BPF",
+      "listing_title": "HID-BPF",
+      "description": "HID (Human Interface Device) is an old protocol which handles input devices. It is supposed to be standard and to allow devices to work without the need for a driver. Unfortunately, it is not standard, merely “standard”.\n\nThe HID subsystem has roughly 80 drivers, half of them are fixing only one tiny bit, either in the protocol of the device or in the key mapping for instance.\n\nHistorically, fixing such devices requires users to submit a patch to the kernel. The process of updating the kernel has greatly improved over the past few years, but still, we can not safely fix those devices in-place (without rebooting and risking messing up the system).\n\nBut here is the future: eBPF. eBPF allows loading kernel-space code from user-space.\n\nWhy not apply that to HID devices too? This way we can change the small part of the device that is not working while still relying on the generic processing of the kernel to support it.\n\nIn this talk, we will outline this new feature that we are currently upstreaming, its advantages and why this is the future, for HID at least.",
+      "description_html": "<p>HID (Human Interface Device) is an old protocol which handles input devices. It is supposed to be standard and to allow devices to work without the need for a driver. Unfortunately, it is not standard, merely “standard”.<br />\nThe HID subsystem has roughly 80 drivers, half of them are fixing only one tiny bit, either in the protocol of the device or in the key mapping for instance.<br />\nHistorically, fixing such devices requires users to submit a patch to the kernel. The process of updating the kernel has greatly improved over the past few years, but still, we can not safely fix those devices in-place (without rebooting and risking messing up the system).<br />\nBut here is the future: eBPF. eBPF allows loading kernel-space code from user-space.<br />\nWhy not apply that to HID devices too? This way we can change the small part of the device that is not working while still relying on the generic processing of the kernel to support it.<br />\nIn this talk, we will outline this new feature that we are currently upstreaming, its advantages and why this is the future, for HID at least.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/hid-bpf/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Benjamin TISSOIRES",
+      "metadata": {
+        "Speakers": "Benjamin TISSOIRES",
+        "Category": "tracing",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/tissoire-slides-export.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=gd2R5mlTvTg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/hid-bpf/"
+        }
+      ]
+    },
+    {
+      "id": "ftrace-update",
+      "url": "https://archives.kernel-recipes.org/document/ftrace-update/",
+      "title": "Ftrace update",
+      "listing_title": "Ftrace update",
+      "description": "A lot of neat little features has been added to the ftrace tracing subsystem. This will go over what those are. From synthetic events to event probes. New triggers and even user events. If you don’t know what these are, then this talk will explain them to you.",
+      "description_html": "<p>A lot of neat little features has been added to the ftrace tracing subsystem. This will go over what those are. From synthetic events to event probes. New triggers and even user events. If you don’t know what these are, then this talk will explain them to you.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2022 - Ftrace update\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/CLUVleQBm-w?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/ftrace-update/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Steven ROSTEDT",
+      "metadata": {
+        "Speakers": "Steven ROSTEDT",
+        "Category": "tracing",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Whats-new-in-Ftrace.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=CLUVleQBm-w",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/ftrace-update/"
+        }
+      ]
+    },
+    {
+      "id": "developing-tilck-a-tiny-linux-compatible-kernel",
+      "url": "https://archives.kernel-recipes.org/document/developing-tilck-a-tiny-linux-compatible-kernel/",
+      "title": "Developing Tilck a Tiny Linux-compatible kernel",
+      "listing_title": "Developing Tilck a Tiny Linux-compatible kernel",
+      "description": "One of the ways to get a solid understanding of operating systems is to write one, from scratch. This is what Vlad has been doing in his free time since 2016. It all started as an experiment to see what would it take to write an OS that could just “run a shell” and learn a bit of x86 hardware, kernels and bootloaders in the meanwhile. A few months later, he decided that it would be super cool if his toy-kernel could run natively i686-linux programs and that opened Pandora’s box: being binary-compatible with Linux and running non-trivial 3rd-party apps introduced plenty of unexpected challenges. Fast forward a few years, Tilck can now boot on both BIOS and UEFI machines (using its own bootloader or GRUB), run Busybox, Vim, fbDOOM, Micropython and several other console applications compiled for i686-linux with a gcc-musl toolchain.\n\nThis talk is about the story of how the Tilck kernel and its bootloader went from “Hello world” to where it is today, with focus on some of the most interesting challenges and subtle bugs its author had to go through.",
+      "description_html": "<p>One of the ways to get a solid understanding of operating systems is to write one, from scratch. This is what Vlad has been doing in his free time since 2016. It all started as an experiment to see what would it take to write an OS that could just “run a shell” and learn a bit of x86 hardware, kernels and bootloaders in the meanwhile. A few months later, he decided that it would be super cool if his toy-kernel could run natively i686-linux programs and that opened Pandora’s box: being binary-compatible with Linux and running non-trivial 3rd-party apps introduced plenty of unexpected challenges. Fast forward a few years, Tilck can now boot on both BIOS and UEFI machines (using its own bootloader or GRUB), run Busybox, Vim, fbDOOM, Micropython and several other console applications compiled for i686-linux with a gcc-musl toolchain.<br />\nThis talk is about the story of how the Tilck kernel and its bootloader went from “Hello world” to where it is today, with focus on some of the most interesting challenges and subtle bugs its author had to go through.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/developing-tilck-a-tiny-linux-compatible-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Vladislav VALTCHEV",
+      "metadata": {
+        "Speakers": "Vladislav VALTCHEV",
+        "Category": "tooling",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Developing-Tilck-ver2.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=tI0nnfuHsGs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/developing-tilck-a-tiny-linux-compatible-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "checking-your-work-validating-the-kernel-by-building-and-testing-in-ci",
+      "url": "https://archives.kernel-recipes.org/document/checking-your-work-validating-the-kernel-by-building-and-testing-in-ci/",
+      "title": "Checking your work: validating the kernel by building and testing in CI",
+      "listing_title": "Checking your work: validating the kernel by building and testing in CI",
+      "description": "The Linux kernel is one of the most complex pieces of software ever written. Being in ring 0, bugs in the kernel are a big problem, so having confidence in the correctness and robustness of the kernel is incredibly important. This is difficult enough for a single version and configuration of the kernel, but becomes exponentially more difficult as you consider the need to validate the kernel across various configurations, architectures, trees, and branches.\n\nWhile there are a number of great tools available to write tests for the kernel, and a number of great resources to run those tests and publish the results, our general testing and CI story is inconsistent. Some subsystems run a 100% stable kselftest suite on patchwork, others run regression tests in datacenters maintained by private companies, and yet others run tests on machines that reside in maintainers’ private datacenters (basements?).\n\nThe aim of this talk is to paint a relatively complete picture of the kernel testing story as it exits today, to highlight some of the pain-points felt by maintainers and contributors, and to suggest a way forward towards a more comprehensive and consistent testing story for the upstream community.",
+      "description_html": "<p>The Linux kernel is one of the most complex pieces of software ever written. Being in ring 0, bugs in the kernel are a big problem, so having confidence in the correctness and robustness of the kernel is incredibly important. This is difficult enough for a single version and configuration of the kernel, but becomes exponentially more difficult as you consider the need to validate the kernel across various configurations, architectures, trees, and branches.<br />\nWhile there are a number of great tools available to write tests for the kernel, and a number of great resources to run those tests and publish the results, our general testing and CI story is inconsistent. Some subsystems run a 100% stable kselftest suite on patchwork, others run regression tests in datacenters maintained by private companies, and yet others run tests on machines that reside in maintainers’ private datacenters (basements?).<br />\nThe aim of this talk is to paint a relatively complete picture of the kernel testing story as it exits today, to highlight some of the pain-points felt by maintainers and contributors, and to suggest a way forward towards a more comprehensive and consistent testing story for the upstream community.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/checking-your-work-validating-the-kernel-by-building-and-testing-in-ci/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "David VERNER",
+      "metadata": {
+        "Speakers": "David VERNER",
+        "Category": "testing",
+        "Year": "2022"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Linux_20kernel_20testing_20and_20CI.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=bL_b-1bol80",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/checking-your-work-validating-the-kernel-by-building-and-testing-in-ci/"
+        }
+      ]
+    }
+  ]
+}

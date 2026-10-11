@@ -1,0 +1,766 @@
+{
+  "event": "Kernel Recipes 2018",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library の Tag=2018 に該当する全21件を収録。概要・動画・追加資料は個別ページから取得。掲載されていない日時・会場は空欄。リンク先ファイルと動画の再生可否は未検査。",
+  "counts": {
+    "sessions": 21,
+    "with_description": 20,
+    "with_materials": 21,
+    "attachments": 41,
+    "files": 21,
+    "links": 20
+  },
+  "sessions": [
+    {
+      "id": "the-power-supply-subsysytem",
+      "url": "https://archives.kernel-recipes.org/document/the-power-supply-subsysytem/",
+      "title": "The Power Supply Subsysytem",
+      "listing_title": "The Power Supply Subsysytem",
+      "description": "Do you know how batteries and battery chargers are handled in the Linux kernel subsystem? While not as complex as the DRM subsystem, the power-supply subsystem is a key part of embedded mobile devices running Linux. This talk will be an quick overview of the subsystem and its latest features, from hardware (e.g. what’s a smart battery), to sysfs and uevent API exposed to userspace.",
+      "description_html": "<p>Do you know how batteries and battery chargers are handled in the Linux kernel subsystem? While not as complex as the DRM subsystem, the power-supply subsystem is a key part of embedded mobile devices running Linux. This talk will be an quick overview of the subsystem and its latest features, from hardware (e.g. what’s a smart battery), to sysfs and uevent API exposed to userspace.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-power-supply-subsysytem/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Sebastian REICHEL",
+      "metadata": {
+        "Speakers": "Sebastian REICHEL",
+        "Category": "hardware",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/the-power-supply-subsysytem/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=8vgJ_4f1mrw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-power-supply-subsysytem/"
+        }
+      ]
+    },
+    {
+      "id": "a-year-of-fixing-coverity-issues-all-over-the-linux-kernel",
+      "url": "https://archives.kernel-recipes.org/document/a-year-of-fixing-coverity-issues-all-over-the-linux-kernel/",
+      "title": "A year of fixing Coverity issues all over the Linux kernel",
+      "listing_title": "A year of fixing Coverity issues all over the Linux kernel",
+      "description": "Coverity is a static analyzer that scans the kernel code and reports issues that can hide coding mistakes and vulnerabilities. Currently, it reports around 5,000 outstanding defects in the Linux kernel. I’m dedicated to fixing those defects and, this talk is a status report of the work I have been doing over the course of a year. Lessons learned, as well as the most common types of issues reported, will also be presented.",
+      "description_html": "<p>Coverity is a static analyzer that scans the kernel code and reports issues that can hide coding mistakes and vulnerabilities. Currently, it reports around 5,000 outstanding defects in the Linux kernel. I’m dedicated to fixing those defects and, this talk is a status report of the work I have been doing over the course of a year. Lessons learned, as well as the most common types of issues reported, will also be presented.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2018 - A year of fixing Coverity issues... -  Gustavo A. R. Silva\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/qj1Yjc_dK6s?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/a-year-of-fixing-coverity-issues-all-over-the-linux-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Gustavo AR SILVA",
+      "metadata": {
+        "Speakers": "Gustavo AR SILVA",
+        "Category": "debugging",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/gustavo-181008124643.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=qj1Yjc_dK6s",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/a-year-of-fixing-coverity-issues-all-over-the-linux-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "zinc-new-cryptography-api-for-linux-kernel",
+      "url": "https://archives.kernel-recipes.org/document/zinc-new-cryptography-api-for-linux-kernel/",
+      "title": "Zinc: New Cryptography API for Linux Kernel",
+      "listing_title": "Zinc: New Cryptography API for Linux Kernel",
+      "description": "Zinc is a new minimal cryptography API for the kernel that is in the process of being upstreamed. Rather than providing an abstracted framework, Zinc provides simple functions. This talk will address the design considerations of the new API, its approach to implementation choice and fuzzing, and touch on formally verified cryptography implementations. We’ll explore the difference between, on one hand, reference code for a particular algorithm, and on the other hand, the present crypto API with its large and complicated abstractions, and how Zinc fits into the middle of these extremes. We’ll also examine issues relating to using SIMD from kernel space and the costs associated with it, and what we can do about it.",
+      "description_html": "<p>Zinc is a new minimal cryptography API for the kernel that is in the process of being upstreamed. Rather than providing an abstracted framework, Zinc provides simple functions. This talk will address the design considerations of the new API, its approach to implementation choice and fuzzing, and touch on formally verified cryptography implementations. We’ll explore the difference between, on one hand, reference code for a particular algorithm, and on the other hand, the present crypto API with its large and complicated abstractions, and how Zinc fits into the middle of these extremes. We’ll also examine issues relating to using SIMD from kernel space and the costs associated with it, and what we can do about it.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2018 - Zinc: New Cryptography API for Linux Kernel - Jason Donenfeld\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/a9A80i6noLw?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/zinc-new-cryptography-api-for-linux-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jason DONENFELD",
+      "metadata": {
+        "Speakers": "Jason DONENFELD",
+        "Category": "security",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/zinc-181002204511.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=a9A80i6noLw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/zinc-new-cryptography-api-for-linux-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "xdp-a-new-programmable-network-layer",
+      "url": "https://archives.kernel-recipes.org/document/xdp-a-new-programmable-network-layer/",
+      "title": "XDP: a new programmable network layer",
+      "listing_title": "XDP: a new programmable network layer",
+      "description": "This talk will introduce XDP (eXpress Data Path), and explain how this is essentially a new (programmable) network layer in-front of the existing network stack. Then it will dive into the details of the new XDP redirect feature, which goes beyond forwarding packets out other NIC devices.\n\nThe eXpress Data Path (XDP) has been gradually integrated into the Linux kernel over several releases. XDP offers fast and programmable packet processing in kernel context. The operating system kernel itself provides a safe execution environment for custom packet processing applications, in form of eBPF programs, executed in device driver context. XDP provides a fully integrated solution working in concert with the kernel’s networking stack. Applications are written in higher level languages such as C and  compiled via LLVM into eBPF bytecode which the kernel statically analyses for safety, and JIT translates into native instructions. This is an alternative approach, compared to kernel bypass mechanisms (like DPDK and netmap).",
+      "description_html": "<p>This talk will introduce XDP (eXpress Data Path), and explain how this is essentially a new (programmable) network layer in-front of the existing network stack. Then it will dive into the details of the new XDP redirect feature, which goes beyond forwarding packets out other NIC devices.<br />\nThe eXpress Data Path (XDP) has been gradually integrated into the Linux kernel over several releases. XDP offers fast and programmable packet processing in kernel context. The operating system kernel itself provides a safe execution environment for custom packet processing applications, in form of eBPF programs, executed in device driver context. XDP provides a fully integrated solution working in concert with the kernel’s networking stack. Applications are written in higher level languages such as C and  compiled via LLVM into eBPF bytecode which the kernel statically analyses for safety, and JIT translates into native instructions. This is an alternative approach, compared to kernel bypass mechanisms (like DPDK and netmap).</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/xdp-a-new-programmable-network-layer/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jesper DANGAARD BROUER",
+      "metadata": {
+        "Speakers": "Jesper DANGAARD BROUER",
+        "Category": "networking",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/xdpkernelrecipes2018-181002204324.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=yi8xLzNBSa4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/xdp-a-new-programmable-network-layer/"
+        }
+      ]
+    },
+    {
+      "id": "tpm-enabling-the-crypto-ecosystem-for-enhanced-security",
+      "url": "https://archives.kernel-recipes.org/document/tpm-enabling-the-crypto-ecosystem-for-enhanced-security/",
+      "title": "TPM enabling the Crypto Ecosystem for enhanced Security",
+      "listing_title": "TPM enabling the Crypto Ecosystem for enhanced Security",
+      "description": "For decades, all laptops have come with a TPM.  Now with Microsoft forcing the transition to the next  generation, Linux faces a challenge in that all the previous TPM 1.2 tools don’t work with 2.0.  Having to create new tools for TPM 2.0 also provides the opportunity to integrate the TPM more closely into our current crypto systems and thus give Linux the advantage of TPM resident and therefore secure private keys.  This talks will provide the current state of play in using TPM 2.0 in place of crypto sticks and USB keys for secure key handling; including the algorithm agility of TPM 2.0 which finally provides a support for Elliptic Curve keys which have become the default recently.\n\nThis talk will provide an overview of current TSS (Trusted computing group Software Stack) for TPM 2.0 implementation on Linux, including a discussion of the two distinct Intel and IBM stacks with their relative strengths and weaknesses.  We will then move on to integration of the TSS into existing crypto system implementations that allow using TPM resident keys to be used with common tools like openssl, gnutls, gpg, openssh and gnome-keyring.  We will report on the current state of that integration  including demonstrations of how it works and future plans.  The ultimate goal is to enable the seamless use of TPM resident keys in all places where encrypted private keys are currently used, thus increasing greatly the security posture of a standard Linux desktop.",
+      "description_html": "<p>For decades, all laptops have come with a TPM.  Now with Microsoft forcing the transition to the next  generation, Linux faces a challenge in that all the previous TPM 1.2 tools don’t work with 2.0.  Having to create new tools for TPM 2.0 also provides the opportunity to integrate the TPM more closely into our current crypto systems and thus give Linux the advantage of TPM resident and therefore secure private keys.  This talks will provide the current state of play in using TPM 2.0 in place of crypto sticks and USB keys for secure key handling; including the algorithm agility of TPM 2.0 which finally provides a support for Elliptic Curve keys which have become the default recently.<br />\nThis talk will provide an overview of current TSS (Trusted computing group Software Stack) for TPM 2.0 implementation on Linux, including a discussion of the two distinct Intel and IBM stacks with their relative strengths and weaknesses.  We will then move on to integration of the TSS into existing crypto system implementations that allow using TPM resident keys to be used with common tools like openssl, gnutls, gpg, openssh and gnome-keyring.  We will report on the current state of that integration  including demonstrations of how it works and future plans.  The ultimate goal is to enable the seamless use of TPM resident keys in all places where encrypted private keys are currently used, thus increasing greatly the security posture of a standard Linux desktop.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/tpm-enabling-the-crypto-ecosystem-for-enhanced-security/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "James BOTTOMLEY",
+      "metadata": {
+        "Speakers": "James BOTTOMLEY",
+        "Category": "security",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/tpm-enabling-the-crypto-ecosystem-for-enhanced-security/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=n3rWuUS4WbU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/tpm-enabling-the-crypto-ecosystem-for-enhanced-security/"
+        }
+      ]
+    },
+    {
+      "id": "state-of-cpu-isolation",
+      "url": "https://archives.kernel-recipes.org/document/state-of-cpu-isolation/",
+      "title": "State of CPU Isolation",
+      "listing_title": "State of CPU Isolation",
+      "description": "The kernel is great at doing its job for your task, providing unified access to hardware, filesystem, network, scheduling your code when you need to, … But can’t it all be done quietly please, because your application is sensitive to headaches and is having a hard time focusing?\n\nSome workloads indeed need bare metal exclusive use of the CPUs without being disturbed by anything else: other tasks, interrupts, exceptions.\n\nThe kernel has learned to hide in the shadows through many mechanisms that have been integrated over the years and none of which can be picked up without their own specific cost. It’s always a tradeoff.\n\nLet’s have a tour into these features and see what is left to be done.",
+      "description_html": "<p>The kernel is great at doing its job for your task, providing unified access to hardware, filesystem, network, scheduling your code when you need to, … But can’t it all be done quietly please, because your application is sensitive to headaches and is having a hard time focusing?<br />\nSome workloads indeed need bare metal exclusive use of the CPUs without being disturbed by anything else: other tasks, interrupts, exceptions.<br />\nThe kernel has learned to hide in the shadows through many mechanisms that have been integrated over the years and none of which can be picked up without their own specific cost. It’s always a tradeoff.<br />\nLet’s have a tour into these features and see what is left to be done.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/state-of-cpu-isolation/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Frédéric WEISBECKER",
+      "metadata": {
+        "Speakers": "Frédéric WEISBECKER",
+        "Category": "hardware",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/state-of-cpu-isolation/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ai-Avto0c0Q",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/state-of-cpu-isolation/"
+        }
+      ]
+    },
+    {
+      "id": "qemu-in-uefi",
+      "url": "https://archives.kernel-recipes.org/document/qemu-in-uefi/",
+      "title": "Qemu in UEFI",
+      "listing_title": "Qemu in UEFI",
+      "description": "UEFI is a firmware specification created by Intel with portability in mind. The UEFI way of doing that was to provide special UEFI byte code (EBC). Unfortunately nobody really cared so compiler, firmware support and providers of EBC option roms ceased and basically every UEFI option rom today contains native x86(_64) machine code.\n\nIf you now want to plug a PCIe card into your shiny ARM server, that means even though firmware would be compatible it still can’t execute the option rom. Until you add QEMU to the mix.\n\nJoin me in exploring the depth of UEFI binary interfaces, marshalling between different architecture’s  function call ABIs on the fly and learn how to integrate all of this into a working firmware, running on real\n\nhardware, driving a real PCIe adapter.\n\nUEFI is a firmware specification created by Intel with portability in mind. The UEFI way of doing that was to provide special UEFI byte code (EBC). Unfortunately nobody really cared so compiler, firmware support\n\nand providers of EBC option roms ceased and basically every UEFI option rom today contains native x86(_64) machine code.\n\nIf you now want to plug a PCIe card into your shiny ARM server, that means even though firmware would be compatible it still can’t execute the option rom. Until you add QEMU to the mix.\n\nJoin me in exploring the depth of UEFI binary interfaces, marshalling between different architecture’s function call ABIs on the fly and learn how to integrate all of this into a working firmware, running on real hardware, driving a real PCIe adapter.",
+      "description_html": "<p>UEFI is a firmware specification created by Intel with portability in mind. The UEFI way of doing that was to provide special UEFI byte code (EBC). Unfortunately nobody really cared so compiler, firmware support and providers of EBC option roms ceased and basically every UEFI option rom today contains native x86(_64) machine code.<br />\nIf you now want to plug a PCIe card into your shiny ARM server, that means even though firmware would be compatible it still can’t execute the option rom. Until you add QEMU to the mix.<br />\nJoin me in exploring the depth of UEFI binary interfaces, marshalling between different architecture’s  function call ABIs on the fly and learn how to integrate all of this into a working firmware, running on real<br />\nhardware, driving a real PCIe adapter.<br />\nUEFI is a firmware specification created by Intel with portability in mind. The UEFI way of doing that was to provide special UEFI byte code (EBC). Unfortunately nobody really cared so compiler, firmware support<br />\nand providers of EBC option roms ceased and basically every UEFI option rom today contains native x86(_64) machine code.<br />\nIf you now want to plug a PCIe card into your shiny ARM server, that means even though firmware would be compatible it still can’t execute the option rom. Until you add QEMU to the mix.<br />\nJoin me in exploring the depth of UEFI binary interfaces, marshalling between different architecture’s function call ABIs on the fly and learn how to integrate all of this into a working firmware, running on real hardware, driving a real PCIe adapter.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/qemu-in-uefi/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Alexander GRAF",
+      "metadata": {
+        "Speakers": "Alexander GRAF",
+        "Category": "virtualization",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/qemu-in-uefi/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=5uaYQyTfRjk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/qemu-in-uefi/"
+        }
+      ]
+    },
+    {
+      "id": "packets-probes-and-ebpf-filtering-in-skydive",
+      "url": "https://archives.kernel-recipes.org/document/packets-probes-and-ebpf-filtering-in-skydive/",
+      "title": "Packets probes and eBPF filtering in Skydive",
+      "listing_title": "Packets probes and eBPF filtering in Skydive",
+      "description": "Efficient monitoring of large-scale networks poses a delicate balance between capture granularity on the one hand and the imposed overheads and performance penalties on the other. Skydive is an open source real-time network topology and protocol analyzer, featuring smart network collection which is both granular and efficient. Skydive allows for efficient network monitoring@scale through Linux networking features such as BPF and eBPF.\n\nIn the talk we will present Skydive. Focus on the usage of BPF in Skydive, and show how to capture network information efficiently. We will share some performance results showing the efficiency of Skydive BPF capturing.",
+      "description_html": "<p>Efficient monitoring of large-scale networks poses a delicate balance between capture granularity on the one hand and the imposed overheads and performance penalties on the other. Skydive is an open source real-time network topology and protocol analyzer, featuring smart network collection which is both granular and efficient. Skydive allows for efficient network monitoring@scale through Linux networking features such as BPF and eBPF.<br />\nIn the talk we will present Skydive. Focus on the usage of BPF in Skydive, and show how to capture network information efficiently. We will share some performance results showing the efficiency of Skydive BPF capturing.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/packets-probes-and-ebpf-filtering-in-skydive/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Nicolas PLANEL",
+      "metadata": {
+        "Speakers": "Nicolas PLANEL",
+        "Category": "networking",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipes2fallsystemgopresentation-paris092018-181014204655.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=cgtYIb2907g",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/packets-probes-and-ebpf-filtering-in-skydive/"
+        }
+      ]
+    },
+    {
+      "id": "overview-of-sd-emmc-their-high-speed-modes-and-linux-support",
+      "url": "https://archives.kernel-recipes.org/document/overview-of-sd-emmc-their-high-speed-modes-and-linux-support/",
+      "title": "Overview of SD/eMMC their high speed modes and Linux support",
+      "listing_title": "Overview of SD/eMMC their high speed modes and Linux support",
+      "description": "SD and eMMC devices are widely present on Linux systems and became on some products the primary storage medium. One of the key feature for storage is the speed of the bus accessing the data.\n\nSince the introduction of the original “default” (DS) and “high speed” (HS) modes, the SD card standard has evolved by introducing new speed modes, such as SDR12, SDR25, SDR50, SDR104, etc. The same happened to the eMMC standard, with the introduction of high speed modes named DDR52, HS200, HS400, etc. The Linux kernel has obviously evolved to support these new speed modes, both in the MMC core and through the addition of new drivers.\n\nThis talk will start by introducing the SD and eMMC standards and how they work at the hardware level, with a specific focus on the new speed modes. With this hardware background in place, we will then detail how these standards are supported by Linux, see what is still missing, and what we can expect to see in the future.",
+      "description_html": "<p>SD and eMMC devices are widely present on Linux systems and became on some products the primary storage medium. One of the key feature for storage is the speed of the bus accessing the data.<br />\nSince the introduction of the original “default” (DS) and “high speed” (HS) modes, the SD card standard has evolved by introducing new speed modes, such as SDR12, SDR25, SDR50, SDR104, etc. The same happened to the eMMC standard, with the introduction of high speed modes named DDR52, HS200, HS400, etc. The Linux kernel has obviously evolved to support these new speed modes, both in the MMC core and through the addition of new drivers.<br />\nThis talk will start by introducing the SD and eMMC standards and how they work at the hardware level, with a specific focus on the new speed modes. With this hardware background in place, we will then detail how these standards are supported by Linux, see what is still missing, and what we can expect to see in the future.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/overview-of-sd-emmc-their-high-speed-modes-and-linux-support/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Grégory CLEMENT",
+      "metadata": {
+        "Speakers": "Grégory CLEMENT",
+        "Category": "hardware",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/clement-overview-sd-emmc-high-speed-linux-181008142100.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=4qBpfLVquJs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/overview-of-sd-emmc-their-high-speed-modes-and-linux-support/"
+        }
+      ]
+    },
+    {
+      "id": "obsbox-a-linux-based-real-time-system-for-lhc-beam-monitoring",
+      "url": "https://archives.kernel-recipes.org/document/obsbox-a-linux-based-real-time-system-for-lhc-beam-monitoring/",
+      "title": "ObsBox: a Linux-based real-time system for LHC beam monitoring",
+      "listing_title": "ObsBox: a Linux-based real-time system for LHC beam monitoring",
+      "description": "At the Large Hadron Collider (LHC) at CERN, Geneva, Switzerland, the radiofrequency and transverse damper feedback systems digitize beam phase and position measurements for beam studies. The “observation box” (ObsBox) diagnostic system parasitically captures data streamed directly out of the feedback hardware into a Linux server through an optical fiber link managed by an FPGA. A custom Linux kernel driver retrieves the data from the hardware while a userspace data acquisition and controls software fetches it. This permits processing and buffering of full rate bunch-by-bunch data for around one minute. The system is connected to an LHC-wide trigger network for detection of beam instabilities, which allows efficient capture and processing of signals from the onset of beam instability events. The data is also made available for offline analysis by client applications through interfaces which are exposed as standard equipment devices within CERN’s controls framework (FESA).",
+      "description_html": "<p>At the Large Hadron Collider (LHC) at CERN, Geneva, Switzerland, the radiofrequency and transverse damper feedback systems digitize beam phase and position measurements for beam studies. The “observation box” (ObsBox) diagnostic system parasitically captures data streamed directly out of the feedback hardware into a Linux server through an optical fiber link managed by an FPGA. A custom Linux kernel driver retrieves the data from the hardware while a userspace data acquisition and controls software fetches it. This permits processing and buffering of full rate bunch-by-bunch data for around one minute. The system is connected to an LHC-wide trigger network for detection of beam instabilities, which allows efficient capture and processing of signals from the onset of beam instability events. The data is also made available for offline analysis by client applications through interfaces which are exposed as standard equipment devices within CERN’s controls framework (FESA).</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/obsbox-a-linux-based-real-time-system-for-lhc-beam-monitoring/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Miguel OJEDA",
+      "metadata": {
+        "Speakers": "Miguel OJEDA",
+        "Category": "real-time",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/obsbox-a-linux-based-real-time-system-for-lhc-beam-monitoring/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=yzLA8QGTHkE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/obsbox-a-linux-based-real-time-system-for-lhc-beam-monitoring/"
+        }
+      ]
+    },
+    {
+      "id": "new-gpio-interface-for-user-space",
+      "url": "https://archives.kernel-recipes.org/document/new-gpio-interface-for-user-space/",
+      "title": "New GPIO Interface for User Space",
+      "listing_title": "New GPIO Interface for User Space",
+      "description": "Since linux 4.8 the GPIO sysfs interface is deprecated. Due to its many drawbacks and bad design decisions a new user space interface has been implemented in the form of the GPIO character device which is now the preferred method of interaction with GPIOs which can’t otherwisebe serviced by a kernel driver. The character device brings in many new interesting features such as: polling for line events, finding GPIO chips and lines by name, changing & reading the values of multiple lines with a single ioctl (one context switch) and many more. In this presentation Bartosz will showcase the new features of the GPIO UAPI, discuss the current state of libgpiod (user space tools for using the character device providing a C library, set of user space tools and C++ & Python bindings) and tell you why it’s beneficial to switch to the new interface.",
+      "description_html": "<p>Since linux 4.8 the GPIO sysfs interface is deprecated. Due to its many drawbacks and bad design decisions a new user space interface has been implemented in the form of the GPIO character device which is now the preferred method of interaction with GPIOs which can’t otherwisebe serviced by a kernel driver. The character device brings in many new interesting features such as: polling for line events, finding GPIO chips and lines by name, changing &#038; reading the values of multiple lines with a single ioctl (one context switch) and many more. In this presentation Bartosz will showcase the new features of the GPIO UAPI, discuss the current state of libgpiod (user space tools for using the character device providing a C library, set of user space tools and C++ &#038; Python bindings) and tell you why it’s beneficial to switch to the new interface.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/new-gpio-interface-for-user-space/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Bartosz GOLASZEWSKI",
+      "metadata": {
+        "Speakers": "Bartosz GOLASZEWSKI",
+        "Category": "hardware",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipesnewgpiointerface-181002203731.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=XVFht4MkIl4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/new-gpio-interface-for-user-space/"
+        }
+      ]
+    },
+    {
+      "id": "mitigating-spectre-and-meltdown-vulnerabilities",
+      "url": "https://archives.kernel-recipes.org/document/mitigating-spectre-and-meltdown-vulnerabilities/",
+      "title": "Mitigating Spectre and Meltdown vulnerabilities",
+      "listing_title": "Mitigating Spectre and Meltdown vulnerabilities",
+      "description": "The Spectre and Meltdown vulnerabilities are part of a class of hardware flaws which have existed for years, but which have only recently been discovered.\n\nDavid will describe the problems, and explain the techniques used for mitigating them in software — from improvements in the CPU through hypervisors, OS kernels, compilers and what can be done within applications themselves.",
+      "description_html": "<p>The Spectre and Meltdown vulnerabilities are part of a class of hardware flaws which have existed for years, but which have only recently been discovered.<br />\nDavid will describe the problems, and explain the techniques used for mitigating them in software — from improvements in the CPU through hypervisors, OS kernels, compilers and what can be done within applications themselves.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/mitigating-spectre-and-meltdown-vulnerabilities/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "David WOODHOUSE",
+      "metadata": {
+        "Speakers": "David WOODHOUSE",
+        "Category": "security",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/mitigating-spectre-and-meltdown-181002203910.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=wZmqzB4QMpg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/mitigating-spectre-and-meltdown-vulnerabilities/"
+        }
+      ]
+    },
+    {
+      "id": "meltdown-and-spectre-seeing-through-the-magicians-tricks",
+      "url": "https://archives.kernel-recipes.org/document/meltdown-and-spectre-seeing-through-the-magicians-tricks/",
+      "title": "Meltdown and Spectre: seeing through the magician’s tricks",
+      "listing_title": "Meltdown and Spectre: seeing through the magician’s tricks",
+      "description": "Throughout 2018 several computer vulnerabilities got into the spotlight, possessing all the ingredients needed to attract attention: the core issue was unusually located in the processor rather than the software; almost all personal computers, servers and portable devices were affected to some extent; and some of the bugs also had fancy nicknames such as “Meltdown” and “Spectre”. Even though the practical implications are probably much less frightening than originally reported, a closer look at Meltdown and Spectre is instructive. This talk will present the basic ideas behind modern processor architectures, including out-of-order execution, branch prediction and caching, and how they can be combined to create a side-channel attack. I will then look at software’s role in mitigating the issue, and what a longer term fix will look like.",
+      "description_html": "<p>Throughout 2018 several computer vulnerabilities got into the spotlight, possessing all the ingredients needed to attract attention: the core issue was unusually located in the processor rather than the software; almost all personal computers, servers and portable devices were affected to some extent; and some of the bugs also had fancy nicknames such as “Meltdown” and “Spectre”. Even though the practical implications are probably much less frightening than originally reported, a closer look at Meltdown and Spectre is instructive. This talk will present the basic ideas behind modern processor architectures, including out-of-order execution, branch prediction and caching, and how they can be combined to create a side-channel attack. I will then look at software’s role in mitigating the issue, and what a longer term fix will look like.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/meltdown-and-spectre-seeing-through-the-magicians-tricks/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Paolo BONZINI",
+      "metadata": {
+        "Speakers": "Paolo BONZINI",
+        "Category": "security",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/meltdown-and-spectre-seeing-through-the-magicians-tricks/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=JzlaJjZh3R0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/meltdown-and-spectre-seeing-through-the-magicians-tricks/"
+        }
+      ]
+    },
+    {
+      "id": "live-kernel-patching-status-quo-and-status-futurus",
+      "url": "https://archives.kernel-recipes.org/document/live-kernel-patching-status-quo-and-status-futurus/",
+      "title": "Live (Kernel) Patching: status quo and status futurus",
+      "listing_title": "Live (Kernel) Patching: status quo and status futurus",
+      "description": "The purpose of this talk is to provide a short overview of the current live patching facility inside the linux kernel (with a brief history excursion), describe the features it currently provides, and most importantly things that still need to be implemented / designed.",
+      "description_html": "<p>The purpose of this talk is to provide a short overview of the current live patching facility inside the linux kernel (with a brief history excursion), describe the features it currently provides, and most importantly things that still need to be implemented / designed.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/live-kernel-patching-status-quo-and-status-futurus/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jiri KOSINA",
+      "metadata": {
+        "Speakers": "Jiri KOSINA",
+        "Category": "patching",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kosina-181008095127.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=uC9A7qY2nc0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/live-kernel-patching-status-quo-and-status-futurus/"
+        }
+      ]
+    },
+    {
+      "id": "kernelshark-1-0-whats-new-and-whats-coming",
+      "url": "https://archives.kernel-recipes.org/document/kernelshark-1-0-whats-new-and-whats-coming/",
+      "title": "KernelShark 1.0 What’s new and what’s coming",
+      "listing_title": "KernelShark 1.0 What’s new and what’s coming",
+      "description": "Ftrace is the official tracer of the Linux kernel. It was added in 2008, and in 2009 came trace-cmd which was  a command line tool that would make interaction with ftrace easier. Shortly after that, KernelShark was created as a GUI for trace-cmd interface. But as KernelShark and trace-cmd were mostly side projects, there wasn’t as much activity that they deserved. trace-cmd was updated more often, but KernelShark has suffered with bit-rot for some time. But all that has changed recently as VMware has active developers working on it.\n\nKernelShark has been completely rewritten from scratch and version 1.0 is due to be released in August of 2018 (has already been released as of this talk). This will discuss what changed, how to use the new tool and what is coming in the future.",
+      "description_html": "<p>Ftrace is the official tracer of the Linux kernel. It was added in 2008, and in 2009 came trace-cmd which was  a command line tool that would make interaction with ftrace easier. Shortly after that, KernelShark was created as a GUI for trace-cmd interface. But as KernelShark and trace-cmd were mostly side projects, there wasn’t as much activity that they deserved. trace-cmd was updated more often, but KernelShark has suffered with bit-rot for some time. But all that has changed recently as VMware has active developers working on it.<br />\nKernelShark has been completely rewritten from scratch and version 1.0 is due to be released in August of 2018 (has already been released as of this talk). This will discuss what changed, how to use the new tool and what is coming in the future.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/kernelshark-1-0-whats-new-and-whats-coming/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Steven ROSTEDT",
+      "metadata": {
+        "Speakers": "Steven ROSTEDT",
+        "Category": "tracing",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernel-recipes-kernelshark-1-181014214612.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=WD-vMMz95BQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/kernelshark-1-0-whats-new-and-whats-coming/"
+        }
+      ]
+    },
+    {
+      "id": "is-video4linux-ready-for-all-cutting-edge-hardware",
+      "url": "https://archives.kernel-recipes.org/document/is-video4linux-ready-for-all-cutting-edge-hardware/",
+      "title": "Is Video4Linux ready for all cutting-edge hardware?",
+      "listing_title": "Is Video4Linux ready for all cutting-edge hardware?",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://archives.kernel-recipes.org/document/is-video4linux-ready-for-all-cutting-edge-hardware/",
+      "description_status": "missing",
+      "track": "",
+      "speakers": "Ezequiel GARCIA",
+      "metadata": {
+        "Speakers": "Ezequiel GARCIA",
+        "Category": "",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/video4linux-181002204116.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        }
+      ]
+    },
+    {
+      "id": "from-knowing-the-definition-of-linux-kernel-to-becoming-a-kernel-hacker",
+      "url": "https://archives.kernel-recipes.org/document/from-knowing-the-definition-of-linux-kernel-to-becoming-a-kernel-hacker/",
+      "title": "From knowing the definition of Linux kernel to becoming a kernel hacker",
+      "listing_title": "From knowing the definition of Linux kernel to becoming a kernel hacker",
+      "description": "Self learning is underrated in the modern era of education. While kernel being the heart of an operating system, traditional universities [in India] are still far away from teaching anything more than the definition of Linux Kernel. The talk will mostly focus on my journey of self learning and diving into the kernel from  university days to becoming a full-time Linux Kernel hacker. I’ll also explain about the practical learning approaches I use to learn from Linux kernel source code, automating the learning [via bash/coccinelle/python scripts] and how it helps me in improving my craft as a developer and as an explainer to next generation of university students. This talk will give a story, a set of best practices and",
+      "description_html": "<p>Self learning is underrated in the modern era of education. While kernel being the heart of an operating system, traditional universities [in India] are still far away from teaching anything more than the definition of Linux Kernel. The talk will mostly focus on my journey of self learning and diving into the kernel from  university days to becoming a full-time Linux Kernel hacker. I’ll also explain about the practical learning approaches I use to learn from Linux kernel source code, automating the learning [via bash/coccinelle/python scripts] and how it helps me in improving my craft as a developer and as an explainer to next generation of university students. This talk will give a story, a set of best practices and</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/from-knowing-the-definition-of-linux-kernel-to-becoming-a-kernel-hacker/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Vaishali THAKKAR",
+      "metadata": {
+        "Speakers": "Vaishali THAKKAR",
+        "Category": "development",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kernelrecipes2018-181014185542.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=BlcTWexrjDI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/from-knowing-the-definition-of-linux-kernel-to-becoming-a-kernel-hacker/"
+        }
+      ]
+    },
+    {
+      "id": "cpu-idle-loop-rework",
+      "url": "https://archives.kernel-recipes.org/document/cpu-idle-loop-rework/",
+      "title": "CPU Idle Loop Rework",
+      "listing_title": "CPU Idle Loop Rework",
+      "description": "The CPU idle loop is the piece of code executed by logical CPUs if they have no tasks to run. If the CPU supports idle states allowing it to draw less power while not executing any instructions, the idle loop invokes a CPU idle governor to select the most suitable idle state for the CPU and it puts the CPU into the selected idle state with the help of a CPU idle driver.  Generally speaking, the idle state selection carried out by the CPU idle governor is based on predicting the duration of the idle time for the CPU, so it is not deterministic.\n\nThat turned out to be problematic due to a design issue in the CPU idle loop which tended to stop the scheduler tick prematurely and it often was stopped when there was no need to stop it. That led either to excessive overhead related to the unnecessary stopping and re-starting of the scheduler tick, or to situations in which the CPU might be put into an idle state that was to shallow and, in consequence, it might draw too much power for a relatively long time. That issue was addressed during the 4.17 kernel development cycle by redesigning the idle loop so that the scheduler tick is only stopped, if necessary, after the idle state for the CPU has been selected which involved resolving a Catch-22 dependency between the idle duration prediction by the governor and the next timer event related to the scheduler tick.\n\nI will explain the design of the CPU idle loop in Linux and how the problem with it was fixed. I also will show some test  results demonstrating the achieved improvements and I will discuss some possible future improvements in the area in question.",
+      "description_html": "<p>The CPU idle loop is the piece of code executed by logical CPUs if they have no tasks to run. If the CPU supports idle states allowing it to draw less power while not executing any instructions, the idle loop invokes a CPU idle governor to select the most suitable idle state for the CPU and it puts the CPU into the selected idle state with the help of a CPU idle driver.  Generally speaking, the idle state selection carried out by the CPU idle governor is based on predicting the duration of the idle time for the CPU, so it is not deterministic.<br />\nThat turned out to be problematic due to a design issue in the CPU idle loop which tended to stop the scheduler tick prematurely and it often was stopped when there was no need to stop it. That led either to excessive overhead related to the unnecessary stopping and re-starting of the scheduler tick, or to situations in which the CPU might be put into an idle state that was to shallow and, in consequence, it might draw too much power for a relatively long time. That issue was addressed during the 4.17 kernel development cycle by redesigning the idle loop so that the scheduler tick is only stopped, if necessary, after the idle state for the CPU has been selected which involved resolving a Catch-22 dependency between the idle duration prediction by the governor and the next timer event related to the scheduler tick.<br />\nI will explain the design of the CPU idle loop in Linux and how the problem with it was fixed. I also will show some test  results demonstrating the achieved improvements and I will discuss some possible future improvements in the area in question.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/cpu-idle-loop-rework/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Raphael WYSOCKI",
+      "metadata": {
+        "Speakers": "Raphael WYSOCKI",
+        "Category": "power-management",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/cpuidlelooprework-181002203428.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=QSOo5N97T0A",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/cpu-idle-loop-rework/"
+        }
+      ]
+    },
+    {
+      "id": "coccinelle-10-years-of-automated-evolution-in-the-linux-kernel",
+      "url": "https://archives.kernel-recipes.org/document/coccinelle-10-years-of-automated-evolution-in-the-linux-kernel/",
+      "title": "Coccinelle: 10 Years of Automated Evolution in the Linux Kernel",
+      "listing_title": "Coccinelle: 10 Years of Automated Evolution in the Linux Kernel",
+      "description": "The Coccinelle C-program matching and transformation tool was first released in 2008 to facilitate specification and automation in the evolution of Linux kernel code. The novel contribution of Coccinelle is to allow software developers to write code manipulation rules in terms of the code structure itself, via a generalization of the patch syntax. Over the years, Coccinelle has been extensively used in Linux kernel development, resulting in over 6000 commits to the Linux kernel, and has found its place as part of the Linux kernel development process. This talk will review the history of Coccinelle and its impact on the Linux kernel. It will also briefly present two newer tools, prequel and spinfer, that have built on the Coccinelle infrastructure.",
+      "description_html": "<p>The Coccinelle C-program matching and transformation tool was first released in 2008 to facilitate specification and automation in the evolution of Linux kernel code. The novel contribution of Coccinelle is to allow software developers to write code manipulation rules in terms of the code structure itself, via a generalization of the patch syntax. Over the years, Coccinelle has been extensively used in Linux kernel development, resulting in over 6000 commits to the Linux kernel, and has found its place as part of the Linux kernel development process. This talk will review the history of Coccinelle and its impact on the Linux kernel. It will also briefly present two newer tools, prequel and spinfer, that have built on the Coccinelle infrastructure.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/coccinelle-10-years-of-automated-evolution-in-the-linux-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Julia LAWALL",
+      "metadata": {
+        "Speakers": "Julia LAWALL",
+        "Category": "tooling",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/kr18-181007120343.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=teNejFQiC54",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/coccinelle-10-years-of-automated-evolution-in-the-linux-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "clip-os-building-a-defense-in-depth-os-around-linux-kernel",
+      "url": "https://archives.kernel-recipes.org/document/clip-os-building-a-defense-in-depth-os-around-linux-kernel/",
+      "title": "CLIP OS: Building a defense-in-depth OS around Linux kernel…",
+      "listing_title": "CLIP OS: Building a defense-in-depth OS around Linux kernel…",
+      "description": "The French Network and Information Security Agency (ANSSI) just declassified and released the sources of its long-time internal hardened Linux distribution: CLIP OS. The project’s main goal is to build an operating system able to handle confidential information at multiple levels. ￼This talk is focused on the CLIP OS architecture and the main security-relevant additions to the Linux kernel. As the project is now open source and day-to-day development realized in the open, more modifications will be suggested for inclusion in upstream projects. We are also revisiting some parts of the architecture and we discuss possible security evolutions we are interested in.",
+      "description_html": "<p>The French Network and Information Security Agency (ANSSI) just declassified and released the sources of its long-time internal hardened Linux distribution: CLIP OS. The project’s main goal is to build an operating system able to handle confidential information at multiple levels. ￼This talk is focused on the CLIP OS architecture and the main security-relevant additions to the Linux kernel. As the project is now open source and day-to-day development realized in the open, more modifications will be suggested for inclusion in upstream projects. We are also revisiting some parts of the architecture and we discuss possible security evolutions we are interested in.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2018 - CLIP OS: a defense-in-depth OS - Mickael Salaün, Timothée Ravier\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/PjRE0uBtkHU?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/clip-os-building-a-defense-in-depth-os-around-linux-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Mickael SALAUN, Timothée RAVIER",
+      "metadata": {
+        "Speakers": "Mickael SALAUN, Timothée RAVIER",
+        "Category": "security",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/cliposkr2018-181009205946-1.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=PjRE0uBtkHU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/clip-os-building-a-defense-in-depth-os-around-linux-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "atomic-explosion-evolution-and-use-of-relaxed-concurrency-primitives",
+      "url": "https://archives.kernel-recipes.org/document/atomic-explosion-evolution-and-use-of-relaxed-concurrency-primitives/",
+      "title": "Atomic explosion: evolution and use of relaxed concurrency primitives",
+      "listing_title": "Atomic explosion: evolution and use of relaxed concurrency primitives",
+      "description": "Over the past few years, the kernel has grown a modern, sophisticated memory model which is exposed directly to the developer and provides portable concurrency primitives across the 20+ architectures supported by mainline. These low-level primitives have been used to construct high-performance, scalable locking implementations in generic code but have not seen much use elsewhere in the tree.\n\nThis talk will introduce the various ordering constructs within Linux, showing how to use and reason about them but also offering some tips to help with reviewing code that makes use of them.",
+      "description_html": "<p>Over the past few years, the kernel has grown a modern, sophisticated memory model which is exposed directly to the developer and provides portable concurrency primitives across the 20+ architectures supported by mainline. These low-level primitives have been used to construct high-performance, scalable locking implementations in generic code but have not seen much use elsewhere in the tree.<br />\nThis talk will introduce the various ordering constructs within Linux, showing how to use and reason about them but also offering some tips to help with reviewing code that makes use of them.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/atomic-explosion-evolution-and-use-of-relaxed-concurrency-primitives/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Will DEACON",
+      "metadata": {
+        "Speakers": "Will DEACON",
+        "Category": "concurrency",
+        "Year": "2018"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/atomic-explosion-evolution-and-use-of-relaxed-concurrency-primitives/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=6LoWmTrHP9I",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/atomic-explosion-evolution-and-use-of-relaxed-concurrency-primitives/"
+        }
+      ]
+    }
+  ]
+}

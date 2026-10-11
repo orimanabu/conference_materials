@@ -1,0 +1,773 @@
+{
+  "event": "Kernel Recipes 2023",
+  "source_url": "https://archives.kernel-recipes.org/document-library/",
+  "retrieved_on": "2026-10-11",
+  "timezone": "",
+  "notes": "Document Library の Tag=2023 に該当する全21件を収録。概要・動画・追加資料は個別ページから取得。掲載されていない日時・会場は空欄。リンク先ファイルと動画の再生可否は未検査。 Gaining bounds-checking on trailing arrays and Linux and gaming: the road to performance share video ID bfKrLH7pLBQ in the archive",
+  "counts": {
+    "sessions": 21,
+    "with_description": 20,
+    "with_materials": 21,
+    "attachments": 42,
+    "files": 21,
+    "links": 21
+  },
+  "sessions": [
+    {
+      "id": "coming-soon",
+      "url": "https://archives.kernel-recipes.org/document/coming-soon/",
+      "title": "Coming soon",
+      "listing_title": "Coming soon",
+      "description": "",
+      "description_html": "",
+      "description_source": "https://archives.kernel-recipes.org/document/coming-soon/",
+      "description_status": "missing",
+      "track": "",
+      "speakers": "Thomas Gleixner",
+      "metadata": {
+        "Speakers": "Thomas Gleixner",
+        "Category": "community",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/coming_soon.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Fwvj0442ub0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/coming-soon/"
+        }
+      ]
+    },
+    {
+      "id": "update-on-landlock-audit-debugging-and-metrics",
+      "url": "https://archives.kernel-recipes.org/document/update-on-landlock-audit-debugging-and-metrics/",
+      "title": "Update on Landlock: Audit Debugging and Metrics",
+      "listing_title": "Update on Landlock: Audit Debugging and Metrics",
+      "description": "Landlock enables to sandbox Linux applications but it might be challenging to identify the cause of denied accesses. Being able to debug a security policy is an important feature for an access control system. Likewise, logging denied accesses (and their reason) helps detect attacks. Because Landlock is dedicated to unprivileged users, some restrictions applies to such features (e.g., no global rule identifier, scoped debugging). We’ll explain the in-development approach and the intended features to help developers sandbox their applications.",
+      "description_html": "<p>Landlock enables to sandbox Linux applications but it might be challenging to identify the cause of denied accesses. Being able to debug a security policy is an important feature for an access control system. Likewise, logging denied accesses (and their reason) helps detect attacks. Because Landlock is dedicated to unprivileged users, some restrictions applies to such features (e.g., no global rule identifier, scoped debugging). We’ll explain the in-development approach and the intended features to help developers sandbox their applications.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2023 - Update on Landlock: Audit, Debugging and Metrics\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/Rwa1x4IA6f4?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/update-on-landlock-audit-debugging-and-metrics/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Mickaël SALAUN",
+      "metadata": {
+        "Speakers": "Mickaël SALAUN",
+        "Category": "security",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Update_on_Landlock__Audit__Debugging_and_Metrics.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=Rwa1x4IA6f4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/update-on-landlock-audit-debugging-and-metrics/"
+        }
+      ]
+    },
+    {
+      "id": "the-maintainers-pov",
+      "url": "https://archives.kernel-recipes.org/document/the-maintainers-pov/",
+      "title": "The maintainer’s POV",
+      "listing_title": "The maintainer’s POV",
+      "description": "The collective work on the kernel between code submitters and maintainers is a strange symbiosis of constant back’n’forth and is often the source of mutual frustration. A lot of it can be avoided when everyone is on the same page when it comes to process, goals and priorities.\n\nThis talk tries to explain why everyone who works on the kernel should also be a maintainer, and how by only trying to walk in maintainers’ shoes, we all can improve the current situation.",
+      "description_html": "<p>The collective work on the kernel between code submitters and maintainers is a strange symbiosis of constant back’n’forth and is often the source of mutual frustration. A lot of it can be avoided when everyone is on the same page when it comes to process, goals and priorities.<br />\nThis talk tries to explain why everyone who works on the kernel should also be a maintainer, and how by only trying to walk in maintainers’ shoes, we all can improve the current situation.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-maintainers-pov/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Borislav PETKOV",
+      "metadata": {
+        "Speakers": "Borislav PETKOV",
+        "Category": "community",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/The_maintainer_s_POV.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=E9bXbvKX0Mg",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-maintainers-pov/"
+        }
+      ]
+    },
+    {
+      "id": "the-arm-laptop-project",
+      "url": "https://archives.kernel-recipes.org/document/the-arm-laptop-project/",
+      "title": "The Arm laptop project",
+      "listing_title": "The Arm laptop project",
+      "description": "What would it take to run mainline Linux on an Arm laptop built for Windows? That was the question Linaro set out to answer in a project funded by Arm. A bit more than a year later, the Lenovo ThinkPad X13s can now be used as a daily driver while running mainline Linux without any out-of-tree patches on top.\n\nThis talk will give an overview of how this project came about; discuss some of the difficulties encountered, how they were addressed and what remains to be done; and provide a summary of the current status of the Arm laptop project.",
+      "description_html": "<p>What would it take to run mainline Linux on an Arm laptop built for Windows? That was the question Linaro set out to answer in a project funded by Arm. A bit more than a year later, the Lenovo ThinkPad X13s can now be used as a daily driver while running mainline Linux without any out-of-tree patches on top.<br />\nThis talk will give an overview of how this project came about; discuss some of the difficulties encountered, how they were addressed and what remains to be done; and provide a summary of the current status of the Arm laptop project.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/the-arm-laptop-project/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Johan HOVOLD",
+      "metadata": {
+        "Speakers": "Johan HOVOLD",
+        "Category": "arm",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/The_ARM_laptop_project.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=qffWt4o334Y",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/the-arm-laptop-project/"
+        }
+      ]
+    },
+    {
+      "id": "stress-ng-finding-kernel-bugs-through-stress-testing",
+      "url": "https://archives.kernel-recipes.org/document/stress-ng-finding-kernel-bugs-through-stress-testing/",
+      "title": "stress-ng: finding kernel bugs through stress testing",
+      "listing_title": "stress-ng: finding kernel bugs through stress testing",
+      "description": "Stress-ng is a tool that stress tests kernels using deliberately intense testing to shake out various kernel (and hardware) bugs. This talk describes the different stress test methods available in stress-ng, typical kernel test coverage and the future direction of the stress-ng project.",
+      "description_html": "<p>Stress-ng is a tool that stress tests kernels using deliberately intense testing to shake out various kernel (and hardware) bugs. This talk describes the different stress test methods available in stress-ng, typical kernel test coverage and the future direction of the stress-ng project.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/stress-ng-finding-kernel-bugs-through-stress-testing/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Colin IAN KING",
+      "metadata": {
+        "Speakers": "Colin IAN KING",
+        "Category": "debugging",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/stress-ng.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=PD0NOZCTIVQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/stress-ng-finding-kernel-bugs-through-stress-testing/"
+        }
+      ]
+    },
+    {
+      "id": "sched_ext-pluggable-scheduling-in-the-linux-kernel",
+      "url": "https://archives.kernel-recipes.org/document/sched_ext-pluggable-scheduling-in-the-linux-kernel/",
+      "title": "sched_ext: pluggable scheduling in the Linux kernel",
+      "listing_title": "sched_ext: pluggable scheduling in the Linux kernel",
+      "description": "Scheduling is a notoriously difficult problem. An effective scheduler should fully utilize a system, while also optimizing for cache locality, while also accounting for real time constraints, while also accounting for battery life and power management, while also ensuring fairness, etc. The landscape of the tech industry has changed a lot in the last 15 years. Back in the late 2000s, cores were typically homogeneous, and were spaced further apart from one another. Modern systems are by comparison much more complex. Heterogeneous architectures are the norm for mobile devices, and are becoming more common in x86. Cache hierarchies are also less uniform, with Core Complex (CCX) chips having multiple shared L3 caches within a single socket. Use cases have evolved as well. Applications such as mobile and VR have latency requirements to avoid missing deadlines that impact user experience, and stacking workloads in data centers is constantly pushing the demands on the scheduler in terms of workload isolation and resource distribution. While CFS is a great scheduler, there are opportunities to continue to improve it for such use cases. With sched_ext, we can easily experiment and find scheduling algorithms that address these use cases by allowing developers to implement scheduling policies in BPF programs.",
+      "description_html": "<p>Scheduling is a notoriously difficult problem. An effective scheduler should fully utilize a system, while also optimizing for cache locality, while also accounting for real time constraints, while also accounting for battery life and power management, while also ensuring fairness, etc. The landscape of the tech industry has changed a lot in the last 15 years. Back in the late 2000s, cores were typically homogeneous, and were spaced further apart from one another. Modern systems are by comparison much more complex. Heterogeneous architectures are the norm for mobile devices, and are becoming more common in x86. Cache hierarchies are also less uniform, with Core Complex (CCX) chips having multiple shared L3 caches within a single socket. Use cases have evolved as well. Applications such as mobile and VR have latency requirements to avoid missing deadlines that impact user experience, and stacking workloads in data centers is constantly pushing the demands on the scheduler in terms of workload isolation and resource distribution. While CFS is a great scheduler, there are opportunities to continue to improve it for such use cases. With sched_ext, we can easily experiment and find scheduling algorithms that address these use cases by allowing developers to implement scheduling policies in BPF programs.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2023 - sched_ext: pluggable scheduling in the Linux kernel\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/8kAcnNVSAdI?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/sched_ext-pluggable-scheduling-in-the-linux-kernel/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "David VERNET",
+      "metadata": {
+        "Speakers": "David VERNET",
+        "Category": "scheduling",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Sched_Ext.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=8kAcnNVSAdI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/sched_ext-pluggable-scheduling-in-the-linux-kernel/"
+        }
+      ]
+    },
+    {
+      "id": "resource-control-in-production-at-meta",
+      "url": "https://archives.kernel-recipes.org/document/resource-control-in-production-at-meta/",
+      "title": "Resource control in production at Meta",
+      "listing_title": "Resource control in production at Meta",
+      "description": "Control groups (or cgroups for short) are one of the most fundamental technologies underpinning our modern love of containerisation and resource control. Back in 2016, we released a complete overhaul of how cgroups work internally: cgroup v2, released with Linux 4.5. This brought many new and exciting possibilities to increase system stability and throughput, but with those possibilities have also come challenges of a type which we have largely not faced in Linux before.\n\nThis talk will go into some of the challenges faced in overhauling Linux’s resource isolation and control capabilities, and how we’ve gone about fixing them. This will include some of the most complex and counter-intuitive practical effects we’ve seen in production, with details of how our expectations and knowledge have developed over the last 5 years using this on over a million machines in production, with insights that are immediately applicable to anyone who runs Linux at scale.\n\nWe will also go over the state-of-the-art of resource control in the “real world” outside of companies like Meta and Google, looking at how cgroup v2 is changing the technical landscape for distributions and containerisation technologies for the better.",
+      "description_html": "<p>Control groups (or cgroups for short) are one of the most fundamental technologies underpinning our modern love of containerisation and resource control. Back in 2016, we released a complete overhaul of how cgroups work internally: cgroup v2, released with Linux 4.5. This brought many new and exciting possibilities to increase system stability and throughput, but with those possibilities have also come challenges of a type which we have largely not faced in Linux before.<br />\nThis talk will go into some of the challenges faced in overhauling Linux’s resource isolation and control capabilities, and how we’ve gone about fixing them. This will include some of the most complex and counter-intuitive practical effects we’ve seen in production, with details of how our expectations and knowledge have developed over the last 5 years using this on over a million machines in production, with insights that are immediately applicable to anyone who runs Linux at scale.<br />\nWe will also go over the state-of-the-art of resource control in the “real world” outside of companies like Meta and Google, looking at how cgroup v2 is changing the technical landscape for distributions and containerisation technologies for the better.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/resource-control-in-production-at-meta/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Chris DOWN",
+      "metadata": {
+        "Speakers": "Chris DOWN",
+        "Category": "tooling",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/resource-control-in-production-at-meta/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=crZwA7JbxGw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/resource-control-in-production-at-meta/"
+        }
+      ]
+    },
+    {
+      "id": "panic-attack",
+      "url": "https://archives.kernel-recipes.org/document/panic-attack/",
+      "title": "Panic Attack",
+      "listing_title": "Panic Attack",
+      "description": "The crash/panic path and all its related machinery were always subject to polemics; it’s an area naturally full of trade-offs, conflicting views and antagonistic goals. From one side we have kdump (also called crash_kexec), that requires a minimum touching before the kexec effectively happens; but at the same time, such crash kexec requires adapter resets and other special clean-ups (specially in hypervisors) to work properly. On top of that, add the non-kdump users that rely on panic notifiers to perform last minute actions or the data collection mechanisms, like kmsg dumpers (pstore as an example), the firmware-based approaches (like the PowerPC fadump) and the complete absence of graphical output in such scenarios, making it hard to debug or even to see what’s happening for a regular user.\n\nThe bootstrap of the discussion hereby proposed is the following thread, “The panic notifiers refactor”. This all started with a notifiers filter [0] I’ve submitted and Petr Mladek suggested that instead we should improve the notifiers – which led to this refactor. But this is quite polemic, as mentioned we have conflicting users/goals, so it’s hard to reach a consensus – part of it is due to the involvement of architecture code, which is very important for kexec/crash (for an example of an architecture spin-off discussion, see [1]). Also, as a reference for PCI devices resets/complexities in the kdump realm, see [2]. Part of this effort was merged as a set of fixes (see [3]), but I’m working in the second round of the refactor itself, taking into account the ideas from V1 and plan to submit that on July/2023. Now, to the 2nd part of this proposal: currently there is absolutely no way of having graphics output in a crash event. There was a (broken!) panic notifier some years ago, but it was properly removed. Recent efforts on that weren’t merged / didn’t progress much, see [4] for example. This area is becoming increasingly interesting, since Linux is getting used for gaming lately – for example, the Steam Deck [5] console is fully based on Linux and FOSS, but the users aren’t able to notice a panic due to lack of graphical output. Finally, there is also a potential for firmware-aid data collection or even graphics help – we currently struggle to have framebuffer graphics on kdump (see [6] and [7] for other discussions we bootstrapped about that some time ago). As per the above set of topics, we can see this area is quite prolific in multiple fronts, but it doesn’t usually receive the necessary “love” by the vendors or even distros – the efforts are usually quite diffuse and spread. So, the goal for such proposal is to present the latest advances and what’s missing and could be improved with regards kernel crash and its mechanisms to collect data in such panic event.",
+      "description_html": "<p>The crash/panic path and all its related machinery were always subject to polemics; it’s an area naturally full of trade-offs, conflicting views and antagonistic goals. From one side we have kdump (also called crash_kexec), that requires a minimum touching before the kexec effectively happens; but at the same time, such crash kexec requires adapter resets and other special clean-ups (specially in hypervisors) to work properly. On top of that, add the non-kdump users that rely on panic notifiers to perform last minute actions or the data collection mechanisms, like kmsg dumpers (pstore as an example), the firmware-based approaches (like the PowerPC fadump) and the complete absence of graphical output in such scenarios, making it hard to debug or even to see what’s happening for a regular user.<br />\nThe bootstrap of the discussion hereby proposed is the following thread, “The panic notifiers refactor”. This all started with a notifiers filter [0] I’ve submitted and Petr Mladek suggested that instead we should improve the notifiers – which led to this refactor. But this is quite polemic, as mentioned we have conflicting users/goals, so it’s hard to reach a consensus – part of it is due to the involvement of architecture code, which is very important for kexec/crash (for an example of an architecture spin-off discussion, see [1]). Also, as a reference for PCI devices resets/complexities in the kdump realm, see [2]. Part of this effort was merged as a set of fixes (see [3]), but I’m working in the second round of the refactor itself, taking into account the ideas from V1 and plan to submit that on July/2023. Now, to the 2nd part of this proposal: currently there is absolutely no way of having graphics output in a crash event. There was a (broken!) panic notifier some years ago, but it was properly removed. Recent efforts on that weren’t merged / didn’t progress much, see [4] for example. This area is becoming increasingly interesting, since Linux is getting used for gaming lately – for example, the Steam Deck [5] console is fully based on Linux and FOSS, but the users aren’t able to notice a panic due to lack of graphical output. Finally, there is also a potential for firmware-aid data collection or even graphics help – we currently struggle to have framebuffer graphics on kdump (see [6] and [7] for other discussions we bootstrapped about that some time ago). As per the above set of topics, we can see this area is quite prolific in multiple fronts, but it doesn’t usually receive the necessary “love” by the vendors or even distros – the efforts are usually quite diffuse and spread. So, the goal for such proposal is to present the latest advances and what’s missing and could be improved with regards kernel crash and its mechanisms to collect data in such panic event. </p>",
+      "description_source": "https://archives.kernel-recipes.org/document/panic-attack/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Guilherme G. PICOLI",
+      "metadata": {
+        "Speakers": "Guilherme G. PICOLI",
+        "Category": "debugging",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/panck_attack.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ZIKuDM_RIW8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/panic-attack/"
+        }
+      ]
+    },
+    {
+      "id": "on-the-way-to-io_uring-networking",
+      "url": "https://archives.kernel-recipes.org/document/on-the-way-to-io_uring-networking/",
+      "title": "On the way to io_uring networking",
+      "listing_title": "On the way to io_uring networking",
+      "description": "io_uring has set a remarkably high bar for storage performance. Consequently, attention has naturally turned towards networking as the next frontier. While io_uring provided basic primitives, like send and recv, from early days, their practical application to real-life scenarios proved somewhat insufficient to\n\ncompete with traditional networking approaches. In this talk, I will be walking through the problems we had and the changes we’ve made, elaborate on the rationale behind them, and finally discuss how userspace can best be designed to take full advantage of io_uring.",
+      "description_html": "<p>io_uring has set a remarkably high bar for storage performance. Consequently, attention has naturally turned towards networking as the next frontier. While io_uring provided basic primitives, like send and recv, from early days, their practical application to real-life scenarios proved somewhat insufficient to<br />\ncompete with traditional networking approaches. In this talk, I will be walking through the problems we had and the changes we’ve made, elaborate on the rationale behind them, and finally discuss how userspace can best be designed to take full advantage of io_uring.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2023 - On the way to io_uring networking\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/O0NMUvThafI?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/on-the-way-to-io_uring-networking/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Pavel BEGUNKOV",
+      "metadata": {
+        "Speakers": "Pavel BEGUNKOV",
+        "Category": "storage",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/io_uring_meets_network.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=O0NMUvThafI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/on-the-way-to-io_uring-networking/"
+        }
+      ]
+    },
+    {
+      "id": "netconf-2023-workshop",
+      "url": "https://archives.kernel-recipes.org/document/netconf-2023-workshop/",
+      "title": "Netconf 2023 Workshop",
+      "listing_title": "Netconf 2023 Workshop",
+      "description": "David will present a summary of the netconf workshop happening at Kernel Recipes this year.",
+      "description_html": "<p>David will present a summary of the netconf workshop happening at Kernel Recipes this year.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/netconf-2023-workshop/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "David MILLER",
+      "metadata": {
+        "Speakers": "David MILLER",
+        "Category": "networking",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/netconf_2023.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=O7jniFUYFrY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/netconf-2023-workshop/"
+        }
+      ]
+    },
+    {
+      "id": "linux-and-gaming-the-road-to-performance",
+      "url": "https://archives.kernel-recipes.org/document/linux-and-gaming-the-road-to-performance/",
+      "title": "Linux and gaming: the road to performance",
+      "listing_title": "Linux and gaming: the road to performance",
+      "description": "Playing games on Linux has come from a painful reality, with a lot of tinkering, to (sometimes) a one-click experience. This happened because a lot of effort has been put from companies and communities to adapt the stack to run this kind of workload in the best way possible. The kernel is part of this endeavor and in this talk we are going to know more about the new challenges introduced by games on Linux, how kernel developers overcame them and what’s next in backlog.",
+      "description_html": "<p>Playing games on Linux has come from a painful reality, with a lot of tinkering, to (sometimes) a one-click experience. This happened because a lot of effort has been put from companies and communities to adapt the stack to run this kind of workload in the best way possible. The kernel is part of this endeavor and in this talk we are going to know more about the new challenges introduced by games on Linux, how kernel developers overcame them and what’s next in backlog.<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2023 - Gaining bounds-checking on trailing arrays\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/bfKrLH7pLBQ?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/linux-and-gaming-the-road-to-performance/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Andre ALMEIDA",
+      "metadata": {
+        "Speakers": "Andre ALMEIDA",
+        "Category": "gaming",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Linux_and_gaming__the_road_to_performance.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=bfKrLH7pLBQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/linux-and-gaming-the-road-to-performance/"
+        }
+      ]
+    },
+    {
+      "id": "how-not-to-submit-a-patchset",
+      "url": "https://archives.kernel-recipes.org/document/how-not-to-submit-a-patchset/",
+      "title": "How not to submit a patchset?",
+      "listing_title": "How not to submit a patchset?",
+      "description": "What makes an apparently good patchset fail? Despite the fact it hasn’t been applied, did you know that working on this patchset might have actually been a great benefit for you and the kernel? A necessary step even?\n\nSometimes we involve into an idea that looks good at a first glance and might even look good to maintainers but eventually either:\n\nTesting shows it’s not that awesome.\n\nThe benefit/maintainance-burden ratio is unclear.\n\nSo the patchset gets dropped in the end, or put aside waiting for better days. Then comes the time to realize how much you learned from it and how much the rest of the community also grew up from that failure.",
+      "description_html": "<p>What makes an apparently good patchset fail? Despite the fact it hasn’t been applied, did you know that working on this patchset might have actually been a great benefit for you and the kernel? A necessary step even?<br />\nSometimes we involve into an idea that looks good at a first glance and might even look good to maintainers but eventually either:<br />\nTesting shows it’s not that awesome.<br />\nThe benefit/maintainance-burden ratio is unclear.<br />\nSo the patchset gets dropped in the end, or put aside waiting for better days. Then comes the time to realize how much you learned from it and how much the rest of the community also grew up from that failure.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/how-not-to-submit-a-patchset/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Frederic WEISBECKER",
+      "metadata": {
+        "Speakers": "Frederic WEISBECKER",
+        "Category": "patching",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/document/how-not-to-submit-a-patchset/",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=DXMAGwanxQo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/how-not-to-submit-a-patchset/"
+        }
+      ]
+    },
+    {
+      "id": "hardware-and-its-concurrency-habits",
+      "url": "https://archives.kernel-recipes.org/document/hardware-and-its-concurrency-habits/",
+      "title": "Hardware and its Concurrency Habits",
+      "listing_title": "Hardware and its Concurrency Habits",
+      "description": "This talk will present a high-level overview of the hardware structure of modern computer systems, and then will use this structure to show how the laws of physics put limitations on the design and implementation of concurrent software. Venue permitting, it will include a stark visual exposition of these limitations. Finally, this talk will compare how well various synchronization use cases are aligned with modern hardware structure and the laws of physics. Audience members will gain a firmer intuition on the costs and benefits of different synchronization mechanisms.",
+      "description_html": "<p>This talk will present a high-level overview of the hardware structure of modern computer systems, and then will use this structure to show how the laws of physics put limitations on the design and implementation of concurrent software. Venue permitting, it will include a stark visual exposition of these limitations. Finally, this talk will compare how well various synchronization use cases are aligned with modern hardware structure and the laws of physics. Audience members will gain a firmer intuition on the costs and benefits of different synchronization mechanisms.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/hardware-and-its-concurrency-habits/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Paul E MCKENNEY",
+      "metadata": {
+        "Speakers": "Paul E MCKENNEY",
+        "Category": "concurrency",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Hardware_and_its_Concurrency_Habits.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=RjJG3LitNJQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/hardware-and-its-concurrency-habits/"
+        }
+      ]
+    },
+    {
+      "id": "getting-the-rk3588-soc-supported-upstream",
+      "url": "https://archives.kernel-recipes.org/document/getting-the-rk3588-soc-supported-upstream/",
+      "title": "Getting the RK3588 SoC supported upstream",
+      "listing_title": "Getting the RK3588 SoC supported upstream",
+      "description": "The Rockchip RK3588 system-on-chip (SoC) is an impressive flagship with 8 ARM cores (4x A76, 4x A55), plenty of cache, and a vast amount of peripherals. Among other things this SoC has an Arm G610 Mali GPU, multiple PCIe lanes, hardware video decoders and encoders with 8K support, a display engine supporting 8K resolution, 6TOPs Neural Processing Unit (NPU), and quite a bit more.\n\nFor several months, engineers at Collabora have been working on upstream support for this SOC. There is still much to be done, but the basics are already working. In this talk, Sebastian will present the current upstream status and share how we got from “kernel does not know this platform and cannot boot it” to “working development platform with UART + network”. Afterwards Sebastian will go through the currently ongoing work, like the GPU, HDMI output and input support. The presentation will conclude with an outlook of the open work items.",
+      "description_html": "<p>The Rockchip RK3588 system-on-chip (SoC) is an impressive flagship with 8 ARM cores (4x A76, 4x A55), plenty of cache, and a vast amount of peripherals. Among other things this SoC has an Arm G610 Mali GPU, multiple PCIe lanes, hardware video decoders and encoders with 8K support, a display engine supporting 8K resolution, 6TOPs Neural Processing Unit (NPU), and quite a bit more.<br />\nFor several months, engineers at Collabora have been working on upstream support for this SOC. There is still much to be done, but the basics are already working. In this talk, Sebastian will present the current upstream status and share how we got from “kernel does not know this platform and cannot boot it” to “working development platform with UART + network”. Afterwards Sebastian will go through the currently ongoing work, like the GPU, HDMI output and input support. The presentation will conclude with an outlook of the open work items.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/getting-the-rk3588-soc-supported-upstream/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Sebastian REICHEL",
+      "metadata": {
+        "Speakers": "Sebastian REICHEL",
+        "Category": "hardware",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Getting_the_RK3588_SoC_supported_upstream.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=pnIVaig-LoA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/getting-the-rk3588-soc-supported-upstream/"
+        }
+      ]
+    },
+    {
+      "id": "gaining-bounds-checking-on-trailing-arrays",
+      "url": "https://archives.kernel-recipes.org/document/gaining-bounds-checking-on-trailing-arrays/",
+      "title": "Gaining bounds-checking on trailing arrays",
+      "listing_title": "Gaining bounds-checking on trailing arrays",
+      "description": "Having a dynamically-sized trailing array at the end of a structure is a popular code construct in the Linux kernel. However, trailing arrays can also be of a fixed size, which means that their size is well-defined at compile-time and remains fixed throughout their entire lifetime. Little is known about the fact that compilers like GCC have historically treated all trailing arrays, no matter what their size, as flexible-sized arrays. This is a problem if we want the compiler to help us detect out-of-bounds issues on such arrays both at compile-time and at run-time. Therefore, the compiler should first be able to clearly distinguish between those that are used as dynamically-sized arrays and those that are not (fixed-size arrays). In order to achieve this, GCC-13 is introducing the new -fstrict-flex-arrays option. And we, in the Kernel Self-Protection Project, have been transforming trailing zero-length and one-element arrays (what we call fake flexible-arrays) into modern C99 flexible-array members. We will see how the combination of both efforts, together with the addition of some important compiler attributes, will eventually help us be free of out-of-bounds vulnerabilities on trailing arrays in the upstream Linux kernel. We will also explore how this work is closely related, and contributes, to the most recent efforts to hardening key APIs like memcpy() and globally enabling options like -Warray-bounds.",
+      "description_html": "<p>Having a dynamically-sized trailing array at the end of a structure is a popular code construct in the Linux kernel. However, trailing arrays can also be of a fixed size, which means that their size is well-defined at compile-time and remains fixed throughout their entire lifetime. Little is known about the fact that compilers like GCC have historically treated all trailing arrays, no matter what their size, as flexible-sized arrays. This is a problem if we want the compiler to help us detect out-of-bounds issues on such arrays both at compile-time and at run-time. Therefore, the compiler should first be able to clearly distinguish between those that are used as dynamically-sized arrays and those that are not (fixed-size arrays). In order to achieve this, GCC-13 is introducing the new -fstrict-flex-arrays option. And we, in the Kernel Self-Protection Project, have been transforming trailing zero-length and one-element arrays (what we call fake flexible-arrays) into modern C99 flexible-array members. We will see how the combination of both efforts, together with the addition of some important compiler attributes, will eventually help us be free of out-of-bounds vulnerabilities on trailing arrays in the upstream Linux kernel. We will also explore how this work is closely related, and contributes, to the most recent efforts to hardening key APIs like memcpy() and globally enabling options like -Warray-bounds.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/gaining-bounds-checking-on-trailing-arrays/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Gustavo AR SILVA",
+      "metadata": {
+        "Speakers": "Gustavo AR SILVA",
+        "Category": "debugging",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Gaining_bounds-checking_on_trailing_0Aarrays_in_the_Upstream_Linux_Kernel.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=bfKrLH7pLBQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/gaining-bounds-checking-on-trailing-arrays/"
+        }
+      ]
+    },
+    {
+      "id": "faster-fewer-page-faults",
+      "url": "https://archives.kernel-recipes.org/document/faster-fewer-page-faults/",
+      "title": "Faster & Fewer Page Faults",
+      "listing_title": "Faster & Fewer Page Faults",
+      "description": "We have improved the Linux page fault mechanism to reduce the number of faults and handle them more quickly when they do happen. By managing memory in large folios, we reduce the number of page faults. The 4KiB page used on many architectures is simply too small for the amount of memory we need to manage today. When you take a page fault, the kernel can allocate multiple pages and map them all at the same time. By managing VMAs in a Maple Tree, we handle page faults more quickly. The Maple Tree is shallower than the red-black tree and uses the CPU cache more effectively. When you take a page fault, the kernel can find the information it needs to handle the page fault more quickly. These two projects together result in a significant reduction of time spent handling page faults and allow your computer to spend more of its time running user code. No cars were crashed in the execution of this project.",
+      "description_html": "<p>We have improved the Linux page fault mechanism to reduce the number of faults and handle them more quickly when they do happen. By managing memory in large folios, we reduce the number of page faults. The 4KiB page used on many architectures is simply too small for the amount of memory we need to manage today. When you take a page fault, the kernel can allocate multiple pages and map them all at the same time. By managing VMAs in a Maple Tree, we handle page faults more quickly. The Maple Tree is shallower than the red-black tree and uses the CPU cache more effectively. When you take a page fault, the kernel can find the information it needs to handle the page fault more quickly. These two projects together result in a significant reduction of time spent handling page faults and allow your computer to spend more of its time running user code. No cars were crashed in the execution of this project.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/faster-fewer-page-faults/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Matthew WILCOX",
+      "metadata": {
+        "Speakers": "Matthew WILCOX",
+        "Category": "performance",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Faster_and_Fewer_Page_Faults.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=TEHRMzZ01nE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/faster-fewer-page-faults/"
+        }
+      ]
+    },
+    {
+      "id": "fast-by-friday-why-kernel-superpowers-are-essential",
+      "url": "https://archives.kernel-recipes.org/document/fast-by-friday-why-kernel-superpowers-are-essential/",
+      "title": "Fast by Friday: Why Kernel Superpowers are Essential",
+      "listing_title": "Fast by Friday: Why Kernel Superpowers are Essential",
+      "description": "It is not ok that we speed weeks, even months, trying to solve why software is slow. Companies waste money on compute costs, users are unhappy with latency, and product evaluations run out of investigation time. It should not take more than a week to identify the root cause or causes for a performance issue, such that any performance issue reported on a Monday should be solved by Friday, or sooner. The kernel superpowers we have been building are essential for this dream, and allow us to explore performance analysis methodologies to achieve this that were previously a fantasy.\n\nThis talk explores the dream of “fast by Friday,” and shows how kernel technologies like eBPF, and performance methodologies, can get us there. The end goal is not more tools and metrics or having everyone learn eBPF bytecode. It’s about efficient computing, and solving inefficiencies as quickly as possible. It’s about saving cycles and carbon.\n\nTo be fast by Friday requires observability tools to work on Monday, and right now for many Linux environments that means /proc based tools and Ftrace, sometimes perf, and rarely the eBPF tracing tools: bcc and bpftrace. This and other current and future technical challenges will be discussed, including eBPF stack walking, runtime behavior and uprobes, compiler optimization defaults, OS default packages, and non-CPU targets (GPUs, accelerators).",
+      "description_html": "<p>It is not ok that we speed weeks, even months, trying to solve why software is slow. Companies waste money on compute costs, users are unhappy with latency, and product evaluations run out of investigation time. It should not take more than a week to identify the root cause or causes for a performance issue, such that any performance issue reported on a Monday should be solved by Friday, or sooner. The kernel superpowers we have been building are essential for this dream, and allow us to explore performance analysis methodologies to achieve this that were previously a fantasy.<br />\nThis talk explores the dream of “fast by Friday,” and shows how kernel technologies like eBPF, and performance methodologies, can get us there. The end goal is not more tools and metrics or having everyone learn eBPF bytecode. It’s about efficient computing, and solving inefficiencies as quickly as possible. It’s about saving cycles and carbon.<br />\nTo be fast by Friday requires observability tools to work on Monday, and right now for many Linux environments that means /proc based tools and Ftrace, sometimes perf, and rarely the eBPF tracing tools: bcc and bpftrace. This and other current and future technical challenges will be discussed, including eBPF stack walking, runtime behavior and uprobes, compiler optimization defaults, OS default packages, and non-CPU targets (GPUs, accelerators).</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/fast-by-friday-why-kernel-superpowers-are-essential/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Brendan GREGG",
+      "metadata": {
+        "Speakers": "Brendan GREGG",
+        "Category": "performance",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Fast_by_Friday.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=XudHNF4k_x0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/fast-by-friday-why-kernel-superpowers-are-essential/"
+        }
+      ]
+    },
+    {
+      "id": "evolving-ftrace-on-arm64",
+      "url": "https://archives.kernel-recipes.org/document/evolving-ftrace-on-arm64/",
+      "title": "Evolving ftrace on arm64",
+      "listing_title": "Evolving ftrace on arm64",
+      "description": "The Linux kernel’s ftrace mechanism makes it possible to dynamically attach hooks to kernel functions, and can be used for a variety of purposes including tracing, debugging, and live-patching.\n\nThe low-level details of ftrace differ by architecture, and recently the arm64’s ftrace implementation has evolved substantially with the implementation of DYNAMIC_FTRACE_WITH_ARGS and DYNAMIC_FTRACE_WITH_CALL_OPS, which enable richer, lower overhead tracing with relatively simple and\n\nmaintainable architecture code.\n\nThis walk will cover the low-level details of arm64’s ftrace implementation, how it works, and why certain design choices were made.",
+      "description_html": "<p>The Linux kernel’s ftrace mechanism makes it possible to dynamically attach hooks to kernel functions, and can be used for a variety of purposes including tracing, debugging, and live-patching.<br />\nThe low-level details of ftrace differ by architecture, and recently the arm64’s ftrace implementation has evolved substantially with the implementation of DYNAMIC_FTRACE_WITH_ARGS and DYNAMIC_FTRACE_WITH_CALL_OPS, which enable richer, lower overhead tracing with relatively simple and<br />\nmaintainable architecture code.<br />\nThis walk will cover the low-level details of arm64’s ftrace implementation, how it works, and why certain design choices were made.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/evolving-ftrace-on-arm64/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Mark RUTLAND",
+      "metadata": {
+        "Speakers": "Mark RUTLAND",
+        "Category": "tracing",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Evolving_ftrace_on_arm64.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=p9cqUTF4I0w",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/evolving-ftrace-on-arm64/"
+        }
+      ]
+    },
+    {
+      "id": "demystifying-the-linux-kernel-security-process",
+      "url": "https://archives.kernel-recipes.org/document/demystifying-the-linux-kernel-security-process/",
+      "title": "Demystifying the Linux kernel security process",
+      "listing_title": "Demystifying the Linux kernel security process",
+      "description": "There is a lot of misunderstanding about how the Linux kernel deals with security vulnerabilities. This talk will go into how the different Linux kernel security teams work, how security and bugfixes are handled, how changes are propagated out to the public, and how users must take advantage of these changes in order to have a secure system.",
+      "description_html": "<p>There is a lot of misunderstanding about how the Linux kernel deals with security vulnerabilities. This talk will go into how the different Linux kernel security teams work, how security and bugfixes are handled, how changes are propagated out to the public, and how users must take advantage of these changes in order to have a secure system.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/demystifying-the-linux-kernel-security-process/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Greg KH",
+      "metadata": {
+        "Speakers": "Greg KH",
+        "Category": "security",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Linux_Kernel_security_demistified-1.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=2TZe5EROFhE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/demystifying-the-linux-kernel-security-process/"
+        }
+      ]
+    },
+    {
+      "id": "a-unique-way-to-maintain-a-linux-kernel-subsystem",
+      "url": "https://archives.kernel-recipes.org/document/a-unique-way-to-maintain-a-linux-kernel-subsystem/",
+      "title": "A unique way to maintain a Linux kernel subsystem",
+      "listing_title": "A unique way to maintain a Linux kernel subsystem",
+      "description": "Steven Rostedt maintains the tracing subsystem of the Linux kernel. He has a unique workflow that incorporates several tools. He uses quilt on top of git to keep track of changes as well as a way to\n\nresolve conflicts when importing patches. Steven doesn’t type “make; make modules; make modules_install install” to build the kernel, but instead utilizes the ktest.pl program that he wrote and maintains within the kernel tools/testing directory. He has his own personal patchwork setup that reads his inbox to make sure he doesn’t miss any patches anymore.\n\nSteven is going to talk about the various tooling he uses in his workflow. This is not about convincing others to use anything that he describes, as everyone has their own way of doing things. But hopefully, this will inspire people to think outside the box and become more efficient at their jobs.",
+      "description_html": "<p>Steven Rostedt maintains the tracing subsystem of the Linux kernel. He has a unique workflow that incorporates several tools. He uses quilt on top of git to keep track of changes as well as a way to<br />\nresolve conflicts when importing patches. Steven doesn’t type “make; make modules; make modules_install install” to build the kernel, but instead utilizes the ktest.pl program that he wrote and maintains within the kernel tools/testing directory. He has his own personal patchwork setup that reads his inbox to make sure he doesn’t miss any patches anymore.<br />\nSteven is going to talk about the various tooling he uses in his workflow. This is not about convincing others to use anything that he describes, as everyone has their own way of doing things. But hopefully, this will inspire people to think outside the box and become more efficient at their jobs.</p>",
+      "description_source": "https://archives.kernel-recipes.org/document/a-unique-way-to-maintain-a-linux-kernel-subsystem/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Steven ROSTEDT",
+      "metadata": {
+        "Speakers": "Steven ROSTEDT",
+        "Category": "community",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/Maintaining_Ftrace.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=rMhcCDNAx64",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/a-unique-way-to-maintain-a-linux-kernel-subsystem/"
+        }
+      ]
+    },
+    {
+      "id": "a-quarter-century-of-linux-open-source-my-personal-journey",
+      "url": "https://archives.kernel-recipes.org/document/a-quarter-century-of-linux-open-source-my-personal-journey/",
+      "title": "A quarter century of Linux open source: my personal journey",
+      "listing_title": "A quarter century of Linux open source: my personal journey",
+      "description": "Having been involved with the Linux kernel and open source projects for 25 years teaches you as much about people as it does technology. From struggling college dropout working on CD-ROM code, to distro kernel work and even having a stint in the proprietary world, juggling the demands of OSS takes a toll on anyone involved. The Linux world never sleeps, but what is it like to be in the thick of it for this many years? And how has it changed?",
+      "description_html": "<p>Having been involved with the Linux kernel and open source projects for 25 years teaches you as much about people as it does technology. From struggling college dropout working on CD-ROM code, to distro kernel work and even having a stint in the proprietary world, juggling the demands of OSS takes a toll on anyone involved. The Linux world never sleeps, but what is it like to be in the thick of it for this many years? And how has it changed?<br />\n<iframe loading=\"lazy\" title=\"Kernel Recipes 2023 - A quarter century of Linux open source, my personal journey\" width=\"1080\" height=\"608\" src=\"https://www.youtube.com/embed/ANrObzR-WiA?feature=oembed\"  allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen></iframe></p>",
+      "description_source": "https://archives.kernel-recipes.org/document/a-quarter-century-of-linux-open-source-my-personal-journey/",
+      "description_status": "abstract",
+      "track": "",
+      "speakers": "Jens AXBOE",
+      "metadata": {
+        "Speakers": "Jens AXBOE",
+        "Category": "community",
+        "Year": "2023"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://archives.kernel-recipes.org/wp-content/uploads/2025/01/A_quarter_century_of_Linux_open_source.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://archives.kernel-recipes.org/document-library/"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ANrObzR-WiA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://archives.kernel-recipes.org/document/a-quarter-century-of-linux-open-source-my-personal-journey/"
+        }
+      ]
+    }
+  ]
+}

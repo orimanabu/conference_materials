@@ -1,0 +1,1316 @@
+Source JSON: lpc2023-sessions.json
+Total sessions: 228
+Sessions with file attachments: 210
+Sessions without file attachments: 18
+Attachment count: 221
+Distinct source-file count: 221
+Saved: 220
+Already present: 0
+Unresolved: 1
+
+Sessions without file attachments have no folder and are not download failures.
+
+Session: Opening session [id 1647]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1647/attachments/1174/2420/Networking-BPF-Track-Intro.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Opening session/Networking-BPF-Track-Intro.pdf
+  Status: saved
+
+Session: Introduction [id 1637]
+  Attachment: Plumbers 2023 RISC-V MC.pdf
+  Source URL: https://lpc.events/event/17/contributions/1637/attachments/1246/2530/Plumbers%202023%20RISC-V%20MC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Introduction/Plumbers 2023 RISC-V MC.pdf
+  Status: saved
+
+Session: Welcome message and DL Server [id 1491]
+  Attachment: DL Server LPC 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1491/attachments/1239/2519/DL%20Server%20LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Welcome message and DL Server/DL Server LPC 2023.pdf
+  Status: saved
+
+Session: Evolving the BPF Type Format [id 1576]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1576/attachments/1159/2512/Evolving-BTF-LPC2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Evolving the BPF Type Format/Evolving-BTF-LPC2023.pdf
+  Status: saved
+
+Session: Resolve and standardize early access to hardware for automotive industry with Linux [id 1499]
+  Attachment: Resolve-Linuxearly-Automotive.pdf
+  Source URL: https://lpc.events/event/17/contributions/1499/attachments/1250/2535/Resolve-Linuxearly-Automotive.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Resolve and standardize early access to hardware for automotive industry with Linux/Resolve-Linuxearly-Automotive.pdf
+  Status: saved
+
+Session: Security Features status update [id 1617]
+  Attachment: features.pdf
+  Source URL: https://lpc.events/event/17/contributions/1617/attachments/1244/2528/features.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Security Features status update/features.pdf
+  Status: saved
+
+Session: Deprecating Stuff [id 1478]
+  Attachment: Deprecating Stuff.pdf
+  Source URL: https://lpc.events/event/17/contributions/1478/attachments/1235/2513/Deprecating%20Stuff.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Deprecating Stuff/Deprecating Stuff.pdf
+  Status: saved
+
+Session: the path to achieve a bug-free build on the mainline [id 1537]
+  Attachment: LPC 2023 - The path to achieve a bug-free build on the mainline.pdf
+  Source URL: https://lpc.events/event/17/contributions/1537/attachments/1183/2507/LPC%202023%20-%20The%20path%20to%20achieve%20a%20bug-free%20build%20on%20the%20mainline.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/the path to achieve a bug-free build on the mainline/LPC 2023 - The path to achieve a bug-free build on the mainline.pdf
+  Status: saved
+
+Session: Run ILP32 on RV64 ISA (RV64ILP32) [id 1475]
+  Attachment: rv64ilp32_ Run ILP32 on RV64 ISA.pdf
+  Source URL: https://lpc.events/event/17/contributions/1475/attachments/1186/2442/rv64ilp32_%20Run%20ILP32%20on%20RV64%20ISA.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Run ILP32 on RV64 ISA (RV64ILP32)/rv64ilp32_ Run ILP32 on RV64 ISA.pdf
+  Status: saved
+
+Session: Do nothing fast: How to scale idle cpus ? [id 1493]
+  Attachment: lpc2023-sched-mc-scaling-idle.pdf
+  Source URL: https://lpc.events/event/17/contributions/1493/attachments/1332/2670/lpc2023-sched-mc-scaling-idle.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Do nothing fast_ How to scale idle cpus ?/lpc2023-sched-mc-scaling-idle.pdf
+  Status: saved
+
+Session: Exceptions in BPF [id 1578]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1578/attachments/1240/2521/Exceptions%20in%20BPF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Exceptions in BPF/Exceptions in BPF.pdf
+  Status: saved
+
+Session: Storing and Outputting Test Information: KUnit Attributes and KTAPv2 [id 1527]
+  Attachment: Storing and Outputting Test Information_ KUnit Attributes and KTAPv2.pdf
+  Source URL: https://lpc.events/event/17/contributions/1527/attachments/1173/2418/Storing%20and%20Outputting%20Test%20Information_%20KUnit%20Attributes%20and%20KTAPv2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Storing and Outputting Test Information_ KUnit Attributes and KTAPv2/Storing and Outputting Test Information_ KUnit Attributes and KTAPv2.pdf
+  Status: saved
+
+Session: RISC-V patchwork CI [id 1480]
+  Attachment: RV-PW-CI-v2.pdf
+  Source URL: https://lpc.events/event/17/contributions/1480/attachments/1180/2522/RV-PW-CI-v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/RISC-V patchwork CI/RV-PW-CI-v2.pdf
+  Status: saved
+
+Session: system pressure on CPUs capacity and feedback to scheduler [id 1490]
+  Attachment: System pressure, compute capacity and scheduler.pdf
+  Source URL: https://lpc.events/event/17/contributions/1490/attachments/1182/2434/System%20pressure,%20compute%20capacity%20and%20scheduler.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/system pressure on CPUs capacity and feedback to scheduler/System pressure, compute capacity and scheduler.pdf
+  Status: saved
+
+Session: Rust for Linux [id 1501]
+  Attachment: 2023-11-13 - LPC 2023 - Rust for Linux.pdf
+  Source URL: https://lpc.events/event/17/contributions/1501/attachments/1252/2537/2023-11-13%20-%20LPC%202023%20-%20Rust%20for%20Linux.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Rust for Linux/2023-11-13 - LPC 2023 - Rust for Linux.pdf
+  Status: saved
+
+Session: Synthesized CFI for hand-written assembly in GNU assembler [id 1619]
+  Attachment: lpc2023_scfi.pdf
+  Source URL: https://lpc.events/event/17/contributions/1619/attachments/1191/2449/lpc2023_scfi.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Synthesized CFI for hand-written assembly in GNU assembler/lpc2023_scfi.pdf
+  Status: saved
+
+Session: When BPF programs need to die : exploring the design space for early BPF termination [id 1610]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1610/attachments/1229/2505/LPC_BPF_termination_Raj_Sahu.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/When BPF programs need to die _ exploring the design space for early BPF termination/LPC_BPF_termination_Raj_Sahu.pdf
+  Status: saved
+
+Session: Testing Drivers with KUnit (Does hardware have to be hard?) [id 1526]
+  Attachment: LPC2023 Testing Drivers with KUnit (Does Hardware Have To Be Hard ).pdf
+  Source URL: https://lpc.events/event/17/contributions/1526/attachments/1172/2416/LPC2023%20Testing%20Drivers%20with%20KUnit%20(Does%20Hardware%20Have%20To%20Be%20Hard%20).pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Testing Drivers with KUnit (Does hardware have to be hard?)/LPC2023 Testing Drivers with KUnit (Does Hardware Have To Be Hard ).pdf
+  Status: saved
+
+Session: Optimizing Chromium Low-Power Workloads on Intel Notebooks [id 1489]
+  Attachment: Brown-Neri-Shankar-Chromium.pdf
+  Source URL: https://lpc.events/event/17/contributions/1489/attachments/1171/2477/Brown-Neri-Shankar-Chromium.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Optimizing Chromium Low-Power Workloads on Intel Notebooks/Brown-Neri-Shankar-Chromium.pdf
+  Status: saved
+
+Session: Proposal of porting Trusted Execution Environment Provisioning (TEEP) Protocol with WorldGuard [id 1477]
+  Attachment: 2023-TEEPonRISCV-2023-11-13-6.pdf
+  Source URL: https://lpc.events/event/17/contributions/1477/attachments/1241/2969/2023-TEEPonRISCV-2023-11-13-6.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Proposal of porting Trusted Execution Environment Provisioning (TEEP) Protocol with WorldGuard/2023-TEEPonRISCV-2023-11-13-6.pdf
+  Status: saved
+
+Session: Graph-based ABI analysis for fun and profit [id 1618]
+  Attachment: Graph-based ABI analysis for fun and profit.pdf
+  Source URL: https://lpc.events/event/17/contributions/1618/attachments/1190/2446/Graph-based%20ABI%20analysis%20for%20fun%20and%20profit.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Graph-based ABI analysis for fun and profit/Graph-based ABI analysis for fun and profit.pdf
+  Status: saved
+
+Session: How to reduce complexity in Proxy Execution [id 1482]
+  Attachment: LPC23 - ProxyExecution.pdf
+  Source URL: https://lpc.events/event/17/contributions/1482/attachments/1147/2382/LPC23%20-%20ProxyExecution.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/How to reduce complexity in Proxy Execution/LPC23 - ProxyExecution.pdf
+  Status: saved
+
+Session: SBI Supervisor Software Events [id 1479]
+  Attachment: SSE_Plumbers.pdf
+  Source URL: https://lpc.events/event/17/contributions/1479/attachments/1243/2526/SSE_Plumbers.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/SBI Supervisor Software Events/SSE_Plumbers.pdf
+  Status: saved
+
+Session: Verifying the Verifier: eBPF Range Analysis Verification [id 1590]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1590/attachments/1238/2518/verifying_the_verifier.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Verifying the Verifier_ eBPF Range Analysis Verification/verifying_the_verifier.pdf
+  Status: saved
+
+Session: Beginner Linux kernel maintainer's toolbox [id 1498]
+  Attachment: Maintainer's toolbox - Linux Plumbers 2023 - Krzysztof Kozlowski.pdf
+  Source URL: https://lpc.events/event/17/contributions/1498/attachments/1155/2452/Maintainer's%20toolbox%20-%20Linux%20Plumbers%202023%20-%20Krzysztof%20Kozlowski.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Beginner Linux kernel maintainer's toolbox/Maintainer's toolbox - Linux Plumbers 2023 - Krzysztof Kozlowski.pdf
+  Status: saved
+
+Session: Quality in embargoed patches [id 1529]
+  Attachment: Quality in embargoed patches.pdf
+  Source URL: https://lpc.events/event/17/contributions/1529/attachments/1236/2514/Quality%20in%20embargoed%20patches.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Quality in embargoed patches/Quality in embargoed patches.pdf
+  Status: saved
+
+Session: Adaptive userspace spinlocks with rseq [id 1481]
+  Attachment: Adaptive spinlocks.pdf
+  Source URL: https://lpc.events/event/17/contributions/1481/attachments/1158/2397/Adaptive%20spinlocks.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Adaptive userspace spinlocks with rseq/Adaptive spinlocks.pdf
+  Status: saved
+
+Session: Perf feature improvements in RISC-V [id 1476]
+  Attachment: Perf_Atish_Plumbers_2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1476/attachments/1194/2970/Perf_Atish_Plumbers_2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Perf feature improvements in RISC-V/Perf_Atish_Plumbers_2023.pdf
+  Status: saved
+
+Session: BPF Memory Model, Two Years On [id 1580]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1580/attachments/1254/2562/bpfmm.2023.11.13a.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/BPF Memory Model, Two Years On/bpfmm.2023.11.13a.pdf
+  Status: saved
+
+Session: Detecting failed device probes [id 1530]
+  Attachment: device-probe-regressions.pdf
+  Source URL: https://lpc.events/event/17/contributions/1530/attachments/1197/2457/device-probe-regressions.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Detecting failed device probes/device-probe-regressions.pdf
+  Status: saved
+
+Session: CPU Isolation state of the art [id 1497]
+  Attachment: LPC2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1497/attachments/1260/2553/LPC2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/CPU Isolation state of the art/LPC2023.pdf
+  Status: saved
+
+Session: RISC-V Vector: Current Status and Next? [id 1474]
+  Attachment: LPC2023_RISC-V Vector Current and Next -3.pdf
+  Source URL: https://lpc.events/event/17/contributions/1474/attachments/1196/2501/LPC2023_RISC-V%20Vector%20Current%20and%20Next%20-3.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/RISC-V Vector_ Current Status and Next?/LPC2023_RISC-V Vector Current and Next -3.pdf
+  Status: saved
+
+Session: toolchain-agnostic build time improvements [id 1620]
+  Attachment: Linux Kernel Header Optimization.pdf
+  Source URL: https://lpc.events/event/17/contributions/1620/attachments/1228/2520/Linux%20Kernel%20Header%20Optimization.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/toolchain-agnostic build time improvements/Linux Kernel Header Optimization.pdf
+  Status: saved
+
+Session: Speeding up Kernel Testing and Debugging with virtme-ng [id 1506]
+  Attachment: virtme-ng.pdf
+  Source URL: https://lpc.events/event/17/contributions/1506/attachments/1143/2441/virtme-ng.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Speeding up Kernel Testing and Debugging with virtme-ng/virtme-ng.pdf
+  Status: saved
+
+Session: Control Flow Integrity on RISCV [id 1539]
+  Attachment: riscv_cfi_plumbers_2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1539/attachments/1189/2445/riscv_cfi_plumbers_2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Control Flow Integrity on RISCV/riscv_cfi_plumbers_2023.pdf
+  Status: saved
+
+Session: Improving CPU Isolation with per-cpu spinlocks: performance cost and analysis [id 1484]
+  Attachment: Presentation.pdf
+  Source URL: https://lpc.events/event/17/contributions/1484/attachments/1233/2510/Presentation.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Improving CPU Isolation with per-cpu spinlocks_ performance cost and analysis/Presentation.pdf
+  Status: saved
+
+Session: Unifying and improving test regression reporting and tracking [id 1528]
+  Attachment: lpc2023_mc.pdf
+  Source URL: https://lpc.events/event/17/contributions/1528/attachments/1209/2473/lpc2023_mc.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Unifying and improving test regression reporting and tracking/lpc2023_mc.pdf
+  Status: saved
+
+Session: Overflowing the kernel stack with BPF [id 1595]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1595/attachments/1230/2506/LPC2023_slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Overflowing the kernel stack with BPF/LPC2023_slides.pdf
+  Status: saved
+
+Session: Q&A about PREEMP_RT [id 1483]
+  Attachment: state-of-the-onion.pdf
+  Source URL: https://lpc.events/event/17/contributions/1483/attachments/1261/2554/state-of-the-onion.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Q&A about PREEMP_RT/state-of-the-onion.pdf
+  Status: saved
+
+Session: RISC-V irqbypass with KVM [id 1538]
+  Attachment: lpc2023_irqbypass_v2.pdf
+  Source URL: https://lpc.events/event/17/contributions/1538/attachments/1195/2524/lpc2023_irqbypass_v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/RISC-V irqbypass with KVM/lpc2023_irqbypass_v2.pdf
+  Status: saved
+
+Session: Intro [id 1555]
+  Attachment: Android MC 2023 -- ground rules.pdf
+  Source URL: https://lpc.events/event/17/contributions/1555/attachments/1263/2557/Android%20MC%202023%20--%20ground%20rules.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Intro/Android MC 2023 -- ground rules.pdf
+  Status: saved
+
+Session: BPF for Security and LSM updates [id 1579]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1579/attachments/1265/2561/BPF%20LSM%20-%20LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/BPF for Security and LSM updates/BPF LSM - LPC.pdf
+  Status: saved
+
+Session: Emulating NT synchronization primitives in Wine [id 1517]
+  Attachment: lpc2023.odp
+  Source URL: https://lpc.events/event/17/contributions/1517/attachments/1257/2548/lpc2023.odp
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Emulating NT synchronization primitives in Wine/lpc2023.odp
+  Status: saved
+  Attachment: lpc2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1517/attachments/1257/2549/lpc2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Emulating NT synchronization primitives in Wine/lpc2023.pdf
+  Status: saved
+
+Session: Compiling for verified targets (BPF) [id 1648]
+  Attachment: Generating BPF Verifier Friendly Code with Clang.pdf
+  Source URL: https://lpc.events/event/17/contributions/1648/attachments/1242/2525/Generating%20BPF%20Verifier%20Friendly%20Code%20with%20Clang.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Compiling for verified targets (BPF)/Generating BPF Verifier Friendly Code with Clang.pdf
+  Status: saved
+  Attachment: verified.pdf
+  Source URL: https://lpc.events/event/17/contributions/1648/attachments/1242/2961/verified.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Compiling for verified targets (BPF)/verified.pdf
+  Status: saved
+
+Session: Driver Development Kit (DDK) and Vendor Workflow [id 1449]
+  Attachment: DDK_and_Vendor_Workflow.pdf
+  Source URL: https://lpc.events/event/17/contributions/1449/attachments/1160/2400/DDK_and_Vendor_Workflow.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Driver Development Kit (DDK) and Vendor Workflow/DDK_and_Vendor_Workflow.pdf
+  Status: saved
+
+Session: CXL Emulation in QEMU - Progress, status and most importantly what next? [id 1454]
+  Attachment: CXL Emulation in QEMU_ Progress, Status and most importantly… What’s next-Lastest-full-slides.pdf
+  Source URL: https://lpc.events/event/17/contributions/1454/attachments/1156/2558/CXL%20Emulation%20in%20QEMU_%20Progress,%20Status%20and%20most%20importantly%E2%80%A6%20What%E2%80%99s%20next-Lastest-full-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/CXL Emulation in QEMU - Progress, status and most importantly what next?/CXL Emulation in QEMU_ Progress, Status and most importantly… What’s next-Lastest-full-slides.pdf
+  Status: saved
+  Attachment: CXL Emulation in QEMU_ Progress, Status and most importantly… What’s next.pdf
+  Source URL: https://lpc.events/event/17/contributions/1454/attachments/1156/2419/NF-CXL%20Emulation%20in%20QEMU_%20Progress,%20Status%20and%20most%20importantly%E2%80%A6%20What%E2%80%99s%20next_%20Jonathan%20Cameron%20-%20Huawei,%20Fan%20Ni%20-%20Samsung-v3.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/CXL Emulation in QEMU - Progress, status and most importantly what next?/NF-CXL Emulation in QEMU_ Progress, Status and most importantly… What’s next_ Jonathan Cameron - Huawei, Fan Ni - Samsung-v3.pdf
+  Status: saved
+
+Session: Simplified Android Kernel Driver Development with DDK v2 [id 1441]
+  Attachment: Simplified Android Kernel Driver Development with DDK v2.pdf
+  Source URL: https://lpc.events/event/17/contributions/1441/attachments/1163/2406/Simplified%20Android%20Kernel%20Driver%20Development%20with%20DDK%20v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Simplified Android Kernel Driver Development with DDK v2/Simplified Android Kernel Driver Development with DDK v2.pdf
+  Status: saved
+
+Session: User namespaces with host-isolated UIDs/GIDs [id 1569]
+  Attachment: LPC2023 Isolated user namespaces.pdf
+  Source URL: https://lpc.events/event/17/contributions/1569/attachments/1285/2594/LPC2023%20Isolated%20user%20namespaces.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/User namespaces with host-isolated UIDs_GIDs/LPC2023 Isolated user namespaces.pdf
+  Status: saved
+
+Session: BPF_LSM + fsverity for Binary Authorization [id 1587]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1587/attachments/1178/2424/BPF_LSM%20+%20fsverity%20for%20Binary%20Authorization.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/BPF_LSM + fsverity for Binary Authorization/BPF_LSM + fsverity for Binary Authorization.pdf
+  Status: saved
+
+Session: CXL Type-2 core support [id 1453]
+  Attachment: LPC2023_type2-large-font.pdf
+  Source URL: https://lpc.events/event/17/contributions/1453/attachments/1170/2540/LPC2023_type2-large-font.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/CXL Type-2 core support/LPC2023_type2-large-font.pdf
+  Status: saved
+
+Session: BPF Access Control and CO-RE in Android [id 1448]
+  Attachment: LPC2023_Android_BPF.pdf
+  Source URL: https://lpc.events/event/17/contributions/1448/attachments/1148/2383/LPC2023_Android_BPF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/BPF Access Control and CO-RE in Android/LPC2023_Android_BPF.pdf
+  Status: saved
+
+Session: Optimizing sysfs and procfs [id 1502]
+  Attachment: LPC_2023_Sysfs_Procfs_Memory_Improvements_v6.pdf
+  Source URL: https://lpc.events/event/17/contributions/1502/attachments/1188/2516/LPC_2023_Sysfs_Procfs_Memory_Improvements_v6.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Optimizing sysfs and procfs/LPC_2023_Sysfs_Procfs_Memory_Improvements_v6.pdf
+  Status: saved
+
+Session: Binder: fixing contention in buffer allocations [id 1444]
+  Attachment: LPC2023-binder_driver.pdf
+  Source URL: https://lpc.events/event/17/contributions/1444/attachments/1176/2422/LPC2023-binder_driver.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Binder_ fixing contention in buffer allocations/LPC2023-binder_driver.pdf
+  Status: saved
+
+Session: Towards data type profiling [id 1616]
+  Attachment: LPC2023_ Data_Type_Profiling.pdf
+  Source URL: https://lpc.events/event/17/contributions/1616/attachments/1181/2432/LPC2023_%20Data_Type_Profiling.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Towards data type profiling/LPC2023_ Data_Type_Profiling.pdf
+  Status: saved
+
+Session: Plumbing challenges in Dynamic capacity device [id 1457]
+  Attachment: LPC2023_dcd.pptx
+  Source URL: https://lpc.events/event/17/contributions/1457/attachments/1213/2479/LPC2023_dcd.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Plumbing challenges in Dynamic capacity device/LPC2023_dcd.pptx
+  Status: saved
+
+Session: Sysarmor: Meta's eBPF Security Detection and Enforcement Tool [id 1602]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1602/attachments/1231/2508/SysArmor%20LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Sysarmor_ Meta's eBPF Security Detection and Enforcement Tool/SysArmor LPC 2023.pdf
+  Status: saved
+
+Session: Android Kernel testing with platform integration [id 1446]
+  Attachment: LPC2023_kernel_platform_ci_testing.pdf
+  Source URL: https://lpc.events/event/17/contributions/1446/attachments/1140/2375/LPC2023_kernel_platform_ci_testing.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Android Kernel testing with platform integration/LPC2023_kernel_platform_ci_testing.pdf
+  Status: saved
+
+Session: Improving suspend/resume time and runtime PM on Android [id 1450]
+  Attachment: LPC2023 - Improving suspend_resume.pdf
+  Source URL: https://lpc.events/event/17/contributions/1450/attachments/1149/2384/LPC2023%20-%20Improving%20suspend_resume.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Improving suspend_resume time and runtime PM on Android/LPC2023 - Improving suspend_resume.pdf
+  Status: saved
+
+Session: VSCode for kernel development [id 1614]
+  Attachment: VSCode for kernel development.pdf
+  Source URL: https://lpc.events/event/17/contributions/1614/attachments/1210/2474/VSCode%20for%20kernel%20development.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/VSCode for kernel development/VSCode for kernel development.pdf
+  Status: saved
+
+Session: Adding RAS Support ​for​ CXL Port Devices​ [id 1452]
+  Attachment: Adding-RAS-Support-For-CXL-Port-Devices-CXL-LPC-MC-111323-2.pdf
+  Source URL: https://lpc.events/event/17/contributions/1452/attachments/1157/2430/Adding-RAS-Support-For-CXL-Port-Devices-CXL-LPC-MC-111323-2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Adding RAS Support ​for​ CXL Port Devices​/Adding-RAS-Support-For-CXL-Port-Devices-CXL-LPC-MC-111323-2.pdf
+  Status: saved
+  Attachment: Adding-RAS-Support-For-CXL-Port-Devices-CXL-LPC-MC-111323-2.pptx (Protected)
+  Source URL: https://lpc.events/event/17/contributions/1452/attachments/1157/2431/Adding-RAS-Support-For-CXL-Port-Devices-CXL-LPC-MC-111323-2.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Adding RAS Support ​for​ CXL Port Devices​/Adding-RAS-Support-For-CXL-Port-Devices-CXL-LPC-MC-111323-2.pptx
+  Status: unresolved
+  Error: original: ValueError: download is incomplete or does not match the file format; archive index: HTTPError: HTTP Error 503: Service Unavailable
+
+Session: RISC-V support in Android [id 1440]
+  Attachment: Enabling RISC-V Support in Android_ LPC 2023 presentation (v2).pdf
+  Source URL: https://lpc.events/event/17/contributions/1440/attachments/1249/2534/Enabling%20RISC-V%20Support%20in%20Android_%20LPC%202023%20presentation%20(v2).pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/RISC-V support in Android/Enabling RISC-V Support in Android_ LPC 2023 presentation (v2).pdf
+  Status: saved
+
+Session: Fuse mounts recovery and Checkpoint/Restore [id 1570]
+  Attachment: LPC2023 FUSE mount recovery.pdf
+  Source URL: https://lpc.events/event/17/contributions/1570/attachments/1286/2595/LPC2023%20FUSE%20mount%20recovery.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Fuse mounts recovery and Checkpoint_Restore/LPC2023 FUSE mount recovery.pdf
+  Status: saved
+
+Session: Extending Non-Repudiable Logs with eBPF [id 1603]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1603/attachments/1226/2496/LPC-eBPF-Blanchard.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Extending Non-Repudiable Logs with eBPF/LPC-eBPF-Blanchard.pdf
+  Status: saved
+
+Session: Powering up "discoverable bus-attached" devices on DT-based platforms [id 1507]
+  Attachment: Powering up “discoverable bus-attached” devices on DT-based platforms .pdf
+  Source URL: https://lpc.events/event/17/contributions/1507/attachments/1253/2538/Powering%20up%20%E2%80%9Cdiscoverable%20bus-attached%E2%80%9D%20devices%20on%20DT-based%20platforms%20.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Powering up "discoverable bus-attached" devices on DT-based platforms/Powering up “discoverable bus-attached” devices on DT-based platforms .pdf
+  Status: saved
+
+Session: Adding Third-Party Hypervisor to Android Virtualization Framework [id 1447]
+  Attachment: Gunyah+AVF at Plumbers 23.pdf
+  Source URL: https://lpc.events/event/17/contributions/1447/attachments/1166/2410/Gunyah+AVF%20at%20Plumbers%2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Adding Third-Party Hypervisor to Android Virtualization Framework/Gunyah+AVF at Plumbers 23.pdf
+  Status: saved
+
+Session: Shared CXL 3 memory: what will be required? [id 1455]
+  Attachment: cxl-shared-fam-what-is-needed-v4.pdf
+  Source URL: https://lpc.events/event/17/contributions/1455/attachments/1179/2546/cxl-shared-fam-what-is-needed-v4.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Shared CXL 3 memory_ what will be required?/cxl-shared-fam-what-is-needed-v4.pdf
+  Status: saved
+
+Session: Porting Android Automotive on Xen [id 1451]
+  Attachment: LPC2023_ Porting Android Automotive on Xen.pdf
+  Source URL: https://lpc.events/event/17/contributions/1451/attachments/1151/2388/LPC2023_%20Porting%20Android%20Automotive%20on%20Xen.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Porting Android Automotive on Xen/LPC2023_ Porting Android Automotive on Xen.pdf
+  Status: saved
+
+Session: Cgroups and Enterprise Users [id 1573]
+  Attachment: cgroups-and-enterprise-users-lpc2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1573/attachments/1192/2450/cgroups-and-enterprise-users-lpc2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Cgroups and Enterprise Users/cgroups-and-enterprise-users-lpc2023.pdf
+  Status: saved
+
+Session: Advancing Kernel Control Flow Integrity with eBPF [id 1591]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1591/attachments/1232/2509/LPC-eKCFI.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Advancing Kernel Control Flow Integrity with eBPF/LPC-eKCFI.pdf
+  Status: saved
+
+Session: Callsite Trampolines [id 1615]
+  Attachment: LPC2023_CallsiteTrampolines.pdf
+  Source URL: https://lpc.events/event/17/contributions/1615/attachments/1142/2377/LPC2023_CallsiteTrampolines.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Callsite Trampolines/LPC2023_CallsiteTrampolines.pdf
+  Status: saved
+
+Session: CXL Memory Tiering for heterogenous computing [id 1458]
+  Attachment: LPC2023_CXLMemoryTiering_ RaviGummaluri.pdf
+  Source URL: https://lpc.events/event/17/contributions/1458/attachments/1245/2550/LPC2023_CXLMemoryTiering_%20RaviGummaluri.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/CXL Memory Tiering for heterogenous computing/LPC2023_CXLMemoryTiering_ RaviGummaluri.pdf
+  Status: saved
+
+Session: Pixel 6 support on android-mainline [id 1445]
+  Attachment: LPC2023_p21mainline.pdf
+  Source URL: https://lpc.events/event/17/contributions/1445/attachments/1154/2392/LPC2023_p21mainline.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Pixel 6 support on android-mainline/LPC2023_p21mainline.pdf
+  Status: saved
+
+Session: Improving kexec boot time [id 1512]
+  Attachment: Fast Kernel Boot.pdf
+  Source URL: https://lpc.events/event/17/contributions/1512/attachments/1256/2544/Fast%20Kernel%20Boot.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Improving kexec boot time/Fast Kernel Boot.pdf
+  Status: saved
+
+Session: Can mainline Linux run on Android without vendor hooks? [id 1442]
+  Attachment: qais_yousef_lpc_android_mc_nov_2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1442/attachments/1141/2376/qais_yousef_lpc_android_mc_nov_2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Can mainline Linux run on Android without vendor hooks?/qais_yousef_lpc_android_mc_nov_2023.pdf
+  Status: saved
+
+Session: Protecting Sensitive Data in Container Checkpoints [id 1568]
+  Attachment: Protecting Sensitive Data in Container Checkpoints.pdf
+  Source URL: https://lpc.events/event/17/contributions/1568/attachments/1237/2517/Protecting%20Sensitive%20Data%20in%20Container%20Checkpoints.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Protecting Sensitive Data in Container Checkpoints/Protecting Sensitive Data in Container Checkpoints.pdf
+  Status: saved
+
+Session: Modernizing Android BPF and the Android Security Model [id 1599]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1599/attachments/1184/2436/LPC2023_BPF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Modernizing Android BPF and the Android Security Model/LPC2023_BPF.pdf
+  Status: saved
+
+Session: A move_pages() equivalent for physical memory [id 1456]
+  Attachment: move_phys_pages.pptx
+  Source URL: https://lpc.events/event/17/contributions/1456/attachments/1227/2497/move_phys_pages.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/A move_pages() equivalent for physical memory/move_phys_pages.pptx
+  Status: saved
+
+Session: 16KB Page Size Support [id 1443]
+  Attachment: Android 16K Page Size Support - LPC - 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1443/attachments/1144/2566/Android%2016K%20Page%20Size%20Support%20-%20LPC%20-%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/16KB Page Size Support/Android 16K Page Size Support - LPC - 2023.pdf
+  Status: saved
+
+Session: AOSP Devboards [id 1559]
+  Attachment: AOSP-Devboards_LPC2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1559/attachments/1153/2391/AOSP-Devboards_LPC2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/AOSP Devboards/AOSP-Devboards_LPC2023.pdf
+  Status: saved
+
+Session: Buzzing Across Space: The Illustrated Children’s Guide to eBPF [id 1651]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1651/attachments/1175/2421/LPC2023%20-%20Buzzing%20Across%20Space.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Buzzing Across Space_ The Illustrated Children’s Guide to eBPF/LPC2023 - Buzzing Across Space.pdf
+  Status: saved
+
+Session: bpftime: Fast uprobes with user space BPF runtime [id 1639]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1639/attachments/1280/2585/userspace-ebpf-bpftime-lpc.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/bpftime_ Fast uprobes with user space BPF runtime/userspace-ebpf-bpftime-lpc.pdf
+  Status: saved
+
+Session: Hypervisor-Enforced Kernel Integrity (Heki) for KVM [id 1486]
+  Attachment: 2023-11-14 LPC - Heki.pdf
+  Source URL: https://lpc.events/event/17/contributions/1486/attachments/1306/2621/2023-11-14%20LPC%20-%20Heki.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Hypervisor-Enforced Kernel Integrity (Heki) for KVM/2023-11-14 LPC - Heki.pdf
+  Status: saved
+
+Session: The taming of the kernel dump [id 1469]
+  Attachment: Taming.pdf
+  Source URL: https://lpc.events/event/17/contributions/1469/attachments/1162/2402/Taming.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/The taming of the kernel dump/Taming.pdf
+  Status: saved
+
+Session: Make ftrace_regs a common trace interface for function entry/exit tracing [id 1588]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1588/attachments/1169/2481/LPC23_%20Use%20ftrace_regs%20for%20tracers_1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Make ftrace_regs a common trace interface for function entry_exit tracing/LPC23_ Use ftrace_regs for tracers_1.pdf
+  Status: saved
+
+Session: Standardising Linux DRM drivers implementations by interfacing DRM Bridge as a single API [id 1548]
+  Attachment: LPC2023 - Standardising Linux DRM drivers implementations by interfacing DRM Bridge as a single API.pdf
+  Source URL: https://lpc.events/event/17/contributions/1548/attachments/1287/2596/LPC2023%20-%20Standardising%20Linux%20DRM%20drivers%20implementations%20by%20interfacing%20DRM%20Bridge%20as%20a%20single%20API.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Standardising Linux DRM drivers implementations by interfacing DRM Bridge as a single API/LPC2023 - Standardising Linux DRM drivers implementations by interfacing DRM Bridge as a single API.pdf
+  Status: saved
+
+Session: Securing build platforms [id 1641]
+  Attachment: LPC '23 Build MC Securing build platforms.pdf
+  Source URL: https://lpc.events/event/17/contributions/1641/attachments/1262/2593/LPC%20'23%20Build%20MC%20Securing%20build%20platforms.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Securing build platforms/LPC '23 Build MC Securing build platforms.pdf
+  Status: saved
+
+Session: drgn Writing to Memory and Breakpoints, Safely in Production? [id 1471]
+  Attachment: slides.pdf
+  Source URL: https://lpc.events/event/17/contributions/1471/attachments/1304/2618/slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/drgn Writing to Memory and Breakpoints, Safely in Production?/slides.pdf
+  Status: saved
+
+Session: Where have all the kprobes gone [id 1609]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1609/attachments/1279/2580/plumbers.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Where have all the kprobes gone/plumbers.pdf
+  Status: saved
+
+Session: Improving UAPI Compatibility Review with Automated Tooling [id 1642]
+  Attachment: Improving_UAPI_Review.pdf
+  Source URL: https://lpc.events/event/17/contributions/1642/attachments/1161/2401/Improving_UAPI_Review.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Improving UAPI Compatibility Review with Automated Tooling/Improving_UAPI_Review.pdf
+  Status: saved
+
+Session: Multi-KVM Abstract [id 1488]
+  Attachment: Multi-KVM LPC.pdf
+  Source URL: https://lpc.events/event/17/contributions/1488/attachments/1145/2380/Multi-KVM%20LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Multi-KVM Abstract/Multi-KVM LPC.pdf
+  Status: saved
+
+Session: Enabling Large Block Size devices in Linux [id 1508]
+  Attachment: LBS_LPC2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1508/attachments/1298/2608/LBS_LPC2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Enabling Large Block Size devices in Linux/LBS_LPC2023.pdf
+  Status: saved
+
+Session: Improve Linux Perf tool to account for task sleep [id 1556]
+  Attachment: LPC_2023_Perf_tool_v9.pdf
+  Source URL: https://lpc.events/event/17/contributions/1556/attachments/1187/2597/LPC_2023_Perf_tool_v9.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Improve Linux Perf tool to account for task sleep/LPC_2023_Perf_tool_v9.pdf
+  Status: saved
+
+Session: Beyond DWARF: Debugging the Kernel with Drgn, BTF/CTF, and kallsyms [id 1473]
+  Attachment: drgn-ctf.pdf
+  Source URL: https://lpc.events/event/17/contributions/1473/attachments/1275/2575/drgn-ctf.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Beyond DWARF_ Debugging the Kernel with Drgn, BTF_CTF, and kallsyms/drgn-ctf.pdf
+  Status: saved
+
+Session: xprobes: Hybrid User/Kernel eBPF Probes for Cross-Layer Observability [id 1597]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1597/attachments/1282/2587/xprobes%20LPC23.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/xprobes_ Hybrid User_Kernel eBPF Probes for Cross-Layer Observability/xprobes LPC23.pdf
+  Status: saved
+
+Session: Unifying KVM API for protected VM and utilities [id 1495]
+  Attachment: unifying-kvm-api-protected-vm.pdf
+  Source URL: https://lpc.events/event/17/contributions/1495/attachments/1264/2633/unifying-kvm-api-protected-vm.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Unifying KVM API for protected VM and utilities/unifying-kvm-api-protected-vm.pdf
+  Status: saved
+
+Session: kernel: build system outputs and workflows (and how to balance them) [id 1640]
+  Attachment: LPC2023_yocto-kernel-build.pdf
+  Source URL: https://lpc.events/event/17/contributions/1640/attachments/1300/2611/LPC2023_yocto-kernel-build.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/kernel_ build system outputs and workflows (and how to balance them)/LPC2023_yocto-kernel-build.pdf
+  Status: saved
+
+Session: pkernfs: Persisting guest memory and kernel/device state safely across kexec [id 1485]
+  Attachment: jgowans-preserving-across-kexec.pdf
+  Source URL: https://lpc.events/event/17/contributions/1485/attachments/1296/2650/jgowans-preserving-across-kexec.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/pkernfs_ Persisting guest memory and kernel_device state safely across kexec/jgowans-preserving-across-kexec.pdf
+  Status: saved
+
+Session: When kdump is way too much [id 1470]
+  Attachment: LPC_2023 - When kdump is way too much.pdf
+  Source URL: https://lpc.events/event/17/contributions/1470/attachments/1259/2617/LPC_2023%20-%20When%20kdump%20is%20way%20too%20much.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/When kdump is way too much/LPC_2023 - When kdump is way too much.pdf
+  Status: saved
+
+Session: BPF programmable netdevice [id 1581]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1581/attachments/1292/2602/lpc_netkit_devs.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/BPF programmable netdevice/lpc_netkit_devs.pdf
+  Status: saved
+
+Session: Linux Kernel Autotuning [id 1520]
+  Attachment: Linux Kernel Autotuning.pdf
+  Source URL: https://lpc.events/event/17/contributions/1520/attachments/1152/2582/Linux%20Kernel%20Autotuning.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Linux Kernel Autotuning/Linux Kernel Autotuning.pdf
+  Status: saved
+
+Session: Powering up “discoverable bus-attached” devices on DT-based platforms [id 1654]
+  Attachment: BoF_ Powering up “discoverable bus-attached”  devices on DT-based platforms.pdf
+  Source URL: https://lpc.events/event/17/contributions/1654/attachments/1321/2651/BoF_%20Powering%20up%20%E2%80%9Cdiscoverable%20bus-attached%E2%80%9D%20devices%20on%20DT-based%20platforms.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Powering up “discoverable bus-attached” devices on DT-based platforms/BoF_ Powering up “discoverable bus-attached” devices on DT-based platforms.pdf
+  Status: saved
+
+Session: Minidump to debug end user device crashes [id 1468]
+  Attachment: Minidump.pdf
+  Source URL: https://lpc.events/event/17/contributions/1468/attachments/1165/2408/Minidump.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Minidump to debug end user device crashes/Minidump.pdf
+  Status: saved
+
+Session: Application network security and observability in an encrypted future [id 1584]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1584/attachments/1318/2647/Encrypted%20Future.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Application network security and observability in an encrypted future/Encrypted Future.pdf
+  Status: saved
+
+Session: How big of a problem are Un-upstreamed patches? [id 1643]
+  Attachment: How big of a problem are Un-upstreamed patches.pptx
+  Source URL: https://lpc.events/event/17/contributions/1643/attachments/1293/2632/How%20big%20of%20a%20problem%20are%20Un-upstreamed%20patches.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/How big of a problem are Un-upstreamed patches?/How big of a problem are Un-upstreamed patches.pptx
+  Status: saved
+
+Session: Hyper-V's Virtual Secure Mode in KVM project update [id 1492]
+  Attachment: LPC 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1492/attachments/1308/2652/LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Hyper-V's Virtual Secure Mode in KVM project update/LPC 2023.pdf
+  Status: saved
+
+Session: Standardizing CPUID data for the open-source x86 ecosystem [id 1511]
+  Attachment: lpc_2023_standardizing_CPUID_data_across_x86_ecosystem.pdf
+  Source URL: https://lpc.events/event/17/contributions/1511/attachments/1324/2735/lpc_2023_standardizing_CPUID_data_across_x86_ecosystem.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Standardizing CPUID data for the open-source x86 ecosystem/lpc_2023_standardizing_CPUID_data_across_x86_ecosystem.pdf
+  Status: saved
+
+Session: Installing and Using the Linux-Kernel Memory Model (LKMM) [id 1551]
+  Attachment: lkmm.2023.11.14a.pdf
+  Source URL: https://lpc.events/event/17/contributions/1551/attachments/1326/2661/lkmm.2023.11.14a.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Installing and Using the Linux-Kernel Memory Model (LKMM)/lkmm.2023.11.14a.pdf
+  Status: saved
+  Attachment: lkmm.2023.11.14b.pdf
+  Source URL: https://lpc.events/event/17/contributions/1551/attachments/1326/2662/lkmm.2023.11.14b.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Installing and Using the Linux-Kernel Memory Model (LKMM)/lkmm.2023.11.14b.pdf
+  Status: saved
+
+Session: Kernel Livedump [id 1472]
+  Attachment: Plumbers2023_Kernel_Livedump.pdf
+  Source URL: https://lpc.events/event/17/contributions/1472/attachments/1267/2567/Plumbers2023_Kernel_Livedump.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Kernel Livedump/Plumbers2023_Kernel_Livedump.pdf
+  Status: saved
+
+Session: Safe sharing of the network with eBPF [id 1583]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1583/attachments/1283/2589/Safe%20sharing%20of%20the%20network%20with%20eBPF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Safe sharing of the network with eBPF/Safe sharing of the network with eBPF.pdf
+  Status: saved
+
+Session: Building for Heterogeneous Systems [id 1644]
+  Attachment: Building for Heterogeneous Architectures.pdf
+  Source URL: https://lpc.events/event/17/contributions/1644/attachments/1316/2642/Building%20for%20Heterogeneous%20Architectures.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Building for Heterogeneous Systems/Building for Heterogeneous Architectures.pdf
+  Status: saved
+
+Session: Supporting guest private memory in Protected KVM on Android [id 1487]
+  Attachment: Guestmem for pKVM - Final.pdf
+  Source URL: https://lpc.events/event/17/contributions/1487/attachments/1251/2536/Guestmem%20for%20pKVM%20-%20Final.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Supporting guest private memory in Protected KVM on Android/Guestmem for pKVM - Final.pdf
+  Status: saved
+
+Session: libside: Giving the preprocessor a break with a tracer-agnostic instrumentation API [id 1461]
+  Attachment: tracing-mc-libside.pdf
+  Source URL: https://lpc.events/event/17/contributions/1461/attachments/1271/2571/tracing-mc-libside.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/libside_ Giving the preprocessor a break with a tracer-agnostic instrumentation API/tracing-mc-libside.pdf
+  Status: saved
+
+Session: Sensors aggregation [id 1422]
+  Attachment: Thermal Aggregation - LPC 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1422/attachments/1333/2672/Thermal%20Aggregation%20-%20LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Sensors aggregation/Thermal Aggregation - LPC 2023.pdf
+  Status: saved
+
+Session: BPF struct_ops - current status and the last developments [id 1607]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1607/attachments/1164/2407/lpc-struct_ops.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/BPF struct_ops - current status and the last developments/lpc-struct_ops.pdf
+  Status: saved
+
+Session: Hunting Heisenbugs [id 1504]
+  Attachment: heisenbug.2023.11.13c.pdf
+  Source URL: https://lpc.events/event/17/contributions/1504/attachments/1322/2653/heisenbug.2023.11.13c.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Hunting Heisenbugs/heisenbug.2023.11.13c.pdf
+  Status: saved
+
+Session: Confidential Computing Microconference Introduction [id 1634]
+  Attachment: 01 Confidential Computing Introduction.pdf
+  Source URL: https://lpc.events/event/17/contributions/1634/attachments/1366/2971/01%20Confidential%20Computing%20Introduction.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Confidential Computing Microconference Introduction/01 Confidential Computing Introduction.pdf
+  Status: saved
+
+Session: COCONUT Secure VM Service Module Discussion [id 1629]
+  Attachment: 02 SVSM-LPC.pdf
+  Source URL: https://lpc.events/event/17/contributions/1629/attachments/1367/2972/02%20SVSM-LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/COCONUT Secure VM Service Module Discussion/02 SVSM-LPC.pdf
+  Status: saved
+
+Session: Remote Attestation in AMD SEV-SNP Confidential VMs [id 1630]
+  Attachment: 2023-lpc-claudio-vtpm-v2.pdf
+  Source URL: https://lpc.events/event/17/contributions/1630/attachments/1185/2592/2023-lpc-claudio-vtpm-v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Remote Attestation in AMD SEV-SNP Confidential VMs/2023-lpc-claudio-vtpm-v2.pdf
+  Status: saved
+
+Session: Graphing tools for scheduler tracing [id 1535]
+  Attachment: lpc23.pdf
+  Source URL: https://lpc.events/event/17/contributions/1535/attachments/1247/2532/lpc23.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Graphing tools for scheduler tracing/lpc23.pdf
+  Status: saved
+
+Session: New thermal trip types [id 1423]
+  Attachment: Thermal_Enhancements_2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1423/attachments/1295/2605/Thermal_Enhancements_2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/New thermal trip types/Thermal_Enhancements_2023.pdf
+  Status: saved
+
+Session: BPF Static Keys [id 1608]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1608/attachments/1278/2578/bpf-static-keys.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/BPF Static Keys/bpf-static-keys.pdf
+  Status: saved
+
+Session: Shrinking The Elephant - A Confidential Computing Attestation Sequel [id 1631]
+  Attachment: 04 Attestation and Verification - LPC 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1631/attachments/1368/2973/04%20Attestation%20and%20Verification%20-%20LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Shrinking The Elephant - A Confidential Computing Attestation Sequel/04 Attestation and Verification - LPC 2023.pdf
+  Status: saved
+
+Session: Function return hook integration with Function graph tracer [id 1460]
+  Attachment: LPC23_  Unifying return hooks [Tracing MC]_2.pdf
+  Source URL: https://lpc.events/event/17/contributions/1460/attachments/1167/2579/LPC23_%20Unifying%20return%20hooks%20%5BTracing%20MC%5D_2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Function return hook integration with Function graph tracer/LPC23_ Unifying return hooks [Tracing MC]_2.pdf
+  Status: saved
+
+Session: Use of Netlink for thermal kernel-user notification is problematic [id 1424]
+  Attachment: Thermal_netlink.pdf
+  Source URL: https://lpc.events/event/17/contributions/1424/attachments/1274/2574/Thermal_netlink.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Use of Netlink for thermal kernel-user notification is problematic/Thermal_netlink.pdf
+  Status: saved
+
+Session: nouveau and kernel GPU VMA management [id 1505]
+  Attachment: Nouveau GSP GPU VA management.pdf
+  Source URL: https://lpc.events/event/17/contributions/1505/attachments/1315/2641/Nouveau%20GSP%20GPU%20VA%20management.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/nouveau and kernel GPU VMA management/Nouveau GSP GPU VA management.pdf
+  Status: saved
+
+Session: Empowering Engagement: Introducing a Dynamic Dashboard for Proactive Retention Strategies [id 1562]
+  Attachment: Linux Plumber_Feng.pptx
+  Source URL: https://lpc.events/event/17/contributions/1562/attachments/1323/2656/Linux%20Plumber_Feng.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Empowering Engagement_ Introducing a Dynamic Dashboard for Proactive Retention Strategies/Linux Plumber_Feng.pptx
+  Status: saved
+
+Session: How to Build a Confidential Attestation Client [id 1632]
+  Attachment: lpc2023tobin.pdf
+  Source URL: https://lpc.events/event/17/contributions/1632/attachments/1290/2600/lpc2023tobin.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/How to Build a Confidential Attestation Client/lpc2023tobin.pdf
+  Status: saved
+
+Session: pt_regs - the good, the bad and the ugly [id 1462]
+  Attachment: pt_regs - the good, the bad and the ugly.pdf
+  Source URL: https://lpc.events/event/17/contributions/1462/attachments/1211/2475/pt_regs%20-%20the%20good,%20the%20bad%20and%20the%20ugly.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/pt_regs - the good, the bad and the ugly/pt_regs - the good, the bad and the ugly.pdf
+  Status: saved
+
+Session: Troubles and Tidbits from Datadog’s eBPF journey [id 1582]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1582/attachments/1328/2673/Troubles%20and%20Tidbits%20from%20Datadog%E2%80%99s%20eBPF%20Journey%20v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Troubles and Tidbits from Datadog’s eBPF journey/Troubles and Tidbits from Datadog’s eBPF Journey v2.pdf
+  Status: saved
+
+Session: Supporting Live Migration of Confidential VMs in KVM [id 1532]
+  Attachment: 06 LPC-SNP-Live-Migration.pdf
+  Source URL: https://lpc.events/event/17/contributions/1532/attachments/1369/2974/06%20LPC-SNP-Live-Migration.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Supporting Live Migration of Confidential VMs in KVM/06 LPC-SNP-Live-Migration.pdf
+  Status: saved
+
+Session: CPUfreq/sched and VM guest workload problems [id 1436]
+  Attachment: LPC2023 - CPUfreq_sched and VM guest workloads.pdf
+  Source URL: https://lpc.events/event/17/contributions/1436/attachments/1150/2655/LPC2023%20-%20CPUfreq_sched%20and%20VM%20guest%20workloads.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/CPUfreq_sched and VM guest workload problems/LPC2023 - CPUfreq_sched and VM guest workloads.pdf
+  Status: saved
+
+Session: RTLA: Requests and TODOs [id 1463]
+  Attachment: RTLA LPC 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1463/attachments/1299/2610/RTLA%20LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/RTLA_ Requests and TODOs/RTLA LPC 2023.pdf
+  Status: saved
+
+Session: VM-CPUFreq for x86: Scaling the guest frequency for performance and power savings [id 1437]
+  Attachment: vm_cpufreq_for_x86_lpc_2023_v4.pdf
+  Source URL: https://lpc.events/event/17/contributions/1437/attachments/1303/2615/vm_cpufreq_for_x86_lpc_2023_v4.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/VM-CPUFreq for x86_ Scaling the guest frequency for performance and power savings/vm_cpufreq_for_x86_lpc_2023_v4.pdf
+  Status: saved
+
+Session: Function parameters with BTF [id 1536]
+  Attachment: LPC23_ Function parameters with BTF.pdf
+  Source URL: https://lpc.events/event/17/contributions/1536/attachments/1277/2577/LPC23_%20Function%20parameters%20with%20BTF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Function parameters with BTF/LPC23_ Function parameters with BTF.pdf
+  Status: saved
+
+Session: Virtualized Frequency Control for Telco Workloads [id 1435]
+  Attachment: LPC2023_VirtualisedPowerSaving_ChrisMacN_SrinivasPan.pdf
+  Source URL: https://lpc.events/event/17/contributions/1435/attachments/1289/2599/LPC2023_VirtualisedPowerSaving_ChrisMacN_SrinivasPan.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Virtualized Frequency Control for Telco Workloads/LPC2023_VirtualisedPowerSaving_ChrisMacN_SrinivasPan.pdf
+  Status: saved
+
+Session: uclamp in CFS: Fairness, latency, and energy efficiency [id 1439]
+  Attachment: LPC2023_uclamp_in_cfs_fairness_latency_and_energy_efficiency.pdf
+  Source URL: https://lpc.events/event/17/contributions/1439/attachments/1301/2637/LPC2023_uclamp_in_cfs_fairness_latency_and_energy_efficiency.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/uclamp in CFS_ Fairness, latency, and energy efficiency/LPC2023_uclamp_in_cfs_fairness_latency_and_energy_efficiency.pdf
+  Status: saved
+
+Session: eBPF Shenanigans with Flux [id 1601]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1601/attachments/1255/2543/eBPF%20Shenanigans%20with%20Flux.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/eBPF Shenanigans with Flux/eBPF Shenanigans with Flux.pdf
+  Status: saved
+
+Session: Putting Linux into Context – Towards a reproducible example system with Linux, Zephyr & Xen [id 1518]
+  Attachment: 2023-11-14_Plumbers_Linux_in_context_ELISA2.pdf
+  Source URL: https://lpc.events/event/17/contributions/1518/attachments/1248/2678/2023-11-14_Plumbers_Linux_in_context_ELISA2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Putting Linux into Context – Towards a reproducible example system with Linux, Zephyr & Xen/2023-11-14_Plumbers_Linux_in_context_ELISA2.pdf
+  Status: saved
+
+Session: Secure I/O [id 1633]
+  Attachment: 07 secure-io-merged.pdf
+  Source URL: https://lpc.events/event/17/contributions/1633/attachments/1370/2975/07%20secure-io-merged.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Secure I_O/07 secure-io-merged.pdf
+  Status: saved
+
+Session: Performance Monitor Control Unit [id 1465]
+  Attachment: LPC2023_PMCU.pdf
+  Source URL: https://lpc.events/event/17/contributions/1465/attachments/1288/2669/LPC2023_PMCU.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Performance Monitor Control Unit/LPC2023_PMCU.pdf
+  Status: saved
+
+Session: Make sync_state()/handoff work for the common clk framework [id 1432]
+  Attachment: LPC2023_Sync_State_Handoff_in_CCF_Stephen_Boyd.pdf
+  Source URL: https://lpc.events/event/17/contributions/1432/attachments/1269/2569/LPC2023_Sync_State_Handoff_in_CCF_Stephen_Boyd.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Make sync_state()_handoff work for the common clk framework/LPC2023_Sync_State_Handoff_in_CCF_Stephen_Boyd.pdf
+  Status: saved
+
+Session: Developing Continuous eBPF Profiler to look Beneath the Kernel to Beyond the Clouds [id 1585]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1585/attachments/1330/2666/LPC2023eBPF-Beneath%20the%20Clouds%20Beyond%20the%20Kernel(Final).pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Developing Continuous eBPF Profiler to look Beneath the Kernel to Beyond the Clouds/LPC2023eBPF-Beneath the Clouds Beyond the Kernel(Final).pdf
+  Status: saved
+
+Session: Taming the Incoherent Cache Issue in Confidential VMs [id 1523]
+  Attachment: Taming the Incoherent Cache Issue in Confidential VMs.pdf
+  Source URL: https://lpc.events/event/17/contributions/1523/attachments/1270/2629/Taming%20the%20Incoherent%20Cache%20Issue%20in%20Confidential%20VMs.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Taming the Incoherent Cache Issue in Confidential VMs/Taming the Incoherent Cache Issue in Confidential VMs.pdf
+  Status: saved
+
+Session: Intel Low Power Mode Daemon on Hybrid CPUs [id 1438]
+  Attachment: LPC2023_intel_lpmd.pdf
+  Source URL: https://lpc.events/event/17/contributions/1438/attachments/1146/2591/LPC2023_intel_lpmd.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Intel Low Power Mode Daemon on Hybrid CPUs/LPC2023_intel_lpmd.pdf
+  Status: saved
+
+Session: Dynamic vCPU priority boosting in KVM for latency sensitive workloads [id 1500]
+  Attachment: vcpu_boost_lpc_2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1500/attachments/1312/2658/vcpu_boost_lpc_2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Dynamic vCPU priority boosting in KVM for latency sensitive workloads/vcpu_boost_lpc_2023.pdf
+  Status: saved
+
+Session: DTrace and eBPF: new challenges [id 1464]
+  Attachment: LPC2023_DTrace-new.pdf
+  Source URL: https://lpc.events/event/17/contributions/1464/attachments/1284/2609/LPC2023_DTrace-new.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/DTrace and eBPF_ new challenges/LPC2023_DTrace-new.pdf
+  Status: saved
+
+Session: Enabling DDR segments on demand during memory pressure for DDR power reduction [id 1433]
+  Attachment: Dynamic DDR Memory Offlining - LPC 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1433/attachments/1313/2638/Dynamic%20DDR%20Memory%20Offlining%20-%20LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Enabling DDR segments on demand during memory pressure for DDR power reduction/Dynamic DDR Memory Offlining - LPC 2023.pdf
+  Status: saved
+
+Session: Towards a standardized eBPF ISA - Conformance testing [id 1606]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1606/attachments/1212/2627/Measuring%20BPF%20Implementation%20Adherence.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Towards a standardized eBPF ISA - Conformance testing/Measuring BPF Implementation Adherence.pdf
+  Status: saved
+
+Session: Update on RISC-V Confidential VM Extension (CoVE) [id 1522]
+  Attachment: LPC2023_Smmtt_CoVE_slides.pptx.pdf
+  Source URL: https://lpc.events/event/17/contributions/1522/attachments/1291/2601/LPC2023_Smmtt_CoVE_slides.pptx.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Update on RISC-V Confidential VM Extension (CoVE)/LPC2023_Smmtt_CoVE_slides.pptx.pdf
+  Status: saved
+
+Session: Implementing sframes [id 1467]
+  Attachment: sframes plumbers 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1467/attachments/1268/2568/sframes%20plumbers%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Implementing sframes/sframes plumbers 2023.pdf
+  Status: saved
+
+Session: Secure TSC for AMD SEV-SNP guests [id 1525]
+  Attachment: Secure TSC for AMD SEV-SNP guests.pdf
+  Source URL: https://lpc.events/event/17/contributions/1525/attachments/1351/2702/Secure%20TSC%20for%20AMD%20SEV-SNP%20guests.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Secure TSC for AMD SEV-SNP guests/Secure TSC for AMD SEV-SNP guests.pdf
+  Status: saved
+
+Session: Improving monitoring of power saving states [id 1434]
+  Attachment: LPC2023_Preso_Final.pdf
+  Source URL: https://lpc.events/event/17/contributions/1434/attachments/1310/2626/LPC2023_Preso_Final.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Improving monitoring of power saving states/LPC2023_Preso_Final.pdf
+  Status: saved
+
+Session: Secure AVIC: Securing Interrupt Injection from a 'malicious' Hypervisor [id 1524]
+  Attachment: 12 Secure-AVIC_LPC2023_20231113.pdf
+  Source URL: https://lpc.events/event/17/contributions/1524/attachments/1372/2976/12%20Secure-AVIC_LPC2023_20231113.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Secure AVIC_ Securing Interrupt Injection from a 'malicious' Hypervisor/12 Secure-AVIC_LPC2023_20231113.pdf
+  Status: saved
+
+Session: Improve Xeon IRQ throughput with posted interrupt [id 1420]
+  Attachment: LPC2023 CID Posted MSI final.pdf
+  Source URL: https://lpc.events/event/17/contributions/1420/attachments/1198/2711/LPC2023%20CID%20Posted%20MSI%20final.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Improve Xeon IRQ throughput with posted interrupt/LPC2023 CID Posted MSI final.pdf
+  Status: saved
+
+Session: Livepatch Visibility at Scale [id 1542]
+  Attachment: Livepatch Visibility at Scale.pdf
+  Source URL: https://lpc.events/event/17/contributions/1542/attachments/1317/2646/Livepatch%20Visibility%20at%20Scale.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Livepatch Visibility at Scale/Livepatch Visibility at Scale.pdf
+  Status: saved
+
+Session: Zero Copy Receive using io_uring [id 1596]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1596/attachments/1346/2694/Zero%20Copy%20Rx%20with%20io_uring%20-%20LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Zero Copy Receive using io_uring/Zero Copy Rx with io_uring - LPC 2023.pdf
+  Status: saved
+
+Session: Syzbot: 7 years of continuous kernel fuzzing [id 1521]
+  Attachment: LPC'23_ Syzbot_ 7 years of continuous kernel fuzzing.pdf
+  Source URL: https://lpc.events/event/17/contributions/1521/attachments/1272/2698/LPC'23_%20Syzbot_%207%20years%20of%20continuous%20kernel%20fuzzing.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Syzbot_ 7 years of continuous kernel fuzzing/LPC'23_ Syzbot_ 7 years of continuous kernel fuzzing.pdf
+  Status: saved
+
+Session: Kernel handling of CPU and memory hot un/plug events for crash [id 1623]
+  Attachment: Kernel handling of CPU and memory hotplug events for crash.pdf
+  Source URL: https://lpc.events/event/17/contributions/1623/attachments/1281/2586/Kernel%20handling%20of%20CPU%20and%20memory%20hotplug%20events%20for%20crash.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Kernel handling of CPU and memory hot un_plug events for crash/Kernel handling of CPU and memory hotplug events for crash.pdf
+  Status: saved
+
+Session: Android BoF [id 1553]
+  Attachment: 00_LPC Android BoF Agenda.pdf
+  Source URL: https://lpc.events/event/17/contributions/1553/attachments/1355/2706/00_LPC%20Android%20BoF%20Agenda.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Android BoF/00_LPC Android BoF Agenda.pdf
+  Status: saved
+  Attachment: 01_Improving_UAPI_Review.pdf
+  Source URL: https://lpc.events/event/17/contributions/1553/attachments/1355/2707/01_Improving_UAPI_Review.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Android BoF/01_Improving_UAPI_Review.pdf
+  Status: saved
+  Attachment: 02_LPC 2023 - MGLRU - Android BoF.pdf
+  Source URL: https://lpc.events/event/17/contributions/1553/attachments/1355/2708/02_LPC%202023%20-%20MGLRU%20-%20Android%20BoF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Android BoF/02_LPC 2023 - MGLRU - Android BoF.pdf
+  Status: saved
+  Attachment: 03_Android_ memcg v1 -_ v2.pdf
+  Source URL: https://lpc.events/event/17/contributions/1553/attachments/1355/2709/03_Android_%20memcg%20v1%20-_%20v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Android BoF/03_Android_ memcg v1 -_ v2.pdf
+  Status: saved
+  Attachment: 04_Android 16K Page Size Support - LPC - 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1553/attachments/1355/2710/04_Android%2016K%20Page%20Size%20Support%20-%20LPC%20-%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Android BoF/04_Android 16K Page Size Support - LPC - 2023.pdf
+  Status: saved
+
+Session: PCI Endpoint Subsystem Open Items Discussion [id 1419]
+  Attachment: LPC2023-PCI Endpoint Subsystem Open Items Discussion.pdf
+  Source URL: https://lpc.events/event/17/contributions/1419/attachments/1276/2636/LPC2023-PCI%20Endpoint%20Subsystem%20Open%20Items%20Discussion.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/PCI Endpoint Subsystem Open Items Discussion/LPC2023-PCI Endpoint Subsystem Open Items Discussion.pdf
+  Status: saved
+
+Session: KLP for Clang LTO Kernel [id 1544]
+  Attachment: KLP_with_clang_LTO_kernels.pdf
+  Source URL: https://lpc.events/event/17/contributions/1544/attachments/1168/2412/KLP_with_clang_LTO_kernels.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/KLP for Clang LTO Kernel/KLP_with_clang_LTO_kernels.pdf
+  Status: saved
+
+Session: Enhancing Homa Linux for Efficient RPC Transportation [id 1611]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1611/attachments/1343/2691/LPC-HOMA.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Enhancing Homa Linux for Efficient RPC Transportation/LPC-HOMA.pdf
+  Status: saved
+
+Session: Linux Virtualization Based Security (LVBS) [id 1515]
+  Attachment: LPC_2023_LVBS.pdf
+  Source URL: https://lpc.events/event/17/contributions/1515/attachments/1353/2717/LPC_2023_LVBS.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Linux Virtualization Based Security (LVBS)/LPC_2023_LVBS.pdf
+  Status: saved
+  Attachment: LPC_2023_LVBS.pptx
+  Source URL: https://lpc.events/event/17/contributions/1515/attachments/1353/2716/LPC_2023_LVBS.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Linux Virtualization Based Security (LVBS)/LPC_2023_LVBS.pptx
+  Status: saved
+
+Session: A kernel documentation update [id 1622]
+  Attachment: ks-docs.pdf
+  Source URL: https://lpc.events/event/17/contributions/1622/attachments/1325/2659/ks-docs.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/A kernel documentation update/ks-docs.pdf
+  Status: saved
+
+Session: Non-discoverable devices in PCI devices [id 1421]
+  Attachment: LPC2023 Non-discoverable devices in PCI.pdf
+  Source URL: https://lpc.events/event/17/contributions/1421/attachments/1337/2680/LPC2023%20Non-discoverable%20devices%20in%20PCI.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Non-discoverable devices in PCI devices/LPC2023 Non-discoverable devices in PCI.pdf
+  Status: saved
+
+Session: Kbuild support for klp-relocation generation [id 1543]
+  Attachment: Plumbers2023_KLP_Convert.pdf
+  Source URL: https://lpc.events/event/17/contributions/1543/attachments/1339/2683/Plumbers2023_KLP_Convert.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Kbuild support for klp-relocation generation/Plumbers2023_KLP_Convert.pdf
+  Status: saved
+
+Session: An introduction to the DPLL subsystem [id 1605]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1605/attachments/1357/2715/Introduction%20to%20DPLL%20subsystem.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/An introduction to the DPLL subsystem/Introduction to DPLL subsystem.pdf
+  Status: saved
+
+Session: IOMMU overhead optimizations and observability [id 1466]
+  Attachment: LPC'23 IOMMU Observability.pdf
+  Source URL: https://lpc.events/event/17/contributions/1466/attachments/1348/2723/LPC'23%20IOMMU%20Observability.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/IOMMU overhead optimizations and observability/LPC'23 IOMMU Observability.pdf
+  Status: saved
+
+Session: Simplify Livepatch Callbacks, Shadow Variables, and States handling [id 1541]
+  Attachment: livepatch-states.pdf
+  Source URL: https://lpc.events/event/17/contributions/1541/attachments/1314/2639/livepatch-states.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Simplify Livepatch Callbacks, Shadow Variables, and States handling/livepatch-states.pdf
+  Status: saved
+
+Session: Unblocking the softirq lock for PREEMPT_RT [id 1577]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1577/attachments/1311/2628/Plumbers_2023_Siewior.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Unblocking the softirq lock for PREEMPT_RT/Plumbers_2023_Siewior.pdf
+  Status: saved
+
+Session: Is Linux Suspend ready for the next decade? [id 1503]
+  Attachment: Brown-Wysocki-Brandt-Suspend-Resume-LPC-2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1503/attachments/1273/2616/Brown-Wysocki-Brandt-Suspend-Resume-LPC-2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Is Linux Suspend ready for the next decade?/Brown-Wysocki-Brandt-Suspend-Resume-LPC-2023.pdf
+  Status: saved
+
+Session: Tips and Strategies for Reducing Stress and Burnout by Creating Psychological Safety [id 1574]
+  Attachment: Plumbers Conference Psychological Safety Workbook.pdf
+  Source URL: https://lpc.events/event/17/contributions/1574/attachments/1362/2728/Plumbers%20Conference%20Psychological%20Safety%20Workbook.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Tips and Strategies for Reducing Stress and Burnout by Creating Psychological Safety/Plumbers Conference Psychological Safety Workbook.pdf
+  Status: saved
+
+Session: Multiple system-wide low power-states [id 1561]
+  Attachment: LPC-BoF-Multiple system-wide low power-states.pdf
+  Source URL: https://lpc.events/event/17/contributions/1561/attachments/1341/2685/LPC-BoF-Multiple%20system-wide%20low%20power-states.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Multiple system-wide low power-states/LPC-BoF-Multiple system-wide low power-states.pdf
+  Status: saved
+
+Session: UEFI Setvariable at runtime -- Problems, status and solutions [id 1653]
+  Attachment: Plumbers - EFI setvariable problems and solutions.pdf
+  Source URL: https://lpc.events/event/17/contributions/1653/attachments/1338/2682/Plumbers%20-%20EFI%20setvariable%20problems%20and%20solutions.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/UEFI Setvariable at runtime -- Problems, status and solutions/Plumbers - EFI setvariable problems and solutions.pdf
+  Status: saved
+
+Session: Moving livepatching module building to kselftests [id 1545]
+  Attachment: plumbers-kselftest-lp-suse.pdf
+  Source URL: https://lpc.events/event/17/contributions/1545/attachments/1305/2620/plumbers-kselftest-lp-suse.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Moving livepatching module building to kselftests/plumbers-kselftest-lp-suse.pdf
+  Status: saved
+
+Session: Offloading QUIC Encryption to Enabled NICs [id 1592]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1592/attachments/1358/2721/LPC2023%20--%20Offloading%20Encryption%20to%20QUIC%20Enabled%20NICs%20v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Offloading QUIC Encryption to Enabled NICs/LPC2023 -- Offloading Encryption to QUIC Enabled NICs v2.pdf
+  Status: saved
+
+Session: iommufd discussion [id 1418]
+  Attachment: LPC2023_iommufd.pdf
+  Source URL: https://lpc.events/event/17/contributions/1418/attachments/1297/2607/LPC2023_iommufd.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/iommufd discussion/LPC2023_iommufd.pdf
+  Status: saved
+
+Session: Encryption for filesystems with advanced features: new fscrypt functionality [id 1509]
+  Attachment: fscrypt 2023_ LPC (1).pdf
+  Source URL: https://lpc.events/event/17/contributions/1509/attachments/1361/2727/fscrypt%202023_%20LPC%20(1).pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Encryption for filesystems with advanced features_ new fscrypt functionality/fscrypt 2023_ LPC (1).pdf
+  Status: saved
+
+Session: Reporting and tracking regressions across the ecosystem [id 1552]
+  Attachment: BoF - Reporting and tracking regressions @ LPC 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1552/attachments/1327/2676/BoF%20-%20Reporting%20and%20tracking%20regressions%20@%20LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Reporting and tracking regressions across the ecosystem/BoF - Reporting and tracking regressions @ LPC 2023.pdf
+  Status: saved
+
+Session: Arm64 live patching [id 1540]
+  Attachment: lpc2023-arm64-livepatching.pdf
+  Source URL: https://lpc.events/event/17/contributions/1540/attachments/1356/2713/lpc2023-arm64-livepatching.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Arm64 live patching/lpc2023-arm64-livepatching.pdf
+  Status: saved
+
+Session: Extending AF_XDP with hardware metadata [id 1598]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1598/attachments/1345/2693/Extending%20AF_XDP%20with%20hardware%20metadata.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Extending AF_XDP with hardware metadata/Extending AF_XDP with hardware metadata.pdf
+  Status: saved
+
+Session: Linux-wpan updates [id 1534]
+  Attachment: 2023-11-LPC-IoT-MC.pdf
+  Source URL: https://lpc.events/event/17/contributions/1534/attachments/1234/2511/2023-11-LPC-IoT-MC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Linux-wpan updates/2023-11-LPC-IoT-MC.pdf
+  Status: saved
+
+Session: Klint: Compile-time Detection of Atomic Context Violations for Kernel Rust Code [id 1431]
+  Attachment: klint.pdf
+  Source URL: https://lpc.events/event/17/contributions/1431/attachments/1336/2679/klint.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Klint_ Compile-time Detection of Atomic Context Violations for Kernel Rust Code/klint.pdf
+  Status: saved
+
+Session: connect() - why you so slow?! [id 1593]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1593/attachments/1208/2472/lpc-2023-connect-why-you-so-slow.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/connect() - why you so slow?!/lpc-2023-connect-why-you-so-slow.pdf
+  Status: saved
+
+Session: Trust, confidentiality, and hardening: the virtio lessons [id 1516]
+  Attachment: stefanha-lpc-2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1516/attachments/1302/2614/stefanha-lpc-2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Trust, confidentiality, and hardening_ the virtio lessons/stefanha-lpc-2023.pdf
+  Status: saved
+
+Session: DAMON: Current Status and Future Plans [id 1624]
+  Attachment: damon_status_and_plans_kernel_summit_2023_11_15.pdf
+  Source URL: https://lpc.events/event/17/contributions/1624/attachments/1340/2732/damon_status_and_plans_kernel_summit_2023_11_15.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/DAMON_ Current Status and Future Plans/damon_status_and_plans_kernel_summit_2023_11_15.pdf
+  Status: saved
+
+Session: Embedded Linux BOF [id 1549]
+  Attachment: Embedded-Linux-BOF-2023-11-LPC.pdf
+  Source URL: https://lpc.events/event/17/contributions/1549/attachments/1344/2692/Embedded-Linux-BOF-2023-11-LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Embedded Linux BOF/Embedded-Linux-BOF-2023-11-LPC.pdf
+  Status: saved
+
+Session: pin-init: Solving Address Stability in Rust [id 1428]
+  Attachment: LPC-Solving-Address-Stability-in-Rust.pdf
+  Source URL: https://lpc.events/event/17/contributions/1428/attachments/1364/2730/LPC-Solving-Address-Stability-in-Rust.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/pin-init_ Solving Address Stability in Rust/LPC-Solving-Address-Stability-in-Rust.pdf
+  Status: saved
+
+Session: Container Networking: The Play of BPF and Network NS with different Virtual Devices [id 1594]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1594/attachments/1347/2695/meta-container-networking-bpf.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Container Networking_ The Play of BPF and Network NS with different Virtual Devices/meta-container-networking-bpf.pdf
+  Status: saved
+
+Session: TSCH@Zephyr: IEEE 802.15.4 SubG IIoT in the Making [id 1533]
+  Attachment: TSCH@Zephyr - LPC'23.odp
+  Source URL: https://lpc.events/event/17/contributions/1533/attachments/1354/2705/TSCH@Zephyr%20-%20LPC'23.odp
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/TSCH@Zephyr_ IEEE 802.15.4 SubG IIoT in the Making/TSCH@Zephyr - LPC'23.odp
+  Status: saved
+
+Session: Using hardware hints for optimal page placement [id 1513]
+  Attachment: LPC2023-Hw-hints-page-placement.pdf
+  Source URL: https://lpc.events/event/17/contributions/1513/attachments/1342/2688/LPC2023-Hw-hints-page-placement.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Using hardware hints for optimal page placement/LPC2023-Hw-hints-page-placement.pdf
+  Status: saved
+
+Session: Kernel Samepage Merging (KSM) at Meta and Future Improvements to KSM [id 1625]
+  Attachment: KSM.pdf
+  Source URL: https://lpc.events/event/17/contributions/1625/attachments/1320/2649/KSM.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Kernel Samepage Merging (KSM) at Meta and Future Improvements to KSM/KSM.pdf
+  Status: saved
+
+Session: PCI device authentication & encryption [id 1558]
+  Attachment: PCI device auth & encrypt BoF.pdf
+  Source URL: https://lpc.events/event/17/contributions/1558/attachments/1193/2667/PCI%20device%20auth%20&%20encrypt%20BoF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/PCI device authentication & encryption/PCI device auth & encrypt BoF.pdf
+  Status: saved
+
+Session: Coccinelle for Rust [id 1429]
+  Attachment: lpc23.pdf
+  Source URL: https://lpc.events/event/17/contributions/1429/attachments/1360/2720/lpc23.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Coccinelle for Rust/lpc23.pdf
+  Status: saved
+
+Session: Evolution of Direct Server Return (DSR) implementation for containerized applications [id 1586]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1586/attachments/1319/2699/Evolution%20of%20DSR%20implementation%20for%20containerized%20applications.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Evolution of Direct Server Return (DSR) implementation for containerized applications/Evolution of DSR implementation for containerized applications.pdf
+  Status: saved
+
+Session: Using Rust in the binder driver [id 1427]
+  Attachment: rust_binder_plumbers2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1427/attachments/1177/2423/rust_binder_plumbers2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Using Rust in the binder driver/rust_binder_plumbers2023.pdf
+  Status: saved
+
+Session: Zephyr Retro-and-Prospective: Project Growth, Long Term Support, and Linux Interoperability [id 1636]
+  Attachment: LPC-2023_ Zephyr Retro-and-Prospective.pdf
+  Source URL: https://lpc.events/event/17/contributions/1636/attachments/1365/2734/LPC-2023_%20Zephyr%20Retro-and-Prospective.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Zephyr Retro-and-Prospective_ Project Growth, Long Term Support, and Linux Interoperability/LPC-2023_ Zephyr Retro-and-Prospective.pdf
+  Status: saved
+
+Session: Shared FPU Support in Zephyr for ARM64 and RISC-V [id 1546]
+  Attachment: Zephyr’s FPU support for ARM64 and RISC-V.pdf
+  Source URL: https://lpc.events/event/17/contributions/1546/attachments/1329/2665/Zephyr%E2%80%99s%20FPU%20support%20for%20ARM64%20and%20RISC-V.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Shared FPU Support in Zephyr for ARM64 and RISC-V/Zephyr’s FPU support for ARM64 and RISC-V.pdf
+  Status: saved
+
+Session: SYN Proxy at Scale with BPF [id 1645]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1645/attachments/1350/2701/SYN_Proxy_at_Scale_with_BPF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/SYN Proxy at Scale with BPF/SYN_Proxy_at_Scale_with_BPF.pdf
+  Status: saved
+
+Session: Linux perf tool metrics [id 1514]
+  Attachment: LPC 2023 Linux Perf Metrics Talk Slides.pdf
+  Source URL: https://lpc.events/event/17/contributions/1514/attachments/1335/2675/LPC%202023%20Linux%20Perf%20Metrics%20Talk%20Slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Linux perf tool metrics/LPC 2023 Linux Perf Metrics Talk Slides.pdf
+  Status: saved
+
+Session: VSOCK: From Convenience to Performant VirtIO Communication [id 1626]
+  Attachment: VSOCK_ From Convenience to Performant VirtIO Communication.pdf
+  Source URL: https://lpc.events/event/17/contributions/1626/attachments/1334/2674/VSOCK_%20From%20Convenience%20to%20Performant%20VirtIO%20Communication.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/VSOCK_ From Convenience to Performant VirtIO Communication/VSOCK_ From Convenience to Performant VirtIO Communication.pdf
+  Status: saved
+
+Session: Block Layer Rust API [id 1425]
+  Attachment: deck.pdf
+  Source URL: https://lpc.events/event/17/contributions/1425/attachments/1352/2703/deck.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Block Layer Rust API/deck.pdf
+  Status: saved
+
+Session: bpfilter: a BPF-based packet filtering framework [id 1589]
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1589/attachments/1349/2700/LPC%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/bpfilter_ a BPF-based packet filtering framework/LPC 2023.pdf
+  Status: saved
+
+Session: Challenges in Device Tree Sync - kernel, Zephyr, U-boot, System DT [id 1547]
+  Attachment: nm_dt_challenges_2023-11-15.pdf
+  Source URL: https://lpc.events/event/17/contributions/1547/attachments/1294/2604/nm_dt_challenges_2023-11-15.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Challenges in Device Tree Sync - kernel, Zephyr, U-boot, System DT/nm_dt_challenges_2023-11-15.pdf
+  Status: saved
+
+Session: Rust in V4L2: a status report [id 1430]
+  Attachment: Rust in V4L2 (LPC2023).pdf
+  Source URL: https://lpc.events/event/17/contributions/1430/attachments/1363/2729/Rust%20in%20V4L2%20(LPC2023).pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Rust in V4L2_ a status report/Rust in V4L2 (LPC2023).pdf
+  Status: saved
+
+Session: Ship your Critical Section, Not Your Data: Enabling Transparent Delegation with TCLocks [id 1510]
+  Attachment: TCLocks-LPC-2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1510/attachments/1359/2733/TCLocks-LPC-2023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Ship your Critical Section, Not Your Data_ Enabling Transparent Delegation with TCLocks/TCLocks-LPC-2023.pdf
+  Status: saved
+
+Session: Improving resource ownership and life-time in linux device drivers [id 1627]
+  Attachment: Linux Plumbers Conference 2023.pdf
+  Source URL: https://lpc.events/event/17/contributions/1627/attachments/1258/2725/Linux%20Plumbers%20Conference%202023.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Improving resource ownership and life-time in linux device drivers/Linux Plumbers Conference 2023.pdf
+  Status: saved
+
+Session: Converting a DRM driver to Rust [id 1426]
+  Attachment: Converting a DRM driver to Rust .pdf
+  Source URL: https://lpc.events/event/17/contributions/1426/attachments/1309/2625/Converting%20a%20DRM%20driver%20to%20Rust%20.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Converting a DRM driver to Rust/Converting a DRM driver to Rust .pdf
+  Status: saved
+
+Session: Blinking Lights, getting it wrong again, again and again [id 1604]
+  Attachment: Slides (ODP)
+  Source URL: https://lpc.events/event/17/contributions/1604/attachments/1307/2622/Blinking-Lights-v1.odp
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Blinking Lights, getting it wrong again, again and again/Blinking-Lights-v1.odp
+  Status: saved
+  Attachment: Slides (PDF)
+  Source URL: https://lpc.events/event/17/contributions/1604/attachments/1307/2623/Blinking-Lights-v1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Blinking Lights, getting it wrong again, again and again/Blinking-Lights-v1.pdf
+  Status: saved
+
+Session: Breaking Barriers: Arduino Core API advancements in Zephyr, Linux and IoT Systems [id 1459]
+  Attachment: Arduino Core API advancements
+  Source URL: https://lpc.events/event/17/contributions/1459/attachments/1266/2563/LPC_arduino_core_zephyr.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2023/Breaking Barriers_ Arduino Core API advancements in Zephyr, Linux and IoT Systems/LPC_arduino_core_zephyr.pptx
+  Status: saved

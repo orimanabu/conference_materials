@@ -1,0 +1,69 @@
+
+            [15:16] Welcome to the Linux Plumbers Conference 2020 BOF1/Virtual-Room!
+<br /><br />
+Please remember that the <a href="https://www.linuxplumbersconf.org/event/7/page/48-anti-harassment-policy" target="_blank" target="_blank">LPC
+anti-harassment policy</a> applies to interaction in this room, and that
+this room is being recorded.
+<br /><br />
+Please keep your microphone muted and your video off except when participating
+in the discussion.
+<br /><br />This server is running <a href="https://docs.bigbluebutton.org/" target="_blank"><u>BigBlueButton</u></a>.
+[15:18] Drew Fustini : Hello all :)
+[15:19] Pavel Pisa : Hello Drew, I can hear you well.
+[15:38] Pavel Pisa : Please, can you send URLs to the GITs with components you are working{talking about.
+[15:39] Martin Peres : Pavel: https://linuxplumbersconf.org/event/7/contributions/705/ has most of the links already, but we'll try our best!
+[15:43] Pavel Pisa : Thanks.
+[15:56] Pavel Pisa : You can enable download arrow directly on the bottom of the presentation in BigBluButton upload presebtation menu.
+[15:57] Pavel Pisa : How it is with BoFs, it seems that they have no stream.
+[16:02] Jamie Lokier : Audio send works, but not video: "Media could not reach the server (error 1020)".
+[16:02] Martin Peres : I had this issue when connected to my company's VPN.
+[16:03] Danielle Costantino : Can you enable downloads of the presentation? (click on plus, add slides, click on the download symbol)
+[16:03] Martin Peres : Although even the Audio wasn't working
+[16:03] Jason Sidebottom : You were cutting out a bit Jamie... maybe your link, or maybe the server is struggling.
+[16:03] Jamie Lokier : My link's generally ok with other conferencing tools.  I guess it could be having a problem today and yesterday...
+[16:04] Jamie Lokier : I'll be trying a different link later today, see how that goes.
+[16:23] Rohit Athavale : +1 for regmap
+[16:23] Jason Sidebottom : As far as the device-tree vs hotplug discussion goes - these devices aren't *actually* hot plug. They all exist at boot time, so building a DTB when building your soft core isn't really that big a deal
+[16:23] Jason Sidebottom : Bonus points for being supported in uboot, zephyr, etc
+[16:24] Christopher Friedt : Hehehe...
+[16:24] Jason Sidebottom : Oh hey, Jamies webcam is working :D
+[16:26] Jason Sidebottom : USB is already handled in-kernel though, right?
+[16:26] Jamie Lokier : Jason, webcam works when using my mobile's wifi :-)
+[16:27] Jason Sidebottom : Nice
+[16:29] Geert Uytterhoeven : Using UUIDs?  To avoid the need for a central registry?
+[16:30] Geert Uytterhoeven : Or (truncated) $(sha1sum <hdl-code>)
+[16:31] trix@redhat.com trix@redhat.com : Could this fit into DFL ?
+[16:32] karthik poduval : could driver get product id as module parameter (in case its dynamic)?
+[16:34] Rich Persaud : Is there a requirement for such devices to be accessible to virtual machines, e.g. via virtio?
+[16:37] Martin Peres : Rich: that would be a good reason to expose the blocks through the normal PCI / USB way
+[16:38] Rich Persaud : This may be of interest: https://www.intel.com/content/dam/www/public/us/en/documents/reference-guides/pcie-device-security-enhancements.pdf
+[16:38] Rich Persaud : "PCIe Device Authentication adapts the existing USB Type-C Authentication mechanisms to PCIe---the new elements are the specific PCIe register interface and the associated mechanisms, plus some details that are necessarily specific to PCIe."
+[16:43] Rich Persaud : There is also an in-progress DMTF standard (SPDM) for attestation/measurement of device and firmware state, https://www.platformsecuritysummit.com/2019/speaker/plank/
+[16:44] Rohit Athavale : Don't know a whole lot of LiteX, how applicable is this concept applicable to AXI or AXI-Lite ?
+[16:47] Drew Fustini : rohit: LiteX can use different buses
+[16:47] Drew Fustini : Wishbone is common but there are others
+[16:47] Drew Fustini : Rich: there was discussion on the linux-litex mailing list about have the LiteX modules use a virtio interface
+[16:48] Jamie Lokier : +1 to classes.  Otherwise you get vendors using fake vendor ids for compatibility.
+[16:49] Jamie Lokier : And then you have to do weird register tests etc to find out which device is really attached and which bugs to work around.
+[16:49] Martin Peres : Any link I should check out, Jamie?
+[16:50] Drew Fustini : https://groups.google.com/g/linux-litex/
+[16:50] Rich Persaud : The device auth/attestation proposals above involve strong authentication of device and vendor identity
+[16:50] Jamie Lokier : Martin, none come to mind.
+[16:51] Martin Peres : ok, thanks :) I'll make sure to read more about the device tree. I have only a light understanding as my background is almost-fully on graphics
+[16:52] Jamie Lokier : Thanks everyone!
+[16:53] Jason Sidebottom : Bye!
+[16:55] Pavel Pisa : Please, if you have time, what is a format of register maps specifications for Litex? Do you generate header files automatically? By which tool?
+[16:56] Drew Fustini : Pavel: let me get the link
+[16:56] Pavel Pisa : I see Migen
+[16:56] Drew Fustini : https://github.com/enjoy-digital/litex/wiki/LiteX-for-Hardware-Engineers
+[16:57] Drew Fustini : and https://github.com/enjoy-digital/litex/wiki/CSR-Bus
+[16:57] Pavel Pisa : Thanks
+[16:58] Drew Fustini : https://lore.kernel.org/patchwork/project/lkml/list/?series=457681
+[16:58] Pavel Pisa : We use IPXACT XML format
+[16:58] Drew Fustini : this is the current patch series for the LiteX SoC and UART drivers if you want to see what it looks like to access the CSR from the software side
+[16:59] Drew Fustini : ah, I don't think there is a format like that.  I believe it all defined in the LiteX python code
+[16:59] Drew Fustini : https://github.com/enjoy-digital/litex/wiki/CSR-Bus#22-csr-bank-id
+[17:00] Drew Fustini : i maybe the best explanation
+[17:00] Pavel Pisa : But you probably want to generate HW which matches headers and thengenerate datasheets documentation.
+[17:00] Drew Fustini : but also #litex on freenode
+[17:00] Drew Fustini : the creator Flourent (enjoy-digital) is one there and is very helpful person

@@ -1,0 +1,34 @@
+August 27 2020
+LPC 2020
+DTrace on LInux BoF notes
+Kris van Hees presenter
+
+[10:03] Nick Alcock : (side note: the CTF stuff I gave a talk on on Tuesday originated as an offshoot of this work in 2013.)
+[10:04] Nick Alcock : (but it is not tied to DTrace.)
+[10:24] Nick Alcock : relevant talk: https://linuxplumbersconf.org/event/7/contributions/681/
+[10:29] Masami Hiramatsu : IIRC, kprobes has a fault handling function and systemtap uses it for handling errors.
+[10:30] Jonathan Corbet : I've seen the BPF folks talking about the ability to load "library programs" for some time.  Somebody just has to implement it...:)
+[10:33] Daniel Xu : Are you aiming to support existing dtrace scripts?
+[10:33] Elena Zannoni : yes we want to be 100% compatible
+[10:34] Elena Zannoni : we are already with the new implementation
+[10:34] Elena Zannoni : of curse not all works right now
+[10:35] Nick Alcock : well, dtrace *for linux* scripts. We can't support random guts-of-solaris scripts, obviously, but e.g. things that use standard sdt probes we hope will keep working.
+[10:35] Elena Zannoni : we don't want to rewrite the testsuite :-)
+[10:35] Nick Alcock : That too! just importing it nearly gave me RSI on its own back in 2011 :)
+[10:35] Nick Alcock : (maybe I shouldn't have done it in one marathon fourteen-hour session :))
+[10:36] George Wilson : Will dtrace for linux include providers?
+[10:36] Nick Alcock : this is very much test-driven development!
+[10:37] Aleksa Sarai : Not sure if this was already mentioned but quite a lot of standard DTrace scripts do things like "fire up all fbt probes". From my experience, eBPF-based Linux tracing can't handle this. Is there a plan to improve that situation?
+[10:37] Nick Alcock : (indeed, there are tests in the testsuite that do just that to make sure the system doesn't crash!)
+[10:38] Aleksa Sarai : (For instance, DTrace scripts can give you call traces a-la ftrace function_graph. This isn't possible with bpftrace at the moment.)
+[10:39] Nick Alcock : yeah, and combining aggs with that gives you things that ftrace function_graph can't do either. this sort of combinatorial thing is where dtrace shines, imo, so we should keep it working!
+[10:39] Aleksa Sarai : Thanks. Just wanted to make sure it was on your radar. :D
+[10:40] Aleksa Sarai : (Yeah Nick that's one of the things I really wish bpftrace could do.)
+[10:40] Nick Alcock : (needs patched kernel, already available for kernels up to 5.7: 5.8 will come once I've shaken off bloody covid-19.)
+[10:40] Aleksa Sarai : or even something as simple as getting return values in function_graph
+[10:43] Nick Alcock : I'll lob announcements of dtrace-v1 for new major kernel releases there, then :)
+[10:51] Jonathan Corbet : Nice talk, thanks
+[10:51] Masami Hiramatsu : Thanks!
+[10:51] Elena Zannoni : thanks for the questions and feedback
+[10:52] Elena Zannoni : i saved the chat
+[10:52] Elena Zannoni : i'll upload to the bof materials

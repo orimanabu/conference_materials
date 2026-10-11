@@ -1,0 +1,1062 @@
+Source JSON: lpc2019-sessions.json
+Total sessions: 231
+Sessions with file attachments: 173
+Sessions without file attachments: 58
+Attachment count: 176
+Distinct source-file count: 176
+Saved: 0
+Already present: 175
+Unresolved: 1
+
+Sessions without file attachments have no planned download folders.
+
+Session: Upstream 1st: Tools and workflows for multi kernel version juggling of short term fixes, long term support, board enablement and features with the upstream kernel [id 467]
+  Attachment: LPC-distro-mc-upstream-first.pdf
+  Source URL: https://lpc.events/event/4/contributions/467/attachments/404/649/LPC-distro-mc-upstream-first.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Upstream 1st: Tools and workflows for multi kernel version juggling of short term fixes, long term support, board enablement and features with the upstream kernel/LPC-distro-mc-upstream-first.pdf
+  Status: already present
+
+Session: Linux Kernel VxLan with Multicast Routing for flood handling [id 456]
+  Attachment: Vxlan_and_multicast_roopa_prabhu_LPC2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/456/attachments/250/434/Vxlan_and_multicast_roopa_prabhu_LPC2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Linux Kernel VxLan with Multicast Routing for flood handling/Vxlan_and_multicast_roopa_prabhu_LPC2019.pdf
+  Status: already present
+
+Session: oomd2 and beyond: a year of improvements [id 292]
+  Attachment: [LPC] oomd2 and beyond_ a year of improvements.pdf
+  Source URL: https://lpc.events/event/4/contributions/292/attachments/285/477/LPC_oomd2_and_beyond__a_year_of_improvements.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/oomd2 and beyond: a year of improvements/LPC_oomd2_and_beyond__a_year_of_improvements.pdf
+  Status: already present
+
+Session: Reworking of KVA allocator in Linux kernel [id 547]
+  Attachment: Reworking of KVA allocator in Linux kernel.pdf
+  Source URL: https://lpc.events/event/4/contributions/547/attachments/287/479/Reworking_of_KVA_allocator_in_Linux_kernel.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Reworking of KVA allocator in Linux kernel/Reworking_of_KVA_allocator_in_Linux_kernel.pdf
+  Status: already present
+
+Session: drgn: Programmable Debugging [id 440]
+  Attachment: drgn.pdf
+  Source URL: https://lpc.events/event/4/contributions/440/attachments/389/625/drgn.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/drgn: Programmable Debugging/drgn.pdf
+  Status: already present
+
+Session: Kernel Boot Time Tracing [id 445]
+  Attachment: LPC 2019 - boottime tracing.pdf
+  Source URL: https://lpc.events/event/4/contributions/445/attachments/289/487/LPC_2019_-_boottime_tracing.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Kernel Boot Time Tracing/LPC_2019_-_boottime_tracing.pdf
+  Status: already present
+
+Session: Fixing the Linux boot process in RISC-V [id 381]
+  Attachment: Linux_plumbers_bootflow.pdf
+  Source URL: https://lpc.events/event/4/contributions/381/attachments/297/501/Linux_plumbers_bootflow.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Fixing the Linux boot process in RISC-V/Linux_plumbers_bootflow.pdf
+  Status: already present
+
+Session: Sharing PMU counters across compatible perf events [id 446]
+  Attachment: Shared_PMUs.pdf
+  Source URL: https://lpc.events/event/4/contributions/446/attachments/235/432/Shared_PMUs.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Sharing PMU counters across compatible perf events/Shared_PMUs.pdf
+  Status: already present
+
+Session: BPF packet capture helpers, libbpf interfaces [id 489]
+  Attachment: bpf-packet-capture.pdf
+  Source URL: https://lpc.events/event/4/contributions/489/attachments/242/423/bpf-packet-capture.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/BPF packet capture helpers, libbpf interfaces/bpf-packet-capture.pdf
+  Status: already present
+
+Session: Core Scheduling: Taming Hyper-Threads to be secure [id 285]
+  Attachment: Core Scheduling.pdf
+  Source URL: https://lpc.events/event/4/contributions/285/attachments/252/466/Core_Scheduling.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Core Scheduling: Taming Hyper-Threads to be secure/Core_Scheduling.pdf
+  Status: already present
+
+Session: Touch but don’t look: Running the kernel in execute only memory [id 283]
+  Attachment: Touch but don’t look_ Running the kernel in execute only memory-presented.pdf
+  Source URL: https://lpc.events/event/4/contributions/283/attachments/357/588/Touch_but_dont_look__Running_the_kernel_in_execute_only_memory-presented.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Touch but don’t look: Running the kernel in execute only memory/Touch_but_dont_look__Running_the_kernel_in_execute_only_memory-presented.pdf
+  Status: already present
+
+Session: A trace-cmd front end interface to ftrace histogram, triggers and synthetic events. [id 442]
+  Attachment: LPC-histograms.pdf
+  Source URL: https://lpc.events/event/4/contributions/442/attachments/290/488/LPC-histograms.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/A trace-cmd front end interface to ftrace histogram, triggers and synthetic events./LPC-histograms.pdf
+  Status: already present
+
+Session: KernelCI applied to distributions [id 470]
+  Attachment: gtucker-lpc-2019-a-distro-kernel-ci-v1.pdf
+  Source URL: https://lpc.events/event/4/contributions/470/attachments/256/443/gtucker-lpc-2019-a-distro-kernel-ci-v1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/KernelCI applied to distributions/gtucker-lpc-2019-a-distro-kernel-ci-v1.pdf
+  Status: already present
+
+Session: Multipath TCP Upstreaming [id 435]
+  Attachment: LPC2019-Upstreaming-MPTCP-paper.pdf
+  Source URL: https://lpc.events/event/4/contributions/435/attachments/246/428/LPC2019-Upstreaming-MPTCP-paper.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Multipath TCP Upstreaming/LPC2019-Upstreaming-MPTCP-paper.pdf
+  Status: already present
+  Attachment: LPC2019-Upstreaming-MPTCP-slides.pdf
+  Source URL: https://lpc.events/event/4/contributions/435/attachments/247/438/LPC2019-Upstreaming-MPTCP-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Multipath TCP Upstreaming/LPC2019-Upstreaming-MPTCP-slides.pdf
+  Status: already present
+
+Session: Scaling performance profiling infrastructure for data centers [id 291]
+  Attachment: Linux Plumbers Conference 2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/291/attachments/313/528/Linux_Plumbers_Conference_2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Scaling performance profiling infrastructure for data centers/Linux_Plumbers_Conference_2019.pdf
+  Status: already present
+
+Session: Maple Tree [id 553]
+  Attachment: 2019_LPC_Maple_Tree.pdf
+  Source URL: https://lpc.events/event/4/contributions/553/attachments/362/594/2019_LPC_Maple_Tree.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Maple Tree/2019_LPC_Maple_Tree.pdf
+  Status: already present
+
+Session: Unifying trace processing ecosystems with Babeltrace [id 443]
+  Attachment: unifying.trace.processing.ecosystems.bt.pdf
+  Source URL: https://lpc.events/event/4/contributions/443/attachments/367/601/unifying.trace.processing.ecosystems.bt.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Unifying trace processing ecosystems with Babeltrace/unifying.trace.processing.ecosystems.bt.pdf
+  Status: already present
+
+Session: RISC-V Hypervisor ISA Emulation [id 385]
+  Attachment: Plumbers-BoF-Hypervisor-v2.pdf
+  Source URL: https://lpc.events/event/4/contributions/385/attachments/299/503/Plumbers-BoF-Hypervisor-v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/RISC-V Hypervisor ISA Emulation/Plumbers-BoF-Hypervisor-v2.pdf
+  Status: already present
+
+Session: Automatically testing distribution kernel packages [id 471]
+  Attachment: Distro Kernels Plumbers (15min)(1).pdf
+  Source URL: https://lpc.events/event/4/contributions/471/attachments/281/475/Distro_Kernels_Plumbers_15min1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Automatically testing distribution kernel packages/Distro_Kernels_Plumbers_15min1.pdf
+  Status: already present
+
+Session: bpftrace [id 441]
+  Attachment: bpftrace-plumbers.pdf
+  Source URL: https://lpc.events/event/4/contributions/441/attachments/390/633/bpftrace-plumbers.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/bpftrace/bpftrace-plumbers.pdf
+  Status: already present
+
+Session: Programmable socket lookup with BPF [id 487]
+  Attachment: Programmable socket lookup (LPC '19).pdf
+  Source URL: https://lpc.events/event/4/contributions/487/attachments/238/417/Programmable_socket_lookup_LPC_19.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Programmable socket lookup with BPF/Programmable_socket_lookup_LPC_19.pdf
+  Status: already present
+
+Session: printk: Why is it so complicated? [id 290]
+  Attachment: lpc2019_jogness_printk.pdf
+  Source URL: https://lpc.events/event/4/contributions/290/attachments/276/463/lpc2019_jogness_printk.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/printk: Why is it so complicated?/lpc2019_jogness_printk.pdf
+  Status: already present
+
+Session: The list is our process: An analysis of the kernel's email-based development process [id 555]
+  Attachment: lpc19.pdf
+  Source URL: https://lpc.events/event/4/contributions/555/attachments/356/587/lpc19.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/The list is our process: An analysis of the kernel's email-based development process/lpc19.pdf
+  Status: already present
+
+Session: Distros and Syzkaller - Why bother? [id 473]
+  Attachment: LPC2019_Syzkaller - Upload.pdf
+  Source URL: https://lpc.events/event/4/contributions/473/attachments/310/518/LPC2019_Syzkaller_-_Upload.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Distros and Syzkaller - Why bother?/LPC2019_Syzkaller_-_Upload.pdf
+  Status: already present
+
+Session: BPF Tracing Tools: New Observability for Performance Analysis [id 444]
+  Attachment: LPC2019_BPF_Tracing_Tools.pdf
+  Source URL: https://lpc.events/event/4/contributions/444/attachments/301/505/LPC2019_BPF_Tracing_Tools.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/BPF Tracing Tools: New Observability for Performance Analysis/LPC2019_BPF_Tracing_Tools.pdf
+  Status: already present
+
+Session: RISCV NOMMU/M-Mode Linux [id 386]
+  Attachment: RISC-V-NOMMU-Linux-Plumbers-2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/386/attachments/298/502/RISC-V-NOMMU-Linux-Plumbers-2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/RISCV NOMMU／M-Mode Linux/RISC-V-NOMMU-Linux-Plumbers-2019.pdf
+  Status: already present
+
+Session: XDP bulk packet processing [id 465]
+  Attachment: Xdp_bulk_Fijalkowski.pdf
+  Source URL: https://lpc.events/event/4/contributions/465/attachments/245/556/Xdp_bulk_Fijalkowski.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/XDP bulk packet processing/Xdp_bulk_Fijalkowski.pdf
+  Status: already present
+
+Session: What does remote attestation buy you? [id 295]
+  Attachment: What does Remote Attestation buy you_.pdf
+  Source URL: https://lpc.events/event/4/contributions/295/attachments/374/608/What_does_Remote_Attestation_buy_you_.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/What does remote attestation buy you?/What_does_Remote_Attestation_buy_you_.pdf
+  Status: already present
+
+Session: Upstream Graphics: Too little, too late [id 549]
+  Attachment: lpc-2019-upstream.pdf
+  Source URL: https://lpc.events/event/4/contributions/549/attachments/398/641/lpc-2019-upstream.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Upstream Graphics: Too little, too late/lpc-2019-upstream.pdf
+  Status: already present
+
+Session: Greybus for IoT [id 375]
+  Attachment: greybus_for_iot.pdf
+  Source URL: https://lpc.events/event/4/contributions/375/attachments/335/561/greybus_for_iot.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Greybus for IoT/greybus_for_iot.pdf
+  Status: already present
+
+Session: User interfaces for per-group default domain type [id 389]
+  Attachment: LPC2019-Per_group_default_domain_type.pdf
+  Source URL: https://lpc.events/event/4/contributions/389/attachments/392/635/LPC2019-Per_group_default_domain_type.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/User interfaces for per-group default domain type/LPC2019-Per_group_default_domain_type.pdf
+  Status: already present
+
+Session: Over the Air (OTA) Updates: State of the Union? Democratize? [id 438]
+  Attachment: Kernel_OTA_Hooks.pptx
+  Source URL: https://lpc.events/event/4/contributions/438/attachments/336/562/Kernel_OTA_Hooks.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Over the Air (OTA) Updates: State of the Union? Democratize?/Kernel_OTA_Hooks.pptx
+  Status: already present
+
+Session: Status of Dual Stage SMMUv3 integration [id 394]
+  Attachment: plumber-final.pdf
+  Source URL: https://lpc.events/event/4/contributions/394/attachments/381/616/plumber-final.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Status of Dual Stage SMMUv3 integration/plumber-final.pdf
+  Status: already present
+
+Session: Proxy Execution [id 481]
+  Attachment: Proxy Execution.pdf
+  Source URL: https://lpc.events/event/4/contributions/481/attachments/212/382/Proxy_Execution.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Proxy Execution/Proxy_Execution.pdf
+  Status: already present
+
+Session: LAG and hardware offload to support RDMA and IO virtualized interfaces [id 455]
+  Attachment: LAG LPC Uminski.pdf
+  Source URL: https://lpc.events/event/4/contributions/455/attachments/229/405/LAG_LPC_Uminski.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/LAG and hardware offload to support RDMA and IO virtualized interfaces/LAG_LPC_Uminski.pdf
+  Status: already present
+
+Session: Linux kernel fastboot on the way [id 281]
+  Attachment: LPC_2019_kernel_fastboot_on_the_way.pdf
+  Source URL: https://lpc.events/event/4/contributions/281/attachments/216/617/LPC_2019_kernel_fastboot_on_the_way.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Linux kernel fastboot on the way/LPC_2019_kernel_fastboot_on_the_way.pdf
+  Status: already present
+
+Session: Deep Argument Inspection and Seccomp [id 560]
+  Attachment: deep-arg-inspection.pdf
+  Source URL: https://lpc.events/event/4/contributions/560/attachments/397/640/deep-arg-inspection.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Deep Argument Inspection and Seccomp/deep-arg-inspection.pdf
+  Status: already present
+
+Session: Implementing LoRa, FSK and further LPWAN interfaces [id 373]
+  Attachment: LinuxPlumbers2019_LoRa.pdf
+  Source URL: https://lpc.events/event/4/contributions/373/attachments/339/566/LinuxPlumbers2019_LoRa.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Implementing LoRa, FSK and further LPWAN interfaces/LinuxPlumbers2019_LoRa.pdf
+  Status: already present
+
+Session: PASID Management in Linux [id 390]
+  Attachment: LPC2019JP.pptx
+  Source URL: https://lpc.events/event/4/contributions/390/attachments/279/632/LPC2019JP.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/PASID Management in Linux/LPC2019JP.pptx
+  Status: already present
+
+Session: Architecture considerations for vfio/iommu handling [id 393]
+  Attachment: lpc-vfio-iommu-arch.pdf
+  Source URL: https://lpc.events/event/4/contributions/393/attachments/361/593/lpc-vfio-iommu-arch.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Architecture considerations for vfio／iommu handling/lpc-vfio-iommu-arch.pdf
+  Status: already present
+
+Session: CFS load balance rework [id 480]
+  Attachment: Rework load_balance LPC19.pdf
+  Source URL: https://lpc.events/event/4/contributions/480/attachments/337/563/Rework_load_balance_LPC19.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/CFS load balance rework/Rework_load_balance_LPC19.pdf
+  Status: already present
+
+Session: netfilter hardware offloads [id 463]
+  Attachment: 2019-plumbers-lisboa.pdf
+  Source URL: https://lpc.events/event/4/contributions/463/attachments/286/485/2019-plumbers-lisboa.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/netfilter hardware offloads/2019-plumbers-lisboa.pdf
+  Status: already present
+
+Session: Red Hat joins CI party, brings cookies [id 287]
+  Attachment: interactive_slides_red_hat_joins_ci_party.zip
+  Source URL: https://lpc.events/event/4/contributions/287/attachments/213/467/interactive_slides_red_hat_joins_ci_party.zip
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Red Hat joins CI party, brings cookies/interactive_slides_red_hat_joins_ci_party.zip
+  Status: already present
+  Attachment: red_hat_joins_ci_party.pdf
+  Source URL: https://lpc.events/event/4/contributions/287/attachments/213/468/red_hat_joins_ci_party.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Red Hat joins CI party, brings cookies/red_hat_joins_ci_party.pdf
+  Status: already present
+
+Session: Inline Encryption Support [id 544]
+  Attachment: inline-crypto.pdf
+  Source URL: https://lpc.events/event/4/contributions/544/attachments/391/634/inline-crypto.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Inline Encryption Support/inline-crypto.pdf
+  Status: already present
+
+Session: IoT from the point of view of view of a generic and enterprise distribution [id 439]
+  Attachment: kernel-upstream-iot.pdf
+  Source URL: https://lpc.events/event/4/contributions/439/attachments/340/567/kernel-upstream-iot.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/IoT from the point of view of view of a generic and enterprise distribution/kernel-upstream-iot.pdf
+  Status: already present
+
+Session: Optional or reduced PCI BARs [id 392]
+  Attachment: PCI_Optional_BARs.pdf
+  Source URL: https://lpc.events/event/4/contributions/392/attachments/359/591/PCI_Optional_BARs.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Optional or reduced PCI BARs/PCI_Optional_BARs.pdf
+  Status: already present
+
+Session: flattening the hierarchy discussion [id 485]
+  Attachment: plumbers2019cgroupdiscussion.pdf
+  Source URL: https://lpc.events/event/4/contributions/485/attachments/233/409/plumbers2019cgroupdiscussion.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/flattening the hierarchy discussion/plumbers2019cgroupdiscussion.pdf
+  Status: already present
+
+Session: The ieee802154 and 6lowpan Kernel Subsystems [id 374]
+  Attachment: LPC2019-Linux-wpan.pdf
+  Source URL: https://lpc.events/event/4/contributions/374/attachments/282/472/LPC2019-Linux-wpan.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/The ieee802154 and 6lowpan Kernel Subsystems/LPC2019-Linux-wpan.pdf
+  Status: already present
+
+Session: Upstream kernel CI [id 535]
+  Attachment: gtucker-lpc-2019-b-upstream-kernel-ci-bof-v1.pdf
+  Source URL: https://lpc.events/event/4/contributions/535/attachments/255/442/gtucker-lpc-2019-b-upstream-kernel-ci-bof-v1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Upstream kernel CI/gtucker-lpc-2019-b-upstream-kernel-ci-bof-v1.pdf
+  Status: already present
+
+Session: Scheduler domains and cache bandwidth [id 484]
+  Attachment: lpc-2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/484/attachments/288/486/lpc-2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Scheduler domains and cache bandwidth/lpc-2019.pdf
+  Status: already present
+
+Session: SwitchDev offload optimizations [id 459]
+  Attachment: LPC-SwitchDev-Offload-Optimizations.pdf (Protected)
+  Source URL: https://lpc.events/event/4/contributions/459/attachments/228/403/LPC-SwitchDev-Offload-Optimizations.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/SwitchDev offload optimizations/LPC-SwitchDev-Offload-Optimizations.pdf
+  Status: unresolved
+  Error: source returned a login HTML page (attachment marked Protected); archive lookup timed out, and a separate exact-URL CDX query found no successful capture
+
+Session: Challenges of the RDMA subsystem [id 364]
+  Attachment: plumbers-ref-2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/364/attachments/240/421/plumbers-ref-2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Challenges of the RDMA subsystem/plumbers-ref-2019.pdf
+  Status: already present
+
+Session: TurboSched: Core capacity Computation and other challenges [id 483]
+  Attachment: TurboSched_LPC2019.pptx
+  Source URL: https://lpc.events/event/4/contributions/483/attachments/223/395/TurboSched_LPC2019.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/TurboSched: Core capacity Computation and other challenges/TurboSched_LPC2019.pptx
+  Status: already present
+
+Session: Using Greybus, mikroBus and PocketBeagle to consolidate kernel IoT sensor/actuator development [id 437]
+  Attachment: beagledust.pdf
+  Source URL: https://lpc.events/event/4/contributions/437/attachments/341/568/beagledust.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Using Greybus, mikroBus and PocketBeagle to consolidate kernel IoT sensor／actuator development/beagledust.pdf
+  Status: already present
+
+Session: Implementing NTB controller using PCIe endpoint [id 395]
+  Attachment: Implementing_NTB_Controller_Using_PCIe_Endpoint - final.pdf
+  Source URL: https://lpc.events/event/4/contributions/395/attachments/284/481/Implementing_NTB_Controller_Using_PCIe_Endpoint_-_final.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Implementing NTB controller using PCIe endpoint/Implementing_NTB_Controller_Using_PCIe_Endpoint_-_final.pdf
+  Status: already present
+
+Session: Use IOMMU to prevent DMA attacks from Thunderbolt devices [id 414]
+  Attachment: LPC2019-Prevent_DMA_attacks_from_untrusted_devices.pdf
+  Source URL: https://lpc.events/event/4/contributions/414/attachments/393/636/LPC2019-Prevent_DMA_attacks_from_untrusted_devices.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Use IOMMU to prevent DMA attacks from Thunderbolt devices/LPC2019-Prevent_DMA_attacks_from_untrusted_devices.pdf
+  Status: already present
+
+Session: kernelCI: testing a broad variety of hardware [id 422]
+  Attachment: kernelci-LPC-2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/422/attachments/346/576/kernelci-LPC-2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/kernelCI: testing a broad variety of hardware/kernelci-LPC-2019.pdf
+  Status: already present
+
+Session: XDP: the Distro View [id 460]
+  Attachment: xdp-distro-view.pdf
+  Source URL: https://lpc.events/event/4/contributions/460/attachments/244/426/xdp-distro-view.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/XDP: the Distro View/xdp-distro-view.pdf
+  Status: already present
+
+Session: Memory management bits in arch/* [id 550]
+  Attachment: mm-bits-arch.pdf
+  Source URL: https://lpc.events/event/4/contributions/550/attachments/406/652/mm-bits-arch.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Memory management bits in arch／*/mm-bits-arch.pdf
+  Status: already present
+
+Session: Analyzing changes to the binary interface exposed by the Kernel to its modules [id 399]
+  Attachment: LPC-2019-toolchains-libabigail.pdf
+  Source URL: https://lpc.events/event/4/contributions/399/attachments/349/579/LPC-2019-toolchains-libabigail.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Analyzing changes to the binary interface exposed by the Kernel to its modules/LPC-2019-toolchains-libabigail.pdf
+  Status: already present
+
+Session: Printing in Linux as of today [id 366]
+  Attachment: OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Source URL: https://lpc.events/event/4/contributions/366/attachments/368/602/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Printing in Linux as of today/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Status: already present
+
+Session: Common Print Dialog Backends [id 376]
+  Attachment: OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Source URL: https://lpc.events/event/4/contributions/376/attachments/369/603/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Common Print Dialog Backends/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Status: already present
+
+Session: Wrapping system calls in glibc [id 397]
+  Attachment: LPC-2019-toolchains-glibc.pdf
+  Source URL: https://lpc.events/event/4/contributions/397/attachments/348/578/LPC-2019-toolchains-glibc.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Wrapping system calls in glibc/LPC-2019-toolchains-glibc.pdf
+  Status: already present
+
+Session: Dealing with complex test suites [id 427]
+  Attachment: gtucker-lpc-2019-d-complex-test-suites-v2.pdf
+  Source URL: https://lpc.events/event/4/contributions/427/attachments/291/492/gtucker-lpc-2019-d-complex-test-suites-v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Dealing with complex test suites/gtucker-lpc-2019-d-complex-test-suites-v2.pdf
+  Status: already present
+
+Session: Maintaining out of tree patches over the long term [id 293]
+  Attachment: maintaining-out-of-tree-patches-over-the-long-term.pdf
+  Source URL: https://lpc.events/event/4/contributions/293/attachments/237/416/maintaining-out-of-tree-patches-over-the-long-term.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Maintaining out of tree patches over the long term/maintaining-out-of-tree-patches-over-the-long-term.pdf
+  Status: already present
+
+Session: replacing mmap_sem with finer grained locks [id 556]
+  Attachment: fine_grained_mm.pdf
+  Source URL: https://lpc.events/event/4/contributions/556/attachments/304/509/fine_grained_mm.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/replacing mmap_sem with finer grained locks/fine_grained_mm.pdf
+  Status: already present
+
+Session: Working with SANE to make IPP scanning a reality [id 377]
+  Attachment: OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Source URL: https://lpc.events/event/4/contributions/377/attachments/370/604/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Working with SANE to make IPP scanning a reality/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Status: already present
+
+Session: GWP-ASAN [id 425]
+  Attachment: GWP-ASAN_ Plumbers 2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/425/attachments/307/513/GWP-ASAN__Plumbers_2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/GWP-ASAN/GWP-ASAN__Plumbers_2019.pdf
+  Status: already present
+
+Session: Fighting uninitialized memory in the kernel [id 426]
+  Attachment: KMSAN for LPC 2019
+  Source URL: https://lpc.events/event/4/contributions/426/attachments/338/564/KMSAN_for_LPC_2019
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Fighting uninitialized memory in the kernel/KMSAN_for_LPC_2019
+  Status: already present
+
+Session: Linux Perf advancements for compute intensive and server systems [id 541]
+  Attachment: lpc2019.bof.abudanko.pdf
+  Source URL: https://lpc.events/event/4/contributions/541/attachments/248/534/lpc2019.bof.abudanko.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Linux Perf advancements for compute intensive and server systems/lpc2019.bof.abudanko.pdf
+  Status: already present
+
+Session: syzbot: update and open problems [id 428]
+  Attachment: syzbot_ Plumbers 2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/428/attachments/308/515/syzbot__Plumbers_2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/syzbot: update and open problems/syzbot__Plumbers_2019.pdf
+  Status: already present
+
+Session: Life at a Networking Vendor -- Keeping up with the Joneses [id 491]
+  Attachment: Life at a Hardware Vendor [Keeping up with the Joneses] -- LPC 2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/491/attachments/249/433/Life_at_a_Hardware_Vendor_Keeping_up_with_the_Joneses_--_LPC_2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Life at a Networking Vendor -- Keeping up with the Joneses/Life_at_a_Hardware_Vendor_Keeping_up_with_the_Joneses_--_LPC_2019.pdf
+  Status: already present
+
+Session: Integration of PM-runtime with System-wide Power Management [id 284]
+  Attachment: pm_integration.pdf
+  Source URL: https://lpc.events/event/4/contributions/284/attachments/220/392/pm_integration.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Integration of PM-runtime with System-wide Power Management/pm_integration.pdf
+  Status: already present
+
+Session: Killing the mmap_sem's contention [id 279]
+  Attachment: vma locking.pdf
+  Source URL: https://lpc.events/event/4/contributions/279/attachments/302/512/vma_locking.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Killing the mmap_sem's contention/vma_locking.pdf
+  Status: already present
+
+Session: Update on the LLVM port of the Linux Kernel [id 521]
+  Attachment: LPC-2019-toolchains-ClangBuiltLinux.pdf
+  Source URL: https://lpc.events/event/4/contributions/521/attachments/355/586/LPC-2019-toolchains-ClangBuiltLinux.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Update on the LLVM port of the Linux Kernel/LPC-2019-toolchains-ClangBuiltLinux.pdf
+  Status: already present
+
+Session: Printer/Scanner Applications - The new format for printer and scanner drivers [id 378]
+  Attachment: OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Source URL: https://lpc.events/event/4/contributions/378/attachments/371/605/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Printer／Scanner Applications - The new format for printer and scanner drivers/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Status: already present
+
+Session: Compact C Type Format Support in the GNU toolchain [id 396]
+  Attachment: ctf.pdf
+  Source URL: https://lpc.events/event/4/contributions/396/attachments/309/516/ctf.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Compact C Type Format Support in the GNU toolchain/ctf.pdf
+  Status: already present
+
+Session: The Future of Printer Setup Tools - IPP Driverless Printing and IPP System Service [id 379]
+  Attachment: OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Source URL: https://lpc.events/event/4/contributions/379/attachments/372/606/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/The Future of Printer Setup Tools - IPP Driverless Printing and IPP System Service/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Status: already present
+
+Session: Future ipv4 unicast extensions [id 457]
+  Attachment: IPv4 Unicast Extensions4.pdf
+  Source URL: https://lpc.events/event/4/contributions/457/attachments/219/390/IPv4_Unicast_Extensions4.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Future ipv4 unicast extensions/IPv4_Unicast_Extensions4.pdf
+  Status: already present
+
+Session: Kernel Address Space Isolation [id 277]
+  Attachment: Kernel_ASI_2.pdf
+  Source URL: https://lpc.events/event/4/contributions/277/attachments/283/489/Kernel_ASI_2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Kernel Address Space Isolation/Kernel_ASI_2.pdf
+  Status: already present
+
+Session: All about Kselftest [id 423]
+  Attachment: Kselftest.pdf
+  Source URL: https://lpc.events/event/4/contributions/423/attachments/407/653/Kselftest.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/All about Kselftest/Kselftest.pdf
+  Status: already present
+
+Session: eBPF support in the GNU Toolchain [id 400]
+  Attachment: LPC-2019-toolchains-bpf-gcc.pdf
+  Source URL: https://lpc.events/event/4/contributions/400/attachments/350/580/LPC-2019-toolchains-bpf-gcc.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/eBPF support in the GNU Toolchain/LPC-2019-toolchains-bpf-gcc.pdf
+  Status: already present
+
+Session: 3D Printing without the use of any slicer. [id 380]
+  Attachment: OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Source URL: https://lpc.events/event/4/contributions/380/attachments/373/607/OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/3D Printing without the use of any slicer./OpenPrinting_LinuxPlumbersConference2019_Lisbon.pdf
+  Status: already present
+
+Session: Multiple thermal zones representation [id 496]
+  Attachment: LPC2019-Multiple_thermal_zones.pdf
+  Source URL: https://lpc.events/event/4/contributions/496/attachments/403/650/LPC2019-Multiple_thermal_zones.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Multiple thermal zones representation/LPC2019-Multiple_thermal_zones.pdf
+  Status: already present
+
+Session: Making the Kubernetes Service Abstraction Scale using eBPF [id 458]
+  Attachment: lpc2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/458/attachments/277/464/Making_the_Kubernetes_Service_Abstraction_Scale_using_BPF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Making the Kubernetes Service Abstraction Scale using eBPF/Making_the_Kubernetes_Service_Abstraction_Scale_using_BPF.pdf
+  Status: already present
+
+Session: Enabling TPM based system security features [id 302]
+  Attachment: LPC2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/302/attachments/343/572/LPC2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Enabling TPM based system security features/LPC2019.pdf
+  Status: already present
+
+Session: Tracing Data Access Pattern with Bounded Overhead and Best-effort Accuracy [id 548]
+  Attachment: damon_ksummit19.pdf
+  Source URL: https://lpc.events/event/4/contributions/548/attachments/311/590/damon_ksummit19.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Tracing Data Access Pattern with Bounded Overhead and Best-effort Accuracy/damon_ksummit19.pdf
+  Status: already present
+
+Session: Generic Kernel Image (GKI) progress [id 401]
+  Attachment: GKI Progress.pdf
+  Source URL: https://lpc.events/event/4/contributions/401/attachments/318/542/GKI_Progress.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Generic Kernel Image (GKI) progress/GKI_Progress.pdf
+  Status: already present
+
+Session: CRIU and the PID dance [id 472]
+  Attachment: 2019-criu-and-the-pid-dance.pdf
+  Source URL: https://lpc.events/event/4/contributions/472/attachments/224/397/2019-criu-and-the-pid-dance.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/CRIU and the PID dance/2019-criu-and-the-pid-dance.pdf
+  Status: already present
+
+Session: Monitoring and Stabilizing the In-Kernel ABI [id 403]
+  Attachment: ABI Monitoring.pdf
+  Source URL: https://lpc.events/event/4/contributions/403/attachments/319/543/ABI_Monitoring.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Monitoring and Stabilizing the In-Kernel ABI/ABI_Monitoring.pdf
+  Status: already present
+
+Session: Performance guarantees under thermal pressure [id 500]
+  Attachment: LPC2019_MortenRasmussen.pdf
+  Source URL: https://lpc.events/event/4/contributions/500/attachments/400/644/LPC2019_MortenRasmussen.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Performance guarantees under thermal pressure/LPC2019_MortenRasmussen.pdf
+  Status: already present
+
+Session: Address Space Isolation for Container Security [id 431]
+  Attachment: Address Space Isolation for Container Security.pdf
+  Source URL: https://lpc.events/event/4/contributions/431/attachments/306/511/Address_Space_Isolation_for_Container_Security.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Address Space Isolation for Container Security/Address_Space_Isolation_for_Container_Security.pdf
+  Status: already present
+
+Session: Solving issues associated with modules and supplier-consumer dependencies [id 402]
+  Attachment: Solving issues associated with modules and supplier-consumer dependencies.pdf
+  Source URL: https://lpc.events/event/4/contributions/402/attachments/320/544/Solving_issues_associated_with_modules_and_supplier-consumer_dependencies.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Solving issues associated with modules and supplier-consumer dependencies/Solving_issues_associated_with_modules_and_supplier-consumer_dependencies.pdf
+  Status: already present
+
+Session: Making Networking Queues a First Class Citizen in the Kernel [id 462]
+  Attachment: LPC_2019_kernel_queue_manager.pdf
+  Source URL: https://lpc.events/event/4/contributions/462/attachments/241/422/LPC_2019_kernel_queue_manager.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Making Networking Queues a First Class Citizen in the Kernel/LPC_2019_kernel_queue_manager.pdf
+  Status: already present
+
+Session: Utilizing tools made for "Big Data" to analyse Ftrace data - making it fast and easy [id 296]
+  Attachment: BigDataFtrace.pdf
+  Source URL: https://lpc.events/event/4/contributions/296/attachments/330/557/BigDataFtrace.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Utilizing tools made for "Big Data" to analyse Ftrace data - making it fast and easy/BigDataFtrace.pdf
+  Status: already present
+
+Session: Interrupt Message Store: A scalable interrupt mechanism for the cloud [id 552]
+  Attachment: ims_lpc.pptx
+  Source URL: https://lpc.events/event/4/contributions/552/attachments/215/386/ims_lpc.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Interrupt Message Store: A scalable interrupt mechanism for the cloud/ims_lpc.pptx
+  Status: already present
+
+Session: Seccomp Syscall Interception [id 477]
+  Attachment: Seccomp.pdf
+  Source URL: https://lpc.events/event/4/contributions/477/attachments/380/615/Seccomp.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Seccomp Syscall Interception/Seccomp.pdf
+  Status: already present
+
+Session: Android Virtualization (esp. Camera, DRM) [id 409]
+  Attachment: Android Virtualization.pdf
+  Source URL: https://lpc.events/event/4/contributions/409/attachments/321/545/Android_Virtualization.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Android Virtualization (esp. Camera, DRM)/Android_Virtualization.pdf
+  Status: already present
+
+Session: Task-centric thermal management [id 501]
+  Attachment: LPC2019_MortenRasmussen.pdf
+  Source URL: https://lpc.events/event/4/contributions/501/attachments/401/645/LPC2019_MortenRasmussen.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Task-centric thermal management/LPC2019_MortenRasmussen.pdf
+  Status: already present
+
+Session: Update on Task Migration at Google Using CRIU [id 508]
+  Attachment: Update on Task Migration at Google.pdf
+  Source URL: https://lpc.events/event/4/contributions/508/attachments/303/508/Update_on_Task_Migration_at_Google.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Update on Task Migration at Google Using CRIU/Update_on_Task_Migration_at_Google.pdf
+  Status: already present
+
+Session: libcamera: Unifying camera support on all Linux systems [id 410]
+  Attachment: libcamera-lpc.pdf
+  Source URL: https://lpc.events/event/4/contributions/410/attachments/322/546/libcamera-lpc.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/libcamera: Unifying camera support on all Linux systems/libcamera-lpc.pdf
+  Status: already present
+
+Session: Improving producer-consumer type workload performance [id 498]
+  Attachment: PCPS Improvements.pdf
+  Source URL: https://lpc.events/event/4/contributions/498/attachments/402/647/PCPS_Improvements.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Improving producer-consumer type workload performance/PCPS_Improvements.pdf
+  Status: already present
+
+Session: Emulated storage features (eg sdcardfs) [id 408]
+  Attachment: Update on Emulated Storage.pdf
+  Source URL: https://lpc.events/event/4/contributions/408/attachments/323/547/Update_on_Emulated_Storage.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Emulated storage features (eg sdcardfs)/Update_on_Emulated_Storage.pdf
+  Status: already present
+
+Session: Secure Image-less Container Migration [id 478]
+  Attachment: Secure_image-less_container_migration.pdf
+  Source URL: https://lpc.events/event/4/contributions/478/attachments/293/500/Secure_image-less_container_migration.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Secure Image-less Container Migration/Secure_image-less_container_migration.pdf
+  Status: already present
+
+Session: Persistent Memory as Memory [id 561]
+  Attachment: Persistent Memory as Memory.pdf
+  Source URL: https://lpc.events/event/4/contributions/561/attachments/363/596/Persistent_Memory_as_Memory.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Persistent Memory as Memory/Persistent_Memory_as_Memory.pdf
+  Status: already present
+
+Session: Device power management based on platform firmware [id 502]
+  Attachment: device_pm_using_platform_fw.pdf
+  Source URL: https://lpc.events/event/4/contributions/502/attachments/296/498/device_pm_using_platform_fw.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Device power management based on platform firmware/device_pm_using_platform_fw.pdf
+  Status: already present
+
+Session: Seamless transparent encryption with BPF and Cilium [id 461]
+  Attachment: Seamless transparent encryption with BPF and Cilium(1).pdf
+  Source URL: https://lpc.events/event/4/contributions/461/attachments/253/439/Seamless_transparent_encryption_with_BPF_and_Cilium1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Seamless transparent encryption with BPF and Cilium/Seamless_transparent_encryption_with_BPF_and_Cilium1.pdf
+  Status: already present
+
+Session: CPU controller on a single runqueue [id 288]
+  Attachment: plumbers2019cpucontroller.pdf
+  Source URL: https://lpc.events/event/4/contributions/288/attachments/234/413/plumbers2019cpucontroller.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/CPU controller on a single runqueue/plumbers2019cpucontroller.pdf
+  Status: already present
+
+Session: Kernel documentation [id 546]
+  Attachment: ks-session.pdf
+  Source URL: https://lpc.events/event/4/contributions/546/attachments/411/658/ks-session.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Kernel documentation/ks-session.pdf
+  Status: already present
+
+Session: Eliminating WrapFS hackery in Android with ExtFUSE (eBPF/FUSE) [id 415]
+  Attachment: ExtFUSE-LPC'19.pdf
+  Source URL: https://lpc.events/event/4/contributions/415/attachments/324/548/ExtFUSE-LPC19.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Eliminating WrapFS hackery in Android with ExtFUSE (eBPF／FUSE)/ExtFUSE-LPC19.pdf
+  Status: already present
+
+Session: How we're using ebpf in Android networking [id 411]
+  Attachment: 2019 LPC Lisbon_ eBPF use in Android Networking.pdf
+  Source URL: https://lpc.events/event/4/contributions/411/attachments/354/585/2019_LPC_Lisbon__eBPF_use_in_Android_Networking.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/How we're using ebpf in Android networking/2019_LPC_Lisbon__eBPF_use_in_Android_Networking.pdf
+  Status: already present
+
+Session: Linaro Kernel Functional Testing (LKFT): functional testing of android common kernels [id 405]
+  Attachment: Linux Kernel Functional Testing (LKFT).pdf
+  Source URL: https://lpc.events/event/4/contributions/405/attachments/325/549/Linux_Kernel_Functional_Testing_LKFT.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Linaro Kernel Functional Testing (LKFT): functional testing of android common kernels/Linux_Kernel_Functional_Testing_LKFT.pdf
+  Status: already present
+
+Session: Civil communication in practice: What does it mean to you as an open source developer? [id 543]
+  Attachment: Linux Plumbers Presentation.pdf
+  Source URL: https://lpc.events/event/4/contributions/543/attachments/409/655/Linux_Plumbers_Presentation.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Civil communication in practice: What does it mean to you as an open source developer?/Linux_Plumbers_Presentation.pdf
+  Status: already present
+
+Session: Ethernet Cable Diagnostic using Netlink Ethtool API [id 436]
+  Attachment: cable-diagnostics.pdf
+  Source URL: https://lpc.events/event/4/contributions/436/attachments/217/388/cable-diagnostics.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Ethernet Cable Diagnostic using Netlink Ethtool API/cable-diagnostics.pdf
+  Status: already present
+
+Session: Formal verification made easy (and fast)! [id 280]
+  Attachment: LPC2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/280/attachments/378/613/LPC2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Formal verification made easy (and fast)!/LPC2019.pdf
+  Status: already present
+
+Session: Handling memory pressure on Android [id 404]
+  Attachment: Handling memory pressure on Android.pdf
+  Source URL: https://lpc.events/event/4/contributions/404/attachments/326/550/Handling_memory_pressure_on_Android.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Handling memory pressure on Android/Handling_memory_pressure_on_Android.pdf
+  Status: already present
+
+Session: C-state latency measurement infrastructure [id 497]
+  Attachment: 2019-09-wult-lpc.pdf
+  Source URL: https://lpc.events/event/4/contributions/497/attachments/295/497/2019-09-wult-lpc.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/C-state latency measurement infrastructure/2019-09-wult-lpc.pdf
+  Status: already present
+
+Session: Securing Container Runtimes with openat2 and libpathrs [id 523]
+  Attachment: securing-path-resolution.pdf
+  Source URL: https://lpc.events/event/4/contributions/523/attachments/294/570/securing-path-resolution.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Securing Container Runtimes with openat2 and libpathrs/securing-path-resolution.pdf
+  Status: already present
+
+Session: DMABUF Developments [id 407]
+  Attachment: Plumbers19-DMABUF Developments.pdf
+  Source URL: https://lpc.events/event/4/contributions/407/attachments/314/531/Plumbers19-DMABUF_Developments.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/DMABUF Developments/Plumbers19-DMABUF_Developments.pdf
+  Status: already present
+
+Session: DRM/KMS for Android, adoption and upstreaming [id 406]
+  Attachment: DRM_KMS Update.pdf
+  Source URL: https://lpc.events/event/4/contributions/406/attachments/327/551/DRM_KMS_Update.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/DRM／KMS for Android, adoption and upstreaming/DRM_KMS_Update.pdf
+  Status: already present
+
+Session: scheduler: uclamp usage on Android [id 412]
+  Attachment: UtilClamp usage on Android.pdf
+  Source URL: https://lpc.events/event/4/contributions/412/attachments/328/552/UtilClamp_usage_on_Android.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/scheduler: uclamp usage on Android/UtilClamp_usage_on_Android.pdf
+  Status: already present
+
+Session: ARM v8.5 Memory Tagging Extension [id 571]
+  Attachment: MTE_LPC.pdf
+  Source URL: https://lpc.events/event/4/contributions/571/attachments/399/642/MTE_LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/ARM v8.5 Memory Tagging Extension/MTE_LPC.pdf
+  Status: already present
+
+Session: Cgroup v1/v2 Abstraction Layer [id 524]
+  Attachment: CgroupV1V2AbstractionLayer.pdf
+  Source URL: https://lpc.events/event/4/contributions/524/attachments/230/406/CgroupV1V2AbstractionLayer.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Cgroup v1／v2 Abstraction Layer/CgroupV1V2AbstractionLayer.pdf
+  Status: already present
+
+Session: CRIU: Reworking vDSO proxification, syscall restart [id 513]
+  Attachment: restart-block.pdf
+  Source URL: https://lpc.events/event/4/contributions/513/attachments/292/506/restart-block.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/CRIU: Reworking vDSO proxification, syscall restart/restart-block.pdf
+  Status: already present
+
+Session: Scaling container policy management with kernel features [id 464]
+  Attachment: lpc19-scale-policy-slides.pdf
+  Source URL: https://lpc.events/event/4/contributions/464/attachments/278/535/lpc19-scale-policy-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Scaling container policy management with kernel features/lpc19-scale-policy-slides.pdf
+  Status: already present
+
+Session: Finding more DRAM [id 282]
+  Attachment: Finding more DRAM.pdf
+  Source URL: https://lpc.events/event/4/contributions/282/attachments/365/598/Finding_more_DRAM.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Finding more DRAM/Finding_more_DRAM.pdf
+  Status: already present
+
+Session: Moving the Linux ABI to userspace [id 278]
+  Attachment: dm-plumbers2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/278/attachments/218/536/dm-plumbers2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Moving the Linux ABI to userspace/dm-plumbers2019.pdf
+  Status: already present
+
+Session: GUP and ZONE_DEVICE pages [id 369]
+  Attachment: gup_zone_device.pptx
+  Source URL: https://lpc.events/event/4/contributions/369/attachments/358/589/gup_zone_device.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/GUP and ZONE_DEVICE pages/gup_zone_device.pptx
+  Status: already present
+
+Session: io_uring - excitement - looking for feedback & potential issues [id 341]
+  Attachment: MySQL_Perf-lpc2019-dim.pdf
+  Source URL: https://lpc.events/event/4/contributions/341/attachments/388/624/MySQL_Perf-lpc2019-dim.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/io_uring - excitement - looking for feedback & potential issues/MySQL_Perf-lpc2019-dim.pdf
+  Status: already present
+
+Session: RCU configuration, operation, and upcoming changes for real-time workloads [id 421]
+  Attachment: rcu-rt.2019.09.11a.pdf
+  Source URL: https://lpc.events/event/4/contributions/421/attachments/332/558/rcu-rt.2019.09.11a.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/RCU configuration, operation, and upcoming changes for real-time workloads/rcu-rt.2019.09.11a.pdf
+  Status: already present
+
+Session: Traffic footprint characterization of workloads using BPF [id 490]
+  Attachment: bpf-traffic-footprint-paper.pdf
+  Source URL: https://lpc.events/event/4/contributions/490/attachments/243/530/bpf-traffic-footprint-paper.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Traffic footprint characterization of workloads using BPF/bpf-traffic-footprint-paper.pdf
+  Status: already present
+  Attachment: bpf-traffic-footprint-slides.pdf
+  Source URL: https://lpc.events/event/4/contributions/490/attachments/243/541/bpf-traffic-footprint-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Traffic footprint characterization of workloads using BPF/bpf-traffic-footprint-slides.pdf
+  Status: already present
+
+Session: Linux Gen-Z Sub-system [id 301]
+  Attachment: GenZ Subsystem Plumbers19.pdf
+  Source URL: https://lpc.events/event/4/contributions/301/attachments/214/385/GenZ_Subsystem_Plumbers19.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Linux Gen-Z Sub-system/GenZ_Subsystem_Plumbers19.pdf
+  Status: already present
+
+Session: KUnit - Unit Testing for the Linux Kernel [id 545]
+  Attachment: KUnit - Unit Testing for the Linux Kernel (2).pdf
+  Source URL: https://lpc.events/event/4/contributions/545/attachments/410/657/KUnit_-_Unit_Testing_for_the_Linux_Kernel_2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/KUnit - Unit Testing for the Linux Kernel/KUnit_-_Unit_Testing_for_the_Linux_Kernel_2.pdf
+  Status: already present
+
+Session: RDMA, File Systems, and DAX [id 368]
+  Attachment: 2019-LPC-RDMA-FSDAX.pptx
+  Source URL: https://lpc.events/event/4/contributions/368/attachments/329/553/2019-LPC-RDMA-FSDAX.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/RDMA, File Systems, and DAX/2019-LPC-RDMA-FSDAX.pptx
+  Status: already present
+
+Session: Mathematizing the latency [id 413]
+  Attachment: latency.pdf
+  Source URL: https://lpc.events/event/4/contributions/413/attachments/377/612/latency.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Mathematizing the latency/latency.pdf
+  Status: already present
+
+Session: Real time softirq mainlining [id 420]
+  Attachment: lpc_softirq.pdf
+  Source URL: https://lpc.events/event/4/contributions/420/attachments/375/609/lpc_softirq.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Real time softirq mainlining/lpc_softirq.pdf
+  Status: already present
+
+Session: Improving Route Scalability with Nexthop Objects [id 434]
+  Attachment: nexthop-objects-talk.pdf
+  Source URL: https://lpc.events/event/4/contributions/434/attachments/251/436/nexthop-objects-talk.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Improving Route Scalability with Nexthop Objects/nexthop-objects-talk.pdf
+  Status: already present
+
+Session: pidfds: Process file descriptors on Linux [id 289]
+  Attachment: pidfds.pdf
+  Source URL: https://lpc.events/event/4/contributions/289/attachments/227/404/pidfds.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/pidfds: Process file descriptors on Linux/pidfds.pdf
+  Status: already present
+
+Session: Reflections on kernel quality, development process and testing [id 554]
+  Attachment: Reflections_ Kernel Summit 2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/554/attachments/353/584/Reflections__Kernel_Summit_2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Reflections on kernel quality, development process and testing/Reflections__Kernel_Summit_2019.pdf
+  Status: already present
+
+Session: Discussion about IBNBD/IBTRS Upstreaming: Action Items. [id 367]
+  Attachment: LPC 2019 RMDA MC IBNBD_IBTRS Upstreaming.pdf
+  Source URL: https://lpc.events/event/4/contributions/367/attachments/331/555/LPC_2019_RMDA_MC_IBNBD_IBTRS_Upstreaming.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Discussion about IBNBD／IBTRS Upstreaming: Action Items./LPC_2019_RMDA_MC_IBNBD_IBTRS_Upstreaming.pdf
+  Status: already present
+
+Session: IO: Durability, Errors and Documentation [id 492]
+  Attachment: errors.pdf
+  Source URL: https://lpc.events/event/4/contributions/492/attachments/344/573/errors.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/IO: Durability, Errors and Documentation/errors.pdf
+  Status: already present
+
+Session: Full dynticks / isolation for Real Time [id 419]
+  Attachment: lpc_nohz.pdf
+  Source URL: https://lpc.events/event/4/contributions/419/attachments/376/610/lpc_nohz.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Full dynticks ／ isolation for Real Time/lpc_nohz.pdf
+  Status: already present
+
+Session: Shared IB Objects [id 371]
+  Attachment: shpd.odp
+  Source URL: https://lpc.events/event/4/contributions/371/attachments/352/583/shpd.odp
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Shared IB Objects/shpd.odp
+  Status: already present
+
+Session: New InnoDB REDO log design and MT sync challenges [id 340]
+  Attachment: linux-plumbers2019.odp
+  Source URL: https://lpc.events/event/4/contributions/340/attachments/342/571/linux-plumbers2019.odp
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/New InnoDB REDO log design and MT sync challenges/linux-plumbers2019.odp
+  Status: already present
+
+Session: An Evaluation of Host Bandwidth Manager [id 486]
+  Attachment: LPC HBM Slides.pdf
+  Source URL: https://lpc.events/event/4/contributions/486/attachments/305/519/LPC_HBM_Slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/An Evaluation of Host Bandwidth Manager/LPC_HBM_Slides.pdf
+  Status: already present
+
+Session: Malloc for everyone and beyond NUMA [id 362]
+  Attachment: lpc2019--glisse--malloc-for-everyone.pdf
+  Source URL: https://lpc.events/event/4/contributions/362/attachments/236/414/lpc2019--glisse--malloc-for-everyone.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Malloc for everyone and beyond NUMA/lpc2019--glisse--malloc-for-everyone.pdf
+  Status: already present
+
+Session: Discussions on kselftest [id 559]
+  Attachment: Kselftest.pdf
+  Source URL: https://lpc.events/event/4/contributions/559/attachments/408/654/Kselftest.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Discussions on kselftest/Kselftest.pdf
+  Status: already present
+
+Session: Bringing BPF developer experience to the next level [id 448]
+  Attachment: bpf-usability.pdf
+  Source URL: https://lpc.events/event/4/contributions/448/attachments/345/575/bpf-usability.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Bringing BPF developer experience to the next level/bpf-usability.pdf
+  Status: already present
+
+Session: Efficient Userspace Optimistic Spinning Locks [id 286]
+  Attachment: LPC-2019-OptSpin-Locks.pdf
+  Source URL: https://lpc.events/event/4/contributions/286/attachments/225/398/LPC-2019-OptSpin-Locks.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Efficient Userspace Optimistic Spinning Locks/LPC-2019-OptSpin-Locks.pdf
+  Status: already present
+
+Session: Decoupling ZRAM from a specific backend [id 551]
+  Attachment: zram-decouple.pdf
+  Source URL: https://lpc.events/event/4/contributions/551/attachments/364/597/zram-decouple.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Decoupling ZRAM from a specific backend/zram-decouple.pdf
+  Status: already present
+
+Session: What happened in kernel live patching over the last year [id 503]
+  Attachment: pres_last_year.pdf
+  Source URL: https://lpc.events/event/4/contributions/503/attachments/383/619/pres_last_year.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/What happened in kernel live patching over the last year/pres_last_year.pdf
+  Status: already present
+
+Session: Rethinking late module patching [id 504]
+  Attachment: pres_modules.pdf
+  Source URL: https://lpc.events/event/4/contributions/504/attachments/382/618/pres_modules.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Rethinking late module patching/pres_modules.pdf
+  Status: already present
+
+Session: UEFI and TianoCore update [id 519]
+  Attachment: Plumbers 2019 TianoCore UEFI Update.pdf
+  Source URL: https://lpc.events/event/4/contributions/519/attachments/312/527/Plumbers_2019_TianoCore_UEFI_Update.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/UEFI and TianoCore update/Plumbers_2019_TianoCore_UEFI_Update.pdf
+  Status: already present
+
+Session: BPF Debugging [id 447]
+  Attachment: LPC_2019_BPF_DEBUGGING.pdf
+  Source URL: https://lpc.events/event/4/contributions/447/attachments/231/407/LPC_2019_BPF_DEBUGGING.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/BPF Debugging/LPC_2019_BPF_DEBUGGING.pdf
+  Status: already present
+
+Session: SGX upstreaming status and challenges [id 520]
+  Attachment: sgx-slides.pdf
+  Source URL: https://lpc.events/event/4/contributions/520/attachments/405/651/sgx-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/SGX upstreaming status and challenges/sgx-slides.pdf
+  Status: already present
+
+Session: Source-based livepatch creation tooling [id 505]
+  Attachment: 03-lpc19-nstange-169.pdf
+  Source URL: https://lpc.events/event/4/contributions/505/attachments/384/620/03-lpc19-nstange-169.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Source-based livepatch creation tooling/03-lpc19-nstange-169.pdf
+  Status: already present
+
+Session: A pure Go BPF library [id 449]
+  Attachment: A pure Go eBPF library.pdf
+  Source URL: https://lpc.events/event/4/contributions/449/attachments/239/529/A_pure_Go_eBPF_library.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/A pure Go BPF library/A_pure_Go_eBPF_library.pdf
+  Status: already present
+
+Session: TrenchBoot - how to nicely boot system with Intel TXT and AMD SVM [id 522]
+  Attachment: trenchboot_lpc_20190906.final.dk.pdf
+  Source URL: https://lpc.events/event/4/contributions/522/attachments/394/637/trenchboot_lpc_20190906.final.dk.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/TrenchBoot - how to nicely boot system with Intel TXT and AMD SVM/trenchboot_lpc_20190906.final.dk.pdf
+  Status: already present
+
+Session: Do we need CAP_BPF_ADMIN? [id 452]
+  Attachment: LPC_2019_CAP_BPF.pdf
+  Source URL: https://lpc.events/event/4/contributions/452/attachments/226/430/LPC_2019_CAP_BPF.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Do we need CAP_BPF_ADMIN?/LPC_2019_CAP_BPF.pdf
+  Status: already present
+
+Session: Update on objtool - Power [id 511]
+  Attachment: 04-objtool-.pdf
+  Source URL: https://lpc.events/event/4/contributions/511/attachments/385/621/04-objtool-.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Update on objtool - Power/04-objtool-.pdf
+  Status: already present
+
+Session: Do we need a Livepatch Developers Guide? [id 512]
+  Attachment: LPC2019dev.pdf
+  Source URL: https://lpc.events/event/4/contributions/512/attachments/315/532/LPC2019dev.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Do we need a Livepatch Developers Guide?/LPC2019dev.pdf
+  Status: already present
+
+Session: Reuse host JIT back-end as offload back-end [id 451]
+  Attachment: Reuse_host_JIT_back-end_as_offload_back-end-v2.pdf
+  Source URL: https://lpc.events/event/4/contributions/451/attachments/360/592/Reuse_host_JIT_back-end_as_offload_back-end-v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Reuse host JIT back-end as offload back-end/Reuse_host_JIT_back-end_as_offload_back-end-v2.pdf
+  Status: already present
+
+Session: API for state changes made by callbacks [id 506]
+  Attachment: 06-livepatch-system-state-api.pdf
+  Source URL: https://lpc.events/event/4/contributions/506/attachments/386/622/06-livepatch-system-state-api.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/API for state changes made by callbacks/06-livepatch-system-state-api.pdf
+  Status: already present
+
+Session: Using SCEV to establish pre and post-conditions over BPF code [id 450]
+  Attachment: BPFLPC19v2.pdf
+  Source URL: https://lpc.events/event/4/contributions/450/attachments/254/565/BPFLPC19v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Using SCEV to establish pre and post-conditions over BPF code/BPFLPC19v2.pdf
+  Status: already present
+
+Session: reference Integrity measurements for TPM2 security policy [id 514]
+  Attachment: rimm-and-grub2.pdf
+  Source URL: https://lpc.events/event/4/contributions/514/attachments/379/614/rimm-and-grub2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/reference Integrity measurements for TPM2 security policy/rimm-and-grub2.pdf
+  Status: already present
+
+Session: klp-convert and livepatch relocations [id 507]
+  Attachment: LPC2019.pdf
+  Source URL: https://lpc.events/event/4/contributions/507/attachments/316/533/LPC2019.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/klp-convert and livepatch relocations/LPC2019.pdf
+  Status: already present
+
+Session: Beyond per-CPU atomics and rseq syscall: subset of eBPF bytecode for the do_on_cpu syscall [id 453]
+  Attachment: presentation-lpc-2019-ebpf-rseq-v5.pdf
+  Source URL: https://lpc.events/event/4/contributions/453/attachments/257/444/presentation-lpc-2019-ebpf-rseq-v5.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Beyond per-CPU atomics and rseq syscall: subset of eBPF bytecode for the do_on_cpu syscall/presentation-lpc-2019-ebpf-rseq-v5.pdf
+  Status: already present
+
+Session: Non-UEFI-aware measured boot using coreboot, GRUB and TPM2.0 [id 517]
+  Attachment: Non-UEFI-aware measured boot using coreboot, GRUB and TPM2.0.pdf
+  Source URL: https://lpc.events/event/4/contributions/517/attachments/395/638/Non-UEFI-aware_measured_boot_using_coreboot_GRUB_and_TPM2.0.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Non-UEFI-aware measured boot using coreboot, GRUB and TPM2.0/Non-UEFI-aware_measured_boot_using_coreboot_GRUB_and_TPM2.0.pdf
+  Status: already present
+
+Session: Kernel Runtime Security Instrumentation (KRSI) [id 454]
+  Attachment: Kernel Runtime Security Instrumentation - LPC.pdf
+  Source URL: https://lpc.events/event/4/contributions/454/attachments/347/577/Kernel_Runtime_Security_Instrumentation_-_LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Kernel Runtime Security Instrumentation (KRSI)/Kernel_Runtime_Security_Instrumentation_-_LPC.pdf
+  Status: already present
+
+Session: Making Livepatching Infrastructure Better [id 510]
+  Attachment: 08-testing-livepatching.pdf
+  Source URL: https://lpc.events/event/4/contributions/510/attachments/387/623/08-testing-livepatching.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Making Livepatching Infrastructure Better/08-testing-livepatching.pdf
+  Status: already present
+
+Session: TPM 2.0 Linux sysfs interface [id 516]
+  Attachment: TPM 2.0 Linux sysfs interface.pdf
+  Source URL: https://lpc.events/event/4/contributions/516/attachments/396/639/TPM_2.0_Linux_sysfs_interface.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/TPM 2.0 Linux sysfs interface/TPM_2.0_Linux_sysfs_interface.pdf
+  Status: already present
+
+Session: Live patch services [id 509]
+  Attachment: Live patch services (15min).pdf
+  Source URL: https://lpc.events/event/4/contributions/509/attachments/280/582/Live_patch_services_15min.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Live patch services/Live_patch_services_15min.pdf
+  Status: already present
+
+Session: Map batch processing [id 488]
+  Attachment: LPC_2019_MAP_BATCHING.pdf
+  Source URL: https://lpc.events/event/4/contributions/488/attachments/232/408/LPC_2019_MAP_BATCHING.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2019/Map batch processing/LPC_2019_MAP_BATCHING.pdf
+  Status: already present

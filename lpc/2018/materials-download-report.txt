@@ -1,0 +1,907 @@
+Source JSON: lpc2018-sessions.json
+Total sessions: 203
+Sessions with file attachments: 134
+Sessions without file attachments: 69
+Attachment count: 157
+Distinct source-file count: 157
+Saved: 157
+Already present: 0
+Unresolved: 0
+
+Sessions without file attachment links were omitted from the listing below.
+
+Session: Welcome (ID 91)
+  Title: LPC_Networking_Intro.pdf
+  Source URL: https://lpc.events/event/2/contributions/91/attachments/90/101/LPC_Networking_Intro.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Welcome [ID 91]/LPC_Networking_Intro.pdf
+  Status: saved
+
+Session: Improving Graphics Interactivity - It's All in the Timing (ID 68)
+  Title: timing.pdf
+  Source URL: https://lpc.events/event/2/contributions/68/attachments/155/373/timing.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Improving Graphics Interactivity - It's All in the Timing/timing.pdf
+  Status: saved
+
+Session: Thermal user space interfaces: Optimizing user kernel interfaces (ID 182)
+  Title: LPC_2018_Thermal-Srinivas-Rui.pdf
+  Source URL: https://lpc.events/event/2/contributions/182/attachments/38/45/LPC_2018_Thermal-Srinivas-Rui.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Thermal user space interfaces: Optimizing user kernel interfaces/LPC_2018_Thermal-Srinivas-Rui.pdf
+  Status: saved
+
+Session: Report from ATS (ID 232)
+  Title: ATS report, kernelCI update.pdf
+  Source URL: https://lpc.events/event/2/contributions/232/attachments/172/372/ATS_report_kernelCI_update.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Report from ATS/ATS_report_kernelCI_update.pdf
+  Status: saved
+
+Session: News from academia: FatELF, RDMA and CRIU (ID 205)
+  Title: FatELF, RDMA and CRIU.pdf
+  Source URL: https://lpc.events/event/2/contributions/205/attachments/30/31/FatELF_RDMA_and_CRIU.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/News from academia: FatELF, RDMA and CRIU/FatELF_RDMA_and_CRIU.pdf
+  Status: saved
+
+Session: XDP - Challenges and Future Work (ID 92)
+  Title: lpc18-xdp-future.pdf
+  Source URL: https://lpc.events/event/2/contributions/92/attachments/91/103/lpc18-xdp-future.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/XDP - Challenges and Future Work/lpc18-xdp-future.pdf
+  Status: saved
+  Title: presentation-lpc2018-xdp-future.pdf
+  Source URL: https://lpc.events/event/2/contributions/92/attachments/91/102/presentation-lpc2018-xdp-future.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/XDP - Challenges and Future Work/presentation-lpc2018-xdp-future.pdf
+  Status: saved
+
+Session: Improvements on thermal zone mode (ID 185)
+  Title: LPC_2018_Thermal-Srinivas-Rui.pdf
+  Source URL: https://lpc.events/event/2/contributions/185/attachments/39/46/LPC_2018_Thermal-Srinivas-Rui.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Improvements on thermal zone mode/LPC_2018_Thermal-Srinivas-Rui.pdf
+  Status: saved
+
+Session: Embedded Thermal usecases and how to handle them (ID 187)
+  Title: Embedded Thermal usecases LPC 2018 - Amit.pdf
+  Source URL: https://lpc.events/event/2/contributions/187/attachments/40/47/Embedded_Thermal_usecases_LPC_2018_-_Amit.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Embedded Thermal usecases and how to handle them/Embedded_Thermal_usecases_LPC_2018_-_Amit.pdf
+  Status: saved
+
+Session: Stacking and LSM Namespacing Redux (ID 203)
+  Title: Namespacing and Stacking the LSM-2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/203/attachments/123/155/Namespacing_and_Stacking_the_LSM-2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Stacking and LSM Namespacing Redux/Namespacing_and_Stacking_the_LSM-2018.pdf
+  Status: saved
+
+Session: Leveraging Kernel Tables with XDP (ID 93)
+  Title: dsa-xdp-kernel-tables-paper.pdf
+  Source URL: https://lpc.events/event/2/contributions/93/attachments/92/104/dsa-xdp-kernel-tables-paper.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Leveraging Kernel Tables with XDP/dsa-xdp-kernel-tables-paper.pdf
+  Status: saved
+  Title: dsa-xdp-kernel-tables-slides.pdf
+  Source URL: https://lpc.events/event/2/contributions/93/attachments/92/105/dsa-xdp-kernel-tables-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Leveraging Kernel Tables with XDP/dsa-xdp-kernel-tables-slides.pdf
+  Status: saved
+
+Session: Challenges in migrating a large cgroup deployment from v1 to v2 (ID 204)
+  Title: LPC2018-cgroup-v2.pdf
+  Source URL: https://lpc.events/event/2/contributions/204/attachments/143/378/LPC2018-cgroup-v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Challenges in migrating a large cgroup deployment from v1 to v2/LPC2018-cgroup-v2.pdf
+  Status: saved
+
+Session: Scheduler interactions with thermal management (ID 183)
+  Title: Thermal Pressure_ Scheduler-Thermal Interactions-Thara.pdf
+  Source URL: https://lpc.events/event/2/contributions/183/attachments/41/48/Thermal_Pressure__Scheduler-Thermal_Interactions-Thara.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Scheduler interactions with thermal management/Thermal_Pressure__Scheduler-Thermal_Interactions-Thara.pdf
+  Status: saved
+
+Session: make runchecks (ID 234)
+  Title: lpc_tfw_18.pdf
+  Source URL: https://lpc.events/event/2/contributions/234/attachments/174/375/lpc_tfw_18.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/make runchecks/lpc_tfw_18.pdf
+  Status: saved
+
+Session: Time Namespaces (ID 202)
+  Title: LPC2018_ Time Namespace (4).pdf
+  Source URL: https://lpc.events/event/2/contributions/202/attachments/25/28/LPC2018__Time_Namespace_4.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Time Namespaces/LPC2018__Time_Namespace_4.pdf
+  Status: saved
+
+Session: Building Socket-aware BPF Programs (ID 94)
+  Title: lpc18-sk-lookup.pdf
+  Source URL: https://lpc.events/event/2/contributions/94/attachments/93/107/lpc18-sk-lookup.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Building Socket-aware BPF Programs/lpc18-sk-lookup.pdf
+  Status: saved
+  Title: lpc18-sk-lookup-slides.pdf
+  Source URL: https://lpc.events/event/2/contributions/94/attachments/93/106/lpc18-sk-lookup-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Building Socket-aware BPF Programs/lpc18-sk-lookup-slides.pdf
+  Status: saved
+
+Session: Virtio as a universal communication format (ID 246)
+  Title: virtio2018-v2.pdf
+  Source URL: https://lpc.events/event/2/contributions/246/attachments/37/44/virtio2018-v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Virtio as a universal communication format/virtio2018-v2.pdf
+  Status: saved
+
+Session: Syzkaller/Syzbot (ID 237)
+  Title: syzbot automated kernel testing.pdf
+  Source URL: https://lpc.events/event/2/contributions/237/attachments/61/71/syzbot_automated_kernel_testing.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Syzkaller／Syzbot/syzbot_automated_kernel_testing.pdf
+  Status: saved
+
+Session: Idle injection (ID 184)
+  Title: LPC2018 - Thermal - Idle injection (1).pdf
+  Source URL: https://lpc.events/event/2/contributions/184/attachments/42/49/LPC2018_-_Thermal_-_Idle_injection_1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Idle injection/LPC2018_-_Thermal_-_Idle_injection_1.pdf
+  Status: saved
+
+Session: Better support for virtual temperature sensors (ID 186)
+  Title: LPC2018-thermalMC.pdf
+  Source URL: https://lpc.events/event/2/contributions/186/attachments/43/50/LPC2018-thermalMC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Better support for virtual temperature sensors/LPC2018-thermalMC.pdf
+  Status: saved
+
+Session: Experiences Evaluating DC-TCP (ID 95)
+  Title: LPC DCTCP Eval Paper.pdf
+  Source URL: https://lpc.events/event/2/contributions/95/attachments/94/109/LPC_DCTCP_Eval_Paper.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Experiences Evaluating DC-TCP/LPC_DCTCP_Eval_Paper.pdf
+  Status: saved
+  Title: LPC DC-TCP Eval.pdf
+  Source URL: https://lpc.events/event/2/contributions/95/attachments/94/108/LPC_DC-TCP_Eval.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Experiences Evaluating DC-TCP/LPC_DC-TCP_Eval.pdf
+  Status: saved
+
+Session: GCMA: Guaranteed Contiguous Memory Allocator (ID 247)
+  Title: gcma_ksummit2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/247/attachments/74/85/gcma_ksummit2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/GCMA: Guaranteed Contiguous Memory Allocator/gcma_ksummit2018.pdf
+  Status: saved
+
+Session: SCHED_DEADLINE desiderata and slightly crazy ideas (ID 62)
+  Title: sched_deadline_desiderata.pdf
+  Source URL: https://lpc.events/event/2/contributions/62/attachments/121/153/sched_deadline_desiderata.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/SCHED_DEADLINE desiderata and slightly crazy ideas/sched_deadline_desiderata.pdf
+  Status: saved
+
+Session: Another year with CRIU: News from the developers (ID 207)
+  Title: 2018-another-year-with-criu.pdf
+  Source URL: https://lpc.events/event/2/contributions/207/attachments/33/32/2018-another-year-with-criu.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Another year with CRIU: News from the developers/2018-another-year-with-criu.pdf
+  Status: saved
+
+Session: Scaling Linux Bridge Forwarding Database (ID 96)
+  Title: scaling_bridge_fdb_database_paperV2.pdf
+  Source URL: https://lpc.events/event/2/contributions/96/attachments/95/111/scaling_bridge_fdb_database_paperV2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Scaling Linux Bridge Forwarding Database/scaling_bridge_fdb_database_paperV2.pdf
+  Status: saved
+  Title: scaling_bridge_fdb_database_slidesV3.pdf
+  Source URL: https://lpc.events/event/2/contributions/96/attachments/95/110/scaling_bridge_fdb_database_slidesV3.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Scaling Linux Bridge Forwarding Database/scaling_bridge_fdb_database_slidesV3.pdf
+  Status: saved
+
+Session: P4C-XDP: Programming the Linux Kernel Forwarding Plane Using P4 (ID 97)
+  Title: p4c-xdp-lpc18-paper.pdf
+  Source URL: https://lpc.events/event/2/contributions/97/attachments/96/112/p4c-xdp-lpc18-paper.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/P4C-XDP: Programming the Linux Kernel Forwarding Plane Using P4/p4c-xdp-lpc18-paper.pdf
+  Status: saved
+  Title: p4c-xdp-lpc18-presentation.pdf
+  Source URL: https://lpc.events/event/2/contributions/97/attachments/96/113/p4c-xdp-lpc18-presentation.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/P4C-XDP: Programming the Linux Kernel Forwarding Plane Using P4/p4c-xdp-lpc18-presentation.pdf
+  Status: saved
+
+Session: Android and the kernel: herding billions of penguins, one version at a time (ID 61)
+  Title: Android and Linux Kernel_ Herding billions of penguins, one version at a time.pdf
+  Source URL: https://lpc.events/event/2/contributions/61/attachments/69/80/Android_and_Linux_Kernel__Herding_billions_of_penguins_one_version_at_a_time.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Android and the kernel: herding billions of penguins, one version at a time/Android_and_Linux_Kernel__Herding_billions_of_penguins_one_version_at_a_time.pdf
+  Status: saved
+
+Session: Task Migration at Google Using CRIU (ID 209)
+  Title: Task Migration at Google Using CRIU.pdf
+  Source URL: https://lpc.events/event/2/contributions/209/attachments/27/24/Task_Migration_at_Google_Using_CRIU.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Task Migration at Google Using CRIU/Task_Migration_at_Google_Using_CRIU.pdf
+  Status: saved
+
+Session: ERSPAN Support for Linux (ID 98)
+  Title: erspan-linux.pdf
+  Source URL: https://lpc.events/event/2/contributions/98/attachments/97/115/erspan-linux.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/ERSPAN Support for Linux/erspan-linux.pdf
+  Status: saved
+  Title: erspan-linux-presentation.pdf
+  Source URL: https://lpc.events/event/2/contributions/98/attachments/97/114/erspan-linux-presentation.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/ERSPAN Support for Linux/erspan-linux-presentation.pdf
+  Status: saved
+
+Session: When eBPF meets FUSE: Improving Performance of User File Systems (ID 249)
+  Title: ExtFUSELPC2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/249/attachments/71/82/ExtFUSELPC2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/When eBPF meets FUSE: Improving Performance of User File Systems/ExtFUSELPC2018.pdf
+  Status: saved
+
+Session: Heterogeneous Memory Management (ID 70)
+  Title: hmm-lpc18.pdf
+  Source URL: https://lpc.events/event/2/contributions/70/attachments/14/6/hmm-lpc18.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Heterogeneous Memory Management/hmm-lpc18.pdf
+  Status: saved
+
+Session: libresource - Getting system resource information with standard APIs (ID 211)
+  Title: lpc-libres.pdf
+  Source URL: https://lpc.events/event/2/contributions/211/attachments/28/25/lpc-libres.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/libresource - Getting system resource information with standard APIs/lpc-libres.pdf
+  Status: saved
+
+Session: The Path to DPDK Speeds for AF_XDP (ID 99)
+  Title: lpc18_paper_af_xdp_perf-v2.pdf
+  Source URL: https://lpc.events/event/2/contributions/99/attachments/98/117/lpc18_paper_af_xdp_perf-v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/The Path to DPDK Speeds for AF_XDP/lpc18_paper_af_xdp_perf-v2.pdf
+  Status: saved
+  Title: lpc18_pres_af_xdp_perf-v3.pdf
+  Source URL: https://lpc.events/event/2/contributions/99/attachments/98/116/lpc18_pres_af_xdp_perf-v3.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/The Path to DPDK Speeds for AF_XDP/lpc18_pres_af_xdp_perf-v3.pdf
+  Status: saved
+
+Session: Beyond the latency: New metrics for the real-time kernel (ID 241)
+  Title: new_metrics_for_the_rt.pdf
+  Source URL: https://lpc.events/event/2/contributions/241/attachments/120/152/new_metrics_for_the_rt.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Beyond the latency: New metrics for the real-time kernel/new_metrics_for_the_rt.pdf
+  Status: saved
+
+Session: Securely Migrating Untrusted Workloads with CRIU (ID 210)
+  Title: Securely migrating untrusted workloads with CRIU.pdf
+  Source URL: https://lpc.events/event/2/contributions/210/attachments/32/30/Securely_migrating_untrusted_workloads_with_CRIU.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Securely Migrating Untrusted Workloads with CRIU/Securely_migrating_untrusted_workloads_with_CRIU.pdf
+  Status: saved
+
+Session: State of shiftfs (ID 212)
+  Title: shiftfs-slides.pdf
+  Source URL: https://lpc.events/event/2/contributions/212/attachments/34/33/shiftfs-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/State of shiftfs/shiftfs-slides.pdf
+  Status: saved
+
+Session: Documenting Linux MM for fun and for ... fun (ID 80)
+  Title: Documenting Linux MM.pdf
+  Source URL: https://lpc.events/event/2/contributions/80/attachments/124/156/Documenting_Linux_MM.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Documenting Linux MM for fun and for ... fun/Documenting_Linux_MM.pdf
+  Status: saved
+
+Session: SCHED_DEADLINE what's next (ID 188)
+  Title: sched_deadline_desiderata.pdf
+  Source URL: https://lpc.events/event/2/contributions/188/attachments/122/154/sched_deadline_desiderata.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/SCHED_DEADLINE what's next/sched_deadline_desiderata.pdf
+  Status: saved
+
+Session: Solving Linux File System Pain Points (ID 83)
+  Title: linux-plumbersv2.pdf
+  Source URL: https://lpc.events/event/2/contributions/83/attachments/35/40/linux-plumbersv2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Solving Linux File System Pain Points/linux-plumbersv2.pdf
+  Status: saved
+
+Session: eBPF / XDP Based Firewall and Packet Filtering (ID 100)
+  Title: ebpf-firewall-LPC.pdf
+  Source URL: https://lpc.events/event/2/contributions/100/attachments/99/118/ebpf-firewall-LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/eBPF ／ XDP Based Firewall and Packet Filtering/ebpf-firewall-LPC.pdf
+  Status: saved
+  Title: ebpf-firewall-paper-LPC.pdf
+  Source URL: https://lpc.events/event/2/contributions/100/attachments/99/119/ebpf-firewall-paper-LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/eBPF ／ XDP Based Firewall and Packet Filtering/ebpf-firewall-paper-LPC.pdf
+  Status: saved
+
+Session: Using a cBPF Binary Tree in Libseccomp to Improve Performance (ID 213)
+  Title: LibseccompBinaryTree-v3.pdf
+  Source URL: https://lpc.events/event/2/contributions/213/attachments/29/26/LibseccompBinaryTree-v3.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Using a cBPF Binary Tree in Libseccomp to Improve Performance/LibseccompBinaryTree-v3.pdf
+  Status: saved
+
+Session: RT priority inside usernamespace (ID 189)
+  Title: LPC-RT.pdf
+  Source URL: https://lpc.events/event/2/contributions/189/attachments/128/160/LPC-RT.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/RT priority inside usernamespace/LPC-RT.pdf
+  Status: saved
+
+Session: XDP Acceleration Using NIC Metadata, Continued (ID 101)
+  Title: XDP_meta-data_LPC_final_final.pdf
+  Source URL: https://lpc.events/event/2/contributions/101/attachments/100/120/XDP_meta-data_LPC_final_final.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/XDP Acceleration Using NIC Metadata, Continued/XDP_meta-data_LPC_final_final.pdf
+  Status: saved
+  Title: xdp-plumbers-2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/101/attachments/100/121/xdp-plumbers-2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/XDP Acceleration Using NIC Metadata, Continued/xdp-plumbers-2018.pdf
+  Status: saved
+
+Session: Towards a Linux Kernel Maintainer Handbook (ID 59)
+  Title: LPC 2018 - Maintainer Handbook.pdf
+  Source URL: https://lpc.events/event/2/contributions/59/attachments/141/174/LPC_2018_-_Maintainer_Handbook.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Towards a Linux Kernel Maintainer Handbook/LPC_2018_-_Maintainer_Handbook.pdf
+  Status: saved
+
+Session: How can we catch problems that can break the PREEMPT_RT preemption model? (ID 190)
+  Title: howtocatch.pdf
+  Source URL: https://lpc.events/event/2/contributions/190/attachments/119/151/howtocatch.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/How can we catch problems that can break the PREEMPT_RT preemption model?/howtocatch.pdf
+  Status: saved
+
+Session: Linux SCTP is Catching Up and Going Above! (ID 102)
+  Title: sctp-paper-final.pdf
+  Source URL: https://lpc.events/event/2/contributions/102/attachments/101/123/sctp-paper-final.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Linux SCTP is Catching Up and Going Above!/sctp-paper-final.pdf
+  Status: saved
+  Title: sctp-slides-final.pdf
+  Source URL: https://lpc.events/event/2/contributions/102/attachments/101/122/sctp-slides-final.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Linux SCTP is Catching Up and Going Above!/sctp-slides-final.pdf
+  Status: saved
+
+Session: Welcome & Introduction (ID 162)
+  Title: welcome.pdf
+  Source URL: https://lpc.events/event/2/contributions/162/attachments/22/34/welcome.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Welcome & Introduction/welcome.pdf
+  Status: saved
+
+Session: Q&A Session 1 + General Discussion (ID 163)
+  Title: q_and_a.pdf
+  Source URL: https://lpc.events/event/2/contributions/163/attachments/23/35/q_and_a.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Q&A Session 1 + General Discussion/q_and_a.pdf
+  Status: saved
+
+Session: Seamlessly update hypervising kernel (ID 154)
+  Title: Virtual Machine Manager Seamless Update.pdf
+  Source URL: https://lpc.events/event/2/contributions/154/attachments/113/144/Virtual_Machine_Manager_Seamless_Update.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Seamlessly update hypervising kernel/Virtual_Machine_Manager_Seamless_Update.pdf
+  Status: saved
+
+Session: Phylink and SFP: Going Beyond 1G Copper PHYs (ID 104)
+  Title: phylink-and-sfp-paper.pdf
+  Source URL: https://lpc.events/event/2/contributions/104/attachments/102/124/phylink-and-sfp-paper.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Phylink and SFP: Going Beyond 1G Copper PHYs/phylink-and-sfp-paper.pdf
+  Status: saved
+  Title: phylink-and-sfp-slides.pdf
+  Source URL: https://lpc.events/event/2/contributions/104/attachments/102/125/phylink-and-sfp-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Phylink and SFP: Going Beyond 1G Copper PHYs/phylink-and-sfp-slides.pdf
+  Status: saved
+
+Session: json-schema for DT bindings and validation (ID 165)
+  Title: LPC2018_json-schema_for_Devicetree.pdf
+  Source URL: https://lpc.events/event/2/contributions/165/attachments/57/66/LPC2018_json-schema_for_Devicetree.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/json-schema for DT bindings and validation/LPC2018_json-schema_for_Devicetree.pdf
+  Status: saved
+
+Session: Load balancing via scalable task stealing (ID 155)
+  Title: lpc2018_steal.pdf
+  Source URL: https://lpc.events/event/2/contributions/155/attachments/13/12/lpc2018_steal.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Load balancing via scalable task stealing/lpc2018_steal.pdf
+  Status: saved
+
+Session: Zinc: Minimal Light-weight Kernel Cryptography API (ID 254)
+  Title: lpc2018-zinc-slides.pdf
+  Source URL: https://lpc.events/event/2/contributions/254/attachments/152/380/lpc2018-zinc-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Zinc: Minimal Light-weight Kernel Cryptography API/lpc2018-zinc-slides.pdf
+  Status: saved
+
+Session: Open Source GPU compute stack - Not dancing the CUDA dance (ID 63)
+  Title: lpc2018_airlie_compute_2.odp
+  Source URL: https://lpc.events/event/2/contributions/63/attachments/16/73/lpc2018_airlie_compute_2.odp
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Open Source GPU compute stack - Not dancing the CUDA dance/lpc2018_airlie_compute_2.odp
+  Status: saved
+
+Session: Combining kTLS and BPF for Introspection and Policy Enforcement (ID 105)
+  Title: ktls_bpf_paper.pdf
+  Source URL: https://lpc.events/event/2/contributions/105/attachments/103/127/ktls_bpf_paper.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Combining kTLS and BPF for Introspection and Policy Enforcement/ktls_bpf_paper.pdf
+  Status: saved
+  Title: ktls_bpf.pdf
+  Source URL: https://lpc.events/event/2/contributions/105/attachments/103/126/ktls_bpf.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Combining kTLS and BPF for Introspection and Policy Enforcement/ktls_bpf.pdf
+  Status: saved
+
+Session: Scheduler and pipe sleep wakeup scalability (ID 156)
+  Title: Subhra_LPC2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/156/attachments/114/145/Subhra_LPC2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Scheduler and pipe sleep wakeup scalability/Subhra_LPC2018.pdf
+  Status: saved
+
+Session: DT memory (kernel), DT memory (bootloader), storage (FDT) size (ID 166)
+  Title: Device_tree_format_v18_181112_1926.pdf
+  Source URL: https://lpc.events/event/2/contributions/166/attachments/20/64/Device_tree_format_v18_181112_1926.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/DT memory (kernel), DT memory (bootloader), storage (FDT) size/Device_tree_format_v18_181112_1926.pdf
+  Status: saved
+  Title: Proposed_new_DTB_format_181112_1926.pdf
+  Source URL: https://lpc.events/event/2/contributions/166/attachments/20/65/Proposed_new_DTB_format_181112_1926.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/DT memory (kernel), DT memory (bootloader), storage (FDT) size/Proposed_new_DTB_format_181112_1926.pdf
+  Status: saved
+  Title: size-kernel-fdt.pdf
+  Source URL: https://lpc.events/event/2/contributions/166/attachments/20/37/size-kernel-fdt.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/DT memory (kernel), DT memory (bootloader), storage (FDT) size/size-kernel-fdt.pdf
+  Status: saved
+
+Session: Q&A Session #2 (ID 169)
+  Title: q_and_a.pdf
+  Source URL: https://lpc.events/event/2/contributions/169/attachments/24/36/q_and_a.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Q&A Session #2/q_and_a.pdf
+  Status: saved
+
+Session: Optimizing UDP for Content Delivery with GSO, Pacing and Zerocopy (ID 106)
+  Title: willemdebruijn-lpc2018-udpgso-paper-DRAFT-1.pdf
+  Source URL: https://lpc.events/event/2/contributions/106/attachments/104/129/willemdebruijn-lpc2018-udpgso-paper-DRAFT-1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Optimizing UDP for Content Delivery with GSO, Pacing and Zerocopy/willemdebruijn-lpc2018-udpgso-paper-DRAFT-1.pdf
+  Status: saved
+  Title: willemdebruijn-lpc2018-udpgso-presentation-20181113.pdf
+  Source URL: https://lpc.events/event/2/contributions/106/attachments/104/128/willemdebruijn-lpc2018-udpgso-presentation-20181113.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Optimizing UDP for Content Delivery with GSO, Pacing and Zerocopy/willemdebruijn-lpc2018-udpgso-presentation-20181113.pdf
+  Status: saved
+
+Session: An Introduction to RISC-V (ID 255)
+  Title: Introduction to RISC-V.pdf
+  Source URL: https://lpc.events/event/2/contributions/255/attachments/36/43/Introduction_to_RISC-V.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/An Introduction to RISC-V/Introduction_to_RISC-V.pdf
+  Status: saved
+
+Session: Proactive Defense Against CPU Side Channel Attacks (ID 77)
+  Title: Linux Plumbers Conf 2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/77/attachments/66/77/Linux_Plumbers_Conf_2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Proactive Defense Against CPU Side Channel Attacks/Linux_Plumbers_Conf_2018.pdf
+  Status: saved
+
+Session: Promoting huge page usage (ID 157)
+  Title: Plumbers 2018_ Promoting the use of Huge Pages.pdf
+  Source URL: https://lpc.events/event/2/contributions/157/attachments/115/147/Plumbers_2018__Promoting_the_use_of_Huge_Pages.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Promoting huge page usage/Plumbers_2018__Promoting_the_use_of_Huge_Pages.pdf
+  Status: saved
+
+Session: New FDT format & Overlays (ID 168)
+  Title: fdt_format.pdf
+  Source URL: https://lpc.events/event/2/contributions/168/attachments/21/41/fdt_format.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/New FDT format & Overlays/fdt_format.pdf
+  Status: saved
+  Title: overlay_frank.pdf
+  Source URL: https://lpc.events/event/2/contributions/168/attachments/21/16/overlay_frank.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/New FDT format & Overlays/overlay_frank.pdf
+  Status: saved
+
+Session: Workqueues and CPU Hotplug (ID 158)
+  Title: workqueue and cpu hotplug.pdf
+  Source URL: https://lpc.events/event/2/contributions/158/attachments/68/79/workqueue_and_cpu_hotplug.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Workqueues and CPU Hotplug/workqueue_and_cpu_hotplug.pdf
+  Status: saved
+
+Session: Bringing the Power of eBPF to Open vSwitch (ID 107)
+  Title: ovs-ebpf-afxdp.pdf
+  Source URL: https://lpc.events/event/2/contributions/107/attachments/105/131/ovs-ebpf-afxdp.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Bringing the Power of eBPF to Open vSwitch/ovs-ebpf-afxdp.pdf
+  Status: saved
+  Title: ovs-ebpf-afxdp-presentation.pdf
+  Source URL: https://lpc.events/event/2/contributions/107/attachments/105/130/ovs-ebpf-afxdp-presentation.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Bringing the Power of eBPF to Open vSwitch/ovs-ebpf-afxdp-presentation.pdf
+  Status: saved
+
+Session: FPGA + DT (ID 164)
+  Title: fpga_and_dt.pdf
+  Source URL: https://lpc.events/event/2/contributions/164/attachments/58/67/fpga_and_dt.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/FPGA + DT/fpga_and_dt.pdf
+  Status: saved
+
+Session: ktask: Parallelizing CPU-intensive kernel work (ID 159)
+  Title: ktask_lpc_2018_daniel_jordan.pdf
+  Source URL: https://lpc.events/event/2/contributions/159/attachments/19/146/ktask_lpc_2018_daniel_jordan.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/ktask: Parallelizing CPU-intensive kernel work/ktask_lpc_2018_daniel_jordan.pdf
+  Status: saved
+
+Session: Reducing the number of users of mmap_sem (ID 161)
+  Title: LPC2018_mmap_sem_abuse.pdf
+  Source URL: https://lpc.events/event/2/contributions/161/attachments/70/81/LPC2018_mmap_sem_abuse.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Reducing the number of users of mmap_sem/LPC2018_mmap_sem_abuse.pdf
+  Status: saved
+
+Session: What's Happened to the World of Networking Hardware Offloads? (ID 108)
+  Title: Brandeburg_networking_hardware_offloads.pdf
+  Source URL: https://lpc.events/event/2/contributions/108/attachments/106/133/Brandeburg_networking_hardware_offloads.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/What's Happened to the World of Networking Hardware Offloads?/Brandeburg_networking_hardware_offloads.pdf
+  Status: saved
+  Title: Brandeburg_networking_hardware_offloads slides.pdf
+  Source URL: https://lpc.events/event/2/contributions/108/attachments/106/132/Brandeburg_networking_hardware_offloads_slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/What's Happened to the World of Networking Hardware Offloads?/Brandeburg_networking_hardware_offloads_slides.pdf
+  Status: saved
+
+Session: What could be done in the kernel to make strace happy (ID 78)
+  Title: lpc_2018-what_could_be_done_in_the_kernel_to_make_strace_happy.pdf
+  Source URL: https://lpc.events/event/2/contributions/78/attachments/63/74/lpc_2018-what_could_be_done_in_the_kernel_to_make_strace_happy.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/What could be done in the kernel to make strace happy/lpc_2018-what_could_be_done_in_the_kernel_to_make_strace_happy.pdf
+  Status: saved
+
+Session: Symbol namespaces (ID 220)
+  Title: 01. Symbol Namespaces @ Plumbers (v2).pdf
+  Source URL: https://lpc.events/event/2/contributions/220/attachments/44/51/01._Symbol_Namespaces__Plumbers_v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Symbol namespaces/01._Symbol_Namespaces__Plumbers_v2.pdf
+  Status: saved
+
+Session: Android usage of memory pressure signals in userspace low memory killer (ID 221)
+  Title: 02. PSI monitor for memory pressure detection.pdf
+  Source URL: https://lpc.events/event/2/contributions/221/attachments/45/52/02._PSI_monitor_for_memory_pressure_detection.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Android usage of memory pressure signals in userspace low memory killer/02._PSI_monitor_for_memory_pressure_detection.pdf
+  Status: saved
+
+Session: Support for Control-flow Enforcement Technology (ID 147)
+  Title: CET-LPC-2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/147/attachments/72/83/CET-LPC-2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Support for Control-flow Enforcement Technology/CET-LPC-2018.pdf
+  Status: saved
+
+Session: Dynamically Allocated Binder Devices (ID 222)
+  Title: 03. dynamically_allocation_binder_devices.pdf
+  Source URL: https://lpc.events/event/2/contributions/222/attachments/46/53/03._dynamically_allocation_binder_devices.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Dynamically Allocated Binder Devices/03._dynamically_allocation_binder_devices.pdf
+  Status: saved
+
+Session: XDP 1.5 Years In Production. Evolution and Lessons Learned. (ID 109)
+  Title: LPC_XDP_Shirokov_paper_v1.pdf
+  Source URL: https://lpc.events/event/2/contributions/109/attachments/107/135/LPC_XDP_Shirokov_paper_v1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/XDP 1.5 Years In Production. Evolution and Lessons Learned./LPC_XDP_Shirokov_paper_v1.pdf
+  Status: saved
+  Title: LPC_XDP_Shirokov_v2.pdf
+  Source URL: https://lpc.events/event/2/contributions/109/attachments/107/134/LPC_XDP_Shirokov_v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/XDP 1.5 Years In Production. Evolution and Lessons Learned./LPC_XDP_Shirokov_v2.pdf
+  Status: saved
+
+Session: GLIBC API to access x86 specific platform features CPU run-time library for C (ID 148)
+  Title: libcpu-rt-LPC-2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/148/attachments/73/84/libcpu-rt-LPC-2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/GLIBC API to access x86 specific platform features CPU run-time library for C/libcpu-rt-LPC-2018.pdf
+  Status: saved
+
+Session: Elivepatch: Flexible Distributed Linux Kernel Live Patching (ID 258)
+  Title: Elivepatch Kernel Summit 2018(2).pdf
+  Source URL: https://lpc.events/event/2/contributions/258/attachments/55/62/Elivepatch_Kernel_Summit_20182.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Elivepatch: Flexible Distributed Linux Kernel Live Patching/Elivepatch_Kernel_Summit_20182.pdf
+  Status: saved
+
+Session: Formal Methods for Kernel Hackers (ID 60)
+  Title: FormalMethodsPlumbers2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/60/attachments/18/42/FormalMethodsPlumbers2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Formal Methods for Kernel Hackers/FormalMethodsPlumbers2018.pdf
+  Status: saved
+
+Session: How to be better citizens: from changes review to changes testing (ID 223)
+  Title: 04. LPC18_Android_Testing.pdf
+  Source URL: https://lpc.events/event/2/contributions/223/attachments/47/54/04._LPC18_Android_Testing.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/How to be better citizens: from changes review to changes testing/04._LPC18_Android_Testing.pdf
+  Status: saved
+
+Session: improve glibc and kernel iteration (ID 149)
+  Title: Ideas to improve glibc and Kernel interaction.pdf
+  Source URL: https://lpc.events/event/2/contributions/149/attachments/129/161/Ideas_to_improve_glibc_and_Kernel_interaction.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/improve glibc and kernel iteration/Ideas_to_improve_glibc_and_Kernel_interaction.pdf
+  Status: saved
+
+Session: Userdata FS Checkpointing (ID 224)
+  Title: 05. checkpoints.pdf
+  Source URL: https://lpc.events/event/2/contributions/224/attachments/48/55/05._checkpoints.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Userdata FS Checkpointing/05._checkpoints.pdf
+  Status: saved
+
+Session: Keynote: "This Talk Is Not About XDP: From Resource Limits to SKB Lists" (ID 110)
+  Title: davem_vancouver_2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/110/attachments/108/136/davem_vancouver_2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Keynote: "This Talk Is Not About XDP: From Resource Limits to SKB Lists"/davem_vancouver_2018.pdf
+  Status: saved
+
+Session: LVM, Device Mapper and DM-Linear (ID 225)
+  Title: 06. Dynamic Partitions - LPC Android MC v2.pdf
+  Source URL: https://lpc.events/event/2/contributions/225/attachments/49/56/06._Dynamic_Partitions_-_LPC_Android_MC_v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/LVM, Device Mapper and DM-Linear/06._Dynamic_Partitions_-_LPC_Android_MC_v2.pdf
+  Status: saved
+
+Session: TC SW Datapath: A Performance Analysis (ID 111)
+  Title: TC_SW_datapath_a_performance_analysis_2.pdf
+  Source URL: https://lpc.events/event/2/contributions/111/attachments/109/137/TC_SW_datapath_a_performance_analysis_2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/TC SW Datapath: A Performance Analysis/TC_SW_datapath_a_performance_analysis_2.pdf
+  Status: saved
+  Title: tc_sw_paper.pdf
+  Source URL: https://lpc.events/event/2/contributions/111/attachments/109/138/tc_sw_paper.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/TC SW Datapath: A Performance Analysis/tc_sw_paper.pdf
+  Status: saved
+
+Session: Android DTS fstab node requirements (ID 228)
+  Title: 09. Android DTS + fstab node requirements.pdf
+  Source URL: https://lpc.events/event/2/contributions/228/attachments/52/59/09._Android_DTS__fstab_node_requirements.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Android DTS fstab node requirements/09._Android_DTS__fstab_node_requirements.pdf
+  Status: saved
+
+Session: How to Get Ashmem Out of Staging (ID 227)
+  Title: 08. ashmem - getting it out of staging.pdf
+  Source URL: https://lpc.events/event/2/contributions/227/attachments/51/58/08._ashmem_-_getting_it_out_of_staging.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/How to Get Ashmem Out of Staging/08._ashmem_-_getting_it_out_of_staging.pdf
+  Status: saved
+
+Session: Readiness of ARM64 Kernels for Running on Any Device (ID 226)
+  Title: 07. Readiness of ARM64 kernels for GKI.pdf
+  Source URL: https://lpc.events/event/2/contributions/226/attachments/50/57/07._Readiness_of_ARM64_kernels_for_GKI.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Readiness of ARM64 Kernels for Running on Any Device/07._Readiness_of_ARM64_kernels_for_GKI.pdf
+  Status: saved
+
+Session: Using eBPF as an Abstraction for Switching (ID 112)
+  Title: eBPF_For_Switches.pdf
+  Source URL: https://lpc.events/event/2/contributions/112/attachments/110/140/eBPF_For_Switches.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Using eBPF as an Abstraction for Switching/eBPF_For_Switches.pdf
+  Status: saved
+  Title: eBPF_For_Switches_slides.pdf
+  Source URL: https://lpc.events/event/2/contributions/112/attachments/110/139/eBPF_For_Switches_slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Using eBPF as an Abstraction for Switching/eBPF_For_Switches_slides.pdf
+  Status: saved
+
+Session: DRM/KMS for Android (ID 229)
+  Title: 10. DRM KMS for Android (v1).pdf
+  Source URL: https://lpc.events/event/2/contributions/229/attachments/53/60/10._DRM_KMS_for_Android_v1.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/DRM／KMS for Android/10._DRM_KMS_for_Android_v1.pdf
+  Status: saved
+
+Session: ION Upstreaming Update (ID 230)
+  Title: 11. Ion 2018 @ LPC.pdf
+  Source URL: https://lpc.events/event/2/contributions/230/attachments/54/61/11._Ion_2018__LPC.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/ION Upstreaming Update/11._Ion_2018__LPC.pdf
+  Status: saved
+
+Session: BPF Host Network Resource Management (ID 113)
+  Title: LPC BPF Network Resource Paper.pdf
+  Source URL: https://lpc.events/event/2/contributions/113/attachments/111/142/LPC_BPF_Network_Resource_Paper.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/BPF Host Network Resource Management/LPC_BPF_Network_Resource_Paper.pdf
+  Status: saved
+  Title: LPC NRM.pdf
+  Source URL: https://lpc.events/event/2/contributions/113/attachments/111/141/LPC_NRM.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/BPF Host Network Resource Management/LPC_NRM.pdf
+  Status: saved
+
+Session: Cuttlefish (ID 269)
+  Title: Kernel Hacking with Cuttlefish.pdf
+  Source URL: https://lpc.events/event/2/contributions/269/attachments/56/63/Kernel_Hacking_with_Cuttlefish.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Cuttlefish/Kernel_Hacking_with_Cuttlefish.pdf
+  Status: saved
+
+Session: Android and Linux Kernel: Herding billions of penguins, one version at a time (ID 274)
+  Title: Android and Linux Kernel_ Herding billions of penguins, one version at a time.pdf
+  Source URL: https://lpc.events/event/2/contributions/274/attachments/65/76/Android_and_Linux_Kernel__Herding_billions_of_penguins_one_version_at_a_time.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Android and Linux Kernel: Herding billions of penguins, one version at a time/Android_and_Linux_Kernel__Herding_billions_of_penguins_one_version_at_a_time.pdf
+  Status: saved
+
+Session: Energy-aware scheduling (ID 127)
+  Title: EnergyModel_LPC2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/127/attachments/131/163/EnergyModel_LPC2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Energy-aware scheduling/EnergyModel_LPC2018.pdf
+  Status: saved
+
+Session: The hard work behind large physical allocations in the kernel (ID 65)
+  Title: Talk slides with animations expanded.
+  Source URL: https://lpc.events/event/2/contributions/65/attachments/15/171/slides-expanded.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/The hard work behind large physical allocations in the kernel/slides-expanded.pdf
+  Status: saved
+
+Session: Welcome (ID 218)
+  Title: bpf_microconference.pdf
+  Source URL: https://lpc.events/event/2/contributions/218/attachments/75/86/bpf_microconference.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Welcome [ID 218]/bpf_microconference.pdf
+  Status: saved
+
+Session: Scaling Linux Traffic Shaping with BPF (ID 88)
+  Title: lpc-bpf-2018-shaping.pdf
+  Source URL: https://lpc.events/event/2/contributions/88/attachments/76/87/lpc-bpf-2018-shaping.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Scaling Linux Traffic Shaping with BPF/lpc-bpf-2018-shaping.pdf
+  Status: saved
+
+Session: Expressing per-task/per-cgroup performance hints (ID 128)
+  Title: LPC18_UtilClamp_v5.pdf
+  Source URL: https://lpc.events/event/2/contributions/128/attachments/112/143/LPC18_UtilClamp_v5.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Expressing per-task／per-cgroup performance hints/LPC18_UtilClamp_v5.pdf
+  Status: saved
+
+Session: Compile-Once Run-Everywhere BPF Programs? (ID 89)
+  Title: bpf_compile_once.pdf
+  Source URL: https://lpc.events/event/2/contributions/89/attachments/77/88/bpf_compile_once.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Compile-Once Run-Everywhere BPF Programs?/bpf_compile_once.pdf
+  Status: saved
+
+Session: Supervisor Binary Interface(SBI) extension in RISC-V (ID 196)
+  Title: Atish_SBI.pdf
+  Source URL: https://lpc.events/event/2/contributions/196/attachments/127/159/Atish_SBI.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Supervisor Binary Interface(SBI) extension in RISC-V/Atish_SBI.pdf
+  Status: saved
+
+Session: Filename encoding and case-insensitive filesystems (ID 242)
+  Title: case-insensitive-lookups.pdf
+  Source URL: https://lpc.events/event/2/contributions/242/attachments/140/173/case-insensitive-lookups.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Filename encoding and case-insensitive filesystems/case-insensitive-lookups.pdf
+  Status: saved
+
+Session: WireGuard: Next-Generation Secure Kernel Network Tunnel (ID 66)
+  Title: lpc2018-wireguard-slides.pdf
+  Source URL: https://lpc.events/event/2/contributions/66/attachments/158/381/lpc2018-wireguard-slides.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/WireGuard: Next-Generation Secure Kernel Network Tunnel/lpc2018-wireguard-slides.pdf
+  Status: saved
+
+Session: Towards improved selection of CPU idle states (ID 132)
+  Title: cpu_idle_state_selection.pdf
+  Source URL: https://lpc.events/event/2/contributions/132/attachments/60/69/cpu_idle_state_selection.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Towards improved selection of CPU idle states/cpu_idle_state_selection.pdf
+  Status: saved
+
+Session: ELF relocation for static data in BPF (ID 115)
+  Title: bpf_global_data_and_static_keys.pdf
+  Source URL: https://lpc.events/event/2/contributions/115/attachments/78/89/bpf_global_data_and_static_keys.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/ELF relocation for static data in BPF/bpf_global_data_and_static_keys.pdf
+  Status: saved
+
+Session: Remote page faults over RDMA (ID 135)
+  Title: LPC'18 - Remote Page Faults over RDMA.pptx
+  Source URL: https://lpc.events/event/2/contributions/135/attachments/135/167/LPC18_-_Remote_Page_Faults_over_RDMA.pptx
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Remote page faults over RDMA/LPC18_-_Remote_Page_Faults_over_RDMA.pptx
+  Status: saved
+
+Session: High performance computing in RISC-V (ID 199)
+  Title: 2018 Plumbers HPC in Risc.pdf
+  Source URL: https://lpc.events/event/2/contributions/199/attachments/117/149/2018_Plumbers_HPC_in_Risc.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/High performance computing in RISC-V/2018_Plumbers_HPC_in_Risc.pdf
+  Status: saved
+
+Session: Generic power domains (genpd) framework improvements (ID 130)
+  Title: Genpd-Improvements.pdf
+  Source URL: https://lpc.events/event/2/contributions/130/attachments/138/170/Genpd-Improvements.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Generic power domains (genpd) framework improvements/Genpd-Improvements.pdf
+  Status: saved
+
+Session: BPF control flow, supporting loops and other patterns (ID 116)
+  Title: bounded-loops.pdf
+  Source URL: https://lpc.events/event/2/contributions/116/attachments/79/90/bounded-loops.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/BPF control flow, supporting loops and other patterns/bounded-loops.pdf
+  Status: saved
+
+Session: Firmware interfaces for power management vs direct control of resources (ID 131)
+  Title: firmware_interface_for_pm_vs_direct_resource_control.pdf
+  Source URL: https://lpc.events/event/2/contributions/131/attachments/62/72/firmware_interface_for_pm_vs_direct_resource_control.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Firmware interfaces for power management vs direct control of resources/firmware_interface_for_pm_vs_direct_resource_control.pdf
+  Status: saved
+
+Session: RDMA and get_user_pages (ID 126)
+  Title: LPC_2018_gup_dma.pdf
+  Source URL: https://lpc.events/event/2/contributions/126/attachments/136/168/LPC_2018_gup_dma.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/RDMA and get_user_pages/LPC_2018_gup_dma.pdf
+  Status: saved
+
+Session: Who stole my CPU? Steal time mitigation at Digital Ocean (ID 262)
+  Title: KS 2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/262/attachments/154/377/KS_2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Who stole my CPU? Steal time mitigation at Digital Ocean/KS_2018.pdf
+  Status: saved
+
+Session: Recursive read deadlocks and Where to find them (ID 74)
+  Title: Recursive read deadlocks and Where to find them.pdf
+  Source URL: https://lpc.events/event/2/contributions/74/attachments/67/78/Recursive_read_deadlocks_and_Where_to_find_them.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Recursive read deadlocks and Where to find them/Recursive_read_deadlocks_and_Where_to_find_them.pdf
+  Status: saved
+
+Session: Efficient JIT to 32-bit architectures through data flow analysis (ID 117)
+  Title: Efficient-JIT-For-32bit-Arch-Jiong.pdf
+  Source URL: https://lpc.events/event/2/contributions/117/attachments/80/91/Efficient-JIT-For-32bit-Arch-Jiong.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Efficient JIT to 32-bit architectures through data flow analysis/Efficient-JIT-For-32bit-Arch-Jiong.pdf
+  Status: saved
+
+Session: Power Management in RISC-V (ID 197)
+  Title: RISC-V Platform Power Management.pdf
+  Source URL: https://lpc.events/event/2/contributions/197/attachments/133/165/RISC-V_Platform_Power_Management.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Power Management in RISC-V/RISC-V_Platform_Power_Management.pdf
+  Status: saved
+
+Session: Runtime power sharing among CPUs, GPUs and others (ID 134)
+  Title: LPC_2018_Power.pdf
+  Source URL: https://lpc.events/event/2/contributions/134/attachments/132/164/LPC_2018_Power.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Runtime power sharing among CPUs, GPUs and others/LPC_2018_Power.pdf
+  Status: saved
+
+Session: eBPF Debugging Infrastructure - Current Techniques and Additional Proposals (ID 118)
+  Title: qmo-bpf-slides-v2.pdf
+  Source URL: https://lpc.events/event/2/contributions/118/attachments/81/92/qmo-bpf-slides-v2.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/eBPF Debugging Infrastructure - Current Techniques and Additional Proposals/qmo-bpf-slides-v2.pdf
+  Status: saved
+
+Session: eBPF-based tracing tools under 32 bit architectures (ID 119)
+  Title: lpc_tracing_32bit.pdf
+  Source URL: https://lpc.events/event/2/contributions/119/attachments/82/93/lpc_tracing_32bit.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/eBPF-based tracing tools under 32 bit architectures/lpc_tracing_32bit.pdf
+  Status: saved
+
+Session: Runtime PM timer granularity issue (ID 129)
+  Title: LPC pm runtime autosuspend.pdf
+  Source URL: https://lpc.events/event/2/contributions/129/attachments/26/22/LPC_pm_runtime_autosuspend.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Runtime PM timer granularity issue/LPC_pm_runtime_autosuspend.pdf
+  Status: saved
+
+Session: Enhancing perf to export processor hazard information (ID 76)
+  Title: Perf-for- hazard--LPC2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/76/attachments/159/242/Perf-for-_hazard--LPC2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Enhancing perf to export processor hazard information/Perf-for-_hazard--LPC2018.pdf
+  Status: saved
+
+Session: Very large Contiguous regions in userspace (ID 137)
+  Title: Very Large Contiguous Regions in Userspace.pdf
+  Source URL: https://lpc.events/event/2/contributions/137/attachments/116/148/Very_Large_Contiguous_Regions_in_Userspace.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Very large Contiguous regions in userspace/Very_Large_Contiguous_Regions_in_Userspace.pdf
+  Status: saved
+
+Session: Using eBPF as a heterogeneous processing ABI (ID 120)
+  Title: Using_eBPF_as_a_heterogeneous_processing_ABI_LPC_2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/120/attachments/83/94/Using_eBPF_as_a_heterogeneous_processing_ABI_LPC_2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Using eBPF as a heterogeneous processing ABI/Using_eBPF_as_a_heterogeneous_processing_ABI_LPC_2018.pdf
+  Status: saved
+
+Session: Experiences from Andes Technology (ID 200)
+  Title: Alan_LPC2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/200/attachments/126/158/Alan_LPC2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Experiences from Andes Technology/Alan_LPC2018.pdf
+  Status: saved
+
+Session: On-chip Interconnect API Proposal (ID 133)
+  Title: LPC2018 On-Chip Interconnect API.pdf
+  Source URL: https://lpc.events/event/2/contributions/133/attachments/130/162/LPC2018_On-Chip_Interconnect_API.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/On-chip Interconnect API Proposal/LPC2018_On-Chip_Interconnect_API.pdf
+  Status: saved
+
+Session: Traffic policing in eBPF: applying token bucket algorithm (ID 121)
+  Title: LPC2018-TokenBucket_v4.pdf
+  Source URL: https://lpc.events/event/2/contributions/121/attachments/84/95/LPC2018-TokenBucket_v4.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Traffic policing in eBPF: applying token bucket algorithm/LPC2018-TokenBucket_v4.pdf
+  Status: saved
+
+Session: RDMA and PCI peer to peer (ID 136)
+  Title: p2pdma_ why, how, what_.pdf
+  Source URL: https://lpc.events/event/2/contributions/136/attachments/164/379/p2pdma__why_how_what_.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/RDMA and PCI peer to peer/p2pdma__why_how_what_.pdf
+  Status: saved
+
+Session: Migrating to Gitlab (ID 72)
+  Title: lpc-2018-gitlab.pdf
+  Source URL: https://lpc.events/event/2/contributions/72/attachments/137/169/lpc-2018-gitlab.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Migrating to Gitlab/lpc-2018-gitlab.pdf
+  Status: saved
+
+Session: In-kernel protocol aware filtering (ID 122)
+  Title: LPC2018-BPF-DPI.pdf
+  Source URL: https://lpc.events/event/2/contributions/122/attachments/85/96/LPC2018-BPF-DPI.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/In-kernel protocol aware filtering/LPC2018-BPF-DPI.pdf
+  Status: saved
+
+Session: Enhancing User Defined Tracepoints (ID 123)
+  Title: bpf-tracepoints.pdf
+  Source URL: https://lpc.events/event/2/contributions/123/attachments/86/97/bpf-tracepoints.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Enhancing User Defined Tracepoints/bpf-tracepoints.pdf
+  Status: saved
+
+Session: Augmenting syscalls in 'perf trace' using eBPF (ID 124)
+  Title: acme-bpf-uConf-vancouver-2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/124/attachments/87/98/acme-bpf-uConf-vancouver-2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Augmenting syscalls in 'perf trace' using eBPF/acme-bpf-uConf-vancouver-2018.pdf
+  Status: saved
+
+Session: Task Migration at Scale Using CRIU (ID 69)
+  Title: Task Migration at Scale Using CRIU - LPC 2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/69/attachments/205/374/Task_Migration_at_Scale_Using_CRIU_-_LPC_2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Task Migration at Scale Using CRIU/Task_Migration_at_Scale_Using_CRIU_-_LPC_2018.pdf
+  Status: saved
+
+Session: bpftrace - high-level tracing language powered by BPF (ID 217)
+  Title: bpftrace.pdf
+  Source URL: https://lpc.events/event/2/contributions/217/attachments/88/99/bpftrace.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/bpftrace - high-level tracing language powered by BPF/bpftrace.pdf
+  Status: saved
+
+Session: eBPF as execution engine for DTrace (ID 216)
+  Title: DTrace-BPF-LPC-2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/216/attachments/89/100/DTrace-BPF-LPC-2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/eBPF as execution engine for DTrace/DTrace-BPF-LPC-2018.pdf
+  Status: saved
+
+Session: Elivepatch - flexible distributed live patch generation (ID 179)
+  Title: Elivepatch Plumbers (15min) 2018(1).pdf
+  Source URL: https://lpc.events/event/2/contributions/179/attachments/59/68/Elivepatch_Plumbers_15min_20181.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/Elivepatch - flexible distributed live patch generation/Elivepatch_Plumbers_15min_20181.pdf
+  Status: saved
+
+Session: IOCTL conversion and new kABI topics (ID 144)
+  Title: plumbers-2018.pdf
+  Source URL: https://lpc.events/event/2/contributions/144/attachments/125/157/plumbers-2018.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/IOCTL conversion and new kABI topics/plumbers-2018.pdf
+  Status: saved
+
+Session: A practical introduction to XDP (ID 71)
+  Title: presentation-lpc2018-xdp-tutorial.pdf
+  Source URL: https://lpc.events/event/2/contributions/71/attachments/17/9/presentation-lpc2018-xdp-tutorial.pdf
+  Local path: /Users/ori/onic2026/conference_materials/lpc/2018/A practical introduction to XDP/presentation-lpc2018-xdp-tutorial.pdf
+  Status: saved

@@ -1,0 +1,1976 @@
+Source: https://youtu.be/7rA3roMcrDg
+Language: en
+Captions: auto-generated
+
+[00:00:00] Um all right everybody thank you for
+[00:00:02] staying here for the last session of the
+[00:00:04] day. Um it's uh we're starting a little
+[00:00:07] bit early so that's good. Uh to this
+[00:00:10] session is uh going to talk about the
+[00:00:12] PSP security protocol
+[00:00:14] and um since you know it's the last
+[00:00:17] session and uh I'm sure you're all sad
+[00:00:20] that we're it's almost over today. Um
+[00:00:22] it's actually a panel. We're going to
+[00:00:23] have multiple presenters that might run
+[00:00:25] a little bit later than a normal talk.
+[00:00:28] Um, so what is PSP? It is a secure
+[00:00:32] network protocol like IPSec. Um, and
+[00:00:35] it's specifically, you know, it was
+[00:00:37] designed at Google many years ago
+[00:00:38] specifically to target our workload,
+[00:00:40] large scale data center deployments.
+[00:00:42] Obviously, we're not the only one with
+[00:00:43] this workload. Um, so it's of interest
+[00:00:45] to others as well.
+[00:00:47] Um, we actually presented this at a
+[00:00:50] previous net. So this is not a
+[00:00:52] presentation of everything about PSP.
+[00:00:55] I'll very quickly give a recap for
+[00:00:58] people what it's about. But what we
+[00:00:59] really want to talk about is the future
+[00:01:00] of PSP. Um and why why are we doing that
+[00:01:04] today? Um it's because um there have
+[00:01:07] been some interesting developments in
+[00:01:09] PSP in the last year. Uh most
+[00:01:11] importantly, Linux kernel supports uh
+[00:01:13] PSP today. Network parts support PSP. Uh
+[00:01:17] work from uh Yakub and Daniel at Meta
+[00:01:19] was fantastic work. I'm very excited
+[00:01:21] about that. Um and since those patches
+[00:01:24] landed there has been active development
+[00:01:26] in the uh Linux chrono um uh netv
+[00:01:30] community upstream. So um you know we
+[00:01:32] want to we want to encourage that. Um
+[00:01:35] there is hardware that you can buy from
+[00:01:37] main vendors. So that is exciting too
+[00:01:40] that works with the Linux Linux kernel
+[00:01:42] support. Um not new but it is it has
+[00:01:45] been widely deployed at Google for a
+[00:01:47] long time. It's good to reiterate that
+[00:01:49] this is like, you know, a battle tested
+[00:01:52] production quality. And uh finally, the
+[00:01:55] most recent uh thing that happened this
+[00:01:57] year is that we we came together and
+[00:02:00] created a spec. And uh the goal really
+[00:02:04] is um not to stop here, but to move
+[00:02:08] forward.
+[00:02:09] Um so this uh this uh was actually just
+[00:02:12] it says June 23rd, but it was really
+[00:02:14] last week that finally this was
+[00:02:15] official. you have to go through quite a
+[00:02:17] few hoops before you get an OCP uh
+[00:02:20] approved spec uh with these companies.
+[00:02:22] Uh but the spec is not the it's not the
+[00:02:25] end of the process. I I think for me
+[00:02:28] it's the beginning. This is the
+[00:02:29] interesting part. So we know I'm very
+[00:02:32] well aware of you know what the original
+[00:02:34] Google spec. Um but today we're going to
+[00:02:38] hear from the representatives of the
+[00:02:40] different companies how what they want
+[00:02:43] from PSP that's missing today. And this
+[00:02:46] is not prepared in the sense that I
+[00:02:48] don't entirely know what other
+[00:02:50] presenters are interested in. So I'm
+[00:02:51] actually very excited to hear this. Uh
+[00:02:53] so I hope you are too.
+[00:02:56] Before we go into the what's next um I
+[00:02:59] will give just a one slide recap. So you
+[00:03:02] know why is PSP of interest? Um it is
+[00:03:05] this slide is basically comes from the
+[00:03:07] the the first section of the spec. Um
+[00:03:11] and it is really all these these nodes
+[00:03:14] compare against IPSAC. I would say the
+[00:03:16] the main point of it I think the main
+[00:03:18] contribution is that it was built to
+[00:03:21] scale um and the implementation that
+[00:03:24] enables that is that the implementation
+[00:03:27] on the nick can be 01 with the number of
+[00:03:29] flows. So whereas uh with normally you
+[00:03:32] would keep you know perflow state on the
+[00:03:35] network card at the minimum you keep the
+[00:03:37] security uh the session key of every uh
+[00:03:40] connection or both directions on the
+[00:03:41] network card. Um the trick with PSP is
+[00:03:45] that every session key is derived from a
+[00:03:48] key that stays in the device um the
+[00:03:51] device key or the master key and uh when
+[00:03:53] a new session key is needed we just do
+[00:03:55] standard key counter mode key
+[00:03:57] derivation. So the nick um hazard
+[00:04:00] counter you do key derivation um the
+[00:04:03] first session key is uh gets a key
+[00:04:06] that's derived from one the second from
+[00:04:08] two etc. that part is not so novel.
+[00:04:11] What's interesting is that in the PSP
+[00:04:13] protocol in the wire on the wire the
+[00:04:16] payload is of course encrypted but the
+[00:04:18] headers are authenticated are uh
+[00:04:20] integrity protected but they're not
+[00:04:21] encrypted and they contain that counter
+[00:04:24] and so when a packet come comes into a
+[00:04:26] uh network card when a packet is
+[00:04:28] received
+[00:04:30] the network card will derive the session
+[00:04:32] key from the master key that's in the
+[00:04:34] network card plus that counter that's in
+[00:04:36] the packet at line rate so it can
+[00:04:39] encrypt all the packets without having
+[00:04:41] to store state for every individual
+[00:04:43] flow.
+[00:04:45] Um, so that's the I think the biggest
+[00:04:47] contribution of BSP. Um, it's not the
+[00:04:51] only one. It also compared to IPSAC in
+[00:04:54] particular, I took it took a opinionated
+[00:04:56] stance and said we're only going to
+[00:04:58] implement the stuff that we need. Um, so
+[00:05:00] it removed a whole bunch of things that
+[00:05:02] was were deemed not not necessary. no
+[00:05:04] authentication header, only a limited
+[00:05:06] number of crypto protocols,
+[00:05:09] don't duplicate replay protection if the
+[00:05:11] uh L4 protocol already has it. And um
+[00:05:16] let's see, load balancing by being
+[00:05:18] inside UDP and using the source port for
+[00:05:21] entropy. Um oh yes, being able to not
+[00:05:24] only have the PSP headers in plain text,
+[00:05:27] but optionally have more of the start of
+[00:05:30] the payload in plain text, which means
+[00:05:31] the TCP headers. The use of this is to
+[00:05:34] have the TCP uh source and destination
+[00:05:36] port in plain text but again integrity
+[00:05:38] protected which allows telemetry across
+[00:05:40] the network uh because you can actually
+[00:05:42] see the inner flow um or at least which
+[00:05:45] flow a packet belongs to. And then
+[00:05:47] finally um as GCM uses um an IV. So
+[00:05:52] every message needs to have a unique IV.
+[00:05:55] We chose and this will come up with
+[00:05:58] other presenters later today for other
+[00:06:00] approaches but we chose to make this
+[00:06:02] based on a hardware time stamp. Um that
+[00:06:06] means you need a a very uh high
+[00:06:08] precision clock because no two messages
+[00:06:10] can ever have the same time stamp. Uh
+[00:06:12] but the neat part of this is that you
+[00:06:14] can also use this for your congesture
+[00:06:16] control say for um RTT measurements
+[00:06:19] because now you actually have um a time
+[00:06:21] stamp for when a packet was being sent.
+[00:06:23] uh you get on the receiver, you can
+[00:06:25] reflect back to the sender.
+[00:06:30] Um all right, so that was PSP. As I
+[00:06:32] said, um Google basically built it, then
+[00:06:35] uh um made it publicly available, put it
+[00:06:38] on github.com/googlesp.
+[00:06:41] It's a PDF and um multiple vendors
+[00:06:45] implemented it. Meta added support to
+[00:06:47] Linux, but it was still a Google PDF
+[00:06:50] that we could change whenever we wanted
+[00:06:51] to. I don't think that's a really solid
+[00:06:53] basis for a community effort. Um so the
+[00:06:57] goal initially is to codify what already
+[00:07:01] exists the the existing less the text
+[00:07:04] and more the hardware like the network
+[00:07:05] cards that are out there are currently
+[00:07:07] interoperable. We want to make keep that
+[00:07:10] um and as uh at the same time you know
+[00:07:13] move it away from being a Google owned
+[00:07:15] thing to being owned by the actual all
+[00:07:17] the all the partners invested in this in
+[00:07:20] this ecosystem. Um I I heard at NetDev
+[00:07:24] previously, you know, talk from
+[00:07:26] different people on how they wanted to
+[00:07:28] extend PSP. I was afraid that this would
+[00:07:30] lead to fragmentation if everyone just
+[00:07:32] going to goes off and do their own thing
+[00:07:33] or you get like meta PSP and Nvidia PSP.
+[00:07:36] And so we're here al together to make
+[00:07:38] sure that that doesn't happen. Um and
+[00:07:40] that means that that step one
+[00:07:45] sorry so step one was to take this the
+[00:07:48] Google spec agree that that is what all
+[00:07:50] our our hardware implements and go
+[00:07:53] through the OCP process to turn that
+[00:07:55] into a community spec. That's the thing
+[00:07:58] we did that just ended. Um it is the
+[00:08:00] existing Google spec. Um we purposely
+[00:08:03] said we're not going to do any new
+[00:08:04] features, right? We're going to not
+[00:08:06] going to um um uh make you know address
+[00:08:11] any significant gaps, things that were
+[00:08:14] never properly explained. Uh we only
+[00:08:17] clarify um things that are ambiguous in
+[00:08:20] the text. So it was possible to take the
+[00:08:22] Google spec and implement a uh a new
+[00:08:26] nick that would not be compatible with
+[00:08:27] the existing nicks. That would be bad.
+[00:08:29] So hopefully with the OCP spec v1 that's
+[00:08:32] no longer possible. If you follow that
+[00:08:34] that spec, your nick can work with nicks
+[00:08:37] from the other vendors. Um, but now
+[00:08:40] we're getting to the exciting part which
+[00:08:42] is I heard that everyone has their own
+[00:08:44] ideas of, you know, how they want to use
+[00:08:46] this uh this protocol for other
+[00:08:48] workloads and how they want to expand
+[00:08:50] it. Um, so now we get to okay, we're
+[00:08:52] done with the with with the codifying
+[00:08:54] what we have and we're going to listen
+[00:08:56] to everyone um what they need from a uh
+[00:08:59] security protocol and how they want to
+[00:09:01] extend PSP and that's that's what we're
+[00:09:03] going to do today for the first time
+[00:09:04] actually.
+[00:09:06] Um so this is a brief overview of the
+[00:09:09] topics. Uh we have let's see one two
+[00:09:13] three four five uh five speakers um one
+[00:09:16] for for every company and um I'm just
+[00:09:20] going to give everyone the floor one
+[00:09:22] after the other and then in between
+[00:09:23] speakers if you have questions we'll
+[00:09:25] just do like a mini Q&A before we move
+[00:09:27] to the next speaker. Uh that's the plan.
+[00:09:29] Two of them are remote so we're going to
+[00:09:31] see if we can make that work. That's
+[00:09:32] also exciting. Uh but because we started
+[00:09:35] early uh we will start with the um
+[00:09:38] in-person presenters.
+[00:09:43] So let's let's start with meta and
+[00:09:45] Daniel did fantastic work I think on um
+[00:09:48] testing PSP adding uh upstream support.
+[00:09:51] I hope so.
+[00:09:56] >> Uh thank you. So I want to talk about
+[00:09:59] the work uh that we've done to test the
+[00:10:03] uh implementation of PSP protected TCP
+[00:10:06] connections that we have in the kernel
+[00:10:09] right now. Uh and this is is not an
+[00:10:13] extension to what was uh in the v1 spec.
+[00:10:17] This is uh implementing what was already
+[00:10:20] published in OCP.
+[00:10:23] So we merged support for PSP in package
+[00:10:27] drill. I'm sure a lot of people here are
+[00:10:30] probably familiar with package drill,
+[00:10:32] but it's a tool that can be used to test
+[00:10:35] various aspects of the kernel's TCP
+[00:10:38] implementation.
+[00:10:40] Uh the way that the tool works is it
+[00:10:42] sets up connections where one end uh of
+[00:10:45] the connection is a socket running the
+[00:10:48] kernel's TCP implementation and the
+[00:10:51] other end is a userbased process that
+[00:10:54] implements a minimal set or mimics sort
+[00:10:58] of parts of the TCP protocol and then on
+[00:11:02] that connection you would run a test
+[00:11:05] script in this sort of domain specific
+[00:11:08] language.
+[00:11:10] uh that looks like a mixture of of
+[00:11:12] system calls uh and and packet events
+[00:11:16] that each have timestamps.
+[00:11:19] Uh and so the two endpoints will run
+[00:11:22] different lines and then you know assert
+[00:11:25] that things happen on time uh and with
+[00:11:29] like the right return codes. So as far
+[00:11:32] as what we did to support PSP,
+[00:11:35] um Will and and some of the folks at
+[00:11:38] Google had long ago on sort of a private
+[00:11:42] or a public branch but not merged uh
+[00:11:46] had an implementation where they added
+[00:11:48] uh PSP syntax to the package or
+[00:11:51] language. So you could annotate that a
+[00:11:53] packet has PSP state, right? It's PSP
+[00:11:56] encapsulated as a spy. Um,
+[00:12:02] and then what we've had to do for the
+[00:12:05] Linux uh implementation, we went with a
+[00:12:07] netlink based U API. So we added support
+[00:12:11] for these sort of pseudo system calls
+[00:12:14] that under the hood execute uh netlink
+[00:12:17] operations.
+[00:12:19] Uh and the way this works uh with packet
+[00:12:22] drill is that it uses what's called like
+[00:12:24] the wire mode. So the packets actually
+[00:12:27] egress the driver layer and the physical
+[00:12:30] device. So it runs you know the offload
+[00:12:34] and then because of that when we do sort
+[00:12:38] of both ends uh particularly like the RX
+[00:12:41] we have to encrypt the the packets in
+[00:12:44] user space. So we use uh OpenSSL to do
+[00:12:47] that and then we can with that run a
+[00:12:51] test like this. This is a test for a out
+[00:12:54] of order Q handling sort of around a PSP
+[00:12:57] upgrade. So we can do something weird
+[00:13:01] like land uh already encrypted data into
+[00:13:04] the out of order queue sort of during
+[00:13:06] the upgrade sequence. uh and then in
+[00:13:09] this particular scenario it's uh once
+[00:13:12] that gap is plugged we can uh assert
+[00:13:14] that we can read it uh against the
+[00:13:16] socket.
+[00:13:20] uh so like I was saying uh for package
+[00:13:22] drill it's very useful for testing
+[00:13:25] uh
+[00:13:28] specific scenarios but particularly
+[00:13:30] around uh UAPI usage um connection
+[00:13:34] upgrade key exchange
+[00:13:36] um mixing uh clear text with uh
+[00:13:42] authenticated data and making sure that
+[00:13:45] it's uh behaving the way that the sort
+[00:13:49] of state machine that we've kind of
+[00:13:51] described in the kernel documentation
+[00:13:54] um that it conforms to that and that we
+[00:13:58] uh
+[00:13:59] don't have any issues there. So we have
+[00:14:02] tests for out of order Q um
+[00:14:06] and different uh TCP time weight sort of
+[00:14:08] different uh edge cases.
+[00:14:13] And then I should mention we also have
+[00:14:16] a basic uh sort of a UAPI and
+[00:14:24] sort of end toend tests in the kernel.
+[00:14:26] It's psp.py.
+[00:14:28] But then uh in addition to that
+[00:14:30] something that I want to upstream would
+[00:14:32] be using PSP in conjunction with uh TCP
+[00:14:36] offloads. So in the kernel self test
+[00:14:39] tree we have two tests uh TSO.py
+[00:14:43] which tests uh TCP segmentation uh sort
+[00:14:46] of for drivers and uh devices that
+[00:14:49] support that and then sort of the
+[00:14:51] inverse GRO.py PI which is for
+[00:14:55] coalescing or
+[00:14:59] you know GRRO
+[00:15:01] uh and so I think the uh for TCP uh for
+[00:15:05] PSP protected TCP for transport mode uh
+[00:15:09] you know you're going to want uh to be
+[00:15:10] able to do PSP in conjunction with both
+[00:15:13] of these offloads. So I think these two
+[00:15:16] test cases can be extended fairly easily
+[00:15:20] uh to cover those those situations.
+[00:15:24] Um
+[00:15:28] so this will be uh I think upcoming
+[00:15:31] soon. I think in the case of the
+[00:15:32] segmentation that test case for TCP
+[00:15:36] covers a lot of uh tunnel drivers and I
+[00:15:38] think like one of the talks earlier was
+[00:15:40] saying that uh scrubs SKB extensions. So
+[00:15:44] we use uh an escape extension for for
+[00:15:47] PSP uh RX metadata. So that that might
+[00:15:50] be an issue for uh supporting the
+[00:15:53] tunnels there. And then for the GRRO
+[00:15:55] test, what I was thinking was a setup
+[00:15:57] that looks kind of like package drill
+[00:15:58] where we basically uh cook up encrypted
+[00:16:03] packets in user space uh using something
+[00:16:06] like OpenSSL and then send them through
+[00:16:08] a packet socket uh to the device and uh
+[00:16:12] see if if your hardware implementation
+[00:16:14] can reassemble a segmented packet
+[00:16:17] correctly.
+[00:16:23] Not sure who's next.
+[00:16:30] Thanks, Daniel. Uh, any any questions to
+[00:16:32] Daniel about uh PSP packadril support
+[00:16:37] and and PSP testing more broadly?
+[00:16:41] Okay, I think I want to for people who
+[00:16:44] might be a little bit less familiar with
+[00:16:46] packet drill in in general, it's uh it
+[00:16:49] was presented at NetDev before as well.
+[00:16:51] So it's a really neat way to use
+[00:16:53] essentially the syntax you're familiar
+[00:16:54] with from as you saw from TCP dump and
+[00:16:57] estrace to construct um a program that
+[00:17:01] says okay um with these socket calls
+[00:17:05] from s uh so um estrace we expect to see
+[00:17:08] this on the wire and TCP dump and vice
+[00:17:10] versa. So we have a bunch of TCP dump um
+[00:17:14] sorry we have a bunch of packet drill
+[00:17:16] tests under tools testing self- test net
+[00:17:19] uh packet drill and I encourage everyone
+[00:17:21] who writes TCP uh to add packet drill
+[00:17:24] tests not just for PSP
+[00:17:30] >> hello
+[00:17:33] crosser um I have two questions first is
+[00:17:37] there what's what's the status of making
+[00:17:40] this uh PSP and RFC
+[00:17:44] is it already or is there any ongoing
+[00:17:47] process
+[00:17:49] uh for that? And second question
+[00:17:54] um
+[00:17:55] is there yeah limiting limiting this
+[00:17:59] encryption model to TCP only seems a
+[00:18:02] little bit maybe
+[00:18:05] uh limiting the uh use cases. Is there
+[00:18:08] any ideas about making it usable with
+[00:18:13] other protocols that allow to support
+[00:18:17] flow?
+[00:18:19] >> Yeah, I think I'll take the the latter
+[00:18:21] question or the the second question
+[00:18:24] first as far as the supported protocol.
+[00:18:27] So in in the spec there's different uh
+[00:18:30] encapsulation formats and the the format
+[00:18:33] that's kind of called transport mode is
+[00:18:35] where the PSP header is inserted uh
+[00:18:38] right outside of the L4 header. So, and
+[00:18:41] I think in the spec there is an
+[00:18:44] acknowledgement that it can be used with
+[00:18:46] uh UDP also as an L4, but as far as what
+[00:18:50] we support in the kernel, right now it's
+[00:18:52] just uh TCP
+[00:18:54] and then I don't know if you have any
+[00:18:56] thing to add to that, Will.
+[00:18:57] >> Yeah. Yeah, I agree. I think TCP was the
+[00:19:00] initial use case. Um there's nothing
+[00:19:03] stopping you from using PSP with
+[00:19:04] something else. I've definitely heard
+[00:19:06] other people interested in applying PSP
+[00:19:08] to other alpha protocols. The main issue
+[00:19:11] uh is that it does not offer replay
+[00:19:13] protection. It depends on TCP for that.
+[00:19:16] Um so the the the first protocol people
+[00:19:18] have mentioned is something in UDP. Um
+[00:19:20] you have to be aware of this. I think
+[00:19:22] one of our speakers is going to speak to
+[00:19:24] that point. Uh adding replay protection.
+[00:19:26] Um so maybe taking it out was a bit too
+[00:19:29] opinionated a choice. Um on your other
+[00:19:32] question um on the RFC,
+[00:19:35] there's no immediate plans to go to the
+[00:19:37] IETF and and make this an IETF. uh
+[00:19:39] standard um you know if there's enough
+[00:19:42] community interest uh we can definitely
+[00:19:44] consider that.
+[00:19:49] All right, thanks thanks for your
+[00:19:51] questions. Thank you Daniel.
+[00:19:53] Um we will going to skip a few slides
+[00:19:56] and I think we're going to uh Nvidia
+[00:19:59] next. Um I'm showing you everything
+[00:20:01] you're going to see. Does Okay, here we
+[00:20:03] go. Um Boris, are you are you there?
+[00:20:08] Yes.
+[00:20:09] >> Okay, great.
+[00:20:10] >> So, can you click?
+[00:20:11] >> Absolutely. Go ahead.
+[00:20:13] >> H It's very difficult to see the slides
+[00:20:16] for some reason. Um I have them on the
+[00:20:19] side. So, just a second.
+[00:20:22] So, okay.
+[00:20:24] So, I'm going to talk about two things.
+[00:20:26] One is confidential computing.
+[00:20:30] I assume you guys haven't heard a lot
+[00:20:32] about this. So confidential computing is
+[00:20:35] a technology in which uh trusted
+[00:20:38] execution environments in the form of
+[00:20:40] VMs for example are protected from the
+[00:20:43] hypervisor. So if you look at this
+[00:20:46] diagram over here on the right, we have
+[00:20:48] a VMM hypervisor that is untrusted from
+[00:20:53] the tenants from the VM's perspective
+[00:20:57] and so the hypervisor cannot read or or
+[00:21:00] write to the VM's data. We have a
+[00:21:03] confidential VM in green uh which has is
+[00:21:08] running an S virtual function while the
+[00:21:10] hypervisor is running a physical
+[00:21:12] function or another VM is running a
+[00:21:14] different virtual function and this
+[00:21:16] confidential VM is protected from the
+[00:21:18] hypervisor on other virtual machines.
+[00:21:21] Now in confidential computing it is
+[00:21:23] assumed that the VMs control their own
+[00:21:26] encryption.
+[00:21:28] For example, if we were to use PSP, then
+[00:21:31] we would like the VM to run PSP
+[00:21:34] directly.
+[00:21:36] Uh, and this creates several problems.
+[00:21:40] Uh, one of which which I'd like to uh
+[00:21:45] highlight is the fact that Psp is not uh
+[00:21:50] SLOV compatible as is. So, so if you can
+[00:21:52] click,
+[00:21:58] so currently it's it's not clearly
+[00:22:00] defined what PSP would do in SL. Uh it's
+[00:22:03] possible to con consider two approaches
+[00:22:06] uh and I recommend one. Uh so one
+[00:22:10] approach would be uh the approach on the
+[00:22:14] right where we share one master key
+[00:22:17] between all uh VMs in some way. For
+[00:22:21] example, we split the SPI space such
+[00:22:26] that each VM gets a number of SPIs
+[00:22:31] and and they all show the master key.
+[00:22:34] Now, this has several problems. fills
+[00:22:37] the the SPI space would be limited per
+[00:22:39] VM
+[00:22:41] and it would increase slick licky
+[00:22:42] frequency because each VM uses its SPI
+[00:22:46] space potentially at a different rate
+[00:22:49] exhausting uh it eventually and causing
+[00:22:52] a licky of the shel master key that
+[00:22:55] affects all the VMs. So VMs shall fate
+[00:22:58] upon a leaky everyone needs to be
+[00:23:00] notified this is happening they will
+[00:23:02] need to respond.
+[00:23:05] Additionally, this sharing is is
+[00:23:06] somewhat incompatible with confidential
+[00:23:08] compute because means you you share a a
+[00:23:11] secret undesirabably.
+[00:23:14] Uh and uh finally we need some new API
+[00:23:17] to to notify everyone and to split the
+[00:23:19] SPIs. Now an alternative approach is to
+[00:23:23] put a unique master key per virtual
+[00:23:25] function uh essentially uh providing
+[00:23:29] each VM with the illusion of having its
+[00:23:33] own physical nick and physical master
+[00:23:35] key in hard loop. As a result all SPIs
+[00:23:39] are available to each VM and they have
+[00:23:42] no dependency. A master key rick key
+[00:23:46] would impact only the VM that that call
+[00:23:48] that Ricky
+[00:23:49] and it would be compatible with
+[00:23:51] confidential compute and require no new
+[00:23:53] APIs. So I I recommend we go this
+[00:23:57] direction.
+[00:24:00] >> That's it.
+[00:24:04] >> Okay. Thank you uh Boris. Uh any
+[00:24:06] questions for Boris about um Sri
+[00:24:09] confidential compute support? Yes. Jak
+[00:24:14] um can you define what it means to
+[00:24:16] support PSP in TE right what is the
+[00:24:18] guarantee that we try to provide right
+[00:24:21] like um I think it's largely orthogonal
+[00:24:24] I don't think that TE changes anything
+[00:24:27] >> so so it changes the fact that you need
+[00:24:30] to run a PSP control plane on your VM
+[00:24:33] which you typically don't do today on
+[00:24:37] each VM not not just one VM and to do it
+[00:24:42] whether you I think to me the means that
+[00:24:44] the device has the ability to read the
+[00:24:47] encrypted memory right so the encryption
+[00:24:50] is trusted to an IO device so whether
+[00:24:53] that that is slightly orthogonal to what
+[00:24:57] level of PSP we provide to the VMs right
+[00:24:59] >> so this is orthogonal but the fact that
+[00:25:01] you need to run the PSP control plane on
+[00:25:03] your VM is unique there
+[00:25:07] like maybe something that I didn't
+[00:25:10] mention So if you're using PSP with VMs
+[00:25:12] today, you typically tunnel mode and and
+[00:25:15] run the controller on the hypervisor.
+[00:25:17] This won't work in confidential
+[00:25:20] confidential compute, you need to run it
+[00:25:21] on your VM.
+[00:25:23] >> That's sort of my second question. So I
+[00:25:25] don't know if we have an opinion about
+[00:25:26] double encryption and as as part of the
+[00:25:29] protocol, right? Because if the
+[00:25:31] customers on the VM is asking us to make
+[00:25:33] sure that the data is encrypted between
+[00:25:35] the two nicks, what is the point of
+[00:25:37] putting another layer of PSP on the
+[00:25:39] packet? like I don't have an opinion but
+[00:25:41] I think we should have be open to saying
+[00:25:43] that the nick guarantees encryption
+[00:25:45] because the hypervisor will provide the
+[00:25:47] tunnel and then the user should not be
+[00:25:49] keying again right
+[00:25:51] >> I I point to confidential compute is is
+[00:25:54] not to do that
+[00:25:55] >> for confidential compute customers
+[00:25:57] basically don't want this this tunnel
+[00:26:00] provided they don't care if it's plain
+[00:26:02] text uh they want the tunnel themselves
+[00:26:05] they can obviously do it without
+[00:26:06] hardware offload by just using software
+[00:26:08] encryption on their packets, but if they
+[00:26:11] what they're asking for is being able
+[00:26:12] and to control PSP or what they really
+[00:26:16] are asking for sometimes is whether they
+[00:26:18] can do IPSC um using this TI disk so
+[00:26:21] that they can trust the IO device but
+[00:26:23] they are in full control and um the
+[00:26:25] hypervisor doesn't doesn't ever get to
+[00:26:27] see it
+[00:26:28] >> right but um
+[00:26:31] I think we need to define this better I
+[00:26:34] so we we we have to define some level of
+[00:26:37] trust and uh just saying that we trust
+[00:26:40] the device to do ipsec offload but we
+[00:26:42] don't trust the hypervisor which also
+[00:26:43] runs on the smart nick right like at
+[00:26:45] some point this
+[00:26:46] >> yeah my my my question would be indeed
+[00:26:48] is like these uh nicks all have large
+[00:26:52] programmable surfaces what does it ever
+[00:26:54] mean for a confidential compute VM to
+[00:26:57] trust an IO device like that
+[00:27:02] >> so it's a it's a good question it's it's
+[00:27:04] not easy each nick is slightly different
+[00:27:07] I can imagine
+[00:27:08] But eventually confidential comput as
+[00:27:12] described here relies on a PCIe spec
+[00:27:16] extension called tisp
+[00:27:18] uh which uh consists of a handshake on
+[00:27:21] PC will keys exchange in the PCIe end to
+[00:27:25] end connection is encrypted. The nika
+[00:27:29] tests the trusted components inside the
+[00:27:32] nick. So whatever the tenant relies on,
+[00:27:36] tenant being the VM
+[00:27:38] to provide that class is signed and
+[00:27:41] provided to to the tenant and the tenant
+[00:27:44] can verify it with an external server to
+[00:27:47] choose if it wants to trust this version
+[00:27:49] of filler with this configuration or no.
+[00:27:52] And uh regarding interfaces, yes, each
+[00:27:55] snick needs to go and review
+[00:27:58] the internals and and decide
+[00:28:01] uh what features to open, what features
+[00:28:03] not to open. And if a certain feature is
+[00:28:07] open, it needs to be open in such a way
+[00:28:09] that the hypervisor who drawing the
+[00:28:12] physical function for example cannot use
+[00:28:14] it to compromise the confidentiality or
+[00:28:17] integrity of the the VM in the broadest
+[00:28:21] sense.
+[00:28:26] >> Um clear thank you Boris
+[00:28:32] [clears throat]
+[00:28:33] question.
+[00:28:35] No, I I I miss first part of Boris's
+[00:28:37] thing, but I'm guessing you're saying
+[00:28:39] the for confidential compute the master
+[00:28:42] key
+[00:28:44] I don't know if it has to be per virtual
+[00:28:45] function, but maybe per tenant or
+[00:28:47] whatever, but then that's in the device
+[00:28:49] and you just need events when that
+[00:28:51] changes, right? That's probably what
+[00:28:52] you're talking about because WM really
+[00:28:55] is not going to control that master key.
+[00:28:58] >> No, no. And I'm I'm saying that you know
+[00:28:59] potential comput is one reason we're
+[00:29:01] we're doing SLOV with VMs controlling
+[00:29:05] PSP rather than the hypervisor. And as a
+[00:29:08] result it's the best the best approach
+[00:29:10] would be to have the VM to have a full
+[00:29:12] instance master key rather than a sh of
+[00:29:16] the master
+[00:29:17] >> confidential computers. Uh I don't trust
+[00:29:20] I mean it's like the only trusted entity
+[00:29:22] is device.
+[00:29:25] So it's like a three-party thing right?
+[00:29:27] So you have tenant and you have your
+[00:29:31] infrastructure. Of course,
+[00:29:33] infrastructure never trusted tenant. But
+[00:29:35] now tenant doesn't trust the
+[00:29:36] infrastructure. So who do you trust?
+[00:29:38] It's the device. So where should the
+[00:29:40] master key be in the device, not with
+[00:29:42] the VM,
+[00:29:44] >> right? Right. I didn't say you put the
+[00:29:46] master key in the VM. I said each VM
+[00:29:47] should have its own master key to to
+[00:29:49] avoid interdependence between the master
+[00:29:52] keys.
+[00:29:53] >> But we said we don't trust the VMs. So
+[00:29:56] I'm not sure. So basically just like um
+[00:30:00] uh they're basically are just like PFS
+[00:30:02] and VFS or so today you shard the whole
+[00:30:04] control path that um individual VFS can
+[00:30:08] control um key generation key insertion
+[00:30:11] if you know that independently without
+[00:30:13] having to go through the hypervisor or
+[00:30:15] trust the hypervisor that's
+[00:30:16] >> okay yeah no okay I think I I got the
+[00:30:19] picture I I got a little late Boris so
+[00:30:21] sorry I missed some some part of it
+[00:30:24] >> okay all right thanks again Boris Um, we
+[00:30:27] should speed up a little bit. Um, let me
+[00:30:30] I'll I'll go on behalf of Google. Uh,
+[00:30:33] this is fairly fairly quick. Uh, the
+[00:30:36] main topic I have is the spec as we just
+[00:30:41] stamped it a week ago says that um the
+[00:30:44] crypto elements need to be FIPS 142
+[00:30:46] compliant. VIPS 142 has been superseded
+[00:30:49] by VIPS 143 for I think six years or so
+[00:30:51] or seven years and it's actually
+[00:30:53] obsolete by September by which point the
+[00:30:55] whole thing is retracted and it from the
+[00:30:57] kind of customers who ask for
+[00:30:59] certification it's void. So um kind of
+[00:31:02] late but uh it didn't seem right to fit
+[00:31:05] it in v1 given how we have the process.
+[00:31:08] Uh but we want to upgrade to FIPS 143.
+[00:31:11] 143 is more strict. Certain things that
+[00:31:13] are allowed in 142 are not in 143. As
+[00:31:17] far as I know, nothing became more
+[00:31:19] strict that affects existing hardware.
+[00:31:21] That's the that's the important part. We
+[00:31:23] should just be able to do this.
+[00:31:26] Um, another feature request is
+[00:31:29] optionally like currently integrity
+[00:31:31] protection starts at the PSP header. Um,
+[00:31:36] so it is um there's a request to
+[00:31:39] integrity protect also part of the IP
+[00:31:41] header in front of it, specifically the
+[00:31:43] destination address. The request for
+[00:31:45] this comes from if similar to like
+[00:31:48] having multiple VFS or so if you have
+[00:31:50] multiple users behind a single PSP
+[00:31:52] block. Um the packet gets decrypted by
+[00:31:55] the PSP uh block on the nick and is then
+[00:31:58] forwarded to the VM or so that uses uh
+[00:32:01] this data. If um
+[00:32:05] uh
+[00:32:07] um if a VM uh uh if an attacker can
+[00:32:12] control one VM um and wants to get
+[00:32:15] access to data from another VM um it
+[00:32:18] could play games um by redirecting data
+[00:32:23] to a different uh uh destination address
+[00:32:26] um or do a man in the middle because
+[00:32:28] it's essentially not a protected field.
+[00:32:31] Um, so that was a request to to avoid
+[00:32:33] that specifically when you basically
+[00:32:35] have multiple users behind a single uh
+[00:32:37] PSP block.
+[00:32:40] Um, I think least controversial, you
+[00:32:42] have heard this from many different
+[00:32:43] users. Uh, within Google, we actually
+[00:32:45] have additional options besides the
+[00:32:47] virtualization cookie that's in the
+[00:32:49] spec. Um, in V1, we made it clear that
+[00:32:51] the spec allows for options. Only one
+[00:32:54] option is defined, but that's not the
+[00:32:55] end of it. Uh, we updated the text. We
+[00:32:58] haven't updated the image. That's my
+[00:33:00] fault. Um but we uh yeah we have other
+[00:33:02] headers. Uh do we want to define
+[00:33:04] actually an encoding for these or leave
+[00:33:07] it as as is? I think we should we should
+[00:33:10] do that actually have a a proper uh sort
+[00:33:12] of TLV encoding for that. Um my biggest
+[00:33:16] point really is like I have a laundry
+[00:33:19] list other people have a laundry list.
+[00:33:21] The first slide I me well not the first
+[00:33:23] the PSP recap slide mentioned the goals
+[00:33:25] of the protocol originally. One of them
+[00:33:27] was simplicity. We took out a lot of
+[00:33:29] stuff in IPSAC that we figured was not
+[00:33:31] going to be used. So, as we hear
+[00:33:33] everyone's um ideas for stuff to add,
+[00:33:37] let's keep in mind that the that
+[00:33:39] purpose, it's always a balance. This is
+[00:33:41] engineering, not science. Uh but we're
+[00:33:43] going to have to say no occasionally
+[00:33:44] when it's just a complexity isn't
+[00:33:46] warranted. Um and we're going to have to
+[00:33:49] figure out as a community effort how we,
+[00:33:51] you know, get to consensus. Uh and what
+[00:33:53] I think is more important than that is
+[00:33:55] that let's let's avoid supporting a full
+[00:33:58] cross product of all these optional
+[00:33:59] things. Um say that certain things make
+[00:34:01] sense but then you know bundle them. Uh
+[00:34:03] yeah this is v1 compliant, this is v2
+[00:34:05] compliant but there's not a million
+[00:34:07] different configurations. Uh that just
+[00:34:09] reduces the uh sort of the test surface.
+[00:34:12] And unfortunately Stephan isn't here
+[00:34:14] anymore. Uh Stefan Cluster was here the
+[00:34:16] la first two days. He is a maintainer of
+[00:34:18] IPSAC uh kernel implementation. He is
+[00:34:21] currently in Vienna because it's the
+[00:34:23] IATF um you know uh event there. Um
+[00:34:28] we've talked before the PSP tried to as
+[00:34:31] I said you know it it it's sort of
+[00:34:33] compared to IPSSEAC. Um we have talked
+[00:34:38] to how can IPSec support all the PSP
+[00:34:41] features. Uh this goes into maybe the
+[00:34:43] previous question on like when is this
+[00:34:45] going to be u an RFC. The RFC is
+[00:34:48] probably the next IPSAC RFC.
+[00:34:51] Um it were it moves at a different pace
+[00:34:54] but there has been a lot of development
+[00:34:56] actually more than I was aware until
+[00:34:57] this week until I talked to to Stephan.
+[00:34:59] So I want to make sure that everyone is
+[00:35:00] aware. Um the first one is the um ITF
+[00:35:04] effort for I think it's called enhanced
+[00:35:06] ESP. Uh that really is a new protocol a
+[00:35:10] new version of ESP but because of the
+[00:35:12] way ESP is defined you cannot have a
+[00:35:14] version field in there. So it has to be
+[00:35:15] a new IP protocol. Uh but ESP man
+[00:35:18] intends to solve a number of problems.
+[00:35:21] One of which is these PSP issues. So
+[00:35:23] having a crypt offset as we mentioned
+[00:35:25] having I guess load balancing in UDP is
+[00:35:27] already solved in ESP. Uh but uh the
+[00:35:30] various features that we mentioned in
+[00:35:31] PSP we should be able to implement in
+[00:35:33] that wire protocol. Second one request
+[00:35:36] that came up and maybe I think someone's
+[00:35:39] going to talk about it today is like the
+[00:35:40] PSP spec doesn't talk at all about key
+[00:35:43] exchange. Uh so I say yeah uh about key
+[00:35:45] exchange uh in initial negotiation the
+[00:35:48] obvious protocol for this is Ike v2 um
+[00:35:52] there's a spec again a draft for ike v2
+[00:35:55] for what surprised me is that someone
+[00:35:58] who I haven't talked to on PSP at all
+[00:36:00] actually wrote one for PSP so I still
+[00:36:02] need to read this um but that is great
+[00:36:05] and whether that should be part of the
+[00:36:06] PSP v2 spec or its own thing I I have no
+[00:36:09] opinion on uh but clearly this is a much
+[00:36:12] heard request um and Then uh another
+[00:36:14] topic that you're going to hear about in
+[00:36:16] a little bit is uh group communication
+[00:36:18] and there too uh there's a there's a
+[00:36:20] spec. So there's a lot of interesting
+[00:36:22] work that uh in in this community that
+[00:36:25] applies to PSP.
+[00:36:27] Um so these are these are the requests
+[00:36:29] uh from the Google side. Any any
+[00:36:30] questions for me on that?
+[00:36:34] >> I have a question.
+[00:36:35] >> Yeah, go ahead.
+[00:36:37] So on the L3 fields this is only for
+[00:36:39] cloud port you just mention
+[00:36:43] because with tab you you have it
+[00:36:45] protected right
+[00:36:47] >> sorry I I didn't I didn't want to hear
+[00:36:49] that
+[00:36:49] >> the second point yeah we mentioned the
+[00:36:52] the optional destination
+[00:36:54] >> that is for transport mode yes exactly
+[00:36:56] >> yes yes okay because it doesn't make
+[00:36:59] sense otherwise
+[00:37:00] >> no it doesn't
+[00:37:01] >> and and for ike do you know if they do
+[00:37:03] transport and tunnel mode is it only t
+[00:37:05] mode What's the idea?
+[00:37:07] >> Uh,
+[00:37:07] >> and how to mix it with like actual
+[00:37:09] applications using sockets.
+[00:37:11] >> I I do not know that. Anybody else here
+[00:37:14] by any chance who does better?
+[00:37:16] >> Yeah, Anjeli, by the way, you can come
+[00:37:19] because you can talk next.
+[00:37:22] >> Uh, so Boris, I have not looked at this
+[00:37:24] Ike we do for PSP either, but I would
+[00:37:26] think it is independent of the mode,
+[00:37:29] right? I mean, it doesn't really make
+[00:37:30] any sense tunnel and transport being
+[00:37:32] separated. you're just exchanging maybe
+[00:37:35] over TLS uh you know some uh spy and
+[00:37:38] whatever right so
+[00:37:39] >> I'll tell you why I iClouds as a demon
+[00:37:44] on the side and and PSP applications in
+[00:37:48] in the kernel with TCP they use a socket
+[00:37:50] option if I remember correctly uh so so
+[00:37:53] like how to bind between these two is
+[00:37:55] not really clear
+[00:37:57] >> yeah I mean maybe two different things
+[00:38:00] Boris like yes the kernel implementation
+[00:38:02] ition definitely is tailored towards
+[00:38:04] transport
+[00:38:06] but the ike v2 PSP that uh William is
+[00:38:11] pointing to I haven't looked at the code
+[00:38:14] again I could be all wrong but that's
+[00:38:16] like your control plane right for I mean
+[00:38:18] it's not your data path at all so it
+[00:38:21] doesn't have to be tied to transport
+[00:38:22] versus tunnel correct
+[00:38:27] >> let's take it offline
+[00:38:28] >> okay
+[00:38:29] >> okay thank thank you and I I see that
+[00:38:32] our presenters from Broadcom are here.
+[00:38:34] So, let's let's go to them first. You
+[00:38:35] never know with remote connections. I
+[00:38:38] love that we have a redundancy here. We
+[00:38:39] have both Erics. So, that's awesome.
+[00:38:42] >> Yes, exactly.
+[00:38:44] >> Uh let's see.
+[00:38:48] Here we go. Do you want me to go to the
+[00:38:50] next slide already?
+[00:38:53] >> Uh you're gonna have to Can you share? I
+[00:38:56] can't I can't see the slides. I can just
+[00:38:58] see the video in the room.
+[00:39:00] >> Oh, really?
+[00:39:03] Unless it's me.
+[00:39:05] >> Uh, it's you and the slide is what I
+[00:39:07] see.
+[00:39:08] Same
+[00:39:09] >> for me. Oh, there we go.
+[00:39:10] >> Okay, there we go. Okay, awesome.
+[00:39:12] Excellent. All right, so I'm Eric
+[00:39:14] Spatada. I'm from Broadcom. Um, so, uh,
+[00:39:18] we wanted to go through a couple of the
+[00:39:20] crypto topics, big picture. We have some
+[00:39:23] proposals that we would like to look at.
+[00:39:25] Um, and full and fair disclosure, we've
+[00:39:28] talked a number about a number of these
+[00:39:30] issues during the development of the
+[00:39:32] transport security sub layer that's part
+[00:39:34] of the ultra net consortium. And by the
+[00:39:37] way, I'm the editor of this. All right,
+[00:39:39] so next slide.
+[00:39:44] So I shamelessly stole this from Jeff,
+[00:39:47] who's the one of the, uh, OCP security
+[00:39:50] group um, uh, leads. Uh, I am not a
+[00:39:53] cryptographer either. Um I have had the
+[00:39:56] pleasure or pain of implementing nearly
+[00:40:00] all of these security protocols in
+[00:40:01] hardware including KTLS which is uh
+[00:40:04] which is which is was an interesting
+[00:40:07] experience. Uh so just so just my
+[00:40:10] background is a security user not a
+[00:40:12] security expert. Okay, next slide.
+[00:40:18] One of the key things that TLS and and
+[00:40:22] Quick did during the development of the
+[00:40:24] 1.2 standard was they did a complete
+[00:40:28] cleanup of the security architecture. If
+[00:40:31] you look at the previous versions of
+[00:40:32] TLS, there was all kinds of, you know,
+[00:40:35] of ways that you could hang yourself by
+[00:40:38] using either bad or or incomplete
+[00:40:41] constructions. So, they got rid of all
+[00:40:43] of those. is they get rid of a bunch of
+[00:40:44] algorithms and they basically landed on
+[00:40:47] authenticated decryption with with
+[00:40:49] additional data as the only con
+[00:40:51] constructs and if you look the two that
+[00:40:53] are in there most prevalently are ascm
+[00:40:56] and the poly35 and and chasha
+[00:40:59] algorithms. So as part of this
+[00:41:01] development what they did is you look in
+[00:41:03] appendix B they go through and do a
+[00:41:05] fairly thorough well a very thorough
+[00:41:07] security analysis of what is the re key
+[00:41:10] limits on uh on on on the keys that are
+[00:41:13] used for base security. So uh if you
+[00:41:17] look at it uh there's kind of two ways
+[00:41:19] of looking at it. One is kind of a
+[00:41:20] single user security and the other one
+[00:41:22] is a multi-user security. And the
+[00:41:24] multi-user security is uh was
+[00:41:27] highlighted a as a reference and
+[00:41:29] basically from a big picture perspective
+[00:41:32] if you assume multi-user security
+[00:41:34] assumptions you have to re key a lot
+[00:41:36] more often than with a single user. So
+[00:41:40] uh and if you do some you know quick
+[00:41:42] math based upon the counter size and
+[00:41:44] this is how often you need to re key
+[00:41:47] with a 4k bike frame and if the frame is
+[00:41:50] smaller it becomes even more often. So
+[00:41:53] if these uh apply uh we need to look at
+[00:41:56] how to do rekeying uh more frequently.
+[00:41:59] So that's the that's the the big
+[00:42:01] takeaway. If you take a look at the next
+[00:42:03] slide, um the question that I we we
+[00:42:06] debated in a couple of forums is does
+[00:42:10] this even apply? Oh, sorry.
+[00:42:14] Can you go to the next one? This looks
+[00:42:16] like a duplication. Sorry.
+[00:42:19] So this is taken directly from the paper
+[00:42:22] and the premise of the attack is that if
+[00:42:24] you have a large number of coordinated
+[00:42:27] users, so the multi-user environment,
+[00:42:29] you're successful if any one of these
+[00:42:32] breaks uh uh breaks a containment. So uh
+[00:42:36] you're not trying to b break any one
+[00:42:38] key, you're trying to break any of the
+[00:42:39] keys. And really what they do is they
+[00:42:42] outline if you can basically have a
+[00:42:44] fixed nons a fixed authentication data
+[00:42:48] and a fixed message with uh repeated on
+[00:42:53] different keys you can come up with an
+[00:42:55] attack where you can basically you know
+[00:42:57] reduce the the key space significantly.
+[00:43:00] So the question is does this apply? And
+[00:43:03] my my my my feedback to folks is uh any
+[00:43:08] of any of the cryptographers or any of
+[00:43:10] the users uh basically during the
+[00:43:12] development process of this chime in. Um
+[00:43:16] it's likely applies particularly if
+[00:43:18] you're looking at the multi-user
+[00:43:19] environment that we talk about from you
+[00:43:21] know web servers uh and others. But the
+[00:43:23] question is we should really you know
+[00:43:25] you know get a a a consensus as whether
+[00:43:29] this type of attack really applies. All
+[00:43:31] right. So that's the first piece. Um so
+[00:43:35] next slide.
+[00:43:38] So this is just a quick um you know
+[00:43:43] overview of different constructions that
+[00:43:45] are in different of the IV. And one of
+[00:43:48] the ways that the paper suggests uh uh
+[00:43:53] protecting in the multi-user environment
+[00:43:56] is randomizing the ID. Uh and if you
+[00:44:00] look at quick and TLS and actually in
+[00:44:02] DTLS, what they do is they do another
+[00:44:05] key expansion round out of their HKDF to
+[00:44:08] generate a random uh a random sequence
+[00:44:12] that they exor with the IV before it's
+[00:44:15] presented to the cipher. And if you look
+[00:44:18] uh ueet did exactly the same thing. So
+[00:44:21] we effectively have the ability to
+[00:44:22] extend the KDF to do exactly this. So we
+[00:44:25] mass that. So again I think you could
+[00:44:28] easily add this to the existing
+[00:44:30] infrastructure by you know adding a
+[00:44:32] different version for the cipher if this
+[00:44:34] is what we want to go down. But this is
+[00:44:36] uh one of the things that we're you know
+[00:44:38] advocating to look at for the 2.0
+[00:44:41] development.
+[00:44:43] All right. So next slide.
+[00:44:49] All right. So, the first thing that I
+[00:44:51] think I just talked about is we think we
+[00:44:53] should add randomization to address the
+[00:44:55] multi-user security. I think again my my
+[00:44:59] my plead is to have, you know, actual
+[00:45:02] cryptographers chime in on this and
+[00:45:04] actual deployment folks. Um, is this
+[00:45:07] really a problem? um if it is, you know,
+[00:45:10] we think we could fairly easily do this
+[00:45:12] by defining a new cyper version and
+[00:45:15] essentially using the KDF to generate a
+[00:45:17] random mask. So there's no additional
+[00:45:19] wire bandwidth required. Um it's just an
+[00:45:22] additional latency for the additional
+[00:45:24] round of the KDF. Um and we think this
+[00:45:27] solves the problem. So we think this
+[00:45:29] would be a good thing.
+[00:45:31] All right. The next proposal that we are
+[00:45:34] are talking about is you know when you
+[00:45:37] start looking at replay protection and I
+[00:45:41] actually think it was a very good thing
+[00:45:43] that PSP decided not to specify the
+[00:45:45] replay protection um because there are
+[00:45:48] various ways it can be done and there's
+[00:45:50] various reason there's various you know
+[00:45:52] attacks and pieces that that are
+[00:45:54] required for this. So, you know, TCP has
+[00:45:56] a view, you know, Rocky has a view. Uh,
+[00:46:00] and really what it comes down to is that
+[00:46:02] allow the application to do this. So,
+[00:46:04] one of the things that we'd like to talk
+[00:46:06] about is that okay, how do we allow um
+[00:46:09] the application to do this? Now
+[00:46:11] obviously you can carry sequence numbers
+[00:46:12] and all all that kind of stuff out of
+[00:46:14] band. But the question is is that if you
+[00:46:17] allow for structuring of the of the IV,
+[00:46:22] you can really come down to very tight
+[00:46:24] controls on what the counter is. And
+[00:46:26] this counter in this case would be per
+[00:46:27] source. So you could really control and
+[00:46:30] understand what the key what the re key
+[00:46:32] limits are are. One of the challenges
+[00:46:35] with time is that you you don't have any
+[00:46:38] idea how many packets were sent with
+[00:46:41] with from time and the time really is
+[00:46:43] irrelevant from a crypto perspective.
+[00:46:45] Really what you're trying to achieve is
+[00:46:47] to limit the rec the rekey uh of the of
+[00:46:52] the amount of times that you've
+[00:46:53] essentially invoked the cipher. And with
+[00:46:56] time you got to save the last time for
+[00:46:59] that you've seen from this this uh this
+[00:47:01] receiver. It's more complicated. So what
+[00:47:04] we're suggesting is we allow structuring
+[00:47:07] this. There's actually an RFC that goes
+[00:47:09] through and exactly tells you how to
+[00:47:11] structure this into kind of a fixed
+[00:47:12] portion and a counter portion. Um so
+[00:47:16] that's what we're suggesting would be a
+[00:47:18] good uh good upgrade for PSP 2.0.
+[00:47:23] Last one is
+[00:47:26] okay is automatic recay and replay
+[00:47:29] protection. So um we talked about replay
+[00:47:32] protection a a little bit. Um the other
+[00:47:35] piece that we looked at for in ueet is
+[00:47:40] if you can structure the counter and you
+[00:47:42] can even do this with time but it's less
+[00:47:44] uh interesting is you can take a portion
+[00:47:47] of the IV and you can derive
+[00:47:49] periodically a new counter from the base
+[00:47:51] counter. So basically have exactly the
+[00:47:53] same KDF structure that we have today
+[00:47:55] just used just used as part of the label
+[00:47:58] or as part of the uh of the data
+[00:48:01] portion. You essentially add portions of
+[00:48:03] the IV in order to generate a new key.
+[00:48:06] So what this does is improves the dun
+[00:48:08] properties greatly because you're
+[00:48:10] essentially rekeying. It doesn't provide
+[00:48:12] replay protection but allows you
+[00:48:14] effectively solve the the first problem
+[00:48:16] that we talked about which was the rapid
+[00:48:18] rekeying in a multi-user environment. So
+[00:48:20] that's the first piece. And then the
+[00:48:22] second piece is that with that
+[00:48:24] structured proposal, you can really look
+[00:48:26] at, okay, how do you reject packets that
+[00:48:29] are old? And you can do this in a couple
+[00:48:31] different ways based upon the
+[00:48:33] information you get from the P PSP
+[00:48:35] layer. Um, so that's kind of what we're
+[00:48:38] proposing uh for for the crypto pieces.
+[00:48:41] The other piece just going on from a
+[00:48:43] cipher perspective is the is the NIST 56
+[00:48:47] series of standards are being updated.
+[00:48:50] They do affect how the KDF is
+[00:48:53] constructed. Um and you know during
+[00:48:55] upgrading to FIPS uh uh 140.3 we'll look
+[00:49:00] at those constructions again and make
+[00:49:02] sure that they're compliant with a new
+[00:49:04] set of standards. So I think that is all
+[00:49:07] I had. Um, is there anything else in the
+[00:49:10] next slide and I'll give give it to
+[00:49:12] Eric?
+[00:49:14] Yeah. Okay. So, um, Eric Davis, the
+[00:49:18] other Eric is going to go over, uh, a,
+[00:49:21] uh, extension that we that we're that we
+[00:49:25] have in our current hardware called
+[00:49:26] cluster mode PSP. It's designed to deal
+[00:49:30] with a distributed communications
+[00:49:31] environment like uh like AI applications
+[00:49:35] or HPC applications that have a series
+[00:49:37] of ranks but and they don't have the
+[00:49:39] same security model. So Eric, you want
+[00:49:41] to take over?
+[00:49:46] >> Yeah, sure. Thanks, Eric. Um yeah,
+[00:49:48] [clears throat] again I'm Eric Davis.
+[00:49:49] I'm a Broadcom uh employee. I've been
+[00:49:51] working on Nyx for a really really long
+[00:49:52] time with Eric. And um so as he
+[00:49:55] mentioned one of the things that we did
+[00:49:57] is when we started working and we
+[00:49:59] implemented PSP what we call standard
+[00:50:02] PSP or or Google's PSP as it's defined
+[00:50:05] today um as we implemented that um we
+[00:50:08] wanted to extend that to work in a
+[00:50:10] cluster application. So if you if you
+[00:50:13] look at the PSP protocol today um it is
+[00:50:16] a pointto-point protocol and it's also
+[00:50:18] unidirectional and the reason being is
+[00:50:21] the be because the those keys those
+[00:50:24] master keys are kept on the nick they're
+[00:50:26] generated on the nick they're kept on
+[00:50:28] the nick and they never leave the nick
+[00:50:29] right so whenever someone needs to talk
+[00:50:32] to you right you need to do a KDF on
+[00:50:35] your master key and give them that new
+[00:50:37] session key that can only be used by
+[00:50:39] that peer to send you packets
+[00:50:41] if you want to send packets back, you're
+[00:50:43] going to have to do that that same that
+[00:50:45] that reverse process to to get a key
+[00:50:47] derivation from their master key. Right?
+[00:50:49] So, if you if you if you think about
+[00:50:51] this this pointto-oint communication,
+[00:50:53] you've got a lot of latency um for to to
+[00:50:57] set up a a path between two peers and
+[00:50:59] then you've also got a scaling issue,
+[00:51:01] right? So for every destination that you
+[00:51:04] want to talk to, you're going to have to
+[00:51:06] maintain a new a different key
+[00:51:08] association, what we call an essay.
+[00:51:10] Okay. So that is untenable when you you
+[00:51:13] think about it from a a typical cluster
+[00:51:16] application. You can think of like an
+[00:51:17] HPC AI application um you know running
+[00:51:20] you know nickel program launched by you
+[00:51:22] know MPI whatever it is. um with all of
+[00:51:27] those destinations you're going to talk
+[00:51:28] to, you cannot, you know, like if you're
+[00:51:30] doing all to all collective, you're not
+[00:51:32] going to want to do a a a key exchange
+[00:51:34] with every pair you're going to talk to,
+[00:51:36] and you don't want to be able to stay to
+[00:51:38] store all of those keys because the
+[00:51:39] scale would be too high. Okay, so this
+[00:51:41] is where we came in with cluster mode.
+[00:51:43] All right, so cluster mode, um the one
+[00:51:46] of the important things is is we took
+[00:51:48] PSP as it is, um and we made no header
+[00:51:52] header changes whatsoever. we just
+[00:51:54] changed how we're we're interpreting
+[00:51:56] some of the fields and how we're we're
+[00:51:58] executing the KDF. Okay. So today um
+[00:52:01] whenever you're going to communicate
+[00:52:03] with a peer um you just encrypt with
+[00:52:06] your session key that that peer gave you
+[00:52:08] and then when that packet is received
+[00:52:10] there's a KDF that is performed using uh
+[00:52:12] fields from the packet to generate the
+[00:52:15] right session key to decrypt that
+[00:52:16] packet. Okay. So what we did with
+[00:52:18] cluster mode is is kind of flipped that
+[00:52:21] on its head and every nick now shares
+[00:52:24] the same key. Okay. And for this to
+[00:52:27] work, you know, we
+[00:52:29] going into the the KDF in a in a couple
+[00:52:31] slides, I'll go into the details about
+[00:52:32] nons discussion, but we are now
+[00:52:36] requiring a KDF on both the TX path and
+[00:52:39] the RX path. Okay? And every uh pair of
+[00:52:43] peers that will communicate with each
+[00:52:45] other, they're going to use their own
+[00:52:47] private key. Okay. So while that that
+[00:52:50] same master shared key is shared across
+[00:52:52] all of the nicks, any pointto-point
+[00:52:54] communication is using a a derived
+[00:52:57] session key from that master key. Okay.
+[00:53:00] Um so what with cool things about
+[00:53:03] cluster mode PSP is there is no um key
+[00:53:06] exchange that occurs. there is only a
+[00:53:09] broad key management like a distribution
+[00:53:11] that occurs before that cluster mode job
+[00:53:14] is launched. Okay. And then after that
+[00:53:17] um all of the all of the nicks can they
+[00:53:19] can just um encrypt on the fly. Okay.
+[00:53:23] Next slide.
+[00:53:27] Okay. So with cluster mode as I was I
+[00:53:30] was just saying um you know when when
+[00:53:32] you launch the your application um that
+[00:53:34] there is a level of trust across all of
+[00:53:37] those nodes that are communicating it's
+[00:53:39] a distributed application they all trust
+[00:53:41] each other so you have this layer of
+[00:53:42] management um how do you actually
+[00:53:45] distribute these keys okay so this is
+[00:53:47] what we call a secure domain and we have
+[00:53:50] the secure domain controller okay so you
+[00:53:53] can look at a secure domain is all of
+[00:53:55] the nick ports that are going to be part
+[00:53:57] of this distributed application. Okay,
+[00:54:00] all of those nick ports need to have
+[00:54:02] that same master key programmed in it.
+[00:54:05] Okay, this is the responsibility of the
+[00:54:07] the SD controller, your secure domain
+[00:54:10] controller. You can think of it, we this
+[00:54:13] is not defined um there is a lot of of
+[00:54:15] work going on in this space right now,
+[00:54:17] especially with ultra ethernet. We're
+[00:54:19] we're working through um a reference
+[00:54:21] protocol on how this might work and it's
+[00:54:23] directly applicable to cluster mode PSP
+[00:54:25] as well. Um the idea is when you have
+[00:54:28] your job launcher, it's going to launch
+[00:54:30] all these applications. You know, it's
+[00:54:32] spinning up all these processes across
+[00:54:33] these nodes. You know, before that
+[00:54:35] occurs, um there would be a layer of
+[00:54:38] provisioning where that that shared key
+[00:54:40] within that secure domain is programmed
+[00:54:42] in all of these nicks. Okay? And you can
+[00:54:44] also go even further and you can see you
+[00:54:47] can look at it like uh there could be
+[00:54:49] multiple secure domains that are running
+[00:54:51] simultaneously. Okay? And we use the spy
+[00:54:54] and the the PSP header as the the the
+[00:54:57] the index or the what points to that
+[00:55:00] secure domain and eventually that key
+[00:55:02] that's being that was programmed on the
+[00:55:04] nick. Okay. So the the job was launched
+[00:55:08] um all of the the agents you know
+[00:55:10] however it works out it could be vendor
+[00:55:12] defined um it could be you know whatever
+[00:55:13] implementation it is
+[00:55:16] you actually come up you you you say hey
+[00:55:18] I want to be part of this this this
+[00:55:21] secure domain that security domain
+[00:55:23] controller would program all the next
+[00:55:25] and then once the application starts
+[00:55:27] they should be able to you know encrypt
+[00:55:28] and decrypt based on the the keys that
+[00:55:31] were programmed in that SDC so that
+[00:55:33] secure domain um it's bas Basically for
+[00:55:36] for simplistic uh the conversation here
+[00:55:38] there's there's two keys um the active a
+[00:55:42] and then the spy that identifies okay so
+[00:55:46] next slide
+[00:55:49] so the the other the the big like I was
+[00:55:52] mentioning the the KDF is different for
+[00:55:54] for cluster mode okay um regular PSP or
+[00:55:58] what we call standard mode PSP um the
+[00:56:00] KDF is only on the receive side what
+[00:56:03] we're imposing here is the KDF F is also
+[00:56:05] done on the send side as well. Now, one
+[00:56:07] of the as Eric mentioned in um the the
+[00:56:10] multi-user stuff, uh you know, one of
+[00:56:12] the properties of of these encryption
+[00:56:14] algorithms is when you've got a key,
+[00:56:17] right, you can when and you use that to
+[00:56:19] encrypt a packet, any nons that you use
+[00:56:22] to with that key can only used once.
+[00:56:25] Okay? If you use it a second time, your
+[00:56:27] your level of security goes way down. Um
+[00:56:30] and if you get to the point where you're
+[00:56:31] going to start to wrap, uh you need to
+[00:56:33] do a key rotation. Okay. So what we do
+[00:56:35] to alleviate that is is this KDF on the
+[00:56:38] sender, right? And to ensure that every
+[00:56:42] sender, every node in the network
+[00:56:45] generates a different key as part of the
+[00:56:47] KDF, we use a source identifier of some
+[00:56:50] kind that tweaks that that that
+[00:56:52] derivation to create a unique key that
+[00:56:55] would only be used by that sender, no
+[00:56:57] matter who it's talking to. Okay. Um the
+[00:57:00] obvious choice for that is the source IP
+[00:57:02] address. Okay. So, you've got um you've
+[00:57:05] got your your your master key from the
+[00:57:08] SD, you got your spy, um you've got your
+[00:57:11] IV that you calculate, and you've got
+[00:57:13] your source identifier. You take all of
+[00:57:14] that, you derivate your key, you you you
+[00:57:17] create a new key, you encrypt your
+[00:57:19] packet, you send it to the receiver.
+[00:57:20] Okay. The receiver when it when it gets
+[00:57:23] this packet, it just unravels using the
+[00:57:25] same process. Okay. It it's got that
+[00:57:27] master key that it's going to do the the
+[00:57:29] KDF on. It has the source identifier the
+[00:57:32] the source IP from the packet that
+[00:57:34] received that was received it's got its
+[00:57:35] spy it can calculate the IV and it can
+[00:57:38] do the decryption right then. So the the
+[00:57:40] point here is that a specific node
+[00:57:44] whenever it sends to any peer in the
+[00:57:47] network it will always use its same
+[00:57:50] generated key. Okay. But that key would
+[00:57:53] would would be uniquely generated on
+[00:57:55] that sender. Like there's going to be no
+[00:57:57] other sender that is going to generate
+[00:57:58] that same key. So we don't have these
+[00:58:00] nons issues with that. Okay. And again
+[00:58:04] uh no key d no key exchange that that
+[00:58:06] occurs with this. Um and uh yeah so
+[00:58:10] that's it for for
+[00:58:12] um next slide. That's it for for cluster
+[00:58:15] mode. Um one thing to note we have a
+[00:58:17] spec on this. Uh we are going to be it's
+[00:58:19] under internal review right now. We are
+[00:58:21] going to be contributing this and it's
+[00:58:22] got all of the details in there. Um it's
+[00:58:25] written in the same spirit of the as the
+[00:58:26] existing ESP spec. So, um, if you're
+[00:58:30] interested, uh, keep an eyes out for
+[00:58:32] that.
+[00:58:34] Um, and then this miscellaneous topics.
+[00:58:36] Um,
+[00:58:37] >> I'll take I'll take this one quick. So,
+[00:58:39] go for it.
+[00:58:40] >> Yeah, I think that we we had some
+[00:58:41] insertion problems. So, um, I'm glad to
+[00:58:44] see there's some type of key exchange
+[00:58:46] for PSP being discussed. One of our kind
+[00:58:49] of key uh observations early on was we
+[00:58:52] really like the set of you know uh
+[00:58:55] informed decisions that the PSP uh
+[00:58:58] authors made about what features are
+[00:59:00] important or not but from our
+[00:59:02] perspective you know we needed to have
+[00:59:04] some key exchange protocol. Now I I
+[00:59:07] think I would have chosen to kind of
+[00:59:09] extend TLS and quick but we don't and
+[00:59:12] that's just seems like there's a lot of
+[00:59:14] TLS being deployed and having a common
+[00:59:18] key exchange protocol uh would be a good
+[00:59:22] thing but we don't really have a strong
+[00:59:24] opinion either way other than I'd like
+[00:59:26] to be able to point to customers and say
+[00:59:28] you can deploy PSP and this is how you
+[00:59:31] do the exchange. Um the second kind of
+[00:59:34] discussion we talked about is and this
+[00:59:36] was was talked about earlier is um right
+[00:59:40] now the next header field that's in the
+[00:59:43] header is defined by Ayanna. So
+[00:59:46] basically it's the same as an IPv6 next
+[00:59:49] header. So in order to def to get any
+[00:59:52] other encapsulation underneath that you
+[00:59:56] need to have an ANA number which we all
+[00:59:58] know is is is uh a challenge and a
+[01:00:01] challenge for a good reason. So uh so
+[01:00:04] what that means is most people do an a
+[01:00:06] UDP UDP style encapsulation and the
+[01:00:09] underlying UDP header really just is a
+[01:00:12] 16- bit identifier to what protocols
+[01:00:14] there. So from our perspective, this
+[01:00:16] seems kind of, you know, not as
+[01:00:18] efficient as it should be. I think you
+[01:00:20] could easily extend the next header
+[01:00:23] space uh and allow either another space
+[01:00:28] either controlled by the PSP group or by
+[01:00:30] we can talk about others where we could
+[01:00:33] support native uh encapsulations.
+[01:00:36] The easiest example of this would be
+[01:00:38] like Rocky. you could put directly the
+[01:00:40] Rocky header underneath the PSP header
+[01:00:43] and have a specific next header encoding
+[01:00:46] that would allow to do this more
+[01:00:49] efficient encapsulation. So, this is
+[01:00:51] kind of one of the things we're thinking
+[01:00:53] about. Um, and then, um, the other piece
+[01:00:57] that we've talked about a couple of
+[01:00:58] times is that, you know, we is that
+[01:01:00] there are fields in the header that we'd
+[01:01:02] like to be able to use for different
+[01:01:04] purposes. And you know, right now the
+[01:01:07] version stuff is the the version field
+[01:01:10] is pretty small. Uh so we'd like to
+[01:01:12] figure out if there's a way we can
+[01:01:13] extend that in the future.
+[01:01:15] >> Yeah. And the with the that the PSP
+[01:01:18] version um the way the the original spec
+[01:01:20] is is the version actually defines uh
+[01:01:23] the crypto algorithm as well and that
+[01:01:26] really needs to be decoupled for uh
+[01:01:28] future expansion. you know, if we have
+[01:01:30] standard mode and cluster mode and
+[01:01:31] different crypto algorithms, um, just
+[01:01:34] having a single version, you're going to
+[01:01:35] run through that, you know, real quick.
+[01:01:38] So,
+[01:01:41] >> great. Um,
+[01:01:43] thank you, uh, both for a lot of lot of
+[01:01:46] good ideas. Uh, any questions?
+[01:01:49] Yep. Um,
+[01:01:56] ripto.
+[01:02:04] >> Sorry. Um, so the next header space for
+[01:02:06] IBV6 includes all the extension headers
+[01:02:08] and stuff. Have you considered what to
+[01:02:11] do with that? Whether to allow that,
+[01:02:12] whether that's going to break things?
+[01:02:15] >> I think we we want to be 100 100%
+[01:02:17] backward compatible with the existing
+[01:02:19] stuff.
+[01:02:20] um for sure. But a an idea uh which I
+[01:02:24] proposed early on was you could take an
+[01:02:26] additional bit and there seems to there
+[01:02:28] is a reserve field right next to the ver
+[01:02:30] to the next header field today and you
+[01:02:33] could add uh you could set that bit and
+[01:02:36] say that now the next header is locally
+[01:02:39] defined or some other set of uh some
+[01:02:42] semantics and this is again something we
+[01:02:43] want to discuss with the community as
+[01:02:46] how as the best way of doing this but
+[01:02:48] that's kind of was the original thought
+[01:02:50] process.
+[01:02:51] Okay, I don't mean having a local number
+[01:02:54] space in this. Um, I'm I'm thinking
+[01:02:57] about like destination options and
+[01:02:58] routing headers and that stuff that
+[01:03:00] everyone is trying to get rid of because
+[01:03:02] if you just include the whole I just
+[01:03:04] extend next header space, you also get
+[01:03:06] all of those.
+[01:03:09] Again, our our goal is to have an
+[01:03:12] efficient native incap. And and to me
+[01:03:16] like the example I gave which is really
+[01:03:18] concrete is if we want to encode Rocky
+[01:03:20] on top of this the rate the way that you
+[01:03:23] would have to do it today is you'd have
+[01:03:25] two IP you'd have two UDP headers and
+[01:03:27] the only reason for the second UDP
+[01:03:30] header would be to encode that it's
+[01:03:32] Rocky with this with the correct
+[01:03:33] destination port. So from our
+[01:03:36] perspective you could easily define a
+[01:03:38] next header that said that this is Rocky
+[01:03:40] and the next header is a BTH header. Um
+[01:03:43] now obviously getting that through
+[01:03:45] Ayanna would be a problem which we
+[01:03:47] wholly agree with but you could
+[01:03:50] effectively define another space where
+[01:03:54] the PSP group would decide that this
+[01:03:56] encoding implies that there's a native
+[01:03:59] BTH header underneath this
+[01:04:01] >> um and yep
+[01:04:03] >> is Rocky the only one that has this
+[01:04:06] problem or are there many others that we
+[01:04:08] can think of? I think if you want to do
+[01:04:11] anything that does not have a native uh
+[01:04:15] next header format, you have to go
+[01:04:18] through this uh this this additional
+[01:04:21] >> incap
+[01:04:24] TCP UDP does. But if you wanted to do
+[01:04:26] quick for example, which would be kind
+[01:04:28] of interesting, but sure
+[01:04:31] um uh you would need to have another UDP
+[01:04:34] extension header in order to encode that
+[01:04:36] the protocol is and really I think it's
+[01:04:39] most of it's the UDP encapsulated
+[01:04:41] protocols that has been the catchall for
+[01:04:44] anything that is not um uh an IP or or
+[01:04:49] native protocol.
+[01:04:51] Just a small clarification, the fact
+[01:04:52] that it uses Ayanna numbering doesn't
+[01:04:55] mean that it has supports all these
+[01:04:57] protocols necessarily. Right.
+[01:04:59] >> Correct.
+[01:04:59] >> You can actually do whatever you want.
+[01:05:01] >> Coding is is is what
+[01:05:02] >> payload.
+[01:05:07] >> Uh any other questions
+[01:05:10] otherwise? I have one. I think for the
+[01:05:12] cluster mode like a big a big design
+[01:05:15] decision for PSP was that there is this
+[01:05:17] secret on the nick that never leaves the
+[01:05:19] nick. Yes.
+[01:05:20] >> So this 100% this obviously is like you
+[01:05:23] know that's that's a um
+[01:05:26] >> from a oh we got to get this thing
+[01:05:27] certified um having a massive loophole
+[01:05:29] to ex excfiltrate or to o overwrite the
+[01:05:32] master key um opens up a bag of
+[01:05:36] problems. I I do think that if I recall
+[01:05:40] correctly like the original like TPM TPM
+[01:05:42] spec had some way to um move keys
+[01:05:47] between hardware um in in you know an
+[01:05:50] encrypted format in a form that um
+[01:05:53] nothing between this trusted hardware
+[01:05:55] would be allowed to access it. Maybe
+[01:05:57] that's something we should look into.
+[01:05:58] >> I would look at doing this is that
+[01:06:00] you're absolutely correct. One of the
+[01:06:02] nice protoh uh
+[01:06:05] properties of the current PSP is that
+[01:06:07] you can implement it such that the key
+[01:06:09] never leaves the the the nick which is a
+[01:06:12] gray property. Um so the distributed
+[01:06:16] communication model to get to the
+[01:06:17] scaling properties you know there's no
+[01:06:19] kind of assumption of isolation between
+[01:06:23] these different ranks. All ranks are
+[01:06:26] kind of decided. So it kind of lends
+[01:06:28] itself to this type of piece. So now
+[01:06:31] what you can do is in what we've talked
+[01:06:33] about in other forums is that you could
+[01:06:35] define you know the PK CS11 or other key
+[01:06:40] exchange protocol where you could
+[01:06:42] effectively exchange a uh a wrapped key
+[01:06:46] to each of the users right and then that
+[01:06:49] could be attested through the standard
+[01:06:51] SPDM or other type of addestation
+[01:06:54] infrastructure so I think there's
+[01:06:56] definitely a mechanism to do what you're
+[01:06:58] asking it's obviously ly much more
+[01:07:01] complicated than what than just having
+[01:07:03] the key never leave the nick. And I
+[01:07:05] think um you know as part of the
+[01:07:07] development there's obviously a
+[01:07:09] trade-off between the scalabil the nice
+[01:07:11] thing about cluster mode is it scales to
+[01:07:13] you know quote unquote millions of
+[01:07:14] destinations without having additional
+[01:07:17] state at the transmitter or the
+[01:07:19] receiver. So that's kind of the tradeoff
+[01:07:21] that we're kind of you know looking at
+[01:07:24] for these type of applications. [snorts]
+[01:07:27] >> Okay great. Uh any other questions?
+[01:07:32] Then we will move on to our last
+[01:07:33] speaker, Anjeli.
+[01:07:45] Here we go.
+[01:07:49] I will be visit.
+[01:07:57] >> Okay. Uh first um uh some uh legal
+[01:08:01] stuff. Uh I'm not part of Intel. The
+[01:08:03] views uh I'm representing are my own
+[01:08:06] views. Um um uh having said that um
+[01:08:11] thank you for uh you know letting me be
+[01:08:13] part of this because I guess uh there's
+[01:08:16] something um uh maybe I'm still in the
+[01:08:18] spec, right? Yeah. Okay. Thank you. Uh
+[01:08:22] and um you know actually uh what Boris
+[01:08:25] said I I thought over it and he's right
+[01:08:28] I was wrong. Um so you basically want
+[01:08:33] master key to be in one place. uh
+[01:08:36] whether it is in the device or it is in
+[01:08:38] the VM is kind of irrespective. you uh
+[01:08:42] more of the memory thing that we need to
+[01:08:45] consider which is like okay if if for
+[01:08:48] some reason the master key has to be uh
+[01:08:53] you know negotiated like uh Eric was
+[01:08:55] saying or agreed upon through a separate
+[01:08:58] control plane protocol or something
+[01:09:00] because of the cluster mode or something
+[01:09:02] then we need to think about that as well
+[01:09:05] and say okay maybe um
+[01:09:09] ultimately
+[01:09:11] It's um
+[01:09:14] the master key in a tenant environment
+[01:09:17] is the property of the tenant uh not so
+[01:09:21] much of uh you know the infrastructure
+[01:09:24] or uh even for that matter uh device as
+[01:09:28] long as yeah so so maybe that is
+[01:09:31] workable but yeah we should think about
+[01:09:33] that one uh I'll um the points that I
+[01:09:36] put out here uh are more about uh you
+[01:09:39] know my my own learnings of offloading
+[01:09:41] uh um uh protocols in the hardware as
+[01:09:46] well as uh designing host interface uh
+[01:09:49] particularly the IDPF uh one and and uh
+[01:09:52] you know it was uh quite an exercise to
+[01:09:55] kind of see how do we keep it forward
+[01:09:57] and backward compatible how do we keep
+[01:09:59] the data plane and control plane
+[01:10:00] separated and all this stuff so it's
+[01:10:02] coming more from a protocol perspective
+[01:10:05] not from the crypto perspective of
+[01:10:07] course uh just like Eric said I am not
+[01:10:09] not a cipher or crypto expert so you
+[01:10:11] know uh sorry if I'm u you know not
+[01:10:14] right about uh some of these things so
+[01:10:17] um yeah PSP uh spec the first one and I
+[01:10:21] think uh we already said 1.0 is it or
+[01:10:24] not yet 1.0 yeah so I mean the 1.0 spec
+[01:10:30] is wire protocol aka data plane on
+[01:10:34] purpose the control plane is not in the
+[01:10:35] spec um there's a typo there but uh uh
+[01:10:39] but
+[01:10:41] I think that's a good separation but uh
+[01:10:44] you know suggestion is to have an
+[01:10:45] appendix to give an example in maybe
+[01:10:48] pseudo code uh to describe the control
+[01:10:50] plane and they can be different just
+[01:10:52] like how we discussed uh a few different
+[01:10:55] ways uh then assumptions on the device
+[01:10:58] side and This one is really something I
+[01:11:01] want to emphasize on um again for
+[01:11:04] scalability like this uh you know
+[01:11:06] interpreting the fields in a slightly
+[01:11:09] different way like what Eric is saying
+[01:11:10] to do cluster mode. Um so
+[01:11:14] in order to have interoperability
+[01:11:17] you need to have
+[01:11:19] some section which kind of says okay
+[01:11:21] here are the assumptions from the device
+[01:11:24] side uh for scalability,
+[01:11:26] programmability, configurability and
+[01:11:28] evolution and interoperability. So you
+[01:11:31] we have to give that as a base like if
+[01:11:34] nobody
+[01:11:36] specified anything here is the default.
+[01:11:39] Okay. So that default assumptions have
+[01:11:41] to be there and then of course you can
+[01:11:43] always negotiate it and say no I I
+[01:11:45] really don't like this default
+[01:11:47] assumption. So kind of make it on the
+[01:11:50] control plane side some way to negotiate
+[01:11:52] like saying okay this field maybe it was
+[01:11:55] interpreted this way in a pointto-point
+[01:11:57] fashion um you know when we are doing a
+[01:12:01] uh single direction one but if you're in
+[01:12:02] cluster mode it is you know a different
+[01:12:05] interpretation of something. So more
+[01:12:08] like capabilities negotiation rather
+[01:12:10] than version negotiation. Um so you know
+[01:12:14] it's something to consider. Um uh again
+[01:12:18] uh for reasons that when you have to
+[01:12:20] deploy in hrogenous environment having a
+[01:12:23] pseudo code model is really really good
+[01:12:26] idea. Uh so white model for getting
+[01:12:28] right in multiple hardware devices then
+[01:12:31] uh test for conforming to a version of
+[01:12:33] the spec that's essential. I don't think
+[01:12:36] that's uh sorry was
+[01:12:40] okay. Yeah.
+[01:12:42] Yeah. And um and then again in the host
+[01:12:47] driver also like concept uh that should
+[01:12:50] be abstracted uh for live migratability
+[01:12:53] right so like if there is I mean I I I'm
+[01:12:56] going to make up something suppose there
+[01:12:57] is a spy that was being uh provided on
+[01:13:01] one device and you migrated that VM. Uh
+[01:13:04] so you want to consider a virtual spy
+[01:13:06] not like a physical spy in the device. I
+[01:13:08] mean I just made up something but just
+[01:13:10] to kind of emphasize the point that you
+[01:13:13] should be able to migrate these VMs and
+[01:13:16] in that case I I don't know what is the
+[01:13:19] assumption. Should we renegotiate or
+[01:13:20] should we carry something? Uh we we we
+[01:13:23] need to kind of specify that and then um
+[01:13:28] yeah options on uh rate of programming
+[01:13:31] versus memory footprint. This is more of
+[01:13:33] like when you're programming in a device
+[01:13:35] there could be five different ways
+[01:13:36] you're programming something like right
+[01:13:38] now you know uh the transmit side is
+[01:13:40] stateful uh based on uh UEC we should
+[01:13:44] make it less stateful uh for sure uh you
+[01:13:47] know have like a um notion of uh secured
+[01:13:52] domain or or uh individual SADB or
+[01:13:55] logical or virtual SADB rather than a
+[01:13:58] single SADB uh and then uh that will
+[01:14:01] help with uh uh you know having less uh
+[01:14:05] memory footprint on the device uh and
+[01:14:07] also the rate of programming u
+[01:14:10] automatically kind of gets better that
+[01:14:12] way but rate of programming can be a
+[01:14:14] factor of few different things so um it
+[01:14:18] would be good that we kind of have and
+[01:14:21] again I'm not saying we should do any of
+[01:14:24] this uh to break uh forward and backward
+[01:14:29] compatibility but spelling it out avoids
+[01:14:32] any kind of vagueness that comes when
+[01:14:35] five different vendors are implementing
+[01:14:37] it and then you know you're you're in a
+[01:14:40] soup right so yeah um so yeah and uh
+[01:14:45] optimize for memory I guess is the last
+[01:14:49] one uh it is the biggest problem right
+[01:14:52] now yeah
+[01:14:56] >> uh thank you um any any questions on
+[01:14:58] that uh I I I have one or at least one
+[01:15:02] one comment
+[01:15:04] on your last point. I forgot to add to
+[01:15:06] the Google slide. I don't know if the
+[01:15:08] vendors might disagree with me on this
+[01:15:09] one. Uh but so right now what I
+[01:15:12] explained is on the receive the keys are
+[01:15:14] derived at line rate. On transmit there
+[01:15:17] are different ways to pass the session
+[01:15:20] key to the device. One is to pass it in
+[01:15:24] the descriptor with the packet so that
+[01:15:26] the device is entirely 01 state. Um
+[01:15:30] because of legacy IPSACE implementations
+[01:15:32] most vendors implement actually reuse
+[01:15:35] the IPSAC block which has a stateful
+[01:15:37] SADB which you refer to um and that
+[01:15:40] takes up a lot of memory because you
+[01:15:41] still need to store all the session keys
+[01:15:43] and there's a lot of control traffic to
+[01:15:45] update those states so maybe more
+[01:15:48] controversial maybe for PSP 2.0 we
+[01:15:50] should uh uh make it mandatory to do
+[01:15:52] keys in descriptor and just obsolete the
+[01:15:55] other modes.
+[01:15:56] >> Yeah I mean I I I cannot agree more. Uh
+[01:15:58] I think that's that would be a really
+[01:16:00] good thing. Uh the less state on the
+[01:16:02] device the uh you know because
+[01:16:05] ultimately we will end up duplicating it
+[01:16:08] in two places right because you got some
+[01:16:10] information
+[01:16:12] uh you stored it on the software you
+[01:16:14] know whatever uh was back memory and
+[01:16:18] then you're storing it again on the
+[01:16:20] device. I think that's spending too much
+[01:16:22] memory.
+[01:16:23] >> Okay. Thanks. Um thanks to all the
+[01:16:27] speakers. I'm glad also and also to the
+[01:16:28] AV that everything went very smoothly.
+[01:16:31] Super super cool. Um any last questions?
+[01:16:34] I know it's been a long session. I
+[01:16:35] appreciate everyone's attention. Uh but
+[01:16:38] if you have questions or I'm going to be
+[01:16:39] here afterwards also for offline
+[01:16:42] >> and if there are none, I had some points
+[01:16:44] I had noted down when Eric and Eric and
+[01:16:46] Boris were talking about so I can add a
+[01:16:48] few things.
+[01:16:50] >> All right. Or go ask. Yes.
+[01:16:54] Would
+[01:17:01] it be possible for PSP to be used for a
+[01:17:04] client device like a phone to talk to a
+[01:17:07] server or is it like totally impossible?
+[01:17:13] >> I don't see a reason why not because
+[01:17:15] it's at the transport level.
+[01:17:19] >> It's I assume so it's a UDP protocol. So
+[01:17:22] the the public internet seems fine with
+[01:17:25] quick. So it's going to be fine with
+[01:17:26] this other UDP protocol, I would think.
+[01:17:28] Um yeah,
+[01:17:36] >> I just wanted to say that this
+[01:17:40] >> Yeah, that at this point it would be
+[01:17:42] just quick. So I don't think whether
+[01:17:44] it's there is much benefit of it.
+[01:17:49] All
+[01:17:55] right, Anelie, you had a question?
+[01:17:57] >> Uh, yeah. No, I just had a few comments
+[01:17:59] that I noted down when um so um
+[01:18:04] crypto different from protocol version.
+[01:18:06] I I I think that's a really good thing.
+[01:18:08] We should keep that two separate, the
+[01:18:10] algorithm and the protocol version. pros
+[01:18:13] and cons to that, but we should at least
+[01:18:15] have a good discussion on it because
+[01:18:16] it's um because there you get the cross
+[01:18:18] productduct of all the different pre
+[01:18:20] pieces, right? The good part is that in
+[01:18:22] hardware, you know, from the version
+[01:18:24] exactly what to do, but it's something
+[01:18:26] we really should discuss as to what the
+[01:18:29] right solution.
+[01:18:30] >> We reserved some fields purposely in the
+[01:18:32] spec now, so we can have a version two
+[01:18:34] and have a separate I think for the uh
+[01:18:37] crypto protocol there. And if you look
+[01:18:40] at some of the other protocols, they
+[01:18:41] basically it's by, you know, by
+[01:18:44] configuration. You don't know what the
+[01:18:46] what protocol the spy is using. You
+[01:18:48] basically need to have gone through the
+[01:18:50] session setup in order to know what pro
+[01:18:53] what the encrypted protocol is. That's
+[01:18:55] kind of the opposite side of of the
+[01:18:58] implementation that we have in PSP.
+[01:19:02] >> Yeah. And I will add to uh this, Eric.
+[01:19:04] So I'm not a fan of versions. um you
+[01:19:08] know uh they they kind of uh are magic
+[01:19:11] numbers and they cause problems but uh
+[01:19:13] you know ultimately a capability can be
+[01:19:16] considered as a version and they are
+[01:19:18] additive and you know so defining things
+[01:19:22] more modular saying okay crypto is one
+[01:19:24] capability protocol is another
+[01:19:26] capability and you know kind of uh build
+[01:19:28] upon it and I I think it scales really
+[01:19:31] beautifully that way uh and and and
+[01:19:34] negotiating them uh accordingly right so
+[01:19:37] Um that's uh one thing and then um uh so
+[01:19:42] we said something about the secret on
+[01:19:43] the neck that does not leave the neck.
+[01:19:46] Uh
+[01:19:49] I I missed this one. So I I think there
+[01:19:51] was some good debate and we need to have
+[01:19:53] further on that.
+[01:19:54] >> So I think the the I mean and William
+[01:19:57] pointed this out as well. If you look at
+[01:19:58] the current PSP envisionment and is that
+[01:20:01] the key never the the master key that
+[01:20:04] you're deriving all of the the the
+[01:20:06] individual source keys from is doesn't
+[01:20:09] leave the device and that has great
+[01:20:11] properties. To deal with cluster mode,
+[01:20:14] you need to have this distributed sense
+[01:20:16] of key. Um so what we have kind of
+[01:20:20] specified is that to be able to as we
+[01:20:23] just talked about you know reducing the
+[01:20:24] state on the sender side is uh being
+[01:20:28] able to use the same KDF function at the
+[01:20:32] sender and at the receiver. uh and that
+[01:20:34] necess nec necessitates being able to
+[01:20:37] exchange a key via some mechanism to the
+[01:20:39] to the network.
+[01:20:41] >> Yeah. Uh yeah. So I I I think uh that
+[01:20:43] that's again one of the really good
+[01:20:45] suggestions um of like
+[01:20:48] >> it's you know I think for some
+[01:20:50] applications it's really good. We need
+[01:20:52] to like I said the distributed comm
+[01:20:54] model it really lends itself well to
+[01:20:56] that right you've got nr ranks they all
+[01:20:58] need to communicate with each other.
+[01:21:00] there's no real benefit of having them
+[01:21:02] set stand up different connections to
+[01:21:04] each individual components. So I think
+[01:21:07] for that model it really is is is is a
+[01:21:11] good solution.
+[01:21:12] >> Yeah. So again I think negotiation here
+[01:21:14] would be the point right like if we want
+[01:21:16] to build upon this further saying okay
+[01:21:18] whether the master key lives in the
+[01:21:20] device or it's something that is a
+[01:21:22] separate uh you know control plane
+[01:21:23] protocol that negotiates it or whatever
+[01:21:26] in a secure way. Of course. Um, who
+[01:21:28] guards the guards always is the exact
+[01:21:31] >> the famous last words but yes um um uh
+[01:21:36] the last one there was a wrapped key
+[01:21:38] which is something and I didn't write my
+[01:21:41] notes completely. Um
+[01:21:43] >> yes so one of the solutions to being
+[01:21:46] able to distribute this group key is
+[01:21:49] essentially the I think Eric called it
+[01:21:51] the SD that secure domain controller. It
+[01:21:55] would need to have some mechanism to
+[01:21:57] communicate to all the ranks and
+[01:21:59] authenticate that they're valid and are
+[01:22:03] allowed to speak within this job. Now,
+[01:22:06] that's a fairly complicated topic that
+[01:22:08] we've expertly sidestepped because
+[01:22:11] there's a lot of different opinions on
+[01:22:13] how to do that. But at the end of the
+[01:22:15] day, what you'd want to be able to do is
+[01:22:17] to exchange a wrapped key. And the
+[01:22:20] wrapping essentially means that the it
+[01:22:22] would be released directly to that
+[01:22:24] entity in the nick and you could go
+[01:22:26] through uh uh different mechanism of of
+[01:22:30] doing that.
+[01:22:32] >> Right. Uh yeah. Uh thank you so much
+[01:22:34] Eric. Uh so one last one there was
+[01:22:36] something about the randomization that
+[01:22:38] you mentioned uh and yes um and the the
+[01:22:43] >> anti-replay window and wreaking events.
+[01:22:45] So the wreaking has been a big problem
+[01:22:49] with IPSec and you know
+[01:22:51] >> it is right.
+[01:22:52] >> Yeah. So so so that's something that you
+[01:22:55] know unless we spell out in the device
+[01:22:58] uh defaults uh some of these things uh
+[01:23:01] you know these problems can reappear is
+[01:23:04] is how I would say it. Um and uh the
+[01:23:07] other one is about the random numbers uh
+[01:23:10] or nons used and stuff. uh we should
+[01:23:13] consider PQC the postquantum crypto and
+[01:23:16] >> yeah so I think the I mean fortunately
+[01:23:19] the both algorithms that are being
+[01:23:21] discussed with uh with uh PSP today are
+[01:23:25] postquantum compliant assuming you have
+[01:23:27] a 256-bit key. Now there has been some
+[01:23:31] discussion about the KDF about the
+[01:23:33] actual security strength of that. Um, if
+[01:23:36] anyone would like to discuss that, I
+[01:23:38] have a set of slides offline we can talk
+[01:23:40] about, but that's being updated as part
+[01:23:42] of the NIST 800- I think 56 series of
+[01:23:46] specs. So, I think with this year, we
+[01:23:49] should have clear guidance as to what
+[01:23:52] are the postquantum
+[01:23:54] uh approved key derivation mechanisms.
+[01:23:58] Um, and once we have that data, we can
+[01:24:00] then figure out how to actually roll it
+[01:24:02] into the piece. I think the I think it's
+[01:24:04] pretty clear the construction is sound.
+[01:24:07] The question is is like is there's a
+[01:24:10] bunch of you know real detailed
+[01:24:11] questions on on on how you derive the
+[01:24:14] actual security strength of the derived
+[01:24:16] key based upon the different algorithms
+[01:24:19] >> right uh absolutely Eric and you're
+[01:24:22] you're very right about it and I don't
+[01:24:24] know if we did anything about that
+[01:24:26] threat modeling for it and you know if
+[01:24:28] we should have something about okay are
+[01:24:30] we reducing
+[01:24:31] >> we talked about this as well and one of
+[01:24:33] the things we spent a lot of time on uh
+[01:24:36] and UEC
+[01:24:38] >> and also if you look at the Calyptra uh
+[01:24:41] stuff that's done in OCP which now part
+[01:24:43] of Chips Alliance you know threat
+[01:24:45] modeling and understanding exactly the
+[01:24:47] threats you're going to look at and how
+[01:24:50] they are mitigated or or not mitigated
+[01:24:54] it's I think it's a great thing we
+[01:24:56] should do um uh that I would be fully in
+[01:24:59] support of that
+[01:25:00] >> yeah and I think that's probably where
+[01:25:02] Boris was going with the confessional
+[01:25:03] compute uh we need to do this uh
+[01:25:06] analysis And that's where we will know
+[01:25:07] the you know um uh surface area of
+[01:25:10] attack right and and yeah
+[01:25:14] >> all right
+[01:25:16] uh thank you and thanks everyone for
+[01:25:19] your attention it's pretty long session
+[01:25:21] I thought it was very interesting uh it
+[01:25:23] was great to hear all the proposals um
+[01:25:26] so let's we'll we'll talk what's next on
+[01:25:29] PSP soon again
+[01:25:35] >> thanks
+[01:25:36] Yep. Thank you.
+[01:25:37] >> Thank you.

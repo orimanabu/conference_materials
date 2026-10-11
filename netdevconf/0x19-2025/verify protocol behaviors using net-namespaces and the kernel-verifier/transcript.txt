@@ -1,0 +1,256 @@
+Source: https://youtu.be/P9AqN7lP2TA
+Language: en
+Captions: local speech recognition (mlx-community/whisper-small-mlx); unreviewed
+
+[00:00:00] Hello everybody, welcome to my talk about the kernel protocol verifier using the name
+[00:00:07] space.
+[00:00:09] My name is Aitana and the term verification is what I'm going to use as a verification.
+[00:00:17] There we answer the question, are we building the software right?
+[00:00:20] Does it meet the expected requirements?
+[00:00:24] And if the requirements are violated, we're providing more debugging information how we got into this state of violation of the user requirements.
+[00:00:35] So the software is, for example, a networking protocol.
+[00:00:39] I have in here an example where I use it with GLM.
+[00:00:43] You can hopefully adapt it to your use case and get more idea about it.
+[00:00:50] What we don't do is a formal verification.
+[00:00:53] That's like eBPF is doing.
+[00:00:55] They analyze the code of the eBPF program and say the eBPF verifier, which is a very complex thing.
+[00:01:05] This can harm your kernel.
+[00:01:07] We don't load it, but we don't do that.
+[00:01:10] Our verification is according a model during one time.
+[00:01:16] I verify, as I said, is the distributed log manager.
+[00:01:21] It's in file system DLM in the news kernel and it gives the user, it provides the user the requirement of control mutual access.
+[00:01:34] That, for example, is a cluster file system like GFS2 to access a shared block device only when it can do that.
+[00:01:45] It needs to coordinate with other nodes.
+[00:01:48] The log context in DLM is on a node context, what I mean with networking entity.
+[00:01:54] It's a machine, a virtual machine, or even a namespace where I'm using it with a networking card, networking interface.
+[00:02:03] It needs to communicate with other nodes to give the requirement for the user to control the mutual access on some shared resource.
+[00:02:15] Using messages to coordinate that and we verify DLM here as a black box.
+[00:02:25] What I mean with that is that we only look on the DLM API and we don't look on the exchange of messages in the whole cluster of the nodes.
+[00:02:42] So, for example, here we have a three node cluster, each networking entity here, three of them, and they are connected here, symbolized with some red lines.
+[00:02:54] In a network here, like a token ring in this example, and in the middle we have our shared resource that's connected over some fiber channel in a different path to each node, a storage array if you are in the cluster file system world.
+[00:03:14] And one node wants to access the shared resource in an excluded mode.
+[00:03:20] We only look into excluded loads, log states here.
+[00:03:26] It communicates usually with a log master, in this case the middle node on top is the log master.
+[00:03:33] It needs to tell, oh, I want to require the log, then it can run into a critical section where log A is required and A is identifier, which is the same on the whole cluster here.
+[00:03:50] And it can unlock A and when it doesn't use it.
+[00:03:57] And then another node can also do the same.
+[00:04:00] It talks again with the log master and then it can access the shared resource and also unlocked in.
+[00:04:08] That's a valid example because there was in the excluded log state, there was only one node which was accessing the shared resource at one time.
+[00:04:22] Our violation example is the same thing log A, then it communicates with the log master and then it runs in the critical section and access the shared resource.
+[00:04:34] And then another node here on the right side makes log A the same log and talks with the log master.
+[00:04:44] And the log master, you can acquire it and then both now accessing the same resource at the same time.
+[00:04:55] For this specific log, there was something wrong.
+[00:04:58] Probably maybe it was in the in the DLM messaging or there was some ways which we don't know.
+[00:05:07] And there are two nodes, accesses the critical section at the same time and we violate our model.
+[00:05:17] So the DLM requirement is very strict because in kind of GFS2 with the GFS2 file system, it will run into data corruption.
+[00:05:27] That's something that you have, you don't want.
+[00:05:30] It needs to be if it's violated, DLM is broken and yeah, we need to fix that.
+[00:05:36] I can directly send an email out on the GFS2 mailing list that DLM has some problems and it should be handled seriously.
+[00:05:49] So, but I mean this that we only trace the user view and that we only look at the user's view and not in the DLM black box in the DLM subsystem.
+[00:06:01] So the user like the GFS2 file system, it only uses the DLM log API like log A, then doing some unlock.
+[00:06:10] And it's not aware of doing any networking message exchange.
+[00:06:17] I just use standard locking API.
+[00:06:20] But the user is not seeing is that there are some lookups, then we need to send some message out for a lookup to know who the logmaster is.
+[00:06:33] It sends message to the logmaster to acquire a lock, then it's handling the reply back.
+[00:06:43] This is all hidden by the user and we don't look at it.
+[00:06:50] When we verify, we don't look on the DLM message exchange.
+[00:06:55] We only look on the DLM user view.
+[00:06:59] But the protocol should reflect the user view.
+[00:07:05] Yeah, we verify the DLM protocol only from the user view.
+[00:07:09] Like when it's acquired, you get some callback back and then the user knows that the lock is now acquired.
+[00:07:18] So how we do that is we tracing the DLM user API.
+[00:07:24] Here's the example. Here's a local node in the cluster.
+[00:07:28] It wants this distributed lock application, the DLM application.
+[00:07:35] It wants to lock and unlock a lock.
+[00:07:39] And during the time when we running a lock, then we know log A is now acquired.
+[00:07:45] And when we do a unlock, we know at this point the lock is released.
+[00:07:53] And during this time, we know the lock holder was in this specific time range, this specific node.
+[00:08:03] So we have a monitor here with the holder information.
+[00:08:11] In this example, who holds the lock and we create a net namespace environment.
+[00:08:17] It means containers or your IP net NS at NS0, NS1 and then connect them over a software bridge together.
+[00:08:28] And running on each namespace your DLM application.
+[00:08:35] The monitor, which is maybe running in internet, is observing all these namespaces by using trace points.
+[00:08:46] And for example, when NS0, this node is acquiring log A. The monitor knows.
+[00:08:56] In this same example, our exclusives lock.
+[00:08:59] At this time, log A is hold by NS0.
+[00:09:03] And it does this critical section.
+[00:09:05] It wants our unlock.
+[00:09:06] At our unlock, we can remove the lock holder information because NS0 is not holding the lock anymore.
+[00:09:13] And another node like NS2 can run the DLM application and holding the lock.
+[00:09:23] And the lock holder gets updated also with NS0, critical section and our unlock.
+[00:09:31] So in a violation example with the monitor, we observe again all namespaces.
+[00:09:40] Then we running log A again on the NS0.
+[00:09:43] The monitor knows log A is hold by NS0 when it's acquired.
+[00:09:51] But then here log A on NS2 and the critical section is already seized.
+[00:09:58] In this example, it just excludes lock.
+[00:10:01] So there can only be one holder at the same time and there's already a holder.
+[00:10:06] And the monitor detects user requirement is violated.
+[00:10:11] What I'm using here as the monitor instance is the kernel verifier.
+[00:10:17] It's already upstream in kernel trace.
+[00:10:19] And there exist different monitors already.
+[00:10:25] It's programmed by DanielBus.oliviar.
+[00:10:30] I want to say some words he recently passed away.
+[00:10:37] He did a lot of contribution to the Linux kernel, especially in the preempt RT Linux world and also in the tracing world.
+[00:10:47] And it's very sad that he passed away and acknowledged his work because I found it very useful to use it for the DLM verifier.
+[00:10:59] To look if we violate the DLM state.
+[00:11:04] And he will never be forgotten in the Linux kernel.
+[00:11:08] He's also in the credits file and I acknowledged his work.
+[00:11:15] But okay, how it works, it's using attach and detach helpers for Linux trace points.
+[00:11:25] So when a trace point hits, it produces a trace event which is inside the tracing buffer.
+[00:11:33] It puts a trace event in the tracing buffer.
+[00:11:40] But with the attach and detach in Linux trace point, you have some function pointer function which you can say,
+[00:11:48] oh, I want to do something in the middle of that.
+[00:11:51] And this is what we do.
+[00:11:53] When we saw earlier the acquired and releases trace point, we know when the lock was held by a specific namespace and when it's released.
+[00:12:09] And this provides us for causality because everything appeared as it was executed.
+[00:12:20] But it does the monitor instance.
+[00:12:27] You need to model it.
+[00:12:28] You need to model our automaton which is described in a dot language.
+[00:12:34] And there exists also a compiler which produce your automaton implementation.
+[00:12:43] In C, it's very simple to use.
+[00:12:46] You can have the monitor also on a pairs CPU basis or a pair of task track or a static global one.
+[00:12:53] And here is, for example, VP.
+[00:12:59] It doesn't stand for work in progress.
+[00:13:02] It's definitely not work in progress.
+[00:13:04] It stands for wake up in preemptive.
+[00:13:07] It's a pairs CPU monitor.
+[00:13:10] And here on the left side we have the states and the edges of your automaton.
+[00:13:17] And on the right side we have the resulted automaton in a graphical way from the dot language.
+[00:13:26] But it checks if in this non preemptive case it should always call chat raking.
+[00:13:36] Usually the edges are from trace point where it just says,
+[00:13:41] I'll iterate my automaton into a different state by calling this over this edge.
+[00:13:49] And the chat raking should never be run when it's in the preemptive state.
+[00:13:55] That should be violating.
+[00:13:58] It's something from the nanoscheduler world.
+[00:14:02] And so far I know, here I already found some bugs with it.
+[00:14:10] And it's a very simple example of the kernel verifier.
+[00:14:18] The dot automaton, as I said, there exists a compiler in tools directory dot2c.
+[00:14:30] It's in Python.
+[00:14:32] The edges are usually trace point.
+[00:14:34] As I said, that the preempt enabled and disabled changes the states of preemptive and non preemptive.
+[00:14:41] And then chat raking should only be called when it's non preemptive state.
+[00:14:48] And the good thing is that it can be very simple activated.
+[00:14:54] You need to activate it in kconfig.
+[00:14:56] But then you can just say echo1 in the tracefs.
+[00:15:01] And then you can run any verb load behavior.
+[00:15:05] Like in this case, I would run some scheduler tests to run in that we are always in a valid state.
+[00:15:15] And yeah, to check if anything runs well.
+[00:15:24] But what happens when it's violated the state?
+[00:15:29] Then reactors come in play.
+[00:15:31] Reactors are part of the kernel verifier subsystem.
+[00:15:36] There are modules they can register.
+[00:15:39] A new reactor, there are some upstreams already.
+[00:15:43] That's a panic.
+[00:15:44] It produces some K-dump core files.
+[00:15:48] And then you can analyze it with GDB.
+[00:15:51] It would be useful.
+[00:15:53] To reboot just your machine.
+[00:15:57] Printk is to provide something in the kernel log.
+[00:16:02] Or as I said, it's just a module with a function pointer you need to implement.
+[00:16:07] And then you can have whatever you want.
+[00:16:10] And of course, you usually want something to debug more your violated kernel state and how you got there.
+[00:16:20] So adapting VIP to DLM case.
+[00:16:23] So in our case, the monitor is on a log context.
+[00:16:28] That's log A, which I say wirelessly.
+[00:16:32] And the monitor is observing all other namespaces being involved into the DLM application.
+[00:16:41] Which is a distributed application.
+[00:16:43] And then when we acquire log A, we run into wallet state.
+[00:16:52] Because it didn't exist before.
+[00:16:54] And then we check if we are compatible with others.
+[00:16:57] So it's already acquired or not.
+[00:17:00] In the reality, DLM is more complex.
+[00:17:04] It has also readers and writers logs modes.
+[00:17:10] And there can be multiple holders, not only exclusive logs.
+[00:17:15] And yeah, when all log holders are gone.
+[00:17:20] So if everybody said unlock to the log, then we freeing the resource because the log is not in use anymore.
+[00:17:31] So how does it look like in an implementation view?
+[00:17:35] So we said you can attach and detach to trace points.
+[00:17:40] Like this function here, handle the DLM acquire.
+[00:17:45] Then in our DLM acquire, we doing a lookup upgrade.
+[00:17:50] In my case, on your hash table where we provide the net pointer or net namespace being in use to know which node is holding the log.
+[00:18:04] And the ID that's a unique identifier like log A on the world cluster for this log.
+[00:18:12] And then we check if it's compatible with others.
+[00:18:15] In this case, when it's only like an exclusive log, I need to check if it's already acquired.
+[00:18:21] And then we say we are still doing our edge change in our automaton implementation in C.
+[00:18:32] And we say this others compatible.
+[00:18:35] If it's not compatible, we say we doing a state change here with event max DLM that's invalid edge and then the reactor hits.
+[00:18:51] And then we can provide from the hash table and the log holder information who was holding the log.
+[00:18:58] So here also on a release when all, when somebody calls release, we can remove the log holder information out of the hash table.
+[00:19:11] So there exists our C patch series here.
+[00:19:16] And as I said, DLM is in reality more complex.
+[00:19:20] There exist five different log modes.
+[00:19:22] It's not just exclusive logs.
+[00:19:25] It's also readers and writers.
+[00:19:29] You need to check this multiple lock holders in a possible way.
+[00:19:33] But what I showed you before, it's a very simple DLM workload.
+[00:19:42] But the most interesting part is when one node gets fenced, then there exists something that means DLM recovery.
+[00:19:51] And when the fenced node was holding some logs, the log state need to be resolved to move on.
+[00:20:00] That when somebody was in running in contention, they move on because the log who was holding the log is gone now.
+[00:20:10] And this is the most interesting part because with our model, we can do very ugly workloads and then fenced a load.
+[00:20:20] And then check if everything went well after the recovery hits in because the recovery is a complex code part of DLM.
+[00:20:33] And also we cannot just look into DLM states.
+[00:20:37] We can also look into more DLM internals because DLM has cash look up.
+[00:20:46] For example, who's the master node and this master node needs to be always the same on all nodes.
+[00:21:01] The day I have always a vote about that all nodes says, OK, this specific node is the master node for this specific log.
+[00:21:13] They cannot be a different master node.
+[00:21:17] And it has more, we can more validate than just the log states.
+[00:21:23] That's what I want to say.
+[00:21:26] So future work, my monitor, which I currently have, it only works with NetNamespaces.
+[00:21:37] And I put the NetNamespace handling on top of my monitor implementation, but it would be nice to have more easier to use.
+[00:21:49] Monitor, when you already know, you want to verify something in the networking in a networking protocol and have all these things with tracking the NetNamespaces in different nodes already being done.
+[00:22:04] So I want to move that into specific implementation so it's easier to implement for somebody else who wants to do something similar with NetNamespaces to verify its protocol.
+[00:22:16] So I just want to make it more generic in a different code path that all other people can do something similar in their implementation.
+[00:22:30] And that we just don't start to put every NetNamespace handling in each monitor again.
+[00:22:40] And yeah, then also the reactors can be specific for NetNamespaces to give you the NetPointer art.
+[00:22:49] And also I was thinking about a special reactor that when you're running your workload, which has some violation that you can combine it with T-Shark and T-Shark,
+[00:23:02] will then mark the specific area where the violation happened.
+[00:23:08] That could be also an example for a reactor.
+[00:23:12] And then you can look into the UYR protocol about what was the message who was doing this violation.
+[00:23:23] And another thing is user space tracing.
+[00:23:27] I'm currently a currently a user for the Curler Verifier, but how about user space networking application?
+[00:23:35] Maybe we can use user space tracing for that and that user space application can also use something similar with the Curler Verifier.
+[00:23:51] So future work 2 is we want to break out maybe the NetNamespace environment.
+[00:23:59] So my last talk on the NetDevCon, I was having a talk about time synchronized tracing to have the causality being with PTP and tracing that because this is currently what we need to provide.
+[00:24:23] That's why I put everything in a local Linux kernel instance to provide that.
+[00:24:29] But if we get more networking tracing in a way that it provides causality, then we can make the next step and maybe break out the NetNamespace environment.
+[00:24:52] So we can actually check our model in a real network.
+[00:24:59] Yeah, thank you to listen to my talk.
+[00:25:05] I hope maybe you got some idea about what I'm doing and maybe you can adapt it for your use case and do something similar to test your networking protocol.
+[00:25:20] Thank you Alex. Questions?
+[00:25:30] Nobody has questions. One question.
+[00:25:33] That's good.
+[00:25:35] It means it's crystal clear. Everything they understood.
+[00:25:42] In the last slide you mentioned the time synchronized tracing and the causality analysis.
+[00:25:54] As big as a fan that I am of PTP myself, the widespread deployment of it still leaves a lot to be desired. So how do you think you can tackle that in broader networks than those specialized for timing?
+[00:26:15] Yeah, I think it depends on what you think is what kind of hardware you have.
+[00:26:24] And also to go back then to the specific software implementation, but it's a very stick one reality which takes in place and then your editor need to drop some milliseconds that you have exactly at least your tracing event at the same time.
+[00:26:48] Like the other one because they cannot.
+[00:26:54] You mean that need to be a base action and then a reaction but never be on the other side and yeah we I tried my best to look how we can provide that if.
+[00:27:12] I know that race EMD for the Linux user space to it they have currently a time synchronized racing but they're doing PTP in user space.
+[00:27:27] My, I didn't have much successful for that. But, but they really can do is using it over we talk with the KVM time synchronization.
+[00:27:42] But it depends on the network and how.
+[00:27:48] And speaking of the use case that you're presenting and the execution rates that you want to trace and how the events appear. What is the time scale granularity that you would want observability into how fine this does the synchronization need to be for it to be to be usable for that use case.
+[00:28:11] I mean more carnival.
+[00:28:14] Carnivality is better.
+[00:28:16] But at some time when you know that there's a.
+[00:28:21] You cannot.
+[00:28:22] You have some error there then you need to cut at the time stand and then.
+[00:28:27] But we never can show is that you getting a reaction before an action.
+[00:28:33] And I would just cut so when when I make an extreme example, the arrow is.
+[00:28:41] One second in a millisecond area, then you cut in the second area and then you have just a trace event at the same.
+[00:28:51] Level that yeah, we don't know if it was correct at this at this time, but it will not hit but I think it's an improvement process that you always getting better hardware.
+[00:29:05] To do that, I hope that answers the question.
+[00:29:11] I have, I had a small question about your work.
+[00:29:15] What about implementing look depth with the BPF? Have you thought about that because look depth is centralized in the canal. There is a single spin lock. It's not very scalable.
+[00:29:28] So I was thinking about being able to check the log depth only for a subset like a layer like networking or instead of enabling log depth for the whole canal just enabling it for a small set of blocks.
+[00:29:49] So it is not using that but we was thinking about it.
+[00:29:54] But the different use case is here completely different because we only check if the.
+[00:30:02] If the lock state cannot be happening at the same time.
+[00:30:07] Other than other things, but we were thinking about to because we now can observe all the network logging states that we then we can try to make log depth to DLM.
+[00:30:22] But this is not your question. Your question was that for particular things in DLM logs, you can now look at.
+[00:30:33] With log depth, but yeah, with the world, I don't know if your question is only DLM specific.
+[00:30:43] But if so, then yeah.
+[00:30:46] That was really expanding the talk, not to GFS but something else.
+[00:30:54] Yeah, I think so for log depth to say we have our log case from a dead log detection and circular log detection.
+[00:31:08] I think we need to have the whole networking view to get that and teach that log depth but we can do that.
+[00:31:20] Okay, I'm just going to cut it here. Sorry. Thanks Alex.

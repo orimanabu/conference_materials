@@ -1,0 +1,983 @@
+Source: https://youtu.be/DsKtkYXwGKo
+Language: en
+Captions: auto-generated
+
+[00:00:00] All right. Hello everyone. Uh, thank you
+[00:00:04] for coming to this uh, BOF. So, I'm
+[00:00:08] Fernando. I'm going to be conducting the
+[00:00:10] the session. And I'm here today to talk
+[00:00:14] about the new RFC that I sent to Kernel
+[00:00:19] just two or three days ago about uh,
+[00:00:22] allowing all compiling an IPv6 only
+[00:00:26] kernel network stack. So in essence um
+[00:00:32] this work
+[00:00:34] started with removing uh the option of
+[00:00:37] compiling the IPv6
+[00:00:40] uh network stack as a module.
+[00:00:43] There some people suggested hey we
+[00:00:46] should be able to compile an IP IPv6
+[00:00:49] only can and can this not possible. Uh
+[00:00:53] when that happened uh a few I started
+[00:00:58] the work I started looking to how things
+[00:01:02] were uh coupled together and how we
+[00:01:05] could make uh IPv4 more independent so
+[00:01:10] we could turn it off and continue having
+[00:01:13] a network stack.
+[00:01:15] And while doing that, uh, David
+[00:01:18] Woodhouse, uh, sent an Appusful,
+[00:01:22] um,
+[00:01:23] series, uh, converting IPv4 to IP legacy
+[00:01:28] and sending a warning when you enable
+[00:01:30] it. And I thought, okay, this is going
+[00:01:34] to be interesting because the reaction
+[00:01:36] of the people, it's going to show
+[00:01:39] how are things uh going to look like
+[00:01:42] when my when the real RFC kicks in. And
+[00:01:46] the thing is that well, it was better
+[00:01:48] than I expected. Um all of a sudden
+[00:01:51] people started providing uh real
+[00:01:54] feedback to an happiness fool's RFC and
+[00:01:58] at some point uh it was clear that well
+[00:02:02] the work should continue and that well
+[00:02:05] this is uh sensible work and that we
+[00:02:08] could uh get it done. So, um I sent the
+[00:02:14] I sent the um
+[00:02:18] okay yeah I sent the uh RFC two days
+[00:02:20] ago. In essence, this is not adding
+[00:02:23] anything new. This is moving code around
+[00:02:26] a lot of code around. Uh we are moving
+[00:02:29] like 6,000 lines lines of code.
+[00:02:33] So let me explain a bit how we did this.
+[00:02:39] Initially what we did was to create a
+[00:02:42] config IPv4 uh kconfig symbol and then
+[00:02:46] there we put in the make file all the
+[00:02:50] what I believed uh where the
+[00:02:53] IPv4 only files. Uh well to my surprise
+[00:02:58] I found that many other files uh had
+[00:03:01] IPv4 only infections and that they
+[00:03:04] should be deal with. uh in essence I
+[00:03:09] needed to move uh I needed to split the
+[00:03:12] UDP stack. So for his historical reasons
+[00:03:16] UDP was implemented in a single file
+[00:03:18] UDP.C net ipv4
+[00:03:22] of course it had the IPv6 specific
+[00:03:24] functions already into net ipv6 UDP uh
+[00:03:29] C. But on the other hand, there was a
+[00:03:33] precedent for this because TCP already
+[00:03:35] had the code split. So in if you look
+[00:03:38] into net uh slash IPv4, you will find
+[00:03:42] that there is TCP and TCP IPv4 and
+[00:03:47] that's a good thing because it gave me
+[00:03:49] the guideline to move this forward.
+[00:03:53] So um I did that with raw uh ICMP pin uh
+[00:03:59] sockets and also UDP and then for the
+[00:04:03] other co uh code that was not the core
+[00:04:06] of the networking stack. I decided to go
+[00:04:10] for um either guarding functions. So if
+[00:04:15] you invoke the function you get a proper
+[00:04:17] error like uh address uh family not
+[00:04:21] supported or protocol not supported or
+[00:04:23] operation not supported. But for um
+[00:04:28] others the co the the module is just for
+[00:04:31] now uh disabled when having an IPv6 only
+[00:04:35] kernel. This for example happens with uh
+[00:04:40] bonding because bonding should not be
+[00:04:42] dependent on on uh IPv4 but we have the
+[00:04:47] ALV mode which uh depends on the P and
+[00:04:50] so on. So the whole bonding depends on
+[00:04:53] on IPv4 for now. Then we also have uh X
+[00:04:57] FRM depending on IPv4. We also have uh a
+[00:05:03] big chunk of net filter which we need to
+[00:05:08] uh um separate
+[00:05:11] and many drivers. Um basically all the
+[00:05:15] drivers that do offloading
+[00:05:18] on on layer three or or so depends on on
+[00:05:23] IP4.
+[00:05:25] The idea is to do not let it uh stale
+[00:05:28] and and in the future if this gets
+[00:05:31] merged uh move it forward and also where
+[00:05:34] it makes sense remove that dependency.
+[00:05:37] For example, uh some people already
+[00:05:40] chime in. We had uh Baltimore
+[00:05:43] uh from net label mentioning that okay
+[00:05:46] for now let's mark net label as depends
+[00:05:48] on IPA4 but in the future we can uh
+[00:05:52] create a new kconig symbol for zipso and
+[00:05:56] then we can move zipso which is related
+[00:06:00] to uh IPv4 only um to a different kconig
+[00:06:03] symbol and then we can have a label with
+[00:06:05] uh IPv6 only. In general, the feedback
+[00:06:08] that they have re received on the um RFC
+[00:06:12] has been good so far, but it has been up
+[00:06:14] for two or three days and and they were
+[00:06:17] a weekend. So, probably things are going
+[00:06:20] to slightly change uh during this week
+[00:06:23] or or next week.
+[00:06:25] Uh the idea of of this BF is not only to
+[00:06:29] uh present this which you can read
+[00:06:31] online. It's also to show up a system uh
+[00:06:35] running this um uh this kernel and also
+[00:06:39] to show up the philosophy
+[00:06:42] uh behind it. So the idea is that when
+[00:06:44] you right now everyone is used to to how
+[00:06:47] you can have um IPv4 only kernel and how
+[00:06:51] IPv6 operations behave when you have
+[00:06:54] such kernel. The idea behind this is to
+[00:06:58] have exactly the same thing but for IPv4
+[00:07:00] disabled. So ideally the kernel should
+[00:07:03] behave the same way when you uh do some
+[00:07:06] operation uh for IPv4
+[00:07:09] uh and you have an IPv4 disabled kernel.
+[00:07:13] Uh let me show this and then I would
+[00:07:17] like to hear uh feedback.
+[00:07:21] The idea the idea of the session is
+[00:07:23] basically to listen uh understand what
+[00:07:26] are your concerns or ideas. I know that
+[00:07:29] uh this is a kind of a hot topic. IPv6
+[00:07:32] always is a top hot topic. Um
+[00:07:36] and I would like to to in a sense hear
+[00:07:39] from you um and say okay um what is the
+[00:07:43] any blocker that you see uh any uh
+[00:07:47] improvement uh what you what do you like
+[00:07:50] what you don't like?
+[00:07:52] Uh in essence this is the kernel. Uh as
+[00:07:56] you can see the most notable thing that
+[00:07:59] you can find is that you don't have uh
+[00:08:02] IPv4 local host. So this is pure IPv6.
+[00:08:07] This is running on bit ng with a uh net
+[00:08:11] self test configuration except that it
+[00:08:13] has uh ipv4 off and therefore plenty of
+[00:08:18] the stuff off. Um if we try to do for
+[00:08:22] example IB root
+[00:08:25] uh well nothing is there of course uh
+[00:08:29] but if I do add um sorry okay if we try
+[00:08:35] to add for example let's add let's add
+[00:08:37] one address whatever um to this dummy
+[00:08:44] well but we get this an operation not
+[00:08:46] supported and that's a a pretty good
+[00:08:49] thing actually uh on the other hand
+[00:08:55] I should be able to show this is BBNG
+[00:08:58] okay it's fine well um on the other hand
+[00:09:02] um everything should work as it would
+[00:09:06] like you could ping uh whatever IPv6
+[00:09:09] machine uh you could uh
+[00:09:14] okay let's ignore that [laughter]
+[00:09:17] the system didn't suspend
+[00:09:19] Um in in any case you can ping whatever
+[00:09:22] machine you can use UDP you can use TCP
+[00:09:24] ICMP and any other functionality of the
+[00:09:27] kind in terms of um let me go back here
+[00:09:32] in term of um stats so the bloat is
+[00:09:38] shrink obviously by a 10% of course we
+[00:09:42] are removing plenty of staff when you
+[00:09:44] have disabled IP before so that is
+[00:09:46] expected and performance which I think
+[00:09:50] it's something that probably you care
+[00:09:53] about it didn't change that's that's the
+[00:09:57] thing I mean I run a series of this is
+[00:10:01] very basic test in essence this is an
+[00:10:03] IPER 3 I create I have two VMs with uh
+[00:10:07] the kana and then connected through a
+[00:10:09] bridge so we didn't have anyNAT in the
+[00:10:11] middle and neither for IPv4 IPv6 this is
+[00:10:15] running on and this run on AMD uh uh
+[00:10:18] Ryzen uh 9 9,950
+[00:10:24] which is not uh server grade but it's
+[00:10:28] good enough for this test
+[00:10:32] and in essence the performance didn't
+[00:10:34] change. It is slightly
+[00:10:36] it is slightly faster
+[00:10:39] but it's hard to claim for a performance
+[00:10:43] improvement right now.
+[00:10:46] the the values are basically the same
+[00:10:48] thing. Um that same test with UDP was
+[00:10:53] done and there was no improvement as
+[00:10:56] well. So I decided to do not include it
+[00:10:58] because well it was a bit irrelevant.
+[00:11:01] But the good thing is that there was not
+[00:11:04] um
+[00:11:06] a um a performance degradation which was
+[00:11:10] one thing that I was uh scared of.
+[00:11:14] uh there is a lot of work uh that should
+[00:11:16] be done and also some open questions
+[00:11:18] that I have to kick off the discussion
+[00:11:21] here and then uh start with your
+[00:11:24] questions. The conclusion from this is
+[00:11:26] that basically
+[00:11:27] I find this quite not as it is but I
+[00:11:30] find this in the future quite
+[00:11:32] measurable. um I don't see uh downside
+[00:11:36] of this change other than we are moving
+[00:11:39] a lot of code around uh especially again
+[00:11:42] if we go to uh like the core networking
+[00:11:46] stack like ICMP UDP uh and so on plenty
+[00:11:50] of code is being moved around and by the
+[00:11:53] way as I mentioned before that uh we had
+[00:11:55] already split TCP and TCP
+[00:11:59] IPv4 I needed to move a lot of things
+[00:12:01] out of DCP IP for because it has it had
+[00:12:04] for some reason um um generic functions
+[00:12:08] inside it. Uh I guess this happened
+[00:12:10] basically because um it didn't matter.
+[00:12:13] Uh both of them were included uh under
+[00:12:16] the same K config symbol which was inet
+[00:12:19] and then no one actually care about
+[00:12:22] placing it in one side or the other. But
+[00:12:25] yeah, right now um TCP IP IPv4 only have
+[00:12:30] IPv4 functions. So after all this churn
+[00:12:34] I think that's the only negative side of
+[00:12:36] it uh that we find
+[00:12:40] well um
+[00:12:42] right now we are having
+[00:12:45] a huge amount of reports and those
+[00:12:47] reports usually has the wrong fixes
+[00:12:50] stack. I think this is not going to help
+[00:12:51] with that but uh I mean it's it's a
+[00:12:56] direct consequence of moving code that
+[00:12:57] around. Um what else? H yeah um one
+[00:13:02] other thing that I want to show today is
+[00:13:05] the open questions. So in essence I have
+[00:13:08] been looking what uh could be done. So I
+[00:13:12] would like to start with the first
+[00:13:14] question. So do you think it would be
+[00:13:17] useful to have a dedicated uh NEPA or or
+[00:13:22] a boil job with an IPv6 only kernel
+[00:13:25] configuration? And also do you think it
+[00:13:29] would be useful to have
+[00:13:32] um
+[00:13:34] um a job or or a section in self test
+[00:13:37] for running IPv6 only uh kernel test or
+[00:13:43] you think that's not necessary or that's
+[00:13:45] uh too much of too too much burden to
+[00:13:49] maintain. So this is the part where
+[00:13:52] people participate with the ideas and
+[00:13:54] their opinions. So
+[00:13:57] volunteers
+[00:14:00] if not we can jump to the next question
+[00:14:02] which is going to be more interesting
+[00:14:04] probably.
+[00:14:06] any ideas about the how to handle the
+[00:14:09] self test and if we should include uh
+[00:14:12] build test or not for IPv6 only kernel
+[00:14:16] and how to do it for the in general
+[00:14:19] testing for for IPv6 only kernel
+[00:14:26] okay
+[00:14:28] that was kind of expected but I expect
+[00:14:30] some participation on the next one uh
+[00:14:33] there are some files that there are some
+[00:14:35] generic functions that has been moved to
+[00:14:37] uh for example afet
+[00:14:40] uh which do not correspond there like
+[00:14:43] generic IP generic get fragmentation. Uh
+[00:14:46] this function is in essence uh generic
+[00:14:48] to the IPv4 and IPv6
+[00:14:51] uh network stack
+[00:14:53] but we currently do not have an IP uh
+[00:14:59] place for it that is generated because
+[00:15:01] everything is under net IP before
+[00:15:05] um the idea is that to move things to
+[00:15:09] net core ipc netcore uh udp and so on.
+[00:15:14] So, we moved the files out of the net
+[00:15:18] and uh slash uh RDV4 uh directory. Um
+[00:15:23] downside of this is moving more code
+[00:15:26] around which is probably something that
+[00:15:28] you don't like but um
+[00:15:33] comments.
+[00:15:38] >> Sorry.
+[00:15:40] >> No, it's not causing any duplication.
+[00:15:42] The idea is only to just move it out of
+[00:15:45] the IPv4 directory because they are not
+[00:15:48] supposed to be IPv4 functions or
+[00:15:50] symbols. They are generic UDP symbol,
+[00:15:53] generic TCP symbols and so on. Again,
+[00:15:56] node application but moving more code
+[00:15:58] around, moving files around, usually
+[00:16:00] it's burden on maintenance and
+[00:16:03] especially if you're working for a
+[00:16:04] company that is doing backboards, that's
+[00:16:06] also a barn for you. Uh how how many
+[00:16:10] people here is doing backboards as a
+[00:16:12] job? Okay, few of them. Yeah. So then
+[00:16:17] it's going this is relevant for you. Um
+[00:16:22] um good. So any non application? Thank
+[00:16:26] you. Uh any other comment regarding
+[00:16:29] this?
+[00:16:30] >> I I do have a question. You sure
+[00:16:31] >> decided to
+[00:16:35] >> you decided to move this up around which
+[00:16:37] obviously caused a lot of problem
+[00:16:39] playing this up. Have you considered I
+[00:16:41] mean it would be ugly but you wouldn't
+[00:16:43] need to move any adding the it's in the
+[00:16:46] this in bottom.
+[00:16:48] >> Yes, that's an option. Um uh adding
+[00:16:52] guards everywhere is an option and then
+[00:16:54] you don't need to move code around. But
+[00:16:56] in some files um so no let's see
+[00:17:02] for some places that was possible
+[00:17:04] because there were like just a single
+[00:17:06] function. Okay, I in in that case I
+[00:17:08] decided do not create a new file and do
+[00:17:11] all this mess. But for the core uh
+[00:17:15] protocols
+[00:17:17] that's too much like you have the
+[00:17:20] functions split scatter all together in
+[00:17:23] the file. So you have them in the same
+[00:17:24] block. You will need to put them in the
+[00:17:26] same block or you will need in essence
+[00:17:28] to add if you are moving 20 functions
+[00:17:30] you will need to add 20
+[00:17:32] preprocessor
+[00:17:34] guards. So the function is not compile
+[00:17:38] and if you try to guard the users that's
+[00:17:42] that's even worse like there are
+[00:17:45] hundreds of of places because in some in
+[00:17:48] some cases what I did was to use a stop
+[00:17:51] uh especially for the
+[00:17:53] uh feep uh the for information base um
+[00:17:58] there were so many users of them that
+[00:18:01] the best option was in essence to create
+[00:18:03] a stop when IPv4 is disabled, the
+[00:18:05] function does not compile and in essence
+[00:18:07] it's just an inline that returns an
+[00:18:10] error. Uh that was that that was much
+[00:18:13] faster and it's also what IPv6 is doing.
+[00:18:17] So if you look into the IPv6 code it's
+[00:18:19] doing exactly that. Um going back to
+[00:18:24] your question, it's an option but uh I
+[00:18:29] think it would be super ugly and at the
+[00:18:32] end it will be worse for maintenance. I
+[00:18:35] mean people looking at the code will
+[00:18:36] need to be really careful whether this
+[00:18:39] function is being compiled or not or
+[00:18:40] this function is is a stab or not. If
+[00:18:43] you move the code it will be fine. Also
+[00:18:47] it's it should uh reduce the risks for
+[00:18:51] regression because if you are not aware
+[00:18:53] of this IQ6 only kernel which is fine
+[00:18:56] because well
+[00:18:58] it just came in uh you maybe start
+[00:19:02] writing a function for IPv4
+[00:19:05] u in the middle of the file and then it
+[00:19:09] will break completion on on the IP6 only
+[00:19:12] kind of because you forgot to add the
+[00:19:14] guard. On the other hand, if you have
+[00:19:17] two different files, the uh chances that
+[00:19:21] you missed that there is uh IPv4
+[00:19:25] place for it are lower. So
+[00:19:30] that's that was my my that is my take on
+[00:19:32] the on that
+[00:19:36] impact on the config space. How does
+[00:19:39] that have to be change? Does it you mean
+[00:19:41] changes there as well?
+[00:19:43] >> Yeah. So config wise
+[00:19:47] we can go to this comet and
+[00:19:51] yeah that's the impact let me make it
+[00:19:54] smaller
+[00:19:56] in essence we are touching a lot of
+[00:19:58] symbols uh but as I said this is the
+[00:20:01] first step the idea is to avoid this in
+[00:20:05] the future so for example many of these
+[00:20:07] drivers can actually be compiled without
+[00:20:09] IPv4 only the functionality for
+[00:20:12] offloading or something requires IPv4.
+[00:20:15] Uh the same thing for several of the net
+[00:20:18] filter staff. Several of them actually
+[00:20:21] do not require IPv4, only some specific
+[00:20:24] functionalities. And the same thing for
+[00:20:27] uh for example uh X FRM or
+[00:20:32] stuff. Oh, for example, NF uh NFS file
+[00:20:36] system. Same thing. You actually don't
+[00:20:38] need for everything IP4. that u right
+[00:20:43] now the functions are not guard and I
+[00:20:46] didn't want to invest too much time into
+[00:20:48] it so I decided to make it depend on IP4
+[00:20:51] and then in the future we can get rid of
+[00:20:54] that
+[00:20:56] but of course we are dashing a lot of
+[00:20:59] config files um one more thing here is
+[00:21:03] that we plan to I plan to have a job
+[00:21:06] running run config uh in the background
+[00:21:10] to spot about any weird configuration
+[00:21:12] that might trigger a build error because
+[00:21:15] I'm quite sure that this is going to
+[00:21:16] break some configuration. Uh I tried all
+[00:21:19] mod config, I tried all config, I tried
+[00:21:22] most of the uh main distribution, Linux
+[00:21:25] distributions configurations, but of
+[00:21:26] course I didn't try everything. So run
+[00:21:29] random config is going to be uh a good
+[00:21:32] tool here.
+[00:21:35] Um okay,
+[00:21:37] you have a question? If not, I I have
+[00:21:39] more. So
+[00:21:41] good. Uh one more question. Right now if
+[00:21:45] uh I think you are probably aware we
+[00:21:47] have uh prog uh we have the CCTL for uh
+[00:21:51] TCP or UDP options
+[00:21:54] um under IPv4. So in essence if you go
+[00:21:58] to let me show you I think I can show
+[00:22:00] you here directly.
+[00:22:02] If we go to
+[00:22:06] net IP4
+[00:22:09] uh yeah so for example there you can see
+[00:22:12] net IP4 TCP and multiple TCP options.
+[00:22:15] These TCP options are not IPv4 specific
+[00:22:19] they are generic but uh they must stay
+[00:22:25] there for this kernel. uh otherwise this
+[00:22:28] will break absolutely every script or
+[00:22:30] deployment or whatever. I I tried
+[00:22:32] initially to create net IPv6 as a
+[00:22:36] duplicate but it was too much uh work
+[00:22:38] because you would need to be careful
+[00:22:40] when writing both together I mean at the
+[00:22:42] same time and reading them at the same
+[00:22:44] time and doing weird stuff and given the
+[00:22:48] situation that we have with the reports
+[00:22:49] I didn't want to introduce more reports
+[00:22:52] if in the future someone suggested that
+[00:22:54] we can introduce IPB6 DCP something then
+[00:22:59] we that that's going to be a good moment
+[00:23:02] to discuss it. Right now, I don't see a
+[00:23:04] solution for it that does not break
+[00:23:06] users. Um,
+[00:23:10] do you have any ideas or or how to
+[00:23:13] handle that? Okay.
+[00:23:17] >> Just
+[00:23:20] >> I guess yes. I mean, you can link it,
+[00:23:23] but um
+[00:23:26] is it still ugly? it's uh we would need
+[00:23:28] to document it somehow to make sure the
+[00:23:31] users do not confuse that they are
+[00:23:33] different or because one of the one
+[00:23:35] thing that I'm afraid of is that if you
+[00:23:38] created the IPv6 one people will think
+[00:23:41] that one applies for IPv4 stack and then
+[00:23:44] ones apply for for IPv6 stack
+[00:23:47] >> right but I don't think the plan would
+[00:23:49] be to put it under under IPv6 the plan
+[00:23:51] would be to put it under under IP
+[00:23:53] >> that would be awesome so if if we do
+[00:23:56] something like that then it would be
+[00:23:57] great. Yeah, that's a good idea
+[00:23:59] actually. If we link it to something
+[00:24:01] generic like IP like net IP and
+[00:24:04] whatever, it's could be a good solution.
+[00:24:07] Okay,
+[00:24:08] >> it's probably still ugly, but
+[00:24:09] >> Oh, that's it's it's it's a good idea.
+[00:24:11] Yeah. Okay, thank you. And and then by
+[00:24:14] the way, uh if you look at the code
+[00:24:18] right now, I'm not running the CCTL. So
+[00:24:23] you still have things like uh yeah IGMP
+[00:24:27] which is IP4 only uh but that is going
+[00:24:30] to go away in the future. So the idea is
+[00:24:32] that this is going to be removed. There
+[00:24:33] is not going to be IPv4 specific under
+[00:24:36] the IPv4 section for an IPv6 only kerno.
+[00:24:41] Um okay. Uh
+[00:24:46] any question uh anything that you would
+[00:24:49] like to bring up? I have something else.
+[00:24:52] Um this is not thought for workstation
+[00:24:55] initially because the idea is that uh
+[00:24:57] this was for MDEP uh embedded device and
+[00:25:03] for
+[00:25:05] uh very specific uh server
+[00:25:07] configurations
+[00:25:09] and I didn't thought about workstations
+[00:25:11] and we have a problem in workstation uh
+[00:25:13] for example genome does not work very
+[00:25:15] well uh yeah um KDE seems to work
+[00:25:20] but genome does Not the reason I haven't
+[00:25:23] I didn't have much time but I took a
+[00:25:26] look at it and it seems that use local
+[00:25:29] host for some interprocess communication
+[00:25:33] and it does not consider that local host
+[00:25:35] is not going to be there obviously and
+[00:25:38] then it is messed up it fails. Uh the
+[00:25:42] system is kind of usable if you
+[00:25:45] basically use the terminal but if you
+[00:25:46] use any genome thing it does not work.
+[00:25:49] Um that's a problem for KDA seems seems
+[00:25:52] to work and also we have a problem with
+[00:25:54] the IPvac uh ipsec uh front end uh
+[00:26:00] strongh uh the other seems to work but
+[00:26:02] the stron it seems that it tries to
+[00:26:04] create by default a socket on local host
+[00:26:08] for some operation it fails and it never
+[00:26:12] considered that this uh this can happen
+[00:26:17] so the whole application crash
+[00:26:20] And that's another problem. Um how can
+[00:26:23] we handle or how can we communicate this
+[00:26:28] to um user space
+[00:26:31] correctly so they adapt and they move
+[00:26:35] forward with supporting an IPv6 only
+[00:26:38] kernel which is probably the hardest
+[00:26:40] thing to do because getting people to do
+[00:26:43] things is quite hard.
+[00:26:47] suggestions.
+[00:26:53] >> No.
+[00:26:56] >> Oh, okay. Good.
+[00:27:03] >> Yeah. I think an interesting thing would
+[00:27:05] be to decouple the user space because
+[00:27:07] there is the IPv6 mapped IPv4
+[00:27:11] and the API from the user space is
+[00:27:13] different from the packet format we send
+[00:27:15] on the wire and the stack. So it might
+[00:27:17] be interesting to try to kind of split a
+[00:27:19] bit the change saying hey we build a
+[00:27:22] kernel for example that supports only
+[00:27:25] IPv6 on the user space side but also
+[00:27:28] supports IPv4 so we can use IPv6 map
+[00:27:31] addresses like uh to be a bit more
+[00:27:33] granular maybe that's a path
+[00:27:36] >> yes so about IPv4 map addresses that's
+[00:27:40] currently uh not supported I mean if you
+[00:27:43] try to create one or use one it's going
+[00:27:44] to return an error immediately
+[00:27:47] We could actually do something like that
+[00:27:50] using an IP for map address. But the
+[00:27:52] problem is that some processes are using
+[00:27:54] uh local host. So I'm not sure. Can we
+[00:27:58] map local host somehow? I'm I'm not
+[00:28:01] sure. Never tried. So maybe that's
+[00:28:03] that's a a way to go. And microphone
+[00:28:06] there. Okay.
+[00:28:08] >> Right.
+[00:28:13] Um, so why exactly don't IBV4 maps IBV6
+[00:28:18] sockets work? And I'm asking this
+[00:28:20] because I've seen an incredibly cursed
+[00:28:23] setup where people were were installing
+[00:28:25] routes for colon colon 96 in IPv6 and
+[00:28:29] routing v4 as mapped v6. And that did
+[00:28:33] work for whatever reason. I could not
+[00:28:35] believe it. But like what what is the
+[00:28:38] actual thing that breaks in this?
+[00:28:39] >> No. So the thing that breaks right now
+[00:28:41] is that well it use IPB for specific
+[00:28:44] functions uh the look on for example on
+[00:28:48] the device look on the if I over on the
+[00:28:51] uh forward information base so it will
+[00:28:53] need to be adapted but I think it should
+[00:28:55] be possible but again uh right now I
+[00:29:00] needed to look to a huge amount of code
+[00:29:03] and at some part of it I was a bit lazy
+[00:29:06] and I was like sure let's put a guard
+[00:29:09] here and we will keep discussing this in
+[00:29:12] the future. The future is today. So um I
+[00:29:17] think yes that's uh uh since uh he
+[00:29:20] mentioned it it's a good path forward um
+[00:29:23] to support IP4 map addresses and
+[00:29:26] sockets. So we can actually
+[00:29:30] um provide that to to user space. So as
+[00:29:34] an intermediate state step to so
+[00:29:39] maybe I shouldn't say this but if you
+[00:29:42] just add col 7f0000001
+[00:29:46] as a v6 address on loop back what
+[00:29:49] happens? No idea.
+[00:29:51] >> Okay. [laughter]
+[00:29:54] >> Actually no idea. Uh well right now with
+[00:29:57] the IPv6 only kernel it should fail
+[00:30:00] because it will detect that it's an IP4
+[00:30:02] map address and it should return that
+[00:30:04] it's not supported
+[00:30:06] uh on normal kernel I mean on the
+[00:30:09] standard kernel I don't really know it's
+[00:30:13] I I just don't know.
+[00:30:15] >> So so one of the things you'll find is
+[00:30:18] that there's applications out there
+[00:30:20] which will create aet sockets just to do
+[00:30:23] octals on them.
+[00:30:24] >> Yes. and
+[00:30:25] >> plenty of them.
+[00:30:26] >> Yeah. And they all break if you turn off
+[00:30:29] uh the ability to create AFITE.
+[00:30:31] >> If I turn off what?
+[00:30:33] >> If you turn off the ability to call
+[00:30:35] socket AFITE.
+[00:30:36] >> No, it doesn't work. They they do not
+[00:30:38] work. Of course, because they do not
+[00:30:40] consider any user is running a Ket
+[00:30:42] without inet. I mean,
+[00:30:44] >> so
+[00:30:44] >> it's a kind of option.
+[00:30:46] >> So, we ran into this problem at Google
+[00:30:48] and I solved it about a decade ago. Um,
+[00:30:51] we built kernels
+[00:30:53] where we still had the full dual stack
+[00:30:56] setup,
+[00:30:56] >> but we had croup flags that could kill
+[00:30:59] the IPv4 interfaces.
+[00:31:01] >> Okay.
+[00:31:02] >> And that involved killing socket AFET.
+[00:31:05] It involved killing the ability to
+[00:31:07] convert a V6 socket into a V4 socket for
+[00:31:10] the adder form or whatever it's called
+[00:31:12] option. And it involved the V6 sockets
+[00:31:15] by default coming up as V6 only, not
+[00:31:18] being able to change the V6on uh setting
+[00:31:21] on the sockets. Um some minor tweaks to
+[00:31:25] net link so that it would lie and would
+[00:31:27] get the output you had even though
+[00:31:29] underneath the hood 12701 was still
+[00:31:32] there.
+[00:31:32] >> Yeah, it sounds really similar to what
+[00:31:34] you would get.
+[00:31:35] >> Well, the difference is it was you know
+[00:31:37] maybe 500 lines of code or something
+[00:31:39] like that.
+[00:31:39] >> Sure. Sure. I mean a bunch of if
+[00:31:40] statements to turn stuff off.
+[00:31:42] Um, and we did that because we wanted to
+[00:31:46] build IPv6 machines and we didn't know
+[00:31:50] if stuff would work.
+[00:31:51] >> Okay.
+[00:31:51] >> Um, and that's the fundamental problem
+[00:31:53] here is that you you need to break the
+[00:31:55] chicken and egg problem, right? And like
+[00:31:57] this is not useful as long as the apps
+[00:32:00] don't work and the apps won't switch um
+[00:32:03] until the DRO kernels and all the
+[00:32:05] kernels where everybody tests stuff um
+[00:32:08] support IPv4. So while this is nice, it
+[00:32:12] seems it's kind of early for this
+[00:32:15] because really what we need is the
+[00:32:17] ability to run a jail,
+[00:32:19] >> right? So
+[00:32:21] I agree partially. Uh so yeah, I agree
+[00:32:25] that it's it's it's it's one of the
+[00:32:27] problems like if you don't have user
+[00:32:29] space working this this is useless.
+[00:32:31] People wouldn't be able to to run the
+[00:32:34] the the user base uh software. But on
+[00:32:37] the other hand, I only found issues on u
+[00:32:41] workstation software like I have been
+[00:32:43] running this on a server uh hosted with
+[00:32:47] some workload and it has been working
+[00:32:50] fine like probably because we fixed some
+[00:32:52] stuff when we ran into it. We had a huge
+[00:32:56] amount of failures and
+[00:32:58] >> we didn't
+[00:32:58] >> some of it got fixed some of it probably
+[00:33:00] didn't. I know we had issues with Python
+[00:33:02] and a bunch of other stuff. we replaced
+[00:33:04] a bunch of afi net calls with aflo
+[00:33:08] but
+[00:33:09] >> right now um I didn't find any problem
+[00:33:12] server side uh if we go to workstation
+[00:33:15] then yes there there is a bunch of
+[00:33:17] software that does not work but I guess
+[00:33:20] that's the problem is that if you don't
+[00:33:23] have people complaining you will never
+[00:33:25] get that done so at the same time you
+[00:33:27] need to be able to say okay we support
+[00:33:30] this your software does not work with
+[00:33:33] this kind configuration which is not
+[00:33:35] nothing new like if you remove inet
+[00:33:37] together like everything
+[00:33:40] a lot of of the software breaks like
+[00:33:42] plenty of user space programs
+[00:33:45] >> but that's kind of the thing removing um
+[00:33:48] the ability to use the the IPv4
+[00:33:50] interfaces is separate from the ability
+[00:33:52] to transmit IPv4 out on the wire right
+[00:33:55] >> um you can write user space code that is
+[00:33:59] totally IPv4 agnostic or IP agnostic and
+[00:34:02] it will work and That's possible
+[00:34:03] nowadays, but a lot of the code isn't
+[00:34:05] written that way.
+[00:34:06] >> Yeah, of course it
+[00:34:07] >> um and you also have, correct me if I'm
+[00:34:11] wrong, but I know this used to be the
+[00:34:12] case that you could use BPF to do a
+[00:34:14] bunch of like socket level rewrites at
+[00:34:17] the Cisco,
+[00:34:18] >> but you couldn't do that if user space
+[00:34:20] had created a V4 socket in the first
+[00:34:23] place. Like you couldn't lie and connect
+[00:34:25] it to a V6 address if there was a V4
+[00:34:27] socket under the hood.
+[00:34:29] >> Okay. I I don't know that. So I don't
+[00:34:30] know if that's still the case, but I
+[00:34:31] assume so. Okay,
+[00:34:32] >> so upgrading sockets from V4 to V6 dual
+[00:34:36] stack or V6 V4 only stack um would
+[00:34:41] perhaps be step one
+[00:34:43] >> could be um I don't know the to be
+[00:34:47] honest I I still think that the way
+[00:34:51] forward is to allow this configuration
+[00:34:55] and then people start using it and and
+[00:34:57] and when your software stack fails if it
+[00:35:01] if it fails Because as I said
+[00:35:04] in the servers it does not fail then uh
+[00:35:08] complain and and then go to the project
+[00:35:10] like hey um this does not work because
+[00:35:13] if you go to them and say hey this does
+[00:35:16] not work probably the answer that you're
+[00:35:18] going to get is that well you cannot get
+[00:35:20] kind of without IPv4 I mean well you
+[00:35:23] could get a kind of without inet but
+[00:35:27] being realistic uh
+[00:35:31] compile.
+[00:35:32] >> Yeah, most people don't compile their
+[00:35:34] own cano but for IPv6 I think that
+[00:35:36] situation is different. There is a bunch
+[00:35:38] of people that is really wanting to do
+[00:35:39] whatever to run IPv6 and because uh I
+[00:35:44] have done multiple batches um um of
+[00:35:49] string I have never get much engagement
+[00:35:52] as I'm getting with IPv6. Every time I
+[00:35:54] send something IPv6 some people reach
+[00:35:57] out on my email oh I cannot run this.
+[00:35:58] what do I need to do to compile this?
+[00:36:01] And and that's surprising because you do
+[00:36:03] whatever all the staff and mostly no one
+[00:36:05] cares. Uh but for 6 is different. I I
+[00:36:09] believe that it's a it's a philosophical
+[00:36:11] thing and therefore people is really
+[00:36:13] wanting to do like compile your own
+[00:36:15] kernel. uh on the other hand uh if you
+[00:36:18] look uh industrywide as again not not
+[00:36:21] the normal user but IoT uh which I
+[00:36:26] believe now it's called edge or
+[00:36:28] something like that industrywide but IoT
+[00:36:32] it's using IPv6 a lot and probably can
+[00:36:35] drop in most of the cases they can drop
+[00:36:37] IPv4
+[00:36:38] um there there is in in uh there is
+[00:36:41] someone here probably uh from from Azure
+[00:36:46] from Microsoft Azure, but if I know
+[00:36:47] wrong, they they were they're pushing
+[00:36:49] really hard for IPv6 only workloads or
+[00:36:52] IPv6 workloads in general. Um
+[00:36:57] I I think in those cases, in those
+[00:37:00] scenarios,
+[00:37:01] it makes sense and it would take it
+[00:37:05] would not take long for enterprise uh
+[00:37:08] distributions to provide an IPv6 uh
+[00:37:11] kernel variant if there is demand for
+[00:37:14] it. of course uh whether the demand is
+[00:37:17] IoT or edge or server or very a very
+[00:37:22] specific workload. In addition in
+[00:37:25] industrial systems they are where where
+[00:37:28] basically you have a factory with a lot
+[00:37:32] of machines connected to each other and
+[00:37:34] communicating but you don't want any
+[00:37:36] external uh external input. Um IPv6 is
+[00:37:41] also quite good. you you you could in
+[00:37:43] essence remove a lot of uh uh routing
+[00:37:46] and and and
+[00:37:49] network address translation that is in
+[00:37:50] the middle usually in those factories
+[00:37:54] and they are actually using them
+[00:37:56] nowadays. So that could be another uh
+[00:37:59] place to use it for users. Well, I
+[00:38:03] believe that
+[00:38:05] the way forward is is to reach out to
+[00:38:07] people. My my idea was to for example
+[00:38:10] check out what is going on on genome and
+[00:38:13] create a report and say hey um this is
+[00:38:16] not working and I expect that it's going
+[00:38:17] to be rather simple to fix because uh
+[00:38:21] from what I could see from a trace it
+[00:38:24] was just um they try to open a socket
+[00:38:28] they expect the socket is going to be
+[00:38:29] the it is not the you get five
+[00:38:32] descriptor minus one and then they crash
+[00:38:35] because they do they try to operate with
+[00:38:37] a sock with with a socket that is not
+[00:38:40] there. Um and I expect that it could be
+[00:38:43] simple as sure create the socket uh it
+[00:38:47] does not exist therefore IPv4 is not
+[00:38:49] here try IP6 or the other way actually
+[00:38:53] IPv6 is not here try IPv4
+[00:38:56] uh
+[00:38:58] yeah
+[00:39:00] uh it it's chicken
+[00:39:04] what's what should you do first and then
+[00:39:09] how to uh with with uh a working user
+[00:39:13] space or first or a kind of a kernel
+[00:39:16] space working first.
+[00:39:19] I don't know. Um on the other hand, this
+[00:39:22] is not going to break anyone like like
+[00:39:25] if this break your workload, it's
+[00:39:28] because you installed an ITV6 on the
+[00:39:30] kernel. And that's something I want to
+[00:39:32] clarify like for this getting merge,
+[00:39:34] it's not going to have any impact on
+[00:39:37] users with a current kind of with a
+[00:39:39] current kind of configuration.
+[00:39:42] Uh and by the way, thank you for uh
+[00:39:45] fixing um software that requires RP4 to
+[00:39:50] work.
+[00:39:52] Okay, any other question or comment? I
+[00:39:53] think we have around 10 minutes. We had
+[00:39:56] a pretty good discussion actually and
+[00:39:58] good ideas. Oh, one more.
+[00:40:01] I have a question regarding the
+[00:40:03] performance test. Um, have you done
+[00:40:07] tests with UDP only packets and high
+[00:40:09] packet rates?
+[00:40:10] >> Uh, yes I have I have done tests with
+[00:40:12] UDP uh UDP, TCP and ICMP. I have done
+[00:40:16] packets with I have done test with them.
+[00:40:18] So,
+[00:40:18] >> so um I was wondering if removing this
+[00:40:22] uh dual stack thing would would reduce a
+[00:40:26] pressure on the branch predictor and
+[00:40:29] allow things to run smoother. So you you
+[00:40:31] you you mentioned that there is no not
+[00:40:33] much u performance improvement but a
+[00:40:37] little bit maybe on a higher packet
+[00:40:38] rates maybe could even be more risky.
+[00:40:41] >> It could uh
+[00:40:43] again uh we have done a very simple
+[00:40:45] test. I plan to reach out to uh SUSA
+[00:40:49] performant teams where where I work to
+[00:40:51] say hey uh can you give it a go to this
+[00:40:55] and and use proper performance test
+[00:40:59] because again I just use iperf and very
+[00:41:02] simple scenarios.
+[00:41:04] I was expecting uh that RAM prediction
+[00:41:06] will uh yield some performance uh
+[00:41:10] improvement uh also because uh not sure
+[00:41:13] if you saw it but and if you're bringing
+[00:41:15] up you you saw it likely um when DCCP
+[00:41:19] was removed
+[00:41:21] um it it yield like
+[00:41:24] 8% performance improvement which is
+[00:41:28] crazy yes because if brand prediction
+[00:41:31] and and simplifying code.
+[00:41:34] >> That's that that's exciting. Yeah.
+[00:41:36] Thanks.
+[00:41:40] >> Uh hi. Uh so is recompiling hold the
+[00:41:44] user space an option for you?
+[00:41:47] >> Um no. But do you mean recompiling the
+[00:41:50] user space? Why will you need to do
+[00:41:51] that?
+[00:41:52] >> Like in the DRO. So you could add a some
+[00:41:55] compat layer on macros for example
+[00:41:58] >> that will translate all the
+[00:42:01] >> Oh, sure. old legacy apps to the
+[00:42:04] >> I guess you could do that yes but not
+[00:42:06] sure how so the problem why user space
+[00:42:08] doesn't work is usually because they
+[00:42:10] rely on on local host I'm not
+[00:42:12] >> so I'm I'm not an an expert on that
+[00:42:15] specific path of the kana but I I don't
+[00:42:19] know how you can translate local host I
+[00:42:22] guess you could because it's just an
+[00:42:23] address but
+[00:42:25] >> hey it's just a string maybe
+[00:42:27] >> yeah yeah
+[00:42:29] >> and that this will be a performance key,
+[00:42:32] but it will be only for the I don't care
+[00:42:35] users and the proper fix is to just
+[00:42:38] rewrite the app to use properly.
+[00:42:40] >> But I guess that I don't care users do
+[00:42:42] not care about IPv6 or
+[00:42:44] >> they maybe
+[00:42:45] >> like like if if you really don't care if
+[00:42:47] you are a user that just downloads
+[00:42:49] whatever from your DRO boots in and that
+[00:42:54] you go you won't use this. I mean this
+[00:42:56] is the idea of this is for very specific
+[00:42:58] use cases and who knows maybe in the
+[00:43:01] future for everyone which I'm not sure
+[00:43:03] I'm going to see that.
+[00:43:05] >> Yeah. Cool. Another thing uh to the flag
+[00:43:09] names.
+[00:43:09] >> Oh yep.
+[00:43:11] when you will um
+[00:43:14] keep this net IP4 as a legac and change
+[00:43:20] it and from now it will be affecting
+[00:43:23] IPv6 but before it was not
+[00:43:26] >> no no before it was affecting IPv6 also
+[00:43:28] >> like right now if you modify I don't
+[00:43:31] know
+[00:43:31] >> just the poor name yeah
+[00:43:32] >> yes what whatever here uh it's going to
+[00:43:35] affect IPv6
+[00:43:36] >> cool
+[00:43:37] >> because this this all all of most of the
+[00:43:39] CTLs were introduced
+[00:43:42] Well, not cycle but in essence they were
+[00:43:44] introduced as some some CTLs were there
+[00:43:47] before uh IPv6 was um used and therefore
+[00:43:55] it it just kept the inertia of adding
+[00:43:57] them also because you didn't have in
+[00:43:59] order to have the IP or generic IP which
+[00:44:02] does not exist by the way if if you look
+[00:44:04] to the CCTL you only have net IPv4 or
+[00:44:07] IPv6 you don't have a generic IP as far
+[00:44:10] as I no or or yes maybe but I believe
+[00:44:14] you you don't
+[00:44:16] yeah correct you have IPV uh whatever
+[00:44:21] so the thing is that for IPv6 you don't
+[00:44:23] have the TCP options right now you you
+[00:44:25] won't be able to see them
+[00:44:29] but uh there is a question there but the
+[00:44:33] the the suggestion of sublinking to
+[00:44:37] something generic it's actually a good
+[00:44:39] idea
+[00:44:41] Um to get back to the compatibility
+[00:44:43] layer thing, um I think if that is the
+[00:44:47] direction, um I would still put that in
+[00:44:49] the in the kernel and just if IPv4 is
+[00:44:52] disabled, still have AFI inet but with a
+[00:44:55] completely different codebase that just
+[00:44:56] gives you a kind of hidden IPv6 socket
+[00:45:00] with a bunch of relatively smaller
+[00:45:02] wrapper functions that just makes sure
+[00:45:04] that if you call connect with an IPv4
+[00:45:06] address, it just makes the IPv6 apps
+[00:45:09] address out of that and just hands it
+[00:45:11] over to IPv6. It would also have the
+[00:45:13] advantage of oh that all the
+[00:45:14] applications that do IOCls on IPv4
+[00:45:16] sockets can still have a socket to do
+[00:45:19] those IOTLs on. Um that said, I'm not
+[00:45:22] sure I like the idea. It's it's an idea
+[00:45:25] that would probably work, but it's not a
+[00:45:28] particularly clean approach. I guess
+[00:45:30] >> I had a desktop booting with that about
+[00:45:32] 13 years ago and it worked at the time.
+[00:45:36] So it's it's viable. Okay.
+[00:45:39] Good to know.
+[00:45:42] >> It wasn't.
+[00:45:43] >> No, sure.
+[00:45:44] >> It was enough guys out.
+[00:45:47] >> Nice.
+[00:45:51] Okay. So, I think it's almost time. Uh I
+[00:45:55] invite you all of you to join the
+[00:45:58] discussion on the RFC in the mailing
+[00:46:00] list. Uh again, feedback is really
+[00:46:03] welcome. I did this I have touched a lot
+[00:46:08] of things that I don't really know
+[00:46:10] about. Um
+[00:46:12] so if you are a maintainer of one of of
+[00:46:15] the files that I have touched please uh
+[00:46:18] chime in and if you are not a maintainer
+[00:46:21] and you know anything about it please
+[00:46:25] chime in because I'm quite sure that I
+[00:46:27] have introduced some regressions uh
+[00:46:30] quite likely the sashiko review is not
+[00:46:33] there is not out uh yet because it
+[00:46:36] failed or something weird and also one
+[00:46:40] One more extra thing. Um I'm quite sure
+[00:46:43] or I'm expecting that Sashiko is going
+[00:46:46] to point out a lot of existing uh errors
+[00:46:49] on functions that I move and it's going
+[00:46:51] to say this was here before um this this
+[00:46:54] was not introduced by this patch but and
+[00:46:57] then I believe that some fixes are going
+[00:46:59] to come um after this RSC. Uh so please
+[00:47:04] chime in um join the discussion. Um, I'm
+[00:47:08] all open for feedback and for uh
+[00:47:10] suggestions. Thank you very much for the
+[00:47:13] participation. I really got good ideas
+[00:47:16] uh out of this room and I'm pretty sure
+[00:47:18] I'm going to get more of them uh during
+[00:47:21] the coming days, right? And I think it's
+[00:47:24] times up. So, thank you.
+[00:47:28] [applause]

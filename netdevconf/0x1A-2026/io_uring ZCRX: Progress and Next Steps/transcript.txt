@@ -1,0 +1,615 @@
+Source: https://youtu.be/oXyAF_xfdUw
+Language: en
+Captions: auto-generated
+
+[00:00:00] It's going to be kind of status update
+[00:00:03] uh talk but I still thought maybe I will
+[00:00:05] make it a little bit more
+[00:00:08] useful for people writing the
+[00:00:10] application. So it will cover a little
+[00:00:13] bit
+[00:00:15] let's say roughly three categories of
+[00:00:18] talking points features and things you
+[00:00:21] might want to want as a application
+[00:00:23] developer feature and what that you are
+[00:00:25] likely want to use and some other
+[00:00:28] rambling about performance and stuff.
+[00:00:31] uh to give a quick idea what we are
+[00:00:34] talking about is the very main idea that
+[00:00:36] we allocate a receive queue uh from the
+[00:00:40] networking card we
+[00:00:44] think Mike is giving some feedback
+[00:00:47] is it time
+[00:00:53] so we allocate one of the network card
+[00:00:55] receive cues for our purposes we fill it
+[00:00:57] with the user space uh memory
+[00:01:01] the user provide during the registration
+[00:01:03] and we also ask the user space to
+[00:01:05] configure a series rule. So the only the
+[00:01:08] traffic it wants to go uh to zero
+[00:01:10] cooperative uh will go to our queue. So
+[00:01:14] when the traffic hits our queue it's DMA
+[00:01:17] directly into the user space memory even
+[00:01:19] before the processing stack it will be
+[00:01:21] accessible writable readable by the user
+[00:01:24] space. when we push everything to the
+[00:01:27] the very same networking stack we would
+[00:01:29] be using before.
+[00:01:31] And one of the differences for the user
+[00:01:34] space is that instead of providing a
+[00:01:36] buffer and copying the buffer you will
+[00:01:39] get a list of b of segments where the
+[00:01:42] data
+[00:01:44] is sitting and then the user space will
+[00:01:47] be doing something with the data and uh
+[00:01:50] I guess that the
+[00:01:52] main ma major difference in the user
+[00:01:55] space API uh how the interface used that
+[00:02:00] when the user face is done with the data
+[00:02:02] it needs to return the buffers back to
+[00:02:04] the kernel
+[00:02:06] which is with zero capive down v refill
+[00:02:09] queue uh which is a pretty simple uh
+[00:02:13] ring buffer shed between the kernel and
+[00:02:16] the user space there's no core return uh
+[00:02:19] involved you just put the buffer back
+[00:02:22] into the refill queue uh it's pretty
+[00:02:26] efficient
+[00:02:28] you get a lot of batching as well just
+[00:02:30] naturally
+[00:02:31] But it's going to be pulled
+[00:02:34] asynchronously by the NPI. And with all
+[00:02:37] the synchronous API, a common issue that
+[00:02:40] when the producer, the producer, no, the
+[00:02:45] consumer can't keep up with the producer
+[00:02:47] and uh the user space tries to return
+[00:02:50] buffers and the refill queue is full.
+[00:02:53] There's not much you can do.
+[00:02:56] And we tried to play it with some user
+[00:02:59] space fallbacks but it's always ugly. So
+[00:03:02] we had to add a workar around uh a sys
+[00:03:06] call based synchronous style API where
+[00:03:10] you call the API and synchronously
+[00:03:12] empties the queue and push it into the
+[00:03:15] closer to the nappy into the zero
+[00:03:17] cooperative uh caches. Uh and it works
+[00:03:22] well for both of traffic. So if
+[00:03:25] something gets missed schedule or
+[00:03:26] anything like that, but it's still a
+[00:03:29] slower pass compared to the normal
+[00:03:30] refill queue. So uh the queue sizing is
+[00:03:34] still very important. If you if you have
+[00:03:37] to use flashing a lot, think about
+[00:03:40] trying to reconfigure and rec uh
+[00:03:43] choosing a better Q size.
+[00:03:48] Another problem.
+[00:03:52] Another problem would be allocation
+[00:03:55] failless on the npi from page pool. It's
+[00:03:58] not kernel memory allocation how it
+[00:04:01] would usually be it's allocation from
+[00:04:03] the zero cooperative pool. The memory
+[00:04:05] you provided as a registration step. Uh
+[00:04:09] which means uh well we used all our
+[00:04:13] memory it s it's somewhere well some of
+[00:04:16] that will be in the receive queue
+[00:04:19] probably uh some of that will be in
+[00:04:22] socket cues but a lot of it will be
+[00:04:26] tied down in the user space under the
+[00:04:29] handling until it return back into the
+[00:04:31] fuel queue and when we when we can't
+[00:04:34] allocate memory it all becomes
+[00:04:38] you will get a lot of fun because uh
+[00:04:41] drivers don't uh
+[00:04:44] I guess a driver depend depends on your
+[00:04:46] driver but often it doesn't depend reli
+[00:04:49] uh doesn't behave itself reliably you
+[00:04:52] you always can't uh restore the
+[00:04:56] connection even if you provide uh more
+[00:04:58] buffers and again we have a refill queue
+[00:05:02] which is not sys call based interface
+[00:05:03] even if you provide buffers it's not
+[00:05:05] going to see unless you run nappy and
+[00:05:07] nappy is not running because it tried to
+[00:05:10] allocate and failed. Uh and there are
+[00:05:14] actually two problems. The first one is
+[00:05:16] that
+[00:05:18] the allocation failure happens
+[00:05:20] asynchronously. It just getting treated
+[00:05:23] silently. Uh application doesn't know
+[00:05:26] what happens. Uh it might even have some
+[00:05:30] some interest in the refill queue
+[00:05:32] sometimes but still everything starts to
+[00:05:35] fail. that one of the issues we address
+[00:05:39] where this notification no buffer you
+[00:05:42] will basically get a are you secure a
+[00:05:45] synchronously notification with a you
+[00:05:48] user data tag you provide in advance
+[00:05:51] saying that well we we failed to
+[00:05:53] allocate do something with that well at
+[00:05:56] least the user space gets some kind of
+[00:05:59] knowledge that something wrong is
+[00:06:00] happening on the allocation side and
+[00:06:02] this second part of it what the user
+[00:06:06] space can do in this case. Uh
+[00:06:10] for that we adding dynamic memory
+[00:06:13] provisioning. Uh before you could only
+[00:06:17] specify the memory you are giving as the
+[00:06:19] registration time. Uh and that became a
+[00:06:23] problem because well the user space
+[00:06:26] needs know in advance how much memory it
+[00:06:29] needs and the problem is with this
+[00:06:32] infinitely fast usage space you can try
+[00:06:35] to create a model and try to calculate
+[00:06:38] how much memory you need to saturate the
+[00:06:42] network card capacity or whatn not. But
+[00:06:45] with user space that also should account
+[00:06:47] for how long the user space is going to
+[00:06:50] be processing the data. It's not always
+[00:06:53] predictable and sometimes the stack is
+[00:06:55] pretty complex. Maybe you are bouncing
+[00:06:57] it back between tres, maybe you are
+[00:06:59] handling it some other ways. Maybe you
+[00:07:00] are sending it to some hardware and
+[00:07:03] hardware also adding latency. So it's
+[00:07:05] not really easy to predict how much
+[00:07:08] memory you might need in advance. So
+[00:07:13] which is why we we adding this kind of
+[00:07:16] Cisco callish style uh API to add new
+[00:07:20] memory at runtime
+[00:07:23] and for the
+[00:07:25] notification it's also there was a
+[00:07:29] little bit a design decision uh how to
+[00:07:32] throttle them and not spam with the same
+[00:07:34] allocation fail allocation fail
+[00:07:36] allocation fail if nappy tries to
+[00:07:39] allocate uh a couple of times which is
+[00:07:42] why the user space need to explicitly
+[00:07:45] acknowledge that it got the notification
+[00:07:47] somehow processed for example like uh
+[00:07:51] recycle some interest into the refill
+[00:07:53] key here and the other
+[00:07:56] reason why I was saying it this way is
+[00:07:58] because maybe sometime in the future we
+[00:08:01] will add something like kick the
+[00:08:03] networking card so it starts working
+[00:08:05] again uh the n starts trying again and
+[00:08:09] it it will see uh the user space
+[00:08:11] committed buffer in the refill key. Uh
+[00:08:15] and there's always an old idea of well
+[00:08:18] if you don't have enough of zero copy
+[00:08:21] receive buffers maybe we can just use
+[00:08:24] kernel allocations
+[00:08:26] uh temporarily until the situation
+[00:08:29] smoothers down. But a lot of people
+[00:08:31] don't like it and
+[00:08:34] we'll see how it works.
+[00:08:37] uh
+[00:08:39] and
+[00:08:40] you might think it's enough and you you
+[00:08:42] you might be trying to create some
+[00:08:45] application and maybe your ITM benchmark
+[00:08:48] is work works pretty well uh and I in
+[00:08:51] ideal world you you do some kind of
+[00:08:54] design you have I know you will have one
+[00:08:57] thread per CPU and each thread will have
+[00:09:00] a separate zero cop receive uh instance
+[00:09:03] with its own receive Q and but when
+[00:09:06] you're trying to scale uh this huge
+[00:09:08] service uh [clears throat] 200 plus CPUs
+[00:09:12] or whatn not uh you will quickly find
+[00:09:15] out that you might not have so many
+[00:09:17] receive cues in your system and even if
+[00:09:20] you have you you can't allocate all of
+[00:09:24] them you need to li somewhere for normal
+[00:09:27] uh processing so
+[00:09:30] it was obvious we would need to teach
+[00:09:33] the virtue of sharing the question was
+[00:09:35] what kind of shame we are going to be
+[00:09:38] using and it probably after a long
+[00:09:39] discussion we kind of use the easiest
+[00:09:42] model the zero cap receive didn't rely
+[00:09:45] much on a ringing so we just allowed uh
+[00:09:47] multiple layering instances to share the
+[00:09:50] same zero cooperative instance with
+[00:09:52] expert and impact uh it didn't I think
+[00:09:58] it didn't add anything in the hot pass
+[00:10:00] and the only the only downside is that
+[00:10:04] well the refill queue again refill Q the
+[00:10:06] refill queue is just a chunk of memory.
+[00:10:08] So if the two threads sharing zero crop
+[00:10:12] receive want to return buffers back they
+[00:10:14] need to use the same refill queue and
+[00:10:16] they would need to synchronize around
+[00:10:18] it. uh maybe with some lo maybe they can
+[00:10:22] do it for multi multi-roducer queue as
+[00:10:25] well but it works fine even with a lo if
+[00:10:29] you have a low low number of tries per
+[00:10:31] zero receive maybe like do four what not
+[00:10:34] but and we haven't had issues yet but
+[00:10:38] maybe we'll need to add multiple refill
+[00:10:40] cues in the future which I don't really
+[00:10:42] exciting about because it as always it's
+[00:10:46] some complexity but if we had have the
+[00:10:50] if we will get the issue in the future
+[00:10:53] that might be one of the things we would
+[00:10:56] need to add
+[00:10:59] and after the a couple of
+[00:11:03] a bunch of features DMA buff with device
+[00:11:06] memory support Jamal was asking last
+[00:11:09] year when he was doing presentation I
+[00:11:11] got a couple of emails as well people
+[00:11:17] a bunch of smaller features like uh
+[00:11:20] notification when some copy fallback
+[00:11:22] happens a little bit of a probing side
+[00:11:25] zero capacity what features have
+[00:11:27] available how much memory do I need to
+[00:11:29] allocate focus all that kind of stuff I
+[00:11:32] something for testing
+[00:11:35] a mode where you don't have a netv
+[00:11:37] device because it was working anyway
+[00:11:41] uh it didn't it didn't add any extra
+[00:11:43] complex so
+[00:11:46] and it's the performance feature, you
+[00:11:49] want to get a little bit more beef out
+[00:11:50] of it. And I remember two years ago I
+[00:11:53] was on net defe and chatting with the
+[00:11:55] Melanox guys and they were a little bit
+[00:11:57] surprised that we were using 4k pages or
+[00:12:01] p page size chunks right for x 86 4k for
+[00:12:06] the interface because they were
+[00:12:09] wondering because the networking card
+[00:12:11] support larger chunks and it might be
+[00:12:14] more efficient and we don't have such
+[00:12:17] restriction as a kernel location page
+[00:12:19] pool has uh but it was easier to do page
+[00:12:22] size at the time and I had a large page
+[00:12:27] support flak
+[00:12:29] was saying some patches on the main list
+[00:12:31] for enabling some of the networking
+[00:12:33] infrastructure
+[00:12:35] uh and on paper it looks pretty great.
+[00:12:40] Uh you get a lot of performance you you
+[00:12:43] get a lot of free cycles. Uh if you if
+[00:12:47] you take a look at the craft below uh
+[00:12:50] the Cisco part
+[00:12:54] lost
+[00:12:56] two/3s
+[00:12:58] uh you get some on the soft sides and IO
+[00:13:01] weight is basically idle don't ask why
+[00:13:04] uh we get 30% extra cycles which is
+[00:13:07] great and for user space well it's it's
+[00:13:10] a benchmark user space doesn't even show
+[00:13:12] up here a lot but uh It's also great for
+[00:13:16] the user space because in in this case
+[00:13:18] user space gets large contiguous chunks
+[00:13:21] of memory. It's much easier to pro them
+[00:13:24] when the
+[00:13:26] when there are few few of them. Uh it
+[00:13:29] looks great on paper but it requires
+[00:13:32] hardware JRO doesn't hard require but uh
+[00:13:36] unless you have hardware JRO or large
+[00:13:39] MTUs it not going to be that useful
+[00:13:44] because you will still will get a lot of
+[00:13:47] smaller segments and you need to you
+[00:13:50] need to allocate all the fracks you need
+[00:13:52] to allocate keys you need to push all
+[00:13:54] all of it through the stack you need to
+[00:13:56] process the user space all that. So it's
+[00:14:00] one of the features which looks pretty
+[00:14:02] great on paper and
+[00:14:04] in in real world application when you
+[00:14:07] have more sockets it doesn't look as
+[00:14:11] awesome as it sounds on the slide but it
+[00:14:14] it it gives you something
+[00:14:18] and then you are thinking it's time to
+[00:14:21] write a real application right we've got
+[00:14:23] all the features we we we've got some
+[00:14:26] extra performance out of
+[00:14:28] But we get some ridiculous situation
+[00:14:30] when if we if we run
+[00:14:35] zero user space on the same track uh on
+[00:14:38] the same CPU as the nappier
+[00:14:41] the performance is great. It works
+[00:14:44] pretty well. You can set it 200 gigabits
+[00:14:47] or uh using just one CPU and all works
+[00:14:51] great. But when you try to use multiple
+[00:14:55] CPUs, you get a lot of contention.
+[00:14:58] You you get a lot more overhead on both
+[00:15:02] threads compared to around I guess
+[00:15:05] around as 100% of single CPU. You get
+[00:15:09] something roughly 160 used and not even
+[00:15:13] the same performance for some reason.
+[00:15:16] And I I actually came to this problem
+[00:15:19] from a little bit different perspective.
+[00:15:21] I was looking at profiles and there was
+[00:15:24] a lot of contention and the profiles
+[00:15:26] were red hot from the in the parts where
+[00:15:30] we do ref counting and there are a
+[00:15:33] couple of different ref counting. One of
+[00:15:35] them is tracking which uh fragment is
+[00:15:38] currently under user space processing as
+[00:15:41] bouncing cache bouncing between the CPU
+[00:15:44] npon and the user space CPU and the
+[00:15:48] other one is the uh net io for net me
+[00:15:52] which is analogous to str page ref
+[00:15:56] counting. uh the normal networking stack
+[00:15:59] has some optimizations around it. The
+[00:16:02] instead of trying to d reference all the
+[00:16:05] fragments uh from a SKB on the receive
+[00:16:09] pass like in the sys call
+[00:16:13] u it will get pushed and delayed to the
+[00:16:16] right CPU it came from. So we can uh
+[00:16:20] reference this locally on the right CPU.
+[00:16:24] This optimization gets effectively
+[00:16:26] disabled by zero cooperative because we
+[00:16:29] still need to get a reference for the
+[00:16:31] reason for zero cooperative. So you
+[00:16:33] already bring bring the cache line to
+[00:16:36] the sys called CPU
+[00:16:39] and then it only hurts because then you
+[00:16:41] need to go through all the machinery of
+[00:16:43] uh delaying your sk through at 10 def
+[00:16:47] free and trying to put it on a different
+[00:16:49] CPU even though you you just touched the
+[00:16:53] memory on your local CPU.
+[00:16:56] And what can be done with that is
+[00:17:00] well zero copy receive gets a fragment
+[00:17:04] reference when it processes uh frags for
+[00:17:08] accounting purposes and then we
+[00:17:11] basically immediately like K3 our SKB
+[00:17:15] which will well put all the reference
+[00:17:18] tracks somewhat shortly after. What if
+[00:17:22] we can steal the references from the
+[00:17:25] SKB?
+[00:17:27] And the second idea, well, it might help
+[00:17:30] with the fragment referencing, but we
+[00:17:34] also have a separate referencing for the
+[00:17:36] user account. And there's not much you
+[00:17:38] can do apart from maybe somehow bundle a
+[00:17:41] couple of fragments and push it to the
+[00:17:44] right CPU and put them on the right CPU.
+[00:17:47] And luckily SK buff is exactly the right
+[00:17:50] container which uh which collects
+[00:17:55] multiple frags. uh what I did I
+[00:18:00] it's some kind of optimizations which is
+[00:18:03] inspired let's say by SQB and defer free
+[00:18:06] but uh it sits closer to zero
+[00:18:09] cooperative instead instead of using
+[00:18:12] defer free we we push it to the zero
+[00:18:15] cooperative nappy context and it gets
+[00:18:17] processed there so all the this user
+[00:18:21] space referencing happens on the nappy
+[00:18:23] thread all the fragment reference with
+[00:18:26] stealing thing also happens on the nappy
+[00:18:29] thread. Well, it adds some overhead to
+[00:18:32] soft IQ side, but it also reduce a lot
+[00:18:35] of contention
+[00:18:36] uh
+[00:18:42] and with some more optimization around
+[00:18:44] the the queue and the refill queue.
+[00:18:47] It got pretty nice results. uh the
+[00:18:50] performance the throughput gets back to
+[00:18:53] the cap of the network card is around
+[00:18:56] 200 GBs
+[00:18:58] uh we get best soft IQ we get better CO
+[00:19:03] the soft IQ difference doesn't look that
+[00:19:06] much on the graph I would say it's like
+[00:19:09] around 5%ish
+[00:19:12] I think it was 5% but I was looking at
+[00:19:14] the profiles and before it was uh
+[00:19:17] burning red uh uh it was spending soft
+[00:19:20] IQ like 15ish% on zero cooperative which
+[00:19:25] is quite a lot it dropped to around five
+[00:19:28] and and my performance I think I was
+[00:19:30] happy about I I think it should be
+[00:19:33] enough the soft IQ part is still pretty
+[00:19:36] high and when you are looking at
+[00:19:38] profiles still shows up a lot of driver
+[00:19:41] code and probably like a third of it is
+[00:19:45] uh handing the SK buff to the networking
+[00:19:49] stack. So, it it's still expensive, but
+[00:19:52] it's more of a generic
+[00:19:55] uh
+[00:19:57] generic networking problem which we
+[00:20:00] might try to address
+[00:20:02] in the future. And the same test with
+[00:20:04] 32K pages. Uh
+[00:20:09] I think it looks even more prominent.
+[00:20:13] We get a little bit more on the SQL side
+[00:20:16] on the software IQ side. We get probably
+[00:20:19] a little bit more troop. Uh but I'm not
+[00:20:22] sure probably not. Uh my been just
+[00:20:25] cheater.
+[00:20:27] Uh
+[00:20:29] yeah, what's my conclusion? Well, we
+[00:20:34] have a lot still have a lot of work to
+[00:20:36] do. Jamal was before the conference just
+[00:20:39] asking about TX. we need to add at some
+[00:20:41] point whether it's zero cooperative
+[00:20:43] based or allow but separate solution not
+[00:20:47] uh there are other protocols I have
+[00:20:50] people talking about UDP and quick I
+[00:20:53] want to use it with with them even
+[00:20:56] during the conference some guys were
+[00:20:58] asking about if we can do it with quick
+[00:21:01] it would be interesting to add because
+[00:21:03] zero cooperative doesn't really care
+[00:21:05] about your protocol the only problem
+[00:21:07] with UDP the user usually needs to get
+[00:21:11] the source address and we don't return
+[00:21:14] metadata. So we would need to figure out
+[00:21:17] some kind of API to return all this
+[00:21:19] metadata back. Uh
+[00:21:24] the the networking stack is still
+[00:21:26] expensive rightfully so. But maybe we
+[00:21:28] can get something more out of it. Maybe
+[00:21:31] I should play with busier polling. Maybe
+[00:21:33] I should take a look a little bit more
+[00:21:36] at profiles and maybe we can optimize it
+[00:21:39] a little bit more based on the zero copy
+[00:21:42] for just generically ideally if we can
+[00:21:45] and but it still leaves a lot of
+[00:21:48] overhead which comes from just having a
+[00:21:51] lot of fragments uh a lot of
+[00:21:54] discontiguous segments
+[00:21:57] and you need to p you still need to push
+[00:22:00] it through the state. You still need to
+[00:22:01] process them. you need you still need to
+[00:22:04] return them back. You still generate of
+[00:22:07] a lot of refill Q entries and that's a
+[00:22:11] lot of processing. So what can we do
+[00:22:14] with that? Uh larger pages help a little
+[00:22:18] bit when they work. But it's not uh a
+[00:22:21] solution that can always be applied well
+[00:22:24] enough depending on your use case and uh
+[00:22:27] how your topology looks like. And
+[00:22:30] interestingly enough, I was I was
+[00:22:33] wondering around I was wondering for a
+[00:22:35] long time about direct data placement
+[00:22:38] and put it on the slide. And then a
+[00:22:40] couple of I think it was yesterday
+[00:22:43] uh Eric Eric mentioned that they are
+[00:22:46] working on direct data placement at
+[00:22:50] Google. So that would be interesting. Uh
+[00:22:55] and I guess that's all on on my side. Uh
+[00:22:59] just a quick thank you for all people
+[00:23:01] who contributed to the project and also
+[00:23:03] for Intel for providing some hardware
+[00:23:05] for future experiments.
+[00:23:10] >> Great. Any questions?
+[00:23:15] >> Uh thank you for your talk. I have a
+[00:23:17] quick question. So I I didn't understand
+[00:23:21] in in in busy polling mode if if the
+[00:23:24] nappy fails to get uh fails to allocate
+[00:23:28] memory because the things have not been
+[00:23:31] fed to the refill queue it will stop
+[00:23:34] pulling and getting things because it it
+[00:23:36] tried to get memory and it failed.
+[00:23:39] >> Okay.
+[00:23:41] uh as far as I know driver developers
+[00:23:44] can correct me if I'm wrong usually some
+[00:23:47] kind of fall fall back when nappy can't
+[00:23:50] allocate they will basically the driver
+[00:23:53] can't proceed anymore right it starts
+[00:23:56] dropping packets a lot of shitty stuff
+[00:23:59] happens along the way and the driver
+[00:24:01] usually have some kind of time try retry
+[00:24:05] after some time with the allocation but
+[00:24:09] for some
+[00:24:11] for my particular networking card I use
+[00:24:14] during the testing a while back. It
+[00:24:17] didn't work well and I could never
+[00:24:19] recover my uh sockets after that
+[00:24:22] happens.
+[00:24:23] >> Okay. Okay. So, it stops pulling until
+[00:24:27] like some another interrupt comes or
+[00:24:29] another packet comes so that it tries
+[00:24:31] because there is no timer you said.
+[00:24:34] >> Uh yeah. Okay. Bye. Thank you. Thanks.
+[00:24:41] Other questions for Pavle?
+[00:24:43] >> Yeah, we got one down here. Um,
+[00:24:47] so I was just wondering in terms of your
+[00:24:49] data collection,
+[00:24:51] uh, how remote was the other CPU and the
+[00:24:54] split CPU setup because I know from past
+[00:24:56] experience we had setups where like for
+[00:24:58] me cache D for instance back when SMT
+[00:25:01] didn't cause problems. You could
+[00:25:03] basically put the application on one
+[00:25:04] hyperthread and the nappy pole on the
+[00:25:07] other and you actually saw a performance
+[00:25:09] boost just because they actually shared
+[00:25:10] the same L1 cache. It was just two
+[00:25:12] logical threads so you could bounce back
+[00:25:14] and forth. I'm just wondering how far
+[00:25:16] apart those two CPUs were to so which
+[00:25:20] level of cache you were getting kicked
+[00:25:21] out to or was it a separate NUMA node
+[00:25:24] entirely?
+[00:25:25] >> To be entirely honest, I haven't checked
+[00:25:27] but they were definitely the same Numa
+[00:25:30] node but different hypertra.
+[00:25:32] uh cause.
+[00:25:33] >> Yes. So I suspect then what you would
+[00:25:34] see is you'd see like a stairstepping
+[00:25:36] effect for certain the further out you
+[00:25:39] go you're going to see worse. So you
+[00:25:40] might actually find some actually did
+[00:25:41] better some would do worse as you get
+[00:25:43] out to like the L2 cache or the L3 cache
+[00:25:47] uh for what's shared.
+[00:25:48] >> We can try it for the next time.
+[00:25:50] >> Might be interesting.
+[00:25:52] >> Actually my experience [clears throat]
+[00:25:53] as well is what what uh Alex is saying.
+[00:25:56] I I did see an improvement by using a
+[00:25:58] different CPU for the nappy pole and one
+[00:26:02] and a different for application.
+[00:26:05] Sorry, I
+[00:26:06] >> my experience is probably excuse me very
+[00:26:09] similar to what Alex is suggesting u to
+[00:26:11] split the nappy pole into one CPU and
+[00:26:15] the application on a different one and
+[00:26:17] then you do IRQ binding and
+[00:26:19] >> well yeah it just depends on the
+[00:26:20] situation then in that case because
+[00:26:21] that's the things usually that's if
+[00:26:22] you're CPUbound on the cleanup then
+[00:26:24] getting the application off of the
+[00:26:27] cleanup thread gives you a little bit
+[00:26:28] more CPU in terms of total throughput is
+[00:26:31] what I've seen but it sounds like you've
+[00:26:33] got contention issues that you're
+[00:26:34] sorting out. Yeah.
+[00:26:35] >> Versus the being CPU bound.
+[00:26:38] >> I I I I didn't u they in my case a tend
+[00:26:42] of hyperthreading altogether,
+[00:26:43] >> right? But it's just like they're
+[00:26:45] adjacent CPUs. That doesn't mean they
+[00:26:48] share the cash, but
+[00:26:51] >> depends on the setup, right? You are you
+[00:26:53] are often CPU bound.
+[00:26:56] For example, if there's just one CPU CPU
+[00:26:59] bound, if there are two, it will depend,
+[00:27:02] right? Uh I I I just got capped at the
+[00:27:04] networking card which was 200. Uh if I
+[00:27:08] get my hands on something a little bit
+[00:27:10] more powerful. Well, I will probably get
+[00:27:13] capped on the CPU for multitrain as
+[00:27:16] well.
+[00:27:17] >> Yeah. And as as far as the RX stalling
+[00:27:19] if you don't clean it fast enough that
+[00:27:21] that's I think going to be very much a
+[00:27:23] driver implementation dependent thing
+[00:27:25] cuz I don't know how many drivers have a
+[00:27:27] setup to basically assume that they
+[00:27:28] didn't actually clean the ring on
+[00:27:30] interrupt and then just kick it anyway.
+[00:27:32] So I suspect that may be something that
+[00:27:34] we might have an want to have an agent
+[00:27:36] look through and how many drivers have
+[00:27:38] this pattern of just stalling when the
+[00:27:41] uh ring doesn't get cleaned by the uh
+[00:27:44] UIO ring. Um it was a broad comb
+[00:27:48] some older firmware or whatn not. Uh but
+[00:27:52] yeah I I I just left a space to maybe we
+[00:27:56] will need to add some kind of handle to
+[00:27:59] you know let it know that it can proceed
+[00:28:02] in this small memory to work with
+[00:28:06] because for normally for the drivers
+[00:28:08] right it's kind of not supposed to
+[00:28:11] happen. It happens but uh a little bit
+[00:28:14] more extreme situation with zero cap
+[00:28:16] receive it's much easier because you
+[00:28:18] have a limited pool the user space
+[00:28:21] provided
+[00:28:22] >> right yeah that's the things it
+[00:28:23] depending on the architecture some
+[00:28:24] drivers have the ability to fire off an
+[00:28:26] interrupt for hey I'm dropping packets
+[00:28:27] now something needs to happen and so it
+[00:28:30] just depends on the driver
+[00:28:32] implementation
+[00:28:36] okay any others
+[00:28:41] all right thank you Pavo
+[00:28:43] >> [applause]

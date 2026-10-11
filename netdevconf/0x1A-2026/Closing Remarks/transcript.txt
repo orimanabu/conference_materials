@@ -1,0 +1,1025 @@
+Source: https://youtu.be/uS_pTJwED4I
+Language: en
+Captions: auto-generated
+
+[00:00:00] Yeah. All right. Um I have been given
+[00:00:02] the thumbs up, so I won't make you uh
+[00:00:06] sit in the heat any longer than we have
+[00:00:08] to, but um yeah, we made it. And uh
+[00:00:11] Marshall uh pointed out to me that we
+[00:00:14] also made it on time.
+[00:00:18] >> Yeah.
+[00:00:21] [applause]
+[00:00:25] >> All right. So, we usually do this, put a
+[00:00:28] closing session together. Usually, it's
+[00:00:30] Jamal up here. Well, he wrote me into
+[00:00:32] doing it this year. Um, but we'll go
+[00:00:34] ahead and kind of give you a recap of
+[00:00:36] things that uh happen throughout the
+[00:00:38] conference. Um, put out some really
+[00:00:40] well-deserved thank yous to people. Um,
+[00:00:43] share a little bit about the financials,
+[00:00:46] uh, kind of where we were and where we
+[00:00:47] are. Um, just in the spirit of
+[00:00:49] disclosure, and then, uh, Jamal has some
+[00:00:52] information about next year.
+[00:00:56] Okay, so as usual, it was a blast,
+[00:00:59] right? We had great content, great
+[00:01:02] speakers, great attendees,
+[00:01:05] not a bad venue,
+[00:01:07] but you know, had a little problem with
+[00:01:09] the heat.
+[00:01:13] It was hot,
+[00:01:16] but um really some of the uh the biggest
+[00:01:19] thank yous are to the sponsors because
+[00:01:21] without their funding, this this really
+[00:01:24] wouldn't come together. So, um, do you
+[00:01:28] want me to read all of them off?
+[00:01:29] >> Uh, I think, yeah.
+[00:01:31] >> Yeah. Well, we we and we'll have them on
+[00:01:32] the videos. So, yeah, our gold sponsors,
+[00:01:34] uh, Jump Trading, AMD, Meta, and Google.
+[00:01:40] [applause]
+[00:01:45] Uh, Bronze, Tempesta, Fastly, Scooonet,
+[00:01:48] Haroxy, Secunet. I'm going to say yours
+[00:01:51] wrong. Mojitat
+[00:01:52] >> Majitatu network
+[00:01:54] >> uh VSAT, Empiric, Red Hat and Common
+[00:01:57] Net.
+[00:02:01] [applause]
+[00:02:03] Yeah. Media LWN uh and infrastructure
+[00:02:07] Hostinger Stinger. Thank you, Hostinger.
+[00:02:10] [applause]
+[00:02:12] So before I move off this slide because
+[00:02:14] this is we're applauding the companies
+[00:02:16] that paid us. Um I would like to say
+[00:02:19] more of a thank you to the people who
+[00:02:21] work at this these companies who went to
+[00:02:23] their management and convince them there
+[00:02:25] is value here. Um these are the people
+[00:02:28] that that we talk to and say please come
+[00:02:30] give us money. Um and then they have to
+[00:02:33] go off and convince uh people to go
+[00:02:35] ahead and do that. And that that it's
+[00:02:37] very important. It means a lot to us. Uh
+[00:02:39] hopefully it means a lot to you guys. So
+[00:02:41] all of you I'm not going to name all of
+[00:02:42] you, but I I really appreciate it and I
+[00:02:44] want to say thank you.
+[00:02:45] >> I just want to point out we're very
+[00:02:47] cheap,
+[00:02:49] right? Our whole budget is probably one
+[00:02:52] big organization sponsorship in some big
+[00:02:54] in the one of the other Linux
+[00:02:56] conferences, not this one. But thank you
+[00:02:58] guys. Thank you.
+[00:03:05] [applause]
+[00:03:07] So organizational team um we had two
+[00:03:10] very important uh local people. We had
+[00:03:12] Stefano who was our chair.
+[00:03:14] >> Stefano is here.
+[00:03:17] Where's Stefano working? [applause]
+[00:03:19] >> He's not here.
+[00:03:21] >> And we had Carlo.
+[00:03:23] >> Hello. Stand up, please.
+[00:03:24] >> Where are Carlo? There you go. Hey,
+[00:03:27] [applause]
+[00:03:30] and I will get back to Carlo uh in
+[00:03:32] another slide here, but um
+[00:03:35] you may have noticed if you've been to
+[00:03:37] Net Devs before, uh you would have seen
+[00:03:39] Christy running around uh making sure
+[00:03:41] that anything that was on fire,
+[00:03:43] literally or figuratively, um
+[00:03:48] was not on fire, um she would have been
+[00:03:52] here to knock that down immediately. Um
+[00:03:55] Christy had a vacation planned with her
+[00:03:57] family and she was really stressed about
+[00:03:59] not being here to make sure everything
+[00:04:01] went smoothly. Um and we said, "Please
+[00:04:04] do not change your plans with your your
+[00:04:07] family and your husband. Um we will take
+[00:04:10] care of it if you can help us get
+[00:04:11] everything else behind the scenes taken
+[00:04:13] care of beforehand." And she did that.
+[00:04:15] Uh so her and Kim um are are just like
+[00:04:19] invaluable people that work behind the
+[00:04:21] scenes that you guys almost never see.
+[00:04:23] Um, but none of this would happen
+[00:04:24] without them. So, thank you to them.
+[00:04:29] [applause]
+[00:04:32] >> Yeah. Not to be outdone, Lel who's in
+[00:04:34] the back. La.
+[00:04:36] >> Everybody knows La stand up. Come on.
+[00:04:39] [applause]
+[00:04:41] That smile. and LA has been, you know,
+[00:04:44] the the the silent engine behind uh all
+[00:04:47] of the infrastructure, making sure like
+[00:04:50] the, you know, the Zoom um stuff and
+[00:04:53] getting everyone connected and uh doing
+[00:04:55] all the web uh infrastructure, all of
+[00:04:57] the review platforms, um the schedule
+[00:05:00] tool, um that I had to tell him like 47
+[00:05:03] times, please upload the next one that I
+[00:05:05] just did. Um and he's great and he's
+[00:05:07] great to work with. Um we would be in a
+[00:05:10] world of hurt without him.
+[00:05:12] Um, of course, Jamal,
+[00:05:14] >> I skip me.
+[00:05:16] >> I will skip you.
+[00:05:18] [applause]
+[00:05:21] Thank you,
+[00:05:23] >> BJ. [applause]
+[00:05:30] And then, um, we also had four other uh,
+[00:05:33] people on the organizational committee,
+[00:05:34] uh, Andrea, Tomaso, Mariano, and
+[00:05:37] Franchesco. Thank you guys. Please stand
+[00:05:39] up.
+[00:05:42] Thank you.
+[00:05:45] >> These guys were our eyes and ears when
+[00:05:48] we couldn't be here to decide if this
+[00:05:49] was the venue that we wanted to be at.
+[00:05:51] So, they were on like a FaceTime call
+[00:05:54] walking around the university with
+[00:05:56] people showing them stuff and then um we
+[00:05:59] basically had a good idea of what we
+[00:06:00] were in for. I was able to get here in
+[00:06:03] May uh for um very brief time and I met
+[00:06:06] up with uh with Carlo and Stfano and we
+[00:06:09] finalized it. So without that um this
+[00:06:11] would have been a lot harder. So
+[00:06:14] okay now
+[00:06:17] we need to organize to figure out where
+[00:06:19] are we going to be. That's a lot of
+[00:06:21] work. Um then we need people to decide
+[00:06:25] what are we going to have in the
+[00:06:27] conference. This is a very very crucial
+[00:06:29] job. Um this is people volunteering to
+[00:06:32] take time out of their their lives their
+[00:06:34] day to review papers and review
+[00:06:37] submissions and give their inputs. um
+[00:06:40] sometimes a couple rounds of that and
+[00:06:42] it's not a massive amount of time but it
+[00:06:44] is time right it's interrupts and it's
+[00:06:47] something that without it this
+[00:06:48] conference wouldn't happen so I'm not
+[00:06:50] going to read everyone's name but I am
+[00:06:52] going to call out William uh who served
+[00:06:54] as our chair uh did a fantastic job
+[00:06:56] >> I think we should call out everybody
+[00:06:57] that's here if you're here oh yeah
+[00:06:59] >> and your name is up there please stand
+[00:07:01] up
+[00:07:01] >> yes
+[00:07:02] >> these are the heroes
+[00:07:04] >> [applause]
+[00:07:13] [applause]
+[00:07:14] >> So, I would say if you didn't like any
+[00:07:15] of the content, go talk to them. But,
+[00:07:17] uh, yeah. Yeah.
+[00:07:22] And come on, our AV team.
+[00:07:27] [applause]
+[00:07:33] Um, Mario,
+[00:07:36] the other people are not here.
+[00:07:38] >> I know that's Marco.
+[00:07:42] >> The rest is left.
+[00:07:44] >> Nico, Ivan, Suzanna. Um,
+[00:07:47] >> so you may recognize them if you were in
+[00:07:49] Zagreb last year. They were our AV team.
+[00:07:51] They were a new team. Um, Zagreb went
+[00:07:54] infinitely better than conferences
+[00:07:56] before that. And, uh, this relationship
+[00:07:59] was something that worked. They were
+[00:08:00] excited to work with us. I hope I think
+[00:08:03] uh and uh they drove all this equipment
+[00:08:06] from Zagreb um set it up. They
+[00:08:08] understand how our conference works. So
+[00:08:11] this is a really really great
+[00:08:12] relationship. These guys are awesome. I
+[00:08:14] don't think we had a single issue with
+[00:08:16] the AV. This is dealing with remote
+[00:08:20] presenters, uh recorded sessions, um
+[00:08:23] bringing people in all of the mics to
+[00:08:26] rooms broadcasting and um all of this
+[00:08:30] just worked, right? we we didn't have to
+[00:08:31] worry about a thing and um that's just
+[00:08:34] because they are excellent at their job
+[00:08:35] and we are very very happy that they
+[00:08:37] want to partner with us. So thank you.
+[00:08:40] [applause]
+[00:08:46] >> Okay, so some special thanks. Um the I'm
+[00:08:50] going to butcher the name Carlo
+[00:08:52] University Roma. Is that all right?
+[00:08:55] Passable
+[00:08:57] do this. um to that's where we're at
+[00:09:00] right now. Um [laughter]
+[00:09:01] so big thanks to the venue um for making
+[00:09:03] the space available. Um they they were
+[00:09:06] very flexible with a lot of our requests
+[00:09:09] um like special power requests to be
+[00:09:11] able to run AV and a pizza oven and
+[00:09:14] hopefully not blow the breakers and um
+[00:09:17] setting up multiple rooms and multiple
+[00:09:18] configurations. So um big big thanks to
+[00:09:21] them.
+[00:09:25] >> [applause]
+[00:09:29] >> Uh, I would like to say I think our
+[00:09:31] catering company did pretty pretty darn
+[00:09:33] well. Um, Lavo La Banqueting. Um, I
+[00:09:38] mean, we had an espresso machine.
+[00:09:44] [applause]
+[00:09:46] By the way, that was a surprise when we
+[00:09:48] got here. We were like, we thought we
+[00:09:50] were just going to get coffee and they
+[00:09:51] were like, you are going to get coffee.
+[00:09:54] And um and yeah, and then Carlo
+[00:09:55] explained to me that's just how it is.
+[00:09:57] >> That's coffee in Italy.
+[00:09:59] >> Yes. So I'm sorry that we're setting the
+[00:10:00] bar that high for future conferences. We
+[00:10:02] will try to get an espresso machine, but
+[00:10:04] I can't guarantee anything. But um
+[00:10:06] >> No, we won't get the venue unless they
+[00:10:11] um thing. Uk said we won't get the venue
+[00:10:13] unless we have like an espresso machine.
+[00:10:16] >> Well, uh and then the pizza party. I
+[00:10:18] think uh we have like upped our game. Uh
+[00:10:20] this actually came out of a um kind of a
+[00:10:24] joke where we were like we've get
+[00:10:26] takeout pizza and have these social
+[00:10:28] events and then Christy I think had the
+[00:10:30] suggestion are we is it was like takeout
+[00:10:32] pizza in Italy even a thing like can you
+[00:10:34] get like thrown in jail for that? Um and
+[00:10:37] the caterer was like we can just make
+[00:10:39] the pizza like okay let's do it and
+[00:10:42] hopefully that uh that you guys enjoyed
+[00:10:44] that that evening. That was that was a
+[00:10:46] lot of fun for us to see like mountains
+[00:10:47] of food continuing to come out. Um, so
+[00:10:50] hopefully that was good. But those guys
+[00:10:51] are awesome.
+[00:10:55] [applause]
+[00:10:58] So Carlo and Andrea, um, these guys
+[00:11:02] also, I wanted to call them out again
+[00:11:04] because all of the little things that
+[00:11:06] were happening throughout the
+[00:11:08] conference, um, like Wi-Fi issues, I
+[00:11:11] mean, they happen. um all of the
+[00:11:13] networking that had to be done in order
+[00:11:15] for us to have Wi-Fi, uh any requests
+[00:11:17] with the university, anything that we
+[00:11:19] had to talk to anyone, they were the
+[00:11:21] ones that were actually doing that
+[00:11:22] behind the scenes. I would send a
+[00:11:23] message to them and I wouldn't have to
+[00:11:25] worry about it. So without them, we
+[00:11:27] wouldn't have had uh things to be so
+[00:11:30] smooth.
+[00:11:31] >> So thank you guys.
+[00:11:32] >> We want to make you stand again.
+[00:11:33] >> Yes. Dan. Dan. [applause]
+[00:11:40] >> [applause]
+[00:11:42] >> Um so the social media registration um
+[00:11:45] this was a huge burden uh off of our
+[00:11:47] shoulders that uh we were able to have
+[00:11:51] uh Salem Mini Jamal his son uh came and
+[00:11:54] uh Victor they ran registration they ran
+[00:11:57] to the rooms took pictures they're
+[00:11:59] posting them all over social media for
+[00:12:00] the rest of the world to see like we
+[00:12:02] actually did something. Um and it's
+[00:12:04] fantastic. It's it's really great and
+[00:12:05] and I thank you guys for uh jumping in
+[00:12:07] there and doing that. So, thank you.
+[00:12:10] [applause]
+[00:12:15] [applause]
+[00:12:18] Okay. So, we can organize, we can choose
+[00:12:20] content, but if we don't have people
+[00:12:23] that actually submit something to talk
+[00:12:26] about, uh then we wouldn't have a
+[00:12:27] conference. So, I have want to say a big
+[00:12:30] thanks to the speakers. Um, like let's
+[00:12:32] let's be honest, there was a pretty
+[00:12:34] tight turnaround between when we decided
+[00:12:36] where we were going to be, uh, because
+[00:12:38] this was not plan A, but it turned out,
+[00:12:40] I think, pretty pretty darn well. Um,
+[00:12:43] you guys responded. You got the content
+[00:12:46] out there for review. Then you, um,
+[00:12:49] created, I think, some excellent
+[00:12:50] content, some of the best that we've
+[00:12:52] had, I think, in in a long time. Um, and
+[00:12:55] we had a lot of really good discussions,
+[00:12:57] um, talks, tutorials, workshops. So I
+[00:12:59] want to thank all of you uh for doing
+[00:13:02] that.
+[00:13:02] >> Thank you.
+[00:13:08] [applause]
+[00:13:10] >> Now this comes with another side of it.
+[00:13:14] Get your papers and slides uploaded.
+[00:13:17] So please do do uh if you haven't done
+[00:13:19] that already um please upload them. If
+[00:13:22] you haven't finished your papers, finish
+[00:13:24] your papers. Um, if you have any issues
+[00:13:27] with this, just reach out to us. Um, we
+[00:13:29] can get it uploaded or or help show you
+[00:13:30] how to do it. So,
+[00:13:32] >> uh, it's a trap.
+[00:13:33] >> My It's a trap.
+[00:13:34] >> Uh, is that a mic?
+[00:13:36] >> We have We have mics to run around.
+[00:13:37] >> Yes. I'll put
+[00:13:38] >> And I just want to say if you want to
+[00:13:41] just send them via email, it's fine. I
+[00:13:43] can just upload them for you.
+[00:13:45] >> This is why L is like indispensable,
+[00:13:47] right?
+[00:13:48] >> Yeah.
+[00:13:50] >> Oh, yeah. My my check said it was a
+[00:13:52] trap.
+[00:13:53] >> Okay. So, um I guess one of the final
+[00:13:58] things, uh the Net Dev Society, it's the
+[00:14:00] board, uh the entity that that oversees
+[00:14:03] and kind of runs all of the things like
+[00:14:05] the financials, the well, I mean, like
+[00:14:08] everything, insurance, all the things
+[00:14:10] that that you guys don't have to care
+[00:14:12] about. Um hopefully stuff.
+[00:14:15] >> Yeah. Um but this is you know Jamal is
+[00:14:17] the chair myself I joined uh the board
+[00:14:19] last year uh Shriet uh Rupa and Tom who
+[00:14:22] were unable to make it this year but you
+[00:14:24] know thank thank self- serving right but
+[00:14:27] thank you it's
+[00:14:29] [applause]
+[00:14:36] okay so uh one thing I did also want to
+[00:14:38] uh have a shout out was uh Christy uh
+[00:14:41] who normally is here doing um everything
+[00:14:44] uh her sister actually is the one who
+[00:14:45] designed the logo. Um, so that was
+[00:14:47] awesome. That's on our t-shirt. That's
+[00:14:48] on our stickers. Uh, but
+[00:14:53] >> there is no pineapple.
+[00:14:55] >> There is no pineapple there. To our
+[00:14:57] Italian friends, there is no pineapple.
+[00:14:59] >> We're not that stupid. We don't want to
+[00:15:00] get kicked out of the country. Come on.
+[00:15:02] >> But, uh, thank you to Christiey's sister
+[00:15:04] for a really, really cool logo.
+[00:15:07] [applause]
+[00:15:12] So [applause]
+[00:15:14] hopefully this clears it. That's not a
+[00:15:15] Canadian uh pizza which has pineapple.
+[00:15:20] Okay, so some of the uh not boring
+[00:15:24] stuff, but I think uh kind of a nice way
+[00:15:26] to see how we're doing. Um this year we
+[00:15:29] had 130 physical. Um, I think almost 120
+[00:15:33] of you registered within the like last
+[00:15:35] two weeks, which that's that's not
+[00:15:37] entirely true, but a lot of
+[00:15:39] registrations came very late and there
+[00:15:41] was a lot of stress of like are we even
+[00:15:43] going to have anyone to sit in the room
+[00:15:45] and then ordering things like catering
+[00:15:47] and whatnot, but it turned out to be
+[00:15:49] very healthy uh in terms of the the
+[00:15:51] attendance. Um,
+[00:15:54] yes, so we had nine more physical than
+[00:15:55] last year uh which is cool. Uh 51
+[00:15:58] virtual. Yeah, that's why we have white
+[00:16:00] t-shirts because registration happened
+[00:16:02] at the end.
+[00:16:04] >> There's the mic.
+[00:16:06] >> 27 countries represented here.
+[00:16:13] >> What? No, no one no one no one I don't
+[00:16:16] think anyone from Africa is attending
+[00:16:18] this. This is the attendees uh
+[00:16:20] countries. Um but yeah, 51 virtual uh
+[00:16:23] which is exactly the same as last year.
+[00:16:25] Uh I actually thought we had one extra
+[00:16:26] but l couldn't find them in the
+[00:16:28] spreadsheet and then he found them and I
+[00:16:29] had to decrement so it would put an off
+[00:16:31] by one error but
+[00:16:32] >> yeah I think one thing we'd like to
+[00:16:34] suggest is if you can register earlier
+[00:16:35] it's better for us from a planning we're
+[00:16:38] going to going forward we'll have better
+[00:16:40] plans uh maybe try months ahead of time
+[00:16:44] not three months
+[00:16:44] >> yeah yeah not three months total three
+[00:16:46] months of
+[00:16:47] >> just trust us on the content it's going
+[00:16:49] to be great just register please so that
+[00:16:51] way we don't have two colors of t-shirts
+[00:16:53] well we have
+[00:16:55] question comment. Mike,
+[00:16:58] >> can you do a quick
+[00:17:02] >> Yeah, just just one one quick note uh
+[00:17:05] that may a bit help to send speaker like
+[00:17:09] you know uh codes a bit earlier so that
+[00:17:12] because it sometimes doesn't work.
+[00:17:15] >> Yeah, we have we have a slide coming
+[00:17:17] that uh where you can submit those uh
+[00:17:19] comments and and and issues and they'll
+[00:17:21] go be filed into a circular filing. I
+[00:17:24] I'll keep No, no. Um that's good good uh
+[00:17:27] feedback. Actually, uh L just mentioned
+[00:17:28] to me earlier that he's going to work on
+[00:17:30] the registration and the speaker system
+[00:17:33] um to sort of automate the the
+[00:17:35] notification all in just like one shot.
+[00:17:38] Um so yes, it lines up very well with
+[00:17:41] >> Yeah, actually if you have feedback on
+[00:17:42] the system region
+[00:17:45] system, Lyall is here. We'd like some
+[00:17:47] feedback. We're trying to improve it
+[00:17:48] constantly, but automate it as much as
+[00:17:51] possible. But, you know, feedback is
+[00:17:52] also very helpful. If you're if you
+[00:17:55] submitted a talk and you didn't get
+[00:17:57] things on time or you didn't get the
+[00:17:59] proper feedback, please let us know.
+[00:18:01] >> It was the same as last year, so it was
+[00:18:03] great.
+[00:18:04] >> There you go.
+[00:18:05] >> Um, I'm going to I'm going to I'm going
+[00:18:08] to skip the the um this
+[00:18:11] Well, I'm kind of cooking by this right
+[00:18:13] now. So,
+[00:18:14] >> Turkey, I don't know who's from Turkey.
+[00:18:15] There's somebody there. um from sorry.
+[00:18:19] >> No, no. Uh but yeah, 27 countries uh
+[00:18:21] represented uh here. Uh last year we had
+[00:18:24] 28, but I I went and did the the
+[00:18:27] comparisons and we like subbed some out
+[00:18:30] and subbed some in. Um so we hot swapped
+[00:18:33] a little one one more away. Um there's a
+[00:18:36] pretty good spread. Um but one really
+[00:18:39] cool thing is netconf has now returned.
+[00:18:42] Uh we hope that you guys come back next
+[00:18:43] year as well. uh want to colllocate with
+[00:18:45] us. Um it was I think very very useful
+[00:18:48] to have the netcon freed out um and kind
+[00:18:51] of the Q&A with the maintainers. I think
+[00:18:53] that's giving some really good uh
+[00:18:55] transparency and uh some really good
+[00:18:57] access um to have some some like direct
+[00:18:59] conversations um that like the face to
+[00:19:02] face stuff really really helps with. So
+[00:19:04] I don't know what you guys think. Is
+[00:19:06] that was that a good thing? Yeah.
+[00:19:11] I guess I should ask that two ways for
+[00:19:13] the attendees. did you think it was a
+[00:19:14] good thing? And then ask the netcom
+[00:19:16] guys, did you guys think it was a good
+[00:19:17] thing? So, but we we can we can talk
+[00:19:19] about it later.
+[00:19:22] Okay. Also [clears throat] popular uh
+[00:19:24] stuff here is uh tracking our our growth
+[00:19:27] rates, if you will, uh over time. Um
+[00:19:31] now, the the thing to take away from
+[00:19:33] this chart because data can always be
+[00:19:34] made uh to look however I want it to
+[00:19:36] look. um or you can take away from this
+[00:19:40] the the large pie shape uh you will see
+[00:19:43] has shrunk and the extra large has
+[00:19:46] grown. However, there is a reason that I
+[00:19:48] will say is the excuse for this here and
+[00:19:50] this is because these are EU sizes where
+[00:19:54] the L in EU is actually a medium in the
+[00:19:57] US and XL in the EU is actually large in
+[00:20:02] the US. So, we we went ahead and told
+[00:20:04] people that ahead of time,
+[00:20:08] small, and medium.
+[00:20:10] >> You guys need to fix that.
+[00:20:11] >> Well, I it's not my job to fix it, but
+[00:20:13] anyways, here's our our distribution of
+[00:20:15] the of the sizes. And then if we want to
+[00:20:17] look at the growth rates over time, um
+[00:20:20] actually looks fairly similar. However,
+[00:20:24] um the medium pie has shrunk. And again,
+[00:20:27] I'm attributing that to EU standard
+[00:20:29] shifting.
+[00:20:30] >> [snorts]
+[00:20:30] >> That will be the the the excuse
+[00:20:33] >> and we we have to show the t-shirt
+[00:20:35] sizes. This has been a tradition. Okay.
+[00:20:37] >> Yeah.
+[00:20:39] Um also how much of your life did you
+[00:20:42] maybe like waste or you know uh or or
+[00:20:46] spend here you know um well I'll pull
+[00:20:48] this data together. So this conference
+[00:20:51] um we had you can see the breakdown of
+[00:20:52] talks to workshops to everything. The
+[00:20:54] other was the netconf um related events
+[00:20:58] and uh we had about 30 hours of content.
+[00:21:01] Um I'm sure that that feels a lot longer
+[00:21:03] sitting in this room than the one
+[00:21:04] downstairs. Um or if you know you had
+[00:21:07] the nod off, maybe it felt a little
+[00:21:09] less. I don't know. Um
+[00:21:13] but your overall lifespan at NetCon if
+[00:21:15] you have started at the or netvcon uh if
+[00:21:17] you started at the uh beginning um L
+[00:21:20] found that the posted YouTube videos we
+[00:21:22] have about 485 videos that are that are
+[00:21:24] available that we could find with 365
+[00:21:26] hours 26 minutes 9 seconds of runtime.
+[00:21:29] So if you really really need to have
+[00:21:30] like a long flight like lots of content
+[00:21:33] just start syncing these things and just
+[00:21:34] put them on stream and good night.
+[00:21:40] Mike, Mike, Mike. [clears throat]
+[00:21:43] >> No, I was just saying 1 hour per day for
+[00:21:45] the whole year.
+[00:21:46] >> Yeah, there you go. One hour a day. One
+[00:21:48] hour a day will keep the something away.
+[00:21:50] I don't know. [clears throat]
+[00:21:51] >> Okay. So, now some of the uh just the
+[00:21:54] breakdown. Um you know, this all of
+[00:21:56] these financials are um available for
+[00:21:59] for download off of the netcon.info
+[00:22:02] website. You can go see this. that it's
+[00:22:05] something as being a nonprofit
+[00:22:06] organization in Canada, it's it's
+[00:22:08] required for us to have these published.
+[00:22:10] >> Just to make it clear, we made some
+[00:22:12] profit.
+[00:22:13] >> Yeah.
+[00:22:14] >> So, sometimes we make profit, sometimes
+[00:22:15] we lose money. Right. We made
+[00:22:17] >> Hey,
+[00:22:19] >> that's why we made the larger t-shirts.
+[00:22:20] It's because we had more money. You're
+[00:22:21] right. Yes. Uh actually, the t-shirts
+[00:22:23] this year, um I should actually mention
+[00:22:26] this, like our badges, our t-shirts, our
+[00:22:28] signs are usually all things that
+[00:22:30] Christy has uh printed. um typically
+[00:22:34] maybe in Canada or somewhere. She tries
+[00:22:35] to get local places and then there's
+[00:22:38] cost to like ship it all over. Um all of
+[00:22:40] those were actually made made in Italy.
+[00:22:43] Uh made through uh connections with
+[00:22:44] Carlo and um Andrea that they helped us
+[00:22:48] get these things. Um it it drove the
+[00:22:50] cost down. The quality of the t-shirts I
+[00:22:52] think is is quite nice. Uh the badges,
+[00:22:54] the double-sided badges were awesome. Uh
+[00:22:58] I hope you guys think that was that was
+[00:23:00] also a nice improvement. Uh but all of
+[00:23:01] this stuff was like done here. So it was
+[00:23:04] stressfree like is it going to get you
+[00:23:06] released from customs and all this crap
+[00:23:08] it was already here.
+[00:23:10] >> You guys need to count the volunteer
+[00:23:11] hours and put a value to it and I mean
+[00:23:14] you need to balance that. That's not
+[00:23:16] right.
+[00:23:18] >> Good suggestion.
+[00:23:20] >> Um so anyways that's some sponsorship
+[00:23:23] income and then you can just see the
+[00:23:24] breakdown. Um
+[00:23:27] so one one number that I wanted to point
+[00:23:29] out. Um, just to give you a like and
+[00:23:32] this might go to the uh to the comment
+[00:23:34] about the coffee machine uh in future
+[00:23:36] ones. So, food and beverage was uh about
+[00:23:39] $11,000 last year in Zagreb. Uh this
+[00:23:42] year it's about 2.5x that. Um yeah, part
+[00:23:45] of it it's the pizza party. Um but I I
+[00:23:48] think the the like the quality of the
+[00:23:49] lunches was a little higher. Um they
+[00:23:52] obviously had a great staff just
+[00:23:54] churning through stuff, all the
+[00:23:56] pastries. Hopefully everyone got their
+[00:23:57] fill of like all of the Italian goodies.
+[00:24:00] Um, but that number was higher and I
+[00:24:02] think it was worth it. So, I hope you
+[00:24:03] guys maybe agree with that or not.
+[00:24:08] [applause]
+[00:24:12] Okay, so now is the dangerous part. Um,
+[00:24:16] you know, so this is we'll try to cap it
+[00:24:18] to a couple minutes just because of the
+[00:24:20] heat. We don't want to keep people in
+[00:24:21] here too long. But, um, some things that
+[00:24:24] we thought went okay. Again, the AV is
+[00:24:27] flawless. Uh that really that can derail
+[00:24:30] a conference so easily if anything in
+[00:24:32] the AV goes wrong. Um and we we just
+[00:24:34] didn't have that happen. So, uh that was
+[00:24:36] great. Um the bad uh we did have a
+[00:24:41] couple speakers that were not able to
+[00:24:42] join because they couldn't get their
+[00:24:44] visas cleared in time. Um that's
+[00:24:46] something that we continue to struggle
+[00:24:47] with. So, we have some solutions. Um
+[00:24:51] we're we're not like smuggling people
+[00:24:52] in.
+[00:24:53] >> Oh, yeah. We can clap for the AV guys
+[00:24:55] again. Yes.
+[00:24:58] [applause]
+[00:25:02] Um yeah, the the solutions to the visa
+[00:25:05] problems are not involving like a
+[00:25:07] nondescript truck with like you know
+[00:25:09] things with sacks and people moving
+[00:25:11] across borders. But um but yeah, it's
+[00:25:14] it's still a real thing. Uh so we're
+[00:25:15] we're we're trying to get creative. Uh
+[00:25:18] time zone management still hard right
+[00:25:19] here in Rome. Um, for West Coast, you
+[00:25:23] know, US, I should clarify, US, West
+[00:25:25] Coast speakers, it's a 9-h hour
+[00:25:26] difference. Um, so trying to figure out
+[00:25:28] on the schedule where if it land certain
+[00:25:30] things so that they can participate was
+[00:25:32] a bit of a challenge, but I I feel like
+[00:25:34] we did the best we could. Um, landed
+[00:25:36] things where they they they could be um
+[00:25:39] fully beneficial to everyone wanting to
+[00:25:40] join. Um,
+[00:25:43] and if there are anything else, so I
+[00:25:45] will,
+[00:25:46] uh, well, before I do the open mic, uh,
+[00:25:49] one other thing that I didn't put up
+[00:25:50] here, but, um, for the most part, the
+[00:25:52] Wi-Fi actually held up pretty well. Um,
+[00:25:55] yeah, you stick a bunch of like
+[00:25:57] networking related people into one space
+[00:25:59] and then have them probably doing
+[00:26:01] something networking related and
+[00:26:02] pounding the crap out of stuff. Um, feel
+[00:26:05] feel like it held up pretty well. Um I I
+[00:26:07] know that there was some blips here and
+[00:26:09] but Carlo is running around rebooting
+[00:26:11] routers uh and and we made it through.
+[00:26:13] We made it through without a major
+[00:26:15] outage.
+[00:26:17] >> Someone trying to get multipath TCP
+[00:26:19] working and they were complaining it
+[00:26:20] didn't work. I don't remember who that
+[00:26:21] is. Did it eventually work?
+[00:26:27] >> Anyways, so figure um take a few minutes
+[00:26:30] open mic. While we're figuring that out,
+[00:26:33] if you do have other suggestions, feel
+[00:26:35] free to email us. Um, we want to and
+[00:26:37] we're thinking about if we can figure
+[00:26:39] out how to send out like a like a survey
+[00:26:40] or poll um just to kind of get some
+[00:26:43] other feedback, solicit some input. Uh
+[00:26:45] what you thought went well, what you
+[00:26:46] thought would be nice to improve on. I
+[00:26:48] can't do anything about what's going on
+[00:26:49] outside. Um but
+[00:26:54] hey, it's open mic. This is where you
+[00:26:56] get to vent.
+[00:26:59] >> We're happy if you don't. We can move
+[00:27:01] on.
+[00:27:04] >> Nobody
+[00:27:04] >> really or everyone doesn't want to say
+[00:27:06] anything out of that
+[00:27:08] >> out of the heat.
+[00:27:12] >> Have any takers?
+[00:27:14] >> I think it was so good.
+[00:27:15] >> Everything went so well.
+[00:27:17] >> Yeah.
+[00:27:18] >> Oh, okay. [applause]
+[00:27:22] And you're you're not going to offend us
+[00:27:24] if there's something that you felt that
+[00:27:26] didn't go well. But um if you want to
+[00:27:28] reserve that, send it to us. That's
+[00:27:30] fine.
+[00:27:37] >> Uh, we want that for the goodies next
+[00:27:40] time.
+[00:27:40] >> Oh, the fans.
+[00:27:41] >> The fans. The handheld ones.
+[00:27:43] >> Okay.
+[00:27:44] >> Yeah.
+[00:27:46] >> You mean each one individual fans?
+[00:27:49] >> Okay.
+[00:27:49] >> All right. Well, I'm going to turn the
+[00:27:51] next fun part over to Jamal.
+[00:27:53] >> Okay. If there's no complaints,
+[00:27:56] the top is up. Down.
+[00:27:58] >> Uh, down.
+[00:27:59] >> Okay. down is takes me to the next
+[00:28:00] slide. Yes. Okay.
+[00:28:03] All right. So, where are we going?
+[00:28:06] Netdev conf. You know what that means.
+[00:28:10] Okay. Uh where's Christian? Christian is
+[00:28:13] still here.
+[00:28:15] Ah, he's gone. But he was here earlier.
+[00:28:19] This is a quote from last time. Linux
+[00:28:21] networking is like a safari. You meet
+[00:28:24] all kinds of strange animals along the
+[00:28:26] way.
+[00:28:27] Okay. So, we're taking this very
+[00:28:29] seriously.
+[00:28:31] We are I kept saying this. I said this
+[00:28:33] in uh Croatia was it? Yeah.
+[00:28:37] >> We want to try try something new. Go
+[00:28:39] Baldi where no man has gone. Where no
+[00:28:42] Linux conference has gone before.
+[00:28:46] >> Bali.
+[00:28:48] >> Bali. Bali.
+[00:28:50] >> All right. Why? Where are we going?
+[00:28:51] We're going to Africa. There's a line
+[00:28:54] there. You see the Tropic of Cancer?
+[00:28:56] Below it is the Tropic of Capricorn and
+[00:28:58] there's 0 degrees at the equator.
+[00:29:01] Why are we going there? Well, the most
+[00:29:03] prominent issue is visa issues. If you
+[00:29:07] saw anybody who was speaking virtually
+[00:29:10] or attending virtually, it's very likely
+[00:29:12] majority of them did not were trying to
+[00:29:15] come in. This happened in Zagreb. It
+[00:29:17] happens here. Probably in the US it will
+[00:29:20] happen. So, we we're trying to make a
+[00:29:22] change and we know that nobody's ever
+[00:29:24] gone. There's no conference that has
+[00:29:25] ever gone to Africa that we know of,
+[00:29:29] right? Um
+[00:29:31] and so that's where we're going.
+[00:29:34] Why and we and to be precise, we're
+[00:29:38] going to Tanzania. Uh the Tanzania does
+[00:29:41] not require any visa for up to 70
+[00:29:44] countries. And it's a very simple e
+[00:29:46] visa. You pay your 50 bucks, you show up
+[00:29:49] at Netev.
+[00:29:51] Beautiful place,
+[00:29:54] lot of potential bucket list.
+[00:29:57] It has three of the top seven natural
+[00:30:00] wonders of Africa.
+[00:30:03] It's it's a great tourist direct. Now, I
+[00:30:04] know this is a technical conference, but
+[00:30:06] if you're going to come that far, you
+[00:30:08] might as well take advantage of that.
+[00:30:10] And in particular, we're going to
+[00:30:11] Zanzibar. The temperature today is
+[00:30:13] >> Jamal is from Zanzibar and from
+[00:30:15] Tanzania. I think there is a bias there.
+[00:30:18] >> I am not from Tanzibar.
+[00:30:23] Okay. So, 37 Celsius. 29 Celsius. This
+[00:30:28] is from Google today.
+[00:30:31] >> If you need any other convincing
+[00:30:33] >> you Yes.
+[00:30:36] >> Uh,
+[00:30:38] >> what's that?
+[00:30:38] >> They're asking what the humidity is.
+[00:30:41] >> Does this report humidity? Oh, okay.
+[00:30:43] What? What is it?
+[00:30:44] >> There there's no humidity there. You
+[00:30:47] >> Oh, 71. Is it 71?
+[00:30:49] >> Oh, because it's raining. Oh, it's
+[00:30:50] raining. Yeah. Yeah. Okay. So, Zanziba,
+[00:30:55] that's what you get at Zanziba. So, in
+[00:30:57] 0.1 Netdev, we went on the canal,
+[00:31:01] frozen canal in Harawa, minus 28 Celsius
+[00:31:04] with the wind chill, it was minus 40. I
+[00:31:07] don't know who uh Alex, you remember
+[00:31:09] that -40.
+[00:31:12] Instead, for the next one, we're going
+[00:31:14] to plus 28 Celsius. So, we move from the
+[00:31:17] negative to the positive.
+[00:31:20] Uh if you like scuba diving, snorkeling,
+[00:31:23] they have whale sharks. You can uh scuba
+[00:31:26] dive.
+[00:31:29] >> There's a cable.
+[00:31:30] >> Yes.
+[00:31:30] >> Uh
+[00:31:31] >> if you have a if you have presentation
+[00:31:34] down there. Yes,
+[00:31:35] >> there's a buff. There's a So we had an
+[00:31:37] ice skate buff in the canal in Ottawa
+[00:31:40] where we're going to have a uh scuba
+[00:31:42] diving buff.
+[00:31:44] We'll be situated right there. Just you
+[00:31:47] can join
+[00:31:48] Uh if you've never dived, you will take
+[00:31:51] the easy course. Okay.
+[00:31:54] Uh some facts, all real about Zanzibar.
+[00:31:58] Freddy Mercury was born there. If you if
+[00:32:00] you're too young to know who Freddy
+[00:32:02] Mercury is, it it has the shortest war
+[00:32:05] ever was 38 minutes. That was in 1896.
+[00:32:09] Uh which is 38 minutes, which is still
+[00:32:12] stronger than the 38 minute uh outages
+[00:32:14] and Wi-Fi.
+[00:32:16] Uh there are tortoises there which are
+[00:32:20] older than 100 years old, older than
+[00:32:22] TCPIP
+[00:32:25] and it's a UNESCO world heritage at the
+[00:32:27] the stone town uh where the old spice
+[00:32:31] trade was very prominent back in the
+[00:32:33] day. There's if you didn't know who
+[00:32:36] Freddy Mercury, that's who Freddy
+[00:32:37] Mercury is, right? Uh how to get there?
+[00:32:42] There's direct flights from Asia. You
+[00:32:44] can go from Guanghu or from Mumbai.
+[00:32:47] Direct flights from Europe, Zurich,
+[00:32:49] Frankfurt, some Italian cities like
+[00:32:52] around this period. There's direct
+[00:32:54] flights from Rome, Amsterdam, Paris.
+[00:32:56] There's many connecting flights. If
+[00:32:58] you're from North uh North America, you
+[00:33:01] can either go through Dubai, Qatar,
+[00:33:04] uh you can fly to Adis Ababa, which
+[00:33:07] flies to a lot of places in North
+[00:33:08] America, Lufansa, Swiss.
+[00:33:13] This is roughly how long it takes you.
+[00:33:15] If you're from Europe and you have a
+[00:33:17] non-stop, it's anywhere between 8 to 12
+[00:33:19] hours. If you're coming from the east
+[00:33:21] coast, it will take you you'll have to
+[00:33:24] transition somewhere either in Istanbul
+[00:33:26] or any of the other uh stops I mentioned
+[00:33:30] earlier. It could be Amsterdam, Paris,
+[00:33:33] uh Zurich, I believe. It's anywhere
+[00:33:36] between 18 to 22 hours depending on
+[00:33:38] where you're going.
+[00:33:39] >> Uh Dubai is getting bombarded right now.
+[00:33:42] So maybe Nairobi.
+[00:33:44] >> Sure
+[00:33:45] you if you're coming from India it's you
+[00:33:48] if you don't want to go through Dubai
+[00:33:49] you can go directly to Nairobi. If
+[00:33:50] you're going direct a direct flight from
+[00:33:53] India is about 5 to 6 hours. China is
+[00:33:55] about 11 hours or you want to stop
+[00:33:58] somewhere in the middle then 17 hours.
+[00:34:01] Korea 18 to 19. Japan sorry is there's
+[00:34:04] nothing less than two stops. So about 20
+[00:34:06] to 24 hours. US west coast about the
+[00:34:09] same as Japan.
+[00:34:11] Uh, we know Zagreb wasn't kind to you
+[00:34:13] either.
+[00:34:15] So, one layover covers about everybody.
+[00:34:18] Okay.
+[00:34:20] And then, and we have a host. Can Can we
+[00:34:23] bring in Adam, please, just to say
+[00:34:25] hello? And then Oh, there he is. Okay.
+[00:34:29] Hi, Adam.
+[00:34:32] Oh, we can hear him.
+[00:34:40] Uh, there's no What is he on mute?
+[00:34:44] >> Uh, check check if you're on mute, Adam.
+[00:34:49] We can't We still can't hear you.
+[00:34:53] Anyway, we have This is real. You see
+[00:34:56] that's that's real person, right?
+[00:34:59] Yes. Just so you know, we're not
+[00:35:01] bullshitting you here.
+[00:35:05] >> All right. Can you hear us, Adam? You
+[00:35:06] can hear us, right?
+[00:35:11] >> He can hear us, but we can't hear him.
+[00:35:13] What's going on? Huh?
+[00:35:14] >> What is Adam's real name?
+[00:35:18] >> Uh, it says you're maybe maybe check
+[00:35:21] your microphone there or switch.
+[00:35:24] >> Jamal, you're making this up. What is
+[00:35:26] Adam's real name? If he is from Tanzania
+[00:35:28] and Zanzibar, Adam cannot be his name.
+[00:35:30] >> Well, when he when he comes on, you can
+[00:35:33] we can ask that question, right?
+[00:35:37] So, I what's uh you think side
+[00:35:41] >> you're unmuted. So, maybe use uh if you
+[00:35:43] have another way to connect,
+[00:35:46] right?
+[00:35:49] Anyways, I uh raise your hand if you
+[00:35:52] know who Freddy Mercury is.
+[00:35:54] >> Oh,
+[00:35:55] >> can I can I tell a fact? you get to meet
+[00:35:57] his his relatives.
+[00:36:01] [laughter]
+[00:36:04] Okay. Um
+[00:36:07] so while we're waiting for Adam,
+[00:36:12] >> now he's muted. Okay, you're muted now.
+[00:36:18] >> You're unmuted now, but we can't hear
+[00:36:21] him.
+[00:36:22] >> Okay. Any guesses where Freddy Murphy
+[00:36:25] grew up? It doesn't matter. I know I
+[00:36:28] know India wants to claim him, but he's
+[00:36:29] not from India.
+[00:36:31] >> He grew up in Mumbai. Check it out.
+[00:36:33] >> Yeah, he he spent two years there.
+[00:36:36] >> But he's from Zanziba, as far as I know.
+[00:36:38] They have a whole museum there. Do they
+[00:36:40] have a museum of Freddy Mercury in
+[00:36:41] Mumbai?
+[00:36:43] >> I'm going to go make one. [laughter]
+[00:36:49] >> Uh, so we can't hear him. Anyways, I'll
+[00:36:53] just speak on his behalf. Perhaps he's
+[00:36:56] very willing to host. The government of
+[00:36:58] in Zanziba is more than happy to have us
+[00:37:01] there. Okay. It's beautiful place like I
+[00:37:03] showed,
+[00:37:05] great location, a lot of direct if
+[00:37:08] you're in Europe, there's nothing for
+[00:37:09] you to complain about. It's there's just
+[00:37:11] one you're one hope away. Uh and we'll
+[00:37:15] be pioneering.
+[00:37:19] >> No, still can't hear you.
+[00:37:20] >> No visa issues so everybody can show up.
+[00:37:23] I know this is this sounds a bit uh out
+[00:37:26] of place, but I'm pretty sure that uh if
+[00:37:30] this becomes a success, you'll see a lot
+[00:37:31] of Linux conferences going there. They
+[00:37:33] all copias. So, I will point out that
+[00:37:37] Croatia Zagreb when we were there last
+[00:37:39] year, that was the first time a Linux
+[00:37:41] conference had been there. This year,
+[00:37:44] the Linux Foundation had the LF uh the
+[00:37:47] MM FSBPF summit. That was why I was able
+[00:37:50] to come here in May because I was over
+[00:37:51] there and then I just stopped on the way
+[00:37:53] home and but I got there and I'm like hm
+[00:37:55] I wonder why they're here.
+[00:37:57] >> Right. So we we're pioneers man.
+[00:38:01] >> That's it. And
+[00:38:02] >> there's a suggestion. Eric came up with
+[00:38:04] it not me. He said we climb uh
+[00:38:07] Kilimanjaro and every 1 hour we climb we
+[00:38:10] have one talk.
+[00:38:11] >> Okay. So I I'm not going to mention
+[00:38:14] that. It didn't work well for me last
+[00:38:15] time when I mentioned Kilimanjaro. So,
+[00:38:18] I'm going to skip Kilimanjaro this time.
+[00:38:20] We can We're going to a safari.
+[00:38:23] >> Hello. Can you hear me now?
+[00:38:24] >> I can hear him.
+[00:38:25] >> Oh, yeah. We can hear.
+[00:38:27] >> Okay. [applause]
+[00:38:33] So, my name is Adam and uh I'm very glad
+[00:38:36] to host you. Thank you so much for uh
+[00:38:39] considering visiting Zanziba. As uh
+[00:38:42] Jamal said earlier, uh Zansba is very
+[00:38:44] promising uh upcoming um
+[00:38:49] country as a part of the Tanzanian
+[00:38:51] mainland but is semi- autonomy. Um the
+[00:38:54] government is really keen um they're
+[00:38:57] doing massive uh development out there
+[00:38:59] in terms of um attracting tourism mic
+[00:39:05] uh conferences.
+[00:39:06] um uh we had a similar um event earlier
+[00:39:11] and the the government has been very
+[00:39:13] positive to support us. So we have done
+[00:39:16] preliminary uh discussion with the
+[00:39:19] government and they are looking forward
+[00:39:21] um um as as as long as uh this
+[00:39:25] conference will be confirmed to come
+[00:39:27] down to Zanziba. Uh as Jamal said,
+[00:39:30] Zansba is the offering beyond uh the
+[00:39:32] conference is very close to tourism
+[00:39:35] circuits. Um Zansba is the um heritage
+[00:39:41] UN heritage um city uh close to
+[00:39:46] Gorangoro um for those who would love to
+[00:39:49] do extra safaris and also but um I've
+[00:39:52] noted in the presentation earlier the
+[00:39:54] African countries were not seen in the
+[00:39:56] conference. So it's another opportunity
+[00:39:58] to join with other African countries.
+[00:40:01] The connectivity to Zanzibar they've got
+[00:40:03] their international airport here. So
+[00:40:05] it's close to many East Africa and
+[00:40:07] mostly African countries. For those who
+[00:40:09] are coming directly from China in India
+[00:40:12] Air Tanzania is flying direct every day
+[00:40:14] from India to China from New Delhi. So
+[00:40:17] it's easy to come in in um it's very
+[00:40:20] pristine beach. uh very uh calm in terms
+[00:40:23] of if you want to do conferencing. So
+[00:40:27] looking forward to have you all. Thank
+[00:40:29] you.
+[00:40:30] >> Thank you.
+[00:40:37] >> Okay. Anelie, he exists. You see he
+[00:40:39] spoke. He he does exist.
+[00:40:43] >> Um he's he mentioned his name Adam.
+[00:40:47] >> Why? What do you mean?
+[00:40:49] >> Yes. So, so, so my name is Adam Rolandu.
+[00:40:53] Theu is the
+[00:40:54] >> Roland. Uh, what?
+[00:40:56] >> Adam Roland. Adam Rolandu.
+[00:40:59] Theu is the the bant one. Uh, we have a
+[00:41:03] mixed community here. So,
+[00:41:05] >> what does your mom call you?
+[00:41:09] >> Adam.
+[00:41:18] >> All right. Is that proof enough for you?
+[00:41:21] Okay. Thanks, Adam. We appreciate it.
+[00:41:24] Uh, we'll keep in touch. Okay. So,
+[00:41:29] no Kilimanjaro unless you really want to
+[00:41:31] go there. Nobody's going to force you to
+[00:41:34] climb up.
+[00:41:36] >> Yeah. After conference, not before.
+[00:41:37] Yeah. We We need the speakers to stay in
+[00:41:40] one spot.
+[00:41:42] Uh,
+[00:41:44] >> we have the last slide. Mario,
+[00:41:49] can you rub it up?
+[00:41:54] >> That was subliminal.
+[00:41:56] >> So really, um, without you guys also
+[00:41:59] attending, obviously this wouldn't
+[00:42:00] happen. So, uh, really want to say thank
+[00:42:02] you to everyone for attending. Uh, hope
+[00:42:05] this was worth your time and, uh, we'll
+[00:42:08] see you next year.
+[00:42:10] [applause]

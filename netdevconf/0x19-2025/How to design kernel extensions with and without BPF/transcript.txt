@@ -1,0 +1,326 @@
+Source: https://youtu.be/6v92D2JvfSE
+Language: en
+Captions: local speech recognition (mlx-community/whisper-small-mlx); unreviewed
+
+[00:00:00] All right. Hello everyone. Thank you for sticking all the way to the last talk of the day. Hopefully
+[00:00:09] it will be exciting. So the target audience, like I first have to explain what this talk
+[00:00:15] about. So the target audience is kernel developers, like people who send one patches or many
+[00:00:21] patches, like you all. This is the talk is for you. Mainly what they want to achieve
+[00:00:28] out of the stock is for kernel developers to have to give you an ability to make mistakes
+[00:00:34] and get away with it. Why? Kernel, it's like everyone is saying, and I've been hearing
+[00:00:43] this for very long time since I started doing any kind of kernel development that kernel
+[00:00:48] is not a place to implement a policy. Though if you look at the kernel source, it's actually
+[00:00:53] full of it. There are different TCP congestion controls in it. There are firewall policy,
+[00:00:59] the QDs, all sorts of shapers and schedulers. There are tasks, security and various statistics
+[00:01:07] throughout the kernel. So there are two statements here. So the user API surface is well defined
+[00:01:16] and the surface is undefined on purpose. So both statements are actually true. If you
+[00:01:22] look at the whole kernel source tree, you will see that everything inside this include
+[00:01:28] the API directory is considered as part of the API and you cannot remove stuff from there.
+[00:01:35] You can only add things. Similar with any text-based directory inside the kernel, in
+[00:01:41] particular, slash proc, slash ccfs and so on and so forth. So everything there is part
+[00:01:45] of your API that can only add only interface. At the same time, things are not as fast and
+[00:01:54] cut as they seem because for the longest time in the kernel community, the trace point can
+[00:01:59] seem to be part of the user space API and cannot be changed, but that's not the case
+[00:02:04] anymore. Majority, again, not everyone, but majority in the kernel community agrees that
+[00:02:09] trace points can be removed. Their arguments change, so it's de facto, it's not part of
+[00:02:14] it. Another interesting tidbit, if you change something in the kernel and nobody notices,
+[00:02:21] it is fine. Linus will let you get away with it. Another part that people sometimes don't
+[00:02:28] see when they change the kernel that even implementation details sometimes a part of
+[00:02:34] the kernel that's impossible to change. Like, recent thing that was covered by LWI and articles
+[00:02:40] was that selection of the IDs for the timer IDs were sequential and that turned out to
+[00:02:48] be like big pen and butt when people tried to actually work on it. The other part that
+[00:02:55] UAPI itself is actually weird, like one would assume that what is defined as a constant,
+[00:03:01] for example, in NTCP, there is a socket option, so a Cresce flow rate, and it has different
+[00:03:08] values, different cores, different integer values on different architectures. It's all
+[00:03:12] weird, but the main point here is that the kernel has no room for UAPI mistakes. Once
+[00:03:17] something is added to the kernel, it's there forever. It's like an only interface. But we
+[00:03:22] are humans and we are making these mistakes all the time. That's why I'm getting to the
+[00:03:28] ... First of all, a few examples. How we've made, like, BPF existed for now 10 years,
+[00:03:36] and over this 10 years, the way we're extending it for every new use case, we're adding new
+[00:03:42] program type, and over the years, it grew to 32. When we had the use case, for example,
+[00:03:51] like XDP, we said, okay, this will be a new hook and it's a stable hook. We added it to
+[00:03:56] the kernel, and now with XDP it is today, we cannot change it. I wouldn't say we have
+[00:04:01] to, but it's an opportunity that we didn't have. As soon as we went on this route, we
+[00:04:07] added a stable hook to the kernel. This is a program type. This was kind of our destiny.
+[00:04:12] We leave ourselves no room to make mistakes. Look what we achieved. In 10 years, out of
+[00:04:18] 32, six different program types have defective, like zero users, and we cannot remove them.
+[00:04:24] We now have to carry this, like, tag that forever. Look at the first five program types.
+[00:04:33] In the TC world, like, in the way the TC is constructed, like it was done way before BPF
+[00:04:39] appeared, in the TC context, there is a classifier in action sequence, somewhat similar to Open
+[00:04:44] Flow, like in the network, and it totally makes sense in the TC context, but from BPF
+[00:04:50] point of view, it doesn't. We were naive at the time at the early days of BPF, so we added
+[00:04:57] this SCAT-CLS is a hook that attaches to the classifier part of TC, and SCAT-AC attaches
+[00:05:03] to action part of TC, and it made total sense back then, because you have classifier action.
+[00:05:09] What BPF is going to attach here and attach there. Turned out it was just all that it
+[00:05:15] didn't make sense at all. Now you're looking at it like what we were thinking. This SCAT-AC
+[00:05:20] there are like zero programs effectively right now on the whole internet, like no one is
+[00:05:24] using it. While SCAT-CLS turned out to be one of the most, like, useful hook that we added
+[00:05:29] over the years. Again, like, now we cannot do anything about it. This is a dead coat
+[00:05:34] sitting in the kernel that we cannot fix. After we learned this lesson the hard way,
+[00:05:41] what we said, no more new program type, we made enough mistakes, we're not doing them
+[00:05:46] anymore, and same thing we did with what we called BPF helpers. We're not going to add
+[00:05:51] any of them anymore, like, period done, because it's UAPI, we made enough mistakes for all
+[00:05:57] the good intentions, but sometimes we have to stop.
+[00:06:02] So now, once you've heard all of this, now it's what I think should be the lessons learned
+[00:06:09] by the networking community. I will start with the netlink. Netlink is often seen, like,
+[00:06:15] netlink, don't get me wrong, like, netlink is a great API, it's only used by the networking
+[00:06:20] part of the kernel, it's extensible, but it is UAPI. So, like, people, I think, like,
+[00:06:27] at least from the patches I see, people mistake the extensibility with this UAPI binding contract.
+[00:06:34] Everything that added to the netlink is also, like, add only. You only add to it, you cannot
+[00:06:37] remove to it, and that especially, like, hard when it is, netlink is being added to the
+[00:06:42] facilities that inside that part of the main kernel. You add it, it's so easy to add, it's
+[00:06:48] maybe some patch somewhere, and especially sometimes you'll just add something, you forget
+[00:06:51] the YAML file, and then months later, like, Kuba will say, oh, you forgot the YAML, so
+[00:06:57] you update the YAML, and only then will auto-generate the file and include generated UAPI directory,
+[00:07:03] and then you will have a light bulb moment, oh, I actually added UAPI. And did I think
+[00:07:07] through what I'm doing, and that all of the generation of developers that will come after
+[00:07:12] me, they will have to support this code that I just added. Sorry about that. What did I
+[00:07:29] do? Should I plug it back? Oh, yeah, it's there, it's there, sorry. Sorry. Well, I will
+[00:07:45] be quick, keep moving the mouse so it doesn't happen again. So, what the message here, like,
+[00:07:52] once it's part of the kernel, it's, it's gonna be changed. So the ask is, like, before adding
+[00:07:57] something to kernel, consider adding it as a kernel module. As part of the kernel module,
+[00:08:03] when it is, when it is added in interfaces between, like, kernel and kernel module, they
+[00:08:09] are kernel to kernel interface, so they cannot be part of the UAPI. Like, if you think about
+[00:08:13] how it's three kernel modules, and everything that kernel module provides through the netlink,
+[00:08:18] through this extensible interface back to user space, it's also not, it's kind of, it's,
+[00:08:23] it's interface into user space, but think of how it's three modules. And out of three
+[00:08:27] modules, you can do whatever. You can change this, like, netlink at any time. You can change
+[00:08:30] what you're providing. That's why it's kind of part of this gray zone. But as soon as this module
+[00:08:36] is being upstream, it lands in the kernel, it's becoming entry. It's now harder to do. But it's
+[00:08:42] still not part of the main kernel. For example, like, open, open with switch, takeover with
+[00:08:47] switch. It has a bunch of, like, netlink interfaces. Technically, they are not part of the kernel,
+[00:08:52] because like, kernel can be compiled without open with switch at all. So one can consider
+[00:08:57] changing them and breaking UAPI. And then we will be in this gray area where the Linux will
+[00:09:04] complain. Will Linux complain? Maybe not. But the point that when we're doing things as a kernel
+[00:09:09] module, we are now in a territory where we have room to make, to make mistakes. So more practical
+[00:09:17] suggestion. Like, when we're thinking about, like, extending the kernel, the first part is to design
+[00:09:21] the interface. And the second implemented is a kernel module. Try hard to implement as a kernel
+[00:09:27] module instead of, like, just adding more code to the kernel. What is the interface? Between, like,
+[00:09:34] now I'm just, like, saying, I guess, the obvious things. Interface is a set of callbacks between
+[00:09:39] the kernel, the way it will be calling into kernel module. Then back from the kernel module,
+[00:09:44] you can only call idex.parseable or symbol.gpl function. So it's one interface from kernel to
+[00:09:50] module, from module back. And now all of the knobs, netlink or whatever that the module provides,
+[00:09:55] provides the user space. So that's the surface of the interface. Now look at every one of it.
+[00:10:00] Kernel to kernel, kernel to module, both of them kernel to kernel. We can change them at any time.
+[00:10:05] If we design the interface and we screw up the first time, we have room to make mistakes. We can
+[00:10:11] change this later. And as I was saying, whatever module provides the user space also is up to
+[00:10:17] debate. Then analogy, not because I like C++, I'm actually not a fan of the language at all,
+[00:10:25] but it provides a good analogy. What the set of callbacks from the kernel to kernel module is
+[00:10:31] effectively a definition of the interface. It's just a definition of the parent class with
+[00:10:38] the virtual methods. And what kernel module is, is implementation of this interface.
+[00:10:44] Well, turned out the whole kernel is actually designed with this object-oriented approach in
+[00:10:53] mind. The biggest and most important structure inside the kernel, the struct file, effectively,
+[00:11:00] it's an object using object-oriented terminology. And if you look at struct struct file, we will
+[00:11:06] see fop pointer. It's effectively C++ virtual table. And what it points to, it points to this
+[00:11:12] file operations. File operations is a set of methods. File objects can be operated on like
+[00:11:18] secret and so on. And there are a bunch of these like file ops in the kernel. The node ops,
+[00:11:27] the device operation VM, like everything else. Like the whole kernel is actually done as object
+[00:11:33] and a set of callbacks that operate on this object. And what you might notice that all of them will
+[00:11:40] accept the operations, it's certain they end at underscore ops. So the struct underscore ops
+[00:11:47] was why we picked on the BPF site, we picked the name for the feature when we were developing
+[00:11:51] four years ago. That's why it's called BPF struct ops. Because all of them have this suffix.
+[00:11:56] In the kernel, I would say the best example of this callbacks of the interface and implementation
+[00:12:07] is the TCP congestion control. Obviously, use the throughout networking stack, different modules,
+[00:12:15] either built-in or modules, they register their callbacks into the kernel. And this is how the
+[00:12:24] set of callbacks looks like. It's of course like shortened. I think this is an example of the good
+[00:12:31] interface design that stood the test of time. How do I know? This is blame history for this file.
+[00:12:39] So it started back in 2005 when Steven Heminger converted, it was just a switch statement,
+[00:12:45] converted a switch statement for existing congestion controls to a set of callbacks. And
+[00:12:49] then like Arnaldo did the work because he was separating the sockets and also more like child
+[00:12:56] parent layers with the socket, in-net socket, TCP socket. And then like look, for many years,
+[00:13:02] there were pretty much no changes to the interface. Larry, when he added the, I think,
+[00:13:09] New Vegas, like added another control, then Eric did this renaming of things. And the last big
+[00:13:15] addition to the callbacks was in 2016 when this whole like when you chunk from Google,
+[00:13:25] like edit all of this like send buff and condition control stuff for, I forgot for which
+[00:13:32] protocol. But effectively the point, the point that the set of callbacks like works,
+[00:13:37] it's they were being extended over time and the interface between kernel and kernel module
+[00:13:42] kept changing, but it didn't stop the innovation inside the kernel. Things changed. And that's,
+[00:13:48] that's the whole point. Here's how Cubic registered into it. They're just saying like,
+[00:13:52] there's callbacks. This will be the function that will be called from this comebacks. And this is
+[00:13:58] an example, copy paste from the Cubic condition window event, simple C function. Some of them are
+[00:14:03] bigger. Some of them are smaller. This is for illustrative purposes. And that was the whole idea
+[00:14:09] of class method was inspiration of the BPF structure of design mainly developed by Martin.
+[00:14:17] Four years ago was the goals that callbacks don't need to change. And the main part that they
+[00:14:21] don't impose new UAPI restriction on the kernel, the BPF programs that will plug in into all of the
+[00:14:27] things will change and have to change when the kernel walls with a set of callbacks like
+[00:14:32] TCP condition control did. This is how BPF side registered to it again, very similar to it was
+[00:14:39] name of the callback here's a function that's supposed to be called. And in the BPF, it's
+[00:14:44] again like same conditions in the like event function. Just for comparison, the side to side
+[00:14:52] pretty much copy paste with the minor changes. And at the end, it turned out that the speed is the
+[00:14:58] same. So like though one is compiled through a say, so if you have a say, get jittered and stuff
+[00:15:04] on the right, compiles to native, but the speed speed of the same, which is nice.
+[00:15:11] Why would one even consider doing something as a TCP position control as a VPF says a set of
+[00:15:17] BPF programs instead of like proper C kernel module is like not crashing part and talk it on.
+[00:15:23] The big part that people missing I think is the portability like the hyperscaler. So pretty much
+[00:15:30] any production environment has several different kernels like running in production and these
+[00:15:35] kernels might will have like different layout like a memory of structures. What BPF allows to do is to
+[00:15:43] like take whatever we written and plug it into the kernel into kernel data structures the way they
+[00:15:49] are in the running kernel. So BPF programs are prepared once the tested ones and then deployed
+[00:15:54] across multiple different versions of kernels. Current users so far so TCP congestion was super
+[00:16:03] popular. The way using it that matter quite a bit the heat the human interface devices was
+[00:16:10] really cool started initially it's actually was not using struct ops it was switched to
+[00:16:15] use struct ops because that turned out to be much more flexible model than HAD was was doing.
+[00:16:20] Right now I think there are like a couple dozen drivers for my system keyboards that
+[00:16:26] written on BPF really cool recent stuff that landed that ask scheduler. It's now by far the biggest
+[00:16:34] repository of BPF programs. Now it has 20,000 line of just like pure BPF code which is a lot
+[00:16:42] comparing to if you look at any like XDP program which might hit 1000 top here we're talking 20,000
+[00:16:49] already and QG is forthcoming. So this is a bit of dive into BPF internals but I have to do it
+[00:16:58] quickly through the few slides to make my point clearer later. So the difference here is a calling
+[00:17:06] calling convention when the native kernel code is compiled compiler is using what that what that's
+[00:17:14] what's called the calling convention how one function can call another. So what registers are
+[00:17:20] being used to pass and the same and the and native calling convention BPF they are can be different.
+[00:17:27] So what BPF says that five arguments will be passed in R1 to R5 return on R0 and surprisingly
+[00:17:35] or not surprisingly this is actually matches more or less assist to what X86 does. That's why
+[00:17:42] translation between X86 and BPF is not but on ARM64 we actually have to do like one extra trick
+[00:17:50] that translate because the way that ARM64 calling convention is defined the same registers used to
+[00:17:55] pass the argument in return that's why we do this extra dense of moving the register.
+[00:18:02] Why is this important? So the helpers as I was saying this was the stable stable stuff we made
+[00:18:07] enough mistakes all of them are fixed we well cannot fix any of them all of these mistakes that's why
+[00:18:14] over 10 years we added 211 of them in only four years ago we added this facility we call K-funks
+[00:18:21] and by now as of yesterday there were 264 so in four years we added them all why so this is the
+[00:18:29] difference in innovation with the helpers because it's stable API every addition was debated on the
+[00:18:36] main list a lot because it's stable like we have to like if we sign it up that we will carry this
+[00:18:44] code like from where we're sending like we have to like maintain it forever whereas with the K-funks
+[00:18:50] we're like yeah it looks good it seems useful so like let's add it why because we know that we can
+[00:18:56] remove it that's the ability to make mistakes and fix them later fix them later it improves the
+[00:19:03] innovation that's why we did this whole thing so another difference is how helpers are being called
+[00:19:12] so here we have this ginormous macro magic called BPF call and two for the number of arguments
+[00:19:19] eventually it gets expanded into this giant thingy but the point here is we adding kernel code to
+[00:19:27] the helpers that will be doing this calling convention translation for x86 and for arm in this
+[00:19:34] case there is no difference so there is no extra code no VM Linux text section is being wasted
+[00:19:43] because of all this like helper addition but it's it's a code it's a code there anyway
+[00:19:47] the difference with the K-funks that all of this is dynamic like K-funks is really is doing this
+[00:19:52] calling convention translation dynamically on the fly through this through the jet and what it means
+[00:19:58] that effectively like any function inside the kernel can be marked as a K-funks and you can
+[00:20:03] allow like BPF calling into it it's like trivially done we just mark it like used retain is for the
+[00:20:09] LTO because compilers are getting like too smart now they can see the whole code if you're saying
+[00:20:14] it's used a compiler might say like uh-uh it's not used I see everything that you're trying to compile
+[00:20:21] you didn't use the function so I'm just going to drop it so retain is like kind of strong use
+[00:20:27] directive for the compiler to not to mess with it and like if you are designing the K-funks
+[00:20:36] the just will go quickly over a set of like requirements that should be that that's that
+[00:20:43] apply so like if they if you think like this particular function in the kernel like if you
+[00:20:49] didn't mark it as export symbol gpl and allow the world effectively of kernel modules including
+[00:20:55] out of three modules to call it then it's not okay for this thing to be a K-fun it needs to
+[00:21:02] operate with outside effects because like sometimes people like design stuff they say is like yeah
+[00:21:07] here's like stuff I mean you read something there like it makes for the it's not that it's broken
+[00:21:14] but it's made for the how it's all like unclean unclean the interface between like vpf in the
+[00:21:22] kernel the function also should like ideally like I'm not but like kernel already using this object
+[00:21:29] that object object oriented approach that's what I think makes sense here to do if there is a function
+[00:21:35] like think of the object it will be operating on and only on that object so in that example like
+[00:21:41] vpf cpu mask that I heavily used by the vpf based scheduler is an example where cpu mask
+[00:21:48] create is effectively a constructor constructor of the objects if you get this object then you can
+[00:21:53] like different methods like empty or populate and eventually you do release which is a
+[00:21:58] destructor and just like removes everything so this is like very typical typical approach how
+[00:22:04] okay fun so done another part is verifier does a lot of work to do like safety analysis of
+[00:22:11] everything that's being done but in turn also of the function in terms of the whole of this
+[00:22:17] kernel site also should well do that they apart they should assume that anything can happen that
+[00:22:23] the same function can become like million times they should not assume like any ordering they
+[00:22:28] should like check the arguments if the verifier didn't do like the ideally will be stateless
+[00:22:34] because any kind of state is a problem because there will be somebody some cspot that will abuse
+[00:22:40] this the hell out of the key funk and then we'll have a cspot report and we'll have to fix it I
+[00:22:47] or remove it okay so we've talked about the pf calling kernel now two ways of the multiple ways
+[00:22:56] of calling from the kernel into bpf and the main one is this like program and you just call it so
+[00:23:02] like all of the networking folks done today including including xdp so this is a typical snippet of the
+[00:23:09] xdp program not not of xdp program of the driver that's calls xdp program so what it does is prepares
+[00:23:17] this like it has this xdp buff that special buffer it's a kernel side mirror of vpf exposed
+[00:23:27] xdp mg data structure and has to prepare it it has to like there are by now like different helpers
+[00:23:33] that take start of the data the actual start etc etc like bunch of arguments all of them being like
+[00:23:38] prepared and stacked it's all being initialized the buffer itself is small it's like on purpose
+[00:23:42] done like very fast but it's still it's you can see it's a quite a bit of boilerplate code that's
+[00:23:48] being added and every driver like has to do it why because we in old ways like the only thing we
+[00:23:56] can do is to pass one argument into bpf program what we call context so this context is what this
+[00:24:03] xdp buff is that's why everything that program would ever want to use it we have to stuff in it
+[00:24:09] that's why over the years like as soon as we started like aging things to xdp like
+[00:24:15] timestamps the hardware tags were like oh like would be natural to just like let's extend this
+[00:24:20] context like add more fields but then if only one program out of every value like is using it while
+[00:24:27] we while wasting the cycles in all drivers updating these fields that one only one program will be
+[00:24:32] using so the design that of this of the bpf of xdp that we had now 10 years ago this single context
+[00:24:41] created this tension and the feature velocity in xdp world was not as fast as it could have been
+[00:24:50] because of this like uapi constraint because of the one argument if we were doing things today like
+[00:24:56] this code like shouldn't be like there like if you look at the way the new way of what we call
+[00:25:03] the structops way of calling the kernel we pass whatever arguments that we need to like we don't
+[00:25:08] need to think we don't need to pack them like this cvint event this is just example snapshot of the
+[00:25:16] kernel code tcpcvacp event and it's called from all of these places inside the networking stack
+[00:25:22] you're just saying here's the socket if the callback was registered let me call it it's there
+[00:25:27] is no comparing to xdp there is no business of like packing context here which is saying well I
+[00:25:32] had the socket and I had that event you the other side deal with it and on the other side you will
+[00:25:37] have either kernel module trying to do something useful with this congestion window and vent and
+[00:25:43] the event type or the will be bpf program on the other side that also doing something with it but
+[00:25:48] here there's nothing packed if like there you don't have the kernel doesn't pay any maintenance
+[00:25:52] cost or runtime cost to pass stuff to this to this other thing um I guess so okay very quickly here
+[00:26:08] so the main difference here that I'm trying to explain is the cost of calling when the kernel
+[00:26:16] calls the native native callback it's pretty much an indirect call like here on the code it's
+[00:26:22] obviously just like indirect call when the bpf program attached is a bit more involved there is
+[00:26:27] a trampoline generated at runtime that takes this argument and this example the for the cvcv event
+[00:26:33] socket and type type of the event it pushes them to a stack and that's the first indirect call into
+[00:26:40] trampoline and from tamper the trampoline is a direct call into actual bpf program so the cost
+[00:26:45] of indirect call is the same between both if bpf is using it there is extra code to move from
+[00:26:52] register into stack and on x86 thankfully it's actually very fast so the performance difference
+[00:26:59] pretty much denotes so the main point here that once we think of like extending the kernel through
+[00:27:06] this callback mechanism through the object oriented set of callback methods we don't impose like
+[00:27:16] uapi uapi constraint so the way I think like the new features in the kernel should be like thought
+[00:27:25] about is like first like of course like ignore bpf like if it's useful sure like we can deal with it
+[00:27:31] but do first and then play and see like design the interface design the clean interface
+[00:27:38] it might not have an object like in case of struct file like tcp congestion
+[00:27:42] is more of the example where it's interface without the object kind of behind it because it's like
+[00:27:46] the whole networking stack is the interface and modules are providers of this interface then think
+[00:27:53] of the interface back from this module what you're going to expose and only and then the
+[00:28:00] important part is to do several practical implementation of this interface I have plenty
+[00:28:06] of anti examples here how people try to extend the kernel in the past we'll mention all the three
+[00:28:11] first one is smc bpf is smc is a protocol it's I think it's actually pretty cool it's not it's not
+[00:28:20] that used nowadays but there is there is something to it I think and unfortunately this smc bpf is
+[00:28:28] a feature have been patches been posted and discussed over the last year I would say and
+[00:28:36] it still didn't land not because they didn't do one and two like we like from bpf side we're trying
+[00:28:43] to help smc developers we're saying well the interface looked clean to us does it look clean to you
+[00:28:49] what keyfungs do you want when you like we'll be calling from this but please please provide
+[00:28:54] something practical so we can actually like assess that you won't need to change this whole
+[00:28:59] interface like tomorrow and that's why like this whole smc bpf didn't land and this discussion
+[00:29:05] will keep coming keep keep happening so similar to fuse bpf this was also like giant effort like 40
+[00:29:12] patches done by android folks there is I think it's very useful feature it's but at the end it was
+[00:29:23] like it the interface obstruction I would say it wasn't as clean there because it was more of the
+[00:29:29] more like afterthought of like filtering abilities and that's why it didn't land either and well the
+[00:29:36] most recent attempt was for the u-blog bpf I think this one failed the last test because
+[00:29:44] like to me I'm not a block layer person at all like interface looked clean enough the keyfungs
+[00:29:51] was also clean but there was the the practicality of this interfaces was missing like the people
+[00:29:57] didn't demonstrate that this is something that will that will stick so that's why like suggestion
+[00:30:02] look at gcb congestion control ops it was done well through the test of time let that be your
+[00:30:08] inspiration for designing kernel extensions and with that questions
+[00:30:23] not possible there's no questions
+[00:30:26] thanks for the talk in the first half of these slides I was I was trying to recall when I was
+[00:30:43] implementing the bpf time sampling at that time I clearly remember Martin highlighted that
+[00:30:50] uh if we if we if we got this series a series merged in the kernel we cannot
+[00:30:58] change their the usage anymore so uh the reason why I mentioned this is
+[00:31:06] is one of the primary reason that I implemented the bpf time sampling for the socket time
+[00:31:13] sampling is is a few years ago there is one flag named the opa id which has floor so we
+[00:31:24] have to introduce another one to to fix that problem if we will revisit the video please
+[00:31:32] do not hit me I just sort of provide a good example that manifests people can make mistakes so I'm
+[00:31:41] here to state the fact again my question is what should I do to the existing bpf time
+[00:31:50] sampling and that got merged in kernel a few weeks ago well if you're talking about this old
+[00:31:59] bpf time stamping the way it is yeah because it's part of uapi well if it was done differently I don't
+[00:32:06] know how I would we would have done it different but because it went through this uh sets a cop
+[00:32:11] and sets up coped was like fixed like here's the number it's in the uapi header that this is how
+[00:32:18] user space will be called we at that time got bound by this contract so now you cannot really do
+[00:32:26] anything about it like we can like maybe add flag and optionally like change behavior by the old
+[00:32:33] was a flag but there are not that many options so it seems everything is that
+[00:32:41] maybe something can be done but we cannot remove it that's like we cannot just like
+[00:32:47] take an axe and get rid of it completely but we can like tweak it that's why like the difference
+[00:32:52] between extensibility and actual contract accessibility yes we feel like so all behavior
+[00:32:58] is bad we cannot flag and maybe sort of deprecate the behavior but all of this like deprecating
+[00:33:05] efforts they often takes so many years that at the end people like well whatever it's been there
+[00:33:11] for so long who cares oh okay I see thank you
+[00:33:23] so one of the suggestions that you had was to write modules and you had mentioned
+[00:33:34] out of three modules would be okay yeah um so how do we reconcile if there's something in the
+[00:33:44] kernel that is broken and I'm kind of looking towards Matt because he ran into this not that
+[00:33:48] long ago where we were trying to use something that actually had a bug in the kernel and we
+[00:33:55] pointed it out saying hey we want to use this exported function and the maintainers said
+[00:34:01] effectively hmm out of tree modules shouldn't be calling that I'm going to submit a patch to remove
+[00:34:05] the export so yeah that happens happens as well right so like I think your question if I understand
+[00:34:13] where you're going with this the question is sort of more appeal that out of three modules have very
+[00:34:21] little leverage for anything that's happening in the kernel through and it's a double-edged sword
+[00:34:29] like when you get in the kernel you your api and everything that you're providing becomes more rigid
+[00:34:35] and it's harder for you in the first place to change it but while it's out of three you have
+[00:34:41] to fold the room but with all the freedom to change to change whatever you're doing like making mistakes
+[00:34:47] the other part of it well that you also know the immune from like people being pissed that you're using
+[00:34:52] some like export symbol that shouldn't be there and yes I'm like a lot of folks want to reduce
+[00:34:59] the surface of what is being called and remove as many export symbols as possible yeah great thanks
+[00:35:11] all right thank you everyone for listening

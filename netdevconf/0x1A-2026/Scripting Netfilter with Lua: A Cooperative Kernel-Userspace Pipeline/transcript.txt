@@ -1,0 +1,807 @@
+Source: https://youtu.be/TRETKtPAWck
+Language: en
+Captions: auto-generated
+
+[00:00:00] So hello thank you uh everybody to be
+[00:00:04] here thank organize
+[00:00:07] um I'm lurv
+[00:00:09] he's uh Arif these works also from other
+[00:00:14] uh authors Marcel Feras and Chiha
+[00:00:20] we're going to talk a bit about how we
+[00:00:23] applied uh scripting to the net filter
+[00:00:26] to implement a secured layer on top of
+[00:00:31] open Wi-Fi access points.
+[00:00:33] If if you have any questions during the
+[00:00:36] talk, you are free to to ask. Um most
+[00:00:42] important thing to us is to be
+[00:00:44] understanding, right? So
+[00:00:50] first of all,
+[00:00:52] um why we choose Lua for scripting uh
+[00:00:57] the kernel? Ah important thing we
+[00:01:01] applied Lua to both the user level into
+[00:01:05] the kernel on net filter scripting the
+[00:01:08] NF tables
+[00:01:11] and a net filter hook using Lua. So
+[00:01:16] first of all Lua is very small. It's
+[00:01:20] about 250K.
+[00:01:22] It's almost a freestanding C library.
+[00:01:26] It doesn't depend on OS functions on on
+[00:01:30] lib C. It's w w w w w w w w w w w w w w
+[00:01:32] w w w w w w w w w w w w w w w w w w w w
+[00:01:32] w w w w w w wy used by network tools
+[00:01:34] like wire sharkark and map
+[00:01:38] and also it has been used by other
+[00:01:42] operating systems like FreeBSD it's on
+[00:01:44] it's uh bootloadader
+[00:01:47] it's on the HPD
+[00:01:50] uh server of opensd the string library
+[00:01:54] of lua and also it runs into the runs in
+[00:01:59] the netsd uh kernel
+[00:02:05] But really why using Lua right? Because
+[00:02:09] it's very easy to to use for scripting
+[00:02:13] the kernel. You don't need any complex
+[00:02:16] to chain. You don't need to compile
+[00:02:18] anything. You can easily open your V and
+[00:02:21] type your script and then load this
+[00:02:26] uh as a plain text in the kernel. So if
+[00:02:30] you see this example is a complete
+[00:02:32] device driver for generating random uh
+[00:02:37] characters and you can just cat into the
+[00:02:41] device. It's like a few
+[00:02:44] uh lines of code is the same method we
+[00:02:48] apply to net filter.
+[00:02:52] Our framework for scripting the kernel
+[00:02:56] flu is called lunatic. It has been
+[00:02:59] developed since 2008.
+[00:03:02] It has evolved quite a bit during the
+[00:03:05] over these years. Right now we have this
+[00:03:08] modular framework where we have a
+[00:03:11] collection of bindings.
+[00:03:13] We have more than 20 bindings for
+[00:03:18] different subsystems
+[00:03:21] and every runtime uh is completely
+[00:03:26] isolated, right? You can communicate
+[00:03:29] over
+[00:03:31] uh RCU
+[00:03:33] uh tables. You can communicate through
+[00:03:36] cues but they are
+[00:03:39] isolated and they are
+[00:03:43] um adapted for every context you run
+[00:03:47] like software cues process you your
+[00:03:51] script don't doesn't need to
+[00:03:54] care much about these. It's all um
+[00:03:59] enforced under the hood on in the
+[00:04:02] framework itself. We have this concept
+[00:04:06] of objects on lunatic and it works like
+[00:04:10] um Java monitor in certain way. it. All
+[00:04:14] the calls are monitored uh with the
+[00:04:19] correct locking primitives like spin
+[00:04:21] locks or move tax
+[00:04:24] and also it works like um simplest place
+[00:04:28] shared object shared pointer sorry uh
+[00:04:32] where they are ref counted and collected
+[00:04:35] when it's not used anymore.
+[00:04:39] We apply this um framework to solve this
+[00:04:44] particular problem of a secure web
+[00:04:46] gator. A security web gator is basically
+[00:04:49] a outbound filter for for HPS.
+[00:04:55] In our case, we also filter all the
+[00:04:57] protocols like DNS, ATP also uh B
+[00:05:02] torrent but on this presentation we will
+[00:05:04] focus more on to
+[00:05:08] basically typically you need um specific
+[00:05:11] device hardware device to to implement a
+[00:05:15] security because it's hard uh
+[00:05:18] cryptographic right you need to
+[00:05:20] intercept us uh connections and install
+[00:05:24] all certificates on the end point.
+[00:05:28] In our approach, we don't do this.
+[00:05:30] Instead of doing this, we
+[00:05:34] actually
+[00:05:36] inspect instead of intercept the toos
+[00:05:40] metadata.
+[00:05:42] We call this application DOM and we call
+[00:05:46] this approach a secure uh wireless
+[00:05:49] gateway.
+[00:05:51] >> Right.
+[00:05:53] Hey. Um, so yeah, my name is Arif. I
+[00:05:56] work at Net Experience and I'm also one
+[00:05:58] of the maintainers at Open Wi-Fi. And uh
+[00:06:01] like Laural said, uh one of the
+[00:06:03] applications that we did with this is uh
+[00:06:06] we took it to the wireless side of
+[00:06:08] things. We put this um inside of uh the
+[00:06:11] access point itself. So just to give you
+[00:06:13] an overview of uh this entire stack uh
+[00:06:16] the access points are managed by a cloud
+[00:06:20] controller and um what's running inside
+[00:06:23] of the access point is open Wi-Fi and uh
+[00:06:26] the cloud controller controls a fleet of
+[00:06:28] these type of access points and these
+[00:06:31] APs are deployed in various different
+[00:06:34] types of uh scenarios. I'm talking about
+[00:06:36] like u hospitals or uh uh schools,
+[00:06:40] universities and the requirements there
+[00:06:43] for having a secure wireless gateway uh
+[00:06:47] may vary like certain um applications or
+[00:06:50] certain deployments may want to have
+[00:06:52] VLANs or static VLANs on the wireless
+[00:06:55] network. Some of them may be natted,
+[00:06:56] some of them may be uh bridged. I'm
+[00:06:58] talking about the wireless network
+[00:06:59] itself. So we wanted this secure
+[00:07:02] wireless gateway to work in any one of
+[00:07:05] those scenarios. U and uh that's one of
+[00:07:09] the reasons why you would see the ring
+[00:07:11] zero engine, the one that actually does
+[00:07:15] uh uh the secure wireless gateway
+[00:07:16] functionality. It sits in the access
+[00:07:19] point inside the kernel itself. And uh
+[00:07:23] the beauty of this is that there is no
+[00:07:26] decryption. We're not decryting
+[00:07:27] anything. We're just leveraging uh the
+[00:07:31] uh the the plain text data that you may
+[00:07:34] see inside of uh the SNI or uh or we can
+[00:07:38] even tell uh or look at DCP packets for
+[00:07:42] example or DNS packets. And this thing
+[00:07:44] goes even one step further and it can uh
+[00:07:47] do classification
+[00:07:49] um based on um u on like whether it's
+[00:07:52] bit torrent traffic or uh wire guard or
+[00:07:55] VPN traffic. So the whole point here is
+[00:07:58] that we wanted to have a way for us to
+[00:08:02] classify what kind of data is going
+[00:08:04] through and be able to block it if
+[00:08:07] necessary. Right? So for example in
+[00:08:09] certain scenarios we don't want people
+[00:08:11] to go on Bit Torrent. For example in a
+[00:08:13] school you may want to disable Bit
+[00:08:15] Torrent. So a solution like this helps.
+[00:08:19] Um, going over to the next slide. I do I
+[00:08:24] I mentioned that this is based on open
+[00:08:25] Wi-Fi. I'm curious uh
+[00:08:29] uh how many of you guys here have heard
+[00:08:32] of open Wi-Fi? Raise a hand. All right,
+[00:08:35] cool. See a few there. So, just to give
+[00:08:37] you a quick overview of what Open Wi-Fi
+[00:08:40] is, it's basically think of it like uh
+[00:08:43] OpenWRT, which is uh an open-source uh
+[00:08:47] uh AP software that you can run on a
+[00:08:50] wireless access point. So, but if you
+[00:08:53] want to make it cloud managed, that's
+[00:08:55] where Open Wi-Fi comes in. So it sits on
+[00:08:57] top of OpenWRT
+[00:08:59] and it provides us the ability to to
+[00:09:04] manage a freed AP through a cloud
+[00:09:07] controller. And the way it does it is uh
+[00:09:09] that there is this U central web socket
+[00:09:11] that the APs established establish with
+[00:09:14] a controller and this uh socket over
+[00:09:17] here this central socket this web
+[00:09:19] soocket sorry it is uh standardized. So
+[00:09:22] any uh AP that is running open Wi-Fi um
+[00:09:27] and is certified can talk to any
+[00:09:30] controller that can uh that can that has
+[00:09:34] implemented this schema over here the
+[00:09:37] central uh messaging schema. So that's
+[00:09:40] one of the advantages of using open
+[00:09:42] Wi-Fi. It's you're not locked in to a
+[00:09:46] specific hardware plus a specific
+[00:09:48] controller. you can kind of mix and
+[00:09:50] match uh with this approach. And where
+[00:09:54] ring zero dome fits in over here is the
+[00:09:56] configuration itself is um is compliant
+[00:10:00] with you central. So the the the
+[00:10:04] configuration that comes in from the
+[00:10:06] cloud which is standardized uh that is
+[00:10:10] uh that is what ring zero uses as well.
+[00:10:13] It is uh it's using the third party
+[00:10:15] block. We'll go into it uh in the later
+[00:10:18] slides.
+[00:10:22] >> So getting back to Lu in the kernel
+[00:10:27] we first developed uh years ago and have
+[00:10:31] actually presented on NetDev at uh 2020
+[00:10:35] NF Lua that was a previous version of
+[00:10:40] the Biden we have right now. At that
+[00:10:42] time it was like a monolite
+[00:10:45] um framework. All the libraries should
+[00:10:48] be needed to be bundled together right
+[00:10:51] and loaded at once in the kernel.
+[00:10:54] And it was completely tied to IP tables.
+[00:10:58] It could handle only the IP layer on
+[00:11:02] open Wi-Fi. We run on access points. we
+[00:11:04] need to run in the bridge and it
+[00:11:07] required um pluging X tables plugging on
+[00:11:10] the user space to parse the Lua
+[00:11:13] parameters right
+[00:11:16] and
+[00:11:17] this version was used it at the time at
+[00:11:21] uh major ISPs
+[00:11:24] ran on over 20 million routers
+[00:11:28] I'm not sure how how is the county right
+[00:11:30] now because I'm not uh that company
+[00:11:33] anymore But it it reached out like 60
+[00:11:37] millions the last
+[00:11:39] I know. But
+[00:11:42] learning from
+[00:11:44] um NF Lua we developed Luaet filter on
+[00:11:49] the new modular framework we have. So
+[00:11:53] instead of having X tables extension we
+[00:11:57] can uh be part of the first class
+[00:12:01] citizens on the NF net filter ecosystem
+[00:12:07] right and then uh uh we show uh later
+[00:12:11] how we cooperate with NF tables through
+[00:12:14] marks but using uh luet filter you can
+[00:12:19] like h write direct hooks instead of
+[00:12:23] having Xtables plug-in and you can also
+[00:12:29] uh tap into any family of net filter
+[00:12:32] like bridge that we are using but you
+[00:12:34] can also tap into net dev family right
+[00:12:38] just on the device
+[00:12:42] and you can load scripts as easy as we
+[00:12:47] showed on the shard
+[00:12:50] uh example this was initi iatedly
+[00:12:55] uh developed by uh Shah that's also
+[00:12:58] author when he was a student of uh the
+[00:13:02] Google summer of code program.
+[00:13:06] So this is how uh
+[00:13:08] an LUNET filter script look like. On the
+[00:13:12] left side you see just boiler plate
+[00:13:15] right we are requiring Lua it's pretty
+[00:13:19] much like import in Python or like
+[00:13:22] include you see
+[00:13:24] this is uh just a bunch of requires but
+[00:13:28] it shows how modular our framework is.
+[00:13:32] Uh a lot of these are Louis scripts but
+[00:13:35] also kernel sorry C libraries inside the
+[00:13:41] kernel
+[00:13:42] and when you require a louisis script it
+[00:13:44] to automatically load the Lua file into
+[00:13:48] the kernel in that particular runtime
+[00:13:50] you are running. So on the right side
+[00:13:53] you see a function that we use for
+[00:13:55] classify the traffic and if you see the
+[00:13:59] decision block on if it the SNI the
+[00:14:02] server name indicator that's what we
+[00:14:05] extract from the toos sessions right the
+[00:14:09] metadata
+[00:14:11] we cross against a block list that is a
+[00:14:14] hash table
+[00:14:16] and if you see we're accepting both
+[00:14:18] options right uh because we use marks to
+[00:14:22] communicate and integrate with NFQ
+[00:14:25] rules. So instead of just dropping we
+[00:14:28] are communicating through our own
+[00:14:31] protocol that I I will show you later
+[00:14:34] what should be done with this uh session
+[00:14:38] and important thing is that we only call
+[00:14:41] this for
+[00:14:44] particular package. We do this by using
+[00:14:47] this mark here. It says that we only
+[00:14:51] call Lua when the SKB is marketed with
+[00:14:54] this mark. So we can skip the Lua
+[00:14:57] process for the most of traffic. And
+[00:15:00] this is very relevant show on our
+[00:15:02] benchmarks later on.
+[00:15:05] And that re register functions how we uh
+[00:15:09] introduce ourselves to to net filter
+[00:15:13] hooking this uh callback called
+[00:15:15] classify.
+[00:15:18] If you notice that classify
+[00:15:22] function calls this extract SNI function
+[00:15:27] and this is pretty much our parser. Of
+[00:15:30] course, it has more
+[00:15:33] on there, right? But the the heart of it
+[00:15:35] is this simple very simple uh function
+[00:15:40] where we walk through all the to
+[00:15:43] extensions and when we find um SNI we
+[00:15:48] just extract this
+[00:15:51] and return for to the caller.
+[00:15:59] So
+[00:16:00] how that that was the kernel part part
+[00:16:03] right how we coordinate with the user
+[00:16:08] space and with the things um Arif has uh
+[00:16:12] presented the open Wi-Fi universe the
+[00:16:16] open Wi-Fi
+[00:16:18] controller runs this protocol that's
+[00:16:21] called uh you central it through a web
+[00:16:24] socket it push a configuration
+[00:16:28] then We have a agent on the
+[00:16:31] on the access point. Actually this uh
+[00:16:37] client is standard for all US central
+[00:16:40] universe all open Wi-Fi and we connect
+[00:16:43] through Ubus that open Wi-Fi use but
+[00:16:46] it's from opent right so it triggers our
+[00:16:50] agent on user space and we have this
+[00:16:55] library on user user space sorry for
+[00:17:00] configuring the NF tables using lua as
+[00:17:04] well.
+[00:17:05] So we call this uh Louis script to
+[00:17:10] introduce
+[00:17:11] rules dynamically in the NF uh tables.
+[00:17:19] This is how u our profile one profile
+[00:17:24] looks like on on our configuration. This
+[00:17:26] goes on the
+[00:17:29] the open Wi-Fi configuration
+[00:17:34] um JSON we have that third party block
+[00:17:39] that Arif has uh presented
+[00:17:44] and if you see it's a one prof a profile
+[00:17:46] for one device on top a fire TV matching
+[00:17:50] a specific MAC address with a default
+[00:17:55] list and the allow list. This allow list
+[00:17:58] is all SN is SNI. It's not DNS based. It
+[00:18:04] will cross against a database embedded
+[00:18:06] in the
+[00:18:09] sorry it's not even SNI it's
+[00:18:14] key for a collection a list of SNI. So
+[00:18:18] this Amazon device can be many URLs not
+[00:18:22] one right and we have a database that is
+[00:18:25] stored in the kernel itself.
+[00:18:29] Right now we have a special data
+[00:18:31] structure that we have quite optimized
+[00:18:33] this to fit on I think 10 max around
+[00:18:39] with all thread database all
+[00:18:42] applications and then can write rules
+[00:18:44] like this in JSON the controller just
+[00:18:48] push this to access point and then the L
+[00:18:54] script on user space will parse that um
+[00:19:00] JSON, right?
+[00:19:02] And tap into NF tables using uh NF
+[00:19:06] tables LUA NF tables uh library binding
+[00:19:12] and you just write the rules on the NF
+[00:19:17] tables that will be converted for
+[00:19:19] something like this.
+[00:19:28] And
+[00:19:30] we coordinate the rules using the rules
+[00:19:34] and the hooks using marks. We have this
+[00:19:37] protocol
+[00:19:39] where we mark whatever we want to
+[00:19:42] inspect in lua.
+[00:19:44] So if we identify a rule like a layer
+[00:19:51] three layer four rule on ACL there we
+[00:19:55] can just uh skip the whole uh evaluation
+[00:20:02] if we have if I'll explain the cache
+[00:20:05] later
+[00:20:06] if not we can perform what we call the
+[00:20:10] this new generation DPI that is uh
+[00:20:13] parsing metadata only.
+[00:20:16] We go through this uh DPI chain and then
+[00:20:21] we decide if we should pack these in Lua
+[00:20:25] or not. is basically rules like if it's
+[00:20:28] that port like 443 or
+[00:20:32] layer three and and four rules that
+[00:20:35] decides where it should go to L or not
+[00:20:38] and then apply a mark and that mark I
+[00:20:41] show on the
+[00:20:43] on the hook hashter we will be taking
+[00:20:47] into consideration to call the
+[00:20:49] classifier and then the classifier will
+[00:20:52] mark back the SKB
+[00:20:56] uh and it will follow the
+[00:21:00] net filter flows. Right? If we have
+[00:21:02] decided
+[00:21:04] already, we can skip everything
+[00:21:07] and move it to
+[00:21:11] to learn and insert this in a cache.
+[00:21:15] This cache is just
+[00:21:18] a a set on NF tables. So once we decide
+[00:21:23] that flow,
+[00:21:25] we already know what what's that flow
+[00:21:29] like it's like a request for YouTube. We
+[00:21:34] mark take the decision and store and the
+[00:21:37] next time in the next pack we skip this
+[00:21:40] whole thing by hitting the cache.
+[00:21:45] And it's the same for uh every protocol.
+[00:21:50] But on to we have this problem on
+[00:21:56] on not be able to
+[00:22:00] detect the identify the SI based on only
+[00:22:05] one packet because these days with post
+[00:22:09] quantum quantic uh cryptographic
+[00:22:13] we usually have bigger client hello
+[00:22:17] message that overpass
+[00:22:20] uh many packets, right? And for these we
+[00:22:23] have a uristic to reassemble the
+[00:22:29] the whole uh fragment, right? To
+[00:22:32] defragment the segment, the TCP segment
+[00:22:37] and then we mark this as a pending state
+[00:22:42] and the next fact of this flow will go
+[00:22:45] back to Lu again. We use a internal lua
+[00:22:49] structure there for uh implementing LRU
+[00:22:54] for keeping the
+[00:22:56] pending flows. Right. And once
+[00:23:00] you
+[00:23:03] >> Yeah. So yeah yeah yeah
+[00:23:08] >> we have a database
+[00:23:11] with um J8, right? We blockade
+[00:23:18] um non do8
+[00:23:21] the the service that provide CH and we
+[00:23:26] block um also DN we inspect not only
+[00:23:34] uh to inspect also DNS and when we have
+[00:23:39] a to we block the encrypted DNS and when
+[00:23:43] we have EC 8 embedded into a open DNS
+[00:23:48] request. We just erase this and we can
+[00:23:52] respond back to I will show how we use
+[00:23:54] this also to modify the packets the SKB.
+[00:23:59] We have a special binding that we use
+[00:24:01] for
+[00:24:03] uh changing the
+[00:24:05] SK buffer right and recomputee the check
+[00:24:10] sun. So we can do a sort of thing that
+[00:24:13] uh TCP reject does but we can do
+[00:24:16] arbitrarily and create our own message
+[00:24:20] right I don't know if I answer
+[00:24:24] we can if have more but basically we
+[00:24:29] block don't let this go through right
+[00:24:32] now
+[00:24:34] it seems that we are able to block but
+[00:24:39] and we have also So a fallback to block
+[00:24:42] the
+[00:24:44] EC8
+[00:24:46] uh domains because before getting the
+[00:24:49] EC8 you typically go to EC8 uh URLs
+[00:24:54] providing your like EC8 uh
+[00:24:59] cloudflare.com
+[00:25:01] and we block also the the actual DNS uh
+[00:25:06] request escape but of Of course it can
+[00:25:10] be perfect brave but so far so good in
+[00:25:14] our deployments.
+[00:25:21] So that's the the next thing. Uh this is
+[00:25:25] how we forge replies. This is exactly a
+[00:25:29] DNS
+[00:25:31] uh reply we are forging
+[00:25:33] and we can we in this case of SH we or
+[00:25:39] in a traditional blocking we can reply
+[00:25:42] with a 302 sorry with a NX domain or uh
+[00:25:47] HP request. So it can provide a 302 can
+[00:25:50] provide block page
+[00:25:53] is the same um the same principle we use
+[00:25:58] on reject on RST or SMP.
+[00:26:04] We do the same but we do this in Lua
+[00:26:06] where we have this particular binding
+[00:26:09] called uh Luis SKB where we can copy the
+[00:26:14] original packet and then modify do
+[00:26:18] whatever you want. Hey hit compute
+[00:26:20] checks and forward the back the
+[00:26:27] the packet. We do this on the request
+[00:26:30] right. So we grab the request we change
+[00:26:33] this. swap the the headers and send this
+[00:26:37] back to the client. So never uh nothing
+[00:26:40] leaves the
+[00:26:43] the access point towards the server
+[00:26:51] and
+[00:26:53] uh if you want to explain a bit how the
+[00:26:56] villains work on the open Wi-Fi then I
+[00:27:00] can cover the
+[00:27:02] >> Sure.
+[00:27:03] >> Yeah. So like I said there are cases
+[00:27:05] where um these access points are
+[00:27:08] deployed in scenarios where the VLANs
+[00:27:10] may be static or they may be dynamic.
+[00:27:13] Now in case of dynamic VLANs I'm talking
+[00:27:16] about cases where you may have
+[00:27:18] enterprise authentication and a part of
+[00:27:21] that is uh the AP talking to the radius
+[00:27:24] and getting a response and the radius
+[00:27:26] tells the AP to put the wireless client
+[00:27:28] on a specific VLAN. So when that happens
+[00:27:30] under the hood, um the wireless driver
+[00:27:33] has this AP VLAN functionality and it
+[00:27:36] creates the AP VLAN interface for that
+[00:27:39] specific VLAN that uh the radio server
+[00:27:42] might have asked us to put the client
+[00:27:43] on. But so over here what's happening is
+[00:27:47] you have an interface that's going to
+[00:27:48] pop into existence uh on the fly. So uh
+[00:27:52] and that is what this thing is trying to
+[00:27:54] trying to get at. And um on top of that
+[00:27:58] what it does is uh the open Wi-Fi side
+[00:28:01] also tries to bridge things together. So
+[00:28:04] it's not only about creating the uh
+[00:28:06] interface but also adding it to the
+[00:28:08] correct uh bridge. For example, if it is
+[00:28:11] um uh if if uh if the wireless uh
+[00:28:14] network is uh is bridged or added based
+[00:28:17] on that you're going to add that to the
+[00:28:19] upstream or downstream bridge. So all
+[00:28:21] this the the fact that the uh interface
+[00:28:24] is popping into existence and then when
+[00:28:26] the clients leave and there are no more
+[00:28:29] clients on a specific VLAN they may also
+[00:28:31] pop out of existence uh the interface
+[00:28:34] may pop out of existence. So in in those
+[00:28:36] cases um dome needs to be able to see
+[00:28:40] and be able to to be aware of uh these
+[00:28:43] VLANs coming in and out and that is uh
+[00:28:47] done through uh uh callbacks over here
+[00:28:49] which bar can get into details.
+[00:28:52] So um we have this other binding called
+[00:28:57] Lua notifier that taps into the notifier
+[00:29:00] chain of uh Linux right and we presented
+[00:29:04] that binding on net dev at
+[00:29:09] 2023
+[00:29:11] where we had a use case on
+[00:29:14] creating dynamic rules using fib or
+[00:29:18] other binding for fib. So we could
+[00:29:21] detect like a link link going down and
+[00:29:24] then uh create a new route to this uh
+[00:29:28] failover route. We reuse the same
+[00:29:31] binding. It was very cool because we
+[00:29:33] were discussing this villain problem and
+[00:29:36] we realized we have a biding for this.
+[00:29:38] Instead of detecting the
+[00:29:41] linking going down, we can detect it be
+[00:29:44] register it into the system. When the
+[00:29:47] van is created, we just call this uh
+[00:29:52] function, this very simple function.
+[00:29:54] Then we uh send this back the
+[00:29:58] information back to the to our hook
+[00:30:02] using uh rcu. So we uh have a RCU hash
+[00:30:08] table and we just fill this like
+[00:30:11] indicating the the actual interface uh
+[00:30:16] number of these uh
+[00:30:19] uh interface name right that we have a
+[00:30:22] rule for that
+[00:30:24] and then the who can can take decision
+[00:30:27] it's very cool and what's I think is the
+[00:30:32] most cool of this is because it's very
+[00:30:35] little and can write this very
+[00:30:38] uh fast.
+[00:30:43] So, uh let's move to our experiments.
+[00:30:48] We run these um
+[00:30:52] a bunch of benchmarks on access points
+[00:30:57] running this stack, right? And first we
+[00:31:00] decided uh on our methodology we chose
+[00:31:04] these web ammon web almanac uh reports
+[00:31:08] where it tries to decompose the
+[00:31:12] web pattern how
+[00:31:15] to select the data points we were
+[00:31:18] evaluate
+[00:31:20] and we use this distribution to run uh
+[00:31:24] benchmarks for every
+[00:31:27] range here, right? To try to simulate
+[00:31:31] the most we could the the completion as
+[00:31:34] of internet access.
+[00:31:37] One one thing that really impacts may
+[00:31:42] really impacts without the the cache
+[00:31:45] system we have provided is latence.
+[00:31:50] Lua doesn't have much impact on the the
+[00:31:54] big package but when you we go small
+[00:31:58] very intense very shetty protocols it
+[00:32:02] start to add uh overhead on every
+[00:32:05] request and introduce latent so the
+[00:32:08] cache
+[00:32:10] has show a great work on this
+[00:32:14] our test bed
+[00:32:17] is another thing that's very cool that
+[00:32:20] it was the other author that should was
+[00:32:23] supposed to be here but the
+[00:32:25] unfortunately his flight was delayed
+[00:32:30] but he has this collabs
+[00:32:32] cool app where we have a chamber that we
+[00:32:37] could uh isolate Wi-Fi right we put a
+[00:32:43] RPI inside the chamber along with the
+[00:32:49] the the RPI antenna right along with the
+[00:32:54] access point is a edge core EAP 101
+[00:32:59] and also we plug um Ethernet
+[00:33:05] cable on on the L so we could generate
+[00:33:09] traffic to stress it out both from Wi-Fi
+[00:33:12] and internet
+[00:33:15] and we use work two for generating the
+[00:33:20] traffic. It's a open-ended uh
+[00:33:26] traffic HPS
+[00:33:28] generator, right? It doesn't wait for
+[00:33:31] the response to keep uh generating
+[00:33:34] traffic. What was uh very important to
+[00:33:38] correctly measure the latence
+[00:33:43] and we sampling for 10 reps uh for 30
+[00:33:48] seconds on every uh
+[00:33:52] case, right? Every size.
+[00:33:59] And our experiments show no
+[00:34:03] difference. Um it was
+[00:34:07] we had the parity on both throughput and
+[00:34:11] latency
+[00:34:13] using dome and the baseline the the
+[00:34:17] plane hook bridge the plain Linux bridge
+[00:34:21] sorry and when we don't use the cache we
+[00:34:25] observe the degradation on small size
+[00:34:29] request uh response Okay.
+[00:34:34] And the real impact we see when we run
+[00:34:38] dome is on
+[00:34:41] CPU.
+[00:34:42] It varies from 14 to 19%.
+[00:34:50] But what we end up measuring is also the
+[00:34:55] uh NF table sets, right? because it's
+[00:34:58] hitting the the cache mo most likely. So
+[00:35:03] is the impact the
+[00:35:06] NF tables has uh already
+[00:35:13] here are our numbers. We
+[00:35:17] uh we have provided also um GitHub with
+[00:35:20] the raw data. If anyone want to go
+[00:35:23] through these on uh verify
+[00:35:28] it shows that we have no
+[00:35:32] no much difference between
+[00:35:35] uh we have the noise right if you
+[00:35:37] observe sometimes dom will run fast than
+[00:35:41] the baseline what doesn't make sense but
+[00:35:43] it's because of
+[00:35:45] uh Wi-Fi even in the chamber is not that
+[00:35:49] uh stable Okay.
+[00:35:53] And we ran a second experiment using
+[00:35:56] lump forge. For this we only ran for
+[00:36:02] one uh size particular size
+[00:36:06] but this was a very cool experiment
+[00:36:08] because on these we could generate a
+[00:36:10] background
+[00:36:12] um traffic. So
+[00:36:15] this
+[00:36:17] uh keep the same result basically the
+[00:36:19] same result even generating a background
+[00:36:23] uh traffic trying to interfere to the
+[00:36:27] experiment
+[00:36:29] on these we didn't collect CPU
+[00:36:34] measurements but we observed the it was
+[00:36:37] at the same range using a top during the
+[00:36:41] the experiment was like 18% but we don't
+[00:36:45] have the raw data for this.
+[00:36:50] So [snorts]
+[00:36:51] um our final remarks
+[00:36:57] we were able to achieve one uh.4 gig
+[00:37:02] bits per second. What's I think it's
+[00:37:05] pretty cool for this sort of device. We
+[00:37:08] couldn't uh stress that more even
+[00:37:11] without dome. So I think we we
+[00:37:15] reached out the the
+[00:37:18] top limit the upper limit of our
+[00:37:21] experiment. We validated on real size
+[00:37:25] right based on web monarch.
+[00:37:29] We show how we have evolved from NFlu
+[00:37:32] approach where there was no cache no
+[00:37:36] integration with NF tables.
+[00:37:40] It was up to 12 times in throughput, 90
+[00:37:45] times lower latence. Another thing
+[00:37:48] that's not there that's uh big
+[00:37:51] difference is now we can embed the real
+[00:37:55] the whole intelligence in the device on
+[00:37:58] NFUA. It was not possible. We could not
+[00:38:01] access for instance v uh malo. We could
+[00:38:05] not uh it was necessary to consult the
+[00:38:09] cloud to on every request for evaluate
+[00:38:13] the
+[00:38:15] the result.
+[00:38:18] We are
+[00:38:20] true truly believers of this approach
+[00:38:22] that we call kernel scripting where you
+[00:38:25] can have powerful components written in
+[00:38:28] C and glue that with Lua or other
+[00:38:33] scripting language. Right? But
+[00:38:36] in
+[00:38:40] in that case, we showed that we could
+[00:38:43] leverage optimizations from the already
+[00:38:46] present C components like the NF tables
+[00:38:51] sets
+[00:38:53] without even creating new bindings for
+[00:38:55] this using the the marks with the
+[00:38:58] bindings that were already present.
+[00:39:00] These days these are in production. We
+[00:39:03] just released on net experience Wi-Fi
+[00:39:06] controller. The whole the most of the
+[00:39:10] stack is open source. All the bindings
+[00:39:12] is open source. Only the our own Louis
+[00:39:15] scripts are not. But one can just use
+[00:39:20] the binds to write their own L scripts.
+[00:39:24] And right now we are working on this uh
+[00:39:27] these tracks here. We have already this
+[00:39:29] running but it's not uh deployed yet. Uh
+[00:39:33] integration with contract and accct
+[00:39:38] info where we can mark the sessions we
+[00:39:42] want to apply KOS and then let cake do
+[00:39:45] its job scheduling the the traffic.
+[00:39:50] We also developed recently developed uh
+[00:39:53] net link uh support
+[00:39:57] uh is not completely done but it's
+[00:40:00] almost there and that's very cool
+[00:40:03] because with this you could send message
+[00:40:06] through net uh through software Q using
+[00:40:10] uh net link directly from the Louis
+[00:40:14] script
+[00:40:16] and also we have a current G sock going
+[00:40:19] on uh having um implementing a
+[00:40:22] abstraction layer for eBPF that will
+[00:40:26] cover TCAD
+[00:40:29] and also maps. So you could access maps
+[00:40:33] from the Louis script itself. Think
+[00:40:36] about caching these on XDP
+[00:40:39] uh level,
+[00:40:42] consulting the cache on XTP level using
+[00:40:45] the map and take decision before it even
+[00:40:48] reach the
+[00:40:52] network stack.
+[00:40:56] I think that's it. We'd like to present
+[00:40:58] to thank you all the organizers.
+[00:41:02] It's very good to be here and if you
+[00:41:05] have
+[00:41:06] any more questions
+[00:41:16] >> have you evalated the uh hardware
+[00:41:19] acceleration or flow offloading impacts
+[00:41:22] your pipeline
+[00:41:24] >> so open Wi-Fi doesn't have hardware
+[00:41:28] acceleration in the past with NF a flu
+[00:41:32] we have run into device that had and we
+[00:41:35] have created that was like proprietary
+[00:41:38] bindings for integrating with some
+[00:41:42] hardware uh accelerators like Puma 6 and
+[00:41:47] 7 at the time but right now we are not
+[00:41:51] going down this road because open Wi-Fi
+[00:41:53] doesn't even use it but it's possible
+[00:41:57] it's just a matter of having the proper
+[00:42:00] providing
+[00:42:06] anyone else.
+[00:42:12] Um, as you mentioned before, right now
+[00:42:14] you're just blocking anything regarding
+[00:42:16] uh encrypted crime, hello etc. Um can
+[00:42:20] you think that it's or is it possible to
+[00:42:22] use the uh caching mechanisms maybe to
+[00:42:25] uh do some kind of um telemetry uh or
+[00:42:29] fingerprint comp computation to uh block
+[00:42:32] the traffic or would that um uh ext use
+[00:42:36] the cache too much.
+[00:42:40] We are actually doing
+[00:42:42] it's sorry that uh we didn't present
+[00:42:45] this but we are doing telemetry
+[00:42:48] uh of all these we are sending to net
+[00:42:51] experience controller and using influx
+[00:42:55] DB as a back end or in the past we even
+[00:43:00] use like we're say sending telemetry uh
+[00:43:04] from inside the kernel through UDP to a
+[00:43:09] telegraph graph running on
+[00:43:12] uh node, right? If you have a controlled
+[00:43:15] environment, secure environment, you can
+[00:43:18] do this. But right now, we sent to the
+[00:43:20] user space, then you call to a send
+[00:43:22] message through a protocol that was
+[00:43:24] developed by reef. If you wanted to talk
+[00:43:27] about frost
+[00:43:29] >> Yeah. So the the main thing over here is
+[00:43:32] uh we wanted to make sure that there is
+[00:43:34] mutual TLS uh going on when we are
+[00:43:37] sending telemetry up uh to the cloud. So
+[00:43:40] uh for that we uh we tried to send it
+[00:43:44] through the kernel. I guess it was uh
+[00:43:46] too much work trying to get encryption
+[00:43:48] going on the kernel. So so yeah
+[00:43:51] >> we will try to get KTLS into the
+[00:43:55] equation but right now we are sending
+[00:43:56] through the user space
+[00:44:01] Right. So uh so what's going on right
+[00:44:03] now is uh on the um so we get the events
+[00:44:07] uh coming in uh to a special app that we
+[00:44:10] wrote inside of the access point and
+[00:44:12] then on the cloud side uh there is a
+[00:44:15] rest endpoint that we made where this
+[00:44:18] app would uh on the AP would batch a
+[00:44:21] bunch of these uh telemetry messages and
+[00:44:24] periodically just fire it up to the to
+[00:44:26] the cloud. And like I said, this is all
+[00:44:28] uh it's basic REST uh endpoint stuff. So
+[00:44:31] it's all uh MTLS uh uh encrypted and
+[00:44:35] whatnot. So uh yeah, that's that's the
+[00:44:38] uh that's the way we got it up to the
+[00:44:40] cloud, at least on the net experience
+[00:44:41] side. But oh yeah, sorry. I I do want to
+[00:44:43] I do want to say that um that's one way
+[00:44:46] to do it, but just like Laur said, you
+[00:44:48] could just put it directly to CFKA if
+[00:44:50] you wanted to or Yeah. So that it's like
+[00:44:53] it's super flexible. Uh from
+[00:44:56] >> you can run create your own adapter to
+[00:45:00] any protocol you like. There there is
+[00:45:03] one guy from Lunatic community that has
+[00:45:05] done a CPU exporter to Prometheus that
+[00:45:10] just keep tracking instead of using top
+[00:45:14] it sends directly from the kernel of the
+[00:45:17] CPU data to VROS.
+[00:45:22] It's up there. [laughter]
+[00:45:24] I'm not sure.
+[00:45:35] >> Anyone?
+[00:45:37] >> Thank you very much.
+[00:45:40] >> [applause]

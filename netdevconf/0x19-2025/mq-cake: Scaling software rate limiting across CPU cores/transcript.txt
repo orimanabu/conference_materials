@@ -1,0 +1,326 @@
+Source: https://youtu.be/0TQ4brmRMeQ
+Language: en
+Captions: local speech recognition (mlx-community/whisper-small-mlx); unreviewed
+
+[00:00:00] Hello everyone.
+[00:00:02] So as you might have gathered from the questions I just asked,
+[00:00:05] I'm kind of into queuing.
+[00:00:08] And I'm also the shared cake maintainer.
+[00:00:10] And this work is an attempt to do something a bit similar
+[00:00:16] to what we just saw in hardware level, actually,
+[00:00:18] to scale software rate limiting across CPU cores using
+[00:00:23] a single cake instance.
+[00:00:25] No, multiple cake instances, but sharing some state.
+[00:00:29] And this is joint work with Jonas, who's a student at TU Berlin.
+[00:00:34] And I will just hand it over to you.
+[00:00:38] OK, perfect.
+[00:00:39] Thank you.
+[00:00:40] So let's dive in with a little motivation.
+[00:00:43] So as we have seen, network speeds
+[00:00:45] are just surpassing CPU speeds.
+[00:00:49] And this makes software rate limiting, especially
+[00:00:51] in challenging, and we need solutions to scale this.
+[00:00:55] And especially what we are focusing on
+[00:00:57] to enforce the global rate limit on a network interface.
+[00:01:02] And the existing Q-discs in the kernel,
+[00:01:04] they cannot keep up with these network speeds,
+[00:01:08] and especially they don't scale due to the root Q-disc lock.
+[00:01:14] So here we have to show this a little bit more.
+[00:01:18] And here we see the scaling behavior of HTB and cake
+[00:01:22] with the configured global rate limit of 20 gigabits per second.
+[00:01:26] And on the x-axis, we have the number of transmission queues.
+[00:01:30] And not only can we see that both queuing disciplines
+[00:01:34] cannot even achieve rates near 20 gigabits per second,
+[00:01:39] they also decrease their performance
+[00:01:42] with the increasing number of transmission queues
+[00:01:44] due to lock on tensions.
+[00:01:47] And a couple of years ago, we have seen a solution, the EDT-BPF
+[00:01:52] approach, which was also presented at this conference.
+[00:01:56] And this was a great solution for rate limiting
+[00:02:00] multiple flow aggregates on end hosts.
+[00:02:03] But it has its shortcomings when it comes to enforcing
+[00:02:06] a global rate limit.
+[00:02:08] This is because the BPF program will set a timestamp
+[00:02:12] for every packet that it sees,
+[00:02:14] or it sets a departure timestamp for every packet.
+[00:02:18] And when we have a global rate limit on an interface,
+[00:02:20] then this timestamp will always continually increase,
+[00:02:24] which will build a virtual fee for across all transmission queues.
+[00:02:31] And this has negative side effects on latencies.
+[00:02:35] Also here a little motivation to this.
+[00:02:37] Here we see the EDT-BPF approach,
+[00:02:39] a little bit modified to enforce a global rate limit.
+[00:02:42] And one thing we can see is that it can achieve
+[00:02:46] these high rates of 20 gigabits per second in this case.
+[00:02:50] But also the orange line here,
+[00:02:52] we can see that the FIFO is building up,
+[00:02:56] which really increases queuing delay.
+[00:03:00] So what we are going to present is MQ cake,
+[00:03:03] which is a multi-queue compatible variant of the Q-List cake.
+[00:03:07] And we will show that we are able to enforce high rate limits
+[00:03:11] while keeping the queue smart and thus keeping latencies low.
+[00:03:16] So the rest of the talk is structured as follows.
+[00:03:18] First we go a little bit into the design of MQ cake,
+[00:03:21] then we go over the evaluation and all our experiments we conducted,
+[00:03:28] and then we give an outlook on our future works
+[00:03:31] and also Toco will present the upstreaming plans.
+[00:03:35] So let's start with the design.
+[00:03:38] Here we have a high level overview of the architecture of MQ cake.
+[00:03:41] We have the MQ queue disk at the queue disk root,
+[00:03:45] and then a cake instance attached for every hardware queue.
+[00:03:50] And we connect these cake instances with a link list,
+[00:03:54] which we need to synchronize state between these instances.
+[00:04:01] And the algorithm follows a simple principle.
+[00:04:05] We scan over this link list in certain intervals,
+[00:04:08] and this interval we are calling the sync time.
+[00:04:12] And during the scan we will determine
+[00:04:14] if another queue disk is active or not.
+[00:04:20] And based on the active count of the siblings,
+[00:04:24] we take a heuristic approach to calculate the local rate limit
+[00:04:28] for one MQ cake instance,
+[00:04:30] which is just the global rate divided by the number of active queue disks we found.
+[00:04:37] When do we consider a queue disk active?
+[00:04:40] This has two points here,
+[00:04:43] and one is that another queue disk is active if it has packets NQed,
+[00:04:48] and if it has sent packets out since the last scan,
+[00:04:52] which is similar to a heartbeat signal.
+[00:04:58] So now the question is, how does this perform?
+[00:05:00] How does it work?
+[00:05:01] Or how does it perform?
+[00:05:04] How does it perform?
+[00:05:07] In our experiments we have two servers connected back to back,
+[00:05:12] and one server is generating the traffic and measuring the throughput,
+[00:05:16] and the device under test is enforcing the global rate limit
+[00:05:20] and forwards the traffic back to the traffic generator.
+[00:05:25] So in the first plot we have a comparison between single queue cake,
+[00:05:28] HDB and MQ cake,
+[00:05:30] and we are interested in the rates that MQ cake can enforce.
+[00:05:35] And we can see that MQ cake is able to achieve rate limits up to 24 gigabits per second,
+[00:05:42] and probably beyond, but we were kept with our hardware capabilities.
+[00:05:47] And on the other hand, cake and HDB, they plateau at around 8 to 9 gigabits per second.
+[00:05:57] This plot shows the deviation from the configured rate,
+[00:06:04] and here the take home message is basically that MQ cake is able to have a relatively low latency
+[00:06:12] deviation of 0.2% from the configured rate,
+[00:06:17] while single queue and HDB, they just go off the charts beyond 5 gigabits per second.
+[00:06:25] The next interesting question is how is the scaling behavior of our approach?
+[00:06:30] And in this case, to really show this, we reduce the packet size to 64 byte packets,
+[00:06:37] and we measure the throughput depending on the number of transmission queues.
+[00:06:43] And we can see that MQ cake is able to scale linearly,
+[00:06:47] but the slope reduces after 20 transmission queues,
+[00:06:52] which is because we are using hyper threads at this point,
+[00:06:58] and there will be some resource sharing between execution threads.
+[00:07:05] And looking at latencies, here we have the latency plot from the EDT-BPF test case we saw in the beginning,
+[00:07:16] and we can here see that as shown already, EDT-BPF approach has delays beyond one second,
+[00:07:26] and this delay is correlated with the drop horizon that can be set for this.
+[00:07:32] And MQ cake can achieve very low latencies compared to this,
+[00:07:37] which is below 0.5 milliseconds at a 99th percentile.
+[00:07:43] But of course, our current approach is not without its limitations.
+[00:07:50] So far, we have only looked at very static traffic patterns,
+[00:07:55] so we didn't have really a change in the number of active queues.
+[00:08:02] Here we see such a switching event on the left side,
+[00:08:07] where we switch from 4 to 40 active queues,
+[00:08:12] and in the top we see MQ cake is configured with a sync time of 100 microseconds,
+[00:08:19] and you will notice the spike, which is due to the fact that the MQ cake instances are not yet synchronized,
+[00:08:28] and they will have an inaccurate rate estimation.
+[00:08:33] To take this to the extreme, we can see in the plot below the sync time with 100 milliseconds,
+[00:08:42] and you can really see that the spike even more than doubles,
+[00:08:46] and the width of the spike is closely related to the sync time.
+[00:08:50] So what we learned from this is that we can lower the sync time and achieve higher accuracies.
+[00:08:59] But we cannot go arbitrary low, as we can see on the plot on the right side,
+[00:09:06] where we can see that if we choose very, very low sync times,
+[00:09:10] we will observe an overhead due to the scanning,
+[00:09:15] and the more queues we have to scan, the worse the overhead is, and thus we achieve lower throughputs.
+[00:09:24] Another problem that occurs is our imbalances, which occur that when some MQ cake instances are under saturated
+[00:09:36] and cannot even achieve their estimated local rate limit,
+[00:09:40] and we can see this here in this dip in the plot around here,
+[00:09:46] and we can also see that if we're lowering the sync time, we can somehow counterbalance these imbalances in load,
+[00:09:54] but as we have seen in the previous slide, we cannot go arbitrary low with the sync time.
+[00:10:03] Nonetheless, we think we have a promising approach to synchronize data across queues,
+[00:10:10] and in the future what we want to look at is to improve the imbalancing issue.
+[00:10:17] We have already experimented a little bit with implementing some rebalancing between queues, which seems feasible.
+[00:10:25] Definitely mitigate the overshoot during the switching events,
+[00:10:33] and the traffic we have tested this with is very synthetic,
+[00:10:37] so also see some performance under real-world conditions would be very insightful,
+[00:10:43] and finding ways to determine the sync time automatically so that nobody needs to configure that by hand.
+[00:10:53] And now Toko will go into the details of our plans to upstream this work.
+[00:11:01] Yes, thank you.
+[00:11:03] So the current implementation, we just did modifications solely to the cake queues disk,
+[00:11:12] and had any function just walk the queues disk tree and build this data structure of sibling queues disks that it's walking,
+[00:11:19] and for upstreaming purposes, this is not necessarily ideal,
+[00:11:24] it's a bit too much sort of information about the underlying queues disk structure that to put into the queues disk itself,
+[00:11:31] so we're sort of proposing a more general API where we have a separation of concerns between the MQ queues disk,
+[00:11:40] which is what installs multiple queues disks, and then SHIT take which runs with this in the sibling mode.
+[00:11:46] And basically it's an API where apparent root queues disk can allocate SHIT state that can then be shared between siblings,
+[00:11:56] and it's more or less short enough to fit on a couple of slides, so I just took the bits of the patch and put it here.
+[00:12:10] And basically if you look at, we have this new struct queues chat data,
+[00:12:16] which we put in a list in struct queues, which becomes the sibling list,
+[00:12:23] and in queues opts, a queues can set the SHIT size if it wants to use this,
+[00:12:30] in which case it also needs to set the SHIT assign and optionally the SHIT init functions,
+[00:12:36] which will then cause this when a queues instance is created, as we will see on the next slide.
+[00:12:45] This is for SHIT MQ.
+[00:12:49] In MQ graft, which is where a child queues disk is attached to SHIT MQ,
+[00:12:57] I'm omitting a few details, you can look at the full patch there as well,
+[00:13:01] but MQ graft is one of the places where this happens, also an init.
+[00:13:05] If the sub queue disk here, new, has a SHIT size set, it will allocate one of the shared struct,
+[00:13:14] shared data structs, and then it will assign it to the child queue disk,
+[00:13:21] and then it's up to the child queues disk to figure out what it does with it.
+[00:13:29] In this case, for SHIT cake, the shared structure contains a list head,
+[00:13:35] where it will do this linking of siblings that it can walk as Jonas just explained.
+[00:13:41] This shared get with new ops here is the key,
+[00:13:45] so the shared state is keyed on the queues-dish module implementation using the ops point on this case.
+[00:13:53] In this instance, every instance of cake under one MQ queues disk will get the same shared state pointer,
+[00:14:02] but if you have two interfaces with two MQ queues disks that all have a couple of cake instances underneath them,
+[00:14:11] they will get a shared instance per physical device.
+[00:14:14] This means that SHIT MQ defines what is the notion of siblings,
+[00:14:19] and then it's up to the queues-dish implementation to support this to figure out what does the sibling mean for me.
+[00:14:26] For cake, in this instance, that means we will scale the rate across it.
+[00:14:30] That's our proposal for an API for this.
+[00:14:34] Unless someone yells loudly now, I will post this to an RFC after the conference,
+[00:14:40] and we can discuss it, but that's our proposal for how to upstream this.
+[00:14:46] Of course, we want to do some more real-world experiments before submitting a proper patch, but that's the idea.
+[00:14:55] Questions or comments?
+[00:15:06] Great presentation.
+[00:15:07] I have a question about the name MQ Quick.
+[00:15:10] Why Quick?
+[00:15:11] I mean, it's generic infra, which should work with any child like children above, like below MQ, right?
+[00:15:19] Yes, so the shared API will be generic across queues disks.
+[00:15:24] The reason we call it MQ cake is MQ-aware version of shared cake that we did the experiments with,
+[00:15:29] but we're not calling it MQ cake when we submit it.
+[00:15:32] That's fine. Just that.
+[00:15:34] We've got plenty of time, so.
+[00:15:45] So can you put back your data structure again?
+[00:15:49] The shared one.
+[00:15:50] So there's a bunch of ref count.
+[00:15:54] There's a ref count there, and you say the lock, you didn't show any path data.
+[00:15:59] Do you have any path data?
+[00:16:01] It's the lock, right?
+[00:16:02] That's killing you.
+[00:16:03] It's just a setup.
+[00:16:05] Yeah, this is just the setup.
+[00:16:07] So MQ shared MQ cake keeps the ref count is to keep track of how many cake instances do I have under me for shared MQ.
+[00:16:16] So it didn't necessarily need to be a ref county.
+[00:16:19] This is not used in the data path at all.
+[00:16:21] This is just a setup.
+[00:16:23] I see.
+[00:16:24] So it's up to the like the cutish to scratch the shared state and it's up to the cutish to do any synchronization needed to access the shared state.
+[00:16:32] And for a shared cake, it's all read only in the data path.
+[00:16:37] So just walks the list of sibling QDISC and that's as you protected.
+[00:16:43] So it's and then we're doing the setup.
+[00:16:45] It's at you know, protected to add one.
+[00:16:47] So I do have another question because you set up the thing at the QDISC level.
+[00:16:52] So there is no way HDB can one day use that because he be you want would like to have it.
+[00:16:58] Let's say you have 16 Qs.
+[00:17:00] Ideally we'd install 16 HDB and then have some shared data.
+[00:17:06] But for all the class of HDB class, not QDISC, the whole QDISC because like a BW e on first year at Google, we want to control destination, not global rate underneath that is not useful for us.
+[00:17:21] So we will need some class per class shared info.
+[00:17:26] But yes, so, so I did have the HDB use case in mind.
+[00:17:32] So the fact that it's the parent that decides what siblings means in its context means that we could move this struct list head shared state into the MQ private data and then HDB to do it.
+[00:17:47] So it's the same thing between states but but still have the shared in it and shared assign for the child QDISC to be the same right.
+[00:17:57] I think.
+[00:17:59] But yeah, I'm not totally I finished figuring out how to use this with HDB so ideas definitely welcome but but I did think about sort of if you have say yeah an HDB tree with four classes with a cake instance that should share bandwidth in the same way.
+[00:18:16] And it should be able to say, oh, I will assign chat state for the four sub QDISC of these four classes in the tree and it should work the same way. And from the chat from the other side from the child QDISC point of view, the API would be the same you just get a chat pointer.
+[00:18:32] And you say, okay, this is chat state across instances and I will use that the same way, regardless of its.
+[00:18:39] So, at the time of the Google we tried something similar but at the HDB layer and so instead of having some sync agent doing sync every 100 milliseconds or 10 milliseconds one millisecond, we just grab tokens in batch.
+[00:18:57] So we had a sharded HDB and the ability to grab token but instead of grabbing tokens packet by packet, like be able to grab the equivalent of 60 packet or the time.
+[00:19:12] So it was reducing the the full sharing on the shared info without any luck. Of course, we were using atomic operation and that's that was good enough at that time but that was clearly a good amount of work compared to a solution.
+[00:19:33] Yeah, right. So, so the trouble with this is that cake is not token based. It also sets timestamps, but I did think about batch allocating tokens as well. So this becomes like the modifications actually to the data path of shared cake which we didn't show here is quite small it's just resetting its rate which makes this easy to implement.
+[00:19:55] Again, I think this info should be Portugal to quick. I mean, it's just think about making more generic things instead of just trying to.
+[00:20:06] Yeah, but that's.
+[00:20:10] That's why this makes it up to the Qtif the child Qtif to decide how it's going to use the chat state. So if it's token based it can do that it can just put an atomic variable in the shape that's the at state and do batch allocations from that.
+[00:20:25] And if it's time based like take it to do the truly walk or maybe we can, if we come up with a better solution as well.
+[00:20:34] I did think a little bit about sort of the generic that's that's why this API, but if you have other sort of specific child Qtif that you want to implement this for please let us know and we'll try to keep in mind to get the API flashed out.
+[00:20:56] So you didn't show how so you had, if you go back to some of your previous slides way showing the scaling.
+[00:21:07] Yeah, like, actually, yeah, go backwards. Yeah, maybe this one. Yeah, that one's fine, I think the question is, so you're showing the number of transmit cues but how are you tying the cues to a CPU or how many CPUs did you have on this thing.
+[00:21:25] We have 40 cores, including hyper threads.
+[00:21:30] And we configure the receive side in a way that we can.
+[00:21:36] We send a certain number of flows and we then distribute the incoming flows equally across the receipt Qtif receive cues, and thus we can control how many cores are active on the transmit part.
+[00:21:51] So the transmitter receiver on the same or bound to the same CPUs.
+[00:21:56] And which drivers is this.
+[00:21:59] I think I 40 E I 40 so the, the transmit completion and receiver.
+[00:22:08] There's only one interrupt there I think right. Yes.
+[00:22:11] Okay.
+[00:22:14] Thanks.
+[00:22:21] No questions.
+[00:22:22] We still have like 10 minutes we can take an early break or
+[00:22:32] wait.
+[00:22:34] We're still testing UDP flood for because I don't understand why the, why the BPF thing was so bad.
+[00:22:42] Like the HDB right.
+[00:22:45] Yeah, it.
+[00:22:47] This one. Yeah, it's because it's forwarding packets.
+[00:22:51] So no, it's forward.
+[00:22:52] But the sender doesn't respond to like congestion signals or like if it's, what is it running is it's not bb r right.
+[00:23:01] So it, it won't do a send any ECN signals or something like this. It will only react to packet drops. And if the drop horizon is two seconds as it was proposed in the presentation a couple of years ago, then we just build a queue, which is big enough to hold packets that have a value of like two seconds delay basically
+[00:23:28] So the sender is just like sending pockets and not responding to this is a QB QB.
+[00:23:34] So you are sending at the for the case at higher rate on line rate.
+[00:23:41] Because otherwise the queue cannot build up. So I don't understand.
+[00:23:45] So, so it's not EDT BPF on the host that that is this TCP sender.
+[00:23:50] Yes, but what's the difference between shaping in MQ or EDT that's the is it the line the same rate.
+[00:23:57] It's configured. So it's configured to the same rate.
+[00:24:04] But and we, I think we raised the queue limit of the underlying FQ Schoensteller.
+[00:24:15] So at the on the MQ case you are dropping packets.
+[00:24:18] That's the reason why you don't have.
+[00:24:20] Yeah, you have you have flow queuing and DQ and you have an HM and MQ take whereas with EDT BPF you just setting timestamps and it becomes a FIFO.
+[00:24:29] Do you want to say anything about how fair or no, no, it's not a FIFO. I'm sorry, it's not a FIFO it's a FQ it's a fair Q.
+[00:24:35] Yeah, but it becomes a FIFO I have I can lend you a blog post that explains it but basically, I know.
+[00:24:41] I'm pretty well over if you work.
+[00:24:43] No, no, no, no, no, no, no, no, it's not it's not cute as a FIFO. But because it's a chat.
+[00:24:50] The on ingress there's one state variable that says the next timestamp for the next packet that comes in, which is shared across all cues.
+[00:24:58] That's how you get the rate right so you have packet comes in and you say, this is the next timestamp for the packet next packet comes in you you advance the same time stamp or the time at in Q.
+[00:25:12] So it's not a FQ it's a EDT program. Yeah, it's part of the FQ this party. No, no, no, no, it's not a few that's the EDT program.
+[00:25:18] So the EDT program ends up building a sort of I told it a virtual FIFO because you keep advancing the same timestamp and you don't react to like you do this at in Q.
+[00:25:27] So you cannot and you don't react to the Q length when you do this you just keep.
+[00:25:32] Well, you do whatever you want. It's a BPF program. So it's programmable.
+[00:25:35] So if you prefer to go up just drop.
+[00:25:37] Good, but that's not what it is. But that's not what any of the EDT, EDT BPF implementations do today.
+[00:25:44] So sorry. No, you are wrong. You don't know how companies are using BPF.
+[00:25:50] No, no, but any of the any of the open source EDT BPF implementations including the one that was at net DevCon.
+[00:25:56] It's templates. It's purely templates. You are free to adapt.
+[00:26:00] No, no, but yes, you could implement something different and take is something different.
+[00:26:05] I mean, no, no, you could totally do something different for it.
+[00:26:09] If you want to drop packet drop, but that's not the same effect than just dealing the sometime.
+[00:26:16] No, I don't think it's different goals.
+[00:26:19] But there is this place where because you take all the decisions on in Q.
+[00:26:25] You cannot change that decision after the fact once you've entered the package, you cannot go back and change.
+[00:26:31] So you cannot do the F2 total flow curing.
+[00:26:34] You can. You absolutely can. You don't. You don't have to update the time stamp in the future if you don't want.
+[00:26:40] No, but then you're not enforcing it.
+[00:26:42] But then you're not enforcing your global rate.
+[00:26:44] You absolutely can.
+[00:26:46] Okay, so you into 10 packets at that time stamp.
+[00:26:51] It's like the TPF token bucket. You have a token bucket.
+[00:26:55] Once you ex exos the credit, you drop.
+[00:26:58] Yes, you can drop packets.
+[00:27:01] You can drop packets, but you cannot reorder them in the queue after you have in cute them.
+[00:27:07] But what's the point?
+[00:27:09] That's what I've to cut.
+[00:27:10] You are forwarding.
+[00:27:11] So if you don't want to, this is this the new flow up to my session and FQ cuddle.
+[00:27:17] Right.
+[00:27:18] So you're in Q 10 packets, packet 11 comes in from a different flow and you want it to go to the front of the queue.
+[00:27:23] So you do that. You can do this with EDT by not setting a time stamp on that packet, but then you will go over the configured rate because the time stamp is what implements the rate.
+[00:27:31] No, you can just have a different.
+[00:27:34] So, okay, so I think you're mixing things.
+[00:27:38] At Google, we don't use a single to get a token bucket.
+[00:27:41] We have different.
+[00:27:43] So you can have reorders. Absolutely.
+[00:27:46] It's not part of the FQ or whatever. It's part of your program.
+[00:27:49] Sure. But that's then you are enforcing a rate per traffic class or per.
+[00:27:53] That's exactly what we want to do.
+[00:27:56] Yeah, but that's not what we're doing. We're doing one global rate for a.
+[00:28:01] But you need it wrong. I'm just saying that.
+[00:28:03] So like the, the use case for cake is forwarding on home writers, right? You have, you set one rate on the interface.
+[00:28:09] You can implement that in EDT just fine.
+[00:28:12] You don't have to pretend it's going bad.
+[00:28:16] The way it is, that's all.
+[00:28:19] Yeah, I'm not, we're not saying that it's impossible to do something different.
+[00:28:24] You are comparing something with a template, which is obviously not meeting your needs with something else.
+[00:28:30] So that's obviously not.
+[00:28:33] Yeah, I put like that. Let's, I would, I would like to hear from you.
+[00:28:36] Let's do that offline. But how you would do this in EDT BF.
+[00:28:40] Yeah.
+[00:28:45] We still have time.
+[00:28:50] Anybody else?
+[00:28:54] All right. I actually like that exchange a little bit.
+[00:28:57] I'm enjoying it.
+[00:28:59] Okay. Thanks.
+[00:29:02] All right. Thanks everyone.

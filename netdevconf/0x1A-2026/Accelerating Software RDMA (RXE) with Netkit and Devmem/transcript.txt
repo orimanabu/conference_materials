@@ -1,0 +1,578 @@
+Source: https://youtu.be/kYTYzvWC-wc
+Language: en
+Captions: auto-generated
+
+[00:00:00] Hi everyone. Thanks to the net
+[00:00:03] organizers for inviting me to present
+[00:00:06] today. It is great for me to present my
+[00:00:10] topic. Today I will talk about dummy
+[00:00:14] buffer del with a via netkit including
+[00:00:19] how netkit dummy buffer del me and ebpf
+[00:00:24] can improve the act data ped. Let's get
+[00:00:28] started.
+[00:00:31] Hi everyone, this is my presentation. In
+[00:00:36] this presentation, I will present our
+[00:00:39] work on integrating DM buffer with ad
+[00:00:46] through net kit and discuss the design
+[00:00:49] and implementation considerations.
+[00:00:52] The background is modern AI and HPC
+[00:00:57] workloads increasingly rely on GPU
+[00:00:59] memory and device memory for high
+[00:01:03] bandwidth data processing.
+[00:01:07] uh Linux DM TCP enables zero copy data
+[00:01:12] movement into device memory but uh IDM
+[00:01:16] applications such as software cannot
+[00:01:19] currently utilize this capability of D
+[00:01:23] memor
+[00:01:26] explores how we can extend act to work
+[00:01:32] well with D me buffer by leing net kit
+[00:01:37] as a flexible software via a network
+[00:01:41] layer.
+[00:01:45] This is my agenda for today. The first
+[00:01:48] is to work with netkit. It has been
+[00:01:52] implemented already. The second is to
+[00:01:55] work without netkit. Now it is in
+[00:01:59] process.
+[00:02:00] uh we net kit driver uh driver that is
+[00:02:05] soft key can work with the delm
+[00:02:10] uh dummy buffer. The key idea is to
+[00:02:13] allow to bypass the IP layer and
+[00:02:17] directly exchange package through net
+[00:02:20] kit. This can make a work well with D M
+[00:02:24] and D buffer with net kit. Since EBPF
+[00:02:28] can work well with net
+[00:02:31] and is based on net ebf can dump
+[00:02:38] package with net kit. I will show this
+[00:02:42] demo later. Uh we are cleaning net kit
+[00:02:47] can work well with del buffer but u by
+[00:02:52] net kit ID can also make use of del
+[00:02:57] buffer technology without uh net we hope
+[00:03:01] that can also work well with del dummy
+[00:03:05] buffer we are curing and uh ebpf
+[00:03:09] directly and now this work is in process
+[00:03:16] Uh in this PBT ID can evoke
+[00:03:22] net kit send receive functions bypassing
+[00:03:25] IP Ethernet layer as such
+[00:03:30] can make use of del me and ebp net kit
+[00:03:36] this will reduce about 10% to 20%
+[00:03:42] depending on the IP board road and
+[00:03:46] Robert wrote the page set are ready in
+[00:03:49] GitHub. If anyone is interested in this
+[00:03:53] source code after the meeting, I will
+[00:03:56] show the uh GitHub link in the mail
+[00:04:01] list.
+[00:04:05] We explored a new data path where ARD
+[00:04:10] can send and receive adap directly
+[00:04:13] through the the Ethernet
+[00:04:16] layer with net kit bypassing the IP
+[00:04:19] layer processing. The picture in the
+[00:04:22] bottom right come
+[00:04:25] this avoids the overhead from IP router
+[00:04:29] look up routine decisions and IP tables
+[00:04:33] ro processing by removing these extra
+[00:04:37] steps from the critical pass. We can
+[00:04:40] reduce the packet processing latency.
+[00:04:43] The benchmark on the left shows
+[00:04:47] the latency improvement measured by IP
+[00:04:50] send latency from the of test suit
+[00:04:54] depending on the complexity of the
+[00:04:57] routing and IP table rows. This approach
+[00:05:02] can reduce latency by about 10% to 20%.
+[00:05:08] The picture in the top right compared
+[00:05:12] with the profest software.
+[00:05:20] Uh since I traffic is carried through
+[00:05:23] netkit, we can reuse the exiting
+[00:05:29] net kit ebpl infrastructure without
+[00:05:32] modifying physical nick driver. This is
+[00:05:36] the architecture.
+[00:05:38] Uh there are three layers. The first
+[00:05:41] layer is IDM user space application. In
+[00:05:45] my demo, it is RP server and client. The
+[00:05:49] second layer is in the current space. It
+[00:05:54] is IDM software driver and net driver.
+[00:05:59] Uh they are both virtual drivers for IDM
+[00:06:03] and networker. The third layer is
+[00:06:06] physical nick drivers. For example,
+[00:06:09] um MR5 the nick from manox company that
+[00:06:14] is Nvidia current. Now
+[00:06:19] this physical nick should support ebpf
+[00:06:24] kernel user space application work on
+[00:06:27] netkit driver interface.
+[00:06:30] In this architecture we make a net kit
+[00:06:35] uh the um traffic pass.
+[00:06:39] Ebpf kernel application is attached to
+[00:06:43] uh netkit interface to dump packets
+[00:06:47] efficiently.
+[00:06:48] EVP of user application will all pass
+[00:06:51] RDM packets with a high performance.
+[00:07:00] Uh this is the EVPF kernel application
+[00:07:05] um flowchart. This flow chart repres
+[00:07:09] presents
+[00:07:10] the logical architecture of EVP of based
+[00:07:15] net in traffic handler. Illustrating the
+[00:07:20] complete
+[00:07:22] packet process impulse from kernel in
+[00:07:25] capture to users base analysis.
+[00:07:30] The workflow begins with ATKB
+[00:07:32] initialization and header extraction
+[00:07:36] defining the entry point where network
+[00:07:39] package enter the EVPF processing
+[00:07:43] pipeline.
+[00:07:46] The handler performs
+[00:07:49] a series of safety checks and protocol
+[00:07:54] validations including
+[00:07:58] Ethernet frame boundary verification and
+[00:08:02] IP header inspection ensuring only valid
+[00:08:06] package matching the target protocol are
+[00:08:10] processed while other traffic continues
+[00:08:15] through um normal kernel paths
+[00:08:19] for selected packets. The handler
+[00:08:22] calculates packet metad data reserve
+[00:08:26] space in the EPF ring buffer and copies
+[00:08:30] the packet data using BPF ATK load by
+[00:08:35] function. The captured traffic is then
+[00:08:39] submitted to user space for further
+[00:08:42] analysis
+[00:08:44] demonstrating an efficient zero copy
+[00:08:47] oriented data connection pipeline
+[00:08:50] between the current networking stack and
+[00:08:53] user space applications.
+[00:08:56] Uh the source code about this part is
+[00:09:00] also in the GitHub. If anyone is
+[00:09:03] interested in this uh part source code,
+[00:09:07] I will share the GitHub link in the mail
+[00:09:12] list after the meeting.
+[00:09:18] This is the EVP of user space part. The
+[00:09:22] C term initializes by P by reading the
+[00:09:26] locked memory limit and loading the BPF
+[00:09:30] scaling. then attaches
+[00:09:34] the program to the target network
+[00:09:38] interface that is enkai one by hooking
+[00:09:42] into the in pass we handle net kit in a
+[00:09:48] user space ring buffer is created to
+[00:09:50] efficiently receive events from the
+[00:09:53] kernel once running the application
+[00:09:57] continuously p the barber in a blockwise
+[00:10:02] manner to handle incoming packaged unit.
+[00:10:06] Each unit is processed by stripping the
+[00:10:11] Ethernet header and extracting layer
+[00:10:13] three and layer four metadata including
+[00:10:16] IP and UDP headers using IP header and
+[00:10:21] UDP header structures
+[00:10:23] for rocky traffic. The power line
+[00:10:26] further passes BTH
+[00:10:30] performs up code classification
+[00:10:33] through act of code look up and
+[00:10:37] dynamically
+[00:10:39] addressing
+[00:10:41] offset based on header types we
+[00:10:44] structured
+[00:10:47] switch case dispatch.
+[00:10:50] Finally, the extracted payload is output
+[00:10:55] in raw form through print payload
+[00:10:59] function enabling for visibility into
+[00:11:04] the end to end packet processing power
+[00:11:07] line from kernel egress to user space
+[00:11:10] analysis.
+[00:11:15] Uh this is the uh IDM package for month.
+[00:11:20] The above the output is from the user
+[00:11:24] space eBPF application
+[00:11:27] RP server client. It shows the ped
+[00:11:33] content of a single packet captured from
+[00:11:37] the RP workload. The packet is dissected
+[00:11:41] into multiple protocol layers
+[00:11:45] including the IP header, UDP header,
+[00:11:48] ETH, IET and the RDMA payload.
+[00:11:53] This example represents one complete RDM
+[00:11:58] packet. this uh RDM package generated by
+[00:12:02] the by the IP application illustrating
+[00:12:06] how each protocol layer is extracted and
+[00:12:10] displayed by the puzzer.
+[00:12:15] Uh this is the demo. I will run the
+[00:12:20] demo. This is a demo
+[00:12:23] showcases
+[00:12:25] the
+[00:12:27] net kit architecture. But the EVPF
+[00:12:30] kernel program and user space
+[00:12:33] application are built into EDC
+[00:12:36] uh executable binaries.
+[00:12:40] Then the required architecture is
+[00:12:42] configured and the EBP of kernel program
+[00:12:45] is attached to the netkit interface for
+[00:12:50] package processing. The EVP of a USB
+[00:12:54] application is launched as a demon to
+[00:12:58] receive and process the data collected
+[00:13:01] from the kernel. Finally, the RDM RP
+[00:13:07] server and client are started to
+[00:13:10] generate
+[00:13:11] RDM traffic. During the test, the RDM
+[00:13:15] package are captured and passed by EBPF
+[00:13:18] based packet processing pipeline.
+[00:13:22] The ped
+[00:13:24] information is exported to CIS kernel
+[00:13:28] debugger tracing trace file. This file
+[00:13:32] is the output file provided by F trace.
+[00:13:36] We can also use prof.
+[00:13:43] This allow us to verify the packet
+[00:13:47] passing result and demonstrate the
+[00:13:51] functionality of the arctetic
+[00:13:54] architecture.
+[00:13:57] Um
+[00:13:59] uh to now the
+[00:14:02] um
+[00:14:04] the rep the presentation about the net
+[00:14:08] kit and uh EVP of dumping is completed.
+[00:14:12] Now we will all go to the act net kit
+[00:14:16] and demi buffer um ppt browser. This
+[00:14:22] architecture builds a fully software
+[00:14:26] demanded test bed using
+[00:14:29] across isolated and host network name
+[00:14:33] species. The act
+[00:14:36] is run on both sides and are connected
+[00:14:40] through identic
+[00:14:43] ethernet pair that is incai zero and
+[00:14:46] incai one that bridges the name space
+[00:14:51] boundary. This allows
+[00:14:54] standard RPM traffic to flow to flow
+[00:14:59] transparently over your ethernet.
+[00:15:03] uh for observe ability. EBPF is attached
+[00:15:07] at the host interface to capture and
+[00:15:11] pass
+[00:15:12] in kernel while um users component
+[00:15:19] collects metadata for tracing and
+[00:15:22] analysis enabling low overhead into
+[00:15:26] visibility of traffic across the
+[00:15:30] isolation boundary.
+[00:15:37] Let's take a look at the architecture
+[00:15:41] shown in this diagram. This design
+[00:15:45] introduces a higher optimized data plane
+[00:15:49] for container networking by combining
+[00:15:53] EBPF based software direction with
+[00:15:57] hardware Q listing. on the left and in
+[00:16:02] the center of the picture. We have the
+[00:16:05] inate NIM space and test NIM space
+[00:16:08] connected through a net kit pair
+[00:16:12] consisting of ink host and ink guest.
+[00:16:16] The key idea is to create a fast and
+[00:16:20] efficient communication pass between
+[00:16:23] species
+[00:16:25] while avoiding you unnecessary overhead
+[00:16:29] in the traditional networking stack.
+[00:16:34] There are there are two major
+[00:16:37] innovations in this architecture.
+[00:16:40] First on the software side, we bypass
+[00:16:44] the conventional kernel routing pass by
+[00:16:48] using the EBPF. Uh BPF redirect P
+[00:16:53] mechanism package can be redirected
+[00:16:57] directly at the driver work lay into the
+[00:17:02] network stack of the target name space.
+[00:17:05] This significantly reduces the
+[00:17:08] processing orhead and provides a much
+[00:17:12] faster software forwarding pass. Second,
+[00:17:15] on the hardware side, we introduce
+[00:17:19] Qing as show in the top right part of
+[00:17:22] the diagram. The Qian controller
+[00:17:27] allocates dedicated hardware cues in
+[00:17:30] this case Q
+[00:17:34] through 15 on the Nvidia connect X6
+[00:17:39] adapter uh exclusively
+[00:17:43] all these list this data pass together
+[00:17:46] with jumbo frame the port using M2 of
+[00:17:52] 9,000
+[00:17:54] The container name space can efficiently
+[00:17:58] utilize dedicated hardware resources
+[00:18:01] with improved throughput and lower
+[00:18:04] latency.
+[00:18:06] In summary, this architecture combines
+[00:18:11] the flexibility of software defined
+[00:18:15] networking with the performance of uh
+[00:18:19] hardware acceleration, ebpf and net kit
+[00:18:24] provide um
+[00:18:27] programable and u
+[00:18:30] policydriven control while quing le
+[00:18:34] enables the near biome performance for
+[00:18:39] container networking workloads.
+[00:18:47] Let's look at the architecture diagram
+[00:18:49] on the
+[00:18:52] right. This uh design
+[00:18:57] addresses a major performance challenge
+[00:19:00] in container networking. the intraode
+[00:19:07] communication bottleneck when traffic
+[00:19:10] needs to cross physical nickel
+[00:19:12] boundaries. This is efficiently
+[00:19:15] important for high throughput workloads
+[00:19:17] such as distributed AI training and
+[00:19:20] accelerated network functions.
+[00:19:24] Uh starting from the control plane or
+[00:19:27] the software layer traditional container
+[00:19:31] networking typically relies on virtual
+[00:19:35] Ethernet pairs and software based packet
+[00:19:38] processing through the kernel networking
+[00:19:41] stack. In this design, we introduce
+[00:19:46] net kit interfaces for port zero and
+[00:19:49] port one by combining ebpf based control
+[00:19:54] with the qu uh splitting.
+[00:19:59] The control plume can dynamically
+[00:20:02] partition
+[00:20:04] uh n resources and this um a dedicated
+[00:20:09] transmitter and receive hardware ces
+[00:20:12] directly into each post network name
+[00:20:16] space.
+[00:20:18] Moving to the data balloon of the
+[00:20:21] hardware layer. We use two independent
+[00:20:25] Nvidia n to handle the underlying
+[00:20:28] traffic to achieve maximum throughput.
+[00:20:32] We introduce a D buff based memory
+[00:20:36] sharing mechanism mapped to host memory.
+[00:20:40] This allows the hardware devices to
+[00:20:43] directly access the pin memory
+[00:20:46] properties and enables efficient data
+[00:20:49] movement without unnecessary memory
+[00:20:52] copies.
+[00:20:55] The key in innovation in this
+[00:20:59] architecture is the peer-to-peer DMA
+[00:21:02] pass shown at the bottom of the diagram.
+[00:21:06] When port zero sends the data to a
+[00:21:09] destination connected through Nvidia
+[00:21:12] nick one, the data can move directly
+[00:21:15] from nick zero to nick one through PCIe
+[00:21:18] peer-to-peer DME bypassing the host CPU
+[00:21:23] and avoiding traditional software
+[00:21:25] forwarding paths.
+[00:21:30] In summary, this actual provides a cross
+[00:21:34] n zero copy data purpose for container
+[00:21:38] networking. It removes CPU involvement
+[00:21:42] from packet coping and forwarding.
+[00:21:46] It removes the unnecessary kernel
+[00:21:49] networking overhead and enables high
+[00:21:52] performance hardware isolated
+[00:21:55] communication between container right
+[00:21:58] network workloads with near wire speed
+[00:22:02] performance
+[00:22:09] to valid the mentioned delm TCP
+[00:22:12] architecture. I use ACL M as to end
+[00:22:17] functional text tool. ACDL M exercises
+[00:22:21] the complete zero copy receive pass. The
+[00:22:25] N performs header split TCP headers are
+[00:22:28] processed in host memory while
+[00:22:32] uh the payload is DME written directly
+[00:22:36] into a DMA buffer back device memory
+[00:22:40] region. This allows us to verify that
+[00:22:43] the payload does not go through the
+[00:22:47] traditional host memory copy pass that
+[00:22:50] is at structure and
+[00:22:55] so in the test setup I first enable new
+[00:23:01] features such as TGP high split and flow
+[00:23:05] steering. Then the receiver starts NCD
+[00:23:10] memor
+[00:23:12] debuffer as the destination buffer and
+[00:23:16] the sender transmits a large TCP stream
+[00:23:19] using M by monitoring DMA activity and
+[00:23:24] the TCP receive pass. We can confirm
+[00:23:28] that data is delivered directly into
+[00:23:31] device memory. validating the
+[00:23:36] DM me TCP architecture.
+[00:23:43] After confirming that AC del M functions
+[00:23:48] properly, I configured the act zero on
+[00:23:51] net kit zero and act one on net Q1. then
+[00:23:56] run the IP server on IX0 and IP client
+[00:24:02] on ex1.
+[00:24:03] The IP communication was successful and
+[00:24:08] the corresponding output is provided in
+[00:24:11] the bottom.
+[00:24:19] This part PBT summarizes
+[00:24:22] our valition of IDM working with DM me
+[00:24:26] through the net kit framework. First we
+[00:24:29] built uh Delm test environment using
+[00:24:35] netkit and verified that the NC Delm
+[00:24:39] application can successfully transfer
+[00:24:42] data through this data pass. Next we
+[00:24:45] added the sub rocket that is act devices
+[00:24:49] on top of the net interfaces and
+[00:24:52] confirmed that IDMD communication works
+[00:24:55] correctly uh using the IP application
+[00:24:59] based on these result. We demonst
+[00:25:03] demonstrated that applications can work
+[00:25:07] well with DM me through net kit. This
+[00:25:11] provides a possible solution for
+[00:25:13] enabling RDM workloads to leverage
+[00:25:16] device memory and zero copy data paths.
+[00:25:24] Uh this is uh um
+[00:25:28] our future work. Um we have uh two
+[00:25:32] directions. The first direction is high
+[00:25:35] performance IDM packet dumping using net
+[00:25:39] and ebpf. Currently exiting act package
+[00:25:43] dumping approaches have some more
+[00:25:46] limitations. For example,
+[00:25:50] uh AF XDP application requires changes
+[00:25:54] in the underlying physical nick driver
+[00:25:58] while caps approach on act transmit and
+[00:26:03] receive puffs
+[00:26:06] uh introduce a significant performance
+[00:26:08] overhead under high traffic load. Our
+[00:26:12] goal is to leverage the net kit
+[00:26:14] architecture and eBact programs to
+[00:26:18] provide a high performance and non
+[00:26:22] intrinsive a package dump humism
+[00:26:25] directly in the act data pass without
+[00:26:28] modifying the physical nick drivers.
+[00:26:32] The second direction is about
+[00:26:36] and down memor uh it is to
+[00:26:41] further optimize the act data pass by
+[00:26:45] passing the traditional networking st.
+[00:26:48] Currently act relies on the IP layer for
+[00:26:51] packet transmission and reception. We
+[00:26:55] are exploring whether XD can directly
+[00:26:59] utilize hardware
+[00:27:01] quing mechanisms similar to the to the
+[00:27:05] approach used by netk with del to access
+[00:27:10] physical nick tx
+[00:27:13] cer. This could enable a zero copy
+[00:27:17] hardware accelerated del data paths and
+[00:27:21] reduce the head from the IP and Ethernet
+[00:27:26] layers.
+[00:27:28] These directions aim to make it more
+[00:27:31] suitable for future high performance
+[00:27:33] workloads especially those requiring
+[00:27:36] device memory and accelerator based data
+[00:27:40] processing.
+[00:27:45] Uh to now my presentation is completed.
+[00:27:49] Thank you for your attention. Attention.
+[00:27:52] Uh this concludes my current work. I
+[00:27:56] would be happy to answer any questions
+[00:27:59] or discuss further ideas. Uh thank you
+[00:28:03] very much.
+[00:28:12] >> Yeah. So, Yangjun is online to answer
+[00:28:14] any questions. I have a question unless
+[00:28:17] anybody else has a question.
+[00:28:24] >> Okay. Thank you.
+[00:28:25] >> Yeah, I have a question about the when
+[00:28:27] you said Qing, is this some feature that
+[00:28:30] is already upstream or is it something
+[00:28:32] that you're planning to upstream in
+[00:28:35] future?
+[00:28:37] And you said Qing, you're using qlesing
+[00:28:39] to associate cues for this DEMTCP,
+[00:28:42] right?
+[00:28:45] >> Yes. Yes. I will
+[00:28:49] uh I will upstream my changes into the
+[00:28:53] Linux kind of upstream. I think I will
+[00:28:55] send out this in the Linux RDM
+[00:29:00] list.
+[00:29:04] >> Okay. I I thought actually there is this
+[00:29:07] RSS context sub feature right in the
+[00:29:10] upstream. I guess I thought you were
+[00:29:13] using that one
+[00:29:16] to basically in order to do the flow
+[00:29:18] steering to the this DM cues.
+[00:29:22] Are you using the RSS context feature or
+[00:29:25] is it something that is not yet
+[00:29:27] upstream?
+[00:29:30] >> Yes sir. Yes sir. Uh
+[00:29:34] I use the uh some
+[00:29:38] some features from net kit about the D
+[00:29:42] map about the uh Q listing. I think uh
+[00:29:47] all these features are already
+[00:29:50] upstreamed but uh it is the latest in
+[00:29:54] the uh Linux upstream Linux upstream. I
+[00:29:59] think if you use the latest inj for
+[00:30:02] example 7.2 too. We can al we can see
+[00:30:05] all the features because
+[00:30:10] D me about Q listing is already in this
+[00:30:14] and about the I like the uh Q listing
+[00:30:17] and check the Q listing of the net kit
+[00:30:21] we see this um uh currently is merging
+[00:30:25] into the Linux upstream for example 7.2
+[00:30:28] two that is the list not sure it is
+[00:30:33] uh this can answer your questions or not
+[00:30:39] >> okay thank you
+[00:30:41] >> thank you very much if you any questions
+[00:30:43] we can talk this after the meeting thank
+[00:30:46] you very much
+[00:30:47] >> uh one more question uh I wanted to ask
+[00:30:50] you mentioned TXQ leasing with Netkit
+[00:30:53] how did you manage that
+[00:30:56] in your slides it says TX and RX XQ
+[00:30:58] leing Q listing is only RX right now.
+[00:31:00] You can transmit but there's no TXQ
+[00:31:03] leing and I'm interested if you have
+[00:31:04] some private patches or implementation
+[00:31:06] of that.
+[00:31:09] Um no I think uh my primary practice is
+[00:31:14] are all in soft rocky that is ID about
+[00:31:17] the
+[00:31:19] del m
+[00:31:24] in the net kit. I do not think I have
+[00:31:27] any bright patches for this but other
+[00:31:31] patches I used are in the uh Linux
+[00:31:36] object for example net delist
+[00:31:39] all the patches are in this u not sure
+[00:31:42] if I can answer your question.
+[00:31:45] Yeah. Yeah. Okay. Uh thanks. And one
+[00:31:47] more question. Uh you mentioned also
+[00:31:49] using netkit with TCX. Uh how do you
+[00:31:52] where do you fit TCX? Why why not only
+[00:31:54] netkit?
+[00:31:59] >> Uh I think netkit I use netkit because
+[00:32:02] netkit have two um features. For
+[00:32:06] example, it can use del memo. We are the
+[00:32:12] uh Q and another is with EBPF
+[00:32:20] can we can use the TC act mechanism to
+[00:32:25] dump all the package with a high
+[00:32:29] performance. This is why choose net kit
+[00:32:33] and I think others where to interface
+[00:32:37] for example we teach canot pro white
+[00:32:39] this is why I choose net I'm not sure if
+[00:32:43] I can answer questions
+[00:32:45] >> uh yeah my question was more why why TCX
+[00:32:47] yeah netk I know why you use
+[00:32:50] >> okay okay uh tak
+[00:32:55] um uh it is our high performance
+[00:33:00] EBPF mechanism.
+[00:33:03] So I choose medicate because this it's
+[00:33:07] your I think the complete the meeting is
+[00:33:11] almost complete. Can we talk this we are
+[00:33:14] a me after meeting? I'm not I'm not sure
+[00:33:17] it's okay or not.
+[00:33:20] >> Okay.
+[00:33:21] >> Thank you very much. Thank you because
+[00:33:23] of that time will run out. Thank you. Uh
+[00:33:26] um so Jongu a really good talk uh I have
+[00:33:29] just two quick questions. So you said
+[00:33:31] you are using soft rocky is there a
+[00:33:33] particular transport that you're using
+[00:33:35] or it doesn't really matter rocky or
+[00:33:38] whatever else like you know
+[00:33:39] modifications of rocky and the second
+[00:33:41] question is is there a mode assumption
+[00:33:44] like you know I believe there are four
+[00:33:45] different modes that RDMA works in and
+[00:33:48] is there a mode assumption there?
+[00:33:53] Uh sorry I cannot get you. Can you
+[00:33:55] repeat your your quadrant? Sorry.
+[00:33:57] >> Yeah. So the first question is about
+[00:33:59] soft rocky.
+[00:34:01] >> Yes.
+[00:34:01] >> You said you're using that. Is there a
+[00:34:04] transport assumption there? Is it just
+[00:34:06] rocky or is it modified rocky or you
+[00:34:10] know whatever? Uh
+[00:34:13] >> it is about the rocky version two. Uh
+[00:34:15] RDMA packet. Uh it's I can confirm this
+[00:34:20] >> rocky v2. Okay. Second thing is there
+[00:34:24] are different modes in Rocky V2 as well.
+[00:34:27] Uh there are four different modes. Is
+[00:34:29] there a particular mode that you're
+[00:34:31] using?
+[00:34:35] >> Uh
+[00:34:39] this is use the IC model because RP can
+[00:34:43] only use RC model to work on this. I use
+[00:34:46] R pin. I'm not sure is
+[00:34:49] >> it's not UC it's RC you said
+[00:34:53] >> oh no no I do not use UC I just use RC
+[00:34:57] reliable connection RC in the rock
+[00:35:00] version two not sure if I can answer
+[00:35:03] your questions
+[00:35:05] >> thanks
+[00:35:07] >> thank you very much [laughter]
+[00:35:09] thank

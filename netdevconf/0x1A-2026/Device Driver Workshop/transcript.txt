@@ -1,0 +1,1878 @@
+Source: https://youtu.be/HwIsvLv1odQ
+Language: en
+Captions: auto-generated
+
+[00:00:00] Hello. So, good morning. Uh, I'm Paulo
+[00:00:04] Aveni. I work for Redat. I'm a
+[00:00:07] part-timer Netv maintainer.
+[00:00:10] And with this morning, we are going to
+[00:00:14] talk about device drivers. There are uh
+[00:00:18] a few separate topics which all refers
+[00:00:21] to device drivers from different
+[00:00:23] perspective. Uh, I'm going to talk
+[00:00:26] mostly about the process. Uh I have just
+[00:00:31] a few slides that will describe roughly
+[00:00:33] what is the current situation. I hope
+[00:00:36] that there will be questions or even
+[00:00:39] better comments or suggestions from the
+[00:00:42] audience and that could be some sort of
+[00:00:45] discussion. Uh so
+[00:00:50] uh let's start from the old status up to
+[00:00:56] not so long time ago when uh there was a
+[00:01:00] new device driver submission. It was not
+[00:01:03] a very frequent event but sometimes
+[00:01:05] there is no adver and there is there are
+[00:01:08] new device drivers. Uh the usual
+[00:01:11] submission was in the form of a few
+[00:01:13] patches containing several thousand line
+[00:01:17] of code in some time and some
+[00:01:20] occurrences
+[00:01:22] uh several tens of uh thousands of line
+[00:01:26] of code which is uh quite significant to
+[00:01:31] review and it's easily became impossible
+[00:01:35] if you have 100 more patches to be
+[00:01:37] reviewed in the same Okay. Uh so
+[00:01:42] this is my personal take of it. Yakob
+[00:01:45] would have a slightly different take of
+[00:01:48] it and others would have a like slightly
+[00:01:50] different take of it. But the bottom
+[00:01:52] line is that
+[00:01:54] it is impossible to have a human
+[00:01:58] in-depth reviews line by line for that
+[00:02:03] amount of size. Also al also because
+[00:02:07] that submission uh are built again um
+[00:02:11] around hardware specific constraints
+[00:02:14] hardware specifics of that given device
+[00:02:17] driver or
+[00:02:20] recently around specific of the device
+[00:02:23] driver firmware and are all stuff that
+[00:02:28] could be undocumented or not well known
+[00:02:30] to the public or to the reviewer at
+[00:02:33] least. So most clearly you have to
+[00:02:35] review code that you can not know what
+[00:02:39] really is doing. Uh sometime more often
+[00:02:44] than not
+[00:02:46] the world review is created not thinking
+[00:02:50] about the reviewers
+[00:02:52] that is there are five p five patches
+[00:02:55] with 1,000 lines each or with uh
+[00:03:00] functionary that uh dependencies between
+[00:03:05] patches like I write alpha and alpha in
+[00:03:08] patch one and I complete in patch P
+[00:03:11] three or I define a lock in patch one
+[00:03:15] and use it in patch two and then change
+[00:03:19] the scope in page three and keeping
+[00:03:21] track of these things becames very
+[00:03:24] difficult to impossible and also
+[00:03:27] sometimes happens that the sub submitter
+[00:03:29] self or herself is not very familiar
+[00:03:32] with the process. So there are
+[00:03:35] uh there could be basic uh process
+[00:03:38] related problems or mistakes that make
+[00:03:41] the review even more cumbersome.
+[00:03:46] So uh
+[00:03:50] uh the bottom line is that it's very
+[00:03:53] difficult to have a real proper
+[00:03:56] functional uh review for that patches.
+[00:03:59] So what I usually did for that kind of
+[00:04:03] submission is try to check very basic
+[00:04:07] things like uh API usage correct
+[00:04:13] correctness of API usage correctness of
+[00:04:16] the basic locking when that was possible
+[00:04:20] that is if a lock is defining a patch
+[00:04:23] using the same patch and is using the
+[00:04:26] same function it's doable to check that
+[00:04:30] the lock is used correctly. But if the
+[00:04:32] thing is are split across multiple
+[00:04:35] patches, it's easily
+[00:04:38] uh become easy to miss very relevant
+[00:04:40] stuff.
+[00:04:44] Uh yeah
+[00:04:48] among sort of among API usage one common
+[00:04:52] pattern that we look at is
+[00:04:54] reconfiguration of nick device drivers
+[00:04:58] that needs to maintain the device
+[00:05:00] functional even if the reconfiguration
+[00:05:04] is unsuccessful
+[00:05:06] that means that device driver have to
+[00:05:08] preallocate all the resources
+[00:05:11] before actually
+[00:05:13] enforcing ing the functionality um the
+[00:05:17] configuration change. That is something
+[00:05:19] that usually not done properly at least
+[00:05:22] in
+[00:05:23] uh the usual initial submission.
+[00:05:26] uh
+[00:05:28] use of receive and transmission path.
+[00:05:31] Correct? Like
+[00:05:33] uh pull instead of uh sorry
+[00:05:38] nappy usage instead of uh pushing packet
+[00:05:41] directly into the receive spot. Uh
+[00:05:46] use of uh
+[00:05:49] uh BQL correctly. uh use of uh uh stop Q
+[00:05:55] and start Q corrected sort of stuff.
+[00:05:59] Obviously whatever nitpick check patches
+[00:06:02] and friends uh gives us for free which
+[00:06:07] are npics but it makes maintenability of
+[00:06:10] the code working in the long term.
+[00:06:17] uh as I said uh there are a number of
+[00:06:21] things that
+[00:06:22] basically are not possible by humans in
+[00:06:26] for a large very large submission like a
+[00:06:30] complete functional verification of the
+[00:06:33] code because we don't have the adver we
+[00:06:35] don't have the specification we don't
+[00:06:37] have the time uh
+[00:06:41] line line uh in that code review or I
+[00:06:45] say time constraint and are very hard,
+[00:06:48] very hard to meet. Time is limited
+[00:06:53] and also
+[00:06:55] uh sometimes it's obvious that a patch
+[00:06:59] has obvious style problem
+[00:07:02] uh or the code could be implemented in a
+[00:07:06] more effective or efficient or or nicer
+[00:07:10] way. But uh reto the code itself
+[00:07:15] requires usually a lot of time and that
+[00:07:19] is something that is not provided.
+[00:07:21] Usually
+[00:07:24] submitter can receive a message like
+[00:07:26] this code is wrong or is ugly but cannot
+[00:07:29] receive rewrite is line by line this
+[00:07:33] way. Okay. As a consequence, what
+[00:07:37] happened at what used to happen is that
+[00:07:40] big surprise sometimes device driver
+[00:07:42] were merged with known well not known
+[00:07:45] but with relevant uh bugs inside the
+[00:07:49] code and that uh was
+[00:07:53] uh the way it was up to let's say this
+[00:07:56] February
+[00:07:58] uh when you know probably uh the world
+[00:08:02] is changed and
+[00:08:04] uh Sashiko was born and uh sash code
+[00:08:09] reviews were plugged in in our process
+[00:08:12] and I guess most of you are now familiar
+[00:08:16] with it and with the pirate MA that
+[00:08:22] you receive
+[00:08:25] uh submission.
+[00:08:27] Uh yeah there are different opinions
+[00:08:30] regarding AI and code review but
+[00:08:32] definitive there are some plus about it
+[00:08:36] which is even in case of thousands of
+[00:08:41] line of code submitted at once. It will
+[00:08:44] not stop. It will review uh them
+[00:08:49] each nine of 10 uh in depth and
+[00:08:54] uh will uh catch uh some even
+[00:08:59] non-trivial functional issue even when
+[00:09:02] they are split on different patches.
+[00:09:06] uh even when there were probably very
+[00:09:10] difficult to detect for a human eyes.
+[00:09:14] uh
+[00:09:16] uh will be very accurate with respect of
+[00:09:20] things that sometimes are uh very
+[00:09:23] difficult to see in let's say that
+[00:09:27] 10,000 lines of patch when there is a
+[00:09:31] single number that is out of context or
+[00:09:34] a single single word that is completely
+[00:09:38] unrelated in a comments or uh a
+[00:09:40] statement that compiles but doesn't make
+[00:09:43] any sense that is buried inside the 100
+[00:09:46] lines function or some algebra that uh
+[00:09:53] use it like 10 operators with no
+[00:09:55] brackets
+[00:09:57] and was supposed to do something but
+[00:09:59] really could not do that. So and sasho
+[00:10:05] works quite well in this context and
+[00:10:09] catched a lot of problems in of this
+[00:10:12] kind of problems before patches were
+[00:10:15] merged. So it was good for
+[00:10:19] that perspective. There are some side
+[00:10:23] negative effects. Uh
+[00:10:26] as you know AI has slopes as
+[00:10:30] hallucinations. So sometimes there are
+[00:10:32] still some reviews that looks plausible
+[00:10:36] and I read them and it makes sense to
+[00:10:39] me. So I infer that the code is actually
+[00:10:43] wrong but perhaps it's just an
+[00:10:45] hallucination.
+[00:10:47] uh in that context is very useful um the
+[00:10:52] knowhow of the submitter because of when
+[00:10:56] we are speaking about code that is
+[00:10:58] talking to hardware is talking to
+[00:11:00] firmware that have several constraint
+[00:11:02] that are not obvious to the reviewers
+[00:11:05] it's more often than not more easier for
+[00:11:08] the submitter to catch this kind of
+[00:11:10] hallucination or obvious uh inference
+[00:11:14] error by the eye with respect to the
+[00:11:17] reviewer.
+[00:11:19] And one thing that so far Sashiko is not
+[00:11:22] good at uh is to catch uh to point out
+[00:11:27] obviously bad code. If a code does what
+[00:11:30] is supposed to do
+[00:11:33] in a possible horrible way, that code is
+[00:11:36] usually fine by SashiOo. If that
+[00:11:40] ugliness is buried inside that usual
+[00:11:43] 100line function, it can be missed.
+[00:11:48] So we could easily end up with very ugly
+[00:11:53] code in the device driver. Now more
+[00:11:55] often than before because as there is
+[00:11:59] Sashko there are many models used by
+[00:12:01] some widner that generate code with the
+[00:12:04] same pattern with the same let's say
+[00:12:09] background and can generate a lot of
+[00:12:12] like let's say uh functionally correct
+[00:12:14] but really ugly code.
+[00:12:17] Um [sighs] another recurring problem is
+[00:12:20] that uh such feedback is not
+[00:12:23] deterministic. AI feedback AI output is
+[00:12:26] not deterministic. That is by design
+[00:12:30] models are designed to not give the same
+[00:12:33] output to the same input. That means if
+[00:12:37] that if you submit a patch for review
+[00:12:41] once you can have zero feedback. Okay,
+[00:12:43] this patch is perfect. And the second
+[00:12:46] time you can have 100 issue reported.
+[00:12:50] What are they not? But you can have
+[00:12:53] several uh serious issue reported.
+[00:12:58] And also as I said taste is not a metric
+[00:13:01] for uh AI review. It does not have taste
+[00:13:05] and so agree things slips uh along the
+[00:13:10] cracks. Uh
+[00:13:14] also uh
+[00:13:17] AI uh looks
+[00:13:20] uh everywhere looks at every line and
+[00:13:23] complains about everything by default.
+[00:13:26] Uh that means that if uh there are API
+[00:13:32] design that are fragile by their own or
+[00:13:36] difficult to use by their own or prone
+[00:13:39] to race by their own they will always
+[00:13:43] complain about them. uh for example PCI
+[00:13:48] or ending.
+[00:13:52] Uh so I guess that not everybody of you
+[00:13:56] is writing new device driver codes,
+[00:14:00] right? How many of you is writing new
+[00:14:02] device driver code? Can you raise your
+[00:14:04] hand? Okay, so Oh, some of you actually
+[00:14:07] nice but not everybody of you is writing
+[00:14:09] them. But the question is why all all of
+[00:14:13] this is relevant to me that I'm not I'm
+[00:14:15] not writing this code. It's relevant to
+[00:14:18] you for a few good reasons I would say.
+[00:14:21] [snorts] Uh there have been a few
+[00:14:23] examples of the new device driver on the
+[00:14:25] meaning list. I pick it to that just
+[00:14:29] because they went through significant
+[00:14:31] number of revisions. The Alibaba elastic
+[00:14:34] driver went to 43 revisions. You may
+[00:14:38] think that is enough by one.
+[00:14:42] 42 would have been a much nicer number.
+[00:14:46] Uh
+[00:14:48] Nebula Matrix is at currently a revision
+[00:14:51] 21 and still running.
+[00:14:54] Uh
+[00:14:56] so
+[00:14:59] even just
+[00:15:02] looking at sash sasho review and
+[00:15:06] forwarding the feedback to the author
+[00:15:08] for all this revision
+[00:15:11] uh consuming a very huge amount of time
+[00:15:14] for from maintainer and reviewers and
+[00:15:18] time is not unlimited as you may guess.
+[00:15:22] So every time spent there is time not
+[00:15:26] spent somewhere else probably reviewing
+[00:15:29] your patches.
+[00:15:31] Uh so I think that reducing the amount
+[00:15:35] of uh effort or optimizing this process
+[00:15:39] is something that may interest
+[00:15:42] everybody.
+[00:15:44] uh also from community perspective uh I
+[00:15:50] think there is a relevant point here. Uh
+[00:15:54] if I go through five revision is start
+[00:15:58] to feel very bad. If I have to go to
+[00:16:02] through 42 revisions,
+[00:16:05] uh I would not be happy to have reached
+[00:16:10] the response.
+[00:16:14] So uh this cause a lot of frustration
+[00:16:17] both on submitter and on reviewers and
+[00:16:20] maintainers and frustration is not a
+[00:16:23] good building block for a community
+[00:16:27] and yeah I think that improving this
+[00:16:31] process could help everyone.
+[00:16:36] Uh,
+[00:16:39] one thing that can possibly help is
+[00:16:41] setting good expectations like what
+[00:16:46] I'm going to submit a patch. I'm going
+[00:16:48] to submit a new device driver. What
+[00:16:51] should I expect to see? Yeah. First
+[00:16:55] things first, nowadays your patch is
+[00:16:57] going to several reviews.
+[00:17:01] If you think your patch is going to
+[00:17:04] enter the free on first submission
+[00:17:08] uh most case you are delusion sorry
+[00:17:11] there are exceptions but exception are
+[00:17:14] by definition exceptional so don't look
+[00:17:17] for a merge at the first submission and
+[00:17:19] be prepared be prepared to receive
+[00:17:22] sashical feedback it's not an offense s
+[00:17:25] um
+[00:17:27] and
+[00:17:29] especially is your patch is somewhat in
+[00:17:32] at an early development phase that is a
+[00:17:36] has several problems style functional
+[00:17:39] performance whatever and s to sashiko
+[00:17:44] produce some significant feedback you
+[00:17:48] likely will not get anything on top of
+[00:17:50] that you will get an email forwarded by
+[00:17:54] the maintainer saying there are this
+[00:17:56] problem please solve that problem and
+[00:17:58] then we will can talk about something
+[00:18:00] else. But that is the starter.
+[00:18:04] And uh
+[00:18:07] if you are stuck in this initial cycle
+[00:18:11] which happens, it may happens, you
+[00:18:13] should really consider reconsider your
+[00:18:16] process. Slow down. Do things more
+[00:18:20] carefully. Have internal review. Have
+[00:18:24] long internal review. uh perhaps
+[00:18:28] reconsider your design and yeah because
+[00:18:32] 41 uh 42 revision a lot of revision are
+[00:18:36] not going to speed up your process
+[00:18:38] anyway
+[00:18:43] uh [sighs]
+[00:18:44] so
+[00:18:47] there are a few things that everyone
+[00:18:51] every submitter t can do to help out the
+[00:18:54] process. I think the the first item here
+[00:18:58] is the most important. It's not yet set
+[00:19:02] I think in the uh kernel documentation
+[00:19:06] but I hope is uh public knowledge by now
+[00:19:10] that is uh AI reviews are just normal
+[00:19:14] review. They should be processed by the
+[00:19:18] submitter.
+[00:19:20] uh you should uh debate uh the review
+[00:19:24] itself if it's wrong you can point out
+[00:19:26] it's wrong for this reason and by the
+[00:19:29] way if you do that before the
+[00:19:31] maintenance submit um forward you the AI
+[00:19:35] review it's much much better
+[00:19:41] if it's correct and
+[00:19:44] frequently it's correct you just have to
+[00:19:48] address that review and again replying
+[00:19:52] to the minist.
+[00:19:54] I take care of it in the next revision
+[00:19:56] is appreciated.
+[00:19:59] Uh
+[00:20:00] one thing that you could do and would
+[00:20:03] help everyone a lot has run your Sashiko
+[00:20:08] instance before submission. Sashiko
+[00:20:12] prompt is available on GitHub.
+[00:20:15] uh sashiko can be bound to many
+[00:20:19] different models
+[00:20:21] uh
+[00:20:22] models as a cost. Yeah, I know not
+[00:20:26] everybody can use it uh extensively but
+[00:20:31] if you can do that and world will be
+[00:20:34] better I hope at a little slice of it.
+[00:20:39] uh
+[00:20:43] AI has been used also in code generation
+[00:20:46] obviously and also in uh let's say patch
+[00:20:50] comments generation and in the commit
+[00:20:53] message generation sometimes the AI
+[00:20:56] generated output is reused blindly I
+[00:21:00] mean I haven't assisted the fifth person
+[00:21:04] in this sequence of event but it's quite
+[00:21:06] obvious for the patch contents that
+[00:21:08] sometimes
+[00:21:09] Whatever is output by the LLM is feed
+[00:21:14] copy pasted in a in an mail and sent to
+[00:21:16] the mailing list and that kind of
+[00:21:20] contents is usually quite a mess at
+[00:21:23] least it's not easily uh palatable for a
+[00:21:28] human because the description are too
+[00:21:31] verbose to be really meaningful. the
+[00:21:34] code could be ugly as I said and
+[00:21:38] sometimes it's quite easy to refine that
+[00:21:41] contents so that it improves a lot for
+[00:21:45] human consumption and if you do that
+[00:21:47] will be very appreciated
+[00:21:51] so this is basically all I have it's all
+[00:21:55] there discussion about process and I
+[00:21:58] would love to any kind of questions
+[00:22:02] comments suggest questions.
+[00:22:09] Okay. I don't know how to give you the
+[00:22:11] microphone.
+[00:22:24] Uh I am Alexia Rimple and co-maintain
+[00:22:27] the PSAD uh framework. It is for power
+[00:22:30] over internet in the network subsystem
+[00:22:33] and uh lately I was uh kind of uncertain
+[00:22:36] how should I behave in the new reality.
+[00:22:41] So mostly
+[00:22:43] I didn't know should I
+[00:22:46] pinpoint to sashiko reviews or you will
+[00:22:50] do this or maybe we just can configure
+[00:22:52] sashiko to post the mails by itself.
+[00:22:57] So currently uh Sashiko or Sashiko I
+[00:23:01] never learned about the current
+[00:23:03] pronunciation
+[00:23:04] feedback is not feeded automatically to
+[00:23:07] the mailing list uh at least not by any
+[00:23:10] that is by choice at this point because
+[00:23:14] there are still uh some false positives
+[00:23:20] and or uh issues that we decide to
+[00:23:25] ignore or we thinks.
+[00:23:27] are better handled in a followup or in a
+[00:23:33] separate uh cities. So uh the current
+[00:23:38] current agreement is that uh sashiko
+[00:23:42] feedback should not be forgotted
+[00:23:43] automatically and should go through some
+[00:23:47] human review of the AI review just to
+[00:23:51] have a man in the loop and to ensure
+[00:23:54] that that information is really
+[00:23:56] meaningful to the patch set and the
+[00:23:59] submitter. Uh if you are a reviewer and
+[00:24:03] you are reviewing a patch and Sashiko
+[00:24:05] has some feedback that feedback has not
+[00:24:07] landed on the mini list and you think
+[00:24:09] that feedback is relevant, you can you
+[00:24:13] can should point that out on the mini
+[00:24:16] list
+[00:24:18] uh either by forwarding the full contest
+[00:24:22] or saying oh look there are
+[00:24:25] issue reported by Sashiko here this URL
+[00:24:29] and I think there are relevant possibly
+[00:24:31] for this reason reason.
+[00:24:34] >> The reason why I ask because at some
+[00:24:36] point I was feeling kind of bad because
+[00:24:39] the acceptance of AI review was uh not
+[00:24:43] high enough but now it feels uh
+[00:24:46] different. So yeah,
+[00:24:49] >> so we had a transientry a different uh
+[00:24:53] prompt uh guiding AI review before
+[00:24:57] Sashiko and that uh prompt performed uh
+[00:25:01] significantly in a worst way or had a
+[00:25:05] significantly
+[00:25:07] worse uh reviews. I think Sashikos
+[00:25:11] reviews are usually reasonable. Uh there
+[00:25:14] are subsystem where it tends to fail
+[00:25:19] more than on other stuff but yeah
+[00:25:25] back to you.
+[00:25:29] >> Yep.
+[00:25:31] >> As a recent rece recipient of voluminous
+[00:25:34] sashiko code reviewview comments I just
+[00:25:36] have to say I think it's fantastic. It's
+[00:25:38] found large numbers of things actually
+[00:25:40] to the point kind of I feel sort of
+[00:25:42] sheepish and embarrassed about all the
+[00:25:44] things in my code that it found but very
+[00:25:46] grateful to have it. The one question I
+[00:25:48] have though is occasionally it's wrong
+[00:25:50] or I disagree with the outcome. Is there
+[00:25:53] a an accepted way for me to record that
+[00:25:56] somehow so that it kind of enters the
+[00:25:59] record for future code reviews? When a
+[00:26:01] human responds, you just respond to
+[00:26:02] their email and say, "No, I disagree
+[00:26:04] with you on this But I couldn't see an
+[00:26:06] obvious way to do that with SHO.
+[00:26:08] >> Okay. So that is a common problem
+[00:26:11] actually the common concern like I went
+[00:26:14] I already went through AI review and I
+[00:26:18] know or guess that the AI will pit the
+[00:26:22] problem here but I'm reasonably sure the
+[00:26:25] problem does not exist or I handle it in
+[00:26:27] a separate patch or I think it's better
+[00:26:29] to handle it separately.
+[00:26:32] Uh
+[00:26:34] so if you have a local model you can
+[00:26:38] just update the prompt and say
+[00:26:41] Sashiko would have ignore this.
+[00:26:44] Recently, Gileiams submitted a series
+[00:26:47] with this kind of uh comments to Sashiko
+[00:26:52] uh in
+[00:26:55] the commit message after the trail
+[00:26:58] commit message separator that is the
+[00:27:00] three uh dashes and in the form of
+[00:27:05] Sashiko notes that whatever if you look
+[00:27:09] at the mailing list and look for
+[00:27:11] William's uh submission, you will find a
+[00:27:16] few examples on how to do that.
+[00:27:23] I just like to point out that on
+[00:27:25] Thursday we have a session with the
+[00:27:26] Sashiko guys. So you can you can give
+[00:27:29] your feedback if you you wanted some
+[00:27:31] improvements.
+[00:27:33] >> Okay. Uh maybe on a similar note when I
+[00:27:38] add submit a new feature and I get back
+[00:27:41] uh a lot of sashiko existing code
+[00:27:44] problems or so
+[00:27:46] how would you prefer to to handle that?
+[00:27:50] Should I discuss that in the patch
+[00:27:53] series that for the new feature or
+[00:27:56] should I just say okay um act I I've
+[00:27:59] seen it I will handle it in the future
+[00:28:02] or if Yeah. Okay. That's another very
+[00:28:06] good question because it's another uh
+[00:28:08] recurring topic. Uh and the answer
+[00:28:11] unfortunately is it depends
+[00:28:14] uh because of
+[00:28:17] well for new feature completely new
+[00:28:20] feature any preexisting
+[00:28:24] issues pointed by the I review is
+[00:28:27] usually handled better as a follow-up
+[00:28:31] serious
+[00:28:33] unless
+[00:28:34] unless the issue itself is so serious
+[00:28:38] that could be easily exploitable and
+[00:28:41] tools keeping uh the window of
+[00:28:44] opportunity open for possibly a long
+[00:28:47] time because the
+[00:28:49] uh let's say the patch life cycle on the
+[00:28:52] main could be quite long. So in that
+[00:28:55] case if there are very serious issues
+[00:28:58] and that could be exploitable they
+[00:29:00] should handle it if possible
+[00:29:04] in the scope of the series just to try
+[00:29:07] to keep fix it or you can if for example
+[00:29:12] you're submitting a net next patches and
+[00:29:14] netex series netex material and sashiko
+[00:29:18] pointed to a very very critical
+[00:29:21] pre-existing issue you can send a
+[00:29:23] separate net page at the moment so that
+[00:29:26] it lands as soon as possible inside the
+[00:29:29] tree. uh for that in general for netex
+[00:29:33] material sash pre-existing issues should
+[00:29:37] be handled as a follow-up separately
+[00:29:40] because otherwise the patch will
+[00:29:42] increase easily beyond any reasonable
+[00:29:46] scope and will go through endless
+[00:29:48] especially for some some systems uh
+[00:29:53] for net patches
+[00:29:55] because of usually they are security
+[00:29:59] sensitive or uh or have security
+[00:30:01] implication if sash points to
+[00:30:06] pre-existing issues they could uh be
+[00:30:10] Android the same series like try to fix
+[00:30:14] to to keep that chunk of code sane the
+[00:30:18] chunk of code that you are updating same
+[00:30:21] but uh it's really a judgment call and
+[00:30:25] usually the reviewer or the maintainer
+[00:30:28] will say something please end that
+[00:30:32] separately or please end that in the
+[00:30:34] same series and I think that is a thing
+[00:30:38] can can be debated like oh no I have
+[00:30:40] strong preference to this option for
+[00:30:42] these reasons reasons are always
+[00:30:45] relevant because strong preferences per
+[00:30:49] se is less relevant
+[00:30:53] >> um another question if you allow um you
+[00:30:56] were saying earlier that sometimes uh
+[00:30:59] Sashiko or AI is wrong, they don't know
+[00:31:01] the hardware details of drivers, etc.
+[00:31:04] Would you recommend to add more comments
+[00:31:08] for that into the driver code? Because
+[00:31:10] very often device driver is special and
+[00:31:13] as you said the people that write it,
+[00:31:15] they have the specs, they know stuff and
+[00:31:17] that is not everything in the driver.
+[00:31:20] But do you think we should add more
+[00:31:22] lines like this can never happen or this
+[00:31:25] is always in that order guaranteed and
+[00:31:28] maybe AI will respect such a comment.
+[00:31:31] >> I in generally speaking I think that
+[00:31:33] will be useful
+[00:31:35] at least for humans even for let's say
+[00:31:38] the owner of the patch uh in 10 years
+[00:31:41] from now. So I'm all for that kind of
+[00:31:44] comments. I think that specifically
+[00:31:48] Sashiko will not use that comments or at
+[00:31:51] least will not use them always.
+[00:31:54] Sometimes it infer oh there is this
+[00:31:56] comment and the code is inconsistent
+[00:31:57] with this comment but not always. It's a
+[00:32:01] 50/50
+[00:32:02] uh frequency according to my
+[00:32:05] >> wife. You can go next. But yeah, there's
+[00:32:07] a we have this room is streaming. It's
+[00:32:10] streaming downstairs. If you feel it's a
+[00:32:13] little hot, you can go down there.
+[00:32:15] you go and then there's questions from
+[00:32:16] downstairs.
+[00:32:18] >> Okay. Uh so my question ties to the
+[00:32:20] previous question uh because sometimes
+[00:32:22] we uh sometimes we uh sometimes we
+[00:32:26] develop something completely new uh and
+[00:32:29] I'm looking for a way to uh make sure
+[00:32:32] that I get the maintainer uh comments on
+[00:32:36] a patch even if Sashiko complains about
+[00:32:38] it because it may for example not know
+[00:32:40] the thing about this feature or
+[00:32:42] something like that. uh just to prevent
+[00:32:44] uh the the circles of fixing the code
+[00:32:47] that will not never be merged because
+[00:32:49] it's like
+[00:32:52] wrong in the premise or wrong like
+[00:32:54] assumptions were made and they will be
+[00:32:56] commented three uh submissions later as
+[00:33:00] you know do this in a different way and
+[00:33:03] you spend some cycles fixing sashiko
+[00:33:05] bugs in or or some other AI reported
+[00:33:09] things.
+[00:33:10] >> Okay. Uh so first let me rephrase to
+[00:33:15] ensure I really uh got the question. So
+[00:33:18] uh as I understood it the question is
+[00:33:21] that uh I receive feedback on revision
+[00:33:25] one do that I do that in revision two
+[00:33:28] and I got the feedback to it the
+[00:33:31] opposite way.
+[00:33:32] >> Yes and then you got in a loop where
+[00:33:36] progress never happens or
+[00:33:39] >> you circle down. Yeah. Uh that happens
+[00:33:42] that it's very difficult to handle
+[00:33:45] because of several reasons. Uh one of
+[00:33:49] them is that sometimes happen that uh
+[00:33:53] one maintainer review revision one,
+[00:33:56] another one review revision two. Uh then
+[00:34:00] a reviewer have a look at revision three
+[00:34:04] and then we start again. So not everyone
+[00:34:08] has all the context or to be more accur
+[00:34:12] accurate no one has the wall context. So
+[00:34:17] it's uh it's easy it's easy for us to
+[00:34:23] miss this previous revision uh
+[00:34:28] conflicting feedback especially if there
+[00:34:30] are several revisions.
+[00:34:33] So uh I don't have a good solution for
+[00:34:36] that. I think that some explicit comment
+[00:34:41] uh some explicit wording in the comment
+[00:34:43] message as brief as possible
+[00:34:47] uh in the change log section for example
+[00:34:50] may help like oh I did this change for
+[00:34:55] AI sake.
+[00:34:57] Uh and if someone missed that because it
+[00:35:02] happens. We are humans after all.
+[00:35:06] Uh yeah uh it helps out if you uh
+[00:35:13] uh resend the link uh at the past
+[00:35:16] discussion. Very very very short summary
+[00:35:20] this due to this.
+[00:35:24] >> Okay. Can can we have someone in
+[00:35:26] downstairs room before we go, Alex?
+[00:35:28] >> Well, I was just going to add on to that
+[00:35:30] comment. Okay. Uh, in terms of dealing
+[00:35:32] with that, my suggestion, if nothing
+[00:35:33] else, when you run into that is make
+[00:35:35] sure you put all the committers in the
+[00:35:37] two line and get them to cons agree
+[00:35:40] because I've had experiences in the past
+[00:35:41] where yeah, you end up with that
+[00:35:42] ping-pong and you're just going to ping
+[00:35:44] pong until you get everyone in the same
+[00:35:46] thread responding and saying, "Okay,
+[00:35:48] yes, this is the path forward." Because,
+[00:35:50] you know, maintainers tend to have very
+[00:35:52] strong opinions. And so just saying
+[00:35:54] that, oh yeah, so and so said to do this
+[00:35:55] may not actually get you very far if
+[00:35:57] they just said no, no, no, do it my way
+[00:35:59] anyway. So
+[00:36:01] >> I think it's a very good suggestion. And
+[00:36:03] to comment on that, I would like to add
+[00:36:07] that maintenance tend to have very
+[00:36:09] strong opinion, but it's sort of
+[00:36:11] mandatory because otherwise it will be
+[00:36:14] difficult to make any progress.
+[00:36:17] >> Okay, we hand it downstairs. VJ there.
+[00:36:21] Um I have a quick addition to what
+[00:36:24] Alexandra asked about. Um just if you
+[00:36:27] have pre-existing issues, one thing to
+[00:36:29] definitely avoid is having a fix that
+[00:36:32] conflicts with the ne next feature. So
+[00:36:35] just make sure that if there is a
+[00:36:37] follow-up work, it does not conflict
+[00:36:39] with the feature because it's it adds up
+[00:36:41] the time that we have to spend doing the
+[00:36:43] resolutions between the trees. So yeah.
+[00:36:47] >> Uh could you explain it? I'm sorry. I
+[00:36:49] didn't understand. Jakob.
+[00:36:51] >> Um, so if the pre-existing sashiko issue
+[00:36:54] basically is to the same code that you
+[00:36:56] are changing for the new feature, the
+[00:36:58] fix if it goes to the different tree
+[00:37:00] will conflict, right? Like when you when
+[00:37:02] we merge the trees.
+[00:37:03] >> Okay, got it.
+[00:37:03] >> Yeah.
+[00:37:07] All right. Anybody else here?
+[00:37:13] Um I wanted to ask because I try to do
+[00:37:16] something to help the maintainers when I
+[00:37:19] I I check Sashiko myself so constantly
+[00:37:22] so I do not wait for the automated
+[00:37:24] email. What I usually do is to mark the
+[00:37:29] if the if the comments from Sashiko make
+[00:37:31] sense mark the the the patch in
+[00:37:34] patchwork as changes requested directly
+[00:37:36] myself. I I think does it help for the
+[00:37:40] maintainers because I think that's
+[00:37:41] prevents basically someone is going to
+[00:37:44] look at it.
+[00:37:45] >> Uh so uh yes at least will prevent
+[00:37:48] myself from looking at it because uh if
+[00:37:51] a patch
+[00:37:53] uh or a patch set switches to changes
+[00:37:56] request status before I have a look at
+[00:37:58] it, I will never look at it. Sorry, it's
+[00:38:00] a matter of uh time. Uh I think it will
+[00:38:06] be even better if you when you switch
+[00:38:10] the status you also send a notification
+[00:38:12] to the mail list.
+[00:38:14] >> Oh sure sure. I think you need to if you
+[00:38:16] are not
+[00:38:18] >> Yes. So all I agree with Sashiko I will
+[00:38:21] take care because so everything is
+[00:38:23] tracked properly because the status
+[00:38:26] change of patchwork has not uh tracked
+[00:38:29] at all. You just see the final status
+[00:38:33] with no reasoning behind it.
+[00:38:35] >> Okay. Thank you.
+[00:38:35] >> All right. Okay. Can we we we're going
+[00:38:37] to have another session with maintainers
+[00:38:39] after right in the afternoon. So let's
+[00:38:41] process stuff after we so we can give PJ
+[00:38:44] uh sorry the opportunity to go. Thank
+[00:38:47] you.
+[00:38:48] >> While Sida is going up there, maybe
+[00:38:50] continue talking. He's going to have to
+[00:38:52] set up.
+[00:38:54] I
+[00:38:54] >> like this one.
+[00:39:50] Go.
+[00:40:01] >> Yeah, you can get started anytime. S
+[00:40:02] there.
+[00:40:03] >> Start. Yeah.
+[00:40:04] >> Yep. All right. We're going to get
+[00:40:05] started. pause the door.
+[00:40:11] >> Okay. So, basically, yeah, in this
+[00:40:14] session, I'm going to talk about uh the
+[00:40:18] the new
+[00:40:24] the two drivers that we are in the plan
+[00:40:26] uh in the process of upstreaming.
+[00:40:28] Actually, one of them is already
+[00:40:30] upstream the IDPF. uh the other one is
+[00:40:33] the associated with the same IP. We have
+[00:40:36] a control plane function driver that exd
+[00:40:39] that we are in the process of
+[00:40:40] upstreaming. Today I'm going to talk
+[00:40:44] about uh
+[00:40:46] uh the
+[00:40:49] the networking IP that is being used uh
+[00:40:53] to support this
+[00:40:57] the uh so basically the I'm going to
+[00:41:00] start with basically giving you overview
+[00:41:02] of the multiple Ethernet products that
+[00:41:05] share this common networking IP and the
+[00:41:09] and it also supports couple of diff uh
+[00:41:12] device operating modes. I'm going to
+[00:41:14] give the more information about this
+[00:41:17] operating modes and then we'll go over
+[00:41:19] the various product configurations
+[00:41:23] and the PC functions that are expo uh
+[00:41:26] exposed by these products
+[00:41:32] and then basically
+[00:41:34] so because to support all these
+[00:41:37] different product configurations we have
+[00:41:39] a requirement
+[00:41:41] what are all the the requirements ments
+[00:41:43] to support the two control plane
+[00:41:45] function and the data path function
+[00:41:48] drivers
+[00:41:50] and the reason why we need to
+[00:41:54] uh
+[00:41:55] refactor the original monolithic IDP
+[00:41:58] driver that is already upstream and then
+[00:42:00] how once the once it is refactored how
+[00:42:02] we are planning to use this refactoring
+[00:42:05] to support this new ex driver
+[00:42:09] okay and finally I'm going to talk about
+[00:42:11] some advanced features that requires
+[00:42:13] some new networking API changes. Okay.
+[00:42:23] So what is this common network subsystem
+[00:42:26] IP? Basically it is a unified IP and
+[00:42:29] software and a unified software and
+[00:42:32] firmware architecture that supports
+[00:42:34] multiple products. So currently actually
+[00:42:37] this IP is already supported in the one
+[00:42:40] of the in the Intel IPU that is actually
+[00:42:44] actively deployed in the Google uh data
+[00:42:47] centers today
+[00:42:49] and the next revision of this IP is
+[00:42:52] going to support multiple other
+[00:42:54] products. the future future IPUs.
+[00:42:57] Basically, this the next revision of
+[00:42:59] this IP is scalable up to 800 Gbits per
+[00:43:02] second and it will be enabling the
+[00:43:04] future IPUs as well as the uh discrete
+[00:43:08] PCI nick similar to a foundational nick
+[00:43:11] like a standard nick and also some edge
+[00:43:14] processing products.
+[00:43:16] So basically these are the SOC based
+[00:43:19] platforms that can operate in either in
+[00:43:21] the nick mode or in the switch mode.
+[00:43:25] So this IP is going to support all these
+[00:43:28] products. So we need to design drivers
+[00:43:30] so that they can work across all these
+[00:43:34] products seamlessly.
+[00:43:39] Okay. So also this networking IP right
+[00:43:42] it supports two operating modes
+[00:43:48] PF per port. So this is basically the
+[00:43:51] traditional deployment model for any
+[00:43:54] foundational nick where a control plane
+[00:43:57] function is exposed for each the each of
+[00:43:59] the Ethernet port.
+[00:44:01] And this model is supported in the fnic
+[00:44:04] and the soc.
+[00:44:07] And also we have this another operating
+[00:44:10] mode called ff per device where a single
+[00:44:13] control plane function is exposed for
+[00:44:14] the entire device. And this is the
+[00:44:17] common deployment model for the IPUs.
+[00:44:21] And
+[00:44:23] the plan is to enable this mode across
+[00:44:25] all the product families
+[00:44:27] including the ethnic and the SOC nicks.
+[00:44:33] Okay. So in the next few slides I'm
+[00:44:36] going to uh show the different product
+[00:44:41] configurations
+[00:44:43] and the PCA functions that are exposed
+[00:44:45] in all these configurations.
+[00:44:50] Okay. So this one is a FNIC and an SOCI
+[00:44:55] in PF per port mode. Here basically we
+[00:44:58] have it it is showing an eight port nick
+[00:45:03] and it is exposing eight PCA functions
+[00:45:05] to the host
+[00:45:08] right eight CPF functions and we have a
+[00:45:11] flexible packet processor. Basically you
+[00:45:13] can consider this as a uh
+[00:45:18] a parser followed by a sequence series
+[00:45:21] of uh lookup tables that can be used for
+[00:45:25] adding flow rules that can do packet
+[00:45:27] modifications or packet forwarding
+[00:45:29] actions.
+[00:45:31] Okay.
+[00:45:34] So
+[00:45:38] now if on in this mode model right you
+[00:45:42] can actually create v virtual functions
+[00:45:44] when you create virtual functions you
+[00:45:46] can these virtual functions can be
+[00:45:48] created on each of the CPFs
+[00:45:50] independently.
+[00:45:51] So the VFS associated with this CPF
+[00:45:56] uh the VFS are associated basically the
+[00:45:59] VFS that are created on the CPF zero
+[00:46:02] are associated with the port that is uh
+[00:46:06] corresponding to that that CPF.
+[00:46:08] Similarly CPF 7 VFS can only use uplink
+[00:46:12] 7. Okay this is the PF per port model.
+[00:46:20] Now let us see what are the drivers that
+[00:46:22] will be loaded on these PC functions. On
+[00:46:25] the CPF PCA function, we'll be loading
+[00:46:27] ex as the driver and on the the VFS
+[00:46:33] it will be IDPF that is a data path
+[00:46:36] function. We don't need any control path
+[00:46:38] on those VFs. So we'll be running IDPF
+[00:46:40] on the VS andd
+[00:46:46] on the CPF EA functions.
+[00:46:50] And as you can see basically the the CPF
+[00:46:53] functions the exe loaded on the CPF
+[00:46:55] functions will create one NDV because
+[00:46:59] this is associated with single port. So
+[00:47:01] each of them will create one ed
+[00:47:04] those are physical tied to the physical
+[00:47:07] port that's why they are represented as
+[00:47:09] a physical in the develink port output
+[00:47:13] and similarly the
+[00:47:16] the nets that are created by IDPF are
+[00:47:19] all virtual.
+[00:47:23] Okay. So now let us look at the next uh
+[00:47:28] model. So here so this is an ethnic and
+[00:47:32] soynic in the PF per device mode here
+[00:47:35] there is only one PCA function exposed
+[00:47:41] and we uh so yeah I think I would like I
+[00:47:45] need to mention something uh
+[00:47:48] something that is uh something new here
+[00:47:52] in this model right we have a CPF PCA
+[00:47:55] function exposed per device and also we
+[00:47:59] have this IDPF PCA function. So this is
+[00:48:02] you can consider this as a secondary
+[00:48:03] nick. It provides always on connectivity
+[00:48:07] so that even when the CPF is down you
+[00:48:09] can at least connect to the host via
+[00:48:12] this IDPF.
+[00:48:17] So
+[00:48:18] so this is the new requirement that we
+[00:48:21] are trying to enable this in the PF per
+[00:48:23] device mode.
+[00:48:29] So
+[00:48:31] and also when the VFS are created right
+[00:48:33] the VFS that are created by this CPF
+[00:48:38] they are not associated with any
+[00:48:41] specific port like the PF per port mode
+[00:48:44] here actually the VFS are can send and
+[00:48:48] receive traffic from any of the ports
+[00:48:51] and it is all controlled by the CPF.
+[00:48:57] Okay.
+[00:49:01] And here you can see the nets that are
+[00:49:03] created by these drivers. So in case of
+[00:49:06] this
+[00:49:08] as you can see there will be
+[00:49:10] the it will be creating multiple nets
+[00:49:14] because equal to the number of upling
+[00:49:16] ports
+[00:49:20] and the VFS are creating the virtual net
+[00:49:23] devs.
+[00:49:25] So the as you can see this IDPF right
+[00:49:28] this is
+[00:49:30] this is an always on connectivity nick
+[00:49:32] where it it also creates uh netv per
+[00:49:37] port that can be used to as a secondary
+[00:49:40] nick to connect to this host via any of
+[00:49:43] these ports.
+[00:49:49] Okay.
+[00:49:52] Okay. So the next one is the SOC switch
+[00:49:55] in the PF per device mode. Here
+[00:50:00] what we have is an additional switch IP
+[00:50:04] that is introduced that enables up to 16
+[00:50:08] ports
+[00:50:10] and allows a low uh porttoport switching
+[00:50:14] between these ports.
+[00:50:16] And for any traffic that does uh that
+[00:50:19] requires additional CPU processing, they
+[00:50:21] go to the CPF via the FXP and then it
+[00:50:25] can be processed on the host
+[00:50:28] um by the host application or if a VM is
+[00:50:32] VF is created can go to the VFS.
+[00:50:41] Okay. So now yeah here this picture is
+[00:50:44] showing the VFS. So this is similar to
+[00:50:47] the previous model where the VFS are not
+[00:50:50] associated with any port
+[00:50:56] and then the net devs
+[00:50:59] are created by the IXD creates one net
+[00:51:03] per each upink port
+[00:51:07] and one difference is the here the on
+[00:51:10] the VF also we'll be loading unlike in
+[00:51:13] the PF per port mode where we load IDP
+[00:51:15] PF here we load the IXD because these
+[00:51:19] are considered trusted VCPFs and they
+[00:51:22] can send out traffic on any of the
+[00:51:25] ports. So we'll be loading ISD on this.
+[00:51:31] Okay.
+[00:51:33] And then finally this is the IPU model.
+[00:51:38] So that is currently uh deployed. So
+[00:51:42] here in this model what happens is we
+[00:51:44] have the CPF exposed to the compute
+[00:51:47] complex
+[00:51:51] and the IDPF is exposed to uh one or
+[00:51:55] more hosts. In a multi-host system it
+[00:51:58] can support up to uh four four hosts or
+[00:52:01] so and each of the hosts will see one
+[00:52:04] IDPF interface and also one IDPF
+[00:52:07] interface is exposed to the compute
+[00:52:09] complex.
+[00:52:17] Okay.
+[00:52:33] Okay. Just going. Yeah. So, this is
+[00:52:37] showing the PCA functions.
+[00:52:42] Okay. Now,
+[00:52:44] yeah, the net dives.
+[00:52:46] So, basically the ex is actually
+[00:52:48] creating uh one netv per upink port on
+[00:52:52] the compute complex and each of the IDPs
+[00:52:55] is creating one virtual netv.
+[00:53:02] Okay. So, looking through all these
+[00:53:05] products, right? So the we came up with
+[00:53:07] these as the design requirements.
+[00:53:11] So the first one is IDPF must be
+[00:53:14] independently deployable.
+[00:53:17] So what it means is that we should not
+[00:53:20] have to load ex when uh when IDPF is the
+[00:53:25] only thing that is required. Loading
+[00:53:27] IDPF should not force loading of IXD. So
+[00:53:30] for example on the IP host systems using
+[00:53:33] the standard IDPF interface
+[00:53:36] we don't we should not have to load the
+[00:53:40] ext the control plane function on the
+[00:53:41] host and similarly uh in the VMs right
+[00:53:45] when a VF is exposed to a VM we only
+[00:53:48] need to load IDPF
+[00:53:54] and then the next one is that must be
+[00:53:56] independently removable.
+[00:53:59] So unloading must not require unloading
+[00:54:03] IDPF
+[00:54:06] right this is to support this uh uh
+[00:54:09] always on connectivity
+[00:54:12] uh nick in the PF or device mode. So
+[00:54:16] IDPF continues to provide connectivity
+[00:54:18] even when is uh has to be upgraded or
+[00:54:22] reloaded or it has to be removed.
+[00:54:27] Right?
+[00:54:28] And finally, we want to avoid code
+[00:54:31] duplication across the drivers because
+[00:54:33] both and IDPF share the same data plane.
+[00:54:36] We want to avoid any code duplication,
+[00:54:41] right? So
+[00:54:46] how do we do it? The first step is the
+[00:54:49] how we how are we sharing the code
+[00:54:52] between the IDPF and ext.
+[00:54:55] So
+[00:54:56] we are trying to use two mechanisms.
+[00:55:00] Shared libraries is one of them. So
+[00:55:02] basically the common helper functions
+[00:55:04] that are used by both drivers we are
+[00:55:07] moving to Libby or liit.
+[00:55:14] And then the another approach is using a
+[00:55:17] shared Ethernet auxilary driver.
+[00:55:20] So the plan is to the split the
+[00:55:23] monolithic IDPF. Today it is a single
+[00:55:26] core PCI driver. We are splitting into a
+[00:55:28] core PCA driver and an Ethernet Ox
+[00:55:31] driver but it will still be built as a
+[00:55:33] single. Cable.
+[00:55:38] So this way basically it acts as an
+[00:55:41] Ethernet ox driver for both the IDPF
+[00:55:45] auxiliary devices as well as thet
+[00:55:48] auxilary devices.
+[00:55:54] Okay. So in the next few slides I think
+[00:55:58] I will show the our plan on how we are
+[00:56:02] going to uh go over this.
+[00:56:07] So currently so this is the uh upstream
+[00:56:12] IDB of PCA driver. So actually this is a
+[00:56:17] this is a no uh actually this has been
+[00:56:20] standardized by OASIS and it is an open
+[00:56:24] vendor neutral
+[00:56:26] PC driver and also PCIG has assigned a
+[00:56:31] PC programming interface. So the driver
+[00:56:33] actually loads on based on the
+[00:56:35] programming interface not the device ID.
+[00:56:40] So currently what
+[00:56:44] uh so the IDP PCA driver it all supports
+[00:56:47] all these features. So basically it
+[00:56:48] supports the mailbox communications to
+[00:56:50] the firmware using virt channel API and
+[00:56:53] also it uh supports the PCI resource
+[00:56:56] management, the MSX vector management
+[00:57:01] and the all the uh data path
+[00:57:07] configuration that is required to create
+[00:57:09] vortes
+[00:57:10] RSS
+[00:57:14] and then the network creation
+[00:57:20] And the the standard basically all the
+[00:57:22] features that are supported by standard
+[00:57:24] uh networking driver like the TXRX
+[00:57:26] stateless offloads, XTP, RDMA, PTP
+[00:57:31] all these are today supported by this ID
+[00:57:34] PCA driver and it actually uses some
+[00:57:37] helper functions from the Lib to support
+[00:57:40] HTTP.
+[00:57:43] So this is the current status of the IDP
+[00:57:46] PCA driver. So the first phase of
+[00:57:49] refactoring is
+[00:57:52] happening today happening now. Actually
+[00:57:55] we have the initial
+[00:57:58] uh phase one of the ISD support
+[00:58:01] currently being reviewed on netev. It
+[00:58:03] has gone through couple of few
+[00:58:04] revisions. Hopefully you are expecting
+[00:58:07] it to be uh accepted soon.
+[00:58:12] So the initial phase is a very limited
+[00:58:14] one. Basically what we are trying to do
+[00:58:16] is uh move the
+[00:58:20] uh some control Q helper functions. This
+[00:58:22] helps with the uh sending the mailbox
+[00:58:25] messages to the firmware and some PCI
+[00:58:28] helper functions to map the memory
+[00:58:31] regions and also the managing the IRQs.
+[00:58:35] So those are being moved to libby
+[00:58:41] and then ex will be using those helper
+[00:58:44] functions from the libby to load a
+[00:58:48] simple PC driver just it just talks to
+[00:58:50] the firmware
+[00:58:52] and get the capability information and
+[00:58:54] the
+[00:58:57] and exchanges few messages to the
+[00:58:59] firmware. So
+[00:59:02] this is how we are introducing and this
+[00:59:04] patch series is currently under review
+[00:59:07] on net
+[00:59:10] right.
+[00:59:13] Okay. Once this is done the next phase
+[00:59:16] is basically we are going to split the
+[00:59:18] uh PCI driver into a PCI plus ox driver.
+[00:59:24] So here what happens is the PC driver
+[00:59:27] creates a uh Ethernet auxilary driver
+[00:59:31] per uh port basically.
+[00:59:37] So and then the IDP Fox driver loads on
+[00:59:41] this Ethernet device. So basically the
+[00:59:44] functionality that has is virtually in
+[00:59:47] the PCA driver is all this functionality
+[00:59:50] that is in green is now moved to the IDP
+[00:59:54] Fox driver
+[00:59:56] in this phase.
+[01:00:00] Okay.
+[01:00:03] And then once this happens
+[01:00:06] then will be able to get the full data
+[01:00:09] path functionality
+[01:00:11] by reusing the uh IDPF Ethernet driver
+[01:00:17] for the data path. So basically IDPCA
+[01:00:20] driver it creates the IXD eth auxilary
+[01:00:23] devices
+[01:00:26] and the IDPF ox driver is extended to
+[01:00:28] support loading of the exist ox devices
+[01:00:35] right uh so one thing that is required
+[01:00:38] is to basically because the all the netv
+[01:00:41] operations are coming through IDPF we
+[01:00:44] need a way for the IDPF to talk to the
+[01:00:48] XTP PCA driver to do the mailbox
+[01:00:51] communications. So that that requires
+[01:00:54] some call back support to be introduced
+[01:00:57] between the IDP Fox driver and the extra
+[01:01:00] driver.
+[01:01:02] Actually Dave is uh we have another
+[01:01:04] session from Dave Atman. He's going to
+[01:01:06] go into more details on how we are
+[01:01:08] planning to enable this callbacks.
+[01:01:11] Okay.
+[01:01:16] And then yeah so this is the final IXD
+[01:01:21] with advanced features. So these are all
+[01:01:24] the features that we want to enable in
+[01:01:28] the longer term. So basically it
+[01:01:30] requires
+[01:01:32] uh so yeah if you look at the PC driver
+[01:01:35] function getting the the device level
+[01:01:38] capabilities starting from getting the
+[01:01:39] device level capabilities and resource
+[01:01:41] provisioning to the VFS and the sub
+[01:01:44] functions the switch dev and the
+[01:01:47] represented nav and the exception path
+[01:01:51] sub function support
+[01:01:53] nvm update package load
+[01:01:58] and then the FXP programming basically
+[01:02:00] the flow rule programming to the
+[01:02:04] FXP block
+[01:02:08] via this ETH tool or TCFL or the bridge
+[01:02:11] FDB offload and then the IPSEC
+[01:02:14] programming is the other big feature
+[01:02:17] link management QoS support all these
+[01:02:22] will be enabled in IXT but they all will
+[01:02:25] be initiated through the IDPF aux driver
+[01:02:29] using this ops that are uh implemented
+[01:02:34] in the IDP Fox driver but they will be
+[01:02:36] making a call back to the IDPCA driver
+[01:02:40] to enable this features.
+[01:02:46] Okay.
+[01:02:49] And then some of these actually some fe
+[01:02:54] some features that are helper functions
+[01:02:56] actually we will be moving to libby that
+[01:02:59] can be shared by both IDPF and ex
+[01:03:02] got all this.
+[01:03:07] Okay.
+[01:03:10] And finally yeah so these are some of
+[01:03:13] the advanced features that would require
+[01:03:16] some networking API extensions.
+[01:03:19] So as part of resource provisioning
+[01:03:21] right currently we have a way to
+[01:03:24] provision uh certain resources like the
+[01:03:28] u MAC address
+[01:03:30] or the number of cues but we don't have
+[01:03:33] a way to configure a symmetric number of
+[01:03:36] cues like the different number of TX and
+[01:03:38] RXQs. So this may require some changes
+[01:03:42] or extensions to the devil port params
+[01:03:45] API or the the deviling port function
+[01:03:48] set API. So we need to get some feedback
+[01:03:51] from the community on the right API to
+[01:03:54] use to support this provisioning
+[01:03:58] and also the maximum V ports per VF.
+[01:04:02] That is another thing we would like to
+[01:04:04] expose.
+[01:04:06] uh and to support
+[01:04:09] uh direct transmit timestamping from the
+[01:04:12] VF
+[01:04:13] we need to be able to provision transmit
+[01:04:16] time stamp latches
+[01:04:18] per VF. So that is another devel
+[01:04:22] parameter port parameter
+[01:04:26] and uh yeah the mini package load and
+[01:04:30] unload. This is this is another this is
+[01:04:32] a feature basically this enables the
+[01:04:34] trusted vcpfs to be able to uh program
+[01:04:38] the FXT pipeline directly.
+[01:04:42] So the way we are going to enable is
+[01:04:44] this. Basically the mini package
+[01:04:46] actually it can define independent data
+[01:04:49] plane that each VCPF can own.
+[01:04:54] And so once this data plane is defined
+[01:04:58] in a package file and it can be loaded
+[01:05:01] dynamically after a VF creation but
+[01:05:04] before the driver is loaded. Once the
+[01:05:07] mini package is loaded, the VF driver
+[01:05:09] can will be able to program these rules
+[01:05:12] directly.
+[01:05:14] Right?
+[01:05:15] That is one thing. And the other thing
+[01:05:18] is uh deviling parameter. We would need
+[01:05:22] a way to change this mode because this
+[01:05:24] device supports uh two modes. We need a
+[01:05:28] way to dynamically switch between the
+[01:05:30] modes. The CPF per device mode or the
+[01:05:32] CPF per port mode.
+[01:05:36] So but this requires actually a reboot.
+[01:05:39] So we need to change the parameter and
+[01:05:42] inform the firmware and then it uh
+[01:05:44] requires a reboot for this new mode to
+[01:05:47] take into effect.
+[01:05:53] Okay,
+[01:05:56] I think yeah that's it. I have any
+[01:05:59] questions?
+[01:06:08] So, a few slides back you had mentioned
+[01:06:10] that you wanted to be able to
+[01:06:14] effectively remove the control driver
+[01:06:15] while leaving the data path driver in
+[01:06:17] place.
+[01:06:19] Um, I suspect you're going to probably
+[01:06:21] get a lot of push back on that design. I
+[01:06:24] know historically at least for the Sri
+[01:06:27] side of things if you try to remove the
+[01:06:29] PF driver you are so you basically have
+[01:06:32] to remove the VFS. We had like was it
+[01:06:35] eight years ago a thing just trying to
+[01:06:37] push the uh
+[01:06:39] >> uh st PCI stub for a headless PF
+[01:06:43] basically. Then we ran into that where
+[01:06:45] they are pushing back hard uh on the
+[01:06:47] PCIe side of things just because in
+[01:06:50] their mind that's how it's supposed to
+[01:06:51] work. I could see that very much being
+[01:06:53] the case most likely for this setup as
+[01:06:55] well simply because I'd imagine a lot of
+[01:06:57] the IDPF is having to work through the
+[01:07:00] control plane driver to change settings
+[01:07:02] and such, isn't it?
+[01:07:03] >> Uh yeah, but not for this basic IDPF PF,
+[01:07:07] right? In this mode, what happens is the
+[01:07:10] CPF doesn't control any resources for
+[01:07:12] this IDPF. It is all managed by the
+[01:07:13] firmware. Even the rules for this IDPF
+[01:07:17] PF are programmed by the firmware uh by
+[01:07:20] default. just a L2 MAC based rules. So
+[01:07:24] it is not dependent on CPF at all. So
+[01:07:27] that is and it cannot create VFS or
+[01:07:30] anything. So it's a basic this is just
+[01:07:33] like a secondary nick instead of having
+[01:07:35] another nick, right? We want
+[01:07:36] >> Okay. So it's not actually creating any
+[01:07:38] VFS in that scenario anyway. Okay. Yeah,
+[01:07:41] that is a
+[01:07:47] anybody else.
+[01:07:51] So are you ex the you exposing what do
+[01:07:55] you mean by direct programming of flow
+[01:07:57] rules?
+[01:07:59] >> Pardon?
+[01:08:00] >> Sorry.
+[01:08:00] >> Oh direct programming.
+[01:08:01] >> What is direct programming of flow rules
+[01:08:03] mean?
+[01:08:04] So basically this is uh allows a VF to
+[01:08:09] directly
+[01:08:11] program a rule via a config Q. It
+[01:08:13] doesn't not need to go through a PF
+[01:08:16] when it is trusted. It can directly talk
+[01:08:18] to the hardware to program a flow rule.
+[01:08:21] >> Is this using some syntax or semantic
+[01:08:24] that you created or how do you how do
+[01:08:26] you write something to a config Q to
+[01:08:29] flow for example? I understand
+[01:08:31] >> it is like a hardware queue just like a
+[01:08:34] PF right when it it can create a config
+[01:08:37] Q to the hardware it can write a Q that
+[01:08:39] is directly goes to the hardware. So we
+[01:08:41] are going to expose a Q a config Q to
+[01:08:44] the VF in this mode.
+[01:08:46] >> Okay. What is the mode? How do what is
+[01:08:47] the API for writing to this?
+[01:08:51] >> What
+[01:08:53] it what what is the API for writing to
+[01:08:56] this config Q to program flow rules? It
+[01:08:59] is a driver API. Driver to the hardware
+[01:09:02] API.
+[01:09:03] >> Oh, so this is propriety to your drive.
+[01:09:05] It's not exposed. It
+[01:09:05] >> is not exposed. Mhm.
+[01:09:07] >> Okay. And Okay. I guess you didn't
+[01:09:10] discuss that that much. So you're going
+[01:09:12] to expose all the pipeline in the IPU.
+[01:09:17] >> Expose all the pipe IPU. I'm talking
+[01:09:19] about the IPU. Are you exposing all the
+[01:09:21] programmable pipeline? The
+[01:09:24] >> Yes, it will all be exposed by the CPF
+[01:09:26] driver. In the case of IPU, right?
+[01:09:28] >> Yeah.
+[01:09:29] >> It will all be done via the CPF the
+[01:09:32] program.
+[01:09:34] So if you look at the IPU model, right?
+[01:09:47] Yeah. uh in the IPU model basically the
+[01:09:49] CPF on the compute complex will be able
+[01:09:53] to program the rules
+[01:09:56] not the here there is no VF
+[01:10:02] okay so basically the IDPF all these PFS
+[01:10:07] that are exposed to the host or the IDPF
+[01:10:09] VFS that can be created on the host
+[01:10:11] right so they they cannot directly
+[01:10:14] access the hardware they have to go
+[01:10:16] through the CPF you in order to do any
+[01:10:18] programming.
+[01:10:18] >> Okay. So the only way you can program is
+[01:10:20] through this compute complex.
+[01:10:21] >> Yes. CPF, right?
+[01:10:23] >> Yeah.
+[01:10:23] >> And that's the one that Alex was asking
+[01:10:25] a question. I guess you it doesn't
+[01:10:27] create any VFS.
+[01:10:31] >> Yeah. We don't Okay. So Alex was asking
+[01:10:35] about this mode I think right the PF per
+[01:10:38] device mode where we have this
+[01:10:40] additional IDPF.
+[01:10:43] >> Okay. Oh, not here.
+[01:10:47] Uh
+[01:10:50] yeah
+[01:10:52] not even this one.
+[01:10:57] Yeah here in this model we have this
+[01:11:00] additional IDPF.
+[01:11:02] So this is mainly provides connectivity
+[01:11:05] when even when the CPF is down.
+[01:11:08] >> Okay. Any questions online or
+[01:11:11] downstairs? Yeah we have a question for
+[01:11:13] you. There's a question.
+[01:11:14] >> Yeah. So to just to confirm you what
+[01:11:16] you're doing is the the control function
+[01:11:21] you can re you can restart it. It's you
+[01:11:24] the PF is still there. You're keeping
+[01:11:26] the state in the in the device and when
+[01:11:30] you restart the control function you
+[01:11:32] recover this the configuration
+[01:11:35] to reestablish state again. Is that what
+[01:11:38] you're doing
+[01:11:40] >> or no? when the control plane function
+[01:11:42] goes away.
+[01:11:43] >> I mean the control plane function has to
+[01:11:45] know how many virtual functions are
+[01:11:48] being exposed and what the um the
+[01:11:52] decision graph that had previously been
+[01:11:54] programmed.
+[01:11:56] >> Mhm.
+[01:11:57] >> In the classifier is right. So all that
+[01:12:00] that state you're keeping in the device.
+[01:12:04] That's how that's why you can reboot or
+[01:12:06] recon reload the um the config function.
+[01:12:13] >> Yeah. So basically when the CPF is
+[01:12:16] reloaded all the VFS go away. The VFS
+[01:12:18] associated with the CPF will go away.
+[01:12:19] >> They go away.
+[01:12:21] >> Yeah. Yeah. Only the IDP of this one
+[01:12:23] will stay.
+[01:12:24] >> Okay.
+[01:12:25] >> So that that provides just the basic
+[01:12:27] connectivity. There is nothing like all
+[01:12:30] the rules that are programmed in the FXP
+[01:12:32] by the CPF we will go away and have to
+[01:12:34] be re
+[01:12:35] >> so those those virtual function device
+[01:12:38] drivers have to be restarted. Yes. As
+[01:12:40] well.
+[01:12:41] >> Okay. All right.
+[01:12:45] >> Okay. We have a question downstairs.
+[01:12:48] >> Yeah. Yes. Um hi. I have a small
+[01:12:50] question about the more advanced use
+[01:12:52] cases where you have I think you have a
+[01:12:55] slide with the virtual FXP, right?
+[01:12:59] uh
+[01:12:59] >> with with the VFS that have FX the mini
+[01:13:03] package.
+[01:13:03] >> Okay. Yeah.
+[01:13:04] >> Yes. So, how does it work? So, is there
+[01:13:06] an FXP for the PF and then virtual FXP
+[01:13:11] for each VF or how does it work? like um
+[01:13:15] basically is ex controlling the rules
+[01:13:19] for the FXP of the PF and then IDPF
+[01:13:22] controlling the rules for the virtual
+[01:13:24] FXPS or what's the overall uh overall
+[01:13:27] architecture here?
+[01:13:29] >> Yeah, basically the the FXP will be uh
+[01:13:32] split into logical pipelines. Basically,
+[01:13:36] each VF can have its own set of tables
+[01:13:39] that it can program. So the mini package
+[01:13:42] will define the tables for the each each
+[01:13:45] VF and once the mini package is loaded
+[01:13:50] and the and the tables that are defined
+[01:13:52] in the mini package can be programmed
+[01:13:54] via the VF.
+[01:13:56] >> So the distinguish the the separation
+[01:13:58] between the VS will be MAC based in that
+[01:14:01] case right only Mac based.
+[01:14:03] >> No no it can be anything. It depends on
+[01:14:06] how you configure these uh logical
+[01:14:09] tables. it
+[01:14:10] >> but the logical tables are owned by the
+[01:14:12] PF or the VF.
+[01:14:14] >> The PF owns the main tables.
+[01:14:18] >> Okay.
+[01:14:18] >> But then see you have to carve out the
+[01:14:22] pipeline in such a way that so the
+[01:14:24] initially the packets to the VF can be
+[01:14:27] programmed by a rule that is added by
+[01:14:28] the PF and then the in the next stage
+[01:14:32] the VF can add rules that uh basically
+[01:14:36] to direct a queue within that VF right.
+[01:14:39] So you have two layers like one layer
+[01:14:41] owned by the PF and the second layer are
+[01:14:43] owned by the by the VF and the second
+[01:14:45] layer is programmable and so the VF can
+[01:14:47] load the their own rules or they can
+[01:14:51] load their own like pipeline parser
+[01:14:55] >> not the parser it can load its own the
+[01:14:58] VF will not be able to load by itself.
+[01:15:00] The loading has to be done initiated by
+[01:15:02] the uh PF itself.
+[01:15:04] >> Okay.
+[01:15:04] >> The loading of the package has to be
+[01:15:06] initiated by the PF. Mh.
+[01:15:08] >> So it will be controlled once the PF
+[01:15:10] allows that a VF can uh add rules then
+[01:15:14] the VF can start adding rules for its
+[01:15:16] own tables.
+[01:15:17] >> Okay. But it's a unique parser for
+[01:15:19] everyone. It's like the equivalent of
+[01:15:21] the GDP package is the same for all the
+[01:15:23] VFS.
+[01:15:24] >> Yes.
+[01:15:24] >> It's just rules.
+[01:15:25] >> Yes. Yeah.
+[01:15:26] >> Okay. Okay. Thanks.
+[01:15:30] >> So I have a question for you. Um, so
+[01:15:34] this is an IP that you intend to have
+[01:15:38] live across multiple generations
+[01:15:41] um, going forward so that you have one
+[01:15:43] driver to rule them all. How are you
+[01:15:47] handling
+[01:15:48] versioning especially with newer silicon
+[01:15:51] when you have new feature sets with
+[01:15:53] older drivers? What what's the mechanism
+[01:15:55] there that you have? I I I know what
+[01:15:57] exists with like the firmware that
+[01:16:00] exists on Intel next but I'm curious to
+[01:16:02] see you what with this hardware model
+[01:16:05] and how how you'll handle the
+[01:16:06] versioning.
+[01:16:08] >> Yeah. So the way we are planning to
+[01:16:10] handle is the the keep the software
+[01:16:12] firmware API backwards compatible. So
+[01:16:16] using the capability mechanism so
+[01:16:18] basically the API uses the instead of we
+[01:16:21] are not planning to use any versioning.
+[01:16:23] So instead of worshening we'll be just
+[01:16:25] using the capabilities.
+[01:16:27] So whenever you want to introduce a new
+[01:16:30] capability you'll be negotiating the
+[01:16:32] driver negotiate with the firmware that
+[01:16:34] it supports this new capability and the
+[01:16:35] firmware if it supports it then it can
+[01:16:38] uh tell the driver that it supports it.
+[01:16:41] That's how we are planning to
+[01:16:44] do it. Yeah.
+[01:16:50] >> Okay. I I have lots of questions but
+[01:16:52] I'll uh I'll come find you later.
+[01:16:55] >> Yeah, I think I think we'll go to the
+[01:16:57] next session. You're going to introduce
+[01:16:59] uh
+[01:17:00] >> Yeah, actually the in the next session
+[01:17:02] actually Dave Atman is going to uh go
+[01:17:05] into more details about the callback
+[01:17:07] mechanisms that we need to enable to
+[01:17:10] support this uh ex to IDPF Ethernet
+[01:17:15] driver. Okay.
+[01:17:35] Hi, my name is David Urban. I am a
+[01:17:37] device driver developer working on
+[01:17:39] Ethernet products for Intel. and I'm
+[01:17:42] here to talk about a need we've run into
+[01:17:44] for birectional event handlers on the
+[01:17:46] auxiliary bus for communication between
+[01:17:48] auxiliary devices and auxiliary drivers.
+[01:17:53] First a quick explanation or review on
+[01:17:57] what exactly the auxiliary bus is and
+[01:17:58] what purpose it serves.
+[01:18:01] As we all know in the Linux kernel there
+[01:18:03] are system buses
+[01:18:06] and on that system bus there are
+[01:18:07] devices. These devices represent a set
+[01:18:10] of resources that are registered with
+[01:18:12] the bus.
+[01:18:15] A loaded kernel object registered as a
+[01:18:17] device driver for that device on that
+[01:18:20] system bus will be matched to that
+[01:18:22] device and the probe callback will be
+[01:18:25] accessed to initiate communication
+[01:18:27] between the two.
+[01:18:29] That system bus device driver can
+[01:18:32] partition out a section of the resources
+[01:18:34] available to it and make them available
+[01:18:36] to a new object, an auxiliary device,
+[01:18:38] which is a software representation of a
+[01:18:40] device.
+[01:18:42] Then it can register that auxiliary
+[01:18:44] device on the auxiliary bus, making it
+[01:18:46] ready for matching with a driver.
+[01:18:50] Then a loaded kernel object that's
+[01:18:52] registered as an auxiliary driver for
+[01:18:54] that auxiliary device on the auxiliary
+[01:18:56] bus will be probed. In the probe, the
+[01:18:59] auxiliary devices struck will be passed
+[01:19:01] to the auxiliary driver. These strcts
+[01:19:04] for both the auxiliary driver and
+[01:19:06] auxiliary device are very bare bones.
+[01:19:08] They are meant to be implementation
+[01:19:10] agnostic and contain no specific to the
+[01:19:13] case information in those trucks. So the
+[01:19:16] question then becomes how is information
+[01:19:19] about the resources available in the
+[01:19:20] auxiliary device passed to the auxiliary
+[01:19:23] driver.
+[01:19:25] This is handled through a kernel normal
+[01:19:27] method. I'll explain next.
+[01:19:31] In a common header file accessible by
+[01:19:33] both the auxiliary device and the
+[01:19:35] auxiliary driver, we create a container
+[01:19:38] strct that contains the auxiliary
+[01:19:40] device. This is the device that's passed
+[01:19:42] during probe.
+[01:19:45] The driver can then do a container of on
+[01:19:48] that device and get access to the
+[01:19:50] infestruct also in that container device
+[01:19:53] or multiple infstructs. This infestruct
+[01:19:56] or strrus will contain all the
+[01:19:58] information that is being made available
+[01:20:00] to the driver about the partitioned off
+[01:20:03] resources from the original device.
+[01:20:07] In at least one instance in the kernel
+[01:20:09] of an auxiliary device implementation,
+[01:20:11] the driver is also contained within a
+[01:20:14] container strct. This allows for the
+[01:20:16] inclusion of an event handler, a naked
+[01:20:19] function pointer that allows for the
+[01:20:22] device to generate events and pass them
+[01:20:25] to a handler on the driver.
+[01:20:31] As an applied example of this from my
+[01:20:33] own daily life, we have a nick PCI
+[01:20:36] device hardware and firmware which is
+[01:20:39] registered on the PCI bus and then a PCI
+[01:20:42] driver in this cased is probed. This PCI
+[01:20:45] driver is the global resource manager
+[01:20:48] for that device. It will interface with
+[01:20:50] the kernel for such things as dev link.
+[01:20:56] To complete the picture, the PCI driver
+[01:20:58] will create an auxiliary device
+[01:21:00] representing one portion of its
+[01:21:01] resources. It will then register that
+[01:21:04] auxiliary device on the auxiliary bus.
+[01:21:07] This will probe the ETH driver, in this
+[01:21:09] case IDPF as an auxiliary driver. That
+[01:21:13] auxiliary driver during its probe will
+[01:21:15] create and register a netv with the
+[01:21:17] kernel completing the path for a single
+[01:21:20] interface on that nick.
+[01:21:25] On a multiport device, one auxiliary
+[01:21:27] device will be created for each physical
+[01:21:29] interface on the card. Four port
+[01:21:32] interface, four auxiliary devices, four
+[01:21:35] instances of probed IDPF, and four net
+[01:21:38] depths all registered with the kernel.
+[01:21:40] There can also be other types of
+[01:21:41] auxiliary devices such as RDMA, which
+[01:21:45] will then handle the RDMA path for that
+[01:21:47] nick.
+[01:21:50] Here's an example of breakdown of some
+[01:21:51] of the resources that you might see on
+[01:21:53] the nick managed by the PCI driver. We
+[01:21:56] have communication with the firmware,
+[01:21:58] the software database representation of
+[01:22:00] the scheduling tree, the TX scheduling
+[01:22:02] tree, function level and device level
+[01:22:04] reset flows, coordination between
+[01:22:06] auxiliary devices, and management of any
+[01:22:09] global resources that are available to
+[01:22:11] everything on the card. Some examples of
+[01:22:14] what would be managed by the auxiliary
+[01:22:16] driver are netdev resources and local Q
+[01:22:20] representation.
+[01:22:24] Now we arrive at the crux of the issue.
+[01:22:27] What happens when a request comes in to
+[01:22:30] the auxiliary driver through say the
+[01:22:32] kernel and an API such as Netshaper to
+[01:22:35] access and complete a request that
+[01:22:38] requires firmware managed by the PCI
+[01:22:41] driver. Here we have an example of a net
+[01:22:43] shaper trying to apply a 1 Gbit
+[01:22:46] bandwidth max to the third Q on ETH0.
+[01:22:52] This is a net devcentric command because
+[01:22:55] of the E0. You can tell it's going to be
+[01:22:57] fed through the netv interface. In this
+[01:23:00] case, it's going to go to the auxiliary
+[01:23:03] drivers net device ops. In a substruct
+[01:23:06] there is a set of callbacks for net
+[01:23:07] shaper ops that will handle all
+[01:23:09] commands. The only problem is that to
+[01:23:12] apply this rate limit profile, we need
+[01:23:14] access to the hardware and firmware,
+[01:23:16] specifically the scheduling tree, which
+[01:23:18] is where that rate limit will be
+[01:23:19] actualized.
+[01:23:21] To complete this path,
+[01:23:23] we need the auxiliary device and the PCI
+[01:23:26] driver which manages those resources to
+[01:23:28] be included in the picture.
+[01:23:31] The question is how do we get access to
+[01:23:34] those resources which are being managed
+[01:23:36] only by the ISD and not exposed to the
+[01:23:39] auxiliary driver IDPF.
+[01:23:42] Here's one solution that we have
+[01:23:47] in the common header file that both of
+[01:23:49] the entities have access to in the
+[01:23:52] container strct for the auxiliary
+[01:23:54] device. We would like to include an
+[01:23:56] event handler similar as what was seen
+[01:23:58] in the auxiliary drivers container
+[01:23:59] strct. This would allow events generated
+[01:24:03] by the auxiliary driver to be passed to
+[01:24:06] the auxiliary devices creator to be able
+[01:24:11] to handle those requests with the
+[01:24:13] resources that it has access to.
+[01:24:18] Also in the common header file, we can
+[01:24:20] see an example of an enume that contains
+[01:24:23] the some of the possible events that
+[01:24:25] could be generated and a struck that
+[01:24:27] could be handled on one of those events.
+[01:24:30] On the left, we see an example of PCI
+[01:24:33] generated events being sent to the OX
+[01:24:35] driver. Things like link change, reset
+[01:24:38] initiated, and reset complete.
+[01:24:40] Underneath there, we have events that
+[01:24:42] can be generated by the OX driver and
+[01:24:44] sent to the PCI driver. things like
+[01:24:46] request hard reset. For example, an
+[01:24:49] NDOTX timeout is often handled with a
+[01:24:51] reset. That's a netdevcent ccentric
+[01:24:54] operation that needs PCI device flows to
+[01:24:58] be handled. Also, as in our example, set
+[01:25:01] Q rate limit. Over there on the right,
+[01:25:04] we can see the strct that could possibly
+[01:25:06] be used for that contain a resource ID,
+[01:25:09] a Q index, and then the common elements
+[01:25:11] for a shaper. bandwidth m min max burst
+[01:25:14] priority and weight.
+[01:25:18] Once the request to hardware and
+[01:25:19] firmware to apply the scheduling tree
+[01:25:21] change has been completed either with
+[01:25:23] success or error code, the return value
+[01:25:25] will be passed back up the call chain
+[01:25:27] PCI driver auxiliary device to IDPF to
+[01:25:30] the netv and then back up to the kernel
+[01:25:32] through the API from Netshaper.
+[01:25:37] This is a solution we would like to use
+[01:25:39] for birectional communication between
+[01:25:42] the auxiliary driver and the auxiliary
+[01:25:44] device.
+[01:25:45] Some of the open questions are should we
+[01:25:48] keep the handler in a container strct or
+[01:25:51] move it into the auxiliary bus
+[01:25:53] architecture itself. The prior would
+[01:25:56] keep it implementation specific and let
+[01:25:58] everyone implement however they wanted
+[01:25:59] to. And the the latter would be more of
+[01:26:02] a canonized uh way of doing it where it
+[01:26:05] was same everywhere. Also under
+[01:26:07] discoverability,
+[01:26:09] both the auxiliary driver and the device
+[01:26:11] are sharing a common header file with
+[01:26:13] everything defined in it. But is there
+[01:26:15] more that needs to be done? Do we need a
+[01:26:18] capability struck in discovery mode?
+[01:26:21] I turn the room open for questions.
+[01:26:28] >> Thank you, David. Uh so he is live with
+[01:26:31] us to answer any questions.
+[01:26:36] Yeah. H how do you handle um communic or
+[01:26:40] discovering and communicating with the
+[01:26:41] auxiliary bus when you've mapped a VF
+[01:26:44] through VFIO into a guest OS?
+[01:26:49] So the auxiliary devices are going to be
+[01:26:52] used for uh the up of the PFS um and for
+[01:26:58] uh VC VCPFs
+[01:27:01] for our forio or an SROV that's going to
+[01:27:04] be handled like a normal SROV. There
+[01:27:07] won't be uh an auxiliary device included
+[01:27:10] in that. It'll be uh vert channel ver
+[01:27:12] channel 2 communication.
+[01:27:15] >> All right. So it's just a single VF type
+[01:27:18] instances that would leverage this
+[01:27:20] feature. It's okay. All right.
+[01:27:25] >> So a standard S O is still going to be a
+[01:27:26] standard SIO.
+[01:27:28] >> Yeah. Yeah.
+[01:27:33] Uh small question uh about the my
+[01:27:36] understanding of the auxiliary bus. I
+[01:27:40] don't understand um like what what's the
+[01:27:43] go what's the goal of auxiliary of this
+[01:27:46] auxiliary bus versus this former um MDEV
+[01:27:51] uh framework
+[01:27:53] like what's what's what I I feel like
+[01:27:55] they solve different issues or but it
+[01:27:57] also seemed that partitioning a physical
+[01:27:59] device into logical devices I guess so
+[01:28:02] what what's the difference
+[01:28:04] >> are you are you talking about MFD
+[01:28:06] >> the yeah the mediated mediated device
+[01:28:08] framework this thing from a few years
+[01:28:10] ago.
+[01:28:12] >> Um,
+[01:28:15] if you're if I'm if I'm understanding
+[01:28:16] you correctly and and I may not be, so
+[01:28:18] correct me if I'm not. Uh, the the MFD
+[01:28:22] uh subsystem utilized the system bus
+[01:28:26] which has been uh abused a lot and there
+[01:28:31] was lots of push back of doing any of
+[01:28:33] this kind of functionality on the system
+[01:28:34] bus because it these are not system
+[01:28:36] devices. Um and uh uh uh Greg KH Conan
+[01:28:41] Hartman was uh involved in the
+[01:28:44] development of auxiliary bus for
+[01:28:46] resources like this where you have a PCI
+[01:28:48] device and you want to partition off
+[01:28:51] pieces of resources into a sub device or
+[01:28:53] a sub function.
+[01:28:54] >> Okay.
+[01:28:55] >> Um
+[01:28:56] >> so it's it's a cleaner solution to an
+[01:28:58] abuse feature basically.
+[01:29:00] >> Yes. Yes.
+[01:29:01] >> Okay. Okay. Thanks.
+[01:29:16] >> No more questions.
+[01:29:20] >> None from down here.
+[01:29:23] >> Okay.
+[01:29:25] >> Boy, you guys are a lot easier on me
+[01:29:26] than I thought you were going to be.
+[01:29:28] >> Uh, so David, I have a question for the
+[01:29:30] audience. This is Angelie. So is
+[01:29:32] everybody okay with what David is
+[01:29:34] proposing that we use the auxiliary ops
+[01:29:37] and the auxiliary bus for doing this? I
+[01:29:40] mean there were two open questions that
+[01:29:41] you posed. Right.
+[01:29:44] >> Right. One was uh basically it's more of
+[01:29:48] a
+[01:29:50] a structure question. So uh the way
+[01:29:53] we've implemented it so far is we use
+[01:29:55] the container strct. So everything that
+[01:29:58] we're doing is uh
+[01:30:01] is implementation details for us. It's
+[01:30:05] nothing changing the base auxiliary bus
+[01:30:07] itself. And the question was do we is
+[01:30:11] this something universal enough to push
+[01:30:14] down into the auxiliary bus uh
+[01:30:16] architecture itself. So including event
+[01:30:19] handler uh callback functions inside an
+[01:30:24] auxiliary device and auxiliary bus or
+[01:30:26] sorry auxiliary driver itself or do we
+[01:30:29] keep them where they are implementation
+[01:30:30] specific? That was really it's it's more
+[01:30:33] of a structural question and a
+[01:30:35] universality question if that's really a
+[01:30:37] word. I may have just made that up.
+[01:30:40] uh my preference of course is put it in
+[01:30:42] the auxiliary uh device because I think
+[01:30:44] it is very universal that most uh uh
+[01:30:48] devices the way they're going if they
+[01:30:50] share the same PCI function they would
+[01:30:52] ought want to use the event handler and
+[01:30:54] all those things but yeah I I don't know
+[01:30:56] uh the reading on the room so
+[01:31:03] does anyone want to comment on that.
+[01:31:09] Okay, I guess that's it then. Oh, we
+[01:31:12] have one. Just one question. So, this
+[01:31:15] event bus though, it's it's um
+[01:31:19] if you send the event in and there's
+[01:31:21] nothing to to receive it, what happens
+[01:31:25] though? You have to you have to do
+[01:31:27] discovery and then retries and things
+[01:31:30] like that in order to synchronize. Well,
+[01:31:31] are are you talking about a null pointer
+[01:31:34] for the event handler?
+[01:31:36] >> No, we have
+[01:31:37] >> or are you talking about an event that's
+[01:31:39] not supported?
+[01:31:40] >> No, I'm talking about um entities
+[01:31:44] that are using the bus that come up
+[01:31:46] asynchronously.
+[01:31:47] How do how do they discover and and you
+[01:31:52] know if yeah you I mean state that
+[01:31:56] you've sent previously how do you
+[01:31:59] reconstruct that when when the comes out
+[01:32:03] >> if it it it follows the standard uh
+[01:32:06] device bus driver relationship. So if
+[01:32:10] the device is on the bus first, then it
+[01:32:14] sits there until the bus matches it with
+[01:32:16] a driver that supports that specific
+[01:32:19] device. And it goes by name. There's
+[01:32:21] naming involved in the bus matching for
+[01:32:23] auxiliary bus. That's part of the
+[01:32:25] standard auxiliary bus uh design. And
+[01:32:29] then just like uh a normal device when a
+[01:32:32] match is made the probe of the driver is
+[01:32:35] called with the uh with the auxiliary
+[01:32:38] device uh a pointer to the auxiliary
+[01:32:41] device struck itself and the uh
+[01:32:44] auxiliary uh I'm drawing a blank off the
+[01:32:47] tip of my tongue but it's like basically
+[01:32:48] just the name of the device gets passed
+[01:32:50] in. Um
+[01:32:55] so uh when
+[01:32:59] the lifespan of the driver is
+[01:33:02] encompassed by the lifespan of the
+[01:33:03] device. So if the device goes through a
+[01:33:06] remove or an unplug per se, then it
+[01:33:10] can't unplug until the driver's remove
+[01:33:12] function is called and it returns. So
+[01:33:16] once uh a driver is unplugged, the
+[01:33:18] driver is basically uh goes through a
+[01:33:21] remove call. It may still be loaded in
+[01:33:22] memory, but it's it's gone through a
+[01:33:24] remove call call back. So any anything
+[01:33:29] that happens when after that in the
+[01:33:32] driver is is lo or it's lost. Basically
+[01:33:36] there is no state maintained between
+[01:33:39] driver loads or between device unplugs
+[01:33:41] and plugs. they're consider it's
+[01:33:43] considered a new device when it's
+[01:33:45] plugged back in and there will be a new
+[01:33:47] probe call and any state that was uh
+[01:33:49] that was established before that is gone
+[01:33:52] just like if you unplugged a PCI device
+[01:33:55] out of the off of a slot if you're
+[01:33:57] allowed hot swap um it's going to uh
+[01:34:01] call the remove function on that driver
+[01:34:03] and when you plug it back in it's a it's
+[01:34:05] considered new a new device there's no
+[01:34:07] state maintained between one unplug and
+[01:34:10] one plug did I answer your question I
+[01:34:12] want to make sure I answered your
+[01:34:13] question.
+[01:34:15] >> Yes.
+[01:34:16] >> Yes. Yes.
+[01:34:16] >> It says yes.
+[01:34:17] >> Okay.
+[01:34:18] >> Okay.
+[01:34:25] Anyone else?
+[01:34:32] Okay. Thank you, David.
+[01:34:36] >> Oh, you all have a good day.

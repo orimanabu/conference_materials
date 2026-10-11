@@ -1,0 +1,671 @@
+Source: https://youtu.be/ONlZwlqetW4
+Language: en
+Captions: local speech recognition (mlx-community/whisper-small-mlx); unreviewed
+
+[00:00:00] So this work was done by myself and my co-authors listed there.
+[00:00:07] It was mostly to try and compare IOU ring versus TCP DevMEM.
+[00:00:15] And back in Santa Clara we did some of this work,
+[00:00:21] but there were some features missing from both DevMEM and IOU ring.
+[00:00:25] So again, just to investigate these two,
+[00:00:29] our major goal was just to try and understand the performance characteristics and interfaces.
+[00:00:34] How would someone write an app for this thing?
+[00:00:39] And when we did the last time we did performance measurements,
+[00:00:42] we had access only to 100 gig link.
+[00:00:46] Everybody could do 100 gig,
+[00:00:48] then the only differentiation became how much CPU is each one utilizing.
+[00:00:53] So for this reason, this time around we were able to get a fix from Intel,
+[00:00:59] which allowed us to do 200 gigs on a single port on the same neck.
+[00:01:04] So in addition, around December,
+[00:01:09] Transmit side DevMEM was released, Zero Copy Transmit,
+[00:01:14] and since Santa Clara as well IOU ring, Zero Copy Receive showed up.
+[00:01:20] So it was good motivation to submit something new to the conference.
+[00:01:27] Okay, so for those who are not familiar with Zero Copy, is my mouse showing up there?
+[00:01:33] Yeah, okay. I'm not going to spend too much time on this.
+[00:01:37] Who is not familiar with how Zero Copy works with Hedda's plate?
+[00:01:42] One. Okay. Christy, no.
+[00:01:48] Okay, so what you have is you configure your neck to do Hedda's plate.
+[00:01:53] The packet comes in, and so on,
+[00:01:56] your memory map using the binding that was added a while back.
+[00:02:02] You map your user memory, for example, to one of your payload memory.
+[00:02:09] And if I was to draw this without Zero Copy, all this would be red,
+[00:02:13] implying that trying my best to abstract here, meaning kernel memory,
+[00:02:18] but in this case we basically have the blue memory which is user space,
+[00:02:24] mapped to the receive payload, and the transmit payload as well.
+[00:02:29] Okay, summary.
+[00:02:31] And you could actually take the, you could take Accelerator as example,
+[00:02:35] a GPU is the most common.
+[00:02:39] Grab, remap that, map that memory to the receive queue on the receive
+[00:02:44] and on the transmit as well.
+[00:02:46] Okay, I'm not going to spend too much time, because I have a lot of other slides I have to run to,
+[00:02:50] with, but essentially for those who raise their hands,
+[00:02:55] what happens when a packet comes in, the Hedda payload,
+[00:02:58] the Hedda splits the Hedda, it does a parsing,
+[00:03:02] matches some Hedda tuples, splits the Hedda from the payload,
+[00:03:06] and then we use the payload on the blue and the Hedda on the red,
+[00:03:11] and the kernel TCP will process this,
+[00:03:15] and a receive message running on user space as such here,
+[00:03:20] would get receive message notifications with memory offsets, et cetera, et cetera.
+[00:03:25] Okay, I'm not going to spend too much time, like I said.
+[00:03:27] Let me describe the setup target and traffic.
+[00:03:31] So, to quote David, Ahan?
+[00:03:35] What's David, yeah?
+[00:03:38] So back when we presented our results with the many flaws in Santa Clara,
+[00:03:42] he said, you know, if you really want to do benchmarking,
+[00:03:45] you have to tell us how much you can do with one flaw.
+[00:03:48] So our ultimate test is to try to fill a pipe with whatever hex, gigabits,
+[00:03:55] X's variable with just a single flaw.
+[00:03:59] We're doing an asymmetric test.
+[00:04:01] Basically, there's a sender who sends the payloads,
+[00:04:03] the receiver receives them, really does nothing with them.
+[00:04:07] Our MTU is large enough to cover the appropriate MSS, which is 4108,
+[00:04:11] that's 496 payload and 12 bytes for TCP options.
+[00:04:17] So IPv4, we run very long flaws, mostly up to 100 seconds,
+[00:04:21] and we try to write as much as 64 megabyte send and receive.
+[00:04:26] Okay.
+[00:04:29] I'm going to skim through this as well very fast,
+[00:04:31] but if you want you can slow me down by raising your hand or whatever.
+[00:04:35] The motherboard is not very sophisticated, well, it is sophisticated.
+[00:04:40] But it's not a new one, there's only a single core in there,
+[00:04:45] with, I think only Intel builds this motherboard.
+[00:04:51] It's called the Ruby Pass.
+[00:04:54] It's got a single sapphire rapids, which is known as the Eagle Stream platform,
+[00:05:00] I believe is the marketing name, 48 cores, with a ton of hyperthreading.
+[00:05:05] So we've got 128 gigs of RAM, and we wrote our own homebrewed application.
+[00:05:11] I'll add its retain rust.
+[00:05:15] And we bound one of these CPUs, it was bound to soft RQ,
+[00:05:20] essentially to the interrupt, with only one QPayer being used,
+[00:05:24] and the other was bound to the application.
+[00:05:27] So all the traffic lands on single CPU, on Q0 it goes up,
+[00:05:33] the app processes on another CPU.
+[00:05:35] That was our original goal.
+[00:05:37] We have two Intel IPU 2100s.
+[00:05:42] Like I said earlier, we, and we're using the upstream driver, the IDPF.
+[00:05:49] Single cable, 200 gig.
+[00:05:55] The NIC is placed on a PCI for X16, so we should be able to do 200 gig,
+[00:06:00] given that capacity.
+[00:06:04] Hader split, NIC can do header split, scatter gather, check sum, tier.
+[00:06:09] So hardware GRO, that was an interesting feature.
+[00:06:12] And we set the transmitter receiver ring to 4096.
+[00:06:16] These are some of the other settings on the receiver and the sender.
+[00:06:19] Kernel 614RC1 with some extra patches on top,
+[00:06:27] some simplistic hooks for page pool so we can do DevMEM.
+[00:06:34] There was an issue with the hardware GRO, that was fixed by 3D.
+[00:06:40] We enabled big TCP, you have to basically patch the kernel
+[00:06:44] to change the size to 131K,
+[00:06:50] and then you configure the kernel, config max XAB frags to 45,
+[00:06:56] which is a nice improvement compared to when we tested,
+[00:06:59] when we last showed up in Santa Clara, where you actually have to go and hack the code.
+[00:07:03] We got some, a lot of help from Pavel with IOU ring,
+[00:07:08] and we used his V13, we pulled it from GitHub.
+[00:07:12] Mina was extremely helpful as well.
+[00:07:17] We used his Vachine from December 2024,
+[00:07:20] because that's what, when we first saw that,
+[00:07:25] that's when we decided to do this test, with some bug fixes, which I'll mention after.
+[00:07:30] There were other patches that followed up in January,
+[00:07:33] but the API had changed, we tried to use them, we found a bug,
+[00:07:36] then we say, okay, let's just go back, we had already started,
+[00:07:39] we already built the infra for the tests.
+[00:07:42] Okay, so we're interested in three metrics.
+[00:07:45] Number one is throughput, power consumption, CPU,
+[00:07:50] and we compute our results based on these three metrics.
+[00:07:53] We have a little box that measures power that's measuring the whole box as a black box,
+[00:08:00] and our test duration was about 100 seconds at 64 megabyte messages.
+[00:08:07] You end up sending like one terabyte across the link.
+[00:08:11] So over 100 seconds, even if there's glitches, they kind of even out.
+[00:08:15] We repeated five times, I just, we throw some of the results,
+[00:08:20] we picked something as the middle, I don't think it was absolutely necessary,
+[00:08:23] but the fast one definitely is good reasons to throw out.
+[00:08:26] Starting in governor mode, as you run in the 100 seconds, the power goes up,
+[00:08:31] so we do ramp up in the power, okay?
+[00:08:34] You can also bring me back to this afterwards.
+[00:08:37] Okay, so it looked good.
+[00:08:39] We picked our test cases, we didn't want to want to do too many tests,
+[00:08:42] so receiver side is a permutation of we have software JRO versus hardware JRO,
+[00:08:48] versus big TCP, versus no big TCP on both send and receiver.
+[00:08:52] Baseline, our baseline test is there is no zero copy,
+[00:08:57] it's just classical socket application with send and receive,
+[00:09:02] and then we did zero copy with DevMem and IOU ring,
+[00:09:06] and then on the sender side, we varied between big TCP and no big TCP with baseline,
+[00:09:10] and for zero copy transmit, DevMem versus IOU ring.
+[00:09:14] So any questions?
+[00:09:19] Alright, so who knows what, who doesn't know what here be dragons means?
+[00:09:26] Everybody knows?
+[00:09:28] Shri Yit knows, does anybody else know what here be dragons means?
+[00:09:32] Okay, since I have time, I'll explain.
+[00:09:35] So back in the day, primidivial days, when people drew maps,
+[00:09:40] and they had no idea what you'll find on some place, they'll put dragons on the map,
+[00:09:48] and that would mean that if you go there, you may meet dragons, right?
+[00:09:54] And it will say, I think the writing will go, here be dragons.
+[00:09:58] So you'll find some dragons on the way there, and we did find some dragons.
+[00:10:02] So some bugs were fixed, there was one for the TX,
+[00:10:06] where the global binding for TX iteration on the buffers was not working,
+[00:10:14] fixed that, took us a while.
+[00:10:16] There was a patch that made it in from Sami, I think, at Google,
+[00:10:21] that we had to undo some things, we have not pushed that patch upstream.
+[00:10:25] I think it privately sent it to Sami, but it never had back from him.
+[00:10:29] And the IDPF driver is lacking a few things, one being the page pool stats, which we added.
+[00:10:34] It was a quick hack.
+[00:10:36] It turned out it didn't help that much.
+[00:10:38] Okay, IE ring, so let me go over, IE ring had less issues.
+[00:10:45] It's still cheating on IE weight accounting.
+[00:10:49] Pavel has a patch, but we never tested it.
+[00:10:52] So if you run a lot of CPUs, you'll see that it's sitting there waiting for IE weight a lot.
+[00:11:05] And in fact, this could account up to, let's say, 35%, right, if you have two CPUs.
+[00:11:12] And on the transmit side, it's even worse, because you'll see up to 87%.
+[00:11:16] Again, Pavel did provide us a patch, but we never used it in this test.
+[00:11:22] I wasn't sure if it's because I think it wasn't applying cleanly.
+[00:11:26] Pavel can confirm that or not.
+[00:11:29] It's Pavel here.
+[00:11:32] Ah, thank you.
+[00:11:34] Okay, so in the way, so it showed like it was utilizing less power, less CPU, but the power was compatible to what we were expecting.
+[00:11:43] So that's what I wouldn't call it cheating.
+[00:11:46] It's just a technique they're using.
+[00:11:49] And if you look before Pavel's patch on the left side, and then after the patch, you'll see that the power states change.
+[00:12:00] So that was the major qualm, and it's not a big one with IE ring.
+[00:12:08] Okay, so now we're going to Devman, because the rest of the things I'm going to describe is just mostly about Devman.
+[00:12:14] So the first thing you need to get right is the provisioning of the page pool, which is, this is a feedback control system.
+[00:12:24] So you have to fill the tank, right?
+[00:12:27] Traffic is coming in.
+[00:12:29] Okay, I'm just going to...
+[00:12:32] This was my mouse cursor.
+[00:12:39] Okay, thanks.
+[00:12:44] Okay, so incoming traffic.
+[00:12:48] As you flash from the page pool, you need to make sure that this flows cleanly, that you have enough power in there to flash whatever is coming in, as well as in-flight it's filling up.
+[00:13:03] Okay, so classical feedback control system, everybody's familiar, it's the easiest example I could find.
+[00:13:12] So next, we basically, the first thing we did is we found that the path profile was showing...
+[00:13:22] Damn it.
+[00:13:26] My cursor not showing up at all.
+[00:13:31] Okay.
+[00:13:34] Anyway, what you see on the top, which says bad, that's before, if you don't provision your page pool correctly, you're going to get a lot of trashing.
+[00:13:44] Then you provision it correctly and it looks better.
+[00:13:47] You see the tcp receive dm... message receive dmabuff at the top.
+[00:13:52] Now, you know, you got to write, but look at the previous path and it does not look as good.
+[00:13:58] So we ended up allocating 64 megabytes of udmabuff for the page pool.
+[00:14:07] We also observed that if we made a smaller receive message, let's say around 512K, the performance was not as good.
+[00:14:15] So 64 megabytes of udmabuff on the page pool, our performance improved by 30%.
+[00:14:22] Okay, so that's the one thing you need to know.
+[00:14:25] It requires management.
+[00:14:28] IoEring will...
+[00:14:31] So this is... you basically have to go and look and see, oh, why is my performance bad?
+[00:14:37] You dig a little bit deeper and then you know it's because of the page pool.
+[00:14:43] And IoEring has a much nicer feature, which is you get events, actually.
+[00:14:50] If you are not keeping up, let's say for example with the reception, you will get this IoEring...
+[00:15:00] So you set up the IoEring with feature not drop and you get notifications.
+[00:15:06] So that will be a trigger for you to go and reconfigure things.
+[00:15:11] All right, so run the first test, just looked at throughput, nothing else.
+[00:15:16] Everything looked the same. This is two CPUs again.
+[00:15:20] The black is indicating hardware JRO versus no hardware JRO.
+[00:15:27] So baseline maybe is reasonable, it's about 83, 84 megabytes.
+[00:15:34] Dev mem did not... sorry, hardware JRO did not do much to help.
+[00:15:40] Now you would be expecting hardware JRO to improve over no hardware JRO.
+[00:15:46] That's the rational gut feeling.
+[00:15:50] And that's true for everybody, except for Dev mem.
+[00:15:54] So again, another dragon pops up on our way to... on our journey to just run what we thought would be a one-week's worth of effort.
+[00:16:05] But what is impressive here is you can see for example IoEring, excuse me, with two CPUs is filling up the pipe almost 190 gig.
+[00:16:16] You would probably... PCIe 4 at X16 is getting closer to 200 gig.
+[00:16:24] So you're probably dealing with PCI overhead at this point, right? The encapsulation overhead.
+[00:16:29] So seeing this, knowing that a lot of the Dev mem inherited some of the techniques, not all, but some of the wisdom that was in message TX0 copy as well as in RX0 copy.
+[00:16:47] Eric, we went and decided this was not part of our plan. Let's just go and run a transmitter with message 0 copy and receiver with what Eric had done.
+[00:17:00] So we left one side transmitting Eric on the other side. And yeah, it's the behavior we expected, right?
+[00:17:06] The hardware JRO was producing better results than no hardware JRO.
+[00:17:12] And in fact, for hardware JRO, the performance was better than that.
+[00:17:16] Right. Now remember, we did not want to do this. We spent about a day or more figuring what the hell is going on.
+[00:17:22] Did we misconfigure something? Did we write the app incorrectly?
+[00:17:28] And so we went and collected the CPU utilization. I just wanted to pay attention to the Dev mem before, without hardware JRO.
+[00:17:38] Blue means the system calls. Red is around what the application is getting. The application is not doing much really.
+[00:17:45] It's just receiving the received message, counting a little bit and letting go. Basically recycling the buffer.
+[00:17:55] The software Q is yellow. That's the software Q CPU. And this is the CISCOL CPU where the app is running.
+[00:18:01] So C is very overloaded with CISCOLs here. Then we turn on hardware JRO and it's using a lot less CPU.
+[00:18:09] But we're getting worse performance.
+[00:18:12] Okay. So now if you look at message zero copy, transmitter receive, it's behaving sanely. That's what we would expect.
+[00:18:22] Okay. So looked at power next time. So I'm ignoring the transmitter. I'm only looking at the receiver.
+[00:18:28] Yes, power is as expected using less power with the hardware JRO. A lot more with no hardware JRO.
+[00:18:36] And it's consistent across except for here. This could be just a glitch. It's very small difference.
+[00:18:42] Okay. So at this point, say let's go and run Parf. Okay.
+[00:18:46] We're looking at Parf from both Dev mem and are you reading nothing really stands out.
+[00:18:56] But looks, the whatever CISCOL stuff in red, they're all seems to be CISCOL and user space related.
+[00:19:05] Okay. So say let's take a look at what CISCOLs do.
+[00:19:10] And this is a feature that I think David, David, you added this feature right on Parf.
+[00:19:17] Right. It gives us statistics of how this CISCOL utilization goes.
+[00:19:22] If you take a look, you'll see that you see that. Okay. I'm not even going to use the car. So you can read that.
+[00:19:31] First of all, look at the eye or your ring. The CISCOL is very, very cheap. There's only one CISCOL. There's a wrappers around the CISCOL.
+[00:19:38] But eventually you enter I or your ring enter. If you look at the average cost, seven microseconds on average, right on the worst case scenario, we're hitting like 450 microseconds.
+[00:19:51] Now you look at Dave Maim, very, very heavy in terms of CISCOL receive message.
+[00:20:01] In the hundred seconds, essentially it's accumulating to about 68 seconds. It's just running receive message.
+[00:20:07] On average, consuming about 112 microseconds.
+[00:20:11] Setsockopt, which is used for recycling the buffers to the page pool.
+[00:20:16] On average, about 43 microseconds consuming about 22 of those microseconds out of the hundred. So it's pretty close to 100.
+[00:20:26] Unfortunately, we run our DevMem approach by using ePoll weight, but it's very, very cheap.
+[00:20:34] So I don't think it added much to the off head. Right.
+[00:20:38] The IocTool there, if you use UDMA buff, remember that you have to do a sync, start, sync, and to UDMA buff.
+[00:20:48] So that's what that is, but it's extremely cheap. I mean, on average, you're spending about 343 microseconds.
+[00:20:57] So it looked like perhaps this was a locking issue.
+[00:21:02] Some of these CISCOLs are hiding the details that there's a lock underneath. So we put everything, we put the application and the software queue on the same CPU and voila.
+[00:21:14] DevMem is now behaving the way we thought it should behave. Right. It's lower for non hardware GRO and it's much higher for non hardware GRO.
+[00:21:24] So it got fixed by just moving everything in one CPU, which typically points to a lock somewhere that's being contended by two CPUs.
+[00:21:33] Any comments, questions before I unravel this mystery? Nothing. Okay.
+[00:21:44] So compare the two now, right on the left hand side, you have the two CPUs.
+[00:21:49] And if you look at DevMem, you know, you have 118 when you do not have hardware GRO and you have 111 when you have GRO hardware GRO.
+[00:22:01] You look on the right. Now I turn on, I put everything on one CPU, which is should be you have less compute power basically, and it's doing better for hardware GRO.
+[00:22:12] So it's went from 111 to 131. There's an increment of 20 gigabytes per second. Right.
+[00:22:18] I ring is performing excellent. As you can see 190.
+[00:22:23] We denied a little bit of CPU with hardware GRO. It went down to 183. Excellent performance still even when you don't have hardware GRO from 139 to 136.
+[00:22:36] So, if you look at the right hand side, single flow, single CPU, up and soft RQ all running on the same CPU.
+[00:22:46] That's what we get. Right. At this point, we're only looking at throughput.
+[00:22:53] Any questions? No comments.
+[00:22:57] Okay.
+[00:23:00] Alright, so within let's go and take a look at the path between the, what is it that made a difference when we put everything in one CPU.
+[00:23:08] So we look at path for both hardware GRO and not hardware GRO to CPUs versus one CPU.
+[00:23:16] Nothing seems obvious, but if you look at the top consumers, they're still Cisco slash up related.
+[00:23:24] So let's go and take a look again at the Cisco costs of one CPU.
+[00:23:29] Now, the set sock opt is now more expensive than the receive message on on DevMem.
+[00:23:41] The cost of on average is now actually went down to 159. Let me just jump to the two CPU versus one CPU there.
+[00:23:50] If you look at the top, that's the two CPU scenario where we receive messages costing on average 112 microseconds.
+[00:23:58] And with one CPU on average is 159. Setsock opt went from 43 microseconds to about 159 on average.
+[00:24:08] So setsock opt seems to be, I'm sorry, 203 to 203. So that's an increment of about four times.
+[00:24:17] Right. So that that setsock opt started looking suspicious at this point.
+[00:24:24] We dig again. And voila, there is the issue. It seems that there is IDPF LibEath is the problem.
+[00:24:35] We investigate a little bit. It's holding a lock for the page pool producer on the receive on the on the head actually.
+[00:24:45] Because this is not even payload. It's header locks. Right.
+[00:24:52] Okay, we're getting closer.
+[00:24:56] So I call this the IDPF hardware GRO dragon, right. The Intel driver creates two page pools, one for headers, one for payload.
+[00:25:08] And I don't know a priori if you're getting hardware GRO or just single buffers per header with the each with the header.
+[00:25:15] So they're symmetric. Okay. Unfortunately, when you have hardware GRO, you're getting one header and X number of payloads.
+[00:25:25] So for this discussion, let's say we had 16.
+[00:25:31] Payloads for with one header, each payload is about 4k, given the way we said the MSS.
+[00:25:41] It means that only the first head is relevant. Now, what LibEath Rx recycled slow, which showed up in that in that path output.
+[00:25:52] We recycle. Now it goes, Oh, yeah, this is a dummy header. I don't need this page. Let me put it back on on the on the header page pool.
+[00:26:00] This time the packet is bubbling up the stack.
+[00:26:05] And at some point, the app will consume that.
+[00:26:10] So it has to be eventually goes propagates down SKP release and it's contending against incoming packets which have dummy headers.
+[00:26:20] Right. So the lock is, is the lock is held for each page page that's going to be recycled once.
+[00:26:28] So you grab the producer lock, you put the page release the producer lock and there is something coming from that has been consumed by user space and there's something coming down, down from this wire right.
+[00:26:43] So that happened to be the road goes for the first issue.
+[00:26:49] And the key was recognizing that sex at opt with one CPU went up.
+[00:26:55] Unfortunately, we didn't have time, neither the inclination to fix this issue, but we tried to reach up to Intel.
+[00:27:05] They, we didn't really get a response, but we're still reaching out to them. So one potential solution. I don't know how other drivers are doing it.
+[00:27:13] Is this a page pool philosophy? This is this how things are done in page pool or is it just the Intel driver?
+[00:27:19] Right. So one solution is maybe why not keep a single page and put multiple headers there and then use ref counts. I don't know if ref cans are more expensive than than the scheme of recycling the 15 page payload.
+[00:27:36] So my theory is, and I did not include here the shared info on the SKP, but you could you could fit a lot of headers in one page.
+[00:27:48] Eric, any comment on that or okay, Mike, there.
+[00:27:52] Mike.
+[00:28:00] Of course, you know that some comments.
+[00:28:04] First of all, the, when the TCP receive message, do the content, the SKP normally is sent back to the to the CPU, which allocated the SKP.
+[00:28:16] So normally you shouldn't have this contention on this pinlock.
+[00:28:21] But so even without that, normally a driver should not use any page frag for the headers.
+[00:28:29] This makes no sense.
+[00:28:32] Normal drivers should allocate a contiguous piece of memory. They may correct.
+[00:28:38] To store all the incoming headers.
+[00:28:41] Let's say you provision up to 256 bytes per header. If you have a ring before 1000 slots, you allocate a single view big page of 256.
+[00:28:54] And then on the receipt path, normally we just copy the header in the SKP head because the stack will need the header in the SKP head anyway.
+[00:29:05] So it makes no sense to use the page frag to hold the header that will be consumed very soon in a JRO layer anyway.
+[00:29:13] So it makes absolutely no sense. I think IDPF is completely wrong here.
+[00:29:18] So there's any other, any driver alpha here that has implemented this.
+[00:29:25] You have.
+[00:29:28] How use your implementation.
+[00:29:31] So Eric, you think there is no need for the dual header versus payload pool.
+[00:29:37] The page pool should be reserved for header splitting concern. If you are doing other split, just use the page pool for the payload.
+[00:29:44] But the header should be split elsewhere.
+[00:29:47] No, I see page pool.
+[00:29:49] There is no need to recycle this stuff. You just go through the normal stuff because yeah.
+[00:29:54] Okay, that's one feedback. I thought I was being clever by saying we just use one page for everything for however many headers, but.
+[00:30:02] Mike over here.
+[00:30:14] Thank you.
+[00:30:16] So we do use page frags from a single page pool, although with the DevMem stuff we are moving towards two pools, one per header, one per data.
+[00:30:29] So that's interesting.
+[00:30:31] But I'm so I'm not sure I follow is so you have a single large, like a high order page just for the headers.
+[00:30:39] Yeah.
+[00:30:40] And you keep it all the time.
+[00:30:42] Yeah, I think that's the course says don't it's initialize that ring initialization when you open the nick and that's it.
+[00:30:49] Okay.
+[00:30:50] And that's a single DMA mapping, by the way, right, right.
+[00:30:54] Games with a UMM, whatever it's a single mapping. So it's much more efficient anyway.
+[00:31:01] Okay, that's an interesting idea.
+[00:31:03] Or the another solution is to put in line the headers in the receive descriptor or some NVIDIA nicks do that.
+[00:31:10] Yeah, but we don't use that.
+[00:31:14] You're on something.
+[00:31:17] David. Yeah.
+[00:31:21] Okay.
+[00:31:23] Okay.
+[00:31:24] And just say we do things differently.
+[00:31:26] That's it. That's all you're going to say.
+[00:31:30] Okay.
+[00:31:31] All right, so I'll bring back the original diagram. Sorry, go ahead.
+[00:31:35] I had one more question if you were checking. So the page pool stats have these like recycle quick. I don't remember.
+[00:31:42] We wrote just we ended up doing the IDPF driver does not have page pool stats.
+[00:31:47] So we ended up hooking one ourselves. We're not very experienced. We didn't see anything useful.
+[00:31:53] The data seemed to be, you know, just showing something. There was nothing to read from the data that could reveal anything.
+[00:32:01] But the contention. So this kind of this lock was inside the driver or was it? Yeah, so the lock is.
+[00:32:08] So actually, so let me let me just bring up the original diagram that that brought up the problem. Right. So that brought it to our attention basically it's just observing that how do you give us less performance.
+[00:32:23] Right.
+[00:32:26] And the real reason is this call called the lead.
+[00:32:32] If Rx underscore recycle slow.
+[00:32:37] And basically recycles the dummy.
+[00:32:42] Listen, in the example, I get 15 headers 15 back to the payload to the to the header payload page pool. I'm sorry.
+[00:32:49] The page already has this mechanism for quick recycling. Is it doing additional recycling? No, it's just you have to go and grab the producer lock.
+[00:32:59] Put back your page. That's the code we saw. And then release the lock, but you're doing one at a time and there's a cost of grabbing the lock and releasing it.
+[00:33:09] Right. What we did notice with our ring, for example, is very clever is using the cash.
+[00:33:14] Right. So it did not have this kind of issues and it, it was not susceptible to this problem.
+[00:33:22] Now, I don't know if that's by design or just by accident.
+[00:33:26] Of course, he's going to say by design, but okay, so this is how it works.
+[00:33:31] Jamal, it's somewhat suspicious to the function that's called underscore slow over here.
+[00:33:37] Ends up burning 5% of your CPA.
+[00:33:42] Yeah, I think, yeah, you're right. The suffix or prefix in there slow implies that it should not be called that much. Right.
+[00:33:52] Whoever wrote the code clearly did not see this.
+[00:33:57] That is not slow. If you're recycling 15 pages for every for every GRO that bubbles up.
+[00:34:05] Okay, so next we run into what I would call the payload recycle dragon.
+[00:34:09] This is another dragon that runs the head of recycled dragon. The other one is the payload recycle dragon. Right.
+[00:34:14] So again, when you, the mechanics for recycling payloads from Dave man is you call set sock opt.
+[00:34:24] Eventually, we figured out that we could do, you could actually batch from user space.
+[00:34:29] You could send as many as I don't know why the maximum is 1024, but you could send as many as 1024 tokens to the kernel.
+[00:34:38] Which will then try to recycle. However, if you look at the recycling thing, it actually also grabs instead of going into a for loop instead of grabbing the lock once and then batch recycling.
+[00:34:50] It was grabbing a page at the lock, putting one releasing then going back.
+[00:34:56] Now there's a lot of interaction to get to the code that was recycling.
+[00:35:01] So we made two changes to because this one looked like an easy, easy fix.
+[00:35:07] So, sorry, there's a, there's someone else to say something. Yeah.
+[00:35:11] Finish with the slide first.
+[00:35:13] You want me to get back to the previous one?
+[00:35:16] No, I was just going to say what you have on the slide and identical API access for page pool to recycle a batch of pages at once.
+[00:35:24] We ended up using that we actually wrote on initially, then somebody noticed that there is this thing called PAP.
+[00:35:30] There is this thing called bulk recycle. We hacked it a little bit. It's not, we made some small changes.
+[00:35:38] Yeah, yeah, we made because this is invoked from the, this signal comes from user space. So it's going down on set so called opt and then so there is a different code path.
+[00:35:50] That's what we had to change. I think we added one more parameter or something like that. I have to go and look.
+[00:35:55] Yeah, I was driving.
+[00:35:57] And if I, if I show you path, you'll see it being called bulk something.
+[00:36:01] Right. But we do, we did make that change is just where it's being invoked. And I think we added one extra parameter.
+[00:36:08] So in this case, we made the instead of the application recycling at every receive, we just collected a bunch of them.
+[00:36:17] And then we would call set so called opt with a batch of tokens.
+[00:36:24] And now I have no idea why the kernel really insists that it has to be a maximum of 1024. I don't know if anybody knows the reason as to why we can only send 1024.
+[00:36:37] What do they call it? Park container.
+[00:36:40] Right.
+[00:36:42] So that's one is we fixed our app. So our app now is batch recycling.
+[00:36:48] And we kind of lock size to basically do the batch recycle initially we like I said we wrote our own and then we noticed that is it used in XTP talking.
+[00:36:57] It's XTP. Yeah, that code is invoked from XTP.
+[00:37:01] I don't know where it's somewhere from the lower layers there invoking the bulk release, I think.
+[00:37:07] Who's the use of that.
+[00:37:13] Some drivers use bulk release and some don't. Okay, I think my next five uses the bulk release and the others should be, I guess.
+[00:37:24] Okay, so in a case we grab the producer lock and then that's the loop you grab it once you go in a loop you put back the pages and release the lock.
+[00:37:34] And on average in our runs with that man we saw up to on average about 875 tokens coming up on receive message.
+[00:37:45] So that's if you round that up to 1000 that's about four megabytes at a time when you do receive message right.
+[00:37:52] Our change to the app is to we wait until either we receive 512 or more.
+[00:37:59] If they receive message gives us 875 then we recycle the whole 875.
+[00:38:04] There are occasions where we get over 1000.
+[00:38:08] But we can we only send and we will send all of them back as long as it doesn't exceed the maximum number right.
+[00:38:15] And we did see that the set stock opt went down.
+[00:38:20] So we ended up adding on statistics in the app so you can see how many receive messages we got.
+[00:38:27] And I can't control my mouse but yeah, oh I could. Okay.
+[00:38:31] So you can see the number of receive messages we got and the number of set stock ops.
+[00:38:39] The number of set stock a little higher than receive message because on average we're getting more than 512.
+[00:38:46] So we're getting more than 512 per receive message.
+[00:38:51] So we collected a bunch of stats which gave us a good indication to finally to tweak again the application.
+[00:38:58] Okay.
+[00:38:59] Now you think that we'll see a good throughput increase but no.
+[00:39:04] So on the on the left hand side is the one CPU.
+[00:39:08] And you can see that.
+[00:39:11] Oh, I can control my mouse from here. Great.
+[00:39:15] I need to wake up. Okay.
+[00:39:17] So this is just Dev mem before the batching and this is Dev mem with batching on a single CPU.
+[00:39:24] Right. So you notice that we went from 74 to 92 went 131 to 135.
+[00:39:30] It's not much but there was an improvement with the two CPUs that phenomena is still there.
+[00:39:36] It's that if Rx slow is still causing us problems but the numbers did go up went from by 10 gig and by another 10 gig.
+[00:39:46] So that's one patch we have.
+[00:39:50] We'll probably will upstream that.
+[00:39:53] Right. It's a small change to your bulk memory thing.
+[00:39:57] Okay. Now let's take a look at before and after batching on the two CPUs first.
+[00:40:03] You notice that set so copped which used to cost about 043 microsecond is now costing 27 microseconds.
+[00:40:13] And in fact, the receive message also went down to 94 microseconds from 112.
+[00:40:19] The other ones are pretty much constant.
+[00:40:22] And if you look at the one CPU scenario, it went from the set up from 205 to 78 microseconds because we were using this batching.
+[00:40:31] And in the kernel, we're doing a follow up.
+[00:40:34] We're doing a bulk recycle and receive message went down from 146 to about 114.
+[00:40:42] Okay.
+[00:40:45] So we looked again at perf.
+[00:40:51] There's nothing really else that stands out clearly there.
+[00:40:54] So we rely on like black box results to dig any further.
+[00:41:02] So at this point, we passed that map. We're almost close to our destination.
+[00:41:07] So we decided we're not going to test anything on two CPUs to get consistent results.
+[00:41:13] Let's just run everything on a single CPU.
+[00:41:15] So have a single flow up and as well as a software IQ, they're bound to one CPU.
+[00:41:23] Okay.
+[00:41:25] And here's our results.
+[00:41:28] Again, as expected, I ring performs very well.
+[00:41:33] Right.
+[00:41:34] If to Dev mem and we added a big TCP and yes, big TCP does improve things as well.
+[00:41:41] So if you took at I ring, it went from 183 to 188 with hardware, JRO 136 to 154.
+[00:41:48] Dev mem went from 74 gigs with a single CPU to about 88.
+[00:41:54] And on hardware, JRO it went from 131 to 132, not that much, but still an improvement and slightly slight improvement with baseline.
+[00:42:06] Right.
+[00:42:07] So I guess the summary is do not run just standard socket applications and are good and the system calls will kill you and they'll also kill you on Dev mem.
+[00:42:16] But so here we go.
+[00:42:21] We looked at I'm not as much the transmitter side is not as exciting as doing really well.
+[00:42:27] It's the receive side.
+[00:42:28] That's a challenge.
+[00:42:29] Right.
+[00:42:30] So if you look at Dev mem versus I ring, I ring tends to be very heavy on software Q execution.
+[00:42:37] Dev mem says to be more heavy on the Cisco level because the page memory management, et cetera is happening in user space.
+[00:42:45] Right.
+[00:42:46] And if you look at just the sum, so we take the receiver and the sender and we say how much total CPU are we using for this one floor, which gives us whatever this throughput is.
+[00:43:04] And yeah, again, Dev mem and Dev mem versus I ring.
+[00:43:14] They're not, they're not much different.
+[00:43:16] You will notice the difference in the yellow, which is software Q versus the blue.
+[00:43:22] Right.
+[00:43:23] And then you, of course, it's very clear that the blue is killing you on this guys.
+[00:43:27] Right.
+[00:43:28] This is calls.
+[00:43:29] There's no cop.
+[00:43:30] There's a copy here.
+[00:43:31] And you move from this to that with Dev mem.
+[00:43:34] You're still in total.
+[00:43:37] The worst case scenarios were consuming two CPUs.
+[00:43:40] Right.
+[00:43:43] We looked at power, very similar behavior on the sender receiver.
+[00:43:47] The total power being consumed for this, this one floor is a six to seven hundred six.
+[00:43:54] 80 plus to 700 Watts, right?
+[00:43:57] Because you're using looking at two machines.
+[00:44:00] If there's a lot of data there.
+[00:44:02] So we use our famous formula, which we introduced back in Santa Clara of how what we would call the ROI metric.
+[00:44:10] You take the throughput.
+[00:44:12] You use an exponential, let's say of two and you sum up all the CPU that was used.
+[00:44:20] And that gives you the ROI from a, from a CPU utilization perspective, or you can take the throughput.
+[00:44:28] Make n equal to two.
+[00:44:29] So it's squared.
+[00:44:30] It means you're really interested in seeing what benefits I guess the, and then you multiply the power by a factor by another exponent.
+[00:44:39] In this case, the exponent was one.
+[00:44:41] Okay.
+[00:44:42] So the, the, the power here is just the CPU power, or does it also take into account the neck, the whole system.
+[00:44:49] So it is a platform level.
+[00:44:51] Yeah, we have a box that's sitting outside.
+[00:44:53] You, everything goes through that and it has an API we can invoke.
+[00:44:57] Anybody's interested.
+[00:44:59] But it online from some Czech company.
+[00:45:01] It's pretty accurate, but 99.9.
+[00:45:04] What with a single nine accuracy.
+[00:45:07] Great. Thanks.
+[00:45:08] Right.
+[00:45:09] So it sums up everything.
+[00:45:10] It's a black box.
+[00:45:12] And we, the reason we use n equal to two is that let's say you have a 10 gigabit and you consume 10, 200% CPU versus you got five gigabits, but you consumed 100% CPU, which one is better?
+[00:45:24] Right.
+[00:45:25] You can just say the 10 gigabits is better because I got 10 gigabits.
+[00:45:28] It could, if that's what you care about and don't care about CPU or power.
+[00:45:33] So our metrics next are just looking at the ROI metrics.
+[00:45:40] And again, it's very clear that Dev.
+[00:45:44] I owe you ring is performing very well.
+[00:45:46] Now, I can say it before, if I look at the power, you notice the difference is so high for I owe you ring.
+[00:45:53] That's because there's a little bit of cheating there for with the IO wait.
+[00:45:58] But it's still, even without that, it will still, maybe it will end up somewhere here, right?
+[00:46:02] Instead of up there, it will be down here and this may be down here, but still I owe you ring is performing better than Dev.
+[00:46:09] Okay.
+[00:46:12] If I look at the center side, as well, we see similar things like the, the black means you have a hardware, GRO the blue means you don't have hardware, GRO.
+[00:46:23] Same thing with the, with the power.
+[00:46:26] Right. And then if you do the total again, it, there's a huge difference, as you can see.
+[00:46:32] Now, of course, Dev.
+[00:46:34] Mem is sitting here.
+[00:46:35] If you do big TCP, you're doing better than without big TCP.
+[00:46:39] I do believe that some of these issues may be bugs that may need to be ironed out.
+[00:46:46] The receive side for I Dev.
+[00:46:48] Mem looks very stable.
+[00:46:49] The transmit is still check in.
+[00:46:51] So we took the December version and we patched it with some things.
+[00:46:57] Okay. Conclusions.
+[00:46:59] Yeah. The two, these two zero copy interface.
+[00:47:01] They're all beautiful.
+[00:47:03] At this point, I would say that you, if the disadvantage of causes, you have to rewrite the application.
+[00:47:12] So there's a lot of people who like backward compatibility.
+[00:47:15] You can just plug in there into your app or write some Cisco interceptor and then make it work.
+[00:47:21] You could, but it was not worth it in my opinion.
+[00:47:25] I ring the only one thing I found is there is a well on the based on discussions, you cannot turn off I ring for everything else, but networking, you either get the whole thing or you get nothing.
+[00:47:39] Right.
+[00:47:40] So that is a complaint.
+[00:47:44] And the conclusion is Dev mem is very Cisco heavy, mostly because your page recycling happens from user space.
+[00:47:53] While I ring is very canal software Q heavy.
+[00:47:57] While I ring demonstrates a clear advantage.
+[00:48:02] We do not have any link that's above 200 gigs.
+[00:48:05] Maybe if we did two floors and try to go 400 gig, maybe we'll see some things that are obviously not observable at 200 gig.
+[00:48:17] Just like we did with 100 gig.
+[00:48:20] There was clearly no throughput advantage for anybody.
+[00:48:24] And now we're seeing there's a throughput advantage if you, if you go above that the page pool API I was, I thought that you had to have two page pools one for the header one for the payload.
+[00:48:34] So that's why my comment there is page pool API could be improved, but it seems like it's a driver choice.
+[00:48:40] The driver decided to do this.
+[00:48:43] And last but not least hardware JRO presents big advantage.
+[00:48:52] We did, but we did do this payload to so there's some backslides when these are published, you will get in the backslides, you can see a lot more data.
+[00:49:01] But what I wanted to point out is an accelerator.
+[00:49:04] This is an NVIDIA T 100 is one of the T 1000.
+[00:49:08] It's one of those things that goes in your laptop probably.
+[00:49:13] It doesn't even have a power connector.
+[00:49:15] It has four gigs of RAM and we did run some dummy CUDA code to just fire it up because if you don't, it sits at a very, it doesn't fire up the PCI bus.
+[00:49:28] It sits at like PCI one X two or something like that.
+[00:49:32] So you have to write some dummy code that keeps waking it up to and then you can see it propping up to PCI six and we tested Dev mem and it worked great.
+[00:49:46] Now this board is on a riser card which has X three PCI three X 16 so it can do a hundred gig with some overhead for PCI payload.
+[00:49:57] It wasn't the greatest but we were able to do with hardware GRO about 85 gig and without hardware GRO with Dev mem we are doing about 70 gig writing to the GPU memory.
+[00:50:09] So if you run NV top, if you've done this kind of stuff, you can see the thing that was we wanted to get it to run at gen three X 16.
+[00:50:21] You can see the bandwidth on the receive side is pretty high.
+[00:50:24] That's probably close to 100 gig right there.
+[00:50:26] So it was consuming 100 gig on PCI but on the wire does turning up to be about 80 gigabits.
+[00:50:33] Okay.
+[00:50:34] And so with that, I would like to thank a few people who made this happen in a short time.
+[00:50:40] Anjali was not here.
+[00:50:41] I don't know where she is.
+[00:50:42] She's supposed to be online.
+[00:50:44] Was very helpful to us to.
+[00:50:47] Oh, there she is.
+[00:50:49] She is without how we would not have got Intel to do anything for us.
+[00:50:53] Okay.
+[00:50:54] So that's our savior right there.
+[00:50:56] Three does sent us some patches for the driver.
+[00:50:59] Like I said, the RS.
+[00:51:01] RSC is not working.
+[00:51:03] There's quite a few things that are not working that.
+[00:51:06] Three that managed through Anjali to give us some patches.
+[00:51:11] Mina.
+[00:51:12] I don't know if mine is on, but.
+[00:51:14] Me knows very patient with us.
+[00:51:16] We went as far as running the GP orchestrator from Google just to test that the GPU memory.
+[00:51:24] We have some patches to the nickel plugin, but this is outside of the scope and Pavel over here again is another hero right there.
+[00:51:32] He helped us get the any intricacies of bugs that we found in IE ring.
+[00:51:39] He was very responsive almost immediately.
+[00:51:42] So I'd like to thank these people without them.
+[00:51:44] We, I wouldn't be presenting anything in the short time.
+[00:51:47] Now remember, I was going to do this in a week.
+[00:51:50] Victor and I were.
+[00:51:51] I thought Victor was going to do it in two days.
+[00:51:53] Then we had to.
+[00:51:55] We all, we all because we're just collecting results right.
+[00:51:59] Just go and run it and we have everything we need.
+[00:52:02] And like I said, the map was full of dragons and big snakes that we had to cross.
+[00:52:08] But we pass a beard and here we are.
+[00:52:11] Thank you.
+[00:52:12] Questions.
+[00:52:13] So I do have some five minutes.
+[00:52:20] Is it, do I five minutes or three 56.
+[00:52:28] What time does it end?
+[00:52:30] Okay.
+[00:52:31] There's a question.
+[00:52:32] Yeah.
+[00:52:33] So if you go back one slide, when you say, are you, you ring is soft, I had you heavy.
+[00:52:37] Yes.
+[00:52:38] Did you normalize the soft IQ usage to the bandwidth?
+[00:52:41] Isn't this just because it's achieving higher throughput and on the other devices, you
+[00:52:48] don't get the software to push enough.
+[00:52:51] We did not try to separate with the, the ROI was how much software Q was being used.
+[00:52:58] We just summed up the C's call plus IO re a soft RQ and use that as what we would normalize
+[00:53:04] with throughput.
+[00:53:07] Right.
+[00:53:08] That's, that's what we called the ROI formula.
+[00:53:11] This, this formula.
+[00:53:13] I'm just calling it soft IQ, heavy.
+[00:53:17] Maybe just, um, yeah, you know, it's just, it actually achieves the throughput where
+[00:53:22] the terminal has to spend the cycles to process.
+[00:53:25] Yes.
+[00:53:26] The packets was the others.
+[00:53:27] You're spending the time in such calls.
+[00:53:29] So there's no cycles left over.
+[00:53:32] You could argue that that's why I say 200 gig is a good start.
+[00:53:36] I can't reach a conclusion, a hundred percent that Dev mem would not work as well because
+[00:53:42] if public can correct me if I'm wrong here, but the recycling happens in the same CPU
+[00:53:49] where the page was grabbed from in the page pool.
+[00:53:54] And it's basically on the same soft RQ.
+[00:53:57] So at some point at a high enough throughput, I think you run out of soft RQ cycles.
+[00:54:03] All right.
+[00:54:05] Am I correct?
+[00:54:08] Mike.
+[00:54:10] Um, now again, please look at this as micro benchmarks.
+[00:54:15] I believe both of them can do 800 gig with enough flows and enough Q pairs.
+[00:54:20] Right.
+[00:54:21] You can distribute the cues and put 200 gig on, on four Q pairs and you can probably
+[00:54:26] or eight Q pairs and you can get your 800 gig out of this.
+[00:54:30] I don't know for, for sure, because I don't have the hardware to prove this or not.
+[00:54:34] And we have one Nick, which has two by 100, which can be converted into 200 by one.
+[00:54:40] Sorry.
+[00:54:41] I would say the RQ differences pretty much a soft RQ differences pretty much expected
+[00:54:46] because some of the page accounting that Dev mem does from the Cisco path,
+[00:54:52] hearing that just does in the soft RQ from the page pool.
+[00:54:56] So the overhead just shifts into the page pool.
+[00:55:01] Yeah, the question is, is the memory management or the page recycling policy used by are you
+[00:55:07] reading, which is done in the kernel at soft RQ is better than what Dev mem is using because
+[00:55:12] it's recycling through set sock opt right from user space.
+[00:55:16] Now, there may be a reason for this application wise, maybe pytorch or something that's doing
+[00:55:22] GPU training requires that a lot more control is given to user space.
+[00:55:26] I could, I am not privy to this.
+[00:55:28] Maybe someone else can comment on this.
+[00:55:33] Yeah, that would be my guess.
+[00:55:35] I mean, there is, there's some context awareness of which pages need to be posted back for a
+[00:55:42] C or something when it is the accelerator use case instead of the application.
+[00:55:46] I'm guessing that's one reason.
+[00:55:49] I mean, the other way to look at it, if you were to change them empty CP to use, you know, the page
+[00:55:56] recycling in the kernel, could you make it work for when you're using them empty CP for an accelerator
+[00:56:04] use case rather than the application?
+[00:56:07] Do you see any reason that wouldn't work?
+[00:56:09] I don't know if you I think the design is already saying the recycling has to be done through set sock opt.
+[00:56:18] I'm not sure it's a bad design.
+[00:56:20] Like I said, we're limited by the bandwidth we have.
+[00:56:23] The other thing I should mention is I u ring does not have DMA buff, but you're looking to do that bubble.
+[00:56:29] Yeah.
+[00:56:30] Can I get it tomorrow?
+[00:56:32] Just kidding.
+[00:56:33] Okay.
+[00:56:34] Yeah, this is just a question about the DevMem or the benchmarks.
+[00:56:43] Are you going to share them?
+[00:56:45] Especially on the DevMem side, there's not so much benchmark out there.
+[00:56:51] Yeah, let me wait.
+[00:56:54] Let's talk.
+[00:56:55] I could give you access.
+[00:56:57] Thank you.
+[00:56:58] Right.
+[00:56:59] It's a rust programmer.
+[00:57:01] Sorry.
+[00:57:02] It's written rust.
+[00:57:05] It's yeah.
+[00:57:07] Okay.
+[00:57:08] But we could we could we could go over code, for example, and tell you what the architecture looks like.
+[00:57:12] So you could probably write it.
+[00:57:13] We're doing we're doing a lot of batching with DevMem.
+[00:57:17] Right.
+[00:57:18] The design of having the completion cues, the way I ring is designed with cues with with the rings. I'm sorry.
+[00:57:27] Maybe a bit alternative.
+[00:57:29] At least at this point, it looks like a much better design.
+[00:57:34] Right.
+[00:57:38] Any more questions?
+[00:57:44] Thank you.
+[00:57:45] I'll be posted and everything online or when the net of comfort website.
+[00:57:52] Okay, I managed to pull through this. Thank you.

@@ -1,0 +1,871 @@
+Source: https://youtu.be/PJuTETh0mEQ
+Language: en
+Captions: auto-generated
+
+[00:00:01] Okay, let let's get started.
+[00:00:05] Greetings. Uh, welcome to networker
+[00:00:08] observability both we and I will have
+[00:00:12] this broad conversation at native conf.
+[00:00:16] And this is the first edition for us to
+[00:00:19] have the such a broad discussion about
+[00:00:22] how to observe network area
+[00:00:26] and uh we will have four parts
+[00:00:29] motivation and kickoff and I will
+[00:00:31] introduce the long history and what what
+[00:00:33] the background is and the current status
+[00:00:36] and that which means let's take a deeper
+[00:00:39] look at what what we have in the kernel
+[00:00:41] community and the highlight part is the
+[00:00:44] BPF time version
+[00:00:46] that uh that it is that is supposed to
+[00:00:50] solve the latency monitoring problems
+[00:00:55] and observability has been a well
+[00:00:59] discussed topic especially for various
+[00:01:01] customers administrators kind of
+[00:01:03] developers and researchers since the
+[00:01:06] last decade uh there's an aha moment
+[00:01:09] once I tried to reach out to Yakub about
+[00:01:13] the future development of BPF pen
+[00:01:15] samping And I'm try to get some
+[00:01:18] feedbacks on this and your replied with
+[00:01:20] a few sentence say something like why
+[00:01:23] not discuss it at a broader conference.
+[00:01:27] Oh, this is the reason why I reach out
+[00:01:29] to Jamal and here we are and the story
+[00:01:31] has begun and we have a counterpart um
+[00:01:36] micro micro conference at ARPC that is
+[00:01:40] Linux citiz monitoring and observability
+[00:01:44] and uh this year we will hold the second
+[00:01:46] edition uh and last year we received
+[00:01:49] many uh quite interesting topics not
+[00:01:52] only in the community and we share the
+[00:01:55] same ultimate goals
+[00:01:57] Bring people together, find the real
+[00:01:59] require requirements and discuss the
+[00:02:02] direction and finally contributing to
+[00:02:04] the networking community is crucial
+[00:02:08] and blackboard system is something that
+[00:02:11] I uh is something that we need to build
+[00:02:16] uh at at different companies and
+[00:02:20] blackboard uh consists of different
+[00:02:22] components. uh the KS uh is a one big
+[00:02:26] one big part of it. KS is the
+[00:02:29] abbreviation to knowledge source. That
+[00:02:31] means we as the kind of developers we
+[00:02:34] can uh put our knowledge and experience
+[00:02:36] into different small uh fraction of this
+[00:02:39] uh system. And we and I also listed two
+[00:02:44] uh papers that I enjoyed very much and
+[00:02:46] this paper is was not um proposed to
+[00:02:50] solve the network uh problems. It it was
+[00:02:55] pro proposed to solve speech
+[00:02:57] understanding. uh and uh in the meantime
+[00:03:00] it provides a a general and a common
+[00:03:02] methodology on how to build a blackboard
+[00:03:05] system and as the figure says we can see
+[00:03:09] there are so many sit papers around the
+[00:03:11] black blackboard
+[00:03:13] and we have uh five different parts of
+[00:03:17] the blackboard but I don't want to spend
+[00:03:19] too much time on it because I have uh
+[00:03:22] around 80 slides here and I try to try
+[00:03:25] to finish it as quick as possible.
+[00:03:28] Okay. And uh we have another direction
+[00:03:31] that is a protocol specific tool. uh MIT
+[00:03:36] uh created this uh that is a TCP
+[00:03:39] analyzer and uh you can you can tell
+[00:03:42] from this figure it's pretty similar to
+[00:03:45] what we have seen um in the wireshark is
+[00:03:49] is an analyzer of the TCP trees or some
+[00:03:53] throughput of the TCP
+[00:03:55] and the TCP dump was first released in
+[00:03:59] 1988 and there is a road map of this and
+[00:04:01] we have also uh some uh quite convincing
+[00:04:06] paper describing how to build a um a TCP
+[00:04:10] protocol analyzer.
+[00:04:13] And uh to wrap it up, we have two
+[00:04:16] directions uh blackboard system and a
+[00:04:18] protocol analyzer.
+[00:04:21] And uh to uh get straight into the
+[00:04:24] blackboard system, we have three small
+[00:04:27] directions that we can take. uh it
+[00:04:29] depends who we are and what the kind of
+[00:04:31] a problems we are trying to solve and uh
+[00:04:35] uh okay and the application level uh it
+[00:04:38] it includes the kernel latency network
+[00:04:41] usually for uh let me put in this way u
+[00:04:44] in terms of RPC scenario we usually keep
+[00:04:47] track of uh the latency data between the
+[00:04:51] the send uh send send us send uh request
+[00:04:55] and receive the request right but it
+[00:04:57] does not reveal the any details of the
+[00:04:59] kernel size. So here we are that's why
+[00:05:02] we need a system level monitoring uh
+[00:05:04] just like the socket time stamping or
+[00:05:06] the BPF time stamping uh which was
+[00:05:09] proposed to solve uh to to provide a
+[00:05:13] deep insight of the kernel behavior and
+[00:05:15] it uh can show us uh what's the latency
+[00:05:20] of the kernel layer and and why is that
+[00:05:24] and uh and maybe you some of you already
+[00:05:27] noticed that as a switch team they They
+[00:05:30] probably uh uh uh implement a system uh
+[00:05:35] like uh deploying some active active
+[00:05:39] agents in you know group of centralized
+[00:05:41] servers to send probable packets at a at
+[00:05:45] a certain interval. Uh the the it aims
+[00:05:49] to carve the core path in between two
+[00:05:51] servers
+[00:05:53] and uh there are some um uh quite um
+[00:05:58] crucial uh papers that uh because they
+[00:06:01] are all from the uh companies I I like
+[00:06:04] them and please read it after the
+[00:06:06] conference
+[00:06:08] and let's take a look at what I have in
+[00:06:10] the kernel community. We have MIB, we
+[00:06:13] have a trace points and in recent 10
+[00:06:15] years we have a BPF based tours and we
+[00:06:19] also have the package. Package has been
+[00:06:21] merged uh in this in this maybe or last
+[00:06:24] year uh that is used to diagnose the uh
+[00:06:29] TCP uh PC TCP protocol
+[00:06:33] and uh over these years I split um the
+[00:06:37] issues into different uh sections. The
+[00:06:40] first one is misconfiguration. So maybe
+[00:06:43] it's not appropriate name for it. But
+[00:06:46] what I try to mean here is um the wrong
+[00:06:49] use of the IP tables rule uh IP tables
+[00:06:52] rules if users don't understand uh how
+[00:06:55] to pass the right uh parameter or or
+[00:06:59] they expect a wrong return value of some
+[00:07:01] sys and it's very simple to pinpoint the
+[00:07:04] issues with our knowledge source and the
+[00:07:08] reference count Eric uh proposed a
+[00:07:10] detector framework that is ref track
+[00:07:13] checker uh and we can See there are so
+[00:07:15] many patches coming up this framework
+[00:07:18] and it can be used to detect the uh ref
+[00:07:21] count cons uh reference count. Uh before
+[00:07:23] that we we noticed some we noticed there
+[00:07:26] are numerous reports uh pointing to the
+[00:07:29] reference count. So it's very hard to
+[00:07:32] solve the question without the framework
+[00:07:35] and the memory leak is a very classic
+[00:07:36] one but uh I think is uh is
+[00:07:39] comparatively simple because we can use
+[00:07:42] some BPF based tools like the BP PCC
+[00:07:45] memory leak and the crash yeah prior to
+[00:07:49] the powerful AMM uh we find it's very
+[00:07:53] hard to analyze uh the VM core uh in in
+[00:07:58] one day maybe if Especially if you don't
+[00:08:01] understand what's the area you are going
+[00:08:04] to solve but with the help of AI we have
+[00:08:07] a um we have a production ready to have
+[00:08:10] a developing point the issue very
+[00:08:12] efficiently they can be uh the time can
+[00:08:15] be shortened within maybe five minutes I
+[00:08:18] think
+[00:08:20] and latency this is something that I
+[00:08:22] will introduce later and uh I will go
+[00:08:25] through the details of this uh
+[00:08:27] mechanisms and I'll put a finger Here
+[00:08:30] this is how the anat works. It brings
+[00:08:34] out the uh the cries of this uh SKB and
+[00:08:38] it shows some latency. Uh we have uh we
+[00:08:41] have noticed that there are um some open
+[00:08:44] source GitHub repo and like the net
+[00:08:47] trace or radius or something else and
+[00:08:50] there is a big movement of observability
+[00:08:53] that is SQB drop reason. David uh
+[00:08:57] suggested how about using this uh drop
+[00:09:00] reason feature and uh and my ex
+[00:09:04] colleague Mon completed the first
+[00:09:06] edition and we can see it scattered all
+[00:09:08] over the place in the network sub
+[00:09:10] network subsystem. It can be very easy
+[00:09:13] to use because you just need to specify
+[00:09:16] the specific reason into the key keyfree
+[00:09:19] SQB and then you can use the treat point
+[00:09:21] to dump the specific reason and then
+[00:09:23] it'll help you understand where it
+[00:09:25] happens exactly
+[00:09:27] and uh the product specific uh this kind
+[00:09:30] of issues like the TCP can be discovered
+[00:09:33] by writing numerous packet package was
+[00:09:37] um
+[00:09:39] was developed by by Neo hardware layer
+[00:09:42] and uh I have uh I have uh some
+[00:09:45] observation in TCP layer that is TCP RS
+[00:09:49] diagnost payload uh that is uh uh
+[00:09:53] fortunate fortunately the working group
+[00:09:56] adopted this draft a few months ago. So
+[00:10:00] the next step for me is is try to
+[00:10:03] upstream the corresponding implementing
+[00:10:05] in the kernel network.
+[00:10:08] Okay. Uh this is uh a sub sub talk uh
+[00:10:13] that is B time version two. Uh this is
+[00:10:17] the system uh trying to obs observe the
+[00:10:21] network uh latency. Uh the ultimate goal
+[00:10:24] for this system is is uh troubleshooting
+[00:10:28] the rule troubleshooting the issues and
+[00:10:31] and it also can help us um decide which
+[00:10:35] direction that we can take to uh improve
+[00:10:39] the overall system because we we have
+[00:10:41] the latency we know where where we can
+[00:10:44] optimize right so this these are two
+[00:10:47] directions that we can take
+[00:10:50] and we will have five parts um the
+[00:10:53] methodology, the socket time stamping,
+[00:10:55] BFS version one, version two and the
+[00:10:58] future. And uh let me just revisit a
+[00:11:01] little bit how we use uh a legacy
+[00:11:04] monitoring system. Um previously we we
+[00:11:08] some we you we use matrix or trace
+[00:11:11] points or or some BPF based tools with
+[00:11:15] our experts knowledge. Uh and we is it's
+[00:11:18] a loop until we get to the final
+[00:11:21] conclusion. Right? uh it's very time
+[00:11:23] consuming and this kind of uh system
+[00:11:25] does not help for those newbie right uh
+[00:11:29] I mean it's very painful because it
+[00:11:31] heavily relies on the users proficiency
+[00:11:35] in this network subsystem and I cannot
+[00:11:38] make any progress up on this
+[00:11:42] and we uh there's two figures uh showing
+[00:11:45] the slow trend of MIB and uh treat
+[00:11:49] points
+[00:11:50] and we cannot
+[00:11:52] uh we cannot afford adding all the
+[00:11:54] potential points because it's not
+[00:11:57] possible. Uh the coverage uh problem is
+[00:12:01] no one can guarantee those matrix can
+[00:12:04] cover 100% problems and uh so that's the
+[00:12:09] primary reason for that we cannot uh
+[00:12:12] continuously add more new metrics just
+[00:12:15] to solve some uh issues that we seen
+[00:12:17] before. No. Uh art metric is an example
+[00:12:22] uh that does not help us understand
+[00:12:25] which condition leads to the issue
+[00:12:27] because when did you spot an art event?
+[00:12:30] You cannot tell where it happens because
+[00:12:33] you you you cannot tell
+[00:12:36] is is the SKB job is this SKP uh job
+[00:12:41] event h uh happening in in the kernel
+[00:12:44] layer or in the switch in between two
+[00:12:47] servers. No. No one can no one can tell
+[00:12:49] me about this. And the storage problem
+[00:12:53] you will uh soon find this problem after
+[00:12:56] you deploying uh uh monitoring system in
+[00:13:00] production because um because there is a
+[00:13:04] calculation. It means we cannot afford
+[00:13:06] excessive records in the database. And
+[00:13:09] according to my previous experience that
+[00:13:12] over 95 collected metrics are useless
+[00:13:15] because if this uh collected matrix are
+[00:13:19] useful only when you want to trace uh
+[00:13:22] one of flows in the historic records and
+[00:13:26] and the rest of them are useless for
+[00:13:29] obvious reasons.
+[00:13:32] And after this uh there is u there is a
+[00:13:36] methodology that I mentioned a little
+[00:13:39] bit last year at RPC uh where we need to
+[00:13:43] uh specifically understand
+[00:13:46] what kind of a problem are we we are
+[00:13:49] trying to solve. For me the latency is
+[00:13:51] the root matrix. Why we cannot um we
+[00:13:57] cannot use the uh the the something like
+[00:14:01] the stores in the cut as the as the root
+[00:14:05] metric because it does not reflect the
+[00:14:07] real situation. If if the root metrics
+[00:14:10] goes high I mean the latency goes high
+[00:14:12] that means uh the user experience or the
+[00:14:16] or the application service will be
+[00:14:18] impacted because of the latency problem.
+[00:14:21] So we we use the root metric as the
+[00:14:24] first line to help us uh do the kernel
+[00:14:27] attribution. I will talk about the
+[00:14:28] attribution later.
+[00:14:31] Uh yes uh there are two perspectives on
+[00:14:35] how to build this system. uh previously
+[00:14:38] let me revisit a little bit how we propo
+[00:14:41] how the blackboard system was proposed
+[00:14:43] in last century that paper uh focuses on
+[00:14:47] the uncertainties and they they don't
+[00:14:50] know the details of why some problem
+[00:14:53] happens uh so so it so the only thing
+[00:14:58] for it to do is add numerous metrics
+[00:15:02] just to find the root cause but it's not
+[00:15:05] possible we As the current developers,
+[00:15:08] we can consider us as the experts of
+[00:15:13] network subsystem and we can designed uh
+[00:15:17] uh designed in a different aspect. How
+[00:15:19] about uh replacing how about replacing
+[00:15:22] the previous matrix with attribution?
+[00:15:26] The attribution should be the first
+[00:15:27] line. uh I mean uh with the kernel
+[00:15:30] attribution involved uh those we can see
+[00:15:34] some issues that was received from our
+[00:15:36] clients and we can easily uh tell them
+[00:15:40] that this this issue can be attributed
+[00:15:42] to the uh upper layer or it can be
+[00:15:45] attributed to the kernel layer or it can
+[00:15:47] be attributed to the um to the physical
+[00:15:50] link in between two servers. So that is
+[00:15:52] a kernel level attribution. After we
+[00:15:56] conf we confirm that this issue
+[00:15:59] happening in the kernel we we need a
+[00:16:01] more uh fine grained observation that is
+[00:16:05] layer level. Leo level means the TCP IP
+[00:16:08] Qisk and the driver and after that the
+[00:16:12] only thing for us to do is try to
+[00:16:14] minimize the scope of the issue like
+[00:16:17] before about using some matrix or trace
+[00:16:20] points or BBF tools. So uh so this so
+[00:16:23] the uh attribution is crucial here and
+[00:16:28] we use it uh in our systems
+[00:16:34] and a contract uh contract means we uh
+[00:16:37] we have some callbacks in the BPF time
+[00:16:39] stamping and and um we we we need to
+[00:16:42] tell our users that we there are some
+[00:16:45] contract that we follow like u what's
+[00:16:48] the boundaries between the two layers or
+[00:16:50] what's what was the definition of the
+[00:16:52] kernel level attribution something like
+[00:16:55] that
+[00:16:57] and uh let me uh recap a bit about
+[00:17:00] socket time samping um the history of
+[00:17:03] the socket time samping is Patrick
+[00:17:06] implement the first edition of uh uh of
+[00:17:09] it in 2009 and William fulfilled
+[00:17:11] enhanced socket time samping every
+[00:17:13] aspect especially for TCP in 2014 and
+[00:17:17] this is how we use uh the socket time I
+[00:17:20] mean to calculate the the the latency to
+[00:17:24] have us understand what what what's
+[00:17:26] going on here and uh this these are some
+[00:17:29] time summing points that we can
+[00:17:31] calculate the delta between two between
+[00:17:34] two time summing points but it has some
+[00:17:38] flaws as we can see from this figure it
+[00:17:40] requires some modifications in the
+[00:17:43] application and it asks the users to uh
+[00:17:46] trigger uh extra uh receive messenger to
+[00:17:50] receive the time sample of the kernel
+[00:17:52] side. Um one time sample point means one
+[00:17:55] SQB in the error Q of this socket or we
+[00:17:58] need to put the time sample of time
+[00:18:01] sample of the SQB into the error so that
+[00:18:04] the application can call the recent
+[00:18:06] messages called to retrieve this SQB and
+[00:18:09] get the uh the corresponding time stamps
+[00:18:12] and there are some limitations as I said
+[00:18:15] and uh it's not transparent because we
+[00:18:18] we sometimes we find it's very hard for
+[00:18:20] us to ask our uh users to upgrade their
+[00:18:25] application is it's pretty easy for us
+[00:18:26] to upgrade the kernel. So
+[00:18:30] we need to handle that and the
+[00:18:32] additional overhead because of the extra
+[00:18:35] receive messages
+[00:18:37] and it's not a it's not a flexible
+[00:18:40] because you if you want to trace more
+[00:18:43] points of the kernel you have to write
+[00:18:45] more time points in the kernel and and
+[00:18:49] recompile and rebuild and uh publish to
+[00:18:52] the uh to our users right and uh this is
+[00:18:57] how I proposed the BPF time stamping for
+[00:19:00] uh version one uh at netcom in 2024.
+[00:19:05] Uh it's is it's more of a mirror of
+[00:19:08] socket time samping that was
+[00:19:10] reimplemented with BPF. It solves all
+[00:19:14] solves the previous issues that I
+[00:19:16] mentioned and um and it's a transparent
+[00:19:20] and achie it achieves a low overhead
+[00:19:24] and how to use it. Uh well, we need to
+[00:19:27] uh we need to write something in the BPF
+[00:19:30] prog program like the F entry or hook
+[00:19:33] the TCP send message log to get the
+[00:19:35] start time of this send message and then
+[00:19:39] in the in the call back the send message
+[00:19:42] call we do two things. The first one is
+[00:19:45] to tag the last SQB of this send
+[00:19:49] message. And the second thing is do the
+[00:19:52] correlation because we need to correlate
+[00:19:54] the start time and this SQB and in the
+[00:19:57] subsequent callbacks we need to uh do
+[00:20:01] another look up and correlations
+[00:20:04] correlation process because we need to
+[00:20:06] correlate the current times current time
+[00:20:10] stamp with the start time stamp so that
+[00:20:13] we can calculate the data
+[00:20:17] and there are some limitations
+[00:20:20] uh we we cannot uh we cannot tag a sing
+[00:20:23] and fin and r proper cases and there's
+[00:20:27] one flaw that um that uh
+[00:20:32] that we can see from the socket times I
+[00:20:34] mean and the bbf version one because
+[00:20:37] when the system is out of memory uh is
+[00:20:41] is the uh it's a TCP send message locked
+[00:20:45] when the system is out of memory and it
+[00:20:47] will skip the uh the important function
+[00:20:50] that is a TCBTx time stamp which tags
+[00:20:53] the last SQB of this send Cisco. If
+[00:20:57] without tagging the SQB we will not get
+[00:20:59] the corresponding time stamps right. So
+[00:21:02] it skips the this function and the last
+[00:21:05] one will not get get tagged
+[00:21:08] and the delay act issue. Uh we sometimes
+[00:21:12] uh observe that the lead between the
+[00:21:15] sand core and the time we get
+[00:21:18] corresponding act and the delta goes
+[00:21:21] higher that probably uh because of the
+[00:21:26] send uh because of the deleted act
+[00:21:29] mechanism mechanism working on the
+[00:21:31] remote side we cannot solve it in the
+[00:21:33] current implementation. Uh I've already
+[00:21:36] talked with Kevin and uh he prom me he
+[00:21:40] said uh he we are at two more metrics uh
+[00:21:45] act delay and network RDD network RTD
+[00:21:50] and this is the draft describing this
+[00:21:52] kind of issue uh this the whole process
+[00:21:55] will be negotiated in three-way
+[00:21:56] handshake and uh with that with that
+[00:21:59] negotiation and uh the SQ will carry the
+[00:22:03] corresponding time here uh and we can
+[00:22:06] calculate the the precise and the host
+[00:22:10] delay and act delay and the big packet
+[00:22:13] issue previously we we trace uh the last
+[00:22:17] SQB of the time stamp uh of this send
+[00:22:20] message so what's the point of tracing
+[00:22:23] the Qisk time sample and the driver time
+[00:22:26] stamp when the SQB is is big I what's
+[00:22:31] the mean of the a bigger package it it
+[00:22:34] probably can be splitted into uh smaller
+[00:22:37] size. I mean MSS size the package if
+[00:22:40] someone disabled the TSO TSO. So at that
+[00:22:44] stage only the jet between sand and air
+[00:22:47] makes sense but the rest of them makes
+[00:22:49] no sense right and it cannot be applied
+[00:22:52] to the historical flows and the trace ID
+[00:22:55] is a very open question because
+[00:22:59] because uh is something that we can
+[00:23:02] correlate with the kernel behavior and
+[00:23:04] and application behavior
+[00:23:07] and uh uh and this is something that I
+[00:23:10] want to upstream in the few uh few
+[00:23:13] months. I think uh the version two is to
+[00:23:18] solve the previous issues I mentioned
+[00:23:20] and uh it will support the per packet
+[00:23:23] basis. Uh let me rephrase a bit. Uh
+[00:23:27] previous BPF time version one only
+[00:23:30] supports uh keeping track of the last
+[00:23:33] SQB of this message. But nowadays I want
+[00:23:37] to implement the perfect packet basis
+[00:23:40] and this is how we use BBF time stamping
+[00:23:44] version two. uh in the allocation uh
+[00:23:47] phase we need to make sure every newly
+[00:23:50] newly allocated SQB will be tagged uh
+[00:23:54] will be tagged and at that time we will
+[00:23:56] generate the common responding um time
+[00:23:59] stamp and uh this is how we uh handle
+[00:24:03] the TSO case and GSO case just to make
+[00:24:08] sure that every S every splitted SKB we
+[00:24:11] share the same tag and u this is this is
+[00:24:15] a bigger problem when we are deploying
+[00:24:18] the system internally. Uh we we found
+[00:24:21] that uh the BBF time being uh does not
+[00:24:25] support the continuous scenario. Uh you
+[00:24:28] can see from the red box uh this is this
+[00:24:32] is uh where the socket time samping
+[00:24:36] version one can cover and what I want to
+[00:24:40] cover is the green box. So we need to
+[00:24:43] solve that problem.
+[00:24:45] uh the the continuous solar is way too
+[00:24:48] complex because we have the so many
+[00:24:50] different combinations like V bridge and
+[00:24:52] VXLAN but I don't want to hand them one
+[00:24:54] by one I just want to uh come up with a
+[00:24:58] general approach to solving this problem
+[00:25:02] and uh let's take a look at why it has
+[00:25:05] some problems uh as in terms of the
+[00:25:09] sending path um the IP RCV core function
+[00:25:14] will call the SQB often to remove the
+[00:25:18] SQBS key because it needs to deal with
+[00:25:22] the T proxy scenario
+[00:25:25] and uh if without S key the PPF time
+[00:25:30] version one and so time will not take
+[00:25:32] effect because we heavily rely on the SQ
+[00:25:37] and how to work around it we can hook
+[00:25:40] the the SKB TSTX
+[00:25:43] function And when we we find the SK is
+[00:25:47] none and we can just print out the photo
+[00:25:50] information uh extracted from the
+[00:25:52] original SKB uh with the current time
+[00:25:55] stamp and calculate the data.
+[00:25:59] And there is one problem in the exit.
+[00:26:04] uh the SQB scrub package will clear the
+[00:26:07] SQBTS time because this field TS time uh
+[00:26:12] has different meanings in by directions.
+[00:26:14] uh in the t in the sending path it can
+[00:26:17] be used to determine when to send the
+[00:26:19] packet in the Q disk layer and uh in the
+[00:26:22] receive path it is how we use the socket
+[00:26:24] time stamping to calculate the latency
+[00:26:28] and yes and I I expect this u version
+[00:26:34] two should be um should provide a simple
+[00:26:37] interfaces and should achieve uh extreme
+[00:26:41] low overhead and should be always on
+[00:26:44] production and it should be transparent
+[00:26:46] to all the applications, easy to use and
+[00:26:49] flexible.
+[00:26:50] Is it possible? Yes.
+[00:26:53] Before going to the design of the
+[00:26:55] version two, I would like to introduce
+[00:26:57] the concept of the version two. Pre
+[00:27:00] previously in the BPF time stamp version
+[00:27:03] one in each time stamp point, we we
+[00:27:07] report our time stamp and ask the BPF
+[00:27:10] progue to do the calculation, right? But
+[00:27:13] nowadays it everything is changed
+[00:27:16] because we want to find some place to
+[00:27:18] store the start time of the send a
+[00:27:21] message or the receive or or send a
+[00:27:24] message. Uh so that the kernel can
+[00:27:28] uh let me put it in this way. uh the the
+[00:27:31] the prog the prog the BPF progue can
+[00:27:34] retrieve this SQB field to get the start
+[00:27:38] time and it can easily calculate the
+[00:27:41] data without without more lookup process
+[00:27:46] and match process involved and that's
+[00:27:49] that should be a big achievement because
+[00:27:51] it it achieves a low overhead and it
+[00:27:55] avoids too many oper too many operations
+[00:27:58] in the extremely hot path. So, so it's
+[00:28:02] time to consider where we where to put
+[00:28:05] this um uh put this start time in SKB.
+[00:28:09] How about adding new member in the SH
+[00:28:11] info? How about reuse the TS stamp uh of
+[00:28:15] SKB? Uh but no, the answer is no because
+[00:28:20] it this member has a different meaning
+[00:28:23] in in dual direction.
+[00:28:25] And uh can we use the SQI? No, because
+[00:28:29] is bump to socket itself rather than
+[00:28:32] SQB.
+[00:28:34] Can we use the call back? No, because is
+[00:28:36] a layer specific
+[00:28:39] uh field and it can be removed after SQB
+[00:28:42] goes into the next layer. And how about
+[00:28:46] using the SKBXT ID? No, because the SKB
+[00:28:50] scrub packet clears the content.
+[00:28:54] Can we reuse the TSK? No, because the
+[00:28:57] TSK is uh 32 bits. Can we use the SQB
+[00:29:01] metadata? The SQB metadata is our
+[00:29:04] upcoming feature that I I really like,
+[00:29:07] but it does not support um the the
+[00:29:11] higher workload and uh it will
+[00:29:14] definitely harm the performance.
+[00:29:17] It's not my intention.
+[00:29:19] How about reusing uh hardware time
+[00:29:22] stamp? Yes, it works. Actually I've I
+[00:29:25] give a talk at at the net conf with
+[00:29:28] other people and we discussed this is a
+[00:29:31] best candidate that we can take uh to
+[00:29:34] store our start time.
+[00:29:37] Yes. And uh uh to wrap it up the BPF
+[00:29:42] time version two had uh had the three
+[00:29:45] steps to uh trace the latency of this
+[00:29:48] system. The first one is record the
+[00:29:51] start time and the second one is handle
+[00:29:54] the splitted SQB and the third one is
+[00:29:57] report the event
+[00:29:59] and yes there are some uh uh there are
+[00:30:02] some flaws of the so the time stamping
+[00:30:05] feature it has some blind spots like the
+[00:30:08] IQ latency or the schedule latency
+[00:30:13] uh I don't want to go into details of
+[00:30:15] the agent direction unless someone went
+[00:30:18] uh asking me some questions about this.
+[00:30:24] Okay, the only thing I want to mention
+[00:30:25] here is previously in BPF time version
+[00:30:29] one uh the BPF progue needs to do two
+[00:30:34] times uh pro uh lookup process and
+[00:30:38] calculate the latency if uh latency. So
+[00:30:41] the lookup process um will impact the
+[00:30:45] performance if uh if the PBS is is like
+[00:30:49] the 100 is very very high. So so so in
+[00:30:54] the uh new version of B times we we
+[00:30:57] thoroughly avoid that.
+[00:31:01] Okay, then let me skip this
+[00:31:05] and uh to and in conclusion and uh in
+[00:31:09] terms of performance and simplicity the
+[00:31:12] BPF time being is very used easy to use
+[00:31:15] and it achieves a low overhead
+[00:31:18] and uh and there are some answers to the
+[00:31:23] talk I gave last year in Zagreb and uh
+[00:31:27] first question is can we thoroughly
+[00:31:29] serve down the latency boundary issue?
+[00:31:31] Yes, contact a contract is the first
+[00:31:33] thing we need to discuss. After that, we
+[00:31:35] completed the full attribution like the
+[00:31:38] kernel level and the layer level. Will
+[00:31:40] we add more hooks like the TCP write XM
+[00:31:43] to see why the SQ is not send by using
+[00:31:47] key funk? No, honestly is one part of a
+[00:31:49] contract. And the third one is is
+[00:31:52] possible to replace TC bond. Yes, why
+[00:31:54] not? because because the version two has
+[00:31:57] already implemented the packet basis
+[00:31:59] instead of the instead of the send
+[00:32:02] basis.
+[00:32:04] Uh how uh the last question is uh can we
+[00:32:08] explore to leverage numerous real data?
+[00:32:11] Yes, this is uh one part of the
+[00:32:14] collected data that we uh observe from
+[00:32:17] the production. And one thing I nearly
+[00:32:21] forgot to mention is uh let's take a
+[00:32:24] look at how we use the BBF time version
+[00:32:26] two. It does not rely on the previous
+[00:32:30] contract. I mean the callbacks in the
+[00:32:32] BPF time stamping.
+[00:32:36] It provides a pretty easy way to use it
+[00:32:40] because we can uh write any custom PPF
+[00:32:44] based tools. Uh just hook any function
+[00:32:48] uh that has the SQB parameter and the
+[00:32:51] only thing for this PPF progue to do is
+[00:32:55] just retrieve the start time of this SQB
+[00:32:59] and generate the current time stamp. And
+[00:33:01] the last step is compute the data. It's
+[00:33:05] pretty simple. So we don't not rely on
+[00:33:07] the previous uh a uh UABI something like
+[00:33:11] that.
+[00:33:14] And um there's um paradigm there's there
+[00:33:18] are two paradigms before and after uh
+[00:33:21] pre before um I mean uh we the the the
+[00:33:25] system we built is full of of matrix and
+[00:33:29] they we can see this this figures
+[00:33:32] there's all the metrics that we observe
+[00:33:34] in production and if this if there is a
+[00:33:37] spike in the matrix we probably know
+[00:33:40] that there's something bad happening in
+[00:33:43] the kernel side but uh if there's no any
+[00:33:46] spike that does not mean we don't have
+[00:33:48] any problem in the kernel side and after
+[00:33:50] that I mean after applying the version
+[00:33:53] two we we can we can get something like
+[00:33:57] this bluff bluff means bottom line up
+[00:34:00] front we will give explicit suggestion
+[00:34:03] and observation of the network uh
+[00:34:06] something like uh does it happen in the
+[00:34:08] kernel side does it happen in between
+[00:34:11] two servers and we can give our clients
+[00:34:14] explicit answer to this question, right?
+[00:34:17] And we can use the AI and the harness uh
+[00:34:21] at the at the rest of the uh I mean uh
+[00:34:25] at the function level attribution
+[00:34:27] because at that stage the only thing for
+[00:34:29] us to do is to minimize the scope of the
+[00:34:32] issue. And there is one big thing I want
+[00:34:35] to uh highlight here is a snapshot. Um
+[00:34:39] it I mean uh I mean the version two
+[00:34:42] solves the storage problem. So if we if
+[00:34:47] we writing a BPF progue that is able to
+[00:34:49] trace the latency and when it discovers
+[00:34:53] there's a high latency it can directly
+[00:34:57] uh generate a snapshot. Uh the snapshot
+[00:35:00] looks like the VM core and we can keep
+[00:35:03] it in the database so that we can keep
+[00:35:06] track of it after we find some issue.
+[00:35:10] Thank you. That's uh that's all and uh
+[00:35:14] if you have any question please do not
+[00:35:16] hesitate to to ask and if you have some
+[00:35:20] interesting perspectives please come up
+[00:35:23] and share your opinions.
+[00:35:28] >> [applause]
+[00:35:32] >> So ju just just use the mic. I'm sure
+[00:35:34] you have your own uh view of what uh
+[00:35:38] what telemetry needs to be collected.
+[00:35:40] That's probably missed by Jason.
+[00:35:44] Do people do telemetry here? Rajad, you
+[00:35:47] have to come here.
+[00:35:58] Do you want to come here?
+[00:36:00] >> Uh no, I just have a quick question. Uh
+[00:36:02] it's a nice presentation by the way.
+[00:36:04] >> Thank you so much.
+[00:36:04] >> I saw you mentioned the agentic
+[00:36:06] blackboard uh where it like
+[00:36:08] automatically root causes the issues.
+[00:36:11] How do you verify the root cause
+[00:36:14] generated by the agentic harness that it
+[00:36:17] is actually the correct root cause?
+[00:36:18] >> Oh, you mean how to generate the by
+[00:36:20] harness? Yeah know the root cause which
+[00:36:22] is generated by the harness how do you
+[00:36:25] verify that it is actually
+[00:36:27] >> is actually on the pro we are still
+[00:36:29] making progress on this uh but this is
+[00:36:34] and another topic related to the
+[00:36:36] observability but I want to mention here
+[00:36:38] is uh harnesses uh we can use three
+[00:36:43] approaches like uh we can we can in
+[00:36:46] advance write some uh BPF based tours or
+[00:36:49] kernel module tours
+[00:36:51] uh in in one rapper so that the AI can
+[00:36:54] call uh this existing tours or we can
+[00:36:58] ask uh this AI uh to to random not
+[00:37:03] random to just to generate some tools in
+[00:37:06] the sandbox and we can continue uh with
+[00:37:10] the loop until it comes to an agreement
+[00:37:12] uh comes to an conclusion. Yeah, this is
+[00:37:15] basically how harness works but I I will
+[00:37:19] review it uh maybe a few next months at
+[00:37:22] RPC.
+[00:37:23] >> Awesome. Yeah. So the the context is
+[00:37:25] basically I work in security. So in
+[00:37:27] security also we do root cause analysis
+[00:37:29] of issues find the same uh problem that
+[00:37:33] we are facing there. So I wanted to know
+[00:37:35] your thanks.
+[00:37:37] >> Thank you.
+[00:37:42] Uh somebody else
+[00:37:44] Jason I wasn't sure if you looking at
+[00:37:47] all the you capturing all the flows in
+[00:37:49] your system like seeing what kind of
+[00:37:52] flows uh looking at uh relationships
+[00:37:55] between they say different machines or
+[00:37:57] do you do any of that in your setup?
+[00:38:00] >> Uh no Anthony
+[00:38:01] >> is that uh is there reason is that not
+[00:38:04] interesting to you like
+[00:38:06] >> sure is very interesting to me. Yeah,
+[00:38:09] cuz are
+[00:38:14] anybody else with a question?
+[00:38:22] Guess I guess that's it. If there's no
+[00:38:25] questions,
+[00:38:28] it's an interesting topic. Uh, nobody's
+[00:38:31] collecting matrix of this sort at all.
+[00:38:33] That's I'm finding this very surprising.
+[00:38:36] [laughter]
+[00:38:38] I'm trying to come up with a new
+[00:38:40] solution. Yeah. To to solve this pre
+[00:38:43] solve those existing problems because we
+[00:38:46] found it's very hard to deploy the
+[00:38:48] system terms. Yeah. In production
+[00:38:52] without solving this problems.
+[00:38:55] >> So when you say you run AI analysis on
+[00:38:56] this floor is like production is talking
+[00:38:59] to this web gateway.
+[00:39:00] >> It's a pro is a promising direction that
+[00:39:03] we take.
+[00:39:03] >> It's a what? I'm sorry. It's I mean it's
+[00:39:06] a promising direction.
+[00:39:08] >> Okay. Would you have collected a lot of
+[00:39:11] details on this gateway for example like
+[00:39:12] who's talking to it and
+[00:39:14] >> Okay. Uh let me skip this discussion
+[00:39:18] because we we're still making progress
+[00:39:20] on this.
+[00:39:22] >> Okay.
+[00:39:24] I'm trying to incite people to ask
+[00:39:26] questions but I guess they
+[00:39:27] >> okay
+[00:39:28] >> either they're shy or they just want to
+[00:39:30] go home.
+[00:39:30] >> Okay. Okay. If you have any question,
+[00:39:34] please don't hesitate because I'll be on
+[00:39:36] around the conference. Okay, one more
+[00:39:37] question.
+[00:39:39] >> Um, just quick question on TCP dump. Um,
+[00:39:41] there was a note about replacing TCP
+[00:39:43] dump. Um, so what's the plan for that
+[00:39:46] and what's the new tool going to offer
+[00:39:48] more? I just use TCP dump on a daily
+[00:39:50] basis to be honest with you. It's uh
+[00:39:52] it's one of my main um troubleshooting
+[00:39:56] tool in in Wi-Fi. So I'm wondering what
+[00:39:59] a new tool would provide and why would
+[00:40:01] we replace it.
+[00:40:02] >> Okay, the the limitation of TCP dump is
+[00:40:06] obvious because you it let me show you
+[00:40:09] the figure.
+[00:40:13] We have the counterpart in BPF time
+[00:40:16] stamping.
+[00:40:20] Oh, this this is where TCP dump works.
+[00:40:25] So it it has the this has this time
+[00:40:29] stamp and we have
+[00:40:32] more than more than four time sampling
+[00:40:34] points. So that so I I mean the T jump
+[00:40:38] should be replaced because uh another
+[00:40:40] primary thing is that we uh we deploy
+[00:40:43] TCP jump in both sides we we can know
+[00:40:47] the the latency between two servers but
+[00:40:49] we cannot tell if there is any host
+[00:40:53] delay right then that is one problem and
+[00:40:56] and oh my god there are so many reasons
+[00:40:59] for me to replace t because uh tip dump
+[00:41:03] uh you cannot deploy is about continuous
+[00:41:06] in production. You cannot afford so many
+[00:41:10] uh data
+[00:41:12] because you need to store it in the
+[00:41:16] database, right?
+[00:41:18] Yeah. And and and one more thing is TCP
+[00:41:21] dump cannot do the kernel attribution
+[00:41:24] because even if you use a TCP dump you
+[00:41:27] you cannot tell if this issue belongs to
+[00:41:29] the application or the uh kernel or or
+[00:41:32] the some physical links or switch
+[00:41:34] between two servers. No, you cannot tell
+[00:41:36] that.
+[00:41:38] So I I don't I don't intend to uh have
+[00:41:42] the something like the pcap because I I
+[00:41:45] think because I said the after applying
+[00:41:48] the version two you can write any easy
+[00:41:51] BPF tools just to hook those functions
+[00:41:54] that you want to chase as long as this
+[00:41:56] function has the SKB parameter because
+[00:41:58] you need to retrieve the start time from
+[00:42:02] this SKB right
+[00:42:05] let me show the this is how I plan to
+[00:42:09] upstream in the next few
+[00:42:13] months. Yeah, I will I would reuse the
+[00:42:16] hardware time sum to store the start
+[00:42:18] time in the sending path. The start time
+[00:42:21] would be the send the Cisco call. If if
+[00:42:25] in the receiving path the the start time
+[00:42:29] uh should be the should be the TCP dump
+[00:42:33] should be the where the TCP dump works.
+[00:42:36] That is
+[00:42:39] that that is the point of the driver.
+[00:42:43] Sorry
+[00:42:47] here. That should be the start time of
+[00:42:50] the of the receiving path. That's it.
+[00:42:58] Uh hi. Uh can I ask you a question? uh
+[00:43:01] do you try to aggregate this data to
+[00:43:03] correlate between uh different nodes or
+[00:43:06] for example for example from source to
+[00:43:09] destination and see how it's uh I don't
+[00:43:12] know affects each other or something or
+[00:43:15] it just specifically for I mean in
+[00:43:19] general how to extrapolate it to more um
+[00:43:26] uh like a whole cluster or something
+[00:43:29] >> uh if I understand right you you you
+[00:43:33] meant u how to correlate the flows in
+[00:43:37] two between two servers right
+[00:43:40] >> I mean do you try to do this already
+[00:43:43] >> sorry
+[00:43:43] >> do you try to do this already
+[00:43:45] >> no not not yet but uh but uh that's the
+[00:43:48] next step because u because for uh we
+[00:43:51] have a debug mode or developer mode
+[00:43:54] something like that we can print uh all
+[00:43:57] the uh all the time stamp
+[00:44:00] in both sides and group them together in
+[00:44:03] a centralized server so that we can uh
+[00:44:06] compare them and uh and find which one
+[00:44:10] is the bottleneck something like that.
+[00:44:12] Yeah,
+[00:44:13] >> thank you.
+[00:44:18] >> Okay, I guess we'll wrap it up here.
+[00:44:23] >> Okay,
+[00:44:24] >> thank you.
+[00:44:24] >> Thank you.
+[00:44:28] >> [applause]

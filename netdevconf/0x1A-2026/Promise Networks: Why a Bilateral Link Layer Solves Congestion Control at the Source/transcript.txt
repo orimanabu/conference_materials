@@ -1,0 +1,1593 @@
+Source: https://youtu.be/AzSCfNtXfJE
+Language: en
+Captions: auto-generated
+
+[00:00:01] Okay. Um so this is joint work with um
+[00:00:04] Anelie who's here on my right hand side,
+[00:00:06] Paul Royal as well as uh CJ Chang who is
+[00:00:09] unfortunately unable to actually join us
+[00:00:12] for this. Um so we are going to look a
+[00:00:15] little bit at promise networks and some
+[00:00:17] of the a little bit explore further
+[00:00:19] about the bilateral link and the
+[00:00:21] bilateral uh uh link layer solutions to
+[00:00:25] solve some of the congestion control at
+[00:00:26] the source. um in order to kind of start
+[00:00:29] us off um Anelie is going to help
+[00:00:32] position to why this is interesting and
+[00:00:34] why we need to kind of keep going here.
+[00:00:36] And so in that case uh let me just
+[00:00:43] >> All right, Angelie.
+[00:00:44] >> Okay, some uh legal disclaimers. So when
+[00:00:47] we put this talk in, I was part of
+[00:00:49] Intel. I am uh not speaking for Intel
+[00:00:53] anymore. So I'm just speaking for
+[00:00:54] myself. Um okay. Uh so we saw one side
+[00:01:01] of the story and that was being
+[00:01:02] presented by Manov and Paul. We saw it
+[00:01:05] from the top. We're like okay there's
+[00:01:07] this call and there are some maybe
+[00:01:08] assumptions in there and you know
+[00:01:11] different uh outcomes depending on who's
+[00:01:13] using it like you know there was a view
+[00:01:15] like you should just uh make sure uh you
+[00:01:19] uh read the completions or whatever
+[00:01:21] right or versus somebody saying oh yeah
+[00:01:23] no I mean why should user space have
+[00:01:27] that burden of like making sure the
+[00:01:30] right flags are there or whatever right
+[00:01:32] I I don't think again I
+[00:01:36] Um
+[00:01:38] we as humans always mean we have the
+[00:01:40] right intent. We want to communicate
+[00:01:42] right. Um but what happens is over a
+[00:01:45] period of time while we're building
+[00:01:47] these systems we might have forgotten
+[00:01:50] some of the you know basic semantic
+[00:01:53] definitions. So we're going to do a
+[00:01:54] little bit of revision. Okay. So what is
+[00:01:57] communication right? I think we all
+[00:02:00] agree that's birectional exchange of
+[00:02:02] data. uh any difference of opinion here?
+[00:02:08] Okay, that's communication. Okay, very
+[00:02:10] good.
+[00:02:10] >> Well, and I think the the next question
+[00:02:12] we want to ask is what is information?
+[00:02:15] >> Yes, that that's the next question.
+[00:02:16] >> And so I don't have that on the slide
+[00:02:18] because this build actually worked
+[00:02:19] correctly. So now it's your turn to
+[00:02:22] answer. What is information?
+[00:02:26] >> Oh, come on. There's opinions out there.
+[00:02:27] I know.
+[00:02:28] >> Yeah. Everybody wants the mic.
+[00:02:36] All right, Anelie, what's information?
+[00:02:38] >> So, my definition of Okay, yeah, you put
+[00:02:41] it right there. Data that is relevant
+[00:02:44] internally for the task at hand. And
+[00:02:46] that is true for humans for any systems.
+[00:02:49] That is information, right? I mean,
+[00:02:52] David might give me some data saying,
+[00:02:55] you know, the flight is tomorrow. Um,
+[00:02:58] and I'm very busy doing something. that
+[00:03:00] data came way too early, not relevant.
+[00:03:02] He interrupted me. Okay. You agree,
+[00:03:05] David?
+[00:03:05] >> Yeah.
+[00:03:05] >> Yeah. So, that's not information. So, it
+[00:03:08] has to be timely and for the task that
+[00:03:10] I'm doing at hand and it has to be
+[00:03:12] relevant. Uh he could just, you know,
+[00:03:15] say something a joke which might not be
+[00:03:17] relevant at all for what I'm doing. So,
+[00:03:21] uh for systems, the same thing.
+[00:03:23] Information, you know, we transfer a lot
+[00:03:26] of bits and data on the wire.
+[00:03:29] And we know goodput versus throughput.
+[00:03:32] So not everything is information.
+[00:03:38] Yeah. So a network's role or uh is not
+[00:03:42] moving bits, it's delivering
+[00:03:44] information, right? So going back to why
+[00:03:48] we had these networks, right?
+[00:03:50] And it's
+[00:03:52] I mean as humans we forget we build
+[00:03:56] these things and we are so busy building
+[00:03:59] it that we forget why did we build it in
+[00:04:01] the first place. Okay. And we're you
+[00:04:04] know we are very focused on the task at
+[00:04:06] hand. We are really good at it right?
+[00:04:08] Like oh yeah there's some problem here.
+[00:04:10] let's fix that, right? And we keep
+[00:04:12] fixing those problems and um you
+[00:04:16] [clears throat] know we're really good
+[00:04:17] at evolving our systems but sometimes we
+[00:04:20] have to think like just take a step back
+[00:04:23] and think.
+[00:04:27] So um this is my take on general
+[00:04:31] networking. What are the problems that
+[00:04:32] we see um in the in the networking
+[00:04:36] domain? So there is latency and I mean
+[00:04:40] latency will always be there but how
+[00:04:43] long uh is long enough or too long
+[00:04:47] that's the question jitter which is the
+[00:04:50] uh thing that causes
+[00:04:52] uh predictability and scalability issues
+[00:04:54] both in a data center jitter means um
+[00:04:58] there was a presentation some sometime
+[00:05:00] earlier which is the last packet uh all
+[00:05:02] reduce problem right so we're just
+[00:05:04] waiting on something that is not done So
+[00:05:06] uh that determines how much your network
+[00:05:09] is going to scale. So jitter um I mean
+[00:05:14] is definitely something way more uh I
+[00:05:18] mean it's it's a problem. Latency is not
+[00:05:19] a problem. Latency is given but having
+[00:05:23] some you know there are some assumptions
+[00:05:25] and there are statistically proven that
+[00:05:27] any system
+[00:05:29] you know six to seven hops seems to be
+[00:05:31] ideal. After that it becomes like too
+[00:05:34] many hops. Uh so I don't know if you
+[00:05:37] guys have heard this joke but this is
+[00:05:38] common in US these days. The kids say
+[00:05:40] 67. Okay. And I think that number is
+[00:05:43] very relevant here. So um and then um uh
+[00:05:50] yeah so jitter also happens because of
+[00:05:53] redundant paths or redundancy in the
+[00:05:55] system. So yeah
+[00:05:58] um tunnel
+[00:06:00] yeah I mean tunnel is a solution as well
+[00:06:02] as a problem right? I mean we invented
+[00:06:04] tunnels because we wanted to cross
+[00:06:06] certain networks uh you know go from one
+[00:06:08] network to another or one virtual
+[00:06:10] network to another but um you know there
+[00:06:13] is um something that we need to think
+[00:06:16] again is that tunnel itself creating a
+[00:06:18] lot of overhead and I think the SRV6
+[00:06:21] talk kind of pointed that out right you
+[00:06:24] know if we just keep focusing on the
+[00:06:26] tunneling side and not focus on
+[00:06:29] something which is like oh yeah 40 bytes
+[00:06:30] is good good enough to do source routing
+[00:06:33] or source uh guided packets you know I
+[00:06:36] think we're going in the wrong direction
+[00:06:38] that's what I feel uh scheduling uh and
+[00:06:42] when yeah I mean wrong scheduling will
+[00:06:45] cause priority inversions okay uh a good
+[00:06:49] example was I think the moon landing
+[00:06:51] there was a problem where there was a
+[00:06:53] priority inversion that happened uh
+[00:06:55] because of the scheduling not done right
+[00:06:59] um okay so that's definitely something
+[00:07:01] to be paid attention do the last is a
+[00:07:04] perennial problem time.
+[00:07:07] So we all I mean the scarest resource on
+[00:07:11] this earth I think is time. Uh but right
+[00:07:15] now we have another scarce resource and
+[00:07:18] I think we'll get to it. Um any other
+[00:07:21] guesses like what is the scarest
+[00:07:22] resource on earth other than time right
+[00:07:25] now? I mean let's remove time and
+[00:07:27] energy. Let's let's take a poll here. If
+[00:07:31] we remove time and energy, what are the
+[00:07:32] scarce resources that we are uh
+[00:07:35] struggling with right now?
+[00:07:40] Good one. Um
+[00:07:43] I would say I'll give a hint. It's more
+[00:07:45] on the hardware side.
+[00:07:48] Sorry,
+[00:07:50] you got it. Okay. So, yeah. So,
+[00:07:55] yeah. So, all five are really about
+[00:07:57] when, not whether. Okay. So yeah, those
+[00:08:00] are typically the networking areas where
+[00:08:03] we have to think again and design our
+[00:08:06] systems better, right? And end toend
+[00:08:09] thinking is required. Um I mean the
+[00:08:12] beauty of both human systems and or
+[00:08:16] network systems or any other systems
+[00:08:17] that humans design is they evolve but
+[00:08:21] then you know just like genetic
+[00:08:23] algorithms right if you see it there is
+[00:08:26] evolution and then there's mutation
+[00:08:28] right there and that's how you kind of
+[00:08:30] have a little bit of diversity right
+[00:08:34] sometimes that's required is what I feel
+[00:08:37] but I think what David and I are going
+[00:08:40] to show is you don't really have to be
+[00:08:42] revolutionary. You can still evolve even
+[00:08:45] if the idea seems like out like
+[00:08:48] completely out of like oh this is not
+[00:08:51] how we built everything right.
+[00:09:00] Yeah. So topology um I I'm sure
+[00:09:04] everybody's familiar with this that we
+[00:09:06] used to have these traditional claws
+[00:09:08] networks which was more of a tree
+[00:09:10] structures with uh leaf spine and the to
+[00:09:13] nodes and switches and whatnot and
+[00:09:16] routers and everything. I think the data
+[00:09:18] center is going more towards the mesh.
+[00:09:20] Uh and the reason is actually very
+[00:09:23] simple. What happens in um that kind of
+[00:09:27] uh environment there are more than one
+[00:09:30] control loop. There are intelligent
+[00:09:33] things in between trying to make
+[00:09:34] decision without knowing you know end to
+[00:09:38] end view. So it's like you you're
+[00:09:40] exercising control from your end node
+[00:09:42] but there is switches and routers trying
+[00:09:44] to also help you but then you know they
+[00:09:47] may not have the full picture or
+[00:09:49] switches and routers may have the full
+[00:09:51] picture and the end node doesn't right.
+[00:09:52] So it's like you're trying to fix the
+[00:09:55] problems two different ways instead of
+[00:09:57] the whole thinking about a single
+[00:09:59] control loop and that seems to work and
+[00:10:04] scale much better and it's if you go
+[00:10:07] back to the previous slide let's walk
+[00:10:09] through this in that one the latency is
+[00:10:12] dependent on how many levels here it can
+[00:10:15] be a fixed latency in that system the
+[00:10:19] jitter can happen because depending on
+[00:10:21] the hop or the route you took In this
+[00:10:23] case, jitter is not there because it's
+[00:10:25] designed not to have jitter. Okay. SK uh
+[00:10:28] what was the third problem? There was
+[00:10:30] tunneling. So tunneling again is
+[00:10:32] required if you're going out of this
+[00:10:34] thing here. If you're within the mesh,
+[00:10:37] tunneling may not be required. Like it's
+[00:10:38] direct connection. If you're going out
+[00:10:40] of the mesh, maybe it's required, but
+[00:10:42] that's separate. Like if we think about
+[00:10:45] AI networks, most of it, you know,
+[00:10:48] that's what they look like.
+[00:10:50] Uh the fourth problem was scheduling
+[00:10:52] right and scheduling done right. So in
+[00:10:57] that system on top you can have
+[00:10:59] scheduling done from those middle boxes
+[00:11:02] that are different than the scheduling
+[00:11:04] done for those from those end nodes
+[00:11:06] versus here there no middle boxes or if
+[00:11:08] they are there they're quite dumb right
+[00:11:11] so the scheduling is happening end to
+[00:11:14] end
+[00:11:16] um what was the last draw time okay so
+[00:11:20] yeah time is always a problem so maybe
+[00:11:24] there is a better way of thinking about
+[00:11:25] about it. You know, don't think about
+[00:11:27] time. Think about uh logical timing
+[00:11:30] domains or virtual time or you know,
+[00:11:33] don't uh there's something that
+[00:11:35] initially we were talking about soot
+[00:11:36] time. uh think about it as transaction
+[00:11:39] ids rather than time because
+[00:11:43] you know we're noticing that at a very
+[00:11:47] very low level the time stamps can come
+[00:11:50] out of order like at nancond levels
+[00:11:53] right and it goes down to like we are
+[00:11:55] making an observation right at a
+[00:11:57] particular given time and it could be
+[00:12:00] not agreeing with the rest of the
+[00:12:02] observations so Yeah.
+[00:12:10] Okay. Yeah. So as I was saying the
+[00:12:12] double control loop problem uh you know
+[00:12:16] um yes we needed mailboxes when we had
+[00:12:19] that hierarchical topology and it was
+[00:12:22] nice and everything. I think as we're
+[00:12:24] evolving those things are becoming
+[00:12:26] problem rather than solution
+[00:12:30] and yeah so yeah routing switching
+[00:12:34] intelligence in between each run their
+[00:12:35] own loop most networks react to
+[00:12:40] congestion rather than proactively plan
+[00:12:42] for it saying okay this may happen what
+[00:12:45] should I do okay so anticipation
+[00:12:49] or you know resource allocation end to
+[00:12:53] and agreeing that yes there are things
+[00:12:54] that could go wrong and you know
+[00:12:56] planning for it is a you know more
+[00:12:59] compassionate way of designing a system
+[00:13:01] rather than say okay yeah you know we'll
+[00:13:04] react to it when things happen it's like
+[00:13:05] saying I'll dig a well when I want to
+[00:13:07] drink water I think that's a bad idea
+[00:13:15] okay what could the next evolution look
+[00:13:17] like um so we talk a lot about
+[00:13:20] congestion control these is uh some of
+[00:13:23] the protocols are going from congestion
+[00:13:25] control to congestion management which
+[00:13:26] is like saying okay uh don't react let's
+[00:13:30] plan forward saying okay let's divide up
+[00:13:33] the network the resources carefully
+[00:13:35] carefully configure them so there is an
+[00:13:38] upfront cost but then once that is done
+[00:13:44] you are going at light speed right so
+[00:13:47] you know that's condition management is
+[00:13:49] better
+[00:13:51] But there is one more step and that's
+[00:13:53] what we call it as compassionate network
+[00:13:55] admission.
+[00:13:57] So here we are saying
+[00:14:00] should we even be thinking of
+[00:14:02] congestion? Did we I mean did we as
+[00:14:06] humans
+[00:14:08] uh should we have thought about it
+[00:14:10] slightly differently that we start at a
+[00:14:13] different place and instead of solving a
+[00:14:16] problem we look at it from we being a
+[00:14:20] solution creator. So let's say there is
+[00:14:23] no problem like I mean the way I think
+[00:14:25] about is like if you go look for a
+[00:14:27] problem you will see problems
+[00:14:28] everywhere. Okay. But if you go look for
+[00:14:31] solutions and because I'm an architect
+[00:14:32] so I can say that when you look for
+[00:14:34] solutions there's solutions everywhere
+[00:14:37] and that's what I think we're heading
+[00:14:40] towards which is compassionate network
+[00:14:41] admission and this is based on this
+[00:14:43] bilateral commit that uh Paul and uh man
+[00:14:46] were uh in uh indicating in the previous
+[00:14:49] talk.
+[00:14:54] Yeah solutions are everywhere. the whole
+[00:14:56] idea of the end Delhi and this is
+[00:15:00] the way David explained to me Delhi uh
+[00:15:02] and I I I I am going to put it in my
+[00:15:04] words it's like a bucket and you're
+[00:15:06] saying I will send you a bucket and I
+[00:15:09] expect you fill it with like a dozen
+[00:15:11] mangoes and dozen mangoes is what you're
+[00:15:14] going to fill and then give it back to
+[00:15:15] me right you fill less or you fill more
+[00:15:17] I mean it's wrong basically I expected
+[00:15:20] you fill it with this and you know you
+[00:15:23] return it back to me so that's what it
+[00:15:24] is Um,
+[00:15:27] so yeah, compassionate promise versus
+[00:15:29] imposition. This is coming up
+[00:15:31] everywhere. I mean, I'll give you an
+[00:15:32] example. Uh, I live in the Bay Area and
+[00:15:35] these days I see honking everywhere. I
+[00:15:38] mean, does anybody agree that honking
+[00:15:41] solves any problem except a last minute
+[00:15:44] collision where somebody, you know, fell
+[00:15:47] asleep and like you honked and you're
+[00:15:48] like they woke up. But like in general,
+[00:15:51] humans, they'll be like, "Ah, I'm in a
+[00:15:53] rush. you know I'm going to come and but
+[00:15:56] you're not seeing that there's a road in
+[00:15:57] front and the people crossing you're not
+[00:15:59] able to see it we are impatient right so
+[00:16:03] we end up honking to me that is similar
+[00:16:07] to packet drops because it's like what
+[00:16:11] did I get out of that honking nothing I
+[00:16:13] got really mad that somebody honked at
+[00:16:15] me and then I I will pass that madness
+[00:16:17] to somebody else saying you know so it
+[00:16:22] seems very similar like packet drops
+[00:16:24] like you are not being very
+[00:16:26] compassionate. You're sending something
+[00:16:28] out that you don't want for yourself,
+[00:16:31] right? And you're sending a packet and
+[00:16:36] that packet you're not accounting for it
+[00:16:38] anything and saying yeah maybe it'll
+[00:16:40] drop but then you the same thing will
+[00:16:42] happen to you. You will have packets
+[00:16:44] dropped as well. So why why do that
+[00:16:48] right? uh so we should think about that
+[00:16:50] compassion part and more so I would say
+[00:16:53] in the present environment
+[00:16:55] the only way to look at earth is through
+[00:16:57] a compassionate lens and that holds for
+[00:17:01] all systems humans and AI and tools we
+[00:17:04] develop and everything AI tools yeah
+[00:17:08] um
+[00:17:10] okay so there is uh an agenda and we'll
+[00:17:13] talk about that open atomic ethernet
+[00:17:15] dalia at the link uh some smart mix role
+[00:17:18] full conal implications and anticipated
+[00:17:20] curiosities. So I'm going to hand it
+[00:17:22] over to David.
+[00:17:24] >> I've got the mic here.
+[00:17:26] So as as Anjie was saying and as we were
+[00:17:29] kind of getting kind of the and as she
+[00:17:30] was setting the stage you know because
+[00:17:32] one of the things we wanted to take a
+[00:17:33] step back is you know we've been working
+[00:17:35] on Ethernet and and you guys have been
+[00:17:38] working on Ethernet for a long time you
+[00:17:40] know over 50 years for some people and
+[00:17:42] others more in the fact that you know
+[00:17:44] maybe it's time we look at some of the
+[00:17:46] solutions we can find everywhere as
+[00:17:48] opposed to necessarily just looking at
+[00:17:50] problems right and so one of the things
+[00:17:53] that we see is that um we've done a
+[00:17:56] really good job with various types of
+[00:17:58] congestion control. I mean you got BBR,
+[00:18:00] ECN, all the things on the slide in
+[00:18:03] order to mitigate various versions of
+[00:18:06] congestion, various failures. And the
+[00:18:09] idea here is that you know you want to
+[00:18:11] do that quickly. We respond quickly. We
+[00:18:14] try to fix things after the fact. So
+[00:18:17] post priority you know as opposed to a
+[00:18:19] priority trying to understand what our
+[00:18:21] actual needs are. And so, you know, as
+[00:18:25] as the title says here, the congestion
+[00:18:27] control today is reactive and we do
+[00:18:30] really good at that. But as an was
+[00:18:32] saying, maybe we want to think a little
+[00:18:34] bit more about what do we want the next
+[00:18:37] generation to be. And you know, maybe we
+[00:18:38] want to actually move more towards
+[00:18:41] admission control. And you know, as the
+[00:18:43] title said, and as you can probably
+[00:18:45] tell, you know, this is a little bit
+[00:18:46] more of the moonshot of, hey, let's look
+[00:18:49] at this, take a step back and look at
+[00:18:50] the system design as opposed to
+[00:18:52] necessarily some of the nitty-gritty
+[00:18:54] details, but we'll also get into those
+[00:18:56] at the end. And so, you know, one of the
+[00:18:58] things that we're looking at here is
+[00:19:00] right now we do speculative
+[00:19:03] transmission. We assume that I'm going
+[00:19:04] to send things out and someone will
+[00:19:06] catch them, someone will receive them
+[00:19:08] and right now it's the colonel's job to
+[00:19:10] detect it when it doesn't happen.
+[00:19:14] Uh so to some extent this kind of
+[00:19:17] paradigm actually invites a little bit
+[00:19:19] of some of this uh you know action in
+[00:19:22] the farm that if you send a lot of
+[00:19:24] things you might have loss, you might
+[00:19:27] need to retransmit which at times can
+[00:19:29] then lead to more traffic and more loss.
+[00:19:32] And so things downstream of the sender
+[00:19:35] are obliged to be able to handle this.
+[00:19:37] And so that's why we see larger cues, we
+[00:19:39] see larger amounts of memory being used.
+[00:19:41] Um and then you know these congestion
+[00:19:43] controls tend to live at higher levels
+[00:19:46] of the network. Um and they infer from
+[00:19:48] some of the indirect signals that we
+[00:19:50] have. And so we don't always react as
+[00:19:53] fast as we need to or that we might be
+[00:19:55] able to in the future.
+[00:19:58] And of course if there are questions I'm
+[00:20:01] also hap and I think Analie is also
+[00:20:03] happy to take them as we come through or
+[00:20:05] you can hold them to the end. So
+[00:20:07] >> yeah I mean it'll be good to be a little
+[00:20:09] bit more interactive. Hopefully people
+[00:20:11] don't fall asleep like we're trying
+[00:20:13] we're trying hard.
+[00:20:14] >> Yep.
+[00:20:16] So one of the things um and you'll see
+[00:20:18] here you know some we we're very
+[00:20:19] intentional in some of the language that
+[00:20:21] we're using in the fact that we're
+[00:20:22] looking at solutions. We're not
+[00:20:25] necessarily looking to fix problems
+[00:20:26] because as an asie said, you know, as
+[00:20:29] you start to fix things, we are all
+[00:20:31] really good at Oh, apologies.
+[00:20:34] Yay for corporate laptops that are
+[00:20:36] button down. Um, sorry about that. But,
+[00:20:39] you know, as um, you know, as engineers,
+[00:20:43] as computer scientists, as
+[00:20:45] mathematicians, we're all really good at
+[00:20:47] fixing things or wanting to fix things.
+[00:20:49] But you know maybe the right idea is
+[00:20:51] here let's design the solution that
+[00:20:54] actually works the best as opposed to
+[00:20:55] reacting. And so to some extent almost
+[00:20:58] kind of mirroring what we want to do
+[00:20:59] with the protocol is we don't want to
+[00:21:01] react faster. We want to do things like
+[00:21:04] not admit those frames so that way we
+[00:21:06] don't have to react to things that are
+[00:21:08] dropped in the first place. And so uh as
+[00:21:11] Anelie said on one of those first
+[00:21:12] slides, we kind of migrate from that
+[00:21:15] congestion control or congestion
+[00:21:17] management uh flavor of networking to
+[00:21:20] something that's more akin of admission
+[00:21:22] management where you have it to be a
+[00:21:24] part of the substrate and where you have
+[00:21:26] something like tokens or other pieces be
+[00:21:28] able to represent that admission
+[00:21:30] control.
+[00:21:34] Um and so you know to give it a a a
+[00:21:36] pictorial diagram of you know what this
+[00:21:39] looks like if you look more towards kind
+[00:21:41] of the imposition or what is currently
+[00:21:44] done today and a little bit more towards
+[00:21:46] of the promise or compassionate network
+[00:21:49] that Anie was describing at the high
+[00:21:51] level you kind of look here at the lefth
+[00:21:52] hand side where you have a sender that
+[00:21:55] is sending multiple flows. Some of these
+[00:21:57] may or may not get dropped somewhere in
+[00:21:59] the infrastructure. So a switch or Q or
+[00:22:01] even an end node may drop these um and
+[00:22:03] so you will react to those packet losses
+[00:22:07] in some future roundtrip time. And then
+[00:22:09] on the right hand side we look at the
+[00:22:11] promise where we actually see that you
+[00:22:14] know we're using a token to gate a peers
+[00:22:18] credit. And so that way you have a
+[00:22:20] commitment between the sender and the
+[00:22:22] receiver of here's what I'm expecting
+[00:22:24] and here's what also I promise to be
+[00:22:26] able to accept and be able to do
+[00:22:28] something with. And so that way you have
+[00:22:31] this bilateral relationship between the
+[00:22:33] two as opposed to typically more of a a
+[00:22:36] a single directional relationship from
+[00:22:38] the sender sending things at the
+[00:22:40] receiver.
+[00:22:43] >> Yeah. I mean I I would like to add the
+[00:22:45] focus is a lot on the source, right?
+[00:22:47] Because that's where you know the whole
+[00:22:51] promise and compassion starts, right?
+[00:22:53] It's on you, the onus from a human
+[00:22:55] perspective that you do the right thing
+[00:22:58] and then the right thing comes back to
+[00:22:59] you. Right.
+[00:23:00] >> Right.
+[00:23:03] And so you you might ask, you know,
+[00:23:05] okay, so now that you've told us all all
+[00:23:07] this cool stuff about, hey, great to be
+[00:23:09] do it be great to do something that
+[00:23:10] looks more towards a promise network,
+[00:23:12] less imposition, you know, how do we get
+[00:23:14] there? Um, and one of the things is, you
+[00:23:16] know, we'll call it an old idea, also
+[00:23:18] known as the endally. Um and so this was
+[00:23:22] actually something that was brought up
+[00:23:24] in a 1976 paper on Ethernet. Um you kind
+[00:23:28] of buried way down there in the section
+[00:23:30] 7.22. So probably after most people
+[00:23:32] stopped reading and that kind of thing,
+[00:23:34] right? I mean we all kind of read the
+[00:23:35] abstract we conclusion then maybe the
+[00:23:37] interesting section in the middle. But
+[00:23:39] you know 7.22 had this idea of that the
+[00:23:43] file transfer protocol would complete
+[00:23:45] when you had a deli. And so here
+[00:23:48] basically what the receiver would uh
+[00:23:51] wait and or dally in order to make sure
+[00:23:54] that the state was completed and that
+[00:23:57] the sender confirmed that the actually
+[00:23:59] re uh the actual echo came back. And so
+[00:24:02] you can actually have the commitment
+[00:24:03] between your sender and receiver and the
+[00:24:07] transaction is only over when both
+[00:24:09] endpoints have observed a round trip.
+[00:24:11] And so this way no one is left either
+[00:24:14] holding something that they receive that
+[00:24:16] the other party doesn't know or that
+[00:24:18] they never receive something. Um and so
+[00:24:20] pictorially uh
+[00:24:22] >> okay I just wanted to add so I think in
+[00:24:25] the open atomic ethernet uh they talk
+[00:24:27] about as like I know that you know that
+[00:24:29] I know right
+[00:24:30] >> right that's what it is.
+[00:24:32] >> Yep.
+[00:24:33] [snorts] Okay. Well I guess one more one
+[00:24:35] more slide before the pictures.
+[00:24:36] Apologies the uh the presentation mode's
+[00:24:39] a little wonky here. Um, but one of the
+[00:24:41] three three important pieces here that
+[00:24:44] go with this type of idea of the deli of
+[00:24:47] being able to wait in order to make sure
+[00:24:50] that my items were received and that the
+[00:24:53] receiver actually did what was or
+[00:24:55] received what was expected. um here is
+[00:24:57] the fact that Adalli is bilateral and
+[00:24:59] we'll have a little bit more formal
+[00:25:01] language in terms of what a bilateral
+[00:25:03] commitment is but in this case it's
+[00:25:05] basically that no endpoint can do the
+[00:25:09] transaction alone and they most they
+[00:25:11] both most sorry they both must observe
+[00:25:14] this as well and the the closure of this
+[00:25:18] is the deli is spans that time when you
+[00:25:21] have the mutual commitment is unresolved
+[00:25:24] so that way I'm waiting to make
+[00:25:26] that what was sent was actually
+[00:25:28] received. And then finally, um this is
+[00:25:31] actually more of akin towards improving
+[00:25:33] performance in the fact that similar to
+[00:25:36] Knack, it actually can improve
+[00:25:37] performance in that you have the state
+[00:25:39] flowing backwards. Um and it can return
+[00:25:42] or it can close the gap between what the
+[00:25:44] senders and receivers are are uh
+[00:25:46] experiencing more quickly than timeouts.
+[00:25:49] Um well, oh okay.
+[00:25:54] Um so the one of the questions here I
+[00:25:58] guess the last piece before I actually
+[00:25:59] get to the image sorry about that is you
+[00:26:01] know okay so the bilateral was propos
+[00:26:04] proposed by the paper um the paper had
+[00:26:07] it at the transport layer because that's
+[00:26:09] where the FTP protocol resided and
+[00:26:11] that's what they were developing um and
+[00:26:14] so one of the things that also is you
+[00:26:17] know is is an important piece is that
+[00:26:20] you know in modern terms one of the
+[00:26:21] things we would call this is a bilateral
+[00:26:23] commitment Um back in 1976 those words
+[00:26:27] didn't exist. Um and more protocols
+[00:26:29] actually use something similar to
+[00:26:30] bilateral commitment now and those for
+[00:26:33] terms are formalized through various
+[00:26:35] calculuses. And so you this is one of
+[00:26:37] the things where it's interesting to see
+[00:26:39] it was proposed in 76 kind of laid
+[00:26:41] dormant and now multiple places have
+[00:26:43] shown that bilateral commits are useful.
+[00:26:46] Um, and one of the things here we're
+[00:26:48] looking at is um, you know, can we push
+[00:26:50] this construct down to the link layer
+[00:26:53] and use it frame by frame?
+[00:26:56] And so there we go. Finally, the picture
+[00:26:58] I was trying to get to. Um, and here,
+[00:27:01] you know, this is the deli. And one of
+[00:27:03] the things that in the you know
+[00:27:06] networking sense and in terms of the
+[00:27:07] open atomic Ethernet one of the things
+[00:27:09] that this actually makes concrete and
+[00:27:12] not just a theoretical construct is that
+[00:27:15] a dolly becomes the construct of a token
+[00:27:18] and the receiver issues uh the token in
+[00:27:20] saying that
+[00:27:22] you know the um the token basically
+[00:27:25] allows the sender to say I can accept
+[00:27:28] this much data from you and the frame
+[00:27:30] plus the token is the is the
+[00:27:32] acknowledgement or the admission for
+[00:27:34] those frames on the network. And so the
+[00:27:36] dolly ends up being the entirety of one
+[00:27:39] frames roundtrip time. Um and so during
+[00:27:42] that time that bilateral commit hasn't
+[00:27:44] finished yet. And then once the token
+[00:27:46] makes its round trip from the receiver
+[00:27:48] to the sender um then you know this is
+[00:27:51] able to basically say that yes the
+[00:27:54] protocol is able to do what I want as
+[00:27:56] well as it gives us the the credit and
+[00:27:59] the admission control that we're looking
+[00:28:01] for in terms of making some of these
+[00:28:03] things a little bit simpler.
+[00:28:07] So Anie, I'll turn it over to you for a
+[00:28:09] second.
+[00:28:10] >> Yep.
+[00:28:12] >> Yeah. So before I go into that slide, I
+[00:28:16] just want to mention something. So the
+[00:28:18] picture that we saw in the previous one,
+[00:28:20] there were three entities in there.
+[00:28:21] There's the sender receiver and there is
+[00:28:23] the uh deli itself. So the way to kind
+[00:28:27] of think about this is instead of this
+[00:28:29] being a two-body problem, it has become
+[00:28:31] a three-body problem. Okay? something
+[00:28:33] that was hard for um you know lot lot of
+[00:28:38] the time for human humankind and I think
+[00:28:41] Newton couldn't um resolve it either and
+[00:28:43] then the aha moment happened is like oh
+[00:28:45] yeah I mean so simple so what I'm trying
+[00:28:48] to say here is it is not a new idea
+[00:28:50] whatever we we have here it is something
+[00:28:53] that you know has has been used in
+[00:28:56] different systems and stuff like that
+[00:28:58] and just something that you know we need
+[00:29:01] to think about in the networking Okay.
+[00:29:03] Uh and I would also say that
+[00:29:06] the end toend view is the most important
+[00:29:08] part here, right? I mean we might have
+[00:29:11] solved the same problem with the same
+[00:29:13] solution in different layers but because
+[00:29:15] we haven't thought about it from end to
+[00:29:17] end we are putting similar solutions in
+[00:29:20] lot of places rather than putting it in
+[00:29:23] the right place so that we don't need uh
+[00:29:26] you know more band-aids or whatever you
+[00:29:30] know they they may look like band-aids.
+[00:29:31] Yeah. So yeah. So compassion uh what is
+[00:29:36] that a declaration about my own future
+[00:29:38] behavior. So uh I mean as Anjali I as a
+[00:29:42] compassionate human being um I would say
+[00:29:45] that yes uh David I'm going to uh give
+[00:29:48] you my slides today and then I will try
+[00:29:51] my best to give it to him today but
+[00:29:53] sometimes delays happen you know uh we
+[00:29:55] have to take a flight and stuff like
+[00:29:56] that. So that's compassion. But then I
+[00:30:00] have full knowledge and control of what
+[00:30:01] I'm promising. Right? So I made that
+[00:30:04] commitment. 99.9% of the time humans
+[00:30:08] keep that commitment. Machines on the
+[00:30:11] other hand we can design them to you
+[00:30:13] know make that commitment right. Um we
+[00:30:16] are a little bit of a forgetting machine
+[00:30:18] or a faulty machine I would say as
+[00:30:21] humans but yeah we most certainly are
+[00:30:24] forgetting machines. So uh imposition an
+[00:30:27] attempt to introduce behavior in another
+[00:30:29] agent. I have neither knowledge nor
+[00:30:31] control of compliance. Right? So it's
+[00:30:33] like yeah I am going to decide that
+[00:30:36] Victor is going to be responsible but
+[00:30:38] Victor doesn't want to be responsible.
+[00:30:40] So you know uh yeah I mean that happens
+[00:30:43] with my children like I'm like yeah
+[00:30:44] you're responsible I don't want to be
+[00:30:46] responsible. So yeah that imposition
+[00:30:48] doesn't work right. So um or or it
+[00:30:52] doesn't scale. It works for some time
+[00:30:54] but then it doesn't scale. After some
+[00:30:56] point my child is going to just say you
+[00:30:58] know yeah you're not the mom anymore. I
+[00:31:01] am in control. Okay. Because you are
+[00:31:04] just putting too many positions.
+[00:31:06] Uh there was something else on the
+[00:31:09] previous slide or okay yeah systems and
+[00:31:11] agents are autonomous. They cannot be
+[00:31:13] forced from outside. Right. So we have
+[00:31:15] to uh design them in such a way that
+[00:31:19] they are self-organized and autonomous
+[00:31:21] and not something that is you know
+[00:31:23] external factors. I mean of course there
+[00:31:26] are solar storms those external factors
+[00:31:28] exist in memory uh one of the challenges
+[00:31:31] that we see is because of the solar
+[00:31:33] storm bit flips
+[00:31:36] you know that's something we cannot
+[00:31:37] control but yes otherwise we should
+[00:31:39] design it uh with you know at least
+[00:31:42] design the things that we
+[00:31:45] uh can predict and we know that it is
+[00:31:48] done right. Um
+[00:31:51] an imposition is not binding until a m
+[00:31:54] matching promise to accept it binds uh
+[00:31:56] from the other side. Yeah, I think
+[00:31:57] that's kind of obvious.
+[00:32:00] Okay, a same structure three uh
+[00:32:02] independent uh traditions and that's
+[00:32:04] something that you know comes straight
+[00:32:05] from Paul. I'll try to explain it. Paul
+[00:32:07] Boral. Uh so um uh I'll go backwards.
+[00:32:12] Open atomic Ethernet two endpoints
+[00:32:13] independently prepared then one uh one
+[00:32:16] atomic commit. So this is that bilateral
+[00:32:19] commit and there's a spec at 0.9 open
+[00:32:22] atomic ethernet from OCP. Uh it is
+[00:32:25] something that's still in development
+[00:32:26] and uh uh I think it's a good thing to
+[00:32:29] look through. Uh it is something again
+[00:32:33] we cannot revolutionize um you know
+[00:32:35] things work well and compassionately
+[00:32:38] when they evolve. So we'll see uh how
+[00:32:41] things work out but you know really good
+[00:32:43] spec to look at it for sure. uh lot of
+[00:32:45] thought has gone into it as to like why
+[00:32:47] are we seeing all these uh you know
+[00:32:49] failures and we are fixing it in 10,000
+[00:32:52] different ways and maybe we need to just
+[00:32:54] look at it slightly differently uh
+[00:32:57] alternating bit protocol uh OA is based
+[00:33:00] on that alternating bit protocol uh
+[00:33:02] receiver state mirrors last act segment
+[00:33:05] um and uh Milner CCS and I forget the
+[00:33:10] full form for that
+[00:33:12] um It's
+[00:33:15] oh of course
+[00:33:16] >> okay humans forgetting machines we we
+[00:33:20] will remember it and you know we'll uh
+[00:33:23] provide that information uh synchronize
+[00:33:26] into one internal
+[00:33:29] how do you say that
+[00:33:30] >> toao
+[00:33:31] >> toao transition okay uh yeah so that is
+[00:33:35] very much similar the bilateral binding
+[00:33:37] and yeah go ahead David
+[00:33:39] >> well as I say the the interesting thing
+[00:33:41] here is is the fact that um the same
+[00:33:45] type of commitment the bilateral commit
+[00:33:49] that that that mathematical phrase of
+[00:33:52] the the you know having the two
+[00:33:54] endpoints agree and commit to various
+[00:33:56] things and be able to then you know have
+[00:33:59] the alternating Brit protocol the it's
+[00:34:01] it's the calculus from Milaner as well
+[00:34:03] as OA all were developed and designed
+[00:34:06] independently and all boil down to using
+[00:34:09] a bilateral commit so you it's really an
+[00:34:12] interesting when you see multiple fields
+[00:34:14] start to percolate towards a a single
+[00:34:17] primitive. Um, and that's kind of the
+[00:34:19] point of this slide is that, you know,
+[00:34:21] it's it's more than just, hey, this is a
+[00:34:23] cool thing to try. It's multiple domains
+[00:34:26] are are using it and trying it out. So,
+[00:34:28] you know, maybe this has something to
+[00:34:29] it. Um, and that, you know, each of
+[00:34:32] these has the properties of, you know,
+[00:34:33] they're they're commit, they're atomic,
+[00:34:35] and all these pieces. But the point here
+[00:34:37] is that it it happens in more than just
+[00:34:40] um the OE. I mean yes the other pieces
+[00:34:43] are um network oriented but they come
+[00:34:46] from different domains and different
+[00:34:48] research backgrounds.
+[00:34:49] >> Yeah. So I think it's calculus
+[00:34:52] uh not control calculus something
+[00:34:55] system. Okay.
+[00:34:57] >> Y
+[00:34:57] >> uh congestion system something like
+[00:35:00] that.
+[00:35:00] >> I think it's congestion control calculus
+[00:35:02] I think
+[00:35:03] >> something wrong. Okay. Um do you want to
+[00:35:07] go? Yes. Unless there is a question or a
+[00:35:10] comment anyone.
+[00:35:14] Okay. Uh so um
+[00:35:18] so what uh you know giving some names to
+[00:35:21] names uh things right. So
+[00:35:25] you know the last one forward in time
+[00:35:28] only that seems to be a categorical
+[00:35:32] mistake and that is originating
+[00:35:34] from again humans being forgetting
+[00:35:38] machines. By the way there's a word in
+[00:35:40] uh Arabic called insan which means one
+[00:35:43] who forgets. I think insane comes from
+[00:35:45] that. So one who forgets and then goes
+[00:35:47] crazy I think. Um yeah. So uh so uh what
+[00:35:54] uh in the process of evolution what
+[00:35:56] happened is as the machines were
+[00:35:58] evolving uh there was an equation which
+[00:36:01] was for time and uh there was a value
+[00:36:04] which was supposed to be an absolute
+[00:36:06] value and we simplified it to a scalar
+[00:36:08] and then we forgot about it for 50 years
+[00:36:11] like till 2024 and then they realized oh
+[00:36:14] you know I think this should have been
+[00:36:15] an absolute value and then you then when
+[00:36:18] that real realization happens then you
+[00:36:20] see oh the time is going backward and
+[00:36:22] forward in fact it's going sideways so
+[00:36:24] that's what you see at the lowest level
+[00:36:27] yes that concepts come very much from
+[00:36:29] quantum side and it's kind of high hard
+[00:36:32] you know hard to digest but um yeah
+[00:36:35] that's what we're observing okay um uh
+[00:36:39] so what is the categorical mistake
+[00:36:41] deploying a global view in a local
+[00:36:45] observer viewpoint so I'll give an
+[00:36:47] example uh this comes straight from um
+[00:36:51] you know the practice that I follow
+[00:36:52] which is Janism. So there's a story of
+[00:36:55] an elephant in the room and they're
+[00:36:56] blind humans there and and you know one
+[00:36:59] of them is touching the feet and they
+[00:37:02] say oh it's like a pillar and the other
+[00:37:03] one is like touching the trunk. It's
+[00:37:04] like it's a pipe uh a PVC pipe I guess
+[00:37:08] uh the other one is touching the uh ears
+[00:37:10] and say oh yeah it is like a fan or
+[00:37:12] whatever uh tail you make up your story.
+[00:37:16] So that's like saying you know we all
+[00:37:19] are making local observations and then
+[00:37:22] we are creating a global view about it
+[00:37:26] which we probably are not capable of
+[00:37:30] because of uh we being in the frame of
+[00:37:33] reference itself.
+[00:37:36] Right? So and that seems to be the
+[00:37:39] categorical error that we are making. uh
+[00:37:42] questions, comments.
+[00:37:48] Okay.
+[00:37:50] Okay. So, yeah, uh the bilateral
+[00:37:52] binding, we talked about it a little
+[00:37:54] bit. Um do you want to take it up from
+[00:37:56] here?
+[00:37:56] >> Sure.
+[00:37:56] >> Yeah,
+[00:37:57] >> sure. Uh so I mean this this is kind of
+[00:37:58] another representation of the bilateral
+[00:38:01] binding and as as Anie mentioned you
+[00:38:03] know you kind of actually have the the
+[00:38:04] three parties here in that you have the
+[00:38:07] the send and receiver and then you have
+[00:38:08] the network and the tokens themselves is
+[00:38:10] basically your third party. Um but if
+[00:38:13] you look here that you know neither side
+[00:38:16] can do this alone you need two local
+[00:38:18] commitments. I mean but the good thing
+[00:38:19] here is you don't need uh you don't need
+[00:38:22] you don't have a global view of the
+[00:38:25] network. you just need to be able to
+[00:38:26] have a a commitment with your next hop.
+[00:38:30] Um, and so you have your two you have
+[00:38:33] your two agents. You have your promise
+[00:38:35] to actually, you know, use the credit to
+[00:38:38] send something and you have the promise
+[00:38:40] to to receive them. And this
+[00:38:42] coordination is mutual between them. And
+[00:38:43] if there isn't a mutual coordination,
+[00:38:46] you don't send a message.
+[00:38:47] >> So here is where the inaction happens
+[00:38:49] because everybody has to wake up, right?
+[00:38:52] So, uh, we wanted to open it like this,
+[00:38:54] but things didn't go our way. The
+[00:38:56] universe decided something else with the
+[00:38:58] system going sideways. So, if I'm
+[00:39:01] looking in David's eyes and David is
+[00:39:03] looking in my eyes, we could be just
+[00:39:06] lost in oblivion and there's nothing
+[00:39:08] going on. Or we could be exchanging some
+[00:39:11] emotions like David's eyes are smiling,
+[00:39:13] mine are smiling, right? But how do you
+[00:39:16] know that any of that is happening?
+[00:39:22] It's not I mean between the two of us
+[00:39:25] there could be communication or no
+[00:39:26] communication whatsoever right you need
+[00:39:30] a third entity an observer which is a
+[00:39:33] trusted entity to kind of say yes
+[00:39:36] communication and information transfer
+[00:39:38] happened and that's the commit part.
+[00:39:47] So this is a little bit more towards the
+[00:39:49] details of you know what this starts to
+[00:39:51] mean at the network and at the link
+[00:39:54] layer. And so um as Anie mentioned and I
+[00:39:56] think actually um so this the slides
+[00:39:59] were made about like two weeks ago or so
+[00:40:01] and the uh version is actually I think
+[00:40:04] 0.8 eight now. Um but yeah, it's it's up
+[00:40:08] it's up online. The link layer spec is
+[00:40:09] there. Um and as I had mentioned before,
+[00:40:12] you know, we've taken this ID of the
+[00:40:14] commit between the two endpoints, the
+[00:40:16] the the the commitment to do the deli as
+[00:40:20] a circulating token that is a true
+[00:40:22] artifact and not just a metaphor for
+[00:40:25] this thing. And so you have this token
+[00:40:28] exchange. And so it's issued by the
+[00:40:30] receiver. It embodies exactly the
+[00:40:32] ability to say I will take one packet or
+[00:40:35] one frame and then the sender must
+[00:40:37] possess a token or you know in this case
+[00:40:40] maybe a set of tokens in order to carry
+[00:40:42] the data forward to the receiver. Um and
+[00:40:45] then the receiver does the return by
+[00:40:48] returning the acknowledgement. And on
+[00:40:50] receiver acknowledgement then you have
+[00:40:52] your commitment between the two. And so
+[00:40:54] this allows us to actually have the
+[00:40:56] permissions you know that's the receiver
+[00:40:59] saying I will take this and the
+[00:41:01] acknowledgement as part of this token or
+[00:41:03] this single entity.
+[00:41:06] And so the the round trip between the
+[00:41:09] two is the deli. Um and so the the the
+[00:41:12] outbound token the the sender spends the
+[00:41:15] tokens to actually send the information
+[00:41:17] data is in flight and then the token
+[00:41:19] returns. And so when this is there you
+[00:41:21] actually have the unresolved commit. You
+[00:41:23] could have issues there. Um and then you
+[00:41:26] know basically so what the the link
+[00:41:28] layer protocol does is it tr it
+[00:41:29] basically takes what we learn from the
+[00:41:32] transport layer and moved it to a link
+[00:41:35] layer admission structure in order to
+[00:41:37] basically say I admit these packets for
+[00:41:39] I don't and so every frame will have its
+[00:41:42] own deli will have its own packet and
+[00:41:44] that is the unit of transmission.
+[00:41:48] Um, so basically I think you can kind
+[00:41:51] of, you know, extrapolate from there in
+[00:41:53] the fact that if you don't have a token,
+[00:41:55] you're not supposed to transmit. If you
+[00:41:58] don't have tokens and you're not
+[00:41:59] transmitting, then you don't actually
+[00:42:01] have specular types of transmit that
+[00:42:03] enter the network. Um, you know, we're
+[00:42:05] not looking necessarily at malicious
+[00:42:06] here. You know, we're we're looking at,
+[00:42:08] you know, if you're following the
+[00:42:09] protocol. Um, and so that way, you know,
+[00:42:11] in order to actually, you know, re
+[00:42:13] saturate links, you would actually go
+[00:42:14] towards um, you know, having more
+[00:42:17] tokens. And then if a link becomes
+[00:42:19] saturated, the receiver will actually
+[00:42:21] withhold the token. And so this way
+[00:42:23] it'll backly it'll propagate backwards
+[00:42:25] towards the source across the network.
+[00:42:28] Um the cues have a uh bounded occupancy
+[00:42:32] and this is kind of defined by the
+[00:42:35] credit that's issued by the receiver as
+[00:42:37] opposed to something that we're trying
+[00:42:39] to measure and speculate. Um and then
+[00:42:43] finally, you know, this acts as the
+[00:42:44] mission control for the network.
+[00:42:48] Um, and so I think as Andre had
+[00:42:50] mentioned, you know, one of the things
+[00:42:51] that this is not necessarily a a new
+[00:42:54] idea in the fact that tokens have been
+[00:42:57] around. They're part of many different
+[00:42:58] protocols. Um, you know, the original
+[00:43:00] end is there since 1976.
+[00:43:04] We have the wording to describe it
+[00:43:06] better now in kind of the bilateral
+[00:43:08] discipline and in some of the calculus
+[00:43:10] that's been borrowed from Milner. And so
+[00:43:12] it acts as the permission and
+[00:43:13] acknowledgement. Um and then you know
+[00:43:16] prior schemes that we've seen for this
+[00:43:18] have typically looked at one side of the
+[00:43:20] token and have a a single commit as
+[00:43:23] opposed to a bilateral commit.
+[00:43:26] And so just kind of the the uh pictorial
+[00:43:29] representation of this is you know you
+[00:43:31] have imposition on the top where you
+[00:43:34] might have the speculation fills and and
+[00:43:37] overflows the downstream cues whereas
+[00:43:39] you have promise on the bottom and it's
+[00:43:41] gated at the source and bounded your
+[00:43:44] your uh
+[00:43:46] your stream is bounded at every hop. And
+[00:43:48] so a frame is never injected it to
+[00:43:51] basically flood something downstream
+[00:43:53] further than one hop from you.
+[00:43:57] Um, oh,
+[00:44:04] >> if you never allow uninvited frames, how
+[00:44:06] do you ever start a conversation?
+[00:44:12] >> Yes. So, a very good question. So, there
+[00:44:14] is uh an assumption of a preamble or
+[00:44:17] whatever like which you treat it as like
+[00:44:19] okay this is the start of a
+[00:44:20] conversation. very simple similar
+[00:44:22] concept like we have it in Ethernet even
+[00:44:24] now at physical layer although I don't
+[00:44:28] speak for the open atomic ethernet spec
+[00:44:29] because I haven't read it completely but
+[00:44:31] there is something very similar where
+[00:44:33] which kind of guarantees that this is
+[00:44:35] the start of a conversation but there is
+[00:44:37] also there's only at the initial time
+[00:44:39] where it's like okay there's time of
+[00:44:41] anticipation
+[00:44:43] um which is like okay yeah I mean I if I
+[00:44:45] don't get anything here and it is just
+[00:44:48] uh random noise or whatever
+[00:44:51] Then I say there is no communication
+[00:44:52] happening. So there has to be some
+[00:44:54] pattern. Yeah.
+[00:45:00] So one of the you one of the things we
+[00:45:02] start to look at is you know we we know
+[00:45:05] this idea starts to be you know as an
+[00:45:08] was saying is evolutionary. It is
+[00:45:10] something different. Um, and so you we
+[00:45:12] look at how how do you start to be able
+[00:45:14] to apply this in smaller typically maybe
+[00:45:17] green field environments where we can
+[00:45:20] evolve as opposed to having to replace
+[00:45:22] you know we obviously there's brown
+[00:45:24] field out there we're not going to
+[00:45:25] replace those type of things and so if
+[00:45:27] you look at this say in an AI network or
+[00:45:29] a network where you have smart nicks you
+[00:45:31] know you you look at the smart nick as
+[00:45:33] being a promise enforcing agent as
+[00:45:36] opposed to necessarily one that is doing
+[00:45:39] say congestion control and so You might
+[00:45:41] look at it as you know this might a
+[00:45:43] first step for this might be between
+[00:45:44] something like a smart nick and a top of
+[00:45:47] rack router and then from there you can
+[00:45:49] expand to say okay your top of rack
+[00:45:51] router then is able to go back into say
+[00:45:54] traditional congestion control depending
+[00:45:56] on what network it's connected to.
+[00:46:00] Um so you know I think one of the things
+[00:46:03] that's interesting and you wanted to
+[00:46:04] speak to this one a little bit.
+[00:46:06] >> Yes I'll speak to it. Uh just to add
+[00:46:08] there was a thought and I'm forgetting
+[00:46:10] now. Could you go back to your slide?
+[00:46:14] Um
+[00:46:16] yeah so the onus is always on the entity
+[00:46:20] that starts anything. Uh and that's the
+[00:46:22] whole point of it right. So um
+[00:46:28] yeah I've lost my train of thought. I
+[00:46:29] I'll come back to it. Yeah. So uh okay.
+[00:46:32] So let's talk about this. We kind of
+[00:46:34] visited this a little while ago saying
+[00:46:36] what is the scar uh not scariest but
+[00:46:42] scarcest resource scarcest
+[00:46:46] scarcest resource uh uh and that is
+[00:46:49] definitely time and um looking at
+[00:46:51] present situation energy too although we
+[00:46:53] have infinite one in the sun but that's
+[00:46:55] separate story uh but yeah so what we
+[00:46:58] see at the hardware level it's memory
+[00:47:01] and um sorry I didn't catch your name
+[00:47:03] attention is related to that memory
+[00:47:07] right and I mean if as a human system I
+[00:47:11] don't have at least enough memory I
+[00:47:12] cannot have attention so so yeah so
+[00:47:16] memory is is is the is the problem but
+[00:47:20] we are using memory as an absor you know
+[00:47:23] it's absorbing condition like it's like
+[00:47:25] there's a timeout we'll do a retry so
+[00:47:27] what are we doing we're waiting and
+[00:47:29] we're saying oh yeah we got some
+[00:47:30] fragments let's assemble them so we have
+[00:47:33] more memory to assemble them, you know?
+[00:47:35] So, we are absorbing that stress in the
+[00:47:38] environment as adding more and more
+[00:47:41] memory. That's what we're doing, right?
+[00:47:45] Versus we could change that and we say,
+[00:47:47] okay, let's not use memory, but use time
+[00:47:50] and that is like initial time for saying
+[00:47:54] let's compassionately promise that we
+[00:47:58] are trusted entities and then we we can
+[00:48:01] do the right thing. And I'm speaking
+[00:48:03] both for humans and for our devices that
+[00:48:06] we make, right? So um yeah, so time is
+[00:48:11] better for you know absorbing that uh
+[00:48:15] you know let's not call it congestion
+[00:48:18] because we're saying we will not
+[00:48:20] congest. We will take time so that we
+[00:48:23] configure right and you know uh we do
+[00:48:25] all the things uh provisioning right we
+[00:48:27] do the configuration of the system right
+[00:48:29] and so you know that time taken is
+[00:48:33] better than spending a lot of memory.
+[00:48:38] >> Yeah.
+[00:48:40] And so I think an Angelie hit on this
+[00:48:42] and I think we've said it a few times is
+[00:48:44] that while it might seem, you know,
+[00:48:47] revolutionary or wacky, you know, it's
+[00:48:50] it's an idea that can evolve and change
+[00:48:53] small bits and then evolve into larger
+[00:48:55] pieces as needed. And so you one of the
+[00:48:58] things that we wanted to look at is you
+[00:49:00] what does this start to actually take
+[00:49:02] when you know if you need to move it
+[00:49:05] into you enable the kernel in order to
+[00:49:07] be able to do these this tokenbased
+[00:49:10] dolly mechanism. Um, so one is you you
+[00:49:13] need to be able to have a way to do
+[00:49:16] token accounting and so that this needs
+[00:49:19] to be actually have it in in the actual
+[00:49:21] TX path and be able to consult my per
+[00:49:24] pier credit before fetching for the
+[00:49:26] qisk. Um, you also need to have the qisk
+[00:49:30] oper cooperation. Um, you know, so if
+[00:49:32] you have a peer with uh no credit, you
+[00:49:35] shouldn't be able to do like head of
+[00:49:37] line blocking or sorry. Um, and then
+[00:49:40] finally, you need the socket visibility
+[00:49:42] in order to um, expose the credit,
+[00:49:45] expose when you have things like a lack
+[00:49:47] of credit or you have the credit to
+[00:49:49] send. Um, and then you also need to be
+[00:49:51] able to handle the return events.
+[00:49:55] Um, so, you know, it's definitely not a
+[00:49:58] replacement to something like TCP. Um,
+[00:50:00] things like TCP over the atomic Ethernet
+[00:50:03] kind of keep those end semantics. Um,
+[00:50:06] and so as Anie said, you we we're
+[00:50:08] looking to see it be able to start to
+[00:50:11] deploy in various places as opposed to
+[00:50:13] everywhere at once.
+[00:50:16] >> Go ahead.
+[00:50:17] >> Yeah. So I mean one of the few things
+[00:50:20] that I I have been uh and I think Paul
+[00:50:22] has been thinking about the same thing
+[00:50:23] is like when we are adding new kind of
+[00:50:26] mechanisms like right now we're doing
+[00:50:28] chiplets, right? And we've had a
+[00:50:31] protocol called PCIe which we know is
+[00:50:34] not scaling very well. uh that probably
+[00:50:36] is the time that we say oh let's use
+[00:50:38] this new thing because it's the least
+[00:50:41] harm uh path where there is something
+[00:50:44] new and you use this open atomic
+[00:50:46] ethernet over there and you know if it
+[00:50:50] uh you know does the beautiful thing it
+[00:50:52] promises then it will slowly go into the
+[00:50:55] rest of the network right so doing
+[00:50:58] something which is like oh no we're
+[00:51:00] going to replace all bulbs in the house
+[00:51:01] because LED is better is not a great
+[00:51:03] idea you replace it one room at a where
+[00:51:05] you need it. So,
+[00:51:07] >> yeah. And so, this would be an example
+[00:51:09] flow of where kind of credit would would
+[00:51:12] live from the application. I mean, you
+[00:51:13] would still use a a you know, a send
+[00:51:16] message. Um, and basically, you would
+[00:51:19] have it propagate down the stack and,
+[00:51:23] you know, the nick would actually check
+[00:51:24] based on does it have the credit to
+[00:51:26] send, does it not? and then you know
+[00:51:28] basically propagate back up this the
+[00:51:29] stack and reinform the application when
+[00:51:32] and if it has the right uh set of tokens
+[00:51:34] to be able to send.
+[00:51:37] Um and so actually um so there basically
+[00:51:40] we have a whole bunch of uh slides for
+[00:51:43] things you know people have have
+[00:51:44] questions and those kind of stuff. Um so
+[00:51:46] I wanted to stop there and actually open
+[00:51:48] it up for questions. Um and then you we
+[00:51:51] have some final takeaways as well but
+[00:51:53] let me just stop there and ask for
+[00:51:55] questions.
+[00:52:00] And of course I'm going to direct all
+[00:52:02] questions at Analie. So
+[00:52:04] >> uh just just as a point of uh
+[00:52:07] administration please use the mic. The
+[00:52:08] previous guy who asked the question we
+[00:52:10] couldn't hear him downstairs so that's
+[00:52:11] why I came up here
+[00:52:13] >> and and I wanted to ask a question but I
+[00:52:15] could.
+[00:52:16] >> Well say he
+[00:52:20] uh we have a question from remote
+[00:52:22] attendees. uh you have just touched on
+[00:52:25] on this matter but if you want to uh
+[00:52:28] comment on the question. So Yanjun asked
+[00:52:32] from a Linux networking perspective
+[00:52:34] which layer do you expect to implement
+[00:52:36] this admission mechanism? Would it
+[00:52:38] primarily live in a nick driver the QISK
+[00:52:41] layer or require a fundamentally new
+[00:52:44] network and abstraction?
+[00:52:47] So uh I think we touched on this uh
+[00:52:50] earlier um everything should start from
+[00:52:53] the entity that really want that
+[00:52:56] information. So the [clears throat]
+[00:52:57] application right everything should
+[00:53:00] start from there instead of doing things
+[00:53:02] in the middle saying oh yeah let's do it
+[00:53:03] here or there or there or there start
+[00:53:05] from where things should be done right
+[00:53:09] and I think we might be already doing
+[00:53:11] these things right in the application
+[00:53:12] layer and then we look at the others uh
+[00:53:14] that's like going from top to bottom but
+[00:53:17] then the other way is you know in the
+[00:53:20] hardware uh you know on the chiplet side
+[00:53:22] you can go from bottom to top and I
+[00:53:24] think this is more going to evolve in
+[00:53:27] that. Uh it's almost like a
+[00:53:30] self-fulfilling prophecy, right? When
+[00:53:32] you see something of beauty, you say,
+[00:53:34] "Oh, yeah. This is, you know, we already
+[00:53:36] knew this is how it should be, but you
+[00:53:37] know, we were solving it uh in different
+[00:53:40] places and now we see like, oh yeah,
+[00:53:41] this should be pretty much everywhere."
+[00:53:44] So, I mean, humans uh as I said, they
+[00:53:49] want to do the right thing always. They
+[00:53:51] have their good intentions. I think
+[00:53:53] it'll happen everywhere. So I'm not sure
+[00:53:56] where we should start. I think we should
+[00:53:57] start wherever we see the problem and I
+[00:53:59] think we'll get to the right answer.
+[00:54:01] >> Well and and and I think more
+[00:54:03] specifically to to the question, right?
+[00:54:05] It is you I don't think you know and as
+[00:54:09] was saying is it it's not a new
+[00:54:11] interface like we shouldn't it shouldn't
+[00:54:12] be anything new but you know I think the
+[00:54:14] plumbing should go through the socket
+[00:54:16] through the Q disc through the driver.
+[00:54:18] So it would need plumbing and then
+[00:54:19] that's part of the reason of like you
+[00:54:21] know we're we're showing this to start
+[00:54:23] asking the questions of like where
+[00:54:25] should that I mean this that's kind of
+[00:54:26] an open question we have ideas of where
+[00:54:28] the plumbing should live it should be
+[00:54:30] you know that the TX driver ring should
+[00:54:32] do the per pure accounting and some of
+[00:54:33] those pieces but are there better
+[00:54:36] suggestions love to hear it and that's
+[00:54:37] part of the reason for presenting this
+[00:54:39] is the fact that it is something that is
+[00:54:42] uh you know a little out there so let's
+[00:54:44] let's talk about it and then you know
+[00:54:46] you know where we can actually do
+[00:54:47] changes to support it as well as we
+[00:54:50] don't want to make giant modifications
+[00:54:52] but just you know principal changes.
+[00:54:54] >> Yeah. End to end view with compassion in
+[00:54:56] mind that this is not green field.
+[00:55:01] >> I think you had a question.
+[00:55:05] >> Um I was just wondering is um the token
+[00:55:08] it was not clear to me that the token is
+[00:55:10] it from NTOS to end toast or from NTOS
+[00:55:13] to switch and to end. So if it's from
+[00:55:16] end host to end cohost, how do you
+[00:55:18] handle outcast issues where the the I as
+[00:55:22] a sender I'm sending to multiple
+[00:55:24] receivers. I request a token for all of
+[00:55:26] them.
+[00:55:29] >> This uh protocol assumes streaming is
+[00:55:32] bad.
+[00:55:33] >> Sorry.
+[00:55:33] >> It assumes streaming is bad. Okay. It's
+[00:55:36] like you're saying I'm going to send you
+[00:55:38] 10,000 ATDs and I don't really know
+[00:55:40] they're ready to receive or not. That's
+[00:55:42] not a very compassionate thing to do.
+[00:55:47] Well, you can't always know like how do
+[00:55:50] you handle that?
+[00:55:51] I mean you you still I mean you still
+[00:55:53] being so yeah I mean if I guess that is
+[00:55:56] one of the questions too is how to
+[00:55:58] handle some of those pieces but you know
+[00:56:00] if you are you have one to end type of
+[00:56:03] of operations you have communications
+[00:56:05] with those end before then so you have
+[00:56:07] tokens so the per pier still works I
+[00:56:10] mean it's if you just can't send to
+[00:56:13] unknown peers
+[00:56:15] >> right he always has the better answer
+[00:56:17] than me uh so yeah it's like one to one
+[00:56:21] uh with the bilateral commit but then
+[00:56:23] you can replicate the same with n
+[00:56:29] >> okay
+[00:56:30] >> and I'm happy to follow up more later
+[00:56:34] >> okay uh actually if we can solve this at
+[00:56:36] the link layer right using this open
+[00:56:38] atomic ethernet doesn't it solve the end
+[00:56:41] to end problem it does
+[00:56:43] >> right okay does the thing is the
+[00:56:46] question is not about whe
+[00:56:50] Muse the mic. Yeah.
+[00:56:52] >> Yeah, it totally does solve the other
+[00:56:54] problems. Uh as you said, Shrther, the
+[00:56:57] question is not whether it solves the
+[00:56:58] problem. The question is how do we
+[00:57:00] compassionately deploy it in a
+[00:57:03] brownfield environment because we have
+[00:57:06] invested so much money and time in all
+[00:57:08] our networks. So it's saying okay you
+[00:57:11] know let's just change everything that's
+[00:57:12] not going to work right. So we take
+[00:57:15] small steps and that becomes a giant
+[00:57:17] leaf for humankind. So yeah at the nick
+[00:57:21] layer or the driver layer if we solve it
+[00:57:23] right it should but also I have another
+[00:57:26] question right basically this is like
+[00:57:28] similar to token ring protocol isn't
+[00:57:31] that similar to basically they try to do
+[00:57:34] an admission control get based on
+[00:57:36] getting the tokens right
+[00:57:37] >> yes there is a lot of learning from
+[00:57:39] every I mean we all stand on top of
+[00:57:42] giants and we just have to acknowledge
+[00:57:43] we do and we forget certain things and
+[00:57:46] we relearn it so yeah you're
+[00:57:49] there is there's a slight difference
+[00:57:52] >> and we've learned from token ring but
+[00:57:54] right so this isn't about a shared
+[00:57:56] medium it's we're still doing you know
+[00:57:58] endp point to endpoint as well as you
+[00:58:00] know I kind of we made the slide because
+[00:58:02] you're trying to kind of anticipate
+[00:58:04] questions right is so there's no
+[00:58:06] arbitration for it it's pointtooint and
+[00:58:08] it doesn't have a shared medium so it
+[00:58:10] shares a token and so like I said we've
+[00:58:13] learned from tokens but it's not a token
+[00:58:15] ring
+[00:58:15] >> yes exactly it's A mesh not a
+[00:58:19] ringgnosdon
+[00:58:24] 802.17 Brazilian packet rings uh fine
+[00:58:27] history of 20 years ago fiber channel a
+[00:58:30] beautiful protocol
+[00:58:32] uh and it works and one of the reasons
+[00:58:34] why it works that it has two layers of
+[00:58:36] crediting end to end and buffer to
+[00:58:37] buffer uh what you are trying to
+[00:58:39] describe here at least well from
+[00:58:41] impression that I'm getting is that you
+[00:58:42] are concerned only between the crediting
+[00:58:44] between the two nodes not the end to end
+[00:58:47] path
+[00:58:48] So what would happen if you have a large
+[00:58:50] influx of flows coming in via different
+[00:58:53] interfaces which are only controlled by
+[00:58:55] the uh link level crediting scheme uh
+[00:58:58] it's a risk of collapsing on a Nexop
+[00:59:00] transit node then uh if we are looking
+[00:59:04] into uh fabrics that are being deployed
+[00:59:07] for practical purposes those fabrics uh
+[00:59:10] they are not one single connectivity
+[00:59:12] cluster so basically dragon flies and
+[00:59:14] derivatives right where in order to have
+[00:59:16] any end to end connectivity you need to
+[00:59:18] cross multiple subclusters.
+[00:59:21] Therefore, if you are doing admission
+[00:59:23] control only on the link level without
+[00:59:26] any uh broader view uh again uh I would
+[00:59:30] see this as a really big risk for actual
+[00:59:33] fabric collapse in case there is some
+[00:59:35] event happening the over subscription
+[00:59:37] topology change protection or something
+[00:59:39] like that. Speaking of protection and
+[00:59:42] layering. So there's either IP substrate
+[00:59:44] or some some other protocol which deals
+[00:59:46] with the client payload. Then there's
+[00:59:48] this Ethernet. Then there's optical
+[00:59:50] domain. All of them may have their own
+[00:59:53] protection mechanisms. They don't
+[00:59:54] necessarily interwork. Right? So on IP
+[00:59:57] side uh there's an active uh amount of
+[00:59:59] work going on on ITF side on fast
+[01:00:03] network notifications.
+[01:00:05] uh how do you react to a topology change
+[01:00:08] to a congestion possibly to some other
+[01:00:10] event uh and that is something that uh
+[01:00:14] you at the same time need to be able to
+[01:00:17] receive and process. uh on the other
+[01:00:19] hand you need to selectively ignore
+[01:00:22] because if you have say millions of
+[01:00:25] flows active at the same time if you
+[01:00:28] receive a million notifications that's
+[01:00:29] no good use for you right you simply
+[01:00:31] throw that away that's just a waste of
+[01:00:33] your resources so having only the
+[01:00:37] Ethernet layer uh crediting system which
+[01:00:40] is not end to end uh it certainly can
+[01:00:44] help in amplifying those notification
+[01:00:47] stones but not preventing them. Uh what
+[01:00:51] is needed from uh there's also the
+[01:00:54] contract between from the application
+[01:00:55] and the network
+[01:00:57] uh the AI workloads which is basically
+[01:01:00] um the main focus here they are
+[01:01:03] scheduled. It's not just any to any
+[01:01:05] random form of connectivity. I have my
+[01:01:07] compute job. I understand what I need to
+[01:01:09] do. I understand the connectivity matrix
+[01:01:11] between endpoints. Therefore, I may be
+[01:01:14] able to pre-provision some form of
+[01:01:16] paths, tunnels, what not in my network
+[01:01:18] topology. Uh and and if I allow that to
+[01:01:23] operate uh without any stricter control
+[01:01:27] bound to that topology, um again this
+[01:01:29] looks very very risky. Uh not saying
+[01:01:32] that it cannot work. Fiber channel works
+[01:01:34] just perfectly. On another hand, fiber
+[01:01:36] channel over Ethernet just does not
+[01:01:38] work. And you mentioned the reasons PFC
+[01:01:41] is nice in theory in practice. Sorry,
+[01:01:44] no. Um, looks interesting. Um, probably
+[01:01:48] we need six more hours of discussing
+[01:01:50] this. Uh, but uh, fiber channel solved
+[01:01:56] this in my opinion in the right way. Uh,
+[01:02:00] I didn't hear much about end to end
+[01:02:02] crediting scheme and I think that's very
+[01:02:04] risky.
+[01:02:06] >> Really really good observation. So thank
+[01:02:08] you Ignis. Um what I would uh say this
+[01:02:11] way this protocol actually is not
+[01:02:14] assuming any medium right it's not about
+[01:02:16] the medium. The second thing I would say
+[01:02:18] is um you're very right this can only
+[01:02:22] work in a controlled environment with a
+[01:02:25] topology kind of either controlled or
+[01:02:28] fixed. uh so a predefined mesh or a mesh
+[01:02:32] even if it is like in some data centers
+[01:02:34] you can change the you know how many
+[01:02:36] nodes are connected together right uh so
+[01:02:38] it works really beautifully there I mean
+[01:02:40] the term that I use uh is data center or
+[01:02:43] neo data centers they are like this
+[01:02:46] beautiful cloud and the rest of it is
+[01:02:48] wild wild west this will not work in
+[01:02:51] wild wild west like it will not work in
+[01:02:53] the internet okay because you have
+[01:02:55] mixture of devices old new x y you know
+[01:02:59] all that stuff versus in a data center
+[01:03:02] and even let's leave alone data center
+[01:03:05] let's get to the like your you know uh
+[01:03:08] sled and within the sled the chiplets if
+[01:03:12] we start there which is the new area if
+[01:03:14] we start there and fix that maybe we
+[01:03:17] will evolve to fixing lot more places so
+[01:03:21] again it's a moonshot or as you said if
+[01:03:25] not handled well it's quite risky it's
+[01:03:28] like any tool that we make AI as an
+[01:03:30] example right I mean if the right
+[01:03:33] thinking has not gone into it and we
+[01:03:35] come as like just replace everything or
+[01:03:38] do it because for the wrong reasons we
+[01:03:40] will end up in the wrong place right so
+[01:03:42] I totally agree
+[01:03:48] >> okay uh no can I have a mic you have to
+[01:03:50] answer the questions
+[01:03:52] okay so
+[01:03:53] >> was David's turn
+[01:03:54] >> oh it is 10 all right um by the way I'm
+[01:03:57] going to this going to be the last
+[01:03:58] question since we're getting to the
+[01:04:00] break. Uh the
+[01:04:02] I must have missed something actually
+[01:04:04] kind of premeditated my question which
+[01:04:06] was on CBFC. I noticed that you're
+[01:04:08] talking about the alternate e ultra
+[01:04:10] ethernet CBFC here, right?
+[01:04:13] I didn't quite understand what the
+[01:04:14] difference was and
+[01:04:17] that was a side question. The main
+[01:04:19] question is it seems like this
+[01:04:20] transactional exchange is very expensive
+[01:04:22] from a latency point of view.
+[01:04:25] >> So it looks like that. Okay. I mean, so
+[01:04:29] here is a very good thing and I would
+[01:04:31] actually suggest there's a lot of
+[01:04:32] reading material that Paul has put out
+[01:04:35] in the open space and you know why like
+[01:04:38] uh it's related to like link flaps and
+[01:04:40] everything that I think uh meta had a
+[01:04:43] paper last year or something why that is
+[01:04:45] causing so many problems and everything
+[01:04:47] I mean our packet has become a snake at
+[01:04:50] the level that we are at. So it's like
+[01:04:53] you know by the time um you uh get the
+[01:04:57] whole packet on the other side the
+[01:05:00] acknowledgements are already you know
+[01:05:01] starting to come in it has become a
+[01:05:03] snake and so these acknowledgements are
+[01:05:07] almost free you were not using that part
+[01:05:09] of the wire okay and so because of that
+[01:05:12] I mean it looks like yeah there's like
+[01:05:14] more latency here and delay but it's
+[01:05:16] actually not.
+[01:05:17] >> Yeah I think the last bullet there
+[01:05:19] answers my question.
+[01:05:21] >> Great. So it's no different than CBFC
+[01:05:23] then, right? Because that is also sized
+[01:05:26] by the BDP.
+[01:05:28] >> Well, I mean, yeah, the the the goal is
+[01:05:30] that you know, you want to fill up the
+[01:05:33] link as much as possible, right? And so
+[01:05:34] you define the credit based on any other
+[01:05:37] delay bandwidth product that you want to
+[01:05:39] use or however you find best to allocate
+[01:05:41] your resources. And so that way yeah
+[01:05:43] it's I mean if you know the way we talk
+[01:05:46] about it right was maybe a little bit an
+[01:05:47] abstract of okay I send a packet or I
+[01:05:50] send a token I get a token back I send a
+[01:05:51] token I get a token back right but
+[01:05:53] you're doing this in you know hundreds
+[01:05:55] thousands of tokens in order to actually
+[01:05:57] fill the link and so you're you're not
+[01:05:59] necessarily you're amortizing that cost
+[01:06:02] over time and over your flow.
+[01:06:03] >> Yeah it pretends to look like ping pong
+[01:06:06] but it is not.
+[01:06:08] >> Okay. I think PJ wants us to stop at
+[01:06:10] this point.
+[01:06:12] It's time.
+[01:06:13] >> Thank you everybody.
+[01:06:14] >> It's time
+[01:06:15] >> and definitely happy to take more
+[01:06:17] questions later.

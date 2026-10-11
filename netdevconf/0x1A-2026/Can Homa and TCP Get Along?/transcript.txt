@@ -1,0 +1,937 @@
+Source: https://youtu.be/K9NZL_2qm4g
+Language: en
+Captions: auto-generated
+
+[00:00:00] Hello. Today I'd like to talk to you
+[00:00:02] about some experiments I've been doing
+[00:00:05] in the relationship between HOMA and
+[00:00:07] TCP.
+[00:00:14] I can get the slide to change. So just
+[00:00:16] for a little bit of background, I many
+[00:00:18] of you know I've been working on a new
+[00:00:19] transport protocol called HOM which has
+[00:00:21] some fairly significant performance
+[00:00:23] advantages over TCP particularly in
+[00:00:25] terms of latency for small messages.
+[00:00:28] And when I've given talks on HOM, I've
+[00:00:30] often gotten asked the question, what
+[00:00:33] happens if we run Homa and TCP
+[00:00:34] simultaneously? And I think the subtext
+[00:00:37] of this is if I run home, is this going
+[00:00:38] to screw up all my existing TCP
+[00:00:40] applications as well? And for a long
+[00:00:43] time, I didn't have an answer to that
+[00:00:44] question because I'd never tried it out.
+[00:00:45] And finally about a year ago, I decided
+[00:00:47] I I need to have an answer to this
+[00:00:49] question. So I ran some experiments
+[00:00:52] running Homa and TCP together. And
+[00:00:55] interestingly, initially when I ran the
+[00:00:57] experiments, actually Home didn't bother
+[00:00:59] TCP. In fact, TCP actually got a little
+[00:01:01] bit faster when Homer was running with
+[00:01:03] it. But unfortunately, TCP bothered
+[00:01:06] Homer in a pretty serious way. And
+[00:01:09] exploring what happened, I discovered
+[00:01:11] the problem was excess queuing in the
+[00:01:13] nick. And in order to solve this
+[00:01:15] problem, I developed a new queueing
+[00:01:16] discipline called homisk that paces the
+[00:01:18] output to the nick and manages homoma
+[00:01:20] and TCP interactions in order to
+[00:01:22] eliminate those problems. So with that
+[00:01:25] uh we're now at a point where actually
+[00:01:27] TCP does not bother Homa much at all and
+[00:01:30] TCP is still very happy running with
+[00:01:32] HOM. And then actually one interesting
+[00:01:34] final thing is that if you run TCP
+[00:01:37] without HOA but with the new queuing
+[00:01:39] discipline that actually improves TCP
+[00:01:41] performance a little bit as well. So
+[00:01:43] that's the two-minute version of the
+[00:01:44] talk. Now let me go back through all of
+[00:01:46] this in more detail.
+[00:01:50] So a quick uh review of Homa. Hom is a
+[00:01:53] new protocol designed for data centers.
+[00:01:55] We basically started from scratch asking
+[00:01:58] if we could redesign data uh data center
+[00:02:00] transport from the beginning what would
+[00:02:02] it look like? And Homa is the result of
+[00:02:04] that. It has pretty significant
+[00:02:06] performance advantages. 10x reduction in
+[00:02:09] tail latency when you have short
+[00:02:11] messages and long messages all competing
+[00:02:13] for traffic on the network at the same
+[00:02:14] time. And it turns out that Homa made
+[00:02:18] essentially every major design decision
+[00:02:20] differently from TCP. I talked about
+[00:02:23] this a few years ago in Netev, but just
+[00:02:25] to summarize it, Homa is messagebased
+[00:02:28] whereas TCP is streamoriented.
+[00:02:30] Hom is connectionless. There's no notion
+[00:02:32] of a connection at HOMA versus TCP of
+[00:02:34] course being connection oriented for
+[00:02:36] congestion control. Homa manages from
+[00:02:39] the receiver whereas TCP manages it
+[00:02:41] primarily from the senders.
+[00:02:43] Uh Homa takes advantage of the priority
+[00:02:46] cues that are present in modern data
+[00:02:48] center switches. That's a huge help for
+[00:02:49] Homa. TCP was designed you know 40 years
+[00:02:52] before such facilities existed. So it
+[00:02:54] doesn't really do much with them.
+[00:02:56] Um and then finally, Hom uses when it
+[00:02:59] has competing traffic, it uses SRPT to
+[00:03:02] prioritize that is it tries to favor the
+[00:03:04] shortest messages whereas TCP tends to
+[00:03:06] use more of a fair sharing approach.
+[00:03:08] Balance the bandwidth equally across the
+[00:03:10] the competing flows.
+[00:03:13] So let me start with the experiment that
+[00:03:15] I ran. I have a a benchmark I've been
+[00:03:17] using to measure Homer performance for a
+[00:03:19] long time which runs a bunch of nodes on
+[00:03:21] a cluster exchanging RPCs with varying
+[00:03:25] sizes, a mixture of sizes. The the
+[00:03:27] distributions taken from some actually
+[00:03:28] traces at Google and Facebook a few
+[00:03:30] years ago. And let me explain the graph
+[00:03:34] and then talk a little bit about it. So
+[00:03:36] this graph shows the roundtrip times as
+[00:03:39] a function of the message length. So the
+[00:03:40] x- axis is message length and the y-
+[00:03:42] axis is how long it took for uh messages
+[00:03:46] to go for an RPC roundtrip with the same
+[00:03:48] size request and response message. And
+[00:03:50] this graph shows the 99th percentile
+[00:03:52] time. So P99 times. So there's three
+[00:03:57] kind of experiments here. First I ran
+[00:04:00] home standalone just running at about
+[00:04:02] 80% load. So on a 100 gig gigabit
+[00:04:04] network that means it's generating about
+[00:04:06] 80 gigabits of trans of transmission
+[00:04:09] both up and down each link
+[00:04:11] simultaneously.
+[00:04:12] That's the curve you see for hom there.
+[00:04:14] So the the message the the u latency for
+[00:04:17] the shortest mesh is around 100
+[00:04:19] microsconds for example. Then the second
+[00:04:22] experiment was I ran TCP standalone and
+[00:04:24] that's the dark green curve on the top
+[00:04:27] and as I said earlier home is latency is
+[00:04:30] about 10x less than TCPs in this
+[00:04:32] experiment it's actually almost exactly
+[00:04:34] 10x for short messages and note by the
+[00:04:37] way that the y-axis is a log axis not a
+[00:04:39] linear axis
+[00:04:41] then for the third experiment
+[00:04:44] I ran home and TCP together so I
+[00:04:46] modified the benchmark so that there
+[00:04:48] were home and TCP applications running
+[00:04:50] simultaneously ly on each node and they
+[00:04:52] split the load. So rather than having
+[00:04:55] one protocol generating 80% of the
+[00:04:57] traffic each of home and TCP those
+[00:05:00] applications are generating about 40
+[00:05:01] gigabits of traffic per node
+[00:05:05] and so what happened here is first of
+[00:05:06] all if you look at TCP
+[00:05:09] it's a little hard to tell on the graph
+[00:05:10] here but the lower line is when TCP is
+[00:05:12] running together with HOM and this these
+[00:05:14] gaps in here show that TCP
+[00:05:18] actually runs faster
+[00:05:21] when home is present than running by
+[00:05:23] itself.
+[00:05:25] Unfortunately, the light blue line is
+[00:05:27] what happens to Homa in the same
+[00:05:29] situation. And you can see here Home is
+[00:05:31] running about five times worse in terms
+[00:05:32] of tail latency for short messages. So,
+[00:05:35] Homer suffers pretty severely.
+[00:05:38] So, the question is, what's going on
+[00:05:39] with that?
+[00:05:46] So, three questions. First of all, why
+[00:05:48] would TCP get faster running together
+[00:05:50] with Homa? The answer is that Hom is a
+[00:05:52] pretty good citizen when it comes to
+[00:05:54] buffer usage. It's it generates hardly
+[00:05:56] any queuing anywhere. And so when you're
+[00:05:58] running TCP and Homa together, there's
+[00:06:00] less queuing than if you're running pure
+[00:06:02] TCP. And so since the cues are shorter,
+[00:06:05] uh that makes TCP run faster.
+[00:06:08] Second thing is why doesn't Home's use
+[00:06:11] of priorities hurt TCP? And you might
+[00:06:13] think that since Homa is taking
+[00:06:15] advantage of these priority cues that it
+[00:06:17] could kind of cheat and sort of steal
+[00:06:19] all the network bandwidth and keep TCP
+[00:06:21] from getting any bandwidth. Well, the
+[00:06:23] reason is that Homa is actually pretty
+[00:06:25] cautious in how it uses the priorities.
+[00:06:28] It tries to spread the traffic out
+[00:06:29] across all the priority levels. So only
+[00:06:31] a small amount of data is on the top
+[00:06:33] priority level and quite a bit is still
+[00:06:34] at level zero which is the same level as
+[00:06:36] TCP. So Home's use of priorities did not
+[00:06:39] significantly impact TCP.
+[00:06:42] And the next question is, well then why
+[00:06:44] did Homa get so much slower? And the
+[00:06:47] answer is that unfortunately TCP is not
+[00:06:50] a very good citizen. As we all know TCP
+[00:06:52] is like a heat-seeking missile that
+[00:06:54] seeks out buffers and fills them all
+[00:06:56] over the network. It does that very
+[00:06:58] effectively and that generated long
+[00:07:00] cues. So let me show you a little bit
+[00:07:02] more about exactly what I mean by that.
+[00:07:06] So where are the cues forming? So when a
+[00:07:09] short homo message gets sent from one
+[00:07:11] node to another, there are cues at two
+[00:07:13] places that can potentially matter.
+[00:07:15] There's queuing in the nick on the
+[00:07:17] source and potential queuing in the top
+[00:07:19] of rack switch leading to the
+[00:07:21] destination. Uh there's also cues in the
+[00:07:23] switching fabric, but those actually
+[00:07:25] aren't particularly relevant for this
+[00:07:26] discussion, so I'm not going to talk
+[00:07:28] about them. But let's talk first about
+[00:07:30] the cues in the Torah. So those are
+[00:07:34] priority cues. And so when a short homo
+[00:07:38] message arrives, it goes in a a high
+[00:07:40] priority queue. If there's queuing,
+[00:07:43] typically that builds up in the low
+[00:07:44] priority cues. And in particular, all of
+[00:07:46] TCP packets, TCP's packets will be in
+[00:07:49] the low priority cues. So HOM doesn't
+[00:07:52] suffer. TCB does not hurt at the
+[00:07:55] destination side because the priority
+[00:07:57] cues protect the short HOMA messages.
+[00:08:01] But unfortunately, TCB does hurt Elma
+[00:08:05] at the source side in the nick cues. So
+[00:08:08] the nick cues, you know, there's
+[00:08:10] typically one of them per core in this
+[00:08:12] default configuration. These are not
+[00:08:13] priority cues. You know, I've colored
+[00:08:16] the packets here with blue being
+[00:08:17] slightly higher priority packets and
+[00:08:19] pink being lower priority. On the
+[00:08:21] destination side, those get segregated
+[00:08:23] into different cues. on the source side
+[00:08:25] with the nick, they just end up in
+[00:08:27] whatever queue correspond to the core
+[00:08:30] that sent the the message. And so the
+[00:08:33] result is cues build up. The nick tends
+[00:08:35] to serve well, it's a little hard to
+[00:08:37] tell exactly how the nick serves the the
+[00:08:39] various cues when there are many of
+[00:08:40] them. But it seems from my experiments
+[00:08:42] that it's some sort of reasonably fair
+[00:08:44] sharing approach where it tries to
+[00:08:46] balance sort of traffic across the cues
+[00:08:48] that have uh that have packets waiting
+[00:08:49] in them. And so the result is that if a
+[00:08:53] short homo message happens to get stuck
+[00:08:55] in a queue that has a bunch of stuff in
+[00:08:57] it like this queue here, it has to wait
+[00:08:59] its turn in that queue. And and
+[00:09:01] meantime, of course, the nick is also
+[00:09:03] servicing all of the other cues as well.
+[00:09:10] Sorry, but a window just appeared on my
+[00:09:12] laptop here. Okay.
+[00:09:15] And to illust to show you that in more
+[00:09:17] detail,
+[00:09:22] I have no idea where that came from.
+[00:09:24] Let's see.
+[00:09:31] Can you make that go around?
+[00:09:38] Ah, great. Thank you. Oh, just came back
+[00:09:42] again.
+[00:09:46] Okay, I think I've got rid of it now.
+[00:09:50] >> Yeah. Okay. So,
+[00:09:53] I was able to actually measure the Q
+[00:09:56] length on the nick. So, this graph shows
+[00:09:58] you time on the x- axis and y on the y-
+[00:10:01] axis is the number of bytes in packets
+[00:10:04] that have been handed off to the nick
+[00:10:06] but have not yet been returned by the
+[00:10:08] nick after transmission. So they could
+[00:10:10] be queued, they could be in transmission
+[00:10:11] or they could be on their way back to
+[00:10:13] Linux and the various processes
+[00:10:15] associated with that. And this first
+[00:10:17] graph shows when home is running
+[00:10:18] standalone. So no TCP. And this one you
+[00:10:22] can see the Q levels are generally
+[00:10:24] pretty low. So 100 kilobytes or less.
+[00:10:26] There are occasional jumps up to as high
+[00:10:29] as a megabyte. I'll explain that in a
+[00:10:31] few more slides, but generally pretty
+[00:10:33] low. But then when we add TCP into the
+[00:10:36] mix, notice the change in the y-axis.
+[00:10:39] Now the cues are dramatically longer. So
+[00:10:42] we can see Q's the Q's get as long as
+[00:10:45] three megabytes across all of the NIC
+[00:10:46] cues for example at point in time. And
+[00:10:48] that 3 megabytes of Nick queuing is
+[00:10:51] about 240 microsconds of delay at 100
+[00:10:53] gigabits per second. So that's
+[00:10:55] significant when you know the P99
+[00:10:56] latency for Homa was only 100
+[00:10:58] microsconds to begin with. You add 240
+[00:11:01] microsconds onto that and it's a pretty
+[00:11:03] big deal.
+[00:11:06] And by the way, if I run TCP without
+[00:11:08] Homa, TCP by itself, the cues are even
+[00:11:10] longer. They can grow to 10 megabytes or
+[00:11:13] more. And the problem with long cues in
+[00:11:15] the nick is they defeat SRPT because
+[00:11:18] packet priorities don't don't help out
+[00:11:20] there. And so if you if you want a short
+[00:11:22] packet to get through, you need to keep
+[00:11:24] those nick cues really short so that the
+[00:11:27] the short important packets don't get
+[00:11:29] delayed waiting to get transmitted by
+[00:11:31] the nick.
+[00:11:36] So
+[00:11:40] so I developed a new queueing discipline
+[00:11:42] as part of hom. And by the way, I should
+[00:11:45] mention the reason HomeQues were short
+[00:11:47] before is because Home has something
+[00:11:48] called the pacer in it that
+[00:11:50] intentionally paces packets going out to
+[00:11:52] the nick to try and make sure the nick
+[00:11:54] cues don't build up. So that worked
+[00:11:56] pretty effectively for Homa, but it
+[00:11:57] didn't have any impact on the TCP
+[00:11:59] packets. So I developed a new queueing
+[00:12:01] discipline that sits in the transmission
+[00:12:03] path for both HOMA and TCP and has three
+[00:12:07] functions. The first thing is to try and
+[00:12:09] keep the nick qus from growing very long
+[00:12:12] and so that means it will have to defer
+[00:12:13] packets hom and TCP packets if those
+[00:12:16] cues get too long. Second thing is that
+[00:12:19] for the case of Homa packets when
+[00:12:21] there's queuing and you have a choice of
+[00:12:23] which packet to pass off to the nick
+[00:12:25] next hom uses srpt so favor short
+[00:12:28] messages
+[00:12:30] and then third when the nick is
+[00:12:32] congested you have to figure out how do
+[00:12:33] you prioritize TCP and hom which one
+[00:12:36] gets priority and so homeqis will
+[00:12:38] balance the traffic roughly fairly so
+[00:12:40] it'll split the bandwidth between hom
+[00:12:42] and TCP
+[00:12:50] So the first problem in in trying to
+[00:12:52] implement homeq disk is how do we know
+[00:12:53] how long the nick cqes are? Hard to to
+[00:12:56] pace the traffic unless we can have a
+[00:12:58] really accurate estimate of nick q
+[00:12:59] length. Turns out that's actually kind
+[00:13:01] of problematic. Uh hom ends up using two
+[00:13:04] different approaches simultaneously
+[00:13:06] because I couldn't find one that would
+[00:13:08] work by itself. The first one is the
+[00:13:11] approach that was used by the older
+[00:13:12] homopacer which is basically a very
+[00:13:15] simple real-time simulation of the nick
+[00:13:18] that is it assumes that the nick can
+[00:13:20] transmit packets at full line rate
+[00:13:22] that's actually a shaky assumption but
+[00:13:24] for now take that assumption and then it
+[00:13:26] keeps a variable called link idle time
+[00:13:29] and that's just an estimate of the time
+[00:13:31] in the future when the nick q will
+[00:13:33] become empty because all of the the
+[00:13:34] packets will have been transmitted and
+[00:13:36] then that gets update each time a packet
+[00:13:38] is handed off down the down the stack on
+[00:13:40] its way to the nick that gets updated.
+[00:13:42] So we just keep track of that and that
+[00:13:45] if you compare link idle time to the
+[00:13:47] current time that's basically can tell
+[00:13:49] you how much information is buffered in
+[00:13:51] the nick. And so if that gets too large,
+[00:13:53] if link idle time gets too far in the
+[00:13:55] future, then we consider the nick
+[00:13:58] congested and stop transmitting uh
+[00:14:01] packets, stop handing them off down the
+[00:14:02] pi down the um stack until current time
+[00:14:05] catches up to link idle time and then
+[00:14:08] when it catches up then gradually start
+[00:14:10] feeding packets out and do that in srptt
+[00:14:12] fashion. So favoring the shorter
+[00:14:14] messages.
+[00:14:16] the the amount of uh we allow in terms
+[00:14:19] of nick q buildup is defined by a a
+[00:14:21] parameter cis control parameter you can
+[00:14:23] set and it's typically set around five
+[00:14:25] microsconds
+[00:14:27] uh that parameter is an interesting
+[00:14:28] thing to set because if you set it too
+[00:14:30] large that translates directly into
+[00:14:33] message delay which hurts srpt you know
+[00:14:36] that's you could think of it that's how
+[00:14:37] much time small messages might be
+[00:14:39] delayed by other things ahead of them in
+[00:14:41] the nick cube so we'd like it as small
+[00:14:43] as possible
+[00:14:45] But if we make it too small, uh the
+[00:14:47] problem is that the pay series is just a
+[00:14:49] thread. It can get interrupted or
+[00:14:51] blocked for various reasons. And if that
+[00:14:53] happens for too long, then the nick q
+[00:14:55] underflows. We end up wasting bandwidth.
+[00:14:58] And that's really bad. Really don't want
+[00:14:59] to do that. So it's a trade-off between
+[00:15:02] these two factors. And in practice, five
+[00:15:04] microsconds has worked out reasonably
+[00:15:06] well.
+[00:15:09] So, this was all well and good except
+[00:15:11] that unfortunately it turns out that nyx
+[00:15:15] can't always transmit at line rate. Uh,
+[00:15:17] I didn't discover that until I switched
+[00:15:19] to machines with 100 gigabit networks.
+[00:15:21] At 25 gigabit network, this seemed to be
+[00:15:23] a pretty good assumption, but at higher
+[00:15:24] network speeds, it's not a good
+[00:15:25] assumption. There are times when the
+[00:15:27] nick can't keep up with the link. And so
+[00:15:31] uh if we use this this me we use this
+[00:15:34] assumption that it can keep up then
+[00:15:36] we're overloading the nick and the cues
+[00:15:37] can become quite long. And so that's why
+[00:15:40] in that earlier slide I showed you the
+[00:15:42] cues under hom could get as long as a
+[00:15:44] megabyte even though they were normally
+[00:15:46] down in the 50 kilobyte range. Those
+[00:15:48] happen to be periods of time where the
+[00:15:50] nick wasn't keeping up and but hom kept
+[00:15:52] passing packets assuming that it was was
+[00:15:54] keeping up and so the cues grow. So we
+[00:15:57] need another approach to handle that.
+[00:16:00] And the second approach is based on the
+[00:16:03] statistics that are kept by the DQL
+[00:16:05] module within Linux. So DQL keeps the
+[00:16:08] statistics for each of the Nick
+[00:16:10] channels. Two numbers, they're each
+[00:16:12] cumulative numbers. The first one is the
+[00:16:14] total number of bytes over all time that
+[00:16:16] have been passed all handed off to the
+[00:16:18] nick in packet buffers. And the second
+[00:16:20] one is the total number of bytes across
+[00:16:22] all time that have been returned from
+[00:16:23] the nick and the SKBs have been freed.
+[00:16:26] And so you take the difference between
+[00:16:28] the two. That's how many bytes are
+[00:16:30] currently in the possession of the nick.
+[00:16:32] So homo uses this. We basically set a
+[00:16:34] limit on how many bytes can be
+[00:16:37] outstanding. And again, if the if the
+[00:16:39] actual number exceeds that, then we have
+[00:16:40] to start deferring packets and wait
+[00:16:43] until uh we've gotten packets back from
+[00:16:45] the nick. That limit is another
+[00:16:47] parameter for homa. Again, it's also
+[00:16:49] specified in units of time. It turns out
+[00:16:52] that needs to be a larger time. It's
+[00:16:54] about 40 microsconds because there is
+[00:16:56] just a lot of sort of slop in how long
+[00:16:59] it takes for packets to come back from
+[00:17:00] the nick. And so you need to leave that
+[00:17:02] constant pretty high. If you crank it
+[00:17:04] down too far, the nick will run dry and
+[00:17:06] you waste bandwidth.
+[00:17:08] [clears throat] Now you might be
+[00:17:09] wondering, but why do you need two of
+[00:17:10] these? Why have two mechanisms? If you
+[00:17:12] have the DQL mechanism, why do you need
+[00:17:14] the simulator also? And the answer is
+[00:17:16] what I I just said because it takes a
+[00:17:18] fair amount of time for packets to come
+[00:17:21] back after transmission. and that
+[00:17:23] requires a large time constant. So I
+[00:17:26] didn't want to have that large of a
+[00:17:27] constant. So we use the 5-second one
+[00:17:29] with the the simulation is sort of the
+[00:17:31] normal case which gives us very tight
+[00:17:33] bounds. And then the second approach
+[00:17:35] using the DQL statistics is sort of a
+[00:17:37] fail safe when the nick is not keeping
+[00:17:39] up allow us to in those few situations
+[00:17:42] then to still clamp off traffic until
+[00:17:44] the nick catches up. Now you might say
+[00:17:46] but okay why do you need any of these
+[00:17:48] mechanisms? Why not just use DQL?
+[00:17:51] Of course, DQL is there. Well, the
+[00:17:53] problem is that it provides it allows
+[00:17:55] really, really long cues. You saw that
+[00:17:57] in the earlier slide and 10 meg
+[00:17:59] megabytes of queuing could occur with
+[00:18:01] DQL. Maybe you could adjust the TQL DQL
+[00:18:05] parameters to try and squeeze it down.
+[00:18:06] Maybe I was worried that doing that
+[00:18:08] might have unintended consequences
+[00:18:10] elsewhere. But even if you did that,
+[00:18:13] there's a bigger problem, which is that
+[00:18:14] when DQL stops a queue, it just stops
+[00:18:18] the whole queue. It does not do any
+[00:18:20] reordering of packets. But for HOMA,
+[00:18:22] when we stop the queue, we want to use
+[00:18:25] SRPT to choose which packet gets
+[00:18:27] transmitted next. And there's no way to
+[00:18:29] do that with the DQL mechanism. It just
+[00:18:31] handles all the packets in this sort of
+[00:18:33] the sequential order in which they were
+[00:18:35] initially handed off.
+[00:18:41] All right. So, how does the queueing
+[00:18:43] work in home qisk? There's actually two
+[00:18:45] different mechanisms. one for TCP
+[00:18:47] packets and one for homop packets that's
+[00:18:49] required by the protocols. So for TCP
+[00:18:52] packets uh the the queueing discipline
+[00:18:54] simply keeps a queue of waiting packets
+[00:18:56] for each of the nick channels and that's
+[00:18:59] needed because first of all we need to
+[00:19:01] maintain the packet ordering within
+[00:19:02] flows and TCP. So we don't want to mix
+[00:19:04] them up and also it turns out this
+[00:19:06] provides actually important srpt
+[00:19:09] benefits for shorter packets. If you
+[00:19:11] compare if you just put them all in one
+[00:19:12] big queue and make it totally FIFO uh
+[00:19:15] that would really hurt the latency for
+[00:19:18] short packets because with this
+[00:19:19] mechanism a short packet can come in if
+[00:19:23] it happens to hit a channel that does
+[00:19:25] not currently have any queue associated
+[00:19:27] with it right now. uh it turns out that
+[00:19:30] then uh that could get transmitted more
+[00:19:32] quickly by the nick whereas you put them
+[00:19:34] all in in one list then every short
+[00:19:37] packet gets stuck behind every long
+[00:19:38] packet and it just tremendous increase
+[00:19:40] in tail latency for the short messages.
+[00:19:44] Then for hom
+[00:19:46] we use a different mechanism which is to
+[00:19:48] have a single que
+[00:19:51] that's a queue of RPCs not a que of
+[00:19:53] packets and those that queue is ordered
+[00:19:56] in srpt order and then for each RPC
+[00:19:58] there's a list of packets for that RPC
+[00:20:00] that are waiting. So when we're feeding
+[00:20:03] packets out for HOMA, take the frontmost
+[00:20:05] RPC in the queue and then feed off the
+[00:20:08] packets of that RPC. Do that in srpt
+[00:20:10] order and the Q is implemented with the
+[00:20:12] red black train.
+[00:20:15] So then what happens if both HOMA and
+[00:20:17] TCP packets are deferred and the answer
+[00:20:19] is that the bandwidth gets roughly split
+[00:20:21] between them. So it'll transmit some TCP
+[00:20:23] packets and some HOMA packets and share
+[00:20:25] the bandwidth between them.
+[00:20:29] Uh, one other issue in all of this is
+[00:20:32] uh, bypassing. So really short packets
+[00:20:34] or messages bypass the queuing entirely.
+[00:20:36] You just immediately push them down the
+[00:20:38] stack to the nick even if the nick is
+[00:20:41] congested.
+[00:20:43] And there's a threshold for that. It's
+[00:20:44] set with a cis control parameter. It's
+[00:20:45] about a thousand bytes right now. So why
+[00:20:48] does this happen? The main reason is
+[00:20:50] because honestly the pacer can't keep
+[00:20:52] up. If it has to, if you get congested
+[00:20:54] at every single packet is getting
+[00:20:56] processed by the pacer. the pacer is
+[00:20:57] just one thread. It can't keep up with a
+[00:21:00] whole lot of short packets. Instead,
+[00:21:02] whereas if you use the original
+[00:21:04] mechanism, you know, when packets are
+[00:21:05] transmitted, they're transmitted on
+[00:21:07] different cores and you get concurrency
+[00:21:08] across all of those cores and they're
+[00:21:11] they're also transmitting on different
+[00:21:12] nick qes and so you get concurrency
+[00:21:14] across those cues. So, it's really
+[00:21:16] important to maintain that for the short
+[00:21:18] packets.
+[00:21:20] Uh the longer packets, they will get
+[00:21:22] deferred. um uh but the short packets
+[00:21:25] can go through directly and that also
+[00:21:27] avoids the overhead of trying to
+[00:21:28] synchronize what you have to do on the
+[00:21:30] global cues for the uh when you defer
+[00:21:32] the packets. So just really important
+[00:21:34] from an efficiency standpoint
+[00:21:37] and the sitta metropolitana droma
+[00:21:40] capital is back again. Okay,
+[00:21:44] it turns out in practice this is fine
+[00:21:46] because you can't generate enough short
+[00:21:48] packets to really generate nick
+[00:21:50] congestion. The congestion is all coming
+[00:21:51] from long packets. And in practice,
+[00:21:55] if you try to generate a lot of short
+[00:21:56] packets, you'd be limited by software
+[00:21:58] overheads typically in the application,
+[00:22:00] but not if in the if not in the
+[00:22:01] application than in in the network
+[00:22:03] processing. So realistically, any
+[00:22:05] significant congestion comes from long
+[00:22:07] packets.
+[00:22:09] This also provides a little bit of extra
+[00:22:11] sRP boost for the short messages. They
+[00:22:13] bypass the whole queuing mechanism. So
+[00:22:15] they get a little bit of favoritism that
+[00:22:17] way.
+[00:22:19] So let's look at the results
+[00:22:22] with homeom uh h home disk. So this on
+[00:22:24] the left side
+[00:22:26] uh this is the curve I showed you before
+[00:22:29] before introduction of home disk and on
+[00:22:31] the right side we have homocqisk and let
+[00:22:34] me just talk about a couple of salient
+[00:22:36] things here. First if you look at TCP
+[00:22:39] TCP still does better with homer running
+[00:22:41] than without. And again, it's it's a
+[00:22:43] small benefit, but the the lower curve,
+[00:22:45] the light green, is when HOM and TCP are
+[00:22:48] running concurrently. And you can see
+[00:22:49] there's still benefits. It's the only
+[00:22:51] place that it's at all worse is there's
+[00:22:53] a few message sizes in here where it's
+[00:22:55] slightly worse with HOM, but but overall
+[00:22:57] TCP does better.
+[00:23:00] And then with HOM,
+[00:23:07] HOM
+[00:23:10] there's almost no penalty. Now remember
+[00:23:12] it was you can see Womo had a 5x penalty
+[00:23:14] before that's gone. There's a few places
+[00:23:16] for larger messages where it's slightly
+[00:23:18] slower but the penalty is almost gone.
+[00:23:21] And if we look at the
+[00:23:24] nick q lengths again this is the q
+[00:23:26] lengths before when home and tcp were
+[00:23:28] running together before the introduction
+[00:23:30] of home qisk and we had as many as three
+[00:23:33] megabytes of data queued in the nick.
+[00:23:36] with homocisk.
+[00:23:39] This is this this is the curves. I've
+[00:23:40] actually got three different curves
+[00:23:42] here. So the lower one,
+[00:23:46] the the red curve, that's the amount of
+[00:23:50] data in the nick. So that's the curve
+[00:23:52] that compares to the red curve above.
+[00:23:54] And you can see it's very small. It's
+[00:23:56] it's about it peaks out at about 500
+[00:23:58] kilobytes, which is exactly what you'd
+[00:24:01] expect from the 40 microcond time
+[00:24:02] constant. 40 microsconds is 500
+[00:24:04] kilobytes. So the pacing maximum is
+[00:24:07] indeed clipping at exactly the level
+[00:24:09] specified by that parameter.
+[00:24:12] The blue curve which is the highest
+[00:24:14] curve is the total queuing everywhere
+[00:24:16] including both the nick and also the
+[00:24:18] homacuing discipline. And so you'd
+[00:24:20] expect that's still going to be large
+[00:24:22] because you know the centers get ahead
+[00:24:24] of the nick at times. In fact that's the
+[00:24:26] peaks in that are roughly comparable to
+[00:24:28] the peaks in the other curve. And then
+[00:24:32] the third curve is the same as the blue
+[00:24:34] except I subtracted out all of the hom
+[00:24:37] packets that were queued in homqis. So
+[00:24:40] the green curve includes everything
+[00:24:42] queued in the nick and TCP packets that
+[00:24:45] are queued in the queuing discipline.
+[00:24:47] And from that you can see that almost
+[00:24:50] all of the queueing here again is coming
+[00:24:51] from TCP. it's not coming from HOMA.
+[00:24:53] There are few cases where you know
+[00:24:55] there's non-trivial amounts of HOMA
+[00:24:58] packets skewed but mostly when you see a
+[00:25:00] lot of queuing it's coming from TCP.
+[00:25:11] All right. So then I did one last
+[00:25:13] experiment. I was kind of curious. What
+[00:25:15] if you installed Home QIS but you didn't
+[00:25:17] actually run Hom. you just ran TCP
+[00:25:20] applications
+[00:25:21] and that's what this looks like. I've
+[00:25:24] actually got two curves here. I've got
+[00:25:25] I've got the P50 curves are on the
+[00:25:28] bottom and P99 curves are on the top.
+[00:25:30] And if you look at the green curve,
+[00:25:32] that's TCP running without HOM. So
+[00:25:34] that's those are curves you've seen
+[00:25:36] before. And then the blue curve is when
+[00:25:39] you run TCP without HOMA but with Homo
+[00:25:42] Qisk. And what's interesting is that the
+[00:25:44] the latency for short messages drops
+[00:25:46] considerably. It drops by about a third.
+[00:25:49] For intermediate messages, the latency
+[00:25:51] goes up a little bit. But actually
+[00:25:54] overall, if you measure overall
+[00:25:57] slowdown, which is a rough metric of how
+[00:25:59] much slower are messages running when
+[00:26:02] you're under load than if you had the
+[00:26:04] network completely empty, it turns out
+[00:26:06] overall is about an 8% reduction and
+[00:26:09] slowdown for TCP running with home disk
+[00:26:12] than running with the sort of the
+[00:26:14] standard queuing discipline underneath
+[00:26:15] it.
+[00:26:18] So just to conclude,
+[00:26:23] Homa is not a threat to TCP performance.
+[00:26:26] So if you're running a bunch of TCP
+[00:26:28] applications on your servers and you
+[00:26:30] think about switching to Homa, if you if
+[00:26:33] some of those applications switch to
+[00:26:35] Homa, everybody does better. So the
+[00:26:37] applications that switch to Homa will
+[00:26:39] get dramatically lower latency. And then
+[00:26:41] by the way, the TCP applications that
+[00:26:43] are left, they'll get a little bit
+[00:26:44] better. not a lot but a little bit
+[00:26:45] better. So even if you're not planning
+[00:26:48] to convert to home yourself, you should
+[00:26:50] encourage everyone else running on your
+[00:26:52] machines to convert because that'll
+[00:26:53] actually benefit your performance a
+[00:26:55] little bit.
+[00:26:56] Now without the queueing discipline
+[00:26:58] though things aren't aren't that good. I
+[00:27:00] mean TCP is still fine. So there's no
+[00:27:03] damage to TCP but HOMA suffers pretty
+[00:27:05] badly. And with the queueing discipline
+[00:27:08] uh then that basically eliminates the
+[00:27:10] problems for Homa. So everybody is happy
+[00:27:12] with the sort of the cohabitation that
+[00:27:14] occurs. And just one last thing I I want
+[00:27:17] to mention is that
+[00:27:19] when people talk about congestion and
+[00:27:21] congestion control, they're almost
+[00:27:23] always talking about congestion in the
+[00:27:26] network, the network switches. But it
+[00:27:28] turns out that congestion in the nick is
+[00:27:30] really important also. If you want to
+[00:27:32] reduce tail latency, you have to address
+[00:27:35] congestion in the nick for outbound
+[00:27:38] packets. And that's that's something
+[00:27:40] that Hom does and that Home Qisk does.
+[00:27:43] Okay, I'll stop there and be happy to
+[00:27:44] take questions.
+[00:27:48] What was the driver you were using for
+[00:27:52] your experiments? Your machine were in
+[00:27:55] the cloud or physical.
+[00:27:57] >> By by driver you mean the
+[00:27:59] >> the driver the Nick
+[00:28:00] >> for the uh it's the Intel ICE driver for
+[00:28:02] these experiments.
+[00:28:03] >> Okay. uh in my uh experiments every time
+[00:28:07] I have some huge queue in BQL that's
+[00:28:09] because of
+[00:28:12] parameter mismatch interrupt mitigation
+[00:28:15] settings on the nick every time you have
+[00:28:18] more than two megabytes cued on the nick
+[00:28:20] it's a tuning problem on the nick
+[00:28:23] interrupt mitigation you have to be able
+[00:28:25] to dq enough packet on the transmit
+[00:28:27] completion handler otherwise bql goes
+[00:28:30] off the roof that's the issue
+[00:28:33] >> uh you're saying you're worried sub
+[00:28:34] driver tend to limit the number of SKB
+[00:28:37] they can dq per round n people and
+[00:28:40] that's a bug
+[00:28:41] >> absolutely need to dq everything so that
+[00:28:43] bql can kick off otherwise is does
+[00:28:47] nothing
+[00:28:48] >> right so I've tuned all the nick
+[00:28:50] parameters for maximum interrupt rate
+[00:28:52] for packets coming back from the nick
+[00:28:53] and
+[00:28:54] >> no no it's not max inter rate it's the
+[00:28:57] number of packets deced on the transmit
+[00:29:00] completion need to be all of them not a
+[00:29:03] fixed number that's the issue
+[00:29:06] for example I know that IDPF had this
+[00:29:09] bug for a while so they were limiting to
+[00:29:11] 64 and so if you have more than 64
+[00:29:14] packet to DQ then BQL never triggers
+[00:29:18] because it always think is under
+[00:29:22] um soft interrupt bottleneck doesn't dq
+[00:29:25] bucket fast enough so it has to up the
+[00:29:29] the number of packet otherwise the the
+[00:29:32] one on weight goes down.
+[00:29:34] >> So I I but I believe the the problem is
+[00:29:37] not packets failing to be returned back
+[00:29:41] to Linux. In fact, the packets have not
+[00:29:42] when those cues build up, I can tell
+[00:29:45] that the packets haven't actually been
+[00:29:47] um been transmitted yet because I can
+[00:29:50] see I'm actually watching the other end
+[00:29:52] and you can see the packets um I can
+[00:29:54] tell when the packets arrive on their
+[00:29:55] destinations.
+[00:29:56] >> No, you can't tell. Only the transmit
+[00:29:58] compilation will tell you, oh, it's
+[00:30:00] done. But if you don't do the transmit
+[00:30:02] compression in time, you don't know. You
+[00:30:04] just assume. But it's not the case. So
+[00:30:06] that's my point. It's really it might be
+[00:30:10] a driver issue because this level Q I
+[00:30:12] never see that in our driver in our in
+[00:30:15] our environment. We never see this
+[00:30:17] amount of queuing. And when you say TCP
+[00:30:20] has a lot of queue, it's not true
+[00:30:22] because each flow is limited to TCP
+[00:30:26] small Q that's that has been like that
+[00:30:28] for 14 years. So each flow cannot queue
+[00:30:31] more than two SKB at at once. So you
+[00:30:34] cannot have multi-megabytes Q unless you
+[00:30:37] are using 1,000 flows maybe.
+[00:30:39] >> Uh this has a lot of flows.
+[00:30:41] >> Okay.
+[00:30:42] >> Because there's a lot of host you
+[00:30:43] there's a lot of host.
+[00:30:44] >> So but has a single flow where you
+[00:30:46] multiplex everything.
+[00:30:49] So you compare apple and orange.
+[00:30:51] >> Home actually has no concept of flow.
+[00:30:53] Home has messages and there could be
+[00:30:55] many hom messages outstanding as well.
+[00:30:57] >> Yeah.
+[00:31:00] >> So uh I I can I'll go back and double
+[00:31:03] check but I I I'm pretty sure the
+[00:31:06] packets are getting returned resourcing
+[00:31:12] fuse like that megabytes or whatever. I
+[00:31:14] don't think that's the case.
+[00:31:20] Yeah. Okay.
+[00:31:21] >> I don't know. But BQL for me it's mostly
+[00:31:24] a tuning issue on the nick driver. I had
+[00:31:27] I had the same issue at Google so I know
+[00:31:29] what it is about. Yeah.
+[00:31:33] >> Okay.
+[00:31:35] um when you compare um the home Q disk
+[00:31:39] versus like the TCP with and without
+[00:31:41] what's the without uh and why did you
+[00:31:44] choose that
+[00:31:44] >> FQodel and and why did you choose FQDLE
+[00:31:47] as a comparison
+[00:31:49] >> because that's what was configured on
+[00:31:50] the machines by default that I had no
+[00:31:52] information to try something is there
+[00:31:54] something else I should have been using
+[00:31:55] instead
+[00:31:56] >> yeah FQ FQ has basing
+[00:32:00] we are using we have been using FQ for
+[00:32:02] more than 12
+[00:32:04] And that's for good reason because there
+[00:32:06] is pacing.
+[00:32:08] >> Okay, I'm still relatively ignorant on
+[00:32:10] in the Q world. So ideod has been
+[00:32:13] designed for like small machines like
+[00:32:16] small routers. Uh that was really for
+[00:32:18] codel you know codel was very very
+[00:32:20] specific. Um data center don't use
+[00:32:23] fqodel unless you have
+[00:32:26] >> uh you don't care but if you really care
+[00:32:29] about latency you should use fq.
+[00:32:32] >> Oh okay that's great to know. Thank you.
+[00:32:38] >> Just a clarification question. Um, so
+[00:32:41] when you say uh a lot of like TCP
+[00:32:44] messages, I mean is it more like a new
+[00:32:46] TCP and then send a message or it's
+[00:32:49] reusing the uh existing TCP
+[00:32:52] in your in your work uh you know traffic
+[00:32:54] load, right?
+[00:32:55] >> Sorry, I'm not sure I understand the
+[00:32:56] question.
+[00:32:57] >> Yeah. So, so your traffic um
+[00:33:01] characterization uh you know for the TCP
+[00:33:05] uh when whenever they sending messages
+[00:33:07] right over TCP is it new TCP or existing
+[00:33:10] TCP and then it's just uh sending the
+[00:33:13] message
+[00:33:13] >> I'm not sure understand there's any new
+[00:33:15] TCP and existing TCP
+[00:33:16] >> oh new connection new TCP connection and
+[00:33:19] then sending the message or
+[00:33:21] >> no it's not the connections get reused
+[00:33:23] across messages
+[00:33:23] >> oh just reused okay
+[00:33:25] >> yeah yeah know the performance would be
+[00:33:26] way if you were trying to open a
+[00:33:27] connection
+[00:33:28] >> and then the the other question is uh
+[00:33:30] you know you actually fixed the uh link
+[00:33:32] visualization at the 80% right um so is
+[00:33:36] there any particular reason why you
+[00:33:37] fixed it that 80% is is that your target
+[00:33:41] >> wanted to run sort of networks at
+[00:33:44] relatively high load assuming that you
+[00:33:46] know people in real life would run
+[00:33:48] probably want to run their networks at
+[00:33:49] high load also 80% versus 60 or 90 is
+[00:33:52] kind of arbitrary
+[00:33:53] >> okay so in in that case uh you know your
+[00:33:56] home is always 40% then it will never
+[00:34:00] actually use all 80%.
+[00:34:03] >> Well the the benchmarks are stochastic
+[00:34:05] okay
+[00:34:05] >> so the workloads being generated you
+[00:34:06] know there's a lot of randomness in them
+[00:34:08] so there are times when home is
+[00:34:09] generating all the load and times when
+[00:34:10] TCP is generating all the load there's
+[00:34:12] times when the load is way more than 80%
+[00:34:14] you know there's times when the load is
+[00:34:15] is more than 100%. And then cues will
+[00:34:17] build up and then but on average the
+[00:34:19] load was 80%.
+[00:34:20] >> Got it. Thank you.
+[00:34:23] >> Okay we'll have time for one more
+[00:34:25] question.
+[00:34:28] Uh thank you for the presentation. You
+[00:34:30] mentioned the issue could be on the
+[00:34:33] sender Nick side and also on the top of
+[00:34:35] the rack. Uh I I miss why the top of the
+[00:34:37] rack uh you didn't talk much about the
+[00:34:40] top of the rack. Why why the top of the
+[00:34:41] rack cues didn't become an issue for for
+[00:34:44] this specific
+[00:34:45] >> right. So the basically queuing occurs
+[00:34:49] when you have the inflow of packets
+[00:34:51] greater than the outflow that you can
+[00:34:52] support. And so on the nick side, you
+[00:34:54] get queuing because applications are
+[00:34:56] generating new transmissions faster than
+[00:34:58] the nick can transmit them. On the top
+[00:35:01] of rack switch, the problem is when you
+[00:35:03] had incast, when you'd have several
+[00:35:04] hosts all trying to send to the same
+[00:35:07] target at the same time, you know, three
+[00:35:09] hosts transmitting 100 gigabits per
+[00:35:11] second each the target can't receive
+[00:35:14] faster than 100 gigabits per second. So
+[00:35:15] you get Q build up there.
+[00:35:17] >> Okay.
+[00:35:17] >> And you know that and that's the problem
+[00:35:19] that people have traditionally worried
+[00:35:21] most about incast problems. So, you
+[00:35:22] know, that's been around for 20 years.
+[00:35:24] People have talked about all sorts of
+[00:35:25] mitigations and protocol things to get
+[00:35:27] around that and not as much work on
+[00:35:30] thinking about the
+[00:35:31] >> Sure.
+[00:35:31] >> the queueing on the other side.
+[00:35:32] >> Thank you. Thank you.
+[00:35:36] You're on.
+[00:35:38] Okay.
+[00:35:41] [applause]

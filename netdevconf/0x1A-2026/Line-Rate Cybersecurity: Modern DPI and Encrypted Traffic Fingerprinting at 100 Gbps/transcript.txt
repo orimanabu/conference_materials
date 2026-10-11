@@ -1,0 +1,1091 @@
+Source: https://youtu.be/OrL_jLspYUc
+Language: en
+Captions: auto-generated
+
+[00:00:00] Okay, thank you.
+[00:00:04] Okay, so my name is Alfredo Cardiano. I
+[00:00:06] work from Anttop. It's a software
+[00:00:08] company focusing on network monitoring
+[00:00:11] and cyber security.
+[00:00:14] Um
+[00:00:15] I I submitted this I worked on this on
+[00:00:18] this paper with my colleague Luca but
+[00:00:20] unfortunately he wasn't able to join us
+[00:00:23] today. So I will take care of the talk.
+[00:00:27] Um I am the main developer of Pering
+[00:00:30] which is our packet capture framework. I
+[00:00:32] also work on traffic recording the US
+[00:00:34] mitigation and such and I also wrote a
+[00:00:38] driver for the PDK. So we are really
+[00:00:40] open. In fact many our products are open
+[00:00:43] source.
+[00:00:46] Um Luca is the main maintainer of NDPI
+[00:00:50] which is one of the topics in this talk
+[00:00:53] today.
+[00:00:55] Uh so this is the the agenda. So we will
+[00:00:58] see why we still need DPI with encrypted
+[00:01:00] traffic, the performance, how uh we
+[00:01:03] think it should be integrated with net
+[00:01:06] filter so with the Linux kernel and how
+[00:01:08] to scale up to 100 GB also using new uh
+[00:01:12] flow of loads capabilities into
+[00:01:14] adapters.
+[00:01:17] So why we need the packetation first of
+[00:01:19] all? So let's start from the beginning.
+[00:01:21] In the old world, you had one port, one
+[00:01:23] protocol like port 80, HTTP, port 443,
+[00:01:27] HTTPS. This is not not uh still the case
+[00:01:30] because you have for instance um many
+[00:01:34] applications that are all using HTTP
+[00:01:37] protocol like software as a service web-
+[00:01:40] based applications or you can have
+[00:01:43] Netflix, uh Zoom, VPN, CNC, they are all
+[00:01:47] sharing port 443. So you can no longer
+[00:01:51] identify the application by the portal.
+[00:01:53] This is this is obvious.
+[00:01:56] Um if you look at in detection systems,
+[00:02:00] they are still expecting traffic mostly
+[00:02:04] uh as it was in clear. So they are
+[00:02:08] matching specific patterns. So byes at
+[00:02:12] specific off offsets in the in the
+[00:02:14] packets and nowadays this no longer um
+[00:02:19] uh working in my opinion and it's at
+[00:02:23] least not flexible. For instance, here
+[00:02:25] we have a signature that should detect
+[00:02:28] some bars which is applying this pattern
+[00:02:31] matching looking at specific bites to
+[00:02:34] identify ATLs client law and checking
+[00:02:37] the SNI.
+[00:02:39] Uh I think we can do better than this.
+[00:02:43] Uh so we are maintaining this deep
+[00:02:46] inspection library which is NDPI which
+[00:02:48] is open source. So it's on GitHub. You
+[00:02:50] can download use it. Uh it supports
+[00:02:53] almost 500 built-in protocols and you
+[00:02:56] can extend it with configuration file.
+[00:02:58] So you can tell if the host name in the
+[00:03:01] HTTP or in the SNI matches a specific
+[00:03:05] string then this uh the protocol or if
+[00:03:08] it matches a specific port and protocol
+[00:03:10] and then this is the application
+[00:03:12] protocol. Uh so we support from
+[00:03:14] multimedia like YouTube
+[00:03:18] streaming protocols, gaming protocol the
+[00:03:20] protocols that you can see over
+[00:03:22] internet.
+[00:03:24] So what is provided by NDPI? And API is
+[00:03:27] able to detect the application protocol.
+[00:03:29] So tells you this stream is Facebook, is
+[00:03:34] teams, is borant. Can tell you the
+[00:03:37] category. So this is multimedia, this is
+[00:03:40] gaming, etc. Uh it can tell you uh
+[00:03:44] geocation information with integration
+[00:03:46] with JIP.
+[00:03:48] uh so I can tell you the country or the
+[00:03:50] continent or the autonomous system or of
+[00:03:53] the peers and I can extract additional
+[00:03:55] metadata for instance I don't know for
+[00:03:57] HTTP we can tell you the user agent for
+[00:04:00] TLS we can tell you the SNI or the
+[00:04:02] certificate expiration
+[00:04:05] and on top of these NDPI also computes
+[00:04:09] uh what we call the flow risks so issues
+[00:04:11] detected on the flow for instance hey
+[00:04:14] the TS certificate is expired or this
+[00:04:18] HTTP is uh transferring uh an
+[00:04:21] executable.
+[00:04:26] Um so when you run DPI you get the
+[00:04:29] protocol which is something like uh the
+[00:04:31] measure protocol and the minor protocol
+[00:04:34] which is usually the transport protocol
+[00:04:36] and the application protocol for
+[00:04:37] instance squeak.youtube.
+[00:04:40] Um
+[00:04:42] today many protocols are based on HTTP
+[00:04:44] or TLS as we say that we will see how to
+[00:04:47] handle them. Um and as I said NDPI has
+[00:04:52] ability to detect the protocol also
+[00:04:55] based on information contained into HTTP
+[00:04:58] for instance looking at the host name
+[00:05:00] into DNS looking at the query name or
+[00:05:03] with TLS looking at the server name the
+[00:05:06] SNI
+[00:05:08] um for instance what you see below uh
+[00:05:11] there are two signatures in NDPI which
+[00:05:13] are telling if the uh server name or SNI
+[00:05:17] is Netflix then this is Netflix or
+[00:05:21] Netflix video it's still Netflix or you
+[00:05:23] can extend it with a configuration file
+[00:05:25] so you can dynamically update the
+[00:05:27] signatures without recompiling the code
+[00:05:33] so as we know internet traffic now is
+[00:05:35] mostly encrypted uh in this slide we say
+[00:05:38] more than 80% but looking at the latest
+[00:05:40] statistics it's more than 90 probably
+[00:05:42] 95%
+[00:05:44] and uh many protocols that traditionally
+[00:05:48] were in clear like DNS they're moving to
+[00:05:50] encryption like DNS over HTTP over TLS
+[00:05:53] over quick but
+[00:05:57] DPI is not dead there's still a lot we
+[00:06:00] can do today for instance we can as I
+[00:06:03] said identify the service based on the
+[00:06:05] SNI or in other cases based on the IP
+[00:06:08] address of the CDN for instance or um
+[00:06:13] you can figure out if a session that
+[00:06:16] looks like TLS it's just HTTPS or it's a
+[00:06:20] VPN or something else a malware I don't
+[00:06:22] know and we can use uh fingerprints for
+[00:06:25] doing this or other statistical uh based
+[00:06:28] algorithms like traffic beans looking at
+[00:06:31] the bucket lengths and the time
+[00:06:34] distribution uh the entropy etc
+[00:06:38] um and as we said we can associate flow
+[00:06:41] risks based on what we see if we see
+[00:06:44] issues so let's talk a little bit about
+[00:06:47] uh fingerprinting on TLS.
+[00:06:52] Uh first of all uh if you look at the uh
+[00:06:56] plain tra plane yeah plain text traffic
+[00:06:59] versus encrypted traffic uh we have to
+[00:07:02] tell that um yeah on plane traffic the
+[00:07:05] content is in clear and you can uh apply
+[00:07:08] uh DPI on the payload that you cannot do
+[00:07:11] on encrypted traffic um or you can apply
+[00:07:15] still signatures
+[00:07:18] those that we have seen uh that are
+[00:07:20] usually shipped with is systems. Um so
+[00:07:24] you may think that uh there is a lot you
+[00:07:27] can do on plain text but you're missing
+[00:07:29] something in encrypted traffic. For some
+[00:07:32] um in some ways it's the other way
+[00:07:35] around because in encrypted traffic you
+[00:07:36] have more information because you have
+[00:07:38] the end shake that can help you
+[00:07:40] identifying the client. So you can uh
+[00:07:43] check what are the provided cyber suites
+[00:07:46] extensions and these uh those are
+[00:07:49] usually tied to the uh TLS library to
+[00:07:52] the browser to the operating system. So
+[00:07:54] you are able to really identify uh who
+[00:07:58] is the client.
+[00:08:02] For this reason, a few years ago, they
+[00:08:05] came up with J3, which is a fingerprint
+[00:08:08] for TLS and it was originally designed
+[00:08:12] to detect malware and be it was in in
+[00:08:16] fact soon introduced in all the IDS
+[00:08:19] systems like Zeke, Surikata or NDPI
+[00:08:22] itself.
+[00:08:24] they create this fingerprint which is
+[00:08:26] based on properties of the uh endshake
+[00:08:30] like the cyphere suites extensions etc.
+[00:08:34] Uh the problem of J3 was that it was
+[00:08:37] depending also on the order of the
+[00:08:39] stations for instance. So it was easy
+[00:08:41] for mars to uh to avoid that by
+[00:08:45] randomizing the tensions.
+[00:08:48] For this reason in 2023 a new a new JF4
+[00:08:53] came out and to to to solve to address
+[00:08:57] all the limitations of J3.
+[00:09:00] So J4 what it's doing is just sorting
+[00:09:03] the cipher streets and stations to make
+[00:09:06] the the fingerprint for the same client
+[00:09:09] more more stable.
+[00:09:11] Um they also changed the format uh but
+[00:09:15] this is just for readability.
+[00:09:18] The problem is that JF4 has still some
+[00:09:20] issues especially with ephemeral TLS
+[00:09:24] extensions those that are used usually
+[00:09:26] to resume a TLS connection and modern
+[00:09:29] browsers are actually using them. So if
+[00:09:31] you see multiple connection from the
+[00:09:34] same browser you see that the
+[00:09:36] fingerprint is actually changing and
+[00:09:38] also mars are using this on purpose.
+[00:09:42] So for this reason we introduced uh a
+[00:09:44] fingerprint in NDPI which which is not
+[00:09:47] based on J4 and J3 which is the NDPI
+[00:09:50] fingerprint. Uh and this uh with aim of
+[00:09:54] addressing first of all uh the the J the
+[00:09:57] issues uh with J4 uh by just ignoring
+[00:10:01] emeral TLS extensions.
+[00:10:05] Um but we also had another issue because
+[00:10:09] we use mainly fingerprints not just for
+[00:10:12] malware detections but also to identify
+[00:10:14] clients as I said before and because for
+[00:10:18] instance in a use case we had to
+[00:10:20] identify uh VPN on an Android device and
+[00:10:23] the only way to do that was using
+[00:10:25] fingerprints but what we found is that
+[00:10:28] the fingerprint generated by these
+[00:10:29] clients were the same fingerprint
+[00:10:31] generated by Safari on Mac OS.
+[00:10:35] So we realized that the JF4 the the
+[00:10:38] fixed JF4 let's say was not enough. So
+[00:10:41] we added to the DPI fingerprint also
+[00:10:44] layer three and four fingerprint. So we
+[00:10:46] are adding information from the IP and
+[00:10:48] TCP layers. Uh for instance the IPTTL
+[00:10:52] using buckets the TCP flags TCP windows
+[00:10:54] TCP options of course masked to avoid
+[00:10:58] the same issues that you had with
+[00:11:00] ephemeral TLS extensions.
+[00:11:08] Um so in this slides you can see NDPR
+[00:11:10] reader which is a tool which is
+[00:11:13] distributed with NDPI that can be used
+[00:11:15] to analyze a pickup trace for instance.
+[00:11:17] So you give a pickup trace, it generates
+[00:11:20] an output uh according to to the option
+[00:11:23] that you specify. It can generate a JSON
+[00:11:26] file containing all the flows and for
+[00:11:28] each flow the metadata and this metadata
+[00:11:31] you also have the fingerprints including
+[00:11:34] JF4. Um so in the first case you're
+[00:11:37] running NDP reader on KS pickup and you
+[00:11:40] can see that there are different
+[00:11:43] fingerprints but they are actually all
+[00:11:45] generated by the same client.
+[00:11:48] So in the DPI reader you can add an
+[00:11:50] option which is passed to the DPI
+[00:11:52] library that tells DPI to ignore the J
+[00:11:56] the ephemeral TLS extensions and as you
+[00:11:59] can see now the fingerprints are all the
+[00:12:01] same. So this is the same concept that
+[00:12:04] we use natively in our NDPI fingerprint
+[00:12:09] and again we also had the uh IP and TCP
+[00:12:12] fingerprint.
+[00:12:16] Okay. Now let's talk a little bit about
+[00:12:17] the NDPI performance. Um so in NDPI you
+[00:12:22] have multiple the sectors which are uh
+[00:12:25] written in C. Um and then you have the
+[00:12:28] signatures which are respecting the the
+[00:12:30] server name SNI. Um those sectors should
+[00:12:34] be evaluated against. So every time you
+[00:12:36] receive a packets you should evaluate
+[00:12:37] all the detector detectors versus the
+[00:12:41] packets. But there is some optimization
+[00:12:43] of course. So you can in the detector
+[00:12:45] you specify for instance on which
+[00:12:47] protocol and port you expect to see the
+[00:12:49] packets so that you start from the
+[00:12:52] dissector with that most likely will
+[00:12:55] match the packet. So this is one of the
+[00:12:57] optimizations. There are other
+[00:12:58] optimizations. Um so how it works and
+[00:13:02] the PI receives the first packets
+[00:13:04] overflow.
+[00:13:06] Um tries to match the detector then
+[00:13:09] receive the second packets the third
+[00:13:11] packets until the protocol has been
+[00:13:13] detected and all the metadata has been
+[00:13:15] extracted. Uh once they are extracted
+[00:13:19] you can stop the analysis. So you can
+[00:13:22] free the DPM memory for that specific
+[00:13:24] flow. keep the metadata and the protocol
+[00:13:28] and skip the rest of the packets for
+[00:13:30] performance reasons of course otherwise
+[00:13:32] you end up uh processing every single
+[00:13:34] package for all the sessions and this is
+[00:13:36] expensive.
+[00:13:37] Um so below we have again this is an
+[00:13:41] output from the same NDP same NDPI
+[00:13:44] reader tool that you have seen before
+[00:13:46] where you can see in average how many
+[00:13:49] packets in this PI specs for for every
+[00:13:53] uh layer 4 protocol. So for TCP on this
+[00:13:56] specific pig file we expected around
+[00:13:59] five packets per flow on UDP around two
+[00:14:02] packets per flows etc.
+[00:14:05] Um
+[00:14:08] so uh if you look at the memory
+[00:14:10] footprint uh there is some global memory
+[00:14:13] which is just 4 kilobytes
+[00:14:16] if you run an application running NDPI
+[00:14:19] and and then you have some memory per
+[00:14:22] flow to keep the flow state and metadata
+[00:14:24] and it is around 1.3 kilobytes
+[00:14:27] and the per the throughput that you can
+[00:14:30] achieve this is on Apple silicon it
+[00:14:33] should be an M2 True. Uh we are able to
+[00:14:36] process now it depends also on the
+[00:14:37] pickup but this specific pickup we were
+[00:14:39] being we were able to process uh almost
+[00:14:42] 4 million packets per second in this
+[00:14:45] pickups around around 10 Gbit but
+[00:14:47] usually with average internet traffic is
+[00:14:50] even more than 10 Gbit
+[00:14:52] and the cost here of course is per
+[00:14:54] packet. It's not per gigabit because uh
+[00:14:57] the processing happens per bucket.
+[00:15:03] Um now
+[00:15:06] we did the integration with the uh the
+[00:15:08] Linux kernel uh because we have seen
+[00:15:11] over the years multiple projects that
+[00:15:14] were trying to u port DPI NDPI al also
+[00:15:19] other DPI pro products inside the Linux
+[00:15:23] car but we don't to build of course
+[00:15:26] layer 7 firewalls or kind of uh but we
+[00:15:29] we don't think this is a good idea. In
+[00:15:33] fact, um I mean DPI has a lot of these
+[00:15:38] sectors. It's complex and can crash. So
+[00:15:40] we should avoid that. And now in NDPI we
+[00:15:43] have a lot of uh for instance you have
+[00:15:45] fers etc. So it's really robust but it
+[00:15:49] can happen and can introduce overheads
+[00:15:52] because you have multiple detectors
+[00:15:54] inspecting the packets and they parse
+[00:15:56] all the payloads and and especially the
+[00:16:00] last point last but not least
+[00:16:04] protocols layer seven protocols are
+[00:16:07] always changing so you need to often
+[00:16:08] update an API and updating a current
+[00:16:11] module is not as easy as updating an
+[00:16:13] application or signatures in the
+[00:16:15] application.
+[00:16:18] Um so a few years ago we started
+[00:16:21] creating a product uh that was using
+[00:16:25] NDPI
+[00:16:27] uh together with the kernel and we did
+[00:16:29] this um using a an hybrid approach. So
+[00:16:34] in essence what you're doing you're
+[00:16:36] running DPI user space but you're using
+[00:16:40] net filter with an FQ to send the
+[00:16:42] initial packets of the network
+[00:16:44] communications to user space similar to
+[00:16:46] what we have seen on Monday with the
+[00:16:49] scripting uh with net.
+[00:16:52] Uh so the idea is we send the first
+[00:16:55] packets to user space.
+[00:16:57] uh we spec the first packets and once
+[00:17:01] the protocol has been detected we can
+[00:17:05] send a marker in net filter and skip the
+[00:17:08] rest of the the pockets for the same
+[00:17:10] flow.
+[00:17:12] Uh so this way we never run DPN can we
+[00:17:15] run it user space but we still are able
+[00:17:18] to use all the uh net filter mechanisms
+[00:17:21] uh that we are usually using
+[00:17:25] with no camera patches of course
+[00:17:29] yeah I already told this so we send the
+[00:17:31] first packet to user space we run the
+[00:17:34] packet inspection the application so
+[00:17:35] there's low path we detect the
+[00:17:38] application we compute a verdict uh We
+[00:17:41] set a marker in contract and then uh the
+[00:17:46] rest of the packets will go through the
+[00:17:48] fast part.
+[00:17:53] So this is the the net filter
+[00:17:55] configuration. So you usually what you
+[00:17:57] do in the pre-rooting you you restore
+[00:18:00] the mark then if the mark is zero it
+[00:18:04] means that we still don't have a verdict
+[00:18:07] for the flow then we send the flow to
+[00:18:09] user space to net uh the net filter Q
+[00:18:13] and the application inspects the flow
+[00:18:15] and after a few packets when the
+[00:18:17] protocol is detected it store a mark uh
+[00:18:20] and then the post routting you you you
+[00:18:22] you save the mark in the connection
+[00:18:25] ction track came through if the marker
+[00:18:28] is not zero. So we have a FL verdict we
+[00:18:31] just return and apply the policies that
+[00:18:33] we want. Here I have a slide with the IP
+[00:18:35] table configuration doing exactly that.
+[00:18:38] So it's really really simple.
+[00:18:43] So what are the the the properties of
+[00:18:45] this approach? First of all, we have
+[00:18:46] isolation because we don't run DPI in
+[00:18:49] the kernel. So can cannot crash. uh the
+[00:18:53] the state of the flows is kept by the
+[00:18:55] contract because once we set the
+[00:18:58] verdict, we can release the memory for
+[00:19:01] DPI for the specific flow or the
+[00:19:02] contract take takes care of of the of
+[00:19:06] the applying the the action for the
+[00:19:08] verdict.
+[00:19:10] It's slow over because DPI inspect just
+[00:19:13] the first packets and then the flow is
+[00:19:15] uploaded and takes the fast part. And we
+[00:19:19] can combine this with pre-existing
+[00:19:21] uh net filter uh rules.
+[00:19:28] Uh if you want to scale out uh to
+[00:19:31] process multiple gigabit, we can use
+[00:19:35] what you have in NFQ the the Q balance
+[00:19:38] to distribute the traffic uh across
+[00:19:41] multiple threads running NPI. So you
+[00:19:43] have multiple treasure and API getting a
+[00:19:46] portion of the traffic which is sent to
+[00:19:48] user space of course uh by NFQ
+[00:19:53] in a coent way that means that a nash on
+[00:19:57] the five t is comped. So this this uh
+[00:20:01] allows you to avoid any locking any
+[00:20:03] shared data across threads and every
+[00:20:06] every single thread processing
+[00:20:09] uh
+[00:20:10] it's its flow.
+[00:20:18] Okay. So uh what what about if you have
+[00:20:21] to process really high speed traffic? So
+[00:20:23] 100 Gbit or more.
+[00:20:28] So in order to scale to 100 Gbit uh of
+[00:20:32] course you have to use can bypass
+[00:20:35] technologies at least in our experience.
+[00:20:37] Uh you can use ping zero copy you can
+[00:20:39] use the PDK etc. And in fact the packet
+[00:20:43] capture is usually the first bottleneck
+[00:20:45] that you hit when processing high high
+[00:20:47] speeded traffic. And now we're talking
+[00:20:49] about 100 gigabit, but when I talk about
+[00:20:51] one gigabit, I mean worst case traffic.
+[00:20:54] So small packets
+[00:20:56] uh that can be 150 million packets per
+[00:20:58] second almost. Um and for processing
+[00:21:01] that traffic, you need kind of bypass.
+[00:21:05] Um
+[00:21:07] so I don't know if you're used to can
+[00:21:09] bypass technologies I guess. uh but in
+[00:21:12] essence they're skipping the Linux
+[00:21:13] kernel and the application is mapping
+[00:21:16] the the the memory and the network
+[00:21:18] adapter packet memory and the scaptors
+[00:21:21] and NDPI is able to read directly
+[00:21:24] packets from the application memory
+[00:21:27] where the adapter is directly copying
+[00:21:29] the packets. So no packet copy no kernel
+[00:21:33] in the middle anything. Um if you need
+[00:21:36] to process really one gigabit of course
+[00:21:39] you need to scale. So you cannot do that
+[00:21:41] on a single core again if you consider
+[00:21:45] small packets but you need to process
+[00:21:47] the traffic with multiple cores multiple
+[00:21:49] threads and for doing this you need to
+[00:21:51] enable RSS which is supported by most
+[00:21:54] adapters. So recess is doing the same
+[00:21:58] as the net filter. It's uh computing can
+[00:22:01] on a on the five taple and distributing
+[00:22:04] the packets per five tap. So per flow.
+[00:22:10] Um
+[00:22:13] now we say that with this approach we
+[00:22:16] are able to process even using DPI 100
+[00:22:20] Gbit of traffic
+[00:22:22] even 150 million parts per second. But
+[00:22:26] this also depends on the amount of flows
+[00:22:28] that you have because at some point if
+[00:22:31] you have many concurrent flows for
+[00:22:35] instance millions you will hit another
+[00:22:37] bottleneck which is access to the flow
+[00:22:40] table. In fact, all the uh traffic
+[00:22:42] monitoring applications, all the ID
+[00:22:44] systems, they all based on this concept
+[00:22:46] of flow table of course, right? Because
+[00:22:48] you need the data structure to keep
+[00:22:50] state for every single flow uh to keep
+[00:22:54] statistics, metadata like DPI metadata
+[00:22:56] etc. So you need to keep this flow table
+[00:23:00] always updated. So for every single
+[00:23:02] packet you do a lookup, you update the
+[00:23:04] state, you move to the next bucket
+[00:23:07] and this is usually expensive. So if you
+[00:23:11] have many many many concurrent flows at
+[00:23:14] some point you hit a second order
+[00:23:16] bottleneck which is the flow table
+[00:23:18] pressure
+[00:23:19] and
+[00:23:23] um for instance in this example if you
+[00:23:25] consider 10 million packets per second
+[00:23:28] is not that much it's a 10 GB link with
+[00:23:31] small packets but if you have on this
+[00:23:34] link 10 million active flows for
+[00:23:36] instance you have the DDS attack
+[00:23:39] you can have up to 10 million lookups
+[00:23:42] per seconds on the flow table and this
+[00:23:46] case uh your locality in memory is
+[00:23:50] really poor and you have a lot of
+[00:23:51] evisions with poor performance.
+[00:23:55] So how to address this?
+[00:23:59] A couple of years ago, actually a bit
+[00:24:00] more uh we tried to investigate about
+[00:24:04] how to offload this to the adapter
+[00:24:08] similar to what we do to net filter. So
+[00:24:12] the idea is to send to the application
+[00:24:15] the initial packets, inspect the
+[00:24:17] packets, complete statistics, compute
+[00:24:19] the DPI metadata and detect the
+[00:24:22] protocol. And that point you want to
+[00:24:24] upload this flow to the adapter and let
+[00:24:27] the adapter handle it. If it's in a
+[00:24:30] passive configuration just a predating
+[00:24:33] statistics if it's in line we can set a
+[00:24:35] verdict and let the adapter steer the
+[00:24:37] flow. Um and then we need of course if
+[00:24:41] you are running for instance a net flow
+[00:24:43] probe we need uh stats updates for every
+[00:24:47] single flow. So we need a way to pull
+[00:24:49] the adapter to periodically get
+[00:24:51] statistics for the flows.
+[00:24:54] So we identified two adapters able to do
+[00:24:57] this. The first one uh is an FPJ from
+[00:25:01] Nate
+[00:25:03] and this has native support for flow
+[00:25:06] flow. So you don't need to implement
+[00:25:09] that in the adapter. The adapter already
+[00:25:11] provides it. uh we worked together with
+[00:25:13] them to really uh fine-tune this
+[00:25:16] support. Um FPJs are programmed by the
+[00:25:20] vendors and so you take what they they
+[00:25:23] they they provide. Um they are not
+[00:25:27] really programmable. You use what you
+[00:25:30] have. So you should um you should really
+[00:25:34] work with them to add new features if
+[00:25:37] you if you need more. Um, instead the
+[00:25:41] other adapter was the Nvidia Bluefield
+[00:25:43] 3, which is really programmable because,
+[00:25:48] as you probably know, it has it's it's a
+[00:25:50] DPU. So, it has an ARM CPU inside with
+[00:25:53] many accelerators that you can use and
+[00:25:56] you also got get accelerators for
+[00:25:59] network for processing network traffic
+[00:26:01] in addition to compression, encryption,
+[00:26:03] and other accelerators. And you can
+[00:26:06] program this adapter using the Docka SDK
+[00:26:09] that we will see in a moment.
+[00:26:12] So let's start with Napotech. Um
+[00:26:16] so as I said Navotech has this flow
+[00:26:18] manager which is specialized in the flow
+[00:26:22] float.
+[00:26:24] What they declare that we actually
+[00:26:26] tested and confirmed is the cache
+[00:26:29] capacity. So they're able to keep up to
+[00:26:31] 140 million flows with the maximum flow
+[00:26:35] creation rate of 3 million flows per
+[00:26:38] second. So this means that you can keep
+[00:26:40] 140
+[00:26:42] million concurrent flows but
+[00:26:46] create new um yeah you can create new
+[00:26:51] flows up to three million flows per
+[00:26:52] second. And we will see uh later
+[00:26:57] um if those numbers are are good or not.
+[00:27:02] Um and we integrated this in our uh net
+[00:27:06] flow probe one gigab probe which is
+[00:27:08] propento
+[00:27:11] using pf ring as aption layer to talk to
+[00:27:14] the adapter and ndpi for the debug
+[00:27:16] inspection.
+[00:27:18] So how it works. [clears throat]
+[00:27:21] So when you receive a packet you program
+[00:27:23] the flow in adapter using the five
+[00:27:25] tapple uh and you usually do this when
+[00:27:28] DP completes. So you want to receive all
+[00:27:30] the initial packets until DP completes
+[00:27:32] similar to the net filter integration
+[00:27:34] then set the uh the flowing in order of
+[00:27:37] float the flow. When you flow the flow
+[00:27:40] you provide a flow ID which is used to
+[00:27:42] correlate to synchronize the flow table
+[00:27:46] with the other hard table. You still
+[00:27:48] need a flow table because you need to
+[00:27:50] keep track of all the flows of loaded to
+[00:27:52] the offloaded to the adapter and keep
+[00:27:55] the statistics and periodically ask for
+[00:27:58] stats update to the adapter and you can
+[00:28:00] set an action in the adapter which is
+[00:28:02] discard the flow for instance if you are
+[00:28:05] uh sorry discard the packets for the
+[00:28:07] flow if you are working
+[00:28:11] passively like in network monitoring
+[00:28:13] tool or forward the flow if you are
+[00:28:16] acting as a bridge.
+[00:28:18] And then there are other options. For
+[00:28:19] instance, if you want to enable the
+[00:28:21] automatic TCP auto, that means uh drop
+[00:28:24] the flow when you see the TCP
+[00:28:26] termination or other other options.
+[00:28:30] Uh when you receive a packet in the
+[00:28:31] packet, there's a flag that tells you if
+[00:28:35] this is a miss. So there is no flow
+[00:28:37] programmed in the adapter for this
+[00:28:39] specific packets or if it's an it. So if
+[00:28:42] there is a flow already for this
+[00:28:44] specific packet because you can still
+[00:28:45] get packets for for a flow in the
+[00:28:47] adapter. Uh or you get another flag that
+[00:28:51] tells you if there is not enough
+[00:28:53] resources in the adapter to to do the
+[00:28:55] look up for the flow.
+[00:29:02] Um and there is in addition to the
+[00:29:05] stream where you receive the data from
+[00:29:07] the adapter there's another stream which
+[00:29:08] is providing you updates like hey this
+[00:29:12] flow has been time it out this flow has
+[00:29:14] terminated because of TCP uh termination
+[00:29:18] or uh this flow has been removed because
+[00:29:21] the application was asking to remove it.
+[00:29:25] In order to to test this um we use uh
+[00:29:30] our traffic generator which is an
+[00:29:31] application based on ping zero copy that
+[00:29:34] is able to generate traffic high speed
+[00:29:36] and this system was able to generate
+[00:29:38] almost 90 million packets per second
+[00:29:40] with uh smallest packets. So 60 byt
+[00:29:43] packets which is 60 gbit per second that
+[00:29:45] was enough to validate uh this work
+[00:29:49] especially because as I said the
+[00:29:51] performance this case mostly depends on
+[00:29:53] the number of concurrent flows and new
+[00:29:56] flows per second. Uh so we tested the
+[00:29:58] system with um different flows rate new
+[00:30:04] flows rate. So uh 1,000 new flows per
+[00:30:08] second, 10,000 new flows per second and
+[00:30:10] so on. And changing the number of
+[00:30:13] concurrent flows. So 10,000 100,000 up
+[00:30:15] to 10 million uh with an average flow
+[00:30:18] duration of 10 seconds. Of course, this
+[00:30:20] synthetic traffic, but for DPI, it's
+[00:30:22] even worse case because it's traffic
+[00:30:24] that is not able to recognize. So it
+[00:30:27] checks end packets before giving up.
+[00:30:31] And just to show you some number
+[00:30:35] um as you can see here we have the the
+[00:30:37] CPU load and the packet loss changing
+[00:30:41] the number of active flows and there is
+[00:30:44] a huge boost as you see when the offload
+[00:30:47] is enabled.
+[00:30:51] um you see that the CPU utilization
+[00:30:54] utilization is much lower
+[00:30:57] but we don't care much about that what
+[00:30:58] you care a lot is about the packet loss
+[00:31:01] and as you see it's much much lower with
+[00:31:03] the offload
+[00:31:04] but even more interesting is what you
+[00:31:07] don't see here which is the
+[00:31:10] PCI and memory bandwidth utilization
+[00:31:14] because with this approach only the
+[00:31:16] first packets of every session are sent
+[00:31:18] to user space this means that most of
+[00:31:21] the traffic is not even crossing the
+[00:31:23] PCIe and the memory
+[00:31:26] and this means that you can plug more
+[00:31:28] adapters in your servers even if you
+[00:31:30] don't have uh if your PCIe bandwidth is
+[00:31:33] not really high you can have you can
+[00:31:35] plug more uh adapters and process much
+[00:31:38] more traffic even if the total uh the
+[00:31:42] sum of the link speeds of your adapter
+[00:31:43] exceeds the bandwidth that you have on
+[00:31:46] the PCI
+[00:31:48] of course then you have to consider the
+[00:31:50] worst case. What happens if you get uh
+[00:31:52] an attack something which is always
+[00:31:54] generating new flows and then all the
+[00:31:56] traffic goes through the the PCI lanes?
+[00:31:59] It depends on the use case.
+[00:32:03] Okay. Then we run tests with um
+[00:32:08] the sorry we wanted to implement the
+[00:32:10] same on video blue field. Um
+[00:32:14] as I say you probably know the video
+[00:32:16] blue field is the DPU. This means that
+[00:32:18] there is an ARM processor inside,
+[00:32:20] there's a switch, there is a bunch of
+[00:32:22] accelerators
+[00:32:24] um
+[00:32:26] and can be used in two different modes.
+[00:32:29] This standard DP modes where you have
+[00:32:32] again the the this these embedded
+[00:32:35] systems you can use for running the
+[00:32:36] software or you can configure it as a
+[00:32:38] standard adapter like a standard
+[00:32:40] connectex adapter uh and use it from the
+[00:32:42] host.
+[00:32:44] And to program this adapter, there is
+[00:32:46] this docker SDK
+[00:32:51] that provides APIs for using multiple
+[00:32:54] accelerators like there's a flow
+[00:32:56] accelerator, the compression
+[00:32:57] accelerator, the encryption etc. And
+[00:33:00] what we need for implementing the flow
+[00:33:02] flow is this docker flow.
+[00:33:05] And this is supported by both when
+[00:33:07] running blue field as the pew or blue
+[00:33:11] field as adapter or actually even on
+[00:33:14] standard conext interfaces not all the
+[00:33:17] components and just this accelerator.
+[00:33:20] Um so this API this Docker for API
+[00:33:25] uh allows you to build a pipeline
+[00:33:30] uh by creating pipes and chaining them
+[00:33:34] together. For instance, you can create a
+[00:33:36] root pipe which is receiving traffic
+[00:33:38] from a network interface sending traffic
+[00:33:40] to another pipe and here you have some
+[00:33:42] rules and if there is a match you can
+[00:33:45] send the traffic to a pipe B. if there
+[00:33:47] is a miss pipe C and then those pipes
+[00:33:50] can send traffic to a port or to the
+[00:33:52] application using RSS. Uh so you have
+[00:33:55] many options. Uh this is a single pipe.
+[00:33:59] So you have a bunch of entries. Entries
+[00:34:02] are like rules that can match the
+[00:34:04] packets. Um in our case they are five
+[00:34:08] tpples. So flows. So that's the actual
+[00:34:13] flow table we can use in essence. And
+[00:34:15] then you have actions. So you can count
+[00:34:17] retit modify the packets or forward the
+[00:34:21] packets based on the if there is a match
+[00:34:23] or a miss in the in the in the entries.
+[00:34:29] Um then uh we we realized that there is
+[00:34:34] a more specific pipe which is the Docker
+[00:34:37] flow CT which is actually implementing
+[00:34:39] connection tracking. So you can
+[00:34:41] implement connection tracking using a
+[00:34:43] general pipe like this or you can use a
+[00:34:46] more specialized pipe which is the CT
+[00:34:49] which is already implementing the the
+[00:34:53] useful APIs which are really convenient
+[00:34:56] when implementing a flow table of float.
+[00:34:58] So you have the ability to store flows
+[00:35:01] providing the file tapple. There are
+[00:35:03] APIs to add a flow, remove a flow to
+[00:35:06] update flow flow for metadata. Um you
+[00:35:11] get statistics for each flow and it
+[00:35:15] supports also flow aging. So respiration
+[00:35:18] uh again this is available both on the
+[00:35:20] DPU or on plane kinetics adapters.
+[00:35:25] Um now we were we have been looking at
+[00:35:28] the uh doc examples um we weren't able
+[00:35:32] to find one really implementing the the
+[00:35:34] flow flow at runtime. So there was an
+[00:35:37] example that was just processing makets
+[00:35:40] and exiting without managing the the
+[00:35:44] resources in in a live fashion you know.
+[00:35:46] So at the end we ended up writing uh
+[00:35:52] an application
+[00:35:53] uh for for for this PLC that was
+[00:35:57] implementing the flow flow using the
+[00:35:59] Docker flow city and this is
+[00:36:01] implementing a shadow so a software flow
+[00:36:03] table which is always synchronized with
+[00:36:05] the the flow table in the connection
+[00:36:08] trap pipe
+[00:36:10] um which is yeah which is keeping track
+[00:36:12] of what the flows and keeping the DPI
+[00:36:14] metadata. So similar to what we we have
+[00:36:17] done with with Napach
+[00:36:19] and this is a small flow exporter. So
+[00:36:22] it's able to export flows in text format
+[00:36:25] just just to to test it and but you can
+[00:36:29] extend it as you wish and and optionally
+[00:36:33] you can enable also traffic forwarding.
+[00:36:34] So you can set the verdict and forward
+[00:36:36] the traffic to another interface. This
+[00:36:38] is available on GitHub. So if you want
+[00:36:40] you can check it.
+[00:36:46] Um and this is what we implemented with
+[00:36:48] kryptonite. Uh so we receive the traffic
+[00:36:52] we we send packets to this connection
+[00:36:54] track pipe. If there is a match in the
+[00:36:57] flow table then we we apply the the the
+[00:37:00] action the verdict that is discard for a
+[00:37:04] passive configuration or send to to to
+[00:37:07] import and if you are in line if there
+[00:37:10] is a a miss instead we send the packets
+[00:37:14] to another pipe which is implementing
+[00:37:18] forwarding to the application.
+[00:37:21] um the application
+[00:37:24] will process the packets and as soon as
+[00:37:26] the protocol is detected with then API
+[00:37:30] adds an entry to the connection track.
+[00:37:33] Uh so the connection track keep all the
+[00:37:36] counters and then we periodically read
+[00:37:38] statistics from the from the pipe.
+[00:37:43] Um now in this case we have been able to
+[00:37:48] test this uh up to 2 million co unit
+[00:37:51] flows. We didn't find any documentation
+[00:37:53] about the maximum
+[00:37:56] size of the uh the the flow table in the
+[00:37:59] connection track of the connection track
+[00:38:01] pipe. Uh so we ended up running tests
+[00:38:05] increasing increasing increasing the
+[00:38:07] dash table until failure and 2 million
+[00:38:09] flows was the maximum that we have been
+[00:38:11] able to to configure. I don't know if
+[00:38:13] it's another limitation or you need to
+[00:38:16] configure something else. Um, we have
+[00:38:19] been in contact with the engineers from
+[00:38:22] from from Nvidia but we didn't
+[00:38:26] we have not been able to configure more
+[00:38:28] than that
+[00:38:30] and the traffic load in this case was uh
+[00:38:35] 60 million packets per second.
+[00:38:38] If you consider the the the worst case
+[00:38:40] test that we run uh again the cost is
+[00:38:43] per packet. So we we we considered this
+[00:38:47] test
+[00:38:48] um what we measured uh was that on we're
+[00:38:52] running on the DPU so on the AR system
+[00:38:56] the maximum flow new flow
+[00:38:59] the maximum flow rate for new flows so
+[00:39:02] the maximum number of flows that we have
+[00:39:04] been able to uh handle per second was
+[00:39:07] 1.5 million uh instead we're running on
+[00:39:10] the O up to 2.7 million but actually it
+[00:39:13] was floating was not really stable even
+[00:39:16] down to 1 million.
+[00:39:18] Uh but once all the flows are offloaded
+[00:39:22] through the pipe, we have seen that the
+[00:39:25] the adapter is able to handle traffic at
+[00:39:27] full rate with no packet loss. uh is
+[00:39:30] that if when the flow uh the new flow
+[00:39:33] rate exceeds this the the maximum flow
+[00:39:36] rate supported by adapter, of course,
+[00:39:37] you get packet loss because then you
+[00:39:39] fall back to the software and if you
+[00:39:40] have minimum flows uh you start dropping
+[00:39:45] especially we're running on the DPU.
+[00:39:49] So if you want to compare the FPJ versus
+[00:39:52] the DPU um in terms of
+[00:39:58] new flows rate
+[00:40:00] they are more or less there as order of
+[00:40:02] magnitude. Nate is more stable a bit
+[00:40:05] higher in terms of new flows per second
+[00:40:08] but what really makes the difference is
+[00:40:10] the cache sites. So the flow table sites
+[00:40:14] that in napk is 140 million flows on
+[00:40:18] blue field we have been able to
+[00:40:19] configure maximum two millions
+[00:40:22] on the other side with napk
+[00:40:25] you are tied to the actions that they
+[00:40:28] provide because it's implementing the
+[00:40:30] FPGA with blue field you have more
+[00:40:33] programmability of course
+[00:40:38] okay conclusions so um we have seen
+[00:40:42] uh the J3 and J4 fingerprints and you've
+[00:40:46] seen that they can be used by marers
+[00:40:51] with randomization to bypass them. So we
+[00:40:54] introduced the NDPI fingerprint that
+[00:40:56] address these and also adds the TCP
+[00:41:00] um fingerprints to uh to avoid
+[00:41:03] collisions on the on the fingerprint
+[00:41:05] hash. Um
+[00:41:08] we have seen the integration with net
+[00:41:10] filter and DPI net filter. Uh that's in
+[00:41:14] our opinion is much better than uh
+[00:41:18] running DPI inside the kernel. Um
+[00:41:23] we have seen how to scale up to 100 GB
+[00:41:26] and more reduce the PC memory
+[00:41:28] utilization with offload on the on npate
+[00:41:31] adapters and blue field 3. Um,
+[00:41:35] we didn't have the chance to test blue
+[00:41:37] before. Actually, it's more AI oriented.
+[00:41:39] I don't know if it's able to do the
+[00:41:41] same. I I never tested that adapter, so
+[00:41:44] I cannot say much.
+[00:41:48] Um, what about open open problems?
+[00:41:55] We have seen that uh the the hardware
+[00:41:58] flow table of load is helping a lot but
+[00:42:01] at some point if you exceed the flow
+[00:42:02] tableable side uh you still hit some
+[00:42:06] bottleneck
+[00:42:08] uh especially when you have high number
+[00:42:10] of new flows per second like in US
+[00:42:12] attacks. Um
+[00:42:16] so at some point you still have to
+[00:42:18] optimize your software flow table with
+[00:42:22] cache optimized implementations
+[00:42:25] and a real issue is with attacks which
+[00:42:30] are actually um targeting at exhausting
+[00:42:34] the the flow table because as we've seen
+[00:42:37] especially in order the flow table is
+[00:42:38] has a limited sides.
+[00:42:42] Another open problem is that um both
+[00:42:46] with net filter and the hardware flow
+[00:42:48] once we once we identify the protocol we
+[00:42:51] offload uh the flow and DPI no longer
+[00:42:55] see the same packets for those flows. So
+[00:42:58] it can happen something but we never
+[00:43:02] detect that. Uh but this is by design we
+[00:43:06] cannot do much. Um then
+[00:43:10] uh we have other issues with uh
+[00:43:14] emerging encrypted protocols. Uh because
+[00:43:17] for instance with the ECH so the
+[00:43:20] encrypted client law we are not able to
+[00:43:24] uh compute the same fingerprints that we
+[00:43:26] compute other TLS versions because
+[00:43:28] everything is encrypted and we cannot
+[00:43:30] even do SNI based filtering. So detect
+[00:43:33] the application based on SNI. actually
+[00:43:35] there is a public server name but that
+[00:43:38] can be changed so it's not really
+[00:43:40] helpful it happens often um quick is
+[00:43:45] introducing even more problems because
+[00:43:48] in quick you have two things you have
+[00:43:50] the connection ID multiple connection ID
+[00:43:53] in the same session so this is breaking
+[00:43:55] what you have because we use the five t
+[00:43:57] identify the flow and synchronize it
+[00:43:59] with the hardware flow table and also
+[00:44:01] you have connection ID rotation so for
+[00:44:03] the same flow you
+[00:44:04] the connection image is changing. So
+[00:44:07] those are issues that we have to address
+[00:44:09] somehow.
+[00:44:12] Uh okay. Uh you can find uh NDPIP ping
+[00:44:16] and kryptonite on GitHub. You can find
+[00:44:19] here our blog where we we have publish
+[00:44:23] news. Uh if you have any question you of
+[00:44:28] course you can ask now or you can drop
+[00:44:29] us an email. You're welcome.
+[00:44:35] Thank you. Uh we do have a few questions
+[00:44:38] remote.
+[00:44:38] >> Yes.
+[00:44:39] >> U
+[00:44:40] if you can uh read them and they are on
+[00:44:43] the
+[00:44:44] here on on the screen.
+[00:44:49] >> Uh so does DPR run a sensor where mirror
+[00:44:51] traffic is brokered or does it expect to
+[00:44:54] run on the endpoint? No, it it runs on a
+[00:44:56] sensor. Actually you can also run it on
+[00:44:59] the endpoint but you usually run it on a
+[00:45:01] sensor. So we do network monitoring. So
+[00:45:04] we are used to get mirrors from switches
+[00:45:06] etc and or top devices and process it
+[00:45:12] can run in BPF where that is
+[00:45:16] uh
+[00:45:21] actually I would say no for the reason I
+[00:45:24] explained. So
+[00:45:26] yeah BPF are secure but you have to fit
+[00:45:29] a whole DPI library inside the BPF. I
+[00:45:31] don't think it's vable. So,
+[00:45:39] uh, so the reason we're using that
+[00:45:40] filter is that we built 7 firewall and
+[00:45:44] so we wanted to be integrated with the
+[00:45:47] kernel, but it didn't want to run inside
+[00:45:48] the kernel. So, that's why we we used
+[00:45:50] the net filter queue to to interact
+[00:45:53] filter. Uh
+[00:45:56] you can also
+[00:45:59] um
+[00:46:00] use TC because the application is
+[00:46:03] setting markers in the connection track
+[00:46:05] and based on the marker you can uh do
+[00:46:08] rate limiting.
+[00:46:10] Uh
+[00:46:17] yeah I don't understand
+[00:46:20] if you want we can discuss offline
+[00:46:22] because I think we are running
+[00:46:25] >> besid besides throughput did you measure
+[00:46:28] also latence?
+[00:46:29] >> No no no but it's latency itself I mean
+[00:46:32] it's the latency that you have with the
+[00:46:34] net filter Q DPI doesn't add much
+[00:46:36] latency actually. So
+[00:46:38] >> but what about small requests where you
+[00:46:41] have like
+[00:46:42] >> yeah in case all the traffic goes
+[00:46:43] through the users pay for instance if
+[00:46:45] you are monitoring DNS traffic for DNS
+[00:46:47] server they expect almost all the
+[00:46:49] packets because you there are always
+[00:46:51] more requests so in that case it's the
+[00:46:53] override we didn't uh measure that
+[00:46:57] because it was out of scope for us
+[00:46:59] because it's the latency of net filter Q
+[00:47:02] it's not really related to DPI it's the
+[00:47:04] DPI over is not that high
+[00:47:07] >> yeah Yeah. Yeah, there is. So, yeah, it
+[00:47:10] but we didn't measure it here. No.
+[00:47:12] >> Okay.
+[00:47:12] >> Um, but you have the in the performance
+[00:47:15] that I gave you,
+[00:47:18] we have seen that NDPI is able to
+[00:47:19] process on a single call 4 million
+[00:47:21] packets per second on that specific
+[00:47:23] pickup. So, you can use that tool with
+[00:47:26] DNS traffic to get the number actually.
+[00:47:30] >> Uh, you it would be good if could
+[00:47:32] provide some measure. Okay, that's true.
+[00:47:34] Thank you. But it's just a matter of
+[00:47:35] running the the the tool. It's really
+[00:47:37] easy. So you go download DPI and run NDP
+[00:47:40] reader with the pickup and you get in
+[00:47:42] output the performance.
+[00:47:45] >> Uh there's one more online. Take that.
+[00:47:52] >> Are you sure the connection truck perent
+[00:47:54] is clean up after DPI?
+[00:47:57] uh so that relies on the uh expiration
+[00:48:00] that you have in the connection track
+[00:48:02] and DPI is cleaned up in the
+[00:48:04] application. So there is a a timeout in
+[00:48:08] the application which is cleaning up the
+[00:48:11] actually the the DPI data structure is
+[00:48:14] automatically cleaned up when it depends
+[00:48:16] on the application actually but when the
+[00:48:19] product is detected and the metadata is
+[00:48:20] extracted uh we know that and we release
+[00:48:23] the DP metadata but we still keep
+[00:48:25] usually the flow uh but it depends on
+[00:48:28] the application so it's up to
+[00:48:30] application to release the flow in the
+[00:48:32] flow state.
+[00:48:34] Uh yeah, my question actually was uh did
+[00:48:36] you guys measure CPU utilization when
+[00:48:37] you did the offload?
+[00:48:40] >> Sorry, did you use
+[00:48:41] >> uh did you measure CPU utilization when
+[00:48:44] you did the offload
+[00:48:45] >> with the net filter or with the
+[00:48:48] >> NDPI?
+[00:48:49] >> Yeah, with the adapters because with NPC
+[00:48:52] we have seen the chart and you have seen
+[00:48:54] the CPUization it's much lower. So it
+[00:48:57] there was this like
+[00:48:58] >> yeah that would be a good number to
+[00:48:59] publish because uh I mean like latency
+[00:49:04] and
+[00:49:06] uh CPU utilization is what will say okay
+[00:49:08] if this adapter is better than the other
+[00:49:11] kind of thing.
+[00:49:12] >> Uh no no this is uh Napotch adapter with
+[00:49:16] the offload or without the offload. Um
+[00:49:19] >> the top is the CPU. Oh okay I missed
+[00:49:21] that one. Thanks.
+[00:49:22] >> Yeah.
+[00:49:23] >> Okay. Uh
+[00:49:25] the uh did you uh talk about PF ring
+[00:49:28] versus IO uring and I mean why not IOU
+[00:49:32] ring maybe I missed that too.
+[00:49:35] >> We use preferring because it's
+[00:49:36] implementing caner bypass similar to the
+[00:49:38] PDK and that's provides us optimal
+[00:49:42] performance because we we talk directly
+[00:49:44] to the adapter. So
+[00:49:46] >> IOU ring also bypasses the kernel.
+[00:49:49] >> Yeah. Yeah. But I mean we we took P ring
+[00:49:50] as an example. I mean
+[00:49:52] >> PF ring years ago.
+[00:49:54] >> Yeah, they they built PF Ring like
+[00:49:56] before I ring was even a twinkle in
+[00:49:58] someone's eye. So
+[00:49:59] >> yeah, we can talk offline. I'm here.
+[00:50:02] >> Okay. Yep. Thank you.
+[00:50:04] >> Uh sorry, one last question. Uh could I
+[00:50:07] ask if you use blue field um uh aging
+[00:50:11] out that's started by the Docker itself
+[00:50:13] or do you age out entries yourself?
+[00:50:18] >> Uh we're actually receiping Could
+[00:50:24] you please repeat the question while
+[00:50:25] we're uh setting up and I'm gonna hand
+[00:50:28] him the mic downstairs.
+[00:50:33] >> Um so the question was uh do you use
+[00:50:36] blue field uh aging out threat that
+[00:50:39] started on the blue field itself or do
+[00:50:41] you age out entries yourself from your
+[00:50:43] application? We synchro sorry um we
+[00:50:46] synchronize the we have the shadow flow
+[00:50:48] table which is a software flow table.
+[00:50:50] This synchronized with the blue field
+[00:50:52] and we rely on the blue field aging to
+[00:50:55] release the flow in the software flow
+[00:50:57] table. So so the master is the blue
+[00:51:00] field flow table
+[00:51:02] for flows which are offloaded otherwise
+[00:51:05] if you fall back to the software you
+[00:51:07] rely on the on the software flow table.
+[00:51:12] >> Thank you.

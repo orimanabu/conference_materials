@@ -1,0 +1,1629 @@
+{
+  "event": "Netdev 0x16",
+  "source_url": "https://netdevconf.info/0x16/pages/sessions.html",
+  "retrieved_on": "2026-10-10",
+  "timezone": "",
+  "notes": "Sessions一覧にある全38セッションを収録。各個別ページのTitle・Description原文、Contentsのスライド・論文・動画URLとDescription内の資料リンクを抽出。相対URLは各個別ページを基準に絶対URLへ変換。公開slides/papersディレクトリを照合し、関連する追加ファイルも収録。元ページの資料リンクは保持。資料ダウンロード可否・動画再生可否は未検査。",
+  "counts": {
+    "sessions": 38,
+    "with_description": 38,
+    "with_materials": 38,
+    "attachments": 98,
+    "files": 60,
+    "links": 38
+  },
+  "sessions": [
+    {
+      "id": "when-regular-expressions-meet-xdp",
+      "url": "https://netdevconf.info/0x16/sessions/talk/when-regular-expressions-meet-xdp.html",
+      "title": "When regular expressions meet XDP",
+      "listing_title": "When regular expressions meet XDP",
+      "description": "A key to an effective way to mitigate DDoS attacks – is to know the protocol, that is going to be protected. Effective packet parsers allow to discard garbage traffic at high speeds. Understanding of protocol state machines allows to build stateful filters that can spot and block malicious activity. However, such an approach requires a lot of programming work, especially if the DDoS protection system must be able to quickly adopt new protocols.\n\n\n\nIn such cases filtering by regular expressions helps to deliver coarse packet filtering by payload content. Extremely flexible, regular expressions allow to completely skip programming work and define packet filters by an end user.\n\n\n\nEvaluation of regular expressions at network speeds is usually done in Deep Packet Inspection software, which is mostly a transparent appliance installed somewhere on the packet path. Being transparent DPI solutions doesn’t need a real network stack for packet processing, allowing to offload regular expressions to userspace network stack.\n\n\n\nWhile building a rich filtering engine capable of working on the same servers that do provide services we came to the conclusion, that offloading of regular expressions to userspace is not as flexible as we need. In this article and talk we will show how regular expression filtering can be done in XDP context, what is a performance of the resulting solution, and how it affects other parts of network processing. We will also explain our motivations and the use for the community.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>A key to an effective way to mitigate DDoS attacks – is to know the protocol, that is going to be protected. Effective packet parsers allow to discard garbage traffic at high speeds. Understanding of protocol state machines allows to build stateful filters that can spot and block malicious activity. However, such an approach requires a lot of programming work, especially if the DDoS protection system must be able to quickly adopt new protocols.</p>\n\n<p>In such cases filtering by regular expressions helps to deliver coarse packet filtering by payload content. Extremely flexible, regular expressions allow to completely skip programming work and define packet filters by an end user.</p>\n\n<p>Evaluation of regular expressions at network speeds is usually done in Deep Packet Inspection software, which is mostly a transparent appliance installed somewhere on the packet path. Being transparent DPI solutions doesn’t need a real network stack for packet processing, allowing to offload regular expressions to userspace network stack.</p>\n\n<p>While building a rich filtering engine capable of working on the same servers that do provide services we came to the conclusion, that offloading of regular expressions to userspace is not as flexible as we need. In this article and talk we will show how regular expression filtering can be done in XDP context, what is a performance of the resulting solution, and how it affects other parts of network processing. We will also explain our motivations and the use for the community.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/when-regular-expressions-meet-xdp.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Ivan Koveshnikov Sergey Nizovtsev",
+      "metadata": {
+        "Speakers": "Ivan Koveshnikov Sergey Nizovtsev",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/9/%5BGcore%5D%20%28PRS%29",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/when-regular-expressions-meet-xdp.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/9/rex.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/when-regular-expressions-meet-xdp.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=-R1Y7rWWQAw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/when-regular-expressions-meet-xdp.html"
+        },
+        {
+          "title": "Gcore-PRS-RedExpXDP.pdf",
+          "url": "https://netdevconf.info/0x16/slides/9/Gcore-PRS-RedExpXDP.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/slides/9/"
+        },
+        {
+          "title": "[Gcore] (PRS) #RedExpXDP.pdf",
+          "url": "https://netdevconf.info/0x16/slides/9/%5BGcore%5D%20%28PRS%29%20%23RedExpXDP.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/slides/9/"
+        }
+      ]
+    },
+    {
+      "id": "high-performance-programmable-parsers",
+      "url": "https://netdevconf.info/0x16/sessions/talk/high-performance-programmable-parsers.html",
+      "title": "High Performance Programmable Parsers",
+      "listing_title": "High Performance Programmable Parsers",
+      "description": "Protocol parsing is perhaps the most common and performance sensitive operation in a networking stack. Every packet received on a network interface needs to be parsed for a variety of purposes, and hence there is a great deal of motivation to build parsers that are highly efficient and programmable to handle a wide variety of protocols. However, protocol parsing is notoriously difficult since it is inherently serialized processing, the number of protocol elements can be combinatorial, and the input to the parser is nondeterministic and sometimes even has malevolent intent (aka a Dos attack). In this paper we will delve into both the theory and implementation of programmable parsers that run with the highest performance in a given target environment. The implementation focus will be on software based parsers, however the techniques can be extrapolated for mapping to hardware implementation.\n\n\n\nIn the first part of the paper, we will describe protocol parsing as a Finite State Machine (FSM). First we’ll provide the basic FSM with the minimum required operations to do a protocol parse walk, next we’ll add annotations to nodes to perform useful work in the form of metadata extraction and protocol handler functions, and finally we’ll add the constructs to the FSM to parser TLVs (Type Length Value commonly used for options in protocols) and flag-fields (like in GRE).\n\n\n\nIn the second part of the paper, we’ll describe a declarative representation of a protocol parser with its Finite State Machine. We’ll show how all of the required operations of protocol parsing along with metadata extraction can be represented with a set of parameterized functions. With that we will show how the set of parameterizations can be encoded in a .json schema, so that a .json file thus provides a complete declarative representation of a parser. We will show how the .json representation can serve as the formal Intermediate Representation (IP) for a parser.\n\n\n\nIn the final section we will apply these concepts to implement high performance programmable parsers. A ubiquitous parser IR facilitates a variety of front end methods to program a parser (PANDA-C, PANDA-Python, P4, etc.), as well as a variety of back end targets (eBPF, DPDK, kParser, hardware offloads, etc.). We’ll look at an example parser called “big-parser” that is a superset of Linux flow-dissector functionality. We’ll start with the PANDA-C code for big-parser, show its compilation into its .json IR, and then show how the IR can be compiled into kParser and optimized eBPF targets for running in the kernel. We provide performance evaluation of “big-parser” running in this targets versus Linux kernel flow-dissector (both native kernel flow-dissector and one written in eBOF).",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Protocol parsing is perhaps the most common and performance sensitive operation in a networking stack. Every packet received on a network interface needs to be parsed for a variety of purposes, and hence there is a great deal of motivation to build parsers that are highly efficient and programmable to handle a wide variety of protocols. However, protocol parsing is notoriously difficult since it is inherently serialized processing, the number of protocol elements can be combinatorial, and the input to the parser is nondeterministic and sometimes even has malevolent intent (aka a Dos attack). In this paper we will delve into both the theory and implementation of programmable parsers that run with the highest performance in a given target environment. The implementation focus will be on software based parsers, however the techniques can be extrapolated for mapping to hardware implementation.</p>\n\n<p>In the first part of the paper, we will describe protocol parsing as a Finite State Machine (FSM). First we’ll provide the basic FSM with the minimum required operations to do a protocol parse walk, next we’ll add annotations to nodes to perform useful work in the form of metadata extraction and protocol handler functions, and finally we’ll add the constructs to the FSM to parser TLVs (Type Length Value commonly used for options in protocols) and flag-fields (like in GRE).</p>\n\n<p>In the second part of the paper, we’ll describe a declarative representation of a protocol parser with its Finite State Machine. We’ll show how all of the required operations of protocol parsing along with metadata extraction can be represented with a set of parameterized functions. With that we will show how the set of parameterizations can be encoded in a .json schema, so that a .json file thus provides a complete declarative representation of a parser. We will show how the .json representation can serve as the formal Intermediate Representation (IP) for a parser.</p>\n\n<p>In the final section we will apply these concepts to implement high performance programmable parsers. A ubiquitous parser IR facilitates a variety of front end methods to program a parser (PANDA-C, PANDA-Python, P4, etc.), as well as a variety of back end targets (eBPF, DPDK, kParser, hardware offloads, etc.). We’ll look at an example parser called “big-parser” that is a superset of Linux flow-dissector functionality. We’ll start with the PANDA-C code for big-parser, show its compilation into its .json IR, and then show how the IR can be compiled into kParser and optimized eBPF targets for running in the kernel. We provide performance evaluation of “big-parser” running in this targets versus Linux kernel flow-dissector (both native kernel flow-dissector and one written in eBOF).</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/high-performance-programmable-parsers.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Tom A Herbert",
+      "metadata": {
+        "Speakers": "Tom A Herbert",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/11/High%20Performance%20Programmable%20Parsers.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/high-performance-programmable-parsers.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=wtP_GnqmnZE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/high-performance-programmable-parsers.html"
+        }
+      ]
+    },
+    {
+      "id": "fixing-tcp-slow-start-for-slow-fat-links",
+      "url": "https://netdevconf.info/0x16/sessions/talk/fixing-tcp-slow-start-for-slow-fat-links.html",
+      "title": "Fixing TCP Slow Start for Slow Fat links",
+      "listing_title": "Fixing TCP Slow Start for Slow Fat links",
+      "description": "TCP slow start is designed to begin at a conservative bitrate, but quickly ramp up to the available bandwidth. Unfortunately, current default Linux TCP socket buffer sizes impede slow start bitrates on large bandwidth-delay product (BDP) links. However, even with our recommended socket buffer sizes in place, traditional slow start does not work well on large BDP links such as satellites, often overshooting and causing significant packet loss. Conversely, TCP HyStart (on by default in Linux), intended to avoid overshooting during slow start, can exit from slow start prematurely which is especially detrimental to utilization on large BDP links. This paper proposes adjustments to TCP slow start that find a safe point to enter congestion avoidance without overshooting, while also avoiding premature exiting that degrades link utilization on large BDP links. We evaluate the proposed slow start algorithm over a commercial geostationary satellite link and our preliminary results indicate that our proposed slow start adjustments improve start-up performance, outperforming the measured alternatives.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>TCP slow start is designed to begin at a conservative bitrate, but quickly ramp up to the available bandwidth. Unfortunately, current default Linux TCP socket buffer sizes impede slow start bitrates on large bandwidth-delay product (BDP) links. However, even with our recommended socket buffer sizes in place, traditional slow start does not work well on large BDP links such as satellites, often overshooting and causing significant packet loss. Conversely, TCP HyStart (on by default in Linux), intended to avoid overshooting during slow start, can exit from slow start prematurely which is especially detrimental to utilization on large BDP links. This paper proposes adjustments to TCP slow start that find a safe point to enter congestion avoidance without overshooting, while also avoiding premature exiting that degrades link utilization on large BDP links. We evaluate the proposed slow start algorithm over a commercial geostationary satellite link and our preliminary results indicate that our proposed slow start adjustments improve start-up performance, outperforming the measured alternatives.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/fixing-tcp-slow-start-for-slow-fat-links.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Maryam Ataei Kachooei Pinhan Zhao Feng Li Jae Won Chung Mark Claypool",
+      "metadata": {
+        "Speakers": "Maryam Ataei Kachooei Pinhan Zhao Feng Li Jae Won Chung Mark Claypool",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/19/netdev-22%20.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/fixing-tcp-slow-start-for-slow-fat-links.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/19/NetDev_22___Fixing_TCP_Slow_Start_for_Slow_Fat_Links.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/fixing-tcp-slow-start-for-slow-fat-links.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=RFNakg5pymY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/fixing-tcp-slow-start-for-slow-fat-links.html"
+        },
+        {
+          "title": "netdev-22.pptx",
+          "url": "https://netdevconf.info/0x16/slides/19/netdev-22.pptx",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/slides/19/"
+        }
+      ]
+    },
+    {
+      "id": "linux-kernel-networking-acceleration-using-p4ovs-on-ipu",
+      "url": "https://netdevconf.info/0x16/sessions/talk/linux-kernel-networking-acceleration-using-p4ovs-on-ipu.html",
+      "title": "Linux kernel networking acceleration using P4–OVS on IPU",
+      "listing_title": "Linux kernel networking acceleration using P4–OVS on IPU",
+      "description": "Topic: Linux kernel networking acceleration using P4-OVS on Intel IPU\n\n\n\nThis talk demonstrates the linux kernel network stack acceleration use case using VxLAN, L2 forward and routing tables via P4. Since P4-OVS is open-sourced, this solution can be used by the community to create a similar P4 pipeline and control plane architecture to enable linux kernel acceleration on Intel IPU or their Smart NICs/IPUs.\n\n\n\nWe will demonstrate the kernel acceleration into the IPU including L2 forwarding, Routing and VxLAN via P4 by programming the ‘linux_networking’ P4 pipeline on to the Intel IPU. The P4 tables in pipeline will be programmed by kernel configurations/tables and we will demonstrate traffic flowing (ICMP) successfully through that pipeline on IPU. The demo will use current P4-OVS [Refer 2] on IPDK [Refer 1].\n\n\n\nThe ‘linux_networking’ pipeline supports L2 forward, Tunnel, Routing functionality and ECMP [Refer 3, 4]. The VxLAN tunnel will be configured on OVS/kernel and will be propagated to the P4 tables by registering into kernel netlink messages and programmed on the Intel IPU target using P4-OVS/P4proto and target driven interface (TDI). The demo will also show the ARP packets being sent to OVS (Open Virtual Switch) for control path processing using the IPU kernel driver netdev control ports and VLAN port representors. P4Runtime(ovs-p4ctl) is used to populate the control flow rules in the pipeline. In the talk, we will go over the ‘linux_networking’ Tx and Rx P4 pipeline and topology, how P4 tables are dynamically programmed using netlink in IPU target via kernel, control and data packet flow.\n\n\n\nReference\n\n\n\n  IPDK - https://github.com/ipdk-io/ipdk\n\n\n  OVS with P4 - https://github.com/ipdk-io/ovs\n\n\n  Linux Networking Readme - https://github.com/ipdk-io/ovs/blob/ovs-with-p4/p4proto/kctrl/README.md\n\n\n  Linux networking P4 File - https://github.com/ipdk-io/ovs/blob/ovs-with-p4/p4proto/p4src/linux_networking/linux_networking.p4",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Topic: Linux kernel networking acceleration using P4-OVS on Intel IPU</p>\n\n<p>This talk demonstrates the linux kernel network stack acceleration use case using VxLAN, L2 forward and routing tables via P4. Since P4-OVS is open-sourced, this solution can be used by the community to create a similar P4 pipeline and control plane architecture to enable linux kernel acceleration on Intel IPU or their Smart NICs/IPUs.</p>\n\n<p>We will demonstrate the kernel acceleration into the IPU including L2 forwarding, Routing and VxLAN via P4 by programming the ‘linux_networking’ P4 pipeline on to the Intel IPU. The P4 tables in pipeline will be programmed by kernel configurations/tables and we will demonstrate traffic flowing (ICMP) successfully through that pipeline on IPU. The demo will use current P4-OVS [Refer 2] on IPDK [Refer 1].</p>\n\n<p>The ‘linux_networking’ pipeline supports L2 forward, Tunnel, Routing functionality and ECMP [Refer 3, 4]. The VxLAN tunnel will be configured on OVS/kernel and will be propagated to the P4 tables by registering into kernel netlink messages and programmed on the Intel IPU target using P4-OVS/P4proto and target driven interface (TDI). The demo will also show the ARP packets being sent to OVS (Open Virtual Switch) for control path processing using the IPU kernel driver netdev control ports and VLAN port representors. P4Runtime(ovs-p4ctl) is used to populate the control flow rules in the pipeline. In the talk, we will go over the ‘linux_networking’ Tx and Rx P4 pipeline and topology, how P4 tables are dynamically programmed using netlink in IPU target via kernel, control and data packet flow.</p>\n\n<p>Reference</p>\n<ol>\n  <li>IPDK - https://github.com/ipdk-io/ipdk</li>\n  <li>OVS with P4 - https://github.com/ipdk-io/ovs</li>\n  <li>Linux Networking Readme - https://github.com/ipdk-io/ovs/blob/ovs-with-p4/p4proto/kctrl/README.md</li>\n  <li>Linux networking P4 File - https://github.com/ipdk-io/ovs/blob/ovs-with-p4/p4proto/p4src/linux_networking/linux_networking.p4</li>\n</ol>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/linux-kernel-networking-acceleration-using-p4ovs-on-ipu.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Sandeep Nagapattinam Nupur Uttarwar Venkata Suresh Kumar Namrata Limaye",
+      "metadata": {
+        "Speakers": "Sandeep Nagapattinam Nupur Uttarwar Venkata Suresh Kumar Namrata Limaye",
+        "Label": "Moonshot",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/15/Linux%20kernel%20networking%20acceleration%20using%20P4%20on%20IPU.v1.pptx",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/linux-kernel-networking-acceleration-using-p4ovs-on-ipu.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=KFq6DKNd8z0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/linux-kernel-networking-acceleration-using-p4ovs-on-ipu.html"
+        }
+      ]
+    },
+    {
+      "id": "to-tls-or-not-that-is-not-the-question",
+      "url": "https://netdevconf.info/0x16/sessions/talk/to-tls-or-not-that-is-not-the-question.html",
+      "title": "To TLS or Not? That Is Not The Question",
+      "listing_title": "To TLS or Not? That Is Not The Question",
+      "description": "In this talk we evaluate TLS performance under\ndifferent circumstances with a particular focus on the\nkubernetes environment.\n\n\n\nWe look at:\n\n\n\n1) Traditional user space driven approach where both\n the TLS handshake and record protocols happen in\nuser space\n\n\n\na) with x86 AES support turned on\n  b) with AES support turned off\n\n\n\n2) KTLS where the handshake protocol still happens in\nuser space but the record protocol is in the kernel.\n\n\n\na) with x86 AES support turned on\n  b) with AES support turned off\n\n\n\n3) KTLS with hardware offload where the handshake\n    protocol still happens in user space but the record\n    protocol is offloaded to hardware.\n\n\n\na) with x86 AES support turned on\n  b) with AES support turned off\n\n\n\nIt should be noted that,  for offload, the record\nprotocol in this case may be handled in the Kernel\n(similar to KTLS) under some conditions as\ndetermined by the hardware.\n\n\n\nIn our study, we looked at a variety of application traffic with varying needs for throughput and latency and varying amount of data transmitted per session. Our experiments covered all the TLS implementations mentioned earlier under three scenarios: (1) baseline, where there is no packet drop or reordering, (2) deterministic packet drop introduced by a middle box, and (3) packet re-ordering introduced by a middle box. In all cases, we measured transaction rates, throughput and transaction latency factored over CPU utilization; In our talk, we will present these results and conclude with a recommendation on what implementation to use depending on the application traffic characteristics and needs.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>In this talk we evaluate TLS performance under\ndifferent circumstances with a particular focus on the\nkubernetes environment.</p>\n\n<p>We look at:</p>\n\n<p>1) Traditional user space driven approach where both\n the TLS handshake and record protocols happen in\nuser space</p>\n\n<p>a) with x86 AES support turned on\n  b) with AES support turned off</p>\n\n<p>2) KTLS where the handshake protocol still happens in\nuser space but the record protocol is in the kernel.</p>\n\n<p>a) with x86 AES support turned on\n  b) with AES support turned off</p>\n\n<p>3) KTLS with hardware offload where the handshake\n    protocol still happens in user space but the record\n    protocol is offloaded to hardware.</p>\n\n<p>a) with x86 AES support turned on\n  b) with AES support turned off</p>\n\n<p>It should be noted that,  for offload, the record\nprotocol in this case may be handled in the Kernel\n(similar to KTLS) under some conditions as\ndetermined by the hardware.</p>\n\n<p>In our study, we looked at a variety of application traffic with varying needs for throughput and latency and varying amount of data transmitted per session. Our experiments covered all the TLS implementations mentioned earlier under three scenarios: (1) baseline, where there is no packet drop or reordering, (2) deterministic packet drop introduced by a middle box, and (3) packet re-ordering introduced by a middle box. In all cases, we measured transaction rates, throughput and transaction latency factored over CPU utilization; In our talk, we will present these results and conclude with a recommendation on what implementation to use depending on the application traffic characteristics and needs.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/to-tls-or-not-that-is-not-the-question.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Nabil Bitar Jamal Hadi Salim Pedro Tammela",
+      "metadata": {
+        "Speakers": "Nabil Bitar Jamal Hadi Salim Pedro Tammela",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/20/TLS-0x16.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/to-tls-or-not-that-is-not-the-question.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=m36-IKhS10Y",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/to-tls-or-not-that-is-not-the-question.html"
+        }
+      ]
+    },
+    {
+      "id": "homals-tunneling-messages-through-secure-segments",
+      "url": "https://netdevconf.info/0x16/sessions/talk/homals-tunneling-messages-through-secure-segments.html",
+      "title": "HomaLS: Tunneling messages through secure segments",
+      "listing_title": "HomaLS: Tunneling messages through secure segments",
+      "description": "To advance kTLS over DCTCP in datacenter networking [1], we propose Homa-Level Security (HomaLS), a transport-level encryption integrated with the Homa transport protocol. \nHoma is available as an out-of-tree Linux kernel module [2], which outperforms DCTCP by a large margin; Homa provides 1) receiver-driven congestion control, 2) packet scheduling that prioritizes small requests using multiple in-network queues, 3) one-to-many socket abstraction that preserves message boundaries, and 4.) reliable data transfer. Strawman design for secure communication over Homa would use TLS in the application, but that approach introduces the same challenge as TLS over TCP, that is, to prevent the application from using transparent, opportunistic NIC offloading, which is done by kTLS today.  We thus propose HomaLS, transport-level encryption integrated with Homa, where applications read or write plain-text data. HomaLS performs segment-level encryption, because Homa utilizes TSO by overlaying the TCP header including the TCP options space.\n\n\n\nIn this talk we first present our initial protocol design. Since utilizing hardware offloading is crucial, we test whether hardware TLS offloading, which is far more complicated than TSO, works for a Homa segment, which has a different protocol number than TCP in the IPv4 header. We examined the Nvidia ConnectX-6 DX NIC, and found that it works with small driver modification, indicating the viability of the HomaLS approach. We then present experimental results. If the encryption overhead diminishes the advantage of Homa, HomaLS would be not attractive (over kTLS over TCP). Our prototype implementation that encrypts data in software confirms that HomaLS exhibits shorter RTT than kTLS over TCP by 26–30%, achieving 18–23µs of message RTT.\n\n\n\n[1] T. Herbert, “Data center networking stack”, https://legacy.netdevconf.info/1.2/session.html?tom-herbert\n[2] J. Ousterhout “A Linux Kernel Implementation of the Homa Transport Protocol”, USENIX ATC 2021",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>To advance kTLS over DCTCP in datacenter networking [1], we propose Homa-Level Security (HomaLS), a transport-level encryption integrated with the Homa transport protocol. \nHoma is available as an out-of-tree Linux kernel module [2], which outperforms DCTCP by a large margin; Homa provides 1) receiver-driven congestion control, 2) packet scheduling that prioritizes small requests using multiple in-network queues, 3) one-to-many socket abstraction that preserves message boundaries, and 4.) reliable data transfer. Strawman design for secure communication over Homa would use TLS in the application, but that approach introduces the same challenge as TLS over TCP, that is, to prevent the application from using transparent, opportunistic NIC offloading, which is done by kTLS today.  We thus propose HomaLS, transport-level encryption integrated with Homa, where applications read or write plain-text data. HomaLS performs segment-level encryption, because Homa utilizes TSO by overlaying the TCP header including the TCP options space.</p>\n\n<p>In this talk we first present our initial protocol design. Since utilizing hardware offloading is crucial, we test whether hardware TLS offloading, which is far more complicated than TSO, works for a Homa segment, which has a different protocol number than TCP in the IPv4 header. We examined the Nvidia ConnectX-6 DX NIC, and found that it works with small driver modification, indicating the viability of the HomaLS approach. We then present experimental results. If the encryption overhead diminishes the advantage of Homa, HomaLS would be not attractive (over kTLS over TCP). Our prototype implementation that encrypts data in software confirms that HomaLS exhibits shorter RTT than kTLS over TCP by 26–30%, achieving 18–23µs of message RTT.</p>\n\n<p>[1] T. Herbert, “Data center networking stack”, https://legacy.netdevconf.info/1.2/session.html?tom-herbert\n[2] J. Ousterhout “A Linux Kernel Implementation of the Homa Transport Protocol”, USENIX ATC 2021</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/homals-tunneling-messages-through-secure-segments.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Tianyi Gao Michio Honda",
+      "metadata": {
+        "Speakers": "Tianyi Gao Michio Honda",
+        "Label": "Moonshot",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/21/netdev0x16-hls.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/homals-tunneling-messages-through-secure-segments.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=nFx7VppQcBo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/homals-tunneling-messages-through-secure-segments.html"
+        }
+      ]
+    },
+    {
+      "id": "integrating-power-over-ethernet-and-power-over-dataline-support-to-the-linux-kernel",
+      "url": "https://netdevconf.info/0x16/sessions/talk/integrating-power-over-ethernet-and-power-over-dataline-support-to-the-linux-kernel.html",
+      "title": "Integrating Power over Ethernet and Power over Dataline support to the Linux kernel",
+      "listing_title": "Integrating Power over Ethernet and Power over Dataline support to the Linux kernel",
+      "description": "Protocols for powering link partners over ethernet cables have existed for a long time. Over time, the IEEE 802.3 standard was extended with PoE (802.3af-2003), PoE Plus (802.3at-2009), 4-pair PoE (802.3bt-2018) and PoDL (802.3bu-2016). The only missing part related to this specification within the Linux ecosystem is mainlined kernel support.\n\n\n\nThis talk will provide an intro into the underlying technology, the current implementation and it’s mainlining status.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Protocols for powering link partners over ethernet cables have existed for a long time. Over time, the IEEE 802.3 standard was extended with PoE (802.3af-2003), PoE Plus (802.3at-2009), 4-pair PoE (802.3bt-2018) and PoDL (802.3bu-2016). The only missing part related to this specification within the Linux ecosystem is mainlined kernel support.</p>\n\n<p>This talk will provide an intro into the underlying technology, the current implementation and it’s mainlining status.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/integrating-power-over-ethernet-and-power-over-dataline-support-to-the-linux-kernel.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Oleksij Rempel",
+      "metadata": {
+        "Speakers": "Oleksij Rempel",
+        "Label": "Moonshot",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/22/netdev%200x16%20-%202022%20-%20podl.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/integrating-power-over-ethernet-and-power-over-dataline-support-to-the-linux-kernel.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=qkbvHCT7OZw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/integrating-power-over-ethernet-and-power-over-dataline-support-to-the-linux-kernel.html"
+        },
+        {
+          "title": "netdev 0x16 - 2022 - power over ethernet.pdf",
+          "url": "https://netdevconf.info/0x16/slides/22/netdev%200x16%20-%202022%20-%20power%20over%20ethernet.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/slides/22/"
+        }
+      ]
+    },
+    {
+      "id": "implementing-cooperative-link-diagnostics-by-using-dusty-corners-of-ieee-8023-specification",
+      "url": "https://netdevconf.info/0x16/sessions/talk/implementing-cooperative-link-diagnostics-by-using-dusty-corners-of-ieee-8023-specification.html",
+      "title": "Implementing cooperative link diagnostics by using dusty corners of IEEE 802.3 specification",
+      "listing_title": "Implementing cooperative link diagnostics by using dusty corners of IEEE 802.3 specification",
+      "description": "Linux kernel provides different ways for the Link and Cable diagnostics, such as generic selftest or cable test. All of them work well enough if we have full control of both link partners or the link is completely broken. The challenging situations are where our network links are not easily accessible or the link is only half broken.\nA solution can be provided by the IEEE 802.3 specification and some (currently not supported) bits of auto-negotiation frames (remote fault and next page). These features exist as part of autoneg, but are missing an open source implementation. So, it’s time to change that.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Linux kernel provides different ways for the Link and Cable diagnostics, such as generic selftest or cable test. All of them work well enough if we have full control of both link partners or the link is completely broken. The challenging situations are where our network links are not easily accessible or the link is only half broken.\nA solution can be provided by the IEEE 802.3 specification and some (currently not supported) bits of auto-negotiation frames (remote fault and next page). These features exist as part of autoneg, but are missing an open source implementation. So, it’s time to change that.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/implementing-cooperative-link-diagnostics-by-using-dusty-corners-of-ieee-8023-specification.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Oleksij Rempel",
+      "metadata": {
+        "Speakers": "Oleksij Rempel",
+        "Label": "Moonshot",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/23/netdev%200x16%20-%202022%20-%20remote-fault.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/implementing-cooperative-link-diagnostics-by-using-dusty-corners-of-ieee-8023-specification.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/wg98BFKIdeM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/implementing-cooperative-link-diagnostics-by-using-dusty-corners-of-ieee-8023-specification.html"
+        },
+        {
+          "title": "netdev 0x16 - 2022 - coop diag.pdf",
+          "url": "https://netdevconf.info/0x16/slides/23/netdev%200x16%20-%202022%20-%20coop%20diag.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/slides/23/"
+        }
+      ]
+    },
+    {
+      "id": "network-view-of-embedded-specific-challenges-for-nonembedded-network-developers",
+      "url": "https://netdevconf.info/0x16/sessions/talk/network-view-of-embedded-specific-challenges-for-nonembedded-network-developers.html",
+      "title": "Network view of embedded specific challenges for non–embedded network developers",
+      "listing_title": "Network view of embedded specific challenges for non–embedded network developers",
+      "description": "In this talk, Oleksij will raise awareness for current challanges in embedded networking as used in industrial, automotive or medical devices.\nHe will introduce developers and maintainers to the kind of challenges embedded developers face, such as T1L/-T1S, bandwidth limits, low latency/jitter, fixed link configuration, redundant network paths and analysis of extremely rare failures.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>In this talk, Oleksij will raise awareness for current challanges in embedded networking as used in industrial, automotive or medical devices.\nHe will introduce developers and maintainers to the kind of challenges embedded developers face, such as T1L/-T1S, bandwidth limits, low latency/jitter, fixed link configuration, redundant network paths and analysis of extremely rare failures.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/network-view-of-embedded-specific-challenges-for-nonembedded-network-developers.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Oleksij Rempel",
+      "metadata": {
+        "Speakers": "Oleksij Rempel",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/24/netdev%200x16%20-%202022%20-%20embedded%20-%202022.10.09.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/network-view-of-embedded-specific-challenges-for-nonembedded-network-developers.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/EPg-WxX_JwU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/network-view-of-embedded-specific-challenges-for-nonembedded-network-developers.html"
+        }
+      ]
+    },
+    {
+      "id": "state-of-the-union-in-tcp-land",
+      "url": "https://netdevconf.info/0x16/sessions/talk/state-of-the-union-in-tcp-land.html",
+      "title": "State of the union in TCP land",
+      "listing_title": "State of the union in TCP land",
+      "description": "This talk will describe recent changes in the Linux kernel and user space\nTCP world.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>This talk will describe recent changes in the Linux kernel and user space\nTCP world.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/state-of-the-union-in-tcp-land.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Eric Dumazet",
+      "metadata": {
+        "Speakers": "Eric Dumazet",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/28/State%20of%20the%20union%20in%20TCP%20land.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/state-of-the-union-in-tcp-land.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=28tmkUnae8g",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/state-of-the-union-in-tcp-land.html"
+        }
+      ]
+    },
+    {
+      "id": "crosslayer-telemetry-support-in-linux-kernel",
+      "url": "https://netdevconf.info/0x16/sessions/talk/crosslayer-telemetry-support-in-linux-kernel.html",
+      "title": "Cross–Layer Telemetry Support in Linux Kernel",
+      "listing_title": "Cross–Layer Telemetry Support in Linux Kernel",
+      "description": "This paper introduces Cross-Layer Telemetry (CLT), presents its new version as an improvement and explains how its support is added to the Linux kernel. CLT is a way to combine in-band telemetry and Application Performance Management (APM, based on distributed tracing with OpenTelemetry) into a single monitoring tool providing a full network stack observability. Using CLT, APM traces are correlated with corresponding network traffic, providing a better view and a faster root cause analysis in case of issue. This new version improves the correlation accuracy. In this paper, we describe the CLT implementation (both for kernel and user spaces) and we evaluate the CLT ecosystem based on a use case. All CLT code is available as open source.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>This paper introduces Cross-Layer Telemetry (CLT), presents its new version as an improvement and explains how its support is added to the Linux kernel. CLT is a way to combine in-band telemetry and Application Performance Management (APM, based on distributed tracing with OpenTelemetry) into a single monitoring tool providing a full network stack observability. Using CLT, APM traces are correlated with corresponding network traffic, providing a better view and a faster root cause analysis in case of issue. This new version improves the correlation accuracy. In this paper, we describe the CLT implementation (both for kernel and user spaces) and we evaluate the CLT ecosystem based on a use case. All CLT code is available as open source.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/crosslayer-telemetry-support-in-linux-kernel.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Justin Iurman Benoit Donnet",
+      "metadata": {
+        "Speakers": "Justin Iurman Benoit Donnet",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/25/CLT%20netdev%200x16.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/crosslayer-telemetry-support-in-linux-kernel.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/25/paper.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/crosslayer-telemetry-support-in-linux-kernel.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=sK2KdT6no7Q",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/crosslayer-telemetry-support-in-linux-kernel.html"
+        }
+      ]
+    },
+    {
+      "id": "bring-network-and-time-together-using-linux-tracing",
+      "url": "https://netdevconf.info/0x16/sessions/talk/bring-network-and-time-together-using-linux-tracing.html",
+      "title": "bring network and time together using Linux tracing",
+      "listing_title": "bring network and time together using Linux tracing",
+      "description": "This talk is about visualizing a distributed network protocol by using the trace-cmd [0] time synchronized tracepoints feature. As an example we use the Linux Distributed Lock Manager [1] (DLM) protocol to visualize lock states over time in the jumpshot [2] viewer.\n\n\n\nTrace-cmd is the user space tracing utility to control the Linux in-kernel tracing subsystem. Recently a new feature was introduced to record multiple Linux machines tracing events with their timestamps synchronized across those machines.\n\n\n\nThe Linux Distributed Lock Manager (DLM) subsystem is a distributed network protocol used by Linux clusters to control mutual access to shared resources. Current DLM debugging methods are limited by dumping lock states via command line interfaces e.g. debugfs. Those dumps can only be taken sequentially and without being time synchronized. Means it will not represent all lock states at one time. Additionally those cli dumps need to be merged on your own to see a connection between them.\n\n\n\nThe slog2sdk [3] containing the viewer jumpshot will be used to represent the DLM protocol lock states over time by using a GANTT chart [4]. Therefore a trace converter dlm2slog2 [5] was developed to build a bridge between those components of trace-cmd/Linux trace subsystem and slog2sdk.\n\n\n\nIn this talk I will show what the steps are to record a time synchronized DLM trace by using trace-cmd and how those are converted to visualize them in jumpshot. This approach can be adapted to other distributed network protocols as well and is not limited for debugging use cases. Moreover we will look into possible new ideas on how to use time synchronized tracing events in a distributed network.\n\n\n\n[0] https://trace-cmd.org/\n[1] https://en.wikipedia.org/wiki/Distributed_lock_manager\n[2] https://www.mcs.anl.gov/research/projects/perfvis/software/viewers/index.htm#Jumpshot-4\n[3] https://www.mcs.anl.gov/research/projects/perfvis/download/index.htm#slog2sdk\n[4] https://en.wikipedia.org/wiki/Gantt_chart\n[5] https://gitlab.com/netcoder/dlm2slog2/-/wikis/home",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>This talk is about visualizing a distributed network protocol by using the trace-cmd [0] time synchronized tracepoints feature. As an example we use the Linux Distributed Lock Manager [1] (DLM) protocol to visualize lock states over time in the jumpshot [2] viewer.</p>\n\n<p>Trace-cmd is the user space tracing utility to control the Linux in-kernel tracing subsystem. Recently a new feature was introduced to record multiple Linux machines tracing events with their timestamps synchronized across those machines.</p>\n\n<p>The Linux Distributed Lock Manager (DLM) subsystem is a distributed network protocol used by Linux clusters to control mutual access to shared resources. Current DLM debugging methods are limited by dumping lock states via command line interfaces e.g. debugfs. Those dumps can only be taken sequentially and without being time synchronized. Means it will not represent all lock states at one time. Additionally those cli dumps need to be merged on your own to see a connection between them.</p>\n\n<p>The slog2sdk [3] containing the viewer jumpshot will be used to represent the DLM protocol lock states over time by using a GANTT chart [4]. Therefore a trace converter dlm2slog2 [5] was developed to build a bridge between those components of trace-cmd/Linux trace subsystem and slog2sdk.</p>\n\n<p>In this talk I will show what the steps are to record a time synchronized DLM trace by using trace-cmd and how those are converted to visualize them in jumpshot. This approach can be adapted to other distributed network protocols as well and is not limited for debugging use cases. Moreover we will look into possible new ideas on how to use time synchronized tracing events in a distributed network.</p>\n\n<p>[0] https://trace-cmd.org/\n[1] https://en.wikipedia.org/wiki/Distributed_lock_manager\n[2] https://www.mcs.anl.gov/research/projects/perfvis/software/viewers/index.htm#Jumpshot-4\n[3] https://www.mcs.anl.gov/research/projects/perfvis/download/index.htm#slog2sdk\n[4] https://en.wikipedia.org/wiki/Gantt_chart\n[5] https://gitlab.com/netcoder/dlm2slog2/-/wikis/home</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/bring-network-and-time-together-using-linux-tracing.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Alexander Aring",
+      "metadata": {
+        "Speakers": "Alexander Aring",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/7/aring_dlm_tracing_slides.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/bring-network-and-time-together-using-linux-tracing.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/7/aring_paper.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/bring-network-and-time-together-using-linux-tracing.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=9laoIzGEmDs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/bring-network-and-time-together-using-linux-tracing.html"
+        },
+        {
+          "title": "aring_dlm_tracing_paper.pdf",
+          "url": "https://netdevconf.info/0x16/papers/7/aring_dlm_tracing_paper.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/papers/7/"
+        },
+        {
+          "title": "aring_slides.pdf",
+          "url": "https://netdevconf.info/0x16/slides/7/aring_slides.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/slides/7/"
+        }
+      ]
+    },
+    {
+      "id": "towards-a-layer3-datacenter-fabric-with-accelerated-linux-evpn-on-the-dpu",
+      "url": "https://netdevconf.info/0x16/sessions/talk/towards-a-layer3-datacenter-fabric-with-accelerated-linux-evpn-on-the-dpu.html",
+      "title": "Towards a layer–3 data–center fabric with accelerated Linux E–VPN on the DPU",
+      "listing_title": "Towards a layer–3 data–center fabric with accelerated Linux E–VPN on the DPU",
+      "description": "DPUs, or data processing units, are a new class of programmable processors joining CPUs and GPUs as one of the three pillars of computing. Among the many benefits of DPUs are offloading network processing and management from the main CPU, providing security isolation and virtualizing storage.\n\n\n\nE-VPN is a network virtualization technology for the data center. It uses a BGP based distributed network virtualization control plane and is capable of working with several dataplanes.\n\n\n\nIn this paper we present deploying a Linux implementation of E-VPN on the DPU and its benefits towards building a more resilient L3 network fabric for the data center. Linux E-VPN implementation uses FRR’s (Free Range Routing) BGP E-VPN control plane with Linux kernel routing, bridging and VxLAN for its data plane.\n\n\n\nIn previous talks here at netdev we have covered various aspects of accelerating Linux networking (routing, bridging and vxlan) with switchdev infrastructure and netlink based hardware accelerators. Here we demonstrate our work on accelerating a Linux networking E-VPN dataplane using a netlink based hardware accelerator. This netlink to hardware flow programming translator can in turn use hardware flow programming interfaces like TC or dpdk. We will demonstrate mapping of Linux kernel E-VPN data plane constructs to flow tables and features like underlay ecmp mapping to achieve fast failover during uplink failures.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>DPUs, or data processing units, are a new class of programmable processors joining CPUs and GPUs as one of the three pillars of computing. Among the many benefits of DPUs are offloading network processing and management from the main CPU, providing security isolation and virtualizing storage.</p>\n\n<p>E-VPN is a network virtualization technology for the data center. It uses a BGP based distributed network virtualization control plane and is capable of working with several dataplanes.</p>\n\n<p>In this paper we present deploying a Linux implementation of E-VPN on the DPU and its benefits towards building a more resilient L3 network fabric for the data center. Linux E-VPN implementation uses FRR’s (Free Range Routing) BGP E-VPN control plane with Linux kernel routing, bridging and VxLAN for its data plane.</p>\n\n<p>In previous talks here at netdev we have covered various aspects of accelerating Linux networking (routing, bridging and vxlan) with switchdev infrastructure and netlink based hardware accelerators. Here we demonstrate our work on accelerating a Linux networking E-VPN dataplane using a netlink based hardware accelerator. This netlink to hardware flow programming translator can in turn use hardware flow programming interfaces like TC or dpdk. We will demonstrate mapping of Linux kernel E-VPN data plane constructs to flow tables and features like underlay ecmp mapping to achieve fast failover during uplink failures.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/towards-a-layer3-datacenter-fabric-with-accelerated-linux-evpn-on-the-dpu.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Roopa Prabhu Rohith Basavaraja",
+      "metadata": {
+        "Speakers": "Roopa Prabhu Rohith Basavaraja",
+        "Label": "Moonshot",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/29/dpu_evpn_netdev0x16-9.pptx",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/towards-a-layer3-datacenter-fabric-with-accelerated-linux-evpn-on-the-dpu.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=yNuDREQ2b1g",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/towards-a-layer3-datacenter-fabric-with-accelerated-linux-evpn-on-the-dpu.html"
+        }
+      ]
+    },
+    {
+      "id": "introduction-to-time-synchronization",
+      "url": "https://netdevconf.info/0x16/sessions/talk/introduction-to-time-synchronization.html",
+      "title": "Introduction to time synchronization",
+      "listing_title": "Introduction to time synchronization",
+      "description": "Now that we learned about the theoretical side of PTP on the previous NetDev - let’s get more practical!\n\n\n\nEvery year the demand for precise time synchronization grows. From 5G to data centers - everyone wants to get down from milliseconds to microseconds and beyond.\n\n\n\nThis tutorial introduces the practical side of time synchronization in Linux.\nIt goes over the tools in the linuxptp, chrony, and other helpful software that makes the deployment of time synchronization easy and convenient.\n\n\n\nIt will start with a basic Leader-Follower setup, show the easiest way to bring it up, and introduce different profiles and where to use them.\n\n\n\nThen it will show how to deploy the basic GNSS-synchronized grandmaster setup that anyone can build at home to start experimenting with time synchronization.\n\n\n\nThe talk will cover common pitfalls when deploying follower clocks (like mixing link speeds that could result in an undetectable clock skew) along the way.\n\n\n\nIt will also show how to use PTP as a time source for the local NTP server using chrony to show how existing NTP deployments can benefit from the much more precise PTP.\n\n\n\nIn the end - it will also go over the latest improvement that enables monitoring of a working PTP service.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Now that we learned about the theoretical side of PTP on the previous NetDev - let’s get more practical!</p>\n\n<p>Every year the demand for precise time synchronization grows. From 5G to data centers - everyone wants to get down from milliseconds to microseconds and beyond.</p>\n\n<p>This tutorial introduces the practical side of time synchronization in Linux.\nIt goes over the tools in the linuxptp, chrony, and other helpful software that makes the deployment of time synchronization easy and convenient.</p>\n\n<p>It will start with a basic Leader-Follower setup, show the easiest way to bring it up, and introduce different profiles and where to use them.</p>\n\n<p>Then it will show how to deploy the basic GNSS-synchronized grandmaster setup that anyone can build at home to start experimenting with time synchronization.</p>\n\n<p>The talk will cover common pitfalls when deploying follower clocks (like mixing link speeds that could result in an undetectable clock skew) along the way.</p>\n\n<p>It will also show how to use PTP as a time source for the local NTP server using chrony to show how existing NTP deployments can benefit from the much more precise PTP.</p>\n\n<p>In the end - it will also go over the latest improvement that enables monitoring of a working PTP service.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/introduction-to-time-synchronization.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Maciek Machnikowski",
+      "metadata": {
+        "Speakers": "Maciek Machnikowski",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/30/netdev22.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/introduction-to-time-synchronization.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/Hs7oRukMuak",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/introduction-to-time-synchronization.html"
+        }
+      ]
+    },
+    {
+      "id": "the-tsn-building-blocks-in-linux",
+      "url": "https://netdevconf.info/0x16/sessions/talk/the-tsn-building-blocks-in-linux.html",
+      "title": "The TSN building blocks in Linux",
+      "listing_title": "The TSN building blocks in Linux",
+      "description": "Various application areas e.g. industrial automation, professional audio-video, automotive in-vehicle, aerospace on-board, and mobile fronthaul networks require deterministic communication: loss-less forwarding with bounded maximum latency. There is a lot of ongoing standardization activity in different organizations to provide vendor-agnostic building blocks for Time-Sensitive Networking (TSN), what is aimed as the universal solution for deterministic forwarding in OSI Layer-2 networks. Furthermore, the implementation of those standards is also happening in Linux. Some of them require software changes only, but others have hardware support requirements. In this paper, we give an overview of the implementation of the main TSN standards in the mainline Linux kernel. Furthermore, we provide measurement results on key functionality in support of TSN, e.g., scheduled transmission and Linux bridging characteristics.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Various application areas e.g. industrial automation, professional audio-video, automotive in-vehicle, aerospace on-board, and mobile fronthaul networks require deterministic communication: loss-less forwarding with bounded maximum latency. There is a lot of ongoing standardization activity in different organizations to provide vendor-agnostic building blocks for Time-Sensitive Networking (TSN), what is aimed as the universal solution for deterministic forwarding in OSI Layer-2 networks. Furthermore, the implementation of those standards is also happening in Linux. Some of them require software changes only, but others have hardware support requirements. In this paper, we give an overview of the implementation of the main TSN standards in the mainline Linux kernel. Furthermore, we provide measurement results on key functionality in support of TSN, e.g., scheduled transmission and Linux bridging characteristics.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/the-tsn-building-blocks-in-linux.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Ferenc Fejes Péter Antal Márton Kerekes",
+      "metadata": {
+        "Speakers": "Ferenc Fejes Péter Antal Márton Kerekes",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/16/netdev0x16_fejes_final.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/the-tsn-building-blocks-in-linux.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=z3J5LCsMzOM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/the-tsn-building-blocks-in-linux.html"
+        },
+        {
+          "title": "netdev0x16_fejes.pdf",
+          "url": "https://netdevconf.info/0x16/papers/16/netdev0x16_fejes.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/papers/16/"
+        }
+      ]
+    },
+    {
+      "id": "nvmetcp-offload-implementation-and-performance-gains",
+      "url": "https://netdevconf.info/0x16/sessions/talk/nvmetcp-offload-implementation-and-performance-gains.html",
+      "title": "NVMeTCP Offload – Implementation and Performance Gains",
+      "listing_title": "NVMeTCP Offload – Implementation and Performance Gains",
+      "description": "NVMe-TCP is a high-performance pipelined storage protocol over TCP which abstracts remote access to a storage controller, providing hosts with the illusion of local storage. In NVMe-TCP, each storage queue is mapped to a TCP socket. Read and write IOs operations have a unique identifier, called command identifier (CID) and servers can handle CIDs out of order to allow small IOs to bypass large IOs and improve performance. Additionally, each PDU is protected by application-layer CRC generated by senders and verified on receivers.\n\n\n\nAs presented last year in the session “Autonomous NVMe TCP offload”, in order to offload the NVMeTCP, but without the disadvantages of a full offload solution, the Linux kernel upper layer protocol (ULP) direct data placement (DDP) offload infrastructure was introduced. It provides request-response ULP protocols, such as NVMe-TCP, the ability to place response data directly in pre-registered buffers according to header tags. DDP is particularly useful for data-intensive pipelined protocols whose responses may be reordered.\n\n\n\nIn this design, copy between TCP and destination buffers is avoided by directly providing the NIC with the destination buffers. While handling the receive path, the NIC can also compute and validate CRCs, and on the transmit path it will calculate the CRCs.\n\n\n\nIn this talk, we will present the NVMeTCP direct data placement and CRC (data digest) offload design and the driver-HW interaction in order to support it. We will present the performance benefit of the offload in a variety of comparisons and under different conditions. We will also cover the challenges we had and how we were able to resolve them.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>NVMe-TCP is a high-performance pipelined storage protocol over TCP which abstracts remote access to a storage controller, providing hosts with the illusion of local storage. In NVMe-TCP, each storage queue is mapped to a TCP socket. Read and write IOs operations have a unique identifier, called command identifier (CID) and servers can handle CIDs out of order to allow small IOs to bypass large IOs and improve performance. Additionally, each PDU is protected by application-layer CRC generated by senders and verified on receivers.</p>\n\n<p>As presented last year in the session “Autonomous NVMe TCP offload”, in order to offload the NVMeTCP, but without the disadvantages of a full offload solution, the Linux kernel upper layer protocol (ULP) direct data placement (DDP) offload infrastructure was introduced. It provides request-response ULP protocols, such as NVMe-TCP, the ability to place response data directly in pre-registered buffers according to header tags. DDP is particularly useful for data-intensive pipelined protocols whose responses may be reordered.</p>\n\n<p>In this design, copy between TCP and destination buffers is avoided by directly providing the NIC with the destination buffers. While handling the receive path, the NIC can also compute and validate CRCs, and on the transmit path it will calculate the CRCs.</p>\n\n<p>In this talk, we will present the NVMeTCP direct data placement and CRC (data digest) offload design and the driver-HW interaction in order to support it. We will present the performance benefit of the offload in a variety of comparisons and under different conditions. We will also cover the challenges we had and how we were able to resolve them.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/nvmetcp-offload-implementation-and-performance-gains.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Shai Malin Aurelien Aptel",
+      "metadata": {
+        "Speakers": "Shai Malin Aurelien Aptel",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/31/nvmetcp_offload_netdev_0x16.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/nvmetcp-offload-implementation-and-performance-gains.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=W74TR-SNgi4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/nvmetcp-offload-implementation-and-performance-gains.html"
+        },
+        {
+          "title": "nvmetcp_offload_netdev_0x16.pptx",
+          "url": "https://netdevconf.info/0x16/slides/31/nvmetcp_offload_netdev_0x16.pptx",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/slides/31/"
+        }
+      ]
+    },
+    {
+      "id": "dcpim-lowlatency-highthroughput-receiverdriven-transport-protocol",
+      "url": "https://netdevconf.info/0x16/sessions/talk/dcpim-lowlatency-highthroughput-receiverdriven-transport-protocol.html",
+      "title": "dcPIM: Low–latency, High–throughput, Receiver–driven Transport Protocol",
+      "listing_title": "dcPIM: Low–latency, High–throughput, Receiver–driven Transport Protocol",
+      "description": "Modern datacenter networks bear a striking similarity to switch fabrics: both of these are organized around Clos-like topologies using low-port count switches and both of these experience similar workloads—incast (many input ports having packets for the same output port), all-to-all (each input port having packets for each output port), one-to-one, etc. Yet, scheduling mechanisms in state-of-the-art datacenter transport designs are significantly different from those used in switch fabrics. Bridging this gap has the potential for datacenter transport designs to benefit from decades of foundational work on switch scheduling that has led to near-optimal switch fabric designs.\n\n\n\nDatacenter Parallel Iterative Matching (dcPIM) is a proactive, receiver-driven, transport design that places its intellectual roots in classical switch scheduling protocols to simultaneously achieve near-optimal tail latency for short flows and near-optimal network utilization, without requiring any specialized network hardware. dcPIM achieves near-hardware latency for short flows by building upon ideas from recent receiver-driven transport protocols like pHost and NDP. In particular, dcPIM is a connectionless protocol, allowing short flows to start sending at full rate; dcPIM uses per-packet multipath load balancing, that minimizes congestion within the network core; dcPIM enables lossless network only for control packets, allowing fast retransmission of lost short flow data packets in pathological traffic patterns (e.g., extreme incast); and, dcPIM uses the limited number of priority queues in network switches to minimize interference between short flow and long flow data packets. We will show that, by carefully integrating these ideas into an end-to-end protocol, dcPIM achieves near theoretically optimal tail latency for short flows, even at 99th percentiles.\n\n\n\nWhat differentiates dcPIM from prior transport designs is that it achieves near-hardware tail latency for short flows while simultaneously sustaining near theoretically optimal (transient or persistent) network loads. dcPIM achieves this by placing its intellectual roots in the classical Parallel Iterative Matching (PIM), a time-tested protocol variations of which are used in almost all switch fabrics. Just like PIM, hosts in dcPIM exchange multiple rounds of control plane messages to “match” senders with receivers to ensure that senders transmit long flow packets only when proactively admitted by the receivers. Realizing PIM-style matchings at the datacenter-scale turns out to be challenging: while PIM was designed for switch fabrics that have tens of ports and picosecond-scale round trip time (RTT), dcPIM needs to operate in a much harsher environment: datacenter networks have much larger scales and much larger RTTs. dcPIM resolves these challenges using two properties of datacenter environments. First, unlike switch fabrics where (at any point of time) each input port may very well have packets to send to each output port, it is rarely the case that (at any point of time) each host in the datacenter will have packets to send to each other host in the datacenter. That is, traffic matrices in datacenter networks are typically sparse: several studies from production datacenter networks show that, when averaged across all hosts, the number of flows at any point of time is a small constant; furthermore, dcPIM performs matchings only for long flows that are likely to be even fewer in number. Second, unlike switch fabrics that are designed to run at full load, datacenter networks rarely run at an average load of 100%.\n\n\n\ndcPIM leverages the first datacenter network property to establish a new theoretical result: unlike switch fabrics where PIM achieves near-optimal utilization using log(n) rounds of control messages (for an n-port switch fabric), traffic matrix sparsity in datacenter networks allows dcPIM to guarantee near-optimal utilization with constant number of rounds, that is, independent of the number of hosts in the network. This result enables a dcPIM design that scales well, independent of the datacenter network size. dcPIM leverages the second property that datacenter networks rarely run at 100% load to pipeline data transmission between currently matched sender-receiver pairs with control messages for computing next set of matchings to hide the overheads of longer RTTs of datacenter networks.\n\n\n\nWhile dcPIM builds upon a strong theoretical foundation, the final end-to-end design embraces simplicity just like the original PIM protocol: the number of matching rounds, the timescale for each matching round, and the number of data packets that can be sent upon matching are all fixed in advance. Just like PIM, dcPIM design is also robust to imperfection: it is okay for host clocks to be asynchronized—some of the control messages may be delayed within the fixed time used for matching rounds; the randomized matching algorithm in PIM combined with multiple rounds of control plane messages ensures that hosts unmatched in one round will be able to catch up in the remaining rounds, and will continue to request matching until data transmission is complete. The final result is a new proactive datacenter transport design that requires no specialized hardware, no per-flow state or rate calculations at switches, no centralized global scheduler, and no explicit network feedback and yet provides near-optimal performance both in terms of tail latency and network utilization.\n\n\n\nWe have implemented dcPIM in Linux hosts, and in simulations. dcPIM evaluation over a small-scale CloudLab testbed and over simulation demonstrates that dcPIM consistently achieves near-hardware latency and near-optimal network utilization across a variety of evaluation settings that mix-and-match three network topologies, three workloads, three traffic patterns, varying network topology oversubscription, and varying network loads. dcPIM simulator and implementation, along with all the documentation\nneeded to reproduce our results, are available at https://github.com/Terabit-Ethernet/dcPIM.\n\n\n\nThis talk will initiate a conversation to incorporate dcPIM as a receiver-driven transport protocol within the Linux kernel.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Modern datacenter networks bear a striking similarity to switch fabrics: both of these are organized around Clos-like topologies using low-port count switches and both of these experience similar workloads—incast (many input ports having packets for the same output port), all-to-all (each input port having packets for each output port), one-to-one, etc. Yet, scheduling mechanisms in state-of-the-art datacenter transport designs are significantly different from those used in switch fabrics. Bridging this gap has the potential for datacenter transport designs to benefit from decades of foundational work on switch scheduling that has led to near-optimal switch fabric designs.</p>\n\n<p>Datacenter Parallel Iterative Matching (dcPIM) is a proactive, receiver-driven, transport design that places its intellectual roots in classical switch scheduling protocols to simultaneously achieve near-optimal tail latency for short flows and near-optimal network utilization, without requiring any specialized network hardware. dcPIM achieves near-hardware latency for short flows by building upon ideas from recent receiver-driven transport protocols like pHost and NDP. In particular, dcPIM is a connectionless protocol, allowing short flows to start sending at full rate; dcPIM uses per-packet multipath load balancing, that minimizes congestion within the network core; dcPIM enables lossless network only for control packets, allowing fast retransmission of lost short flow data packets in pathological traffic patterns (e.g., extreme incast); and, dcPIM uses the limited number of priority queues in network switches to minimize interference between short flow and long flow data packets. We will show that, by carefully integrating these ideas into an end-to-end protocol, dcPIM achieves near theoretically optimal tail latency for short flows, even at 99th percentiles.</p>\n\n<p>What differentiates dcPIM from prior transport designs is that it achieves near-hardware tail latency for short flows while simultaneously sustaining near theoretically optimal (transient or persistent) network loads. dcPIM achieves this by placing its intellectual roots in the classical Parallel Iterative Matching (PIM), a time-tested protocol variations of which are used in almost all switch fabrics. Just like PIM, hosts in dcPIM exchange multiple rounds of control plane messages to “match” senders with receivers to ensure that senders transmit long flow packets only when proactively admitted by the receivers. Realizing PIM-style matchings at the datacenter-scale turns out to be challenging: while PIM was designed for switch fabrics that have tens of ports and picosecond-scale round trip time (RTT), dcPIM needs to operate in a much harsher environment: datacenter networks have much larger scales and much larger RTTs. dcPIM resolves these challenges using two properties of datacenter environments. First, unlike switch fabrics where (at any point of time) each input port may very well have packets to send to each output port, it is rarely the case that (at any point of time) each host in the datacenter will have packets to send to each other host in the datacenter. That is, traffic matrices in datacenter networks are typically sparse: several studies from production datacenter networks show that, when averaged across all hosts, the number of flows at any point of time is a small constant; furthermore, dcPIM performs matchings only for long flows that are likely to be even fewer in number. Second, unlike switch fabrics that are designed to run at full load, datacenter networks rarely run at an average load of 100%.</p>\n\n<p>dcPIM leverages the first datacenter network property to establish a new theoretical result: unlike switch fabrics where PIM achieves near-optimal utilization using log(n) rounds of control messages (for an n-port switch fabric), traffic matrix sparsity in datacenter networks allows dcPIM to guarantee near-optimal utilization with constant number of rounds, that is, independent of the number of hosts in the network. This result enables a dcPIM design that scales well, independent of the datacenter network size. dcPIM leverages the second property that datacenter networks rarely run at 100% load to pipeline data transmission between currently matched sender-receiver pairs with control messages for computing next set of matchings to hide the overheads of longer RTTs of datacenter networks.</p>\n\n<p>While dcPIM builds upon a strong theoretical foundation, the final end-to-end design embraces simplicity just like the original PIM protocol: the number of matching rounds, the timescale for each matching round, and the number of data packets that can be sent upon matching are all fixed in advance. Just like PIM, dcPIM design is also robust to imperfection: it is okay for host clocks to be asynchronized—some of the control messages may be delayed within the fixed time used for matching rounds; the randomized matching algorithm in PIM combined with multiple rounds of control plane messages ensures that hosts unmatched in one round will be able to catch up in the remaining rounds, and will continue to request matching until data transmission is complete. The final result is a new proactive datacenter transport design that requires no specialized hardware, no per-flow state or rate calculations at switches, no centralized global scheduler, and no explicit network feedback and yet provides near-optimal performance both in terms of tail latency and network utilization.</p>\n\n<p>We have implemented dcPIM in Linux hosts, and in simulations. dcPIM evaluation over a small-scale CloudLab testbed and over simulation demonstrates that dcPIM consistently achieves near-hardware latency and near-optimal network utilization across a variety of evaluation settings that mix-and-match three network topologies, three workloads, three traffic patterns, varying network topology oversubscription, and varying network loads. dcPIM simulator and implementation, along with all the documentation\nneeded to reproduce our results, are available at https://github.com/Terabit-Ethernet/dcPIM.</p>\n\n<p>This talk will initiate a conversation to incorporate dcPIM as a receiver-driven transport protocol within the Linux kernel.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/dcpim-lowlatency-highthroughput-receiverdriven-transport-protocol.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Qizhe Cai Rachit Agarwal",
+      "metadata": {
+        "Speakers": "Qizhe Cai Rachit Agarwal",
+        "Label": "Moonshot",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=mAhHGOhcXj4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/dcpim-lowlatency-highthroughput-receiverdriven-transport-protocol.html"
+        }
+      ]
+    },
+    {
+      "id": "towards-s-tail-latency-and-terabit-ethernet-disaggregating-the-host-network-stack",
+      "url": "https://netdevconf.info/0x16/sessions/talk/towards-s-tail-latency-and-terabit-ethernet-disaggregating-the-host-network-stack.html",
+      "title": "Towards µs Tail Latency and Terabit Ethernet: Disaggregating the Host Network Stack",
+      "listing_title": "Towards µs Tail Latency and Terabit Ethernet: Disaggregating the Host Network Stack",
+      "description": "In discussions about future host network stacks, there is widespread agreement that, despite its great success, today’s Linux network stack is seriously deficient along one or more dimensions. Some of the most frequently cited flaws include its inefficient packet processing pipeline, its inability to isolate latency-sensitive and throughput-bound applications, its rigid and complex implementation, its inefficient transport protocols, to name a few. These critiques have led to many interesting (and exciting!) debates on various design aspects of the Linux network stack: interface (e.g., streaming versus RPC), semantics (e.g., synchronous versus asynchronous I/O), and placement (e.g., in-kernel versus userspace versus hardware).\n\n\n\nThis talk will demonstrate that many deficiencies of the Linux network stack are not rooted in its interface, semantics and/or placement, but rather in its core architecture (one exception is per-core performance, which indeed depends on its interface, semantics and placement. This talk is not about per-core performance of network stacks—our architecture is agnostic to the interface, semantics, and placement of network stacks). In particular, since the very first incarnation, the Linux network stack has offered applications the same “pipe” abstraction designed around essentially the same rigid architecture:\n\n\n\n\n  \n    Dedicated pipes: each application and/or thread submits data to one end of a dedicated pipe (sender-side socket) and the network stack attempts to deliver the data to the other end of that dedicated pipe (receiver-side socket);\n\n\n  \n\n\n  \n    Tightly-integrated packet processing pipeline: each pipe is assigned its own socket, has its own independent transport layer operations (congestion control, flow control, etc.), and is operated upon by the network subsystem completely independently of other coexisting pipes;\n\n\n  \n\n\n  \n    Static pipes: the entire packet processing pipeline (buffers, protocol processing, host resource provisioning, etc.) is determined at the time of pipe creation, and remains unchanged during the pipe lifetime, again, independent of other pipes and dynamic resources availability at the host.\n\n\n  \n\n\n\n\nSuch dedicated, tightly-integrated and static pipelines were well-suited for the Internet and early-generation datacenter networks—since performance bottlenecks were primarily in the network core, careful allocation of host resources (compute, caches, NIC queues, etc.) among coexisting pipes was unnecessary. However, rapid increase in link bandwidths, coupled with relatively stagnant technology trends for other host resources, has now pushed bottlenecks to hosts. For this new regime, our measurements show that dedicated, tightly-integrated and static pipelines are now limiting today’s network stacks from fully exploiting capabilities of modern hardware that supports µs-scale latency and hundred(s) of gigabits of bandwidth. Experimenting with new ideas has also become more challenging: performance patches have made the tightly-integrated pipelines so firmly entrenched within the stack that it is frustratingly hard, if not impossible, to incorporate new protocols and mechanisms. Unsurprisingly, existing network stacks are already at the brink of a breakdown and the emergence of Terabit Ethernet will inevitably require rearchitecting the network stack. Laying the intellectual foundation for such a rearchitecture is the goal of this work.\n\n\n\nNetChannel disaggregates the tightly-integrated packet processing pipeline in today’s network stack into three loosely-coupled layers. In the hindsight, NetChannel is remarkably similar to the Linux storage stack architecture; this similarity is not coincidental—for storage workloads, bottlenecks have always been at the host, and the ``right’’ architecture has evolved over years to both perform fine-grained resource allocation across applications, and to make it easy to incorporate new storage technologies.\n\n\n\nApplications interact with a Virtual Network System (VNS) layer that offers standardized interfaces, e.g., system calls for streaming and RPC traffic. Internally, VNS enables data transfer between application buffers and kernel buffers, while ensuring correctness for the interface semantics (e.g., in-order delivery for the streaming interface). The core of NetChannel is a NetDriver layer that abstracts away the network and remote servers as a multi-queue device using a Channel abstraction. In particular, the NetDriver layer decouples packet processing from individual application buffers and cores: data read/written by an application on one core can be mapped to one or more Channels without breaking application semantics. Each Channel implements protocol-specific functionalities (congestion and flow control, for example) independently, can be dynamically mapped to one of the underlying hardware queues, and the number of Channels between any pair of servers can be scaled independent of number of applications running on these servers and the number of cores used by individual applications. Between the VNS and NetDriver layers is a NetScheduler layer that performs fine-grained multiplexing and demultiplexing (as well as scheduling) of data from individual cores/applications to individual Channels using information about individual core utilization, application buffer occupancy and Channel buffer occupancy.\n\n\n\nThe primary benefit of NetChannel is to enable new operating points for existing network stacks without any modification in existing protocol implementations (TCP, DCTCP, BBR, etc.). These new operating points are a direct result of NetChannel’s disaggregated architecture: it not only allows independent scaling of each layer (that is, resources allocated to each layer), but also flexible multiplexing and demultiplexing of data to multiple Channels. We provide three examples. First, for short messages where throughput is bottlenecked by network layer processing overheads, NetChannel allows unmodified (even single-threaded) applications to scale throughput near-linearly with number of cores by dynamically scaling cores dedicated to network layer processing. Second, in the extreme case of a single application thread, NetChannel can saturate multi-hundred gigabit links by transparently scaling number of cores for packet processing on an on-demand basis; in contrast, the Linux network stack forces application designers to write multi-threaded code to achieve throughput higher than tens of gigabits per second. As a third new operating point, we show that fine-grained multiplexing and demultiplexing of packets between individual cores/applications and individual Channels enabled by NetChannel, combined with a simple NetScheduler, allows isolation of latency-sensitive applications from throughput-bound applications: NetChannel enables latency-sensitive applications to achieve µs-scale tail latency (as much as 17.5x better than the Linux network stack), while allowing bandwidth-intensive applications to use the remaining bandwidth near-perfectly.\n\n\n\nNetChannel also has several secondary benefits that relate to the extensibility of network stacks. For instance, NetChannel alleviates the painful process of applications developers manually tuning their code for networking performance (e.g., number of threads, connections, sockets, etc.) in increasingly common case of multi-tenant deployments. NetChannel also simplifies experimentation with new designs (protocols and/or schedulers) without breaking legacy hosts—implementation of a new transport protocol (e.g., dcPIM or pHost) in NetChannel is equivalent to writing a new ``device driver’’ that realizes only transport layer functionalities without worrying about functionalities in other layers of the stack like data copy, isolation between latency-sensitive and throughput-bound applications, CPU scheduling, load balancing, etc. Thus, similar to storage stacks (that have simplified evolution of new hardware and protocols via device drivers, and have simplified writing applications with different performance objectives via multiple coexisting block layer schedulers, etc.), NetChannel would hopefully lead to a broader and ever-evolving ecosystem of network stack designs. To that end, we have open-sourced \\name for our community; the implementation of \\name is available at https://github.com/Terabit-Ethernet/NetChannel.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>In discussions about future host network stacks, there is widespread agreement that, despite its great success, today’s Linux network stack is seriously deficient along one or more dimensions. Some of the most frequently cited flaws include its inefficient packet processing pipeline, its inability to isolate latency-sensitive and throughput-bound applications, its rigid and complex implementation, its inefficient transport protocols, to name a few. These critiques have led to many interesting (and exciting!) debates on various design aspects of the Linux network stack: interface (e.g., streaming versus RPC), semantics (e.g., synchronous versus asynchronous I/O), and placement (e.g., in-kernel versus userspace versus hardware).</p>\n\n<p>This talk will demonstrate that many deficiencies of the Linux network stack are <em>not</em> rooted in its interface, semantics and/or placement, but rather in its core architecture (one exception is per-core performance, which indeed depends on its interface, semantics and placement. This talk is not about per-core performance of network stacks—our architecture is agnostic to the interface, semantics, and placement of network stacks). In particular, since the very first incarnation, the Linux network stack has offered applications the same “pipe” abstraction designed around essentially the same rigid architecture:</p>\n\n<ul>\n  <li>\n    <p><strong>Dedicated pipes:</strong> each application and/or thread submits data to one end of a dedicated pipe (sender-side socket) and the network stack attempts to deliver the data to the other end of that dedicated pipe (receiver-side socket);</p>\n  </li>\n  <li>\n    <p><strong>Tightly-integrated packet processing pipeline:</strong> each pipe is assigned its own socket, has its own independent transport layer operations (congestion control, flow control, etc.), and is operated upon by the network subsystem completely independently of other coexisting pipes;</p>\n  </li>\n  <li>\n    <p><strong>Static pipes:</strong> the entire packet processing pipeline (buffers, protocol processing, host resource provisioning, etc.) is determined at the time of pipe creation, and remains unchanged during the pipe lifetime, again, independent of other pipes and dynamic resources availability at the host.</p>\n  </li>\n</ul>\n\n<p>Such dedicated, tightly-integrated and static pipelines were well-suited for the Internet and early-generation datacenter networks—since performance bottlenecks were primarily in the network core, careful allocation of host resources (compute, caches, NIC queues, etc.) among coexisting pipes was unnecessary. However, rapid increase in link bandwidths, coupled with relatively stagnant technology trends for other host resources, has now pushed bottlenecks to hosts. For this new regime, our measurements show that dedicated, tightly-integrated and static pipelines are now limiting today’s network stacks from fully exploiting capabilities of modern hardware that supports µs-scale latency and hundred(s) of gigabits of bandwidth. Experimenting with new ideas has also become more challenging: performance patches have made the tightly-integrated pipelines so firmly entrenched within the stack that it is frustratingly hard, if not impossible, to incorporate new protocols and mechanisms. Unsurprisingly, existing network stacks are already at the brink of a breakdown and the emergence of Terabit Ethernet will inevitably require rearchitecting the network stack. Laying the intellectual foundation for such a rearchitecture is the goal of this work.</p>\n\n<p>NetChannel disaggregates the tightly-integrated packet processing pipeline in today’s network stack into three loosely-coupled layers. In the hindsight, NetChannel is remarkably similar to the Linux storage stack architecture; this similarity is not coincidental—for storage workloads, bottlenecks have always been at the host, and the ``right’’ architecture has evolved over years to both perform fine-grained resource allocation across applications, and to make it easy to incorporate new storage technologies.</p>\n\n<p>Applications interact with a Virtual Network System (VNS) layer that offers standardized interfaces, e.g., system calls for streaming and RPC traffic. Internally, VNS enables data transfer between application buffers and kernel buffers, while ensuring correctness for the interface semantics (e.g., in-order delivery for the streaming interface). The core of NetChannel is a NetDriver layer that abstracts away the network and remote servers as a multi-queue device using a Channel abstraction. In particular, the NetDriver layer decouples packet processing from individual application buffers and cores: data read/written by an application on one core can be mapped to one or more Channels without breaking application semantics. Each Channel implements protocol-specific functionalities (congestion and flow control, for example) independently, can be dynamically mapped to one of the underlying hardware queues, and the number of Channels between any pair of servers can be scaled independent of number of applications running on these servers and the number of cores used by individual applications. Between the VNS and NetDriver layers is a NetScheduler layer that performs fine-grained multiplexing and demultiplexing (as well as scheduling) of data from individual cores/applications to individual Channels using information about individual core utilization, application buffer occupancy and Channel buffer occupancy.</p>\n\n<p>The primary benefit of NetChannel is to enable new operating points for existing network stacks without any modification in existing protocol implementations (TCP, DCTCP, BBR, etc.). These new operating points are a direct result of NetChannel’s disaggregated architecture: it not only allows independent scaling of each layer (that is, resources allocated to each layer), but also flexible multiplexing and demultiplexing of data to multiple Channels. We provide three examples. First, for short messages where throughput is bottlenecked by network layer processing overheads, NetChannel allows unmodified (even single-threaded) applications to scale throughput near-linearly with number of cores by dynamically scaling cores dedicated to network layer processing. Second, in the extreme case of a single application thread, NetChannel can saturate multi-hundred gigabit links by transparently scaling number of cores for packet processing on an on-demand basis; in contrast, the Linux network stack forces application designers to write multi-threaded code to achieve throughput higher than tens of gigabits per second. As a third new operating point, we show that fine-grained multiplexing and demultiplexing of packets between individual cores/applications and individual Channels enabled by NetChannel, combined with a simple NetScheduler, allows isolation of latency-sensitive applications from throughput-bound applications: NetChannel enables latency-sensitive applications to achieve µs-scale tail latency (as much as 17.5x better than the Linux network stack), while allowing bandwidth-intensive applications to use the remaining bandwidth near-perfectly.</p>\n\n<p>NetChannel also has several secondary benefits that relate to the extensibility of network stacks. For instance, NetChannel alleviates the painful process of applications developers manually tuning their code for networking performance (e.g., number of threads, connections, sockets, etc.) in increasingly common case of multi-tenant deployments. NetChannel also simplifies experimentation with new designs (protocols and/or schedulers) without breaking legacy hosts—implementation of a new transport protocol (e.g., dcPIM or pHost) in NetChannel is equivalent to writing a new ``device driver’’ that realizes only transport layer functionalities without worrying about functionalities in other layers of the stack like data copy, isolation between latency-sensitive and throughput-bound applications, CPU scheduling, load balancing, etc. Thus, similar to storage stacks (that have simplified evolution of new hardware and protocols via device drivers, and have simplified writing applications with different performance objectives via multiple coexisting block layer schedulers, etc.), NetChannel would hopefully lead to a broader and ever-evolving ecosystem of network stack designs. To that end, we have open-sourced \\name for our community; the implementation of \\name is available at https://github.com/Terabit-Ethernet/NetChannel.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/towards-s-tail-latency-and-terabit-ethernet-disaggregating-the-host-network-stack.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Qizhe Cai Midhul Vuppalapati Jaehyun Hwang Christos Kozyrakis Rachit Agarwal",
+      "metadata": {
+        "Speakers": "Qizhe Cai Midhul Vuppalapati Jaehyun Hwang Christos Kozyrakis Rachit Agarwal",
+        "Label": "Moonshot",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=u57MSoMlaSw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/towards-s-tail-latency-and-terabit-ethernet-disaggregating-the-host-network-stack.html"
+        }
+      ]
+    },
+    {
+      "id": "merging-the-networking-worlds",
+      "url": "https://netdevconf.info/0x16/sessions/talk/merging-the-networking-worlds.html",
+      "title": "Merging the Networking Worlds",
+      "listing_title": "Merging the Networking Worlds",
+      "description": "Modern applications for high performance networking have universally turned towards RDMA and infiniband after declaring TCP/IP as too slow and inefficient. As discussed at LPC 2022 [1], the core of the Linux IP/TCP/ethernet networking stack is capable of running at very high speeds (line rates of existing NICs and next version), but changes are needed with respect to how the stack is used. This work examines the effort needed to use the well established TCP stack and its rich congestion control tools and algorithms with the modern high performance applications like Machine Learning and Storage Disaggregation\n\n\n\nIt has long been known that the current BSD socket APIs for sending and receiving data have too much overhead (e.g., system calls, memcpy, page reference counting) that severely limits the data rate, but the choice of simplicity of well established interfaces and universal applicability has prevailed and the interface has been hard to replace. In the pursuit of keeping the fundamental components but reconfiguring the interfaces for higher performance we studied a few approaches and settled on one.\n\n\n\n\n  \n    io_uring provides software queues between kernel and userspace with the idea of reducing the number of system calls to submit work and manage completions, and it recently gained support for the Tx ZC API. However, it solves only part of the problem - zerocopy on Tx, reducing the number of syscalls and refcounting with registered buffers. io_uring does not work with or have access to hardware queues or the ability to register buffers with hardware to amortize the DMA setup.\n\n\n  \n\n\n  \n    XDP sockets provide a solution to hardware queues and registering userspace buffers with  hardware, but XDP sockets involve a full kernel bypass which affects how the S/W is designed and its ability to use the kernel based socket API and networking stack (addresses, routing, TSO, GRO, retransmission, congestion control, etc) leveraged by typical socket-based applications.\n\n\n  \n\n\n  \n    Verbs, RDMA and Infiniband have the current mindshare for low latency, high throughput networking, but RDMA is its own separate ecosystem - both hardware and software. This is a predominantly ethernet world with a push for converged infrastructure in the data center based on ethernet, a point recognized in the RDMA world by ROCE, now on its second version. While ROCE allows RDMA to run over ethernet in fairly directed networks, it has been difficult to build shared use networks where TCP’s congestion control and performance in lossy environments is much better understood.\n\n\n  \n\n\n\n\nThis talk discusses a proposal to merge some concepts of RDMA with traditional TCP/IP networking. Specifically, the ability to create and manage memory regions between processes and hardware along with userspace access to hardware queues and software queues to a kernel driver for submitting work and getting completions. This allows applications to submit pre-allocated and shaped buffers to hardware for zerocopy Rx and Tx, yet leverage the kernel’s TCP stack. The end result is that an application can use the traditional socket APIs and networking stack for communication with the efficiencies of RDMA, io_uring and xdp sockets - reduced syscalls, improved buffer management, and direct data access into userspace buffers.\n\n\n\nWe walk through a comparison of an application using current socket APIs today vs an application using some of the rdma concepts.\n\n\n\nFinally, the proposal is more about making the stack, it’s interfaces and control knobs be modular so that a developer can assemble the combination they want to get the best trade-off they seek. Further, this is actually doable without a major departure.\n\n\n\n[1] https://lpc.events/event/16/contributions/1345/",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Modern applications for high performance networking have universally turned towards RDMA and infiniband after declaring TCP/IP as too slow and inefficient. As discussed at LPC 2022 [1], the core of the Linux IP/TCP/ethernet networking stack is capable of running at very high speeds (line rates of existing NICs and next version), but changes are needed with respect to how the stack is used. This work examines the effort needed to use the well established TCP stack and its rich congestion control tools and algorithms with the modern high performance applications like Machine Learning and Storage Disaggregation</p>\n\n<p>It has long been known that the current BSD socket APIs for sending and receiving data have too much overhead (e.g., system calls, memcpy, page reference counting) that severely limits the data rate, but the choice of simplicity of well established interfaces and universal applicability has prevailed and the interface has been hard to replace. In the pursuit of keeping the fundamental components but reconfiguring the interfaces for higher performance we studied a few approaches and settled on one.</p>\n\n<ul>\n  <li>\n    <p>io_uring provides software queues between kernel and userspace with the idea of reducing the number of system calls to submit work and manage completions, and it recently gained support for the Tx ZC API. However, it solves only part of the problem - zerocopy on Tx, reducing the number of syscalls and refcounting with registered buffers. io_uring does not work with or have access to hardware queues or the ability to register buffers with hardware to amortize the DMA setup.</p>\n  </li>\n  <li>\n    <p>XDP sockets provide a solution to hardware queues and registering userspace buffers with  hardware, but XDP sockets involve a full kernel bypass which affects how the S/W is designed and its ability to use the kernel based socket API and networking stack (addresses, routing, TSO, GRO, retransmission, congestion control, etc) leveraged by typical socket-based applications.</p>\n  </li>\n  <li>\n    <p>Verbs, RDMA and Infiniband have the current mindshare for low latency, high throughput networking, but RDMA is its own separate ecosystem - both hardware and software. This is a predominantly ethernet world with a push for converged infrastructure in the data center based on ethernet, a point recognized in the RDMA world by ROCE, now on its second version. While ROCE allows RDMA to run over ethernet in fairly directed networks, it has been difficult to build shared use networks where TCP’s congestion control and performance in lossy environments is much better understood.</p>\n  </li>\n</ul>\n\n<p>This talk discusses a proposal to merge some concepts of RDMA with traditional TCP/IP networking. Specifically, the ability to create and manage memory regions between processes and hardware along with userspace access to hardware queues and software queues to a kernel driver for submitting work and getting completions. This allows applications to submit pre-allocated and shaped buffers to hardware for zerocopy Rx and Tx, yet leverage the kernel’s TCP stack. The end result is that an application can use the traditional socket APIs and networking stack for communication with the efficiencies of RDMA, io_uring and xdp sockets - reduced syscalls, improved buffer management, and direct data access into userspace buffers.</p>\n\n<p>We walk through a comparison of an application using current socket APIs today vs an application using some of the rdma concepts.</p>\n\n<p>Finally, the proposal is more about making the stack, it’s interfaces and control knobs be modular so that a developer can assemble the combination they want to get the best trade-off they seek. Further, this is actually doable without a major departure.</p>\n\n<p>[1] https://lpc.events/event/16/contributions/1345/</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/merging-the-networking-worlds.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "David Ahern Shrijeet Mukherjee",
+      "metadata": {
+        "Speakers": "David Ahern Shrijeet Mukherjee",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/34/netdev-0x16-Merging-the-Networking-Worlds-slides.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/merging-the-networking-worlds.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/34/netdev-0x16-Merging%20the%20Networking%20Worlds-paper.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/merging-the-networking-worlds.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=NrLBzRxw8Mc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/merging-the-networking-worlds.html"
+        }
+      ]
+    },
+    {
+      "id": "weve-got-realtime-networking-at-home-why-many-systems-are-moving-to-tsn-so-slowly",
+      "url": "https://netdevconf.info/0x16/sessions/talk/weve-got-realtime-networking-at-home-why-many-systems-are-moving-to-tsn-so-slowly.html",
+      "title": "„We’ve got realtime networking at home“ – Why many systems are moving to TSN so slowly",
+      "listing_title": "„We’ve got realtime networking at home“ – Why many systems are moving to TSN so slowly",
+      "description": "Since several years many companies have tried to deliver realtime data e.g. audio, video or industrial control commands over the network for a variety of applications. Often, the implementations failed to deliver the promised performance under circumstances such as heavily loaded networks or were incompatible with regular network protocols. While TSN fixes most of these issues, brownfield development and migration is a  challenge. This talk will look into a variety of system design approaches, into promises kept and broken and into the consequences of different system design choices. It will also propose how to move towards modern implementations and discuss the role of the linux kernel in this process.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Since several years many companies have tried to deliver realtime data e.g. audio, video or industrial control commands over the network for a variety of applications. Often, the implementations failed to deliver the promised performance under circumstances such as heavily loaded networks or were incompatible with regular network protocols. While TSN fixes most of these issues, brownfield development and migration is a  challenge. This talk will look into a variety of system design approaches, into promises kept and broken and into the consequences of different system design choices. It will also propose how to move towards modern implementations and discuss the role of the linux kernel in this process.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/weve-got-realtime-networking-at-home-why-many-systems-are-moving-to-tsn-so-slowly.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Johannes Zink",
+      "metadata": {
+        "Speakers": "Johannes Zink",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/35/netdevcon_x16_jzi_we_ve_got_realtime_ethernet_at_home_final_version.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/weve-got-realtime-networking-at-home-why-many-systems-are-moving-to-tsn-so-slowly.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/35/netdevcon_x16_jzi_we_ve_got_realtime_ethernet_at_home_final_version.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/weve-got-realtime-networking-at-home-why-many-systems-are-moving-to-tsn-so-slowly.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/zY8coqqik5A",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/weve-got-realtime-networking-at-home-why-many-systems-are-moving-to-tsn-so-slowly.html"
+        }
+      ]
+    },
+    {
+      "id": "generic-128bit-math-api",
+      "url": "https://netdevconf.info/0x16/sessions/talk/generic-128bit-math-api.html",
+      "title": "Generic 128–bit Math API",
+      "listing_title": "Generic 128–bit Math API",
+      "description": "We propose a new generic 128-bit math API for the Linux kernel, which allows to operate on 128-bit variables.\nThe solution can be immediately used in Precision Time Protocol (PTP) implementation, in which precise calculations are crucial due to the rigorous phase-synchronization telco requirements, and is ready to be used for other purposes, such as cryptography.\nPerf tests proved that the developed API is able to deliver better results, especially on __int128-enabled systems, while not losing any precision due to lack of bits.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>We propose a new generic 128-bit math API for the Linux kernel, which allows to operate on 128-bit variables.\nThe solution can be immediately used in Precision Time Protocol (PTP) implementation, in which precise calculations are crucial due to the rigorous phase-synchronization telco requirements, and is ready to be used for other purposes, such as cryptography.\nPerf tests proved that the developed API is able to deliver better results, especially on __int128-enabled systems, while not losing any precision due to lack of bits.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/generic-128bit-math-api.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Alexander Lobakin Milena Olech Marta Plantykow",
+      "metadata": {
+        "Speakers": "Alexander Lobakin Milena Olech Marta Plantykow",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/37/Generic_128_bit_Math_API.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/generic-128bit-math-api.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/37/int128%20%281%29.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/generic-128bit-math-api.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/D4Sru3hi_nI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/generic-128bit-math-api.html"
+        }
+      ]
+    },
+    {
+      "id": "your-network-datapath-will-be-p4-scripted",
+      "url": "https://netdevconf.info/0x16/sessions/talk/your-network-datapath-will-be-p4-scripted.html",
+      "title": "Your Network Datapath Will Be P4 Scripted",
+      "listing_title": "Your Network Datapath Will Be P4 Scripted",
+      "description": "P4 has gained industry-wide acceptance as a datapath language. NIC consumers are now requesting NIC vendors to allow prescription of a P4 program to define required xPU datapaths, example MS[11].\n\n\n\nRunning P4 on top of TC has been a subject of many many discussions in the community over the last few years, initially in physical and electronic hallways and eventually in physical formal meetings, see[1],[2],[3],[4],[5],[6].\n\n\n\nThe call-to-arms was made by at the Netdev 0x14 conference by Nick Mckeown in a keynote titled: “Creating an End-to-End Programming Model for Packet Forwarding” [7]\n\n\n\nDue to the industry takeoff of P4 we are (finally in 2022) putting resources to make it real for the Linux kernel. We hope to make the first code release at the conference.\n\n\n\nIn this talk we will discuss:\n\n\n\n\n  The overview of the P4TC Motivation and Goals and Requirements\n\n\n  Design And Architecture Overview with a focus on “scriptability”\n\n\n  The different P4TC objects and interaction between P4 and TC/kernel infra\n\n\n  User space integration into iproute2::tc\n\n\n  Integration into drivers\n\n\n  And finally describe the P4TC Workflow for devs and ops as well as runtime control.\n\n\n\n\nP4TC goals are:\n 1) Offloading entirely to P4-capable hardware with tc skip_sw flag.\n\n\n\n2) Running entirely in software infrastructures (VMs, baremetal, containers) with skip_hw flag. Think this mode as the digital twin of #1.\n\n\n\n3) Split setup - where some of the P4 program control and pipeline is in software and some is in hardware (using a mix of skip_sw and skip_hw).\n\n\n\n4) Running multiple independent P4 programs across multiple independent hardware and/or software (using tc filter infrastructure).\n\n\n\n5) Post P4TC upstreaming, independence from changing or compiling any kernel or user space code for any P4 program (achieved via “scriptability”). IOW, no loading of any binary blob into the kernel or user space.\nImagine the developer and ops productivity boost for not having to play acrobatics with various versions of a library, a compiler or kernel just because they want to introduce some new datapath foo with bar header  processing in the kernel with hardware offload.\nImagine not having to change any iproute2 code either…\n\n\n\n“Scriptability” as a concept has precedence in the kernel TC architecture in the u32 classifier[8], the pedit action[9], skbedit, etc.\nA P4 program when compiled using the P4C compiler[10] generates tc scripts, which when executed, manifests into the functionally equivalent P4 program in the kernel.\nAlternatively, for simple programs, one could hand code the tc scripts to instantiate a P4 program.\n\n\n\nP4TC takes advantage of the modularity of the TC architecture and makes very minimal changes to the TC core code while providing all the necessary objects to sufficiently abstract a P4 program.\n\n\n\nA secondary goal for P4TC is to go beyond what P4 prescribes today where appropriate; IOW, while we strive to meet P4 spec we will also be pragmatic in marrying ideas from the kernel, and TC in particular, that we can feed back to the P4 community and general network programming world.\n\n\n\nReferences:\n\n[1] Matty Kadosh, “P4 Offload”, TC Workshop, Netdev conference 2.2, 2017 https://legacy.netdevconf.info/2.2/slides/salim-tc-workshop04.pdf\n\n\n\n[2] Prem Jonnalagadda, “Mapping tc to P4”, TC Workshop, Netdev conference 2.2, 2017 https://legacy.netdevconf.info/2.2/slides/salim-tc-workshop06.pdf\n\n\n\n[3] Jamal Hadi Salim, “What P4 Can Learn From Linux Traffic Control”, proceedings of ONF 5th P4 Workshop, 2018\nhttps://opennetworking.org/wp-content/uploads/2020/12/Jamal_Salim.pdf\n\n\n\n[4] Many speakers, TC P4 workshop, Intel, Santa Clara, 2018 https://files.netdevconf.info/d/5aa8c0ca61ea4e96bb46/\n\n\n\n[5] Antonin Bas and R. Krishnamoorthy. “Instrumenting P4 in the Kernel”, TC Workshop, Netdev conference 0x12, 2018\nhttps://www.files.netdevconf.info/d/9535fba900604dcd9c93/files/?p=/Instrumenting%20P4%20in%20the%20Linux%20kernel.pdf\n\n\n\n[6] Marian Pritsak and Matty Kadosh, “P4 Compiler Backend for TC”, Netdev conference 0x13, 2019\nhttps://legacy.netdevconf.info/0x13/session.html?p4-compiler-backend-for-tc\n\n\n\n[7] Nick Mckeown Netdev conference 0x14, 2020\n“Creating an End-to-End Programming Model for Packet Forwarding”\n https://legacy.netdevconf.info/0x14/session.html?keynote-mckeown\n\n\n\n[8] Jamal Hadi Salim et al “Demystifying The TC Ugly (or Universal) 32bit Key Packet Classifier”, Netdev conference 0x13, 2019\n https://legacy.netdevconf.info/0x13/session.html?talk-tc-u-classifier\n\n\n\n[9] Pedit source and man pages:\nhttps://elixir.bootlin.com/linux/latest/source/net/sched/act_pedit.c\nhttps://man7.org/linux/man-pages/man8/tc-pedit.8.html\n\n\n\n[10] P4C compiler\nhttps://github.com/p4lang/p4c\n\n\n\n[11] MS Azure DASH\nhttps://github.com/Azure/DASH/tree/main/documentation",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>P4 has gained industry-wide acceptance as a datapath language. NIC consumers are now requesting NIC vendors to allow prescription of a P4 program to define required xPU datapaths, example MS[11].</p>\n\n<p>Running P4 on top of TC has been a subject of many many discussions in the community over the last few years, initially in physical and electronic hallways and eventually in physical formal meetings, see[1],[2],[3],[4],[5],[6].</p>\n\n<p>The call-to-arms was made by at the Netdev 0x14 conference by Nick Mckeown in a keynote titled: “Creating an End-to-End Programming Model for Packet Forwarding” [7]</p>\n\n<p>Due to the industry takeoff of P4 we are (finally in 2022) putting resources to make it real for the Linux kernel. We hope to make the first code release at the conference.</p>\n\n<p>In this talk we will discuss:</p>\n\n<ul>\n  <li>The overview of the P4TC Motivation and Goals and Requirements</li>\n  <li>Design And Architecture Overview with a focus on “scriptability”</li>\n  <li>The different P4TC objects and interaction between P4 and TC/kernel infra</li>\n  <li>User space integration into iproute2::tc</li>\n  <li>Integration into drivers</li>\n  <li>And finally describe the P4TC Workflow for devs and ops as well as runtime control.</li>\n</ul>\n\n<p>P4TC goals are:\n 1) Offloading entirely to P4-capable hardware with tc skip_sw flag.</p>\n\n<p>2) Running entirely in software infrastructures (VMs, baremetal, containers) with skip_hw flag. Think this mode as the digital twin of #1.</p>\n\n<p>3) Split setup - where some of the P4 program control and pipeline is in software and some is in hardware (using a mix of skip_sw and skip_hw).</p>\n\n<p>4) Running multiple independent P4 programs across multiple independent hardware and/or software (using tc filter infrastructure).</p>\n\n<p>5) Post P4TC upstreaming, independence from changing or compiling any kernel or user space code for any P4 program (achieved via “scriptability”). IOW, no loading of any binary blob into the kernel or user space.\nImagine the developer and ops productivity boost for not having to play acrobatics with various versions of a library, a compiler or kernel just because they want to introduce some new datapath foo with bar header  processing in the kernel with hardware offload.\nImagine not having to change any iproute2 code either…</p>\n\n<p>“Scriptability” as a concept has precedence in the kernel TC architecture in the u32 classifier[8], the pedit action[9], skbedit, etc.\nA P4 program when compiled using the P4C compiler[10] generates tc scripts, which when executed, manifests into the functionally equivalent P4 program in the kernel.\nAlternatively, for simple programs, one could hand code the tc scripts to instantiate a P4 program.</p>\n\n<p>P4TC takes advantage of the modularity of the TC architecture and makes very minimal changes to the TC core code while providing all the necessary objects to sufficiently abstract a P4 program.</p>\n\n<p>A secondary goal for P4TC is to go beyond what P4 prescribes today where appropriate; IOW, while we strive to meet P4 spec we will also be pragmatic in marrying ideas from the kernel, and TC in particular, that we can feed back to the P4 community and general network programming world.</p>\n\n<h2 id=\"references\">References:</h2>\n\n<p>[1] Matty Kadosh, “P4 Offload”, TC Workshop, Netdev conference 2.2, 2017 https://legacy.netdevconf.info/2.2/slides/salim-tc-workshop04.pdf</p>\n\n<p>[2] Prem Jonnalagadda, “Mapping tc to P4”, TC Workshop, Netdev conference 2.2, 2017 https://legacy.netdevconf.info/2.2/slides/salim-tc-workshop06.pdf</p>\n\n<p>[3] Jamal Hadi Salim, “What P4 Can Learn From Linux Traffic Control”, proceedings of ONF 5th P4 Workshop, 2018\nhttps://opennetworking.org/wp-content/uploads/2020/12/Jamal_Salim.pdf</p>\n\n<p>[4] Many speakers, TC P4 workshop, Intel, Santa Clara, 2018 https://files.netdevconf.info/d/5aa8c0ca61ea4e96bb46/</p>\n\n<p>[5] Antonin Bas and R. Krishnamoorthy. “Instrumenting P4 in the Kernel”, TC Workshop, Netdev conference 0x12, 2018\nhttps://www.files.netdevconf.info/d/9535fba900604dcd9c93/files/?p=/Instrumenting%20P4%20in%20the%20Linux%20kernel.pdf</p>\n\n<p>[6] Marian Pritsak and Matty Kadosh, “P4 Compiler Backend for TC”, Netdev conference 0x13, 2019\nhttps://legacy.netdevconf.info/0x13/session.html?p4-compiler-backend-for-tc</p>\n\n<p>[7] Nick Mckeown Netdev conference 0x14, 2020\n“Creating an End-to-End Programming Model for Packet Forwarding”\n https://legacy.netdevconf.info/0x14/session.html?keynote-mckeown</p>\n\n<p>[8] Jamal Hadi Salim et al “Demystifying The TC Ugly (or Universal) 32bit Key Packet Classifier”, Netdev conference 0x13, 2019\n https://legacy.netdevconf.info/0x13/session.html?talk-tc-u-classifier</p>\n\n<p>[9] Pedit source and man pages:\nhttps://elixir.bootlin.com/linux/latest/source/net/sched/act_pedit.c\nhttps://man7.org/linux/man-pages/man8/tc-pedit.8.html</p>\n\n<p>[10] P4C compiler\nhttps://github.com/p4lang/p4c</p>\n\n<p>[11] MS Azure DASH\nhttps://github.com/Azure/DASH/tree/main/documentation</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/your-network-datapath-will-be-p4-scripted.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Jamal Hadi Salim Victor Nogueira Pedro Tammela Anjali Singhai Jain Deb Chatterjee Evangelos Haleplidis",
+      "metadata": {
+        "Speakers": "Jamal Hadi Salim Victor Nogueira Pedro Tammela Anjali Singhai Jain Deb Chatterjee Evangelos Haleplidis",
+        "Label": "Moonshot",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/38/P4TC-0x16.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/your-network-datapath-will-be-p4-scripted.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/w8dL5E6SJdk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/your-network-datapath-will-be-p4-scripted.html"
+        }
+      ]
+    },
+    {
+      "id": "pushing-openvpn-down-the-stack-data-channel-offload-dco",
+      "url": "https://netdevconf.info/0x16/sessions/talk/pushing-openvpn-down-the-stack-data-channel-offload-dco.html",
+      "title": "Pushing OpenVPN down the stack: Data Channel Offload (DCO)",
+      "listing_title": "Pushing OpenVPN down the stack: Data Channel Offload (DCO)",
+      "description": "OpenVPN is a userspace software responsible for creating an encrypted tunnel between two peers (peer-to-peer mode) or a central server and multiple clients (peer-to-multipeer mode). Until now both the control and the data planes were implemented in userspace, leading to notable performance penalty. The technique described in this paper, known as data channel offloading, consists in moving the data plane (i.e. user pay-load processing) to kernel space in order to reduce context-switching and thus improve the measurable tunnel throughput.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>OpenVPN is a userspace software responsible for creating an encrypted tunnel between two peers (peer-to-peer mode) or a central server and multiple clients (peer-to-multipeer mode). Until now both the control and the data planes were implemented in userspace, leading to notable performance penalty. The technique described in this paper, known as data channel offloading, consists in moving the data plane (i.e. user pay-load processing) to kernel space in order to reduce context-switching and thus improve the measurable tunnel throughput.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/pushing-openvpn-down-the-stack-data-channel-offload-dco.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Antonio Quartulli",
+      "metadata": {
+        "Speakers": "Antonio Quartulli",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/27/openvpn-dco-netdev0x16.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/pushing-openvpn-down-the-stack-data-channel-offload-dco.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/27/ovpn-dco.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/pushing-openvpn-down-the-stack-data-channel-offload-dco.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=ry9qNzDHaUs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/pushing-openvpn-down-the-stack-data-channel-offload-dco.html"
+        }
+      ]
+    },
+    {
+      "id": "inkernel-fast-path-performance-for-containers-running-telecom-workload",
+      "url": "https://netdevconf.info/0x16/sessions/talk/inkernel-fast-path-performance-for-containers-running-telecom-workload.html",
+      "title": "In–Kernel Fast Path Performance For Containers Running Telecom Workload",
+      "listing_title": "In–Kernel Fast Path Performance For Containers Running Telecom Workload",
+      "description": "Virtualization of Telecommunication workloads opens the door to flexible and resource efficient deployment in a cloud infrastructure, for Telecom operators. The layers of virtualization involved in containers while providing advantages, also present a bottleneck for network functions requiring high performance. Relying on third party data-path libraries as a solution result in increased external dependencies, that affect ease of integration at the orchestration layer, and loss of Linux native debugging and diagnostic support.\n\n\n\nIn this paper, we explore and make the case to use an in-kernel based network pipeline for a 5G User Plane Function, that reduces the CPU core count from 10 to 1 for processing 2 Million Packets Per Second. This is achieved by implementing AF_XDP zero copy support in an SR-IOV Virtual Function driver. We demonstrate performance comparisons with alternate in-kernel data path mechanisms, as part of the evaluation. The proposed solution maintains performance at par with third party poll mode drivers, but importantly maintains operability with Linux tools, scalability and allows Kubernetes orchestration of the User Plane Function running in pods.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Virtualization of Telecommunication workloads opens the door to flexible and resource efficient deployment in a cloud infrastructure, for Telecom operators. The layers of virtualization involved in containers while providing advantages, also present a bottleneck for network functions requiring high performance. Relying on third party data-path libraries as a solution result in increased external dependencies, that affect ease of integration at the orchestration layer, and loss of Linux native debugging and diagnostic support.</p>\n\n<p>In this paper, we explore and make the case to use an in-kernel based network pipeline for a 5G User Plane Function, that reduces the CPU core count from 10 to 1 for processing 2 Million Packets Per Second. This is achieved by implementing AF_XDP zero copy support in an SR-IOV Virtual Function driver. We demonstrate performance comparisons with alternate in-kernel data path mechanisms, as part of the evaluation. The proposed solution maintains performance at par with third party poll mode drivers, but importantly maintains operability with Linux tools, scalability and allows Kubernetes orchestration of the User Plane Function running in pods.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/inkernel-fast-path-performance-for-containers-running-telecom-workload.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Nishanth Shyamkumar Piotr Raczynski Dave Cremins Michal Kubiak Ashok Sunder Rajan",
+      "metadata": {
+        "Speakers": "Nishanth Shyamkumar Piotr Raczynski Dave Cremins Michal Kubiak Ashok Sunder Rajan",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/42/Netdev%20In-Kernel%20fast%20path%20acceleration%20for%20Telco%20workloads.pptx",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/inkernel-fast-path-performance-for-containers-running-telecom-workload.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/42/in-kernel-telco.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/inkernel-fast-path-performance-for-containers-running-telecom-workload.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=2n_mJZMNXqY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/inkernel-fast-path-performance-for-containers-running-telecom-workload.html"
+        }
+      ]
+    },
+    {
+      "id": "the-anatomy-of-networking-in-high-frequency-trading",
+      "url": "https://netdevconf.info/0x16/sessions/talk/the-anatomy-of-networking-in-high-frequency-trading.html",
+      "title": "The Anatomy of Networking in High Frequency Trading",
+      "listing_title": "The Anatomy of Networking in High Frequency Trading",
+      "description": "Networking has always served a number of very diverse environments. From Enterprise to the Cloud, Telco and edge, networking technologies have been able to use a “some sizes fit most” approach. This is good when it comes to supporting these technologies in the Linux kernel.\n\n\n\nMore specialized environments, such as High Frequency Trading (HFT), have radically different networking requirements. Depending on the use case, one requirement might be that latency is paramount when interfacing with the market exchanges. Another use case might be in the HPC environment, where latency is still paramount, but sustained and reliable throughput is a must across grid networks.\n\n\n\nThis talk is intended to highlight where the Linux kernel networking stack intersects these requirements for HFT, and where it does not. It will also expand on how latency and jitter within HFT systems compare to “traditional” networking environments. Ultimately this talk is intended to generate discussion where HFT networking needs can help improve the existing intersection points in the kernel, and discuss where further native integration could be achieved.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Networking has always served a number of very diverse environments. From Enterprise to the Cloud, Telco and edge, networking technologies have been able to use a “some sizes fit most” approach. This is good when it comes to supporting these technologies in the Linux kernel.</p>\n\n<p>More specialized environments, such as High Frequency Trading (HFT), have radically different networking requirements. Depending on the use case, one requirement might be that latency is paramount when interfacing with the market exchanges. Another use case might be in the HPC environment, where latency is still paramount, but sustained and reliable throughput is a must across grid networks.</p>\n\n<p>This talk is intended to highlight where the Linux kernel networking stack intersects these requirements for HFT, and where it does not. It will also expand on how latency and jitter within HFT systems compare to “traditional” networking environments. Ultimately this talk is intended to generate discussion where HFT networking needs can help improve the existing intersection points in the kernel, and discuss where further native integration could be achieved.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/the-anatomy-of-networking-in-high-frequency-trading.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "PJ Waskiewicz",
+      "metadata": {
+        "Speakers": "PJ Waskiewicz",
+        "Label": "Moonshot",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides 1",
+          "url": "https://netdevconf.info/0x16/slides/43/pj-netdev-0x16-presentation.odp",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/the-anatomy-of-networking-in-high-frequency-trading.html"
+        },
+        {
+          "title": "slides 2",
+          "url": "https://netdevconf.info/0x16/slides/43/pj-netdev-0x16-presentation.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/the-anatomy-of-networking-in-high-frequency-trading.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/43/pj-netdev-0x16.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/the-anatomy-of-networking-in-high-frequency-trading.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=3n1OyI-OuKQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/the-anatomy-of-networking-in-high-frequency-trading.html"
+        }
+      ]
+    },
+    {
+      "id": "outreachy",
+      "url": "https://netdevconf.info/0x16/sessions/talk/outreachy.html",
+      "title": "Outreachy",
+      "listing_title": "Outreachy",
+      "description": "Outreach for networking projects at https://www.outreachy.org/\nAgenda:\n\n\n\n  Outreachy intro and networking projects at outreachy\n\n\n  Hear from Jaehee Park on her experience and work at Outreachy last summer\n\n\n  Half-done things and further project ideas\n\n\n  Call for more networking projects, mentors, interns",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Outreach for networking projects at https://www.outreachy.org/\nAgenda:</p>\n<ul>\n  <li>Outreachy intro and networking projects at outreachy</li>\n  <li>Hear from Jaehee Park on her experience and work at Outreachy last summer</li>\n  <li>Half-done things and further project ideas</li>\n  <li>Call for more networking projects, mentors, interns</li>\n</ul>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/talk/outreachy.html",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "Roopa Prabhu Jaehee Park Stefano Brivio",
+      "metadata": {
+        "Speakers": "Roopa Prabhu Jaehee Park Stefano Brivio",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Talk"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/0x16/papers/47/outreachy_netdev0x16.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/talk/outreachy.html"
+        }
+      ]
+    },
+    {
+      "id": "how-to-sandbox-a-network-application-with-landlock",
+      "url": "https://netdevconf.info/0x16/sessions/tutorial/how-to-sandbox-a-network-application-with-landlock.html",
+      "title": "How to sandbox a network application with Landlock",
+      "listing_title": "How to sandbox a network application with Landlock",
+      "description": "Network access-control is well covered by different kind of firewalls, but for some use cases it may be interesting to tie the semantic of an application instance and its configuration to a set of rules. For instance, only some processes of web browsers or web servers may legitimately be allowed to share data over the network, while other processes should be blocked. Linux provides some mechanisms to do so, including SELinux or AppArmor, but until now it has not been possible for applications to safely sandbox themselves.\nThis tutorial will first introduce Landlock, the new Linux sandboxing feature, which currently only supports filesystem access. We will then talk about a new set of access rights that are being developed to restrict TCP, which will also be an opportunity to discuss network restrictions that might come next. This will allow us to patch a simple network application (written in C) to make it sandbox itself following a best-effort approach.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Network access-control is well covered by different kind of firewalls, but for some use cases it may be interesting to tie the semantic of an application instance and its configuration to a set of rules. For instance, only some processes of web browsers or web servers may legitimately be allowed to share data over the network, while other processes should be blocked. Linux provides some mechanisms to do so, including SELinux or AppArmor, but until now it has not been possible for applications to safely sandbox themselves.\nThis tutorial will first introduce Landlock, the new Linux sandboxing feature, which currently only supports filesystem access. We will then talk about a new set of access rights that are being developed to restrict TCP, which will also be an opportunity to discuss network restrictions that might come next. This will allow us to patch a simple network application (written in C) to make it sandbox itself following a best-effort approach.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/tutorial/how-to-sandbox-a-network-application-with-landlock.html",
+      "description_status": "abstract",
+      "track": "Tutorial",
+      "speakers": "Mickaël Salaün",
+      "metadata": {
+        "Instructors": "Mickaël Salaün",
+        "Label": "Moonshot",
+        "Session Type": "Tutorial"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/36/2022-10-24_netdevconf-landlock.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/tutorial/how-to-sandbox-a-network-application-with-landlock.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/udcZnTcF0iQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/tutorial/how-to-sandbox-a-network-application-with-landlock.html"
+        }
+      ]
+    },
+    {
+      "id": "rdma-programming-tutorial",
+      "url": "https://netdevconf.info/0x16/sessions/tutorial/rdma-programming-tutorial.html",
+      "title": "RDMA programming tutorial",
+      "listing_title": "RDMA programming tutorial",
+      "description": "This tutorial will introduce developers familiar with Linux networking to the Linux RDMA stack and how it can be used to implement high-performance communication for applications.  An outline of the proposed tutorial is:\n\n\n\n\n  Key features of RDMA for high performance communication\no Asynchronous work / completion queues\no Kernel bypass\n  . Transport offload from application CPUs, including reliability / retransmission\no One-sided (and two-sided) ops\n  . Send-receive vs RDMA read/write\n  . Memory pre-registration / pinning\no Transport\n  . IB and RoCE\n  . RoCE vs iWARP/TCP vs proprietary (eg AWS EFA)\n  . RC vs UD\n\n\n  Simple example application (RC pingpong)\no Key objects: QP, CQ, MR\no Register memory (extensions for accelerator memory, etc)\no Connection establishment with IP addressing & librdmacm\no Post work requests to send and receive work queues\no Poll CQ\no Compare with UD version",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>This tutorial will introduce developers familiar with Linux networking to the Linux RDMA stack and how it can be used to implement high-performance communication for applications.  An outline of the proposed tutorial is:</p>\n\n<ul>\n  <li>Key features of RDMA for high performance communication\no Asynchronous work / completion queues\no Kernel bypass\n  . Transport offload from application CPUs, including reliability / retransmission\no One-sided (and two-sided) ops\n  . Send-receive vs RDMA read/write\n  . Memory pre-registration / pinning\no Transport\n  . IB and RoCE\n  . RoCE vs iWARP/TCP vs proprietary (eg AWS EFA)\n  . RC vs UD</li>\n  <li>Simple example application (RC pingpong)\no Key objects: QP, CQ, MR\no Register memory (extensions for accelerator memory, etc)\no Connection establishment with IP addressing &amp; librdmacm\no Post work requests to send and receive work queues\no Poll CQ\no Compare with UD version</li>\n</ul>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/tutorial/rdma-programming-tutorial.html",
+      "description_status": "abstract",
+      "track": "Tutorial",
+      "speakers": "Roland Dreier Jason Gunthorpe",
+      "metadata": {
+        "Instructors": "Roland Dreier Jason Gunthorpe",
+        "Label": "Moonshot",
+        "Session Type": "Tutorial"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/40/RDMA%20Tutorial.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/tutorial/rdma-programming-tutorial.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/JtT0uTtn2EA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/tutorial/rdma-programming-tutorial.html"
+        }
+      ]
+    },
+    {
+      "id": "netfilter-mini-workshop",
+      "url": "https://netdevconf.info/0x16/sessions/workshop/netfilter-mini-workshop.html",
+      "title": "Netfilter mini workshop",
+      "listing_title": "Netfilter mini workshop",
+      "description": "A miscellany of updates in the Netfilter subsystem landscape",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>A miscellany of updates in the Netfilter subsystem landscape</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/workshop/netfilter-mini-workshop.html",
+      "description_status": "abstract",
+      "track": "Workshop",
+      "speakers": "Pablo Neira-Ayuso",
+      "metadata": {
+        "Chairs": "Pablo Neira-Ayuso",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Workshop"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://youtu.be/uYEBeE6tOqc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/netfilter-mini-workshop.html"
+        }
+      ]
+    },
+    {
+      "id": "xdp-workshop",
+      "url": "https://netdevconf.info/0x16/sessions/workshop/xdp-workshop.html",
+      "title": "XDP Workshop",
+      "listing_title": "XDP Workshop",
+      "description": "Our classic yearly XDP talks about all the latest news and projects in this area.\n\n\n\nNo agenda yet right now, will start preparing it a couple months before the event so it won’t become outdated.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Our classic yearly XDP talks about all the latest news and projects in this area.</p>\n\n<p>No agenda yet right now, will start preparing it a couple months before the event so it won’t become outdated.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/workshop/xdp-workshop.html",
+      "description_status": "abstract",
+      "track": "Workshop",
+      "speakers": "Alexander Lobakin Maciej Fijalkowski Larysa Zaremba",
+      "metadata": {
+        "Chairs": "Alexander Lobakin Maciej Fijalkowski Larysa Zaremba",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Workshop"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/4/Netdev%200x16%20-%20XDP%20Workshop.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/xdp-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/BQ-3a9GbZDs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/xdp-workshop.html"
+        }
+      ]
+    },
+    {
+      "id": "wireless-workshop",
+      "url": "https://netdevconf.info/0x16/sessions/workshop/wireless-workshop.html",
+      "title": "Wireless Workshop",
+      "listing_title": "Wireless Workshop",
+      "description": "A wireless workshop discussing the current topics in \nthe wireless subsystem, e.g.:\n\n\n\n\n  Wi-Fi 7 support\n\n\n  replacement for module parameters\n\n\n  etc",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>A wireless workshop discussing the current topics in \nthe wireless subsystem, e.g.:</p>\n\n<ul>\n  <li>Wi-Fi 7 support</li>\n  <li>replacement for module parameters</li>\n  <li>etc</li>\n</ul>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/workshop/wireless-workshop.html",
+      "description_status": "abstract",
+      "track": "Workshop",
+      "speakers": "Johannes Berg Kalle Valo",
+      "metadata": {
+        "Chairs": "Johannes Berg Kalle Valo",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Workshop"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://youtu.be/uZYb43Pq46s",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/wireless-workshop.html"
+        }
+      ]
+    },
+    {
+      "id": "tc-workshop",
+      "url": "https://netdevconf.info/0x16/sessions/workshop/tc-workshop.html",
+      "title": "TC Workshop",
+      "listing_title": "TC Workshop",
+      "description": "Face to Face discussions on different Traffic Control topics.\nNote, there are no slides or presentations for this workshop.\n\n\n\nCurrent WAG agenda (subject to update):\n\n\n\n\n  New features requests/improvements\n\n\n  Performance\n\n\n  Testing Progress",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Face to Face discussions on different Traffic Control topics.\nNote, there are no slides or presentations for this workshop.</p>\n\n<p>Current WAG agenda (subject to update):</p>\n\n<ul>\n  <li>New features requests/improvements</li>\n  <li>Performance</li>\n  <li>Testing Progress</li>\n</ul>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/workshop/tc-workshop.html",
+      "description_status": "abstract",
+      "track": "Workshop",
+      "speakers": "J Hadi Salim",
+      "metadata": {
+        "Chairs": "J Hadi Salim",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Workshop"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://youtu.be/OhiXA5tF-j4",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/tc-workshop.html"
+        }
+      ]
+    },
+    {
+      "id": "srv6-network-programming-in-linux-kernel",
+      "url": "https://netdevconf.info/0x16/sessions/workshop/srv6-network-programming-in-linux-kernel.html",
+      "title": "SRv6 Network Programming in Linux Kernel",
+      "listing_title": "SRv6 Network Programming in Linux Kernel",
+      "description": "The Segment Routing over IPv6 (SRv6) Network Programming framework enables a network operator or an application to specify a packet processing program by encoding a sequence of instructions in the IPv6 packet header. The SRv6 Network Programming framework is standardized in IETF RFC8986.\n\n\n\nSRv6 has been supported in the Linux kernel since its introduction at IETF. The very first support of SRv6 in the Linux kernel was introduced in release 4.10 (almost 6 years old now) [1].\n\n\n\nSince then, SRv6 support in the Linux kernel has been getting more mature with almost each kernel release. New features, bug fixes and performance improvement patches are getting merged in the Linux kernel over time. An excerpt of SRv6 related patches submitted to the Linux kernel over the last years is shown in [2]. Currently, the Linux kernel supports most of the SRv6 Network programming behaviors defined in IETF RFC8986.\n\n\n\nSRv6 leverages the lightweight tunnel of the Linux Kernel. It defines two new lightweight tunnels names seg6 and seg6local. The SRv6 support extends to other sub-systems including Netfilter, eBPF, and others.\n\n\n\nThe mature support of SRv6 in the Linux kernel has enabled many use-cases. Indeed, many open-source stacks has been updated to support SRv6 and leverage the SRv6 support in the Linux kernel. These stacks include FRR, Cilium, and SONiC.\n\n\n\n\n  FRR currently supports several SRv6 features including L3VPN services. These services leverage the SRv6 dataplane (encapsulation and decapsulation) behaviors supported in the Linux kernel. The SRv6 support in FRR is across several daemons including Zebra, BGP, SHARP.\n\n\n  Cilium provides a SRv6-based container networking leveraging the Linux kernel eBPF framework. The SRv6 extension Cilium aims to support telco networking requirements in a cloud-native way.\n\n\n  SONiC is an open-source network operating system (NOS) based on Linux. SONiC builds up on the SRv6 support in the Linux and FRR to provide a scalable solution for routing services and policies [3].\n\n\n\n\nWORKSHOP AGENDA\n\n\n\nMonday 24th October, 15:30 WEST\n\n\n\n\n  \n    SRv6 update                            Ahmed Abdelsalam\n                                                 (Cisco Systems)\n\n\n  \n\n\n  \n    ROSE (Research on Open      Stefano Salsano (Univ. of \nSRv6 Ecosystem) update        Rome Tor Vergata/CNIT)\n\n\n  \n\n\n  \n    Linux Kernel update                 Andrea Mayer (Univ. of\n                                                 Rome Tor Vergata/CNIT)\n\n\n  \n\n\n  \n    Cilium/eBPF                             Daniel Bernier (Bell Canada)\n\n\n  \n\n\n  \n    SONiC                                      Resham Sudarsan (Intel)\n\n\n  \n\n\n  \n    FRR                                          Carmine Scarpitta (Univ. of\n                                                  Rome Tor Vergata/CNIT)\n\n\n  \n\n\n\n\nIn the workshop we will give an update to the netdev community on the SRv6 support in the Linux Kernel. We will review the supported SRv6 features, and associated iproute2 extension, starting from kernel 4.10 up to now. Also, we will provide an update on some new SRv6 features that we plan to contribute to the Linux Kernel. In addition, we will review the supported SRv6 features in FRR along with some interesting SRv6 control plane features that we plan to submit to FRR. Moreover, we will give an update on the SRv6 activities in Linux related open-source stacks such as SONiC and Cilium.\n\n\n\nReferences\n\n\n\n[1] https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=1ababeba4a21f3dba3da3523c670b207fb2feb62\n\n\n\n[2] https://lore.kernel.org/netdev/?q=%22seg6%22\n\n\n\n[3] https://github.com/sonic-net/SONiC/blob/master/doc/srv6/srv6_hld.md",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>The Segment Routing over IPv6 (SRv6) Network Programming framework enables a network operator or an application to specify a packet processing program by encoding a sequence of instructions in the IPv6 packet header. The SRv6 Network Programming framework is standardized in IETF RFC8986.</p>\n\n<p>SRv6 has been supported in the Linux kernel since its introduction at IETF. The very first support of SRv6 in the Linux kernel was introduced in release 4.10 (almost 6 years old now) [1].</p>\n\n<p>Since then, SRv6 support in the Linux kernel has been getting more mature with almost each kernel release. New features, bug fixes and performance improvement patches are getting merged in the Linux kernel over time. An excerpt of SRv6 related patches submitted to the Linux kernel over the last years is shown in [2]. Currently, the Linux kernel supports most of the SRv6 Network programming behaviors defined in IETF RFC8986.</p>\n\n<p>SRv6 leverages the lightweight tunnel of the Linux Kernel. It defines two new lightweight tunnels names seg6 and seg6local. The SRv6 support extends to other sub-systems including Netfilter, eBPF, and others.</p>\n\n<p>The mature support of SRv6 in the Linux kernel has enabled many use-cases. Indeed, many open-source stacks has been updated to support SRv6 and leverage the SRv6 support in the Linux kernel. These stacks include FRR, Cilium, and SONiC.</p>\n\n<ul>\n  <li>FRR currently supports several SRv6 features including L3VPN services. These services leverage the SRv6 dataplane (encapsulation and decapsulation) behaviors supported in the Linux kernel. The SRv6 support in FRR is across several daemons including Zebra, BGP, SHARP.</li>\n  <li>Cilium provides a SRv6-based container networking leveraging the Linux kernel eBPF framework. The SRv6 extension Cilium aims to support telco networking requirements in a cloud-native way.</li>\n  <li>SONiC is an open-source network operating system (NOS) based on Linux. SONiC builds up on the SRv6 support in the Linux and FRR to provide a scalable solution for routing services and policies [3].</li>\n</ul>\n\n<p>WORKSHOP AGENDA</p>\n\n<p>Monday 24th October, 15:30 WEST</p>\n\n<ul>\n  <li>\n    <p>SRv6 update                            Ahmed Abdelsalam\n                                                 (Cisco Systems)</p>\n  </li>\n  <li>\n    <p>ROSE (Research on Open      Stefano Salsano (Univ. of \nSRv6 Ecosystem) update        Rome Tor Vergata/CNIT)</p>\n  </li>\n  <li>\n    <p>Linux Kernel update                 Andrea Mayer (Univ. of\n                                                 Rome Tor Vergata/CNIT)</p>\n  </li>\n  <li>\n    <p>Cilium/eBPF                             Daniel Bernier (Bell Canada)</p>\n  </li>\n  <li>\n    <p>SONiC                                      Resham Sudarsan (Intel)</p>\n  </li>\n  <li>\n    <p>FRR                                          Carmine Scarpitta (Univ. of\n                                                  Rome Tor Vergata/CNIT)</p>\n  </li>\n</ul>\n\n<p>In the workshop we will give an update to the netdev community on the SRv6 support in the Linux Kernel. We will review the supported SRv6 features, and associated iproute2 extension, starting from kernel 4.10 up to now. Also, we will provide an update on some new SRv6 features that we plan to contribute to the Linux Kernel. In addition, we will review the supported SRv6 features in FRR along with some interesting SRv6 control plane features that we plan to submit to FRR. Moreover, we will give an update on the SRv6 activities in Linux related open-source stacks such as SONiC and Cilium.</p>\n\n<p>References</p>\n\n<p>[1] https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=1ababeba4a21f3dba3da3523c670b207fb2feb62</p>\n\n<p>[2] https://lore.kernel.org/netdev/?q=%22seg6%22</p>\n\n<p>[3] https://github.com/sonic-net/SONiC/blob/master/doc/srv6/srv6_hld.md</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/workshop/srv6-network-programming-in-linux-kernel.html",
+      "description_status": "abstract",
+      "track": "Workshop",
+      "speakers": "Stefano Salsano Reshma Sudarshan Daniel Bernier Ahmed Abdelsalam",
+      "metadata": {
+        "Chairs": "Stefano Salsano Reshma Sudarshan Daniel Bernier Ahmed Abdelsalam",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Workshop"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/10/20221024-srv6-network-programming-netdev.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/srv6-network-programming-in-linux-kernel.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/1JIC-p5KAZA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/srv6-network-programming-in-linux-kernel.html"
+        }
+      ]
+    },
+    {
+      "id": "frr-workshop",
+      "url": "https://netdevconf.info/0x16/sessions/workshop/frr-workshop.html",
+      "title": "FRR Workshop",
+      "listing_title": "FRR Workshop",
+      "description": "Agenda is still a Work in Progress. But we will be discussing the work in Segment Routing  for both OSPF and ISIS, RFC compliance in BGP, continued work on Nexthop Groups and further dataplane integration work being done.  Finally we’ll discuss the recent releases and what would people like to see from FRR itself in the future.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Agenda is still a Work in Progress. But we will be discussing the work in Segment Routing  for both OSPF and ISIS, RFC compliance in BGP, continued work on Nexthop Groups and further dataplane integration work being done.  Finally we’ll discuss the recent releases and what would people like to see from FRR itself in the future.</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/workshop/frr-workshop.html",
+      "description_status": "abstract",
+      "track": "Workshop",
+      "speakers": "Donald Sharp",
+      "metadata": {
+        "Chairs": "Donald Sharp",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Workshop"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://youtu.be/KGFKitOolgw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/frr-workshop.html"
+        }
+      ]
+    },
+    {
+      "id": "p4tc-workshop",
+      "url": "https://netdevconf.info/0x16/sessions/workshop/p4tc-workshop.html",
+      "title": "P4TC Workshop",
+      "listing_title": "P4TC Workshop",
+      "description": "This workshop will constitute discussions on the current kernel\neffort to get P4 over TC. The first code release will happen at\nthe workshop.\n\n\n\nCurrent WAG agenda:\n\n\n\n1) Code Release and high level overview\n\n\n\n2) P4C compiler Interaction\n\n\n\n3) Control-user introspection\n\n\n\n4) The test infrastructure being used to test P4TC\n\n\n\n5) Driver interfaces Discussion\n\n\n\n6) Any other discussions..\n\n\n\nBackground\nP4 has gained industry-wide acceptance as a datapath language\nand has been a subject of many discussions in the community over\nthe last few years, see [1], [2], [3], [4], [5], [6]:\n\n\n\nDue to the industry takeoff of P4 we are putting resources to make it real\nfor the Linux kernel.\nEffort to write code has been going on for a few months and we hope\nto release the code in this workshop.\n\n\n\nSome of the stated P4TC goals are:\n\n\n\n1) Offloading entirely to P4-capable hardware with skip_sw.\n 2) Running entirely in software infrastructures (VMs, baremetal, containers)\n    with skip_hw.\n 3) Split setup - where some of the P4 program control and pipeline is in\n    software and some is in hardware (using a mix of skip_sw and skip_hw).\n 4) Running multiple independent P4 programs across multiple independent\n    hardware and/or software (using tc filter infrastructure).\n 5) Independence from changing any kernel code with introduction of a\n    new P4 program (achieved via “scriptability”).\n\n\n\nReferences\n\n[1] Matty Kadosh, “P4 Offload”, TC Workshop, Netdev conference 2.2, 2017\nhttps://legacy.netdevconf.info/2.2/slides/salim-tc-workshop04.pdf\n\n\n\n[2] Prem Jonnalagadda, “Mapping tc to P4”, TC Workshop, Netdev conference 2.2, 2017\nhttps://legacy.netdevconf.info/2.2/slides/salim-tc-workshop06.pdf\n\n\n\n[3]Jamal Hadi Salim, “What P4 Can Learn From Linux Traffic Control”,\nproceedings of ONF 5th P4 Workshop, 2018\nhttps://opennetworking.org/wp-content/uploads/2020/12/Jamal_Salim.pdf\n\n\n\n[4] Many speakers, TC P4 workshop, Intel, Santa Clara, 2018\nhttps://files.netdevconf.info/d/5aa8c0ca61ea4e96bb46/\n\n\n\n[5] Antonin Bas and R. Krishnamoorthy. “Instrumenting P4 in the Kernel”,\nTC Workshop, Netdev conference 0x12, 2018\nhttps://www.files.netdevconf.info/d/9535fba900604dcd9c93/files/?p=/Instrumenting%20P4%20in%20the%20Linux%20kernel.pdf\n\n\n\n[6] Marian Pritsak and Matty Kadosh, “P4 Compiler Backend for TC”,\nNetdev conference 0x13, 2019\nhttps://legacy.netdevconf.info/0x13/session.html?p4-compiler-backend-for-tc",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>This workshop will constitute discussions on the current kernel\neffort to get P4 over TC. The first code release will happen at\nthe workshop.</p>\n\n<p>Current WAG agenda:</p>\n\n<p>1) Code Release and high level overview</p>\n\n<p>2) P4C compiler Interaction</p>\n\n<p>3) Control-user introspection</p>\n\n<p>4) The test infrastructure being used to test P4TC</p>\n\n<p>5) Driver interfaces Discussion</p>\n\n<p>6) Any other discussions..</p>\n\n<p>Background\nP4 has gained industry-wide acceptance as a datapath language\nand has been a subject of many discussions in the community over\nthe last few years, see [1], [2], [3], [4], [5], [6]:</p>\n\n<p>Due to the industry takeoff of P4 we are putting resources to make it real\nfor the Linux kernel.\nEffort to write code has been going on for a few months and we hope\nto release the code in this workshop.</p>\n\n<p>Some of the stated P4TC goals are:</p>\n\n<p>1) Offloading entirely to P4-capable hardware with skip_sw.\n 2) Running entirely in software infrastructures (VMs, baremetal, containers)\n    with skip_hw.\n 3) Split setup - where some of the P4 program control and pipeline is in\n    software and some is in hardware (using a mix of skip_sw and skip_hw).\n 4) Running multiple independent P4 programs across multiple independent\n    hardware and/or software (using tc filter infrastructure).\n 5) Independence from changing any kernel code with introduction of a\n    new P4 program (achieved via “scriptability”).</p>\n\n<h2 id=\"references\">References</h2>\n\n<p>[1] Matty Kadosh, “P4 Offload”, TC Workshop, Netdev conference 2.2, 2017\nhttps://legacy.netdevconf.info/2.2/slides/salim-tc-workshop04.pdf</p>\n\n<p>[2] Prem Jonnalagadda, “Mapping tc to P4”, TC Workshop, Netdev conference 2.2, 2017\nhttps://legacy.netdevconf.info/2.2/slides/salim-tc-workshop06.pdf</p>\n\n<p>[3]Jamal Hadi Salim, “What P4 Can Learn From Linux Traffic Control”,\nproceedings of ONF 5th P4 Workshop, 2018\nhttps://opennetworking.org/wp-content/uploads/2020/12/Jamal_Salim.pdf</p>\n\n<p>[4] Many speakers, TC P4 workshop, Intel, Santa Clara, 2018\nhttps://files.netdevconf.info/d/5aa8c0ca61ea4e96bb46/</p>\n\n<p>[5] Antonin Bas and R. Krishnamoorthy. “Instrumenting P4 in the Kernel”,\nTC Workshop, Netdev conference 0x12, 2018\nhttps://www.files.netdevconf.info/d/9535fba900604dcd9c93/files/?p=/Instrumenting%20P4%20in%20the%20Linux%20kernel.pdf</p>\n\n<p>[6] Marian Pritsak and Matty Kadosh, “P4 Compiler Backend for TC”,\nNetdev conference 0x13, 2019\nhttps://legacy.netdevconf.info/0x13/session.html?p4-compiler-backend-for-tc</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/workshop/p4tc-workshop.html",
+      "description_status": "abstract",
+      "track": "Workshop",
+      "speakers": "ANJALI JAIN KHALID M",
+      "metadata": {
+        "Chairs": "ANJALI JAIN KHALID M",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Workshop"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides 1",
+          "url": "https://netdevconf.info/0x16/slides/2/P4TC%20Workshop%20-%20Netdev%200x16%20-%20Parser%20Implementation%20%28Cristian%29%20%281%29.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/p4tc-workshop.html"
+        },
+        {
+          "title": "slides 2",
+          "url": "https://netdevconf.info/0x16/slides/2/p4_tc_driver_interface.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/p4tc-workshop.html"
+        },
+        {
+          "title": "slides 3",
+          "url": "https://netdevconf.info/0x16/slides/2/p4_tc%20netdev%20workshop%20slides.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/p4tc-workshop.html"
+        },
+        {
+          "title": "slides 4",
+          "url": "https://netdevconf.info/0x16/slides/2/P4_Compiler_Backend_for_P4TC_NetDev%20%281%29.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/p4tc-workshop.html"
+        },
+        {
+          "title": "slides 5",
+          "url": "https://netdevconf.info/0x16/slides/2/Introspection%20%281%29.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/p4tc-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/KFdgT-2KApI",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/p4tc-workshop.html"
+        }
+      ]
+    },
+    {
+      "id": "infrastructure-datapath-functionidpf-workshop",
+      "url": "https://netdevconf.info/0x16/sessions/workshop/infrastructure-datapath-functionidpf-workshop.html",
+      "title": "Infrastructure datapath function(IDPF) workshop",
+      "listing_title": "Infrastructure datapath function(IDPF) workshop",
+      "description": "This workshop presents the motivation for a new high performance Open network\ninterface, presents a candidate design and proposes a standardization process to get to broad industry agreement. It aims to answer questions including why standardization, why deviate from virtio and why this specific candidate.\n\n\n\nThere is broad industry understanding on the benefits of a single shared\ninterface. It simplifies VM management for users and distros, and heterogenous\nhardware fleets management for hyperscale providers. Speeds of 200 Mpps and\nbeyond require an optimized design with features such as separate buffer and\ncompletion queues, inline crypto acceleration and header-split for direct\ndata placement.\n\n\n\nThis workshop introduces what is to our understanding the first concrete,\nspecific proposal for such an industry standard device, the infrastructure\ndataplane function, or IDPF. IDPF is demonstrated at 200 Gbps, supports\nthe core network interface features such as multi-queue and stateless\nsegmentation offloads, and is extensible to incorporate the features of the\nlatest generation NICs, including line-rate PTP timestamping, inline crypto\noffload and TCP pacing offload.\n\n\n\nThe workshop will present\n\n\n\n\n  Motivation: performance requirements and design differences with virtio, VDPA and Intel AVF\n\n\n  The API, including capability negotiation process, minimum and optional feature sets\n\n\n  A reference driver: a single driver for PF, VF and software devices\n\n\n  A reference software implementation\n\n\n  Advanced features: live migration\n\n\n  Standardization: OASIS, process and founding partners\n\n\n  Conformance tests and validation\n\n\n\n\nAnd will conclude with a panel and open floor discussion.\n\n\n\nIDPF is intended as a vendor neutral device interface that provides a single\nnetwork interface for hosts, containers and guests. The plan is to arrive\nat an industry standard by submitting reference drivers to the Linux upstream\ncommunity [1], making available a software implementation and publishing an\nopen spec through an OASIS technical committee.\n\n\n\nA reference software implementation is important for an open standard.\nA reference software IDPF back-end will be presented, to illustrate the key components of this\nimplementation and present performance data. This software\ndevice will be publicly available through the official DPDK Git repository. The\nIDPF back-end uses the recent VFIO-USER [1] QEMU fast path for emulation\noutside the QEMU binary, and can be applied to both virtual machines and\ncontainers. As a software NIC, the IDPF back-end can be used for:\n\n\n\n\n  \n    Simulation of new hardware features.\n\n\n  \n\n\n  \n    Deployment in multi-vendor environments where part of the hardware does not support native IDPF but a unified interface is to be provided for all instances.\n\n\n  \n\n\n  \n    Advanced scenarios including live upgrade of a physical device firmware, transparently falling back onto the software NIC.\n\n\n  \n\n\n\n\n[1] Adaptive Virtual function driver, https://www.intel.com/content/www/us/en/products/docs/network-io/ethernet/controllers/ethernet-adaptive-virtual-function-hardware-spec.html\n\n\n\n[2] NICs for Hyperscalers https://146a55aca6f00848c565-a7635525d40ac1c70300198708936b4e.ssl.cf1.rackcdn.com/images/323f189f34c8b81696ec5af59cec1383fae2afd1.pdf\n\n\n\n[3] John Johnson, “VFIO User - Using VFIO as the IPC Protocol in Multi-Process QEMU” https://kvmforum2021.sched.com/event/ke3g/vfio-user-using-vfio-as-the-ipc-protocol-in-multi-process-qemu-john-johnson-jagannathan-raman-oracle\n\n\n\n[4] IDPF patches under review (new version will be posted before the workshop) https://lore.kernel.org/all/Yfvx5DKKkMIhLYEg@boxer/T/#m5c76a8b136bf37619680e9988d8bc7e741f469ed",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>This workshop presents the motivation for a new high performance Open network\ninterface, presents a candidate design and proposes a standardization process to get to broad industry agreement. It aims to answer questions including why standardization, why deviate from virtio and why this specific candidate.</p>\n\n<p>There is broad industry understanding on the benefits of a single shared\ninterface. It simplifies VM management for users and distros, and heterogenous\nhardware fleets management for hyperscale providers. Speeds of 200 Mpps and\nbeyond require an optimized design with features such as separate buffer and\ncompletion queues, inline crypto acceleration and header-split for direct\ndata placement.</p>\n\n<p>This workshop introduces what is to our understanding the first concrete,\nspecific proposal for such an industry standard device, the infrastructure\ndataplane function, or IDPF. IDPF is demonstrated at 200 Gbps, supports\nthe core network interface features such as multi-queue and stateless\nsegmentation offloads, and is extensible to incorporate the features of the\nlatest generation NICs, including line-rate PTP timestamping, inline crypto\noffload and TCP pacing offload.</p>\n\n<p>The workshop will present</p>\n\n<ul>\n  <li>Motivation: performance requirements and design differences with virtio, VDPA and Intel AVF</li>\n  <li>The API, including capability negotiation process, minimum and optional feature sets</li>\n  <li>A reference driver: a single driver for PF, VF and software devices</li>\n  <li>A reference software implementation</li>\n  <li>Advanced features: live migration</li>\n  <li>Standardization: OASIS, process and founding partners</li>\n  <li>Conformance tests and validation</li>\n</ul>\n\n<p>And will conclude with a panel and open floor discussion.</p>\n\n<p>IDPF is intended as a vendor neutral device interface that provides a single\nnetwork interface for hosts, containers and guests. The plan is to arrive\nat an industry standard by submitting reference drivers to the Linux upstream\ncommunity [1], making available a software implementation and publishing an\nopen spec through an OASIS technical committee.</p>\n\n<p>A reference software implementation is important for an open standard.\nA reference software IDPF back-end will be presented, to illustrate the key components of this\nimplementation and present performance data. This software\ndevice will be publicly available through the official DPDK Git repository. The\nIDPF back-end uses the recent VFIO-USER [1] QEMU fast path for emulation\noutside the QEMU binary, and can be applied to both virtual machines and\ncontainers. As a software NIC, the IDPF back-end can be used for:</p>\n\n<ol>\n  <li>\n    <p>Simulation of new hardware features.</p>\n  </li>\n  <li>\n    <p>Deployment in multi-vendor environments where part of the hardware does not support native IDPF but a unified interface is to be provided for all instances.</p>\n  </li>\n  <li>\n    <p>Advanced scenarios including live upgrade of a physical device firmware, transparently falling back onto the software NIC.</p>\n  </li>\n</ol>\n\n<p>[1] Adaptive Virtual function driver, https://www.intel.com/content/www/us/en/products/docs/network-io/ethernet/controllers/ethernet-adaptive-virtual-function-hardware-spec.html</p>\n\n<p>[2] NICs for Hyperscalers https://146a55aca6f00848c565-a7635525d40ac1c70300198708936b4e.ssl.cf1.rackcdn.com/images/323f189f34c8b81696ec5af59cec1383fae2afd1.pdf</p>\n\n<p>[3] John Johnson, “VFIO User - Using VFIO as the IPC Protocol in Multi-Process QEMU” https://kvmforum2021.sched.com/event/ke3g/vfio-user-using-vfio-as-the-ipc-protocol-in-multi-process-qemu-john-johnson-jagannathan-raman-oracle</p>\n\n<p>[4] IDPF patches under review (new version will be posted before the workshop) https://lore.kernel.org/all/Yfvx5DKKkMIhLYEg@boxer/T/#m5c76a8b136bf37619680e9988d8bc7e741f469ed</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/workshop/infrastructure-datapath-functionidpf-workshop.html",
+      "description_status": "abstract",
+      "track": "Workshop",
+      "speakers": "Anjali Singhai Jain Willem de Bruijin Sridhar Samudrala Michael S. Tsirkin",
+      "metadata": {
+        "Chairs": "Anjali Singhai Jain Willem de Bruijin Sridhar Samudrala Michael S. Tsirkin",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Workshop"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/slides/46/IDPF_netdev0x16.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/infrastructure-datapath-functionidpf-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/pmWpCcfi-jo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/infrastructure-datapath-functionidpf-workshop.html"
+        }
+      ]
+    },
+    {
+      "id": "driver-workshop",
+      "url": "https://netdevconf.info/0x16/sessions/workshop/driver-workshop.html",
+      "title": "Driver Workshop",
+      "listing_title": "Driver Workshop",
+      "description": "This is the proposed agenda:\n\n\n\nScalable IOV  - 20min - Remote - Harshita et al.\nADQ update  - 20min - Remote - Sridhar et al.\nNFP latest work  - 15 minutes - Remote - Simon Horman\nNIC FW customization - 15 minutes - In person - Saeed\nOCP NIC update  - 15min - Remote - Willem",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>This is the proposed agenda:</p>\n\n<p>Scalable IOV  - 20min - Remote - Harshita et al.\nADQ update  - 20min - Remote - Sridhar et al.\nNFP latest work  - 15 minutes - Remote - Simon Horman\nNIC FW customization - 15 minutes - In person - Saeed\nOCP NIC update  - 15min - Remote - Willem</p>\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/workshop/driver-workshop.html",
+      "description_status": "abstract",
+      "track": "Workshop",
+      "speakers": "Saeed Mahameed Willem de Bruijn Simon Horman Sridhar Samudrala Harshitha Ramamurthy",
+      "metadata": {
+        "Chairs": "Saeed Mahameed Willem de Bruijn Simon Horman Sridhar Samudrala Harshitha Ramamurthy",
+        "Label": "Nuts and Bolts",
+        "Session Type": "Workshop"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides 1",
+          "url": "https://netdevconf.info/0x16/slides/48/title.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/driver-workshop.html"
+        },
+        {
+          "title": "slides 2",
+          "url": "https://netdevconf.info/0x16/slides/48/2022-10%20Recent%20NFP%20Driver%20Development.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/driver-workshop.html"
+        },
+        {
+          "title": "slides 3",
+          "url": "https://netdevconf.info/0x16/slides/48/FW-Centric-devices-v2.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/driver-workshop.html"
+        },
+        {
+          "title": "slides 4",
+          "url": "https://netdevconf.info/0x16/slides/48/netdev0x16_driver_workshop_ADQ.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/driver-workshop.html"
+        },
+        {
+          "title": "slides 5",
+          "url": "https://netdevconf.info/0x16/slides/48/Netdevconf%200x16%20Driver%20Workshop_%20OCP%20standardization.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/driver-workshop.html"
+        },
+        {
+          "title": "slides 6",
+          "url": "https://netdevconf.info/0x16/slides/48/SIOV_netdev_presentation.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/driver-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/X0sODKJ2bck",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/workshop/driver-workshop.html"
+        }
+      ]
+    },
+    {
+      "id": "keynote-ousterhout",
+      "url": "https://netdevconf.info/0x16/sessions/keynote/keynote-ousterhout.html",
+      "title": "It's Time to Replace TCP in the Datacenter",
+      "listing_title": "It's Time to Replace TCP in the Datacenter",
+      "description": "Although TCP is a tremendously successful transport protocol that has survived 40 years of dramatic technology changes, virtually every aspect of its design is wrong for the datacenter. This talk will discuss the problems with TCP, ranging from its use of connections and streams to its mechanisms for reliable delivery and congestion control.\n\n\n\nIf we are to make significant headway against the “datacenter tax” we must move most datacenter traffic to a new and fundamentally different protocol. I will then discuss how the Homa transport protocol solves all of the problems of TCP and suggest a migration strategy for bringing a TCP alternative into widespread usage. Finally, I will discuss my experiences implementing Homa in the Linux kernel.\n\n\n\nI will argue that it no longer makes sense to implement network transport protocols in software. Instead, transport protocols must move to NIC hardware. This will likely require the development of a new architecture for NICs.",
+      "description_html": "<div><section class=\"post-excerpt\">\n      <p>Although TCP is a tremendously successful transport protocol that has survived 40 years of dramatic technology changes, virtually every aspect of its design is wrong for the datacenter. This talk will discuss the problems with TCP, ranging from its use of connections and streams to its mechanisms for reliable delivery and congestion control.</p>\n\n<p>If we are to make significant headway against the “datacenter tax” we must move most datacenter traffic to a new and fundamentally different protocol. I will then discuss how the Homa transport protocol solves all of the problems of TCP and suggest a migration strategy for bringing a TCP alternative into widespread usage. Finally, I will discuss my experiences implementing Homa in the Linux kernel.</p>\n\n<p>I will argue that it no longer makes sense to implement network transport protocols in software. Instead, transport protocols must move to NIC hardware. This will likely require the development of a new architecture for NICs.</p>\n\n\n    </section>\n\n  </div>",
+      "description_source": "https://netdevconf.info/0x16/sessions/keynote/keynote-ousterhout.html",
+      "description_status": "abstract",
+      "track": "Keynote",
+      "speakers": "John Ousterhout Stanford University",
+      "metadata": {
+        "Speaker": "John Ousterhout Stanford University",
+        "Session Type": "Keynote"
+      },
+      "date": "",
+      "time": "",
+      "room": "",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/0x16/keynote/netdev0x16-keynote.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/0x16/sessions/keynote/keynote-ousterhout.html"
+        },
+        {
+          "title": "video",
+          "url": "https://bit.ly/netdev-0x16-keynote",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x16/sessions/keynote/keynote-ousterhout.html"
+        }
+      ]
+    }
+  ],
+  "source_urls": [
+    "https://netdevconf.info/0x16/pages/sessions.html",
+    "https://netdevconf.info/0x16/pages/schedule.html",
+    "https://netdevconf.info/0x16/slides/",
+    "https://netdevconf.info/0x16/papers/"
+  ],
+  "material_counts": {
+    "slides": 46,
+    "paper": 15,
+    "video": 37
+  },
+  "session_type_counts": {
+    "Talk": 26,
+    "Tutorial": 2,
+    "Workshop": 9,
+    "Keynote": 1
+  },
+  "directory_added_materials": [
+    {
+      "session": "when-regular-expressions-meet-xdp",
+      "title": "Gcore-PRS-RedExpXDP.pdf",
+      "url": "https://netdevconf.info/0x16/slides/9/Gcore-PRS-RedExpXDP.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/0x16/slides/9/"
+    },
+    {
+      "session": "when-regular-expressions-meet-xdp",
+      "title": "[Gcore] (PRS) #RedExpXDP.pdf",
+      "url": "https://netdevconf.info/0x16/slides/9/%5BGcore%5D%20%28PRS%29%20%23RedExpXDP.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/0x16/slides/9/"
+    },
+    {
+      "session": "fixing-tcp-slow-start-for-slow-fat-links",
+      "title": "netdev-22.pptx",
+      "url": "https://netdevconf.info/0x16/slides/19/netdev-22.pptx",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/0x16/slides/19/"
+    },
+    {
+      "session": "integrating-power-over-ethernet-and-power-over-dataline-support-to-the-linux-kernel",
+      "title": "netdev 0x16 - 2022 - power over ethernet.pdf",
+      "url": "https://netdevconf.info/0x16/slides/22/netdev%200x16%20-%202022%20-%20power%20over%20ethernet.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/0x16/slides/22/"
+    },
+    {
+      "session": "implementing-cooperative-link-diagnostics-by-using-dusty-corners-of-ieee-8023-specification",
+      "title": "netdev 0x16 - 2022 - coop diag.pdf",
+      "url": "https://netdevconf.info/0x16/slides/23/netdev%200x16%20-%202022%20-%20coop%20diag.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/0x16/slides/23/"
+    },
+    {
+      "session": "bring-network-and-time-together-using-linux-tracing",
+      "title": "aring_dlm_tracing_paper.pdf",
+      "url": "https://netdevconf.info/0x16/papers/7/aring_dlm_tracing_paper.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/0x16/papers/7/"
+    },
+    {
+      "session": "bring-network-and-time-together-using-linux-tracing",
+      "title": "aring_slides.pdf",
+      "url": "https://netdevconf.info/0x16/slides/7/aring_slides.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/0x16/slides/7/"
+    },
+    {
+      "session": "the-tsn-building-blocks-in-linux",
+      "title": "netdev0x16_fejes.pdf",
+      "url": "https://netdevconf.info/0x16/papers/16/netdev0x16_fejes.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/0x16/papers/16/"
+    },
+    {
+      "session": "nvmetcp-offload-implementation-and-performance-gains",
+      "title": "nvmetcp_offload_netdev_0x16.pptx",
+      "url": "https://netdevconf.info/0x16/slides/31/nvmetcp_offload_netdev_0x16.pptx",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/0x16/slides/31/"
+    }
+  ]
+}

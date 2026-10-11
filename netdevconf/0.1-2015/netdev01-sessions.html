@@ -1,0 +1,782 @@
+<!doctype html>
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Netdev 0.1 全セッション</title><style>body{font:16px/1.7 system-ui,sans-serif;margin:auto;max-width:1080px;padding:32px;color:#172a3b;background:#f3f6f8}header{background:#12344a;color:white;padding:28px;border-radius:12px}header a{color:#bde7ff}input{box-sizing:border-box;width:100%;font:inherit;padding:14px;margin:20px 0;border:1px solid #99aab7;border-radius:8px}article{background:white;padding:24px;margin:18px 0;border:1px solid #d8e1e8;border-radius:10px}h2{font-size:23px;line-height:1.4}h3{font-size:17px;border-top:1px solid #e2e7eb;padding-top:14px}a{color:#075b98;overflow-wrap:anywhere}.meta,small{color:#526777}pre{white-space:pre-wrap;overflow-wrap:anywhere}.description{overflow-wrap:anywhere}article[hidden]{display:none}</style><header><h1>Netdev 0.1 全セッション</h1><p>36セッション / 資料あり 29セッション / 資料 66項目（ファイル 56、外部リンク 10）</p><p>Sessions一覧の全36個別URLを収録（Reception等も元分類のまま保持）。Descriptionは個別ページの説明原文。スライド・論文・動画URLを個別ページから抽出し、DownloadsとRecent arrivalsのファイルを照合。形式違いの同名資料は対応するセッションへ追加し、対応未確定の資料は補足へ分離。日付・時刻はスケジュールから取得し、複数枠はscheduled_slotsに保持。添付本体の取得・リンク有効性検査は未実施。 スケジュールにのみ記載されたClosing ceremonyとBoF HW netlink asyncは、個別URL・Description未掲載として補足に収録。ClosingスライドはDownloadsから対応付けた。</p><a href="https://netdevconf.info/0.1/sessions.html">公式タイムテーブル</a></header><label for="q">タイトル・Track・Description・資料名で検索</label><input id="q" type="search" placeholder="例: networking / Rust / scheduler"></head><body><p id="count"></p><main><article><h2>1. Keynote</h2><p class="meta">keynote · Monday, February 16 9:00 - 10:15 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/8.html">https://netdevconf.info/0.1/sessions/8.html</a></p><h3>Description</h3><div class="description"><p>
+State of the union on Linux kernel networking.
+</p>
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/miller-Ottawa2015-Keynote.pdf">/docs/miller-Ottawa2015-Keynote.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=QDxM83YaI0E">https://www.youtube.com/watch?v=QDxM83YaI0E</a> <small>link</small></li></ul></article><article><h2>2. Reception</h2><p class="meta">keynote ·   スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/37.html">https://netdevconf.info/0.1/sessions/37.html</a></p><h3>Description</h3><div class="description"><p>
+	  There will be a reception after the last tutorial on Saturday.  It is your chance
+	  to renew ties with old friends and acquaintances and strike up conversations with
+	  like-minded strangers, before heading out to dinner.  There will be appetizers
+	  and a cash bar.
+	</p>
+	<p>
+	  Looking forward to seeing you there!
+</p>
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul></article><article><h2>3. Rocker: switchdev prototyping vehicle</h2><p class="meta">talk · Tuesday, February 17 13:45 - 14:25 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/2.html">https://netdevconf.info/0.1/sessions/2.html</a></p><h3>Description</h3><div class="description"><p>
+Rocker is an emulated network switch platform created to accelerate
+development of an in-kernel network switch driver model.  Rocker has
+two parts: an Qemu emulation of a 62-port switch chip with PCI host
+interface and a Linux device driver.  The goal is to emulate
+capabilities of contemporary network switch ASICs used in
+data-center/enterprise so the community can develop the device driver
+interfaces in the kernel.  The initial capabilities targeted are L2 bridging
+function offload and L3 routing function offload.  In both cases, the
+forwarding (data) plane is offloaded to the switch device but the
+control and management planes remain in Linux.  Additional
+capabilities such as L2-over-L3 tunneling, L2 bonding, ACL support,
+and flow-based networking are planned or in-progress.  This paper/talk
+will cover overview of Rocker, current status, and future work.
+</p>
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/feldman-Rocker.pdf">/docs/feldman-Rocker.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Rocker-switchdev-prototyping-vehicle.pdf">/papers/Rocker-switchdev-prototyping-vehicle.pdf</a> <small>file</small></li></ul></article><article><h2>4. How to not just do a demo with DPDK or Lessons learned making a software dataplane</h2><p class="meta">talk · Tuesday, February 17 9:00 - 9:40 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/3.html">https://netdevconf.info/0.1/sessions/3.html</a></p><h3>Description</h3><div class="description"><p>
+The Intel Dataplane Developers Kit (DPDK) provides useful
+infrastructure for building network applications. With the toolkit it
+is possible to build applications that perform at the full packet rate
+of a 10G network but there are many challenges. This paper covers the
+lessons learned while using the DPDK to create a routing and switching
+dataplane in software.  Most of this involved applying lessons already
+learned in how to make Linux go faster to a new environment. I will
+also cover some of the things that turned out to be surprisingly much
+slower that developers originally expected. The lessons learned go
+both ways: some of these DPDK lessons can (and have been) applied to
+making the kernel networking stack go faster, and some are areas where
+DPDK applications can learn from the Linux kernel. Will also highlight
+some of the tradeoffs made in dedicated networking which may not be
+applicable to general purpose kernel.
+</p>
+    
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul></article><article><h2>5. Picking low hanging fruit from the FIB tree</h2><p class="meta">talk · Tuesday, February 17 11:20 - 12:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/4.html">https://netdevconf.info/0.1/sessions/4.html</a></p><h3>Description</h3><div class="description"><p>
+As network rates continue to increase the amount of time to
+process packets decreases.  This puts pressure on a number of areas in
+the kernel, but one areas where this particularly stands out is the IPv4
+forwarding information base lookup.  This proposal will go over a
+number of changes recently made to the fib_trie processing code and data
+structures to improve both the performance and reliability of processing
+the IPv4 addresses.  In addition it will propose some possible approaches
+under consideration in order to improve performance further enabling
+processing at higher packet rates.
+</p>
+
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/duyck-fib-trie.pdf">/docs/duyck-fib-trie.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Picking-the-low-hanging-fruit-from-the-FIB-tree.pdf">/papers/Picking-the-low-hanging-fruit-from-the-FIB-tree.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/docs/duyck-fib-trie.odp">.odp file</a> <small>file</small></li></ul></article><article><h2>6. Rtnetlink dump filtering</h2><p class="meta">talk · Monday, February 16 16:30 - 17:45 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/5.html">https://netdevconf.info/0.1/sessions/5.html</a></p><h3>Description</h3><div class="description"><p>Rtnetlink dump handlers
+supported by the kernel are a useful way to
+query state of the kernel network objects. Most rtnetlink dump handlers
+return data for all network objects in the corresponding networking
+subsystem today, e.g. RTM_GETLINK returns data for all network
+interfaces in the system. With no rtnetlink dump filtering support in
+the kernel, the burden is on userspace to filter such dumps. This does
+not scale on systems with large number of network interfaces or large
+routing databases. Such systems are not uncommon given that linux is
+being deployed on network switches, routers, hypervisors and other
+devices in the data center today. Filtering in userspace is not
+scalable. This paper looks at scalability problems with rtnetlink dumps
+and discusses possible solutions to filter such dumps in the kernel. We
+will look at a consistent way to filter such dumps across all network
+object types using existing infrastructure provided by the kernel.</p>
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/prabhu-rtnetlink_dump_filtering_in_kernel_talk_slides.pdf">/docs/prabhu-rtnetlink_dump_filtering_in_kernel_talk_slides.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Rtnetlink-dump-filtering-in-the-kernel.pdf">/papers/Rtnetlink-dump-filtering-in-the-kernel.pdf</a> <small>file</small></li></ul></article><article><h2>7. hardware switches - the opensource approach</h2><p class="meta">talk · Tuesday, February 17 9:50 - 10:30 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/6.html">https://netdevconf.info/0.1/sessions/6.html</a></p><h3>Description</h3><div class="description"><p>
+Imagine buying off the shelf switch hardware, install Fedora (or any other
+distribution) and configure it using standard linux tools. This is not
+possible at the moment primarily because of lack of unified and consistent
+platforms and driver interfaces. We are working to change that.
+</p>
+<p>
+The current state of support for switch chips in Linux is not good. Each
+vendor provides userspace binary sdk blob that only works with their
+chips. Each of this blobs has proprietary APIs. To get switch chips
+properly supported there's need to introduce a new infrastructure directly
+into Linux kernel and to work with vendors to adopt it.
+</p>
+<p>
+This talk presents the current effort to unify and uphold the Linux
+networking model across the spectrum of devices which is necessary to make
+Linux the cornerstone of industrial grade networking. The scope of this
+talk covers state of art with current implementation of standard commodity
+switches such as top of rack switches, small home gateway device as well
+as SR-IOV NIC embedded switches.
+</p>
+<p>
+A device model and driver infrastructure will be presented for
+accelerating the Linux bridge, Linux router, accelerated host virtual
+switches and flow level offloads when supported by the hardware
+underneath.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/pirko-switchdev-slides.pdf">/docs/pirko-switchdev-slides.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Hardware-switches-the-open-source-approach.pdf">/papers/Hardware-switches-the-open-source-approach.pdf</a> <small>file</small></li></ul></article><article><h2>8. Library operating system with mainline Linux kernel</h2><p class="meta">talk · Monday, February 16 13:45 - 14:25 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/7.html">https://netdevconf.info/0.1/sessions/7.html</a></p><h3>Description</h3><div class="description"><p>
+Library operating system (LibOS) is a userspace version of Linux
+kernel to provide an operating system personalization as well as
+yet-another virtualization primitive. The idea is adding a hardware
+independent architecture (i.e., arch/lib) into Linux kernel tree and
+reusing the rest of networking code in order to avoid 'reinventing a
+wheel'. Unlike conventional Linux kernel/userspace model, system calls
+are redirected to the library in the same process or the other
+userspace processes, but the framework tries to be transparent so that
+all of the existing userspace applications like nginx and iproute2 are
+able to be used as-is.  The LibOS framework provides several
+interesting use cases such as 1) a fast-path for the new protocol
+deployment (no need to replace or insert new kernel code), 2) a
+feature-rich network stack for a high-speed packet I/O mechanism like
+Intel DPDK, 3) a continuous integration for testing networking code
+implemented in Linux kernel tree. Right now, most of in-kernel
+protocols like TCP, SCTP, DCCP, and MPTCP are tested to work on top of the
+LibOS. Newly implemented protocol may also work on depending on the
+POSIX API coverage and kernel glue code.
+</p>
+<p>
+This paper covers the introduction of the LibOS framework and two sub
+projects, Network stack in userspace (NUSE) and Direct Code Execution
+(DCE), with the internal design of the indirections, and presents the
+ongoing work on the multi-process support to share a single userspace
+network stack (e.g., share a userspace routing table between two
+processes) via inter-process communication implemented by rumpkernel
+IPC/RPC framework. Then finalizes with the future work including the
+performance improvement.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/netdev01-tazaki-libos.pdf">/docs/netdev01-tazaki-libos.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Library-Operating-System-with-Mainline-Linux-Network-Stack.pdf">/papers/Library-Operating-System-with-Mainline-Linux-Network-Stack.pdf</a> <small>file</small></li></ul></article><article><h2>9. Distributing TC Classifier Action</h2><p class="meta">talk · Tuesday, February 17 10:35 - 11:15 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/9.html">https://netdevconf.info/0.1/sessions/9.html</a></p><h3>Description</h3><div class="description"><p>
+This proposal will discuss distributing the Linux Traffic Control (tc)
+filter-action subsystem packet processing across disparate nodes. The
+nodes could be a mix and match of containers, VMs, bare metal machines
+or ASICs.
+</p>
+<p>
+A new tc Inter-Forwarding Engine (IFE) action is introduced based on ForCES WG  Inter-FE LFB work
+(https://datatracker.ietf.org/doc/draft-ietf-forces-interfelfb/).
+The paper will go into both the implementation as well as the usage of
+the IFE tc action. Details on how to add new extensions to the IFE
+action will also be discussed.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/hadi-salim-dj-DTCCA-slides.pdf">/docs/hadi-salim-dj-DTCCA-slides.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Distributing-Linux-Traffic-Control-Classifier-Action-Subsystem.pdf">/papers/Distributing-Linux-Traffic-Control-Classifier-Action-Subsystem.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=BSlUOBxYjPY">https://www.youtube.com/watch?v=BSlUOBxYjPY</a> <small>link</small></li></ul></article><article><h2>10. UDP encapsulation, FOU, GUE, &amp; RCO</h2><p class="meta">talk · Monday, February 16 14:45 - 15:25 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/11.html">https://netdevconf.info/0.1/sessions/11.html</a></p><h3>Description</h3><div class="description"><p>
+A discussion about recent efforts to make UDP encapsulation performant
+and well supported in the Linux networking stack, and also an
+introduction of foo-over UDP (FOU) and Generic UDP Encapsulation(GUE).
+</p>
+<p>
+UDP based encapsulation is likely to become ubiquitous in data
+centers, not just for virtualization use case but also for
+non-virtualization. The reasons for this are simple: it's a low
+overhead protocol and allows us to leverage several UDP specific
+optimizations commonly supported by networking hardware (RSS and ECMP
+for instance). In part one of this this talk, we'll review the
+additions to the Linux kernel to make UDP encapsulation efficient and
+a first class citizen of the stack.
+</p>
+<p>
+For part two of this discussion, we'll look at foo-over-UDP (FOU). FOU
+is an encapsulation method to where IP protocol packets are directly
+encapsulated in a UDP payload. The first support of this is IPIP, sit,
+GRE tunnels which can be configured to transmit using FOU
+encapsulation. The GRE part implements the GRE/UDP draft.
+</p>
+<p>
+For part three of this discussion, we'll look at Generic UDP
+Encapsulation (GUE) and Remote Checksum Offload. GUE is a lightweight,
+extensible, and performant encapsulation mechanism of IP protocol
+packets (indicated in a header field). The GUE header allows for
+optional data fields which which we intend to use for virtualization,
+security, and congestion control.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/herbert-UDP-Encapsulation-Linux.pdf">/docs/herbert-UDP-Encapsulation-Linux.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/UDP-Encapsulation-in-Linux.pdf">/papers/UDP-Encapsulation-in-Linux.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=hKTD9W2C5s8">https://www.youtube.com/watch?v=hKTD9W2C5s8</a> <small>link</small></li></ul></article><article><h2>11. Offloading to yet another software switch</h2><p class="meta">talk · Monday, February 16 16:30 - 17:10 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/13.html">https://netdevconf.info/0.1/sessions/13.html</a></p><h3>Description</h3><div class="description"><p>
+Recent software switches, such as VALE and DPDK-based Open vSwitch
+have significant advantages over traditional Linux bridge in terms of
+throughput, scalability and/or flexibility.  For example, VALE, a
+software switch based on netmap, forwards 64 byte frames at ~10 Mpps
+with L2 learning logic, which is approximately 10 times faster than
+Linux bridge; and it scales to hundreds of switch ports using a novel
+packet switching algorithm, which is important when we use a software
+switch as a backend to interconnect VMs and NICs.
+</p>
+<p>
+In this session we present experience with offloading packet switching
+to VALE under familiar Linux bridge control.  We exploit recent
+extensions in Linux bridge to offload packet switching to switch ASICs
+like Rocker while keeping control in Linux.  Offloading to software
+switches improves packet switching without switch ASICs. It also
+improves packet switching for software ports where VMs or applications
+attach.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/papers/Offloading-to-yet-another-software-switch.pdf">/papers/Offloading-to-yet-another-software-switch.pdf</a> <small>file</small></li></ul></article><article><h2>12. Implementing Open vSwitch datapath using TC</h2><p class="meta">talk · Tuesday, February 17 13:00 - 13:40 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/14.html">https://netdevconf.info/0.1/sessions/14.html</a></p><h3>Description</h3><div class="description"><p>
+This is a proposal to illustrate how to implement the Open vSwitch datapath
+using the Linux traffic control (TC) subsystem. The TC subsystem existed long
+before OVS and offers more flexibility. As an example it allows creating
+multiple types of classifiers which can be added as plugins. It offers
+capability of working on the ingress or egress path of any Linux netdev
+which means the datapath does not require the central focus to be a switch.
+</p>
+<p>
+This talk will go into covering the missing classifiers and actions
+that are implemented in OVS datapath and needed by TC to achieve this goal.
+The talk will describe recent updates being done and also the planned ones
+to add code-reusability to some of the ovs datapath actions and how they are
+used by tc to achieve the stated goal.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/pirko-ovstc-slides.pdf">/docs/pirko-ovstc-slides.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Implementing-Open-vSwitch-datapath-using-TC.pdf">/papers/Implementing-Open-vSwitch-datapath-using-TC.pdf</a> <small>file</small></li></ul></article><article><h2>13. MPTCP Upstreaming</h2><p class="meta">talk · Monday, February 16 11:20 - 12:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/16.html">https://netdevconf.info/0.1/sessions/16.html</a></p><h3>Description</h3><div class="description"><p>
+MultiPath TCP is a transport layer protocol which takes advantage of
+today's Internet architecture where multiple paths exist between
+endpoints. The application uses a single TCP-like socket with multiple
+subflows being started in kernel-space for the same connection. These
+subflows are implemented as normal TCP connections and are completely
+transparent to the application. MPTCP is implemented in the Linux
+Kernel in an off-tree open-source repository maintained by the
+academic community.
+</p>
+<p>
+Our aim is to bring the off-tree Linux Kernel MPTCP implementation in
+the official tree in order to gain additional contributors and
+accelerate innovation. The problem is that the code from the off-tree
+implementation heavily modifies the TCP stack such that an upstream
+submission can't be accepted without cleaning the TCP stack and moving
+the MPTCP related operations to a separate layer. Since MPTCP subflows
+are based on regular TCP connections, the new architectural approach
+is to call TCP code from the new layer instead of modifying it. Apart
+from removing the mix between the TCP and MPTCP code and making it a
+successful candidate for the upstream process, this new layer brings
+other advantages like allocating the MPTCP data structures at the
+socket creation and avoiding the overhead of switching from TCP to
+MPTCP at connection time. In order to implement the MPTCP separate
+layer, a series of problems must be solved: passing data to/from the
+subflow level, locking scenarios, performance penalties, switching
+between TCP and MPTCP, separation of data structures and allocating
+them at the right moment.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/octavian-mptcp-netdev-final.pdf">/docs/octavian-mptcp-netdev-final.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Shaping-the-Linux-kernel-MPTCP-implementation-towards-upstream.pdf">/papers/Shaping-the-Linux-kernel-MPTCP-implementation-towards-upstream.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=wftz2cU5SZs">https://www.youtube.com/watch?v=wftz2cU5SZs</a> <small>link</small></li><li><a href="https://netdevconf.info/0.1/docs/octavian-mptcp-netdev-final.odp">.odp file</a> <small>file</small></li></ul></article><article><h2>14. Breaking Open Linux Switching Drivers</h2><p class="meta">talk · Monday, February 16 10:30 - 11:10 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/19.html">https://netdevconf.info/0.1/sessions/19.html</a></p><h3>Description</h3><div class="description"><p>
+Linux has been the operating system of choice for hardware switches and
+routers for the last decade.  Most users did not know this as direct
+access to the operating system and hardware were hidden behind a shiny
+UI.  Community projects like (OpenWRT/DD-WRT/etc) provided users the
+first chance to use standard FOSS networking tools to configure and
+manage devices and products like Cumulus Linux and projects like Open
+Route Cache have taken this a step further to support enterprise and
+data-center grade top of rack switches using open-source tools and
+infrastructure -- though today they still rely on out-of-tree kernel
+drivers and a vendor-licensed SDK.
+</p>
+<p>
+The goal of this talk is to present a viable alternative for how current
+vendor switching and routing hardware can be made significantly more
+usable by kernel and application developers by moving away from the
+current model.  Today, most Linux users of datacenter hardware currently
+interact with network devices that are presented as tun/tap devices and
+use of tree kernel drivers to access hardware. This combination does not
+allow access to hardware information or configuration (how are the
+ethtool_ops for tun/tap working?) and it currently provides no ability
+to leverage the recently merged dataplane offload (switching and
+routing) infrastructure has that has recently made it into the upstream
+kernel.  Though the short-term solution requires the unfortunate
+reliance on a vendor-licensed SDK, releasing and adding this driver to
+the upstream kernel is the first step towards a goal of simplified
+data-plane programming.  This talk includes a description of the
+architecture of this driver for as it compares to some of the vendor
+options available today, the relationship and communication between this
+driver and the current vendor-licensed SDK, and plans for the future
+growth of this into a stand-alone driver with minimal (if any) SDK
+reliance.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/gospodarek-Evolution-Not-Revolution.pdf">/docs/gospodarek-Evolution-Not-Revolution.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Breaking-Open-Linux-Switching-Drivers.pdf">/papers/Breaking-Open-Linux-Switching-Drivers.pdf</a> <small>file</small></li></ul></article><article><h2>15. TC Classifier Action Subsystem Architecture</h2><p class="meta">talk · Saturday, February 14 14:05 - 16:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/21.html">https://netdevconf.info/0.1/sessions/21.html</a></p><h3>Description</h3><div class="description"><p>
+This talk is about the Linux Traffic Control (tc) filter-action subsystem.
+Although it has been around for about a decade, this subsystem was never
+formally documented. Given that two other netdev01 talks refer to this subsystem, we feel obligated to discuss the history, architecture and
+usage of tc filter-actions.
+
+We will describe the packet-processing-graph architecture and the underlying extensibility offered; we will further discuss the formal
+"graph language" that  makes it an awesome packet processing
+architecture (in our view is still technically ahead of heavily
+marketted approaches like P4 or  OF).
+</p>
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/hadi-salim-TC-act-arch-slides.pdf">/docs/hadi-salim-TC-act-arch-slides.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Linux-Traffic-Control-Classifier-Action-Subsystem-Architecture.pdf">/papers/Linux-Traffic-Control-Classifier-Action-Subsystem-Architecture.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=cyeJYjZHv5M">https://www.youtube.com/watch?v=cyeJYjZHv5M</a> <small>link</small></li></ul></article><article><h2>16. MLAG (or Multi-Chassis Link aggregation Group) integration with Linux</h2><p class="meta">talk · Monday, February 16 14:45 - 15:25 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/22.html">https://netdevconf.info/0.1/sessions/22.html</a></p><h3>Description</h3><div class="description"><p>
+MLAG extends the implementation of LAG beyond a single device to
+provide another level of redundancy that extends from link-level
+to the node level.  MLAG is widely used in a modern data center
+in order to provide ToR-level active-active redundancy.
+</p>
+<pre>
+    -------------                         -------------
+    | switch A  | --------- IPL --------- | switch B  |
+    -------------                         -------------
+          \ (              MLAG              ) /
+           \                                  /
+            \                                /
+             \                              /
+              \                            /
+               \                          /
+                \                        /
+                 \ (       Bond       ) /
+                  \                    /
+                 ------------------------
+                 |    Host \ Switch     |
+                 ------------------------
+</pre>
+<p>
+This talk presents the changes needed from the Linux kernel in order
+to support MLAG both in the control plane.  E.g. providing the system
+ID to the bond driver, supporting  Multi-Chassis  STP, and in the data
+plan  E.g. IPL link requirements.  The talk will be based on open
+source MLAG implementation and the enhancements that should be done to
+revert the code to native Linux solution
+<a href="https://github.com/open-ethernet/MLAG">
+https://github.com/open-ethernet/MLAG</a>
+</p>
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul></article><article><h2>17. MLAG on Linux - Lessons Learned</h2><p class="meta">talk · Monday, February 16 15:30 - 16:10 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/23.html">https://netdevconf.info/0.1/sessions/23.html</a></p><h3>Description</h3><div class="description"><p>
+MLAG is a networking technology which allows for increased redundancy
+and bandwidth in layer 2 networks. This talk will begin with an
+overview of MLAG, the problems it solves, and the common use
+cases. This leads to the important design considerations and caveats
+of a properly functioning MLAG implementation, especially with respect
+to MAC address learning and packet forwarding. This requires
+additional capabilities to be added to the Linux kernel bridging and
+bonding drivers for proper MLAG operation. Each of these enhancements
+will be enumerated and described in detail. Then, an example of a
+recent implementation of MLAG on a Linux system will be used to
+describe the types of data which must be synchronized between bridges
+and the interactions with other system components, such as spanning
+tree, iproute2/Netlink, and ifupdown2.
+</p>
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/MLAG%20on%20Linux%20-%20Lessons%20Learned.pdf">/docs/MLAG%20on%20Linux%20-%20Lessons%20Learned.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/MLAG-on-Linux.pdf">/papers/MLAG-on-Linux.pdf</a> <small>file</small></li></ul></article><article><h2>18. The case for eliminating inconsistencies between Linux kernel IPv4/IPv6 API</h2><p class="meta">talk · Monday, February 16 16:30 - 17:45 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/25.html">https://netdevconf.info/0.1/sessions/25.html</a></p><h3>Description</h3><div class="description"><p>
+The case for eliminating inconsistencies between Linux kernel
+IPv4/IPv6 API:
+</p>
+<p>
+The Linux kernel provides a rich Netlink based API to configure,
+deploy and manage IPv4 and IPv6.
+</p>
+<p>
+However, the APIs for IPV4 and IPv6 are not consistent in some cases.
+</p>
+<p>
+Some of these inconsistencies include:
+</p>
+<ul>
+    <li>IPV6 addresses are removed on link down. IPV4 addresses
+    stay</li>
+    <li>IPV4 multipath route handling API is different from IPV6
+    Netlink route replace/append handling is different between
+    IPV4 and IPV6</li>
+</ul>
+<p>
+Over the years user-space components have worked around these
+inconsistencies.
+</p>
+<p>
+In this paper we survey the inconsistencies in the kernel API between
+IPV4 and IPV6 and present the solutions we adopted to workaround these
+inconsistencies in user space.  We show how these inconsistencies
+cascade into multiple components (routing daemons, user-space netlink
+caches and hardware offload drivers) in a system. We show that the
+resulting implementation is complex enough to justify an effort to
+eliminate these inconsistencies in the future by unifying the
+IPv4/IPv6 kernel API
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/prabhu-linux_ipv4_ipv6_inconsistencies_talk_slides.pdf">/docs/prabhu-linux_ipv4_ipv6_inconsistencies_talk_slides.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/The-case-for-eliminating-inconsistencies-between-IPv4-and-IPv6-kernel-User-API.pdf">/papers/The-case-for-eliminating-inconsistencies-between-IPv4-and-IPv6-kernel-User-API.pdf</a> <small>file</small></li></ul></article><article><h2>19. Networking in Containers and Container Clusters</h2><p class="meta">talk · Monday, February 16 15:30 - 16:10 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/27.html">https://netdevconf.info/0.1/sessions/27.html</a></p><h3>Description</h3><div class="description"><p>
+Containers have recently risen in popularity tremendously in the Linux
+world. Their promise of fast, light, isolated, and secure runtime and
+deployment appeals to many user space developers. One of the most
+important aspects of containers today is networking. Container
+networking configurations are almost as varied as there are container
+users, but there is a common emphasis on flexibility, performance, and
+security. Using Docker's libcontainer we will present and showcase
+many of the popular networking setups, their uses, and their problems
+today.
+</p>
+<p>
+A second aspect we will explore are containers in clusters. Systems
+like Kubernetes manage containers across clusters of
+machines. Container-based applications in these clusters communicate
+almost exclusively through the network; discovery, linking, and
+synchronization happen all in the network. We will present and
+showcase the history, the setups, and the problems of networking in
+Kubernetes clusters. We will also cover common patterns of handling
+networking for multi-container applications in clusters.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/Networking%20in%20Containers%20and%20Container%20Clusters.pdf">/docs/Networking%20in%20Containers%20and%20Container%20Clusters.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/Networking-in-Containers-and-Container-Clusters.pdf">/papers/Networking-in-Containers-and-Container-Clusters.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=Mpx-azJSmOE">https://www.youtube.com/watch?v=Mpx-azJSmOE</a> <small>link</small></li></ul></article><article><h2>20. ipvlan</h2><p class="meta">talk · Monday, February 16 10:30 - 11:10 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/28.html">https://netdevconf.info/0.1/sessions/28.html</a></p><h3>Description</h3><div class="description"><p>
+The commonly used method to connect namespaces to the outside world
+without going through the forwarding setup on the host used to be the
+macvlan. This setup is simple and efficient except when the next-hop
+devices apply policies barring host to act like a forwarding device.
+This is especially problematic where the connected next-hop e.g.
+switch is expecting frames from a specific mac from a specific port.
+In a situation like this the macvlan setup does not work. The host
+will either have to fall back non-efficient forwarding methods or
+something else. ipvlan was designed to address this specific need
+along with few other mentioned in next few sections. This paper
+attempts to describe these use cases and highlights differences with
+macvlan devices and briefly talk about future enhancements planned.
+</p>
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/bandewar-IPvlan-presentation-Netdev01.pdf">/docs/bandewar-IPvlan-presentation-Netdev01.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/IPVLAN-The-beginning.pdf">/papers/IPVLAN-The-beginning.pdf</a> <small>file</small></li></ul></article><article><h2>21. BIRD Internet Routing Daemon</h2><p class="meta">talk · Tuesday, February 17 9:00 - 9:40 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/29.html">https://netdevconf.info/0.1/sessions/29.html</a></p><h3>Description</h3><div class="description"><p>
+  The BIRD is a free, open source internet routing daemon running on Linux
+  and *BSD with support for commonly used routing protocols (OSPF, BGP,
+  RIP), easy to use configuration interface and powerful route filtering
+  language. It is deployed as a route server in many internet exchange
+  points around the world.
+</p>
+<p>
+  This talk presents the overview of BIRD project, its basic concepts and
+  design decisions and common applications and use cases. We will also
+  discuss pitfalls in userspace/kernel interfaces encountered during BIRD
+  development.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/ondrej-zajicek-slides-netdev01.pdf">/docs/ondrej-zajicek-slides-netdev01.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/BIRD-Internet-Routing-Daemon.pdf">/papers/BIRD-Internet-Routing-Daemon.pdf</a> <small>file</small></li></ul></article><article><h2>22. Cooperative networking virtualization for the industrial server applications</h2><p class="meta">talk · Monday, February 16 13:45 - 14:25 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/31.html">https://netdevconf.info/0.1/sessions/31.html</a></p><h3>Description</h3><div class="description"><p>
+The industrial network server applications the authors encounter in
+their practice differ from the usual small separate process ones. In
+most cases, separation of traffic coming from/to the single-process
+highly optimized application becomes a strong requirement. The network
+needs be seen differently depending of which virtual entity inside the
+application accesses it. Traffic reflection (auto routing for the
+inbound connections) is also highly desired. Usually, confining the
+application to a container is not possible but some level of
+cooperation could be ensured instead.
+</p>
+<p>
+A few prototypes were built, using Linux policy-based routing and
+Linux kernel namespaces, combined with use of socket options and
+netfilter. Tests show good performance of these solutions, however,
+open questions still remain. This paper/talk explains the use case,
+goes over the techniques applied and highlights the networking
+subsystem limitations encountered.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/papers/Cooperative-network-virtualization-in-the-industrial-server-applications-on-Linux.pdf">/papers/Cooperative-network-virtualization-in-the-industrial-server-applications-on-Linux.pdf</a> <small>file</small></li></ul></article><article><h2>23. Flow API: An abstraction for hardware flow tables</h2><p class="meta">talk · Monday, February 16 13:00 - 13:40 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/34.html">https://netdevconf.info/0.1/sessions/34.html</a></p><h3>Description</h3><div class="description"><p>
+There is ongoing work to create a hardware offload API for Linux with
+the goal of being generic enough to support a wide range of networking
+hardware and use cases. In this paper we outline some of the insights
+that have guided the development of this API. As well as illustrate
+how the Flow API can be used by developers to write programs that can
+work across a wide array of devices without having to resort to
+writing device specific code. To demonstrate this we have implemented
+the API using the rocker switch an emulated switch device and provided
+sample code that readers can download.
+</p>
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/fastabend-netdev0.1-slides_v3.pdf">/docs/fastabend-netdev0.1-slides_v3.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/papers/A-Flow-API-for-Linux-Hardware-Devices.pdf">/papers/A-Flow-API-for-Linux-Hardware-Devices.pdf</a> <small>file</small></li></ul></article><article><h2>24. Wireless Workshop</h2><p class="meta">workshop · Saturday, February 14 9:00 - 18:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/1.html">https://netdevconf.info/0.1/sessions/1.html</a></p><h3>Description</h3><div class="description"><p>The wireless workshop will bring together the Linux wireless stack and
+driver maintainers to discuss the continued development of the stack
+regarding Linux implementation of existing standards, new requirements
+coming from 802.11 specification development, Android integration, new
+products and similar.</p>
+<p>
+Please see the
+<a href="https://wireless.wiki.kernel.org/en/developers/summits/ottawa-2015">agenda</a>
+to get an idea of what will be talked about.
+</p>
+
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul></article><article><h2>25. Hardware Offloading BoF</h2><p class="meta">BoF · Sunday, February 15 13:00 - 14:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/10.html">https://netdevconf.info/0.1/sessions/10.html</a></p><h3>Description</h3><div class="description"><p>
+Networking is all about interoperation and best way to achieve that is to
+use an open implementation with consistent interfaces as provided by
+the Linux kernel.
+</p>
+<p>
+Currently packet processing offloading in Linux networking is being
+extended to support different capabilities which may have conflicting
+interests. A sample space is by:
+</p>
+<ul>
+        <li>NICs that support acceleration of certain packet paths
+           <ul>
+              <li>May include basic L2 processing</li>
+              <li>May include flow processing</li></ul></li>
+        <li>Switches that support basic managed L2 support</li>
+        <li>ASICs that support L2/3 and ACLs</li>
+        <li>Switches that can pretend to be a multi-ported nic</li>
+        <li>NICs that are multiported
+            <ul>
+                <li>And support VEPA mode</li>
+                <li>And support EVB mode
+                </li><li>Can learn, manage timers or need hypervisor/OS support
+to manage them</li>
+                <li>PCIe level virtualization</li></ul></li>
+        <li>NPUs and speacial purpose packet processors that
+            <ul>
+                 <li>mangling operations in</li>
+                 <li>Load balancing at Application/L3/L2 layers</li>
+                 <li>IPSEC offload</li>
+                 <li>More complex flow graph offload</li></ul></li>
+</ul>
+<p>
+To provide uniformity in interfaces, the control interfaces via
+standard kernel APIs are used; and consensus needs to be reached
+on the different offload interfaces.
+</p>
+<p>
+This BOF intends to bring together all the stakeholders and gather
+guidelines that need to be agreed upon so as to not stifle innovation, but
+also ensure that the concept of a Linux networking interfaces do not get
+diluted in the process.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/mukherjee-BOF-agenda.pdf">/docs/mukherjee-BOF-agenda.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/docs/sane-ocp-sai-status.pdf">/docs/sane-ocp-sai-status.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/docs/mihai-budiu-netdev01-p4.pdf">/docs/mihai-budiu-netdev01-p4.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/docs/mihai-budiu-netdev01-p4-demo.pdf">/docs/mihai-budiu-netdev01-p4-demo.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/docs/IPQ806x-Hardware-acceleration_v3.pdf">/docs/IPQ806x-Hardware-acceleration_v3.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/docs/sane-ocp-sai-status.pptx">.pptx file</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/docs/mukherjee-horman-hw-offload-BOF-agenda.pptx">Shrijeet Mukherjee, Neil Hormal | mukherjee-horman-hw-offload-BOF-agenda.pptx</a> <small>file</small></li></ul></article><article><h2>26. TCP stack instrumentation BoF</h2><p class="meta">BoF · Sunday, February 15 11:00 - 12:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/17.html">https://netdevconf.info/0.1/sessions/17.html</a></p><h3>Description</h3><div class="description"><p>
+The TCP stack, by design, hides much of the information about it's functioning and performance from userland. As such, unearthing the root cause of performance problems can be both frustrating and time consuming. While some instrumentation is available through the current TCP_INFO struct a more extensive set of instruments may provide better data for TCP diagnostics and performance monitoring.
+
+This BoF intends to bring together interested parties and stakeholders in order to discuss the need and requirements for extending the current set of TCP instruments. The discussion will include potential instruments, use case scenarios, access methods, metric validation, and other issues.
+</p>
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/rapier-netdev01_stack_instrumentation_bof.pdf">/docs/rapier-netdev01_stack_instrumentation_bof.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=6VuniIff9z0">https://www.youtube.com/watch?v=6VuniIff9z0</a> <small>link</small></li><li><a href="https://netdevconf.info/0.1/docs/rapier-netdev01_stack_instrumentation_bof.pptx">.pptx file</a> <small>file</small></li></ul></article><article><h2>27. 802.1ad HW acceleration and MTU handling</h2><p class="meta">BoF · Saturday, February 14 11:00 - 11:55 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/18.html">https://netdevconf.info/0.1/sessions/18.html</a></p><h3>Description</h3><div class="description"><p>
+Since 802.1ad was introduced back in 3.10, stacked vlan has been getting
+common on Linux. It can be used not only inside a data center network,
+but also in integrating Linux into Metro Ethernet, which often consists
+of 802.1ad switches.
+</p>
+<p>
+However, there still remain a couple of challenges around stacked vlan.
+</p>
+<p>
+This discussion focuses how to handle these issues.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/netdev01_bof_8021ad_makita_150212.pdf">/docs/netdev01_bof_8021ad_makita_150212.pdf</a> <small>file</small></li></ul></article><article><h2>28. Netfilter BoF</h2><p class="meta">BoF · Sunday, February 15 9:00 - 10:55 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/26.html">https://netdevconf.info/0.1/sessions/26.html</a></p><h3>Description</h3><div class="description"><p>
+This BoF intends to bring together interested parties and stakeholders
+to discuss the current state of iptables, ipset, and nftables when
+used in a large-scale environment. The discussion will focus around
+the use and issues with the current netfilter tools in such an
+environment and what we can do to improve them.
+</p>
+<p>
+Some examples of those topics are:
+</p>
+<ul>
+ <li>Supported Interfaces
+   <ul>
+     <li>
+       The need for solid, supported development libraries for iptables,
+       ipset, nftables allowing applications to fully take advantage of their
+       features.
+     </li>
+   </ul>
+ </li>
+ <li>Improvements to existing components
+   <ul>
+     <li>
+       Handling very large sets (1 million to 25 million entries).  Discuss alternatives to ipset (such as nft set implementation).
+     </li>
+     <li>
+       Limitations in existing iptables functionality.
+     </li>
+   </ul>
+ </li>
+ <li>
+   nftables considerations
+   <ul>
+     <li>Performance</li>
+     <li>Backwards compatibility</li>
+     <li>New features</li>
+   </ul>
+ </li>
+</ul>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/hunt-netfilter-bof.pdf">/docs/hunt-netfilter-bof.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=e-U9yCE08Cg">https://www.youtube.com/watch?v=e-U9yCE08Cg</a> <small>link</small></li></ul></article><article><h2>29. Hacker Ice Skating BoFS</h2><p class="meta">BoF · Monday, February 16 18:30 - 20:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/36.html">https://netdevconf.info/0.1/sessions/36.html</a></p><h3>Description</h3><div class="description"><p>
+Does anyone remember the Hacker Bike Rides in Canberra, OLS or LCA?
+<a href="http://tricolour.net/hackerbikeride.html">
+http://tricolour.net/hackerbikeride.html</a>
+</p>
+<p>
+This is the same idea, except ice skating on the world's *largest*
+skating rink.  It used to be the *longest* at 7.8km, but then Winnipeg
+had to run a plough up the Red River just slightly longer (9km) and
+claim the *longest* record.  Ottawa still clears a *much* wider path,
+making it a larger area by a factor of four!
+</p>
+<p>
+Those who have ice skates are invited to bring them.  For the rest,
+there are skate rentals just across the street from the conference
+venue, $17 for a couple of hours.  This is a family-friendly event, and
+there are likely to be small children that will be faster than many of
+the adults!  Even if you are a novice, you are encouraged to try out
+this quintessential canadian past-time, including beavertails, maple
+taffy and hot chocolate afterwards.  For those who are really novice or
+not as strong, we'll be also renting some ice-going sleighs so we can
+all have fun together and not leave anyone behind.
+</p>
+<p>
+Where: Meet on the canal ice surface just west of Colonel By Drive and
+Daly Avenue.  We will then change into our skates in the shelter
+provided, skate for an hour or two and return for refreshments.
+</p>
+<p>
+What to bring: Skates or money for skate rental.  Water or other
+beverage, maybe hot, in a thermos.  A snack or money for confections.
+Warm clothes: Pay special attention to heads, ears, necks, hands.
+</p>
+<p>
+There will likely be a strong group that will be able to do the full
+14km length of the canal in an hour.  There certainly will be a more
+leisurely group that are there simply to try out this culturally
+important activity and socialize with other netheads and their families.
+</p>
+<p>
+You don't need to be registered with the conference to be welcome to
+join us.  Please join us!  Local guides would be welcome.
+</p>
+<p>
+Thanks!  See you on the canal ice!
+</p>
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul></article><article><h2>30. IPsec BoF</h2><p class="meta">BoF · Tuesday, February 17 15:25 - 16:25 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/38.html">https://netdevconf.info/0.1/sessions/38.html</a></p><h3>Description</h3><div class="description"><p>
+    Discuss latest news/directions on IPsec.
+  </p>
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul></article><article><h2>31. Tutorial on perf Usage</h2><p class="meta">tutorial · Sunday, February 15 14:05 - 16:05 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/12.html">https://netdevconf.info/0.1/sessions/12.html</a></p><h3>Description</h3><div class="description"><p>
+This tutorial will try to demonstrate the power of performance profiling
+features within the linux kernel. We will use the networking subsystem
+as a use case for demonstrating the performance profiling features.
+</p>
+<p>
+The focus will be on the perf framework which has emerged as
+the de facto standard for performance analysis on Linux. The tutorial
+will cover well documented as well as hidden gems of the perf
+infrastructure.
+</p>
+<p>
+We will provide a short overview of perf components and how they
+work by design. Afterwards the well defined tracepoints in the
+kernel will be explored, specifically the few available in the
+networking subsystem. We will proceed to learn how to add custom probes.
+Often finding a good spot in the kernel to add a probe could be
+difficult; therefore we will try to demonstrate on how one can try to
+find
+a good location for new probes.
+</p>
+<p>
+Modern CPUs are constantly adding more features to their performance
+monitoring counters, as an example:
+PMC units were imprecise, so vendors of x86 compatible CPUs improved
+that situation by adding features to improve precision, called PEBS by
+Intel and IBS by AMD and what additional data they provide.
+</p>
+<p>
+In the outlook we explore which additional raw counters the CPUs provide
+and how it is possible to sample events from the memory controller and
+northbridge and how data is moved around CPU caches (by tracing cache
+coherency protocols). We will discuss how to write perf scripting to
+achieve this goal. Participants should be able to understand the PMC
+documentation provided by the processor vendors and apply them to perf.
+</p>
+<p>
+We will conclude with infrastructure issues around perf, mainly how to
+deal with debugging information in heterogeneous environments mainly
+using different and ever changing kernel versions, mismatching debug
+information and how to deal with that. I hope for insights from the
+audience because this problem isn't yet solved by us.
+</p>
+<p>
+The tutorial is intended to be interactive and we hope to gain insights
+from people attending the tutorial as it applies to their environments.
+</p>
+<p>
+Bring a laptop or remote access to fancier equipment and lets have
+fun.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/sowa-perf-analytics.pdf">/docs/sowa-perf-analytics.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=W0gtG67GUIw">https://www.youtube.com/watch?v=W0gtG67GUIw</a> <small>link</small></li></ul></article><article><h2>32. BPF In-kernel Virtual Machine</h2><p class="meta">tutorial · Saturday, February 14 13:00 - 14:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/15.html">https://netdevconf.info/0.1/sessions/15.html</a></p><h3>Description</h3><div class="description"><p>
+BPF or Berkeley Packet Filter mechanism was first introduced in
+linux in 1997 in version 2.1.75 inspired by BSDs to handle network
+packet filtering. The main user of BPF interface was initially
+the packet capture tool tcpdump. Over the years other tools adopted
+it. As its need to solve different networking filtering evolved,
+a number of extensions were added.
+</p>
+<p>
+Recently in kernel versions 3.15 - 3.19 it received a major overhaul
+which drastically expanded its applicability. This tutorial will cover
+how the instruction set looks today and why. Its architecture,
+capabilities, interface, just-in-time compilers. The audience will
+learn how it's being used in different areas of the kernel like
+tracing and networking. What user space tools exist and
+how they can be used. How to write and debug programs.
+What future plans are for X+BPF, where X is tracing, OVS,
+sockets, netdevices, etc. Where it makes sense to use BPF
+and where it is not. Live demos included.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/starovoitov-bpf_netdev01_2015feb13.pdf">/docs/starovoitov-bpf_netdev01_2015feb13.pdf</a> <small>file</small></li></ul></article><article><h2>33. Hardware Accelerating Linux Network Functions</h2><p class="meta">tutorial · Saturday, February 14 9:00 - 10:55 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/24.html">https://netdevconf.info/0.1/sessions/24.html</a></p><h3>Description</h3><div class="description"><p>
+Linux Kernel Switchdev API being discussed recently in the context of supporting networking
+switch ASIC's is the future of offload API's. And existing standard Linux interfaces
+can be used to offload Linux network functions to a network switch ASIC.
+</p>
+<p>
+In this tutorial we will demonstrate this with an existing implementation.
+</p>
+<p>
+We will show how existing Linux networking tools like iproute2/brctl/ethtool can be used to
+offload to a network switch ASIC.
+</p>
+<p>
+We will start by talking and demonstrating various virtual switching
+technologies around the Linux bridge and related technologies
+(SRIOV, macvlan etc).
+</p>
+<p>
+We will then proceed to demonstrate how Linux bridge can be accelerated with
+commodity network switch ASICs utilizing the same control tools:
+</p>
+<ul><li>Create bridge device, add network switch ports using `ip link` or `brctl`</li>
+    <li>Set vlans on bridge ports using `bridge vlan add`</li>
+    <li>Vlans programmed in hardware</li>
+    <li>hardware learning, software aging of fdb entries</li>
+    <li>Dumping hardware fdb tables using `bridge fdb show`</li>
+</ul><p>
+We plan to cover L3 as well.
+</p>
+<p>
+Most of the network switch drivers available today rely on a closed vendor SDK API.
+We will not be able to cover all hardware details, but we hope to show enough details of
+kernel structures offloaded to hardware for easier API development.
+</p>
+<p>
+We will use an industry standard network switch running Debian based Cumulus Linux distribution.
+We are also looking at possibilities of showing this on other devices running Linux.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/prabhu-kok-hardware_acceleration_tutorial_netdev01-1.pdf">/docs/prabhu-kok-hardware_acceleration_tutorial_netdev01-1.pdf</a> <small>file</small></li><li><a href="https://netdevconf.info/0.1/docs/netdev_tutorial_bridge_makita_150213.pdf">/docs/netdev_tutorial_bridge_makita_150213.pdf</a> <small>file</small></li></ul></article><article><h2>34. nftables tutorial</h2><p class="meta">tutorial · Saturday, February 14 16:30 - 18:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/30.html">https://netdevconf.info/0.1/sessions/30.html</a></p><h3>Description</h3><div class="description"><p>
+nftables is the next generation Netfilter packet filtering software
+that aims to replace {ip,ip6,eb,arp}tables. This project comes with
+the new libnftnl userspace library, the nft userspace configuration
+utility and backward compatibility utilities.
+</p>
+<p>
+nftables reuses the main building blocks of the Netfilter
+infrastructure such as the existing hooks, the connection tracking
+system, NAT, the userspace queueing infrastructure and the logging
+subsystems.
+</p>
+<p>
+This tutorial will describe its features, architecture, interface,
+what it is currently cooking and future plans. This will also include
+examples both from the application programming and the user
+interfaces.
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/nftables-rmll-2014.pdf">/docs/nftables-rmll-2014.pdf</a> <small>file</small></li><li><a href="https://www.youtube.com/watch?v=cODU94yVxDs">https://www.youtube.com/watch?v=cODU94yVxDs</a> <small>link</small></li></ul></article><article><h2>35. Introduction to basics of TIPC</h2><p class="meta">tutorial · Saturday, February 14 11:00 - 11:55 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/33.html">https://netdevconf.info/0.1/sessions/33.html</a></p><h3>Description</h3><div class="description"><p>
+TIPC (Transparent Inter Process Communication) is a cluster wide IPC
+service that is specially designed to be used by distributed services
+and applications. The code consists of a kernel module and a user
+space configuration tool.
+</p>
+<p>
+The service provides a location transparent addressing scheme, where
+logical service instances, rather than interfaces and ports, are the
+targets of sent messages.  Using this scheme, TIPC provides both
+connection oriented, reliable datagram and multicast communication
+modes.  It also provides a topology subscription server, making it
+easy to keep continuous track of changes in both functional and
+physical topology within the cluster.
+</p>
+<p>
+In this this tutorial we will describe the features, the API, and the
+architecture of TIPC. We will also show a demo that emphasizes the
+strengths and the ease of use of this service.  Finally, we will
+describe the improvements we have made both to the protocol and the
+code over the last couple of years, and outline our fairly ambitious
+plans for the future (L3 support, scalability, traffic management,
+performance...)
+</p>
+    </div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/0.1/docs/maloy-TIPC%20Overview_NDEV2015.pdf">/docs/maloy-TIPC%20Overview_NDEV2015.pdf</a> <small>file</small></li></ul></article><article><h2>36. Winter Cycling Tutorial</h2><p class="meta">tutorial · Saturday, February 14 18:00 - 20:00 スケジュールの表示時刻（タイムゾーン未明記）</p><p><a href="https://netdevconf.info/0.1/sessions/35.html">https://netdevconf.info/0.1/sessions/35.html</a></p><h3>Description</h3><div class="description"><p>
+Bicycle commuting year-round in the second coldest capital on the planet.
+</p>
+<p>
+After spending a year in Australia, two months of that chasing sheep on
+a motorcycle in deep sand, the author had the insight that he had gained
+the skill necessary to bicycle commute in snow and has been doing
+exactly that for the last two decades.
+</p>
+<p>
+Winter cycling may seem ridiculous to some, but then so does driving
+a car in warm sunny weather to others.
+</p>
+<p>
+With the right equipment, it is fun, healthy and safe.  In fact, the
+presenter has found it to be safer to be a winter cyclist than to be a
+winter pedestrian in Ottawa.
+</p>
+<p>
+This tutorial (which could be during a meal) will focus on clothing,
+the vehicle and technique.
+</p>
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul></article></main><script>const q=document.querySelector('#q'),cards=[...document.querySelectorAll('article')];function filter(){let words=q.value.toLowerCase().split(/\s+/).filter(Boolean),n=0;cards.forEach(c=>{let t=c.textContent.toLowerCase();c.hidden=!words.every(w=>t.includes(w));if(!c.hidden)n++});document.querySelector('#count').textContent=n+' / '+cards.length+' セッション';}q.addEventListener('input',filter);filter();</script><section><h2>個別URL未掲載のスケジュール項目</h2><details><summary>Closing ceremony</summary><p>個別URL・Description: 未掲載</p><p>Tuesday, February 17, 2015 14:35 - 15:15</p><p><a href="https://netdevconf.info/0.1/docs/hadi-salim-netdev01-closing.pdf">Jamal Hadi Salim | hadi-salim-netdev01-closing.pdf</a></p></details><details><summary>BoF HW netlink async</summary><p>個別URL・Description: 未掲載</p><p>Tuesday, February 17, 2015 15:25 - 16:25</p></details></section></body></html>

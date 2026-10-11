@@ -1,0 +1,616 @@
+Source: https://youtu.be/UMSx84HAatY
+Language: en
+Captions: auto-generated
+
+[00:00:00] Let's
+[00:00:01] start. Um I would give you an update
+[00:00:04] from what we discussed at Netconf. So um
+[00:00:08] Netcon is a smaller gathering of the
+[00:00:10] maintainers as some key developers that
+[00:00:12] we usually organize once a year. Um as
+[00:00:16] part of one of the conferences, um
+[00:00:18] there's nothing really secret or
+[00:00:22] um closed off about it. We just like to
+[00:00:24] have a smaller gathering, you know,
+[00:00:25] because it's easier for everybody to
+[00:00:27] speak up and um less stressful for
+[00:00:30] people to present basically if there's a
+[00:00:31] smaller group of people. So um we had 15
+[00:00:34] developers and maintainers gather here
+[00:00:37] um yesterday and uh I'm just going to
+[00:00:40] give you an update of the topics that we
+[00:00:41] discussed and any recommendations and
+[00:00:45] conclusions.
+[00:00:46] Um so the first topic we discussed was
+[00:00:49] uh related to the CI. Um there were some
+[00:00:52] concerns and complaints made about uh
+[00:00:54] the difficulty to reproduce some of the
+[00:00:57] failures that we see in the self tests.
+[00:00:59] Um the operating system and the
+[00:01:02] environment that we have is not really
+[00:01:05] packaged today. So if someone runs the
+[00:01:08] the tests on a Debian environment or
+[00:01:10] whatever else environment, sometimes
+[00:01:11] they don't the tests don't fail and then
+[00:01:14] when they post the patches to the
+[00:01:15] mailing list, there's a failure because
+[00:01:18] the system diversion is different or
+[00:01:20] some you know third party software is
+[00:01:22] different. So um
+[00:01:25] we obviously are aware of this issue and
+[00:01:27] sometimes when the things get really bad
+[00:01:29] we basically gave the give the developer
+[00:01:31] SSH access to our main netci machines so
+[00:01:35] that they can figure out what the
+[00:01:36] problem is. Um going forward I think we
+[00:01:39] are hoping to make it possible for
+[00:01:40] people to just post a branch and iterate
+[00:01:43] like without having a full access to
+[00:01:45] these systems so that if there's some
+[00:01:48] strange hard to reproduce issue either
+[00:01:50] related to the OS that we have or just
+[00:01:53] because we have specific types of
+[00:01:55] machine some specific virtualization
+[00:01:57] setup that is tr triggering sorry some
+[00:02:00] um race condition. Um hopefully we can
+[00:02:03] make this more accessible. Obviously not
+[00:02:05] as a full access for everybody to run
+[00:02:08] their tests against but if there isn't
+[00:02:09] known issue I think we will have to
+[00:02:11] figure something out. Um there was also
+[00:02:13] a concern raised about the CI um using
+[00:02:17] some inry configurations. So for
+[00:02:20] instance timeouts for tests are
+[00:02:21] currently stored as part of the test K
+[00:02:24] self test directory. So if uh there's a
+[00:02:28] concern basically that if we have a lot
+[00:02:30] of test developments we will have to
+[00:02:31] keep updating those configs and there
+[00:02:33] will be a lot of patches. Um we will see
+[00:02:36] whether that becomes an issue or not but
+[00:02:38] it is something that we are basically
+[00:02:41] tracking.
+[00:02:44] um uh continuing with the CI stuff. Uh
+[00:02:47] Matt uh is has been working on who is
+[00:02:50] somewhere here has been working on
+[00:02:52] packaging um the K self tests um and
+[00:02:56] containerizing this so that it's easier
+[00:02:58] basically to to install locally all the
+[00:03:01] required tooling and reproduce and run
+[00:03:04] KSFT and all the build checks and
+[00:03:06] everything else that we do in the netci
+[00:03:09] without having to basically configure a
+[00:03:11] local system. So the primary target for
+[00:03:13] this uh kind of packaging exercise is to
+[00:03:17] have a docker image that is easy to
+[00:03:19] download and kick off basically a full
+[00:03:21] run of all networking tests that we have
+[00:03:23] that can run in software. Obviously the
+[00:03:25] hardware dependencies is is a separate
+[00:03:27] thing but the build checks and all the
+[00:03:29] KFTs should be able to run. Um so Matt
+[00:03:33] gave us an update and I think that he is
+[00:03:35] pretty much there in terms of the code
+[00:03:37] development. If someone wants to try
+[00:03:38] this out and to give any feedback or
+[00:03:41] provide any I don't know additional
+[00:03:42] input um it's uh it's making good
+[00:03:47] progress. There were two asks from the
+[00:03:49] room. I think the main one was to make
+[00:03:51] this uh consumable without the container
+[00:03:54] environment. So just like a OS image
+[00:03:56] that you can true it in into and run all
+[00:04:00] the tests without actually having to
+[00:04:02] spin up Docker. Um and uh the the second
+[00:04:06] uh point of discussion was to make the a
+[00:04:08] single image because for the KSFTS we
+[00:04:11] have uh the kernel builds and other
+[00:04:13] configuration files are generally per
+[00:04:14] targets. So um forwarding for instance
+[00:04:17] is a separate target from general
+[00:04:18] networking tests. MPTCP
+[00:04:21] um and there's a bunch of other
+[00:04:22] subtargets but for um this container
+[00:04:25] image we want to have a single one. So
+[00:04:26] it's not um the the container image will
+[00:04:29] be bigger but it will be easier to
+[00:04:31] basically reuse and run all the tests
+[00:04:32] from a single place.
+[00:04:35] Um then there was some discussion about
+[00:04:38] the driver related test. So we are now
+[00:04:40] running driver tests as part of the
+[00:04:42] netci. Um we have a bunch of nicks and a
+[00:04:45] couple of machines. Um
+[00:04:48] some companies I think Intel was the
+[00:04:50] first one to contribute the external
+[00:04:52] runner for the driver tests but more
+[00:04:54] recently Google also started reporting
+[00:04:56] their their results for their drivers.
+[00:04:58] Um so there there were some um feedback
+[00:05:01] basically on the expectations and what
+[00:05:02] makes the drivers uh the the driver
+[00:05:05] tests hard to integrate into people's um
+[00:05:09] existing test environments basically. So
+[00:05:12] I mean these are some issues that people
+[00:05:13] raised and the drivers expect to be run
+[00:05:16] as the tests expect to be run as root
+[00:05:18] which may be difficult and if the
+[00:05:20] systems are locked down um the drivers
+[00:05:24] are the the tests are generally expected
+[00:05:25] to be running um and modifying the local
+[00:05:28] machine which is fairly uncommon for
+[00:05:30] like tests which use multiple machines
+[00:05:32] for traffic generation but it's a lot
+[00:05:35] easier for development. So I think we
+[00:05:38] may consider basically extending the
+[00:05:40] framework to support wolf modes. Um for
+[00:05:43] the Python test this should be fairly
+[00:05:45] straightforward because everything is
+[00:05:47] basically abstracted away. The running
+[00:05:49] of the ex the commands but for the bash
+[00:05:52] tests
+[00:05:53] it might be more difficult. So um the
+[00:05:56] bash tests in general I think are a bit
+[00:05:58] of a um technical debt in my opinion.
+[00:06:04] All right. Um the next bunch of topics
+[00:06:06] were discussed we discussed were related
+[00:06:08] to XDP and AFXDP. Um uh one topic that
+[00:06:12] was raised was regarding integration
+[00:06:14] between uh or basically coexistence
+[00:06:17] between XDP and unreadable memory. Um so
+[00:06:22] right now the kernel basically checks
+[00:06:23] because that there's no
+[00:06:26] expectations that we set or no
+[00:06:28] documentation how these two things
+[00:06:29] should coexist. So the existing code
+[00:06:31] basically it rejects the two features
+[00:06:34] from being enabled at the same time. If
+[00:06:35] the XDP program is installed on a nick,
+[00:06:38] you cannot um install like a iing or a
+[00:06:42] dev zero copy RX
+[00:06:45] memory provider. Um and vice versa if
+[00:06:48] the there is a zero copy RX memory
+[00:06:50] provider installed, you cannot attach an
+[00:06:52] XDP program to the interface. um to just
+[00:06:55] make sure that we don't basically create
+[00:06:58] bugs and start doing things that people
+[00:07:00] don't expect. Um but uh there is I think
+[00:07:03] no fundamental issue with enabling those
+[00:07:05] things together. And uh the plan that we
+[00:07:08] discussed was basically any uh XDP
+[00:07:11] multibuff program. So XDP program which
+[00:07:13] is like capable of um handling frames
+[00:07:17] which have fragments not just a single
+[00:07:19] linear buffer but head buffer and
+[00:07:21] fragment fragment for the payload. um we
+[00:07:24] can basically make this unreadable
+[00:07:26] memory compatible without any changes on
+[00:07:28] the BPF side. Um and the plan is I think
+[00:07:31] to make the um uh the helpers that
+[00:07:35] access the data in the packet fail if
+[00:07:37] the fragment is unreadable. Um and uh
+[00:07:42] yes I mean I'm not sure if anyone is
+[00:07:45] planning to write the code yet but that
+[00:07:46] is the the thinking at this point if
+[00:07:49] this is necessary.
+[00:07:57] >> Did you guys talk about the out of order
+[00:07:59] cues for XTP or that is all
+[00:08:04] >> yes good question. The next topic was
+[00:08:06] out of order queue completions. Um and
+[00:08:08] uh the GVE and the Intel IPU drivers
+[00:08:13] have apparently um there's no way to
+[00:08:17] force them to um complete all the TX in
+[00:08:20] order because of exception traffic and
+[00:08:21] and the TX t TX tx time scheduling. Um
+[00:08:27] we discussed this. I think there's no
+[00:08:28] fundamental objection to supporting this
+[00:08:30] both in terms of an API that is exposed
+[00:08:32] to the user. So that will require some U
+[00:08:34] API changes and extending the AFXDP. Um
+[00:08:38] but I think we will have to maintain the
+[00:08:39] backward compatibility for applications
+[00:08:41] which are not capable of dealing with
+[00:08:43] the out of order completions and which
+[00:08:45] effectively will require a different
+[00:08:46] completion format. So um I think if we
+[00:08:50] want to support it with the answers we
+[00:08:51] will have to do both. Um but uh yeah I
+[00:08:55] mean we we'll have to see when the code
+[00:08:58] is posted basically no no fundamental
+[00:09:00] problem with it. Um it's continuing by
+[00:09:04] FXDP but slightly more focused on the uh
+[00:09:08] memory provider configuration and zero
+[00:09:10] copy. Um we discussed briefly or try to
+[00:09:13] basically pull the room for people's
+[00:09:15] experience trying to deploy AFXDP uh
+[00:09:18] AFXDP and zero copy RX. Um and I think
+[00:09:21] the general
+[00:09:23] problem is that um there is no high
+[00:09:25] level APIs and or high level libraries
+[00:09:27] that users can simply easily consume. Um
+[00:09:30] the kernel obviously doesn't provide any
+[00:09:32] easy to use API where you can allocate a
+[00:09:35] queue and just say this socket should be
+[00:09:36] received on this queue and everything
+[00:09:38] else is done in the background. So um
+[00:09:41] there's a lot of manual work that the
+[00:09:43] application has to do. Um I don't think
+[00:09:46] we reached any good uh next steps
+[00:09:50] honestly uh we need to figure out find
+[00:09:52] some um success stories basically and
+[00:09:55] generalize from that. Hopefully at some
+[00:09:57] point we can have a easy to use support
+[00:10:00] in an RPC library that will make this
+[00:10:02] zero copy APIs um more user friendly. Um
+[00:10:07] right now it's kind of an application by
+[00:10:09] application lift to migrate stuff. Uh
+[00:10:13] the second topic in sort of similar high
+[00:10:16] performance application modification
+[00:10:18] space was um latency related. um when we
+[00:10:22] are compared when TCP is compared
+[00:10:24] against RDMA. This is one of the points
+[00:10:26] that is often brought up
+[00:10:28] with or without much technical merit.
+[00:10:31] But um there is a for the easy easy to
+[00:10:34] run test basically if someone like runs
+[00:10:36] a naive benchmark even with polling
+[00:10:39] enabled the TCP jitter the the the
+[00:10:42] basically RPC pingpong jitter for TCP
+[00:10:45] has spikes it's much harder to
+[00:10:47] configure. So we discussed basically
+[00:10:49] improving the documentation and uh
+[00:10:52] making it easier. We assume that most
+[00:10:54] people will run that write that kind of
+[00:10:56] those kind of benchmarks today by asking
+[00:10:58] an LLM to write an application. So I
+[00:11:01] think we need better documentation to
+[00:11:03] guide the LLMs to make sure that they
+[00:11:05] configure everything right. And then um
+[00:11:09] also I think uh we concluded that this
+[00:11:11] is like important thing that for us to
+[00:11:14] to basically focus on and track. So
+[00:11:17] hopefully we can put some um benchmarks
+[00:11:19] in place or even uh track this as part
+[00:11:22] of our CIS to make sure that we don't
+[00:11:23] regress or we can detect the um sources
+[00:11:28] of of instability for for latency
+[00:11:30] because prim p in in the past we've been
+[00:11:34] primarily focusing I think on throughput
+[00:11:35] and um a lot of the um comparisons that
+[00:11:39] we see today are also um highlighting
+[00:11:42] latency as a as an important uh
+[00:11:45] benchmark going to
+[00:11:54] >> anybody else needs a mic.
+[00:11:57] >> Yeah. And so I was saying sacrificing
+[00:12:00] bandwidth is actually a good thing
+[00:12:01] because what you want to focus on is
+[00:12:03] goodput not throughput.
+[00:12:05] >> Right. Yes.
+[00:12:06] >> So
+[00:12:07] >> yeah I mean that is the right answer.
+[00:12:10] Focus on latency and jitter. You want
+[00:12:11] scale. Scale will only come if you focus
+[00:12:14] on jitter.
+[00:12:16] reducing jitter,
+[00:12:18] >> right? I think the question was more um
+[00:12:22] are we is if the patch is posted that
+[00:12:24] improves like jitter by X but it costs
+[00:12:28] us 1% of of bandwidth in a IPF test is
+[00:12:31] this going to get thrown out or not
+[00:12:33] right and the qu the answer is no like
+[00:12:35] we care so like let's let's consider
+[00:12:38] those kind of trade-offs
+[00:12:39] >> yeah right now the system problems are
+[00:12:40] more because of jitter rather than
+[00:12:42] because of uh bandwidth or throughput
+[00:12:45] >> right so especially in a realistic
+[00:12:47] network when pockets get lost, right?
+[00:12:49] Yeah. Um
+[00:12:52] All right. Um we had the discussions
+[00:12:54] about time stamping. I think the a bit
+[00:12:58] of a background I think. Um so for
+[00:13:00] historical reasons the networking
+[00:13:03] subsystem uh got uh to maintain
+[00:13:08] like physical clocks because most of the
+[00:13:12] physical clocks came from PTP and PTP is
+[00:13:15] related to networking and somehow that
+[00:13:17] means that now we have to maintain our
+[00:13:19] clock drivers and all clock drivers call
+[00:13:22] themselves PTP which is not very
+[00:13:25] fortunate because I think us networking
+[00:13:28] maintainers or maybe at least myself not
+[00:13:30] super interested and also there's a lot
+[00:13:32] of um work and a lot of devel
+[00:13:35] development in this space um especially
+[00:13:37] around virtualized workloads. Um we had
+[00:13:40] a string of at least four different
+[00:13:42] vendors and cloud providers trying to
+[00:13:44] upstream their version of a basically a
+[00:13:47] driver which exposes a synchronized
+[00:13:50] hypervisor clock to the application to
+[00:13:52] to the virtual machine. And obviously
+[00:13:55] everybody does it differently and
+[00:13:57] everybody has their reasons and uh we
+[00:13:59] really don't want to be involved in
+[00:14:01] that. But um for now uh there are some
+[00:14:04] pieces of this puzzle that will
+[00:14:06] definitely remain in networking while we
+[00:14:08] try to get rid of the rest. Um so the GV
+[00:14:10] driver um has like a legitimate
+[00:14:12] networking clock and there were some
+[00:14:14] optimizations that the the Google folks
+[00:14:16] were trying to upstream that got pushed
+[00:14:19] back from the clock maintainers. Um uh
+[00:14:21] we discussed that a little bit I think.
+[00:14:24] Um the general directions that we would
+[00:14:26] like to push everything towards is just
+[00:14:28] to have a some kind of a VDSO like
+[00:14:32] interface for all those
+[00:14:35] high paralized clocks basically so that
+[00:14:39] uh we have a single VDSO like interface
+[00:14:42] and then the hypervisor has to provide
+[00:14:44] sufficient information to the VM instead
+[00:14:46] of um everybody writing their own PTB
+[00:14:49] driver. And hopefully that will not be
+[00:14:52] met with too much hostility from the
+[00:14:54] clock driver uh from the clock
+[00:14:55] maintainers. Um we will see.
+[00:14:59] >> Um
+[00:15:00] >> are you guys thinking of virtual
+[00:15:01] clocking domain tied to croups?
+[00:15:07] >> Maybe that
+[00:15:07] >> can this be not can this not be my
+[00:15:09] problem?
+[00:15:11] >> Right. like I sure I mean I don't know
+[00:15:14] how and uh who would maintain that but
+[00:15:17] definitely not a PTP issue right
+[00:15:20] >> I don't see David do you want to say
+[00:15:22] anything about that
+[00:15:25] >> all right
+[00:15:26] >> perfect I'll take that um
+[00:15:30] the the the second somewhat related
+[00:15:31] thing although the clocking and the TCP
+[00:15:33] swift are um independent topics but TCP
+[00:15:37] swift which is a TCP congestion control
+[00:15:39] algorithm which relies a lot on latency
+[00:15:41] measurement and uh splitting up the the
+[00:15:44] connection latency into like network
+[00:15:47] network level and host level. I think um
+[00:15:50] Google's also planning to upstream that
+[00:15:52] and uh we discussed that a little bit
+[00:15:53] and I think I mean there's no no
+[00:15:56] concerns from the maintainer or the
+[00:15:58] community side but I think we have to
+[00:16:01] first figure out the clocking stuff a
+[00:16:03] little bit so that we can have a um
+[00:16:05] efficient way of converting basically
+[00:16:07] the CPU time into the networking time
+[00:16:09] because the networking time and the CPU
+[00:16:12] are not synchronized they're one I think
+[00:16:14] is running as Tai right and the other
+[00:16:16] one is um realtime clock or at least we
+[00:16:20] have to be able to convert between Thai
+[00:16:21] and mono um efficiently. So
+[00:16:26] um once we figure out basically the the
+[00:16:27] the the
+[00:16:29] quick way to access the networking time
+[00:16:31] we can we can make progress on TCP swift
+[00:16:33] as well. Um there's also some work on um
+[00:16:37] facing offload which is kind of the
+[00:16:40] transmit time scheduling offloading the
+[00:16:42] fueling into um a timing wheel inside
+[00:16:45] the nick. Um similarly to Swift I think
+[00:16:47] it basically needs a way to quickly
+[00:16:49] convert between the networking time and
+[00:16:51] the host time because um for some
+[00:16:54] percentage of the packets we will have
+[00:16:56] to do math and um it has to be
+[00:16:58] efficient.
+[00:16:59] >> Just one question about TCP swift uh who
+[00:17:02] talks about that like who because I had
+[00:17:04] a talk last year about fast accessing
+[00:17:07] the network time. So maybe there is
+[00:17:09] >> yeah I think it's very related right
+[00:17:11] that's like kind of as well what I was
+[00:17:13] saying like all the applications which
+[00:17:15] would fast access to networking time and
+[00:17:16] end up needing something like the video
+[00:17:18] right like
+[00:17:19] >> yeah yeah I know I know that there is a
+[00:17:21] need for this and I believe last year we
+[00:17:23] proposed a an idea not unfortunately did
+[00:17:28] not came to fruition but uh basically
+[00:17:30] there are like those there is this uh
+[00:17:33] time what was the name of it like the
+[00:17:36] subsystem for for maintaining timers and
+[00:17:40] we can some on the at the driver level
+[00:17:43] synchronize that to the to the PTP time
+[00:17:46] and then provide um a time that is
+[00:17:50] estimated to be correct based on the CPU
+[00:17:52] time.
+[00:17:54] >> Um if you want to talk to William is in
+[00:17:57] the back or Yeah.
+[00:17:58] >> Okay.
+[00:17:59] >> Yeah. Yeah. Yeah.
+[00:18:02] >> Yeah.
+[00:18:02] >> Yeah. I I have one more suggestion for
+[00:18:04] you and for William. So in the OCP nick
+[00:18:07] spec uh you know you you have to define
+[00:18:11] something more concrete for how to plug
+[00:18:14] a programmable congestion control
+[00:18:17] because I mean we have this evolving
+[00:18:20] right there's swift and there's BBR and
+[00:18:22] everything else that has happened in the
+[00:18:23] past and I think this domain is going to
+[00:18:25] grow uh I mean you guys have been
+[00:18:28] publishing really good papers so I think
+[00:18:31] make it easy an interface that you can
+[00:18:35] kind kind of define it from below at the
+[00:18:38] nick level so that
+[00:18:41] you know innovation can be in the right
+[00:18:43] frame for the device vendors
+[00:18:47] >> I mean in an ideal world I don't know
+[00:18:50] whether we have the um cycles to talk I
+[00:18:53] think that you are basically suggesting
+[00:18:54] that if there was an OCP standard for
+[00:18:56] creating the interface between the nick
+[00:18:58] and the host operating system that that
+[00:18:59] would help
+[00:19:01] >> at least I mean the OCP nick spec is on
+[00:19:04] uh like on top of the driver right so if
+[00:19:08] you define that correctly automatically
+[00:19:10] at the bottom right things will happen
+[00:19:13] >> but it's the eternal question of of like
+[00:19:16] creating like standards right we need
+[00:19:18] something to experiment with before we
+[00:19:20] can set the standard and everything
+[00:19:21] >> we already have four examples of uh
+[00:19:24] condition control we started at BBR then
+[00:19:27] >> BBR is not offloaded right
+[00:19:29] >> sorry
+[00:19:29] >> BBR is not offloaded there's no Nick
+[00:19:32] involved
+[00:19:32] >> it doesn't really matter what I'm saying
+[00:19:34] is Swift is offloaded. There are others
+[00:19:36] that are offloaded. If you just think at
+[00:19:39] it from that perspective, there are
+[00:19:40] three or four examples already of
+[00:19:42] congestion control.
+[00:19:45] Defining that layer on top would help
+[00:19:48] Linux to have better congestion control.
+[00:19:53] Okay.
+[00:19:57] All right. Um this slide. Uh yes. Uh so
+[00:20:00] one of the issues that another issue
+[00:20:02] that we discussed is related to um the
+[00:20:04] problems we recently had between with
+[00:20:07] integration between different upper
+[00:20:10] layer protocols on top of TCP. So um we
+[00:20:13] have grown a number of those. There's a
+[00:20:16] list here MPTCP sockmap TLS etc. And
+[00:20:19] there's also like storage basically um
+[00:20:22] implementations which use TCP for the
+[00:20:24] transport for the network. Um they are
+[00:20:28] fun things happen when someone tries to
+[00:20:30] combine them. Um and with the advent of
+[00:20:33] AI obviously there's a whole bunch of
+[00:20:36] people trying to invent problems. So um
+[00:20:39] unfortunately a lot of those are like
+[00:20:41] don't require root access to to
+[00:20:43] configure. So this like leads to fairly
+[00:20:45] important and urgent security issues. Um
+[00:20:49] and on the other side like if combining
+[00:20:52] two ulps doesn't work but it is like a
+[00:20:54] legitimate thing to use obviously users
+[00:20:56] will not be happy. So um we have uh
+[00:21:00] discussed a little bit about whether
+[00:21:03] there is a way forward um and I think
+[00:21:06] the general con the general direction is
+[00:21:08] that we need to create a better um like
+[00:21:13] high level API of like basically how
+[00:21:15] things stack up on on top of TCP instead
+[00:21:17] of just calling um TCP functions direct
+[00:21:20] directly and looking at the socket state
+[00:21:22] when it's a bit of more more of an
+[00:21:24] abstract model and tying into that we
+[00:21:26] also need a way to optimize away the ind
+[00:21:30] direction if there's only one. So like
+[00:21:32] for instance TLS today runs on top of
+[00:21:34] TCP. We would like to add an abstraction
+[00:21:36] to be able to combine it with other
+[00:21:38] things. But when it's just running on
+[00:21:39] top of TCP, we want to able to be able
+[00:21:41] to do some sort of uh direct call
+[00:21:44] optimizations to avoid the extra
+[00:21:46] overhead of basically doing pointer
+[00:21:48] tracing um when we know that there is no
+[00:21:51] no stacking involved. And I think there
+[00:21:53] was example gi examples given for for
+[00:21:55] from for um Linux security modules which
+[00:21:57] did similar stuff basically in the past.
+[00:22:00] Um I can't say that anybody committed to
+[00:22:03] doing this work but at least we we know
+[00:22:05] where we stand.
+[00:22:11] Um we have a brief discussion about fire
+[00:22:13] related topics on PRBS. I think this was
+[00:22:15] this came up on the list fairly
+[00:22:17] recently. So and I think it came up in
+[00:22:20] the previous netv as well. Um uh we all
+[00:22:23] basically want to be able to standardize
+[00:22:26] the tools that um every vendor provides
+[00:22:29] for basically cable and and f testing
+[00:22:32] and diagnostics and they are mostly
+[00:22:36] doing the same stuff but um we are kind
+[00:22:39] of struggling in getting the right
+[00:22:41] people at the table to to make a
+[00:22:44] sufficiently generic API for everybody
+[00:22:46] to be happy. Um the files are getting
+[00:22:48] more and more complex. So um it's a it's
+[00:22:52] a difficult thing for us to fix
+[00:22:54] basically because there is a
+[00:22:58] the software experts and the Linux
+[00:23:00] experts nec don't necessarily know about
+[00:23:02] the FIS and the FIS experts are now
+[00:23:04] software developers and um it's a diff
+[00:23:06] difficult thing to bridge and then we
+[00:23:08] also have a issue with um increasingly I
+[00:23:10] think with the networking fi and the f
+[00:23:14] there's a separate f subsystem in the
+[00:23:16] linux kernel so we are not 100% clear of
+[00:23:19] whether these sort of features for
+[00:23:21] diagnostics really belong in networking
+[00:23:23] anymore or at which point should we
+[00:23:24] start um making these generic fi um
+[00:23:28] features.
+[00:23:34] >> Sorry, go ahead. PBS
+[00:23:42] >> uh wouldn't the PRBs get directly
+[00:23:45] connect to PQC now the postquantum
+[00:23:48] crypto because
+[00:23:51] >> this is um fire level encoding for the
+[00:23:53] SD rate
+[00:23:56] >> I know but
+[00:23:58] pseudo random is not random enough is
+[00:24:00] what I'm saying
+[00:24:01] >> this is just to I mean I'm not a fire
+[00:24:04] expert let me start with that um but the
+[00:24:05] Second thing is um this is just to
+[00:24:07] measure the signal quality right it
+[00:24:09] doesn't matter whether we are doing this
+[00:24:10] in any crypto way
+[00:24:15] just basically
+[00:24:15] >> uh we can talk about that separately
+[00:24:18] >> um and the last topic I think that I
+[00:24:20] wanted to um bring uh up is uh there was
+[00:24:23] discussion about YNL so YL is our YAML
+[00:24:26] netlink integration library format that
+[00:24:30] we can we have support for various uh
+[00:24:33] user space languages and runtimes. So,
+[00:24:37] um that side kind of went pretty well.
+[00:24:39] We have C, C++, Python, I think Rust,
+[00:24:43] binding. So, the user space has made
+[00:24:46] progress. On the current side, we
+[00:24:48] haven't been using the YAML specs much.
+[00:24:50] And um when writing the specs and uh
+[00:24:54] basically reviewing code, it's a kind of
+[00:24:56] errorrone to figure out whether the
+[00:24:58] basically the definitions all are all
+[00:25:00] matching between each other. So uh we
+[00:25:02] had a discussion basically of whether we
+[00:25:04] can improve the situation um make this
+[00:25:07] more basically less errorprone whether
+[00:25:12] we can generate more code effectively in
+[00:25:14] the kernel as well I think um it's
+[00:25:18] definitely an area of work for for for
+[00:25:20] for the future
+[00:25:23] and uh I have two more things that I
+[00:25:26] wanted to mention that are basically an
+[00:25:28] overlap between the netcon and the main
+[00:25:30] track. So um Jason gave us a a quick
+[00:25:33] overview of his talk and uh we had a
+[00:25:35] brief discussions about his um work on
+[00:25:37] BPF time stamping and uh also SKB
+[00:25:40] extensions Yakub is going to present
+[00:25:42] tomorrow um at the main track in the
+[00:25:45] morning. Um I don't think we reached any
+[00:25:47] conclusion or anything. So, um, if
+[00:25:50] you're interested,
+[00:25:52] uh, yep.

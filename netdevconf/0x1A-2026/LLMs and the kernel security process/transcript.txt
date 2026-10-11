@@ -1,0 +1,2021 @@
+Source: https://youtu.be/w71JusTenBw
+Language: en
+Captions: auto-generated
+
+[00:00:02] Okay, I'm Greg.
+[00:00:04] Um,
+[00:00:05] you guys know me. Uh, first disclaimer,
+[00:00:07] this is just me.
+[00:00:09] Um, if you can heckle, this is more fun
+[00:00:11] if you heckle. I'm sorry I can't be
+[00:00:12] there. I have no passport right now.
+[00:00:14] Um, hopefully that will be resolved in a
+[00:00:16] month or so.
+[00:00:17] Um, I it's my personal opinion. I've
+[00:00:20] been a member of the kernel security
+[00:00:21] team since we started in the back 20
+[00:00:23] years ago and I've been
+[00:00:25] the only person unlucky enough to be
+[00:00:27] tasked with running a bunch of these
+[00:00:29] modern LLM models.
+[00:00:31] Um,
+[00:00:31] this is just my opinion and nobody
+[00:00:33] else's.
+[00:00:35] This is the problem we are facing today.
+[00:00:39] Um,
+[00:00:40] the time it takes to exploit a reported
+[00:00:43] bug is now -7 days.
+[00:00:45] Um,
+[00:00:46] you guys are at the forefront of this
+[00:00:48] with the networking subsystem. I'm
+[00:00:49] sorry.
+[00:00:50] Um,
+[00:00:52] 7 days -7 days from when somebody
+[00:00:55] discovers a path issue before it's
+[00:00:57] actually started to be exploited. And we
+[00:00:59] can blame the LLMs for this. They have
+[00:01:01] caused this to happen.
+[00:01:03] Um, these are fuzzing problems. Um,
+[00:01:06] and they're able to exploit the issues
+[00:01:09] much, much faster than before.
+[00:01:12] Um, so we've had to change how we work a
+[00:01:14] little bit and you guys have had to
+[00:01:16] change how you work a little bit as
+[00:01:17] well.
+[00:01:18] Um, and this is all because nobody
+[00:01:21] wanted to pay the bill for good software
+[00:01:26] development. The code works. The code
+[00:01:28] works today. It works fine. It's just
+[00:01:30] that the corner cases and the stress
+[00:01:31] testing of all this stuff is of course
+[00:01:34] the problems where people are hitting.
+[00:01:36] Um, and this is by design in a way. We
+[00:01:40] got it to work and then we stopped. And
+[00:01:42] um, nobody would let us keep going. A
+[00:01:45] lot of us have talked about this for a
+[00:01:46] long time. The hardening kernel
+[00:01:48] hardening project has been working for a
+[00:01:49] decade to try and make things better and
+[00:01:51] they have. They've done a lot of really
+[00:01:53] good work, but this is our own
+[00:01:55] as a
+[00:01:57] industry's problem.
+[00:01:59] Um but we've done this before. We did
+[00:02:01] this with Y2K. We did the same thing and
+[00:02:02] we did this with the fuzzers and
+[00:02:04] everybody forgets this about the
+[00:02:05] fuzzers. Um we handled the fuzzers about
+[00:02:07] 6-7 years ago.
+[00:02:09] Remember the reports from Google saying
+[00:02:11] the world is on fire. Um something's
+[00:02:13] going to Linux is failing. Everything's
+[00:02:15] horrible. And we just sat down and
+[00:02:18] worked through the bugs and fixed it.
+[00:02:20] And other static analysis tools we have
+[00:02:22] the same problem. Coverity Um all the
+[00:02:25] other ones. Um we sat down we fixed the
+[00:02:27] bugs and went through there. And this is
+[00:02:29] the same thing as that. There's nothing
+[00:02:31] special here. There's nothing fancier.
+[00:02:33] There's nothing magical. It's just work
+[00:02:35] that we're going to have to do and that
+[00:02:37] people are going to have to let us do.
+[00:02:39] And that's interesting thing to see if
+[00:02:40] people will let us do this. Um and so we
+[00:02:43] don't patch things ad hoc.
+[00:02:45] Um because this is how easy it is to
+[00:02:48] find a bug.
+[00:02:49] Um
+[00:02:51] this is what one big
+[00:02:53] unknown model did.
+[00:02:56] Um and they claimed they found 97 or 79
+[00:03:00] bugs in Linux. It turned out it was not
+[00:03:02] true.
+[00:03:03] But this is
+[00:03:04] um as good as simple as it gets.
+[00:03:06] Everybody can do this. Um you can do
+[00:03:09] this. I can do this and all the script
+[00:03:11] kiddies out there are doing this.
+[00:03:13] Um and that's it. And I mean these are
+[00:03:15] pattern matching tools and they go
+[00:03:17] through the the code base and it finds a
+[00:03:19] bug.
+[00:03:20] Um it's not very hard.
+[00:03:23] Um but these tools are real. I mean we
+[00:03:24] all kind of want to dismiss them. That
+[00:03:27] same tool um can be harnessed for bad.
+[00:03:31] Um even though it has a lot of false
+[00:03:34] positives, somebody I don't I can't
+[00:03:36] believe they published this in a
+[00:03:37] semi-closed space
+[00:03:39] let those tools loose on the wild on the
+[00:03:41] internet
+[00:03:43] over a weekend. They said it cost them
+[00:03:44] $10,000.
+[00:03:46] Um they broke into 108 public websites.
+[00:03:50] Um this is not a kernel issue. This is
+[00:03:52] not a Linux issue, but it's a example of
+[00:03:55] how these tools actually do work well.
+[00:03:57] Um, you can throw them in the frameworks
+[00:04:00] and let them rip and away you go. Um,
+[00:04:03] this is real and this is a real problem.
+[00:04:05] Um,
+[00:04:07] again, I can't believe somebody let
+[00:04:09] themselves publish this. Oh well.
+[00:04:12] Um,
+[00:04:14] this is the quote I'm reminded of of how
+[00:04:16] we're going to solve this.
+[00:04:18] Um,
+[00:04:19] I hate this fact, I hate these tools.
+[00:04:21] Um, they suck in all our data and they
+[00:04:24] are relying on our infrastructure and
+[00:04:26] our Linux itself, but we are going to
+[00:04:28] have to use our own tools to fix this
+[00:04:30] problem.
+[00:04:31] And here's how you fix it. It's really
+[00:04:33] that simple.
+[00:04:34] Um, we just say fix this code.
+[00:04:37] Sadly, um,
+[00:04:39] that's as hard and as difficult as it
+[00:04:42] is.
+[00:04:43] Um,
+[00:04:45] yeah, it's not very tough.
+[00:04:49] Um, but they lie. These tools lie a lot.
+[00:04:52] Um, they want to convince you, um, when
+[00:04:55] you run this tool and say fix this code,
+[00:04:57] um, it will if it gives you a patch. On
+[00:05:01] average, 1/4 to
+[00:05:03] 1 1/3 it's wrong. And this happened to
+[00:05:06] me yesterday. Here's a patch uh set that
+[00:05:09] was posted in public. I have a bunch of
+[00:05:11] graduate students working on trying to
+[00:05:12] grind these bugs down. Uh, this thing
+[00:05:14] fooled me, it fooled um, another
+[00:05:17] reviewer and it was caught um, it fooled
+[00:05:20] another LLM model
+[00:05:21] out of one of two of the issues, it
+[00:05:23] fooled one of them. One of them it did
+[00:05:25] not fool the issue, but um,
+[00:05:26] they are all they want to please you and
+[00:05:29] they are still wrong. So, you still
+[00:05:30] can't trust them. Um, it's a huge false
+[00:05:33] positive rate and it's very sycophantic,
+[00:05:35] but they're still wrong. So, um, you
+[00:05:37] have to be very very careful about this
+[00:05:39] stuff cuz they will lie.
+[00:05:41] And they want to please you and cuz they
+[00:05:43] are just pattern matches. And here is a
+[00:05:45] great example of something that I had
+[00:05:47] yesterday.
+[00:05:48] You know, networking driver
+[00:05:51] uh instead of calling mutex unlock, the
+[00:05:54] LLM wanted to call mutex destroy.
+[00:05:57] Um I think those of you that know how
+[00:05:59] mutexes work means mutex destroy doesn't
+[00:06:02] do anything. So, this is obviously
+[00:06:05] wrong.
+[00:06:06] Um maybe there might be some real
+[00:06:07] problem around this area, but this
+[00:06:09] change it proposed was going to actually
+[00:06:12] break the code.
+[00:06:13] Um but it's very
+[00:06:15] convincing, right? It wants to convince
+[00:06:17] you that you should properly destroy
+[00:06:19] things this way after creating it with
+[00:06:21] after initializing a mutex. Um that's
+[00:06:24] just flat-out wrong. So, they are just
+[00:06:26] pattern matchers. These are fuzzy
+[00:06:28] pattern matchers and they see a pattern
+[00:06:30] in one spot and they want to match it
+[00:06:31] everywhere else. And so, you got to be
+[00:06:34] very, very careful about this type of
+[00:06:35] stuff.
+[00:06:37] Um and they like to talk. They're very,
+[00:06:39] very, very chatty. This is a change log
+[00:06:41] text for a two-line patch that this
+[00:06:44] thing spit out on me yesterday um or
+[00:06:48] a couple weeks ago or last week. Um to
+[00:06:50] do a two lines, it wrote four paragraphs
+[00:06:54] um and it really wasn't all needed that
+[00:06:57] way. And especially, they like throwing
+[00:06:59] too many comments. There's the two lines
+[00:07:02] and they want to just
+[00:07:04] add comments everywhere. Um you guys are
+[00:07:07] seeing this in patches submitted to you.
+[00:07:09] It's a very obvious when this happens.
+[00:07:12] Um
+[00:07:12] they want to be very, very verbose. I
+[00:07:15] Sometimes, they lie in these comments.
+[00:07:17] They lie in the change log. So, you got
+[00:07:19] to watch out. It's just causing us a lot
+[00:07:21] of work.
+[00:07:23] And how we've adapted. So, oh, first,
+[00:07:26] any questions? I mean, this is hard
+[00:07:28] doing this remote, but
+[00:07:30] has anybody questions, comments?
+[00:07:35] >> Yeah, question down here.
+[00:07:38] >> Greg, I thought you were talking about
+[00:07:39] us humans.
+[00:07:41] >> Being too too chatty online?
+[00:07:43] >> [laughter]
+[00:07:45] >> Yes. Well, no. I mean, yeah. Sometimes,
+[00:07:48] yes. But, sometimes Have you seen
+[00:07:50] patches news, right? Most of the time,
+[00:07:52] we don't like to have typing a lot.
+[00:07:53] These tools like talking typing.
+[00:07:58] Anything else?
+[00:08:03] All right.
+[00:08:04] You guys are easy. Um
+[00:08:07] Cool. So, how do we adapt it? So, the
+[00:08:09] kernel security team has been flooded
+[00:08:10] with these. It's been flooded for the
+[00:08:12] past
+[00:08:13] many months. We used to get AI slap.
+[00:08:16] Uh the agents, which is in the little
+[00:08:18] nannies around the LLMs,
+[00:08:20] um finally got better. And now, they got
+[00:08:22] They're giving us real real code or real
+[00:08:24] bugs. And
+[00:08:26] uh for the networking people, you guys
+[00:08:28] have been on the front line of this
+[00:08:29] because everybody likes finding bugs in
+[00:08:30] the networking stack. I'm sorry.
+[00:08:33] Um So, one way we've combated this is
+[00:08:36] actually we've documented our threat
+[00:08:37] model. We have never done this in the
+[00:08:38] kernel before. So, I after seeing too
+[00:08:41] many bugs that said, "Oh, when you have
+[00:08:43] root, this like problem can happen."
+[00:08:45] It's like, "Yes, that's not a real bug."
+[00:08:47] "Oh, when you have capability or cap um
+[00:08:50] system in." No, it's not a real problem.
+[00:08:52] "When you actually bind a driver to a
+[00:08:54] device." It's a problem, though we trust
+[00:08:56] the hardware. We've had to write this
+[00:08:57] stuff down. So, we've documented this.
+[00:08:59] Um we started we um Willie from the
+[00:09:01] kernel security team and a few other
+[00:09:04] people start documenting it. It's in the
+[00:09:06] kernel documentation directory. Look at
+[00:09:07] threat model. Please flush this out more
+[00:09:10] for networking. We don't know we have a
+[00:09:12] a little stub in there, but we would
+[00:09:13] love to take patches for this. But, this
+[00:09:15] is good because then the LLMs read this
+[00:09:17] and know that it won't report a bug if
+[00:09:19] it if it's wrong. So, it's helping us a
+[00:09:22] little bit, but not that much.
+[00:09:25] And in that same documentation, we're
+[00:09:27] requiring security bugs to copy the
+[00:09:28] maintainers and send a patch. And that's
+[00:09:31] helping us out a lot. And it's helping
+[00:09:32] you guys out a lot because we don't get
+[00:09:34] somebody just sending us a bug a report
+[00:09:37] with a whole big wall of text and not
+[00:09:39] know what to do with it. Um we have been
+[00:09:41] feeding those walls of text into a local
+[00:09:43] LLM to spit out a patch when people
+[00:09:45] don't do it, and I'll show you how to do
+[00:09:47] that later. But uh most of the time um
+[00:09:50] these patches are now coming with or
+[00:09:51] these reports are coming with patches,
+[00:09:53] and they're copying you, and that's
+[00:09:54] making our lives a lot better. Um
+[00:09:56] hopefully it's doing the turnaround time
+[00:09:59] for the networking develop maintainers
+[00:10:01] better as well. I know you guys are
+[00:10:02] doing a lot. Um if we can do more to
+[00:10:05] help you, please let me know.
+[00:10:07] Along those lines, we actually have
+[00:10:09] funding now finally for somebody to
+[00:10:11] maintain and help us on the security
+[00:10:13] list. Us on the security list has been
+[00:10:15] volunteer, part-time, we're doing it on
+[00:10:17] our own. Um Linux Foundation and Alpha
+[00:10:20] Omega are actually funding somebody to
+[00:10:22] work on this for at least the next 6
+[00:10:24] months full-time.
+[00:10:25] Uh a core kernel person maintainer we
+[00:10:27] know um
+[00:10:29] hopefully the contract hasn't been
+[00:10:30] signed yet, but it should happen by
+[00:10:32] within a week or so. And that's good. We
+[00:10:34] need help to do this, and somebody
+[00:10:36] maintain this as part of their job.
+[00:10:38] Um that's going to help us out a lot.
+[00:10:40] And hopefully help you guys out a lot,
+[00:10:41] help weeding out the bugs, um help
+[00:10:43] weeding out the problems.
+[00:10:44] Um so we'll see what happens there.
+[00:10:48] And we also tell people how to protect
+[00:10:50] their systems. Um these are the two
+[00:10:52] biggest things. Um I know you guys know
+[00:10:55] the first one.
+[00:10:56] Um we see this all the time. I wish
+[00:10:58] people would just do this.
+[00:11:00] Um and then the last one, disable panic
+[00:11:02] on warn. Over half of our kernel CVEs
+[00:11:05] are just warnings, um but panic on warn
+[00:11:08] is enabled in a few billion devices out
+[00:11:10] there. Uh Android likes doing that, and
+[00:11:12] so does the cloud systems. Um if those
+[00:11:15] were disabled, um then there would be
+[00:11:17] not a there wouldn't be a bug. It
+[00:11:19] wouldn't be a denial-of-service. It
+[00:11:20] wouldn't reboot the machine. Um those
+[00:11:22] two big things right there can help out
+[00:11:24] everybody. I wish people would do that.
+[00:11:27] Um
+[00:11:28] I know
+[00:11:30] the uh if you guys can make cabinet
+[00:11:32] admin for a container go away, that'll
+[00:11:34] be very nice, right?
+[00:11:36] Um, see if that gets better.
+[00:11:40] Um, but what can you do today? Um,
+[00:11:44] this is for us as developers. Um, ignore
+[00:11:47] the doom marketing. These companies love
+[00:11:50] doom marketing. That's how they live.
+[00:11:51] Um, they stole our data and now they're
+[00:11:53] threatening us. Um, just ignore it. Go
+[00:11:56] with the what you can see and what you
+[00:11:58] can use today. Um, the stuff that we can
+[00:12:00] use today is real. Um, let's use it and
+[00:12:04] let's take advantage of these tools as
+[00:12:05] long as we have them. We have their code
+[00:12:07] review bots. You guys use it for
+[00:12:09] Sushiko. You guys have been doing it for
+[00:12:10] a while. Other subsystems are doing
+[00:12:12] this. Let's take their donations and run
+[00:12:15] with it for as long as we can. But let's
+[00:12:16] just ignore the doom marketing. Um, part
+[00:12:19] of it is a little bit real, but most of
+[00:12:21] it isn't. Like that report of all those
+[00:12:23] bugs found in Linux, turned out not to
+[00:12:25] be real at all. Um, nobody has bought
+[00:12:27] posted a follow-up because some of us
+[00:12:29] aren't allowed to, but
+[00:12:31] that is just to let you know that wasn't
+[00:12:33] real.
+[00:12:34] Um, and run local models. Nobody needs
+[00:12:37] to be uploading anything to a cloud. You
+[00:12:38] guys can all run a local model. I'll
+[00:12:40] show you guys how in a minute. Um, I
+[00:12:41] think there's a buff later on this week
+[00:12:44] that's people are going to talk about
+[00:12:45] this stuff. The local models are good
+[00:12:46] enough. I can you can take a bug report,
+[00:12:49] feed it into a local model, it spits out
+[00:12:50] a bug fix, a proposed bug fix. Now, 1/3
+[00:12:53] of the time it's wrong, but it's a good
+[00:12:55] start.
+[00:12:56] And never
+[00:12:58] any put non-public information. These
+[00:13:00] companies love and want your data. Um,
+[00:13:03] do not Anything that is used by the
+[00:13:05] public cloud companies is shared. We've
+[00:13:09] seen the results of that. We've seen bug
+[00:13:10] reports by multiple people for the same
+[00:13:13] problem
+[00:13:14] land in our inboxes within a day. Um, if
+[00:13:17] you if one tool person finds a bug in a
+[00:13:19] file, those models said, "Oh, we please
+[00:13:22] this person." And somebody else asked,
+[00:13:23] "Go find me a bug in the kernel." And
+[00:13:24] they'll send that same bug to them as
+[00:13:26] well. Um, we've seen data leak that's
+[00:13:28] uploaded from one person to another
+[00:13:30] person
+[00:13:31] um across this stuff. Never upload
+[00:13:33] anything that's private data to these
+[00:13:35] models. Don't upload security bug
+[00:13:37] reports. Don't You can public bug
+[00:13:38] reports is fine. Linux kernel code is
+[00:13:40] fine, but just for your drone general
+[00:13:42] data, never upload anything that you
+[00:13:44] don't want the world to see to these
+[00:13:46] models cuz they will take it and they
+[00:13:47] will do it. Yesterday is noted that Grok
+[00:13:51] um's coding tool will upload your whole
+[00:13:52] home directory.
+[00:13:54] Just just because it wants to.
+[00:13:56] Um
+[00:13:57] uh Claude also likes uploading things. I
+[00:13:59] run this on a little box in my corner
+[00:14:01] that has nothing I don't trust or that
+[00:14:03] nothing private on that thing. Um just
+[00:14:06] physically partition these things away.
+[00:14:09] It's the safest thing.
+[00:14:10] And fix the bugs that you find today.
+[00:14:12] Again, these tools are finding bugs.
+[00:14:14] Let's just fix them. Um don't give it
+[00:14:16] We'll just have to grind down the bugs.
+[00:14:18] I have a long list of bugs. All the
+[00:14:19] other maintainers have a long list of
+[00:14:21] bugs. Run these tools on your files and
+[00:14:24] fix and post the bugs. We see them top
+[00:14:26] out. That's a good thing. When they find
+[00:14:29] enough bugs and they find enough
+[00:14:31] problems,
+[00:14:32] um they can't keep going. So, it's just
+[00:14:34] pattern matching. A lot of the bugs are
+[00:14:36] Look at all the bugs we fixed in the
+[00:14:37] past where we've not fixed them today
+[00:14:40] and it does that. So, find the bugs and
+[00:14:42] fix them and
+[00:14:44] that's about all we can do.
+[00:14:46] And ignore them all tomorrow.
+[00:14:48] Everybody's always talking about
+[00:14:49] something's better one's going to be out
+[00:14:50] there tomorrow. Use what you have today.
+[00:14:52] >> Question.
+[00:14:53] >> Yeah.
+[00:14:54] >> Yeah, I have one question. What is
+[00:14:56] expected your expectation on how those
+[00:14:59] LLM models will work in like future? Do
+[00:15:03] you expect the amount of bugs detected
+[00:15:06] by them getting lower because like now
+[00:15:08] we are at the beginning of the curve
+[00:15:10] that where where we get a lot of bugs
+[00:15:12] detected, but like you said, it's like
+[00:15:15] many of them are very of the very
+[00:15:17] similar nature or do you expect LLMs to
+[00:15:20] get better and still find a lot of
+[00:15:23] new bugs, new things in the future.
+[00:15:27] >> Well, these are all just pattern
+[00:15:28] matching. Remember, think about you
+[00:15:30] identify a bad pattern and we write a
+[00:15:32] Coccinelle script, right? Saying you
+[00:15:34] must do this, right? And when we find
+[00:15:36] new patterns that are bad, yes, it'll
+[00:15:39] find those bugs everywhere cuz it's
+[00:15:40] pattern matching. So, today we find the
+[00:15:43] top out. We I've scanned some user space
+[00:15:45] programs and they have one bug, you fix
+[00:15:47] that bug and they can't find anything
+[00:15:48] else.
+[00:15:49] Uh different models report different
+[00:15:51] bugs and scan them all in use a
+[00:15:52] different way. But they do top out. So,
+[00:15:54] I think it's going to be just like
+[00:15:56] fuzzing. Well, fuzzing was even harder
+[00:15:58] because fuzzing hit one layer and then
+[00:15:59] we fixed the bugs and then we had to go
+[00:16:01] to another layer and fix the bugs,
+[00:16:02] another layer. Here we can hit all the
+[00:16:04] layers usually at once. So, these are
+[00:16:06] topping out. We see a topping out today.
+[00:16:08] So, future ones might have more pattern
+[00:16:11] matching, it might have bigger context
+[00:16:13] windows, but fix the bugs we have today
+[00:16:15] at least. Worry about tomorrow models
+[00:16:17] tomorrow.
+[00:16:19] So.
+[00:16:20] >> Okay, thanks.
+[00:16:26] >> Anything else?
+[00:16:28] >> And yes, hi Greg.
+[00:16:30] Uh so, you said they are good at pattern
+[00:16:32] matching, right? So, you expect that
+[00:16:35] these models cannot find like a totally
+[00:16:37] new attack surface or bugs which are
+[00:16:41] kind of, you know,
+[00:16:43] new, like a totally new pattern.
+[00:16:45] >> I have never seen that happen.
+[00:16:48] So, not saying it can, but all these
+[00:16:50] things are pattern matching. So, right?
+[00:16:52] It says, "Oh, look, you didn't check the
+[00:16:53] return for free." Or, "Oh, you did the
+[00:16:56] code this way. Why have we not done it
+[00:16:57] the same way in another part of the
+[00:16:59] section?" Um what they can do is they
+[00:17:01] can also in the frameworks run fuzzers.
+[00:17:03] And fuzzers again can fuzz code and run
+[00:17:06] away that way. So, but that's
+[00:17:08] that's just a
+[00:17:09] wrapper around a fuzzer.
+[00:17:11] So, it's not finding the bug itself.
+[00:17:13] Um so far, everything we've seen is all
+[00:17:16] all
+[00:17:17] common coding bugs. We have not found
+[00:17:19] anything brand new.
+[00:17:21] >> Right.
+[00:17:21] Uh have you done my toes yet on any
+[00:17:25] subsystem?
+[00:17:26] >> Yeah, I am the only publicly named they
+[00:17:29] denial they did a denial service. I'm
+[00:17:31] the I'm the only publicly named person
+[00:17:32] with access to mythos. Yeah.
+[00:17:34] >> [laughter]
+[00:17:35] >> Um yeah, mythos is just I mean it's just
+[00:17:38] like all the other ones. I I'm not going
+[00:17:40] to say anything better or worse.
+[00:17:41] >> Okay.
+[00:17:42] >> It does some things better, some things
+[00:17:44] worse. But there's better public models,
+[00:17:47] there's better local models.
+[00:17:49] It's not magic.
+[00:17:52] >> Okay, thank you. One more question.
+[00:17:59] Uh more than a question. I think I have
+[00:18:01] a comment. So,
+[00:18:02] I mean they're really good at pattern
+[00:18:04] matching, but they're also very good at
+[00:18:05] correlation. So, ultimately the onus is
+[00:18:08] on you how well you will generate that
+[00:18:12] prompt so that
+[00:18:15] I mean how well your brain for debugging
+[00:18:17] and
+[00:18:18] um system view is.
+[00:18:21] So, isn't that
+[00:18:23] I mean so no, I'll show you the prompt.
+[00:18:24] >> It's it's a tool.
+[00:18:25] >> the prompt. You saw the prompt is fix
+[00:18:27] this code. I'll show you the other
+[00:18:28] prompt I just kicked off at the
+[00:18:29] beginning of this talk. It literally is
+[00:18:31] open look at this file,
+[00:18:33] scan it, report any bugs.
+[00:18:36] That's it.
+[00:18:38] It's that simple. These days.
+[00:18:40] >> [clears throat]
+[00:18:40] >> Uh
+[00:18:40] sorry, could you repeat that? I I didn't
+[00:18:42] catch it.
+[00:18:42] >> I'll show you the prompt in a minute.
+[00:18:44] The prompts are very simple. You do not
+[00:18:45] have to be a prompt engineer. You can
+[00:18:47] literally say fix this code. You can
+[00:18:49] literally say that. Um it's not complex,
+[00:18:52] it's not rocket science anymore. They're
+[00:18:54] that simple. Um
+[00:18:56] >> No, I I I I get that part. But but what
+[00:18:58] I'm saying is uh
+[00:19:01] yeah, the prompt is really simple thing.
+[00:19:04] Prompt engineering is solved.
+[00:19:06] But ultimately
+[00:19:09] the results you're going to get is how
+[00:19:11] well you will craft that prompt, right?
+[00:19:13] So, if you're able to think that okay,
+[00:19:16] you know, the problem is not just here,
+[00:19:18] it could be somewhere else and you're
+[00:19:19] kind of prompting it the right way, you
+[00:19:21] will find all the patterns that by
+[00:19:22] correlation done in your brain.
+[00:19:28] >> Yeah, but I'm not even doing that. So, I
+[00:19:30] the easiest pattern I gave it was look
+[00:19:32] at the past
+[00:19:34] 10,000 CVEs we've had and find all the
+[00:19:38] places where we have not done that.
+[00:19:41] So,
+[00:19:42] that was not my brain at all of the
+[00:19:44] pattern matching there, but literally it
+[00:19:46] just went through and just did pattern
+[00:19:47] matching across the whole tree for every
+[00:19:49] single one of those.
+[00:19:51] And now, 1/3 of about a quarter of those
+[00:19:53] fixes that came up with were wrong and I
+[00:19:55] as a maintainer and developer need to
+[00:19:57] realize that.
+[00:19:59] But, the pattern matching and the
+[00:20:01] prompting of what it is using to figure
+[00:20:03] out if something is wrong is kind of
+[00:20:05] baked in because we have examples today.
+[00:20:11] >> Uh, thanks.
+[00:20:12] >> So, So, yeah, use our examples. Again,
+[00:20:14] the Linux kernel CVE tree is in JSON,
+[00:20:19] it's in a Git repo, it's easily parsed
+[00:20:22] by these tools. Pointed at that. I
+[00:20:24] literally did that. Anthropic wrote that
+[00:20:26] paper on how they found those original
+[00:20:28] bugs with Mitosis. That's how they did
+[00:20:30] it. They looked at all the past CVEs,
+[00:20:32] found out where they those same patterns
+[00:20:34] were not applied.
+[00:20:35] Not complex rocket science. Again,
+[00:20:38] Coccinelle, if we had written the
+[00:20:39] Coccinelle rule for every single one of
+[00:20:41] those, we wouldn't be here today. So,
+[00:20:43] um
+[00:20:44] code transformation, pattern matching.
+[00:20:46] Um, but yes, if we come up with new ways
+[00:20:49] of new finding new types of bugs and
+[00:20:51] whatnot, we're going to have to add
+[00:20:52] that.
+[00:20:53] That's the good news.
+[00:20:56] >> Okay.
+[00:20:57] >> Uh,
+[00:20:58] hello. I have a small It's between a
+[00:21:00] question and I'm asking for your opinion
+[00:21:02] here.
+[00:21:04] So, the process you described is a
+[00:21:06] reactive process where basically someone
+[00:21:09] uh some LLM finds a bug, a security
+[00:21:12] vulnerability,
+[00:21:13] and you fix it with the LLM. So,
+[00:21:14] basically, the title of your slide is
+[00:21:16] fix a problem, how to fix a problem.
+[00:21:18] And my question is, how do we think
+[00:21:20] about fixing the problem,
+[00:21:22] not a problem?
+[00:21:24] And uh
+[00:21:26] how can we guarantee that the software
+[00:21:27] has
+[00:21:28] virtually no bugs or no security
+[00:21:30] vulnerabilities?
+[00:21:32] So, historically, in the literature,
+[00:21:35] there are formal formal methods, right?
+[00:21:37] Which are very difficult to implement on
+[00:21:39] a real software because
+[00:21:41] it's difficult to model uh the
+[00:21:43] preconditions, postconditions, the
+[00:21:46] threat model.
+[00:21:47] This is very human I mean, it's
+[00:21:50] difficult to do.
+[00:21:52] Is there what do you think about using
+[00:21:54] LLMs to do this work of kind of writing
+[00:21:57] contracts or write uh and defining uh
+[00:22:01] helping with the proof of the software
+[00:22:03] and finding the bugs proactively so that
+[00:22:04] we can
+[00:22:06] yeah, get
+[00:22:07] quote-unquote perfect, not a perfect
+[00:22:10] kernel, but at least some subsystems
+[00:22:13] would be like formally verified.
+[00:22:15] And this way, basically, use the LLMs to
+[00:22:19] fix the problem, not just react to what
+[00:22:23] uh yeah,
+[00:22:25] what
+[00:22:25] >> I I I yeah, I mean, I
+[00:22:27] I took a formal methods class in the
+[00:22:29] university 30 years ago, and those
+[00:22:30] people are still trying.
+[00:22:32] Um
+[00:22:34] Formal methods fall down when it hits
+[00:22:35] hardware. I'll just tell you that. I
+[00:22:37] come from the drivers world. Look at
+[00:22:38] Spectre and Meltdown. If you had
+[00:22:40] formally defined how the CPU works,
+[00:22:42] Spectre and Meltdown broke your model
+[00:22:44] because it turns out the hardware
+[00:22:45] doesn't work that way. Look at how
+[00:22:46] InfiniBand hardware works. Look at how
+[00:22:48] PCI hardware works. There's bugs. The
+[00:22:50] job of a kernel is to paper over the
+[00:22:52] bugs in the hardware. So,
+[00:22:54] yes, formal methods could define maybe
+[00:22:56] your networking stack
+[00:22:58] if you could properly define that, and I
+[00:23:00] wish you well.
+[00:23:02] I think that's wonderful. Researchers
+[00:23:03] are trying. I wish them well. The best
+[00:23:06] thing is to do is we have these tools
+[00:23:07] today, run it on our source code, fix
+[00:23:10] the bugs it finds.
+[00:23:12] Let's start that Let's start with that
+[00:23:13] now. That's an easy thing. There's
+[00:23:15] nothing stopping us from doing that
+[00:23:16] today. I have a list of 500 plus
+[00:23:19] patches that I'm grinding my way through
+[00:23:21] just on a my subsystems.
+[00:23:24] Run it on your subsystem, fix the bugs,
+[00:23:26] push out the fixes.
+[00:23:27] They're all minor bugs. They're little
+[00:23:28] nothing major usually. We've never
+[00:23:30] really found anything giant, but they're
+[00:23:32] there. Just like the fuzzers did
+[00:23:34] originally. Now, formally prove this
+[00:23:35] stuff to keep it bugs from coming back
+[00:23:37] in the future, wonderful. But look at
+[00:23:39] how Syscall works. It says the majority
+[00:23:41] of the time is you send a patch it says,
+[00:23:42] "This is fine, but there's an
+[00:23:45] existing bug in this area.
+[00:23:47] Fix that."
+[00:23:49] Just grind down that list. So, you can
+[00:23:50] use these tools
+[00:23:52] to for that today. And
+[00:23:54] why not do that? And I wish the formal
+[00:23:56] methods people the best of luck.
+[00:23:59] >> Thank you.
+[00:24:06] >> Cool. Anything else?
+[00:24:09] All right. Let's keep going.
+[00:24:11] How do we do this?
+[00:24:13] Um oh, if you guys have managers
+[00:24:16] or are a manager, work at a company,
+[00:24:18] here's a great link. I you guys will
+[00:24:20] have the slides later. I OpenSSL wrote a
+[00:24:22] big long paper. I helped edit this on
+[00:24:25] how to secure the open source in in the
+[00:24:27] age of AI. Um it's actually relevant for
+[00:24:29] all source. It's just here's how you can
+[00:24:32] you can issue and how do you can work
+[00:24:33] with this type of stuff. Um here's the
+[00:24:35] issues and problems involved. And here's
+[00:24:37] how we solve them. And basically it is
+[00:24:39] we're just got to do work. Nothing magic
+[00:24:41] about it.
+[00:24:43] Um and if you're going to do this
+[00:24:46] yourself, run this stuff locally. And I
+[00:24:48] know there's a bof later, but let's do
+[00:24:49] some resources. Uh Chris Mason from the
+[00:24:52] Better Fasters maintainer creator and
+[00:24:55] Facebook manager um has a great set of
+[00:24:58] review prompts. Um,
+[00:25:00] point your LLM at that. It you guys have
+[00:25:03] contributed to it for networking for a
+[00:25:04] long time. Um, EBPF as well. Um,
+[00:25:07] there is your data and how to review
+[00:25:09] EBPF code, networking drivers, all that
+[00:25:11] stuff is there.
+[00:25:12] Download that repo and away you go.
+[00:25:14] That's the best thing ever. Um, and then
+[00:25:17] get an agent. You need a random agent.
+[00:25:19] Um, these are just basically nannies for
+[00:25:21] the dumb LLM that just keeps them
+[00:25:23] constrained and keeps them kind of
+[00:25:24] working well together. These are all
+[00:25:26] open source ones. Pi is very nice. It's
+[00:25:28] all very stripped down and minimal.
+[00:25:30] That's what I use. Open code works kind
+[00:25:32] of well as well. And there's some people
+[00:25:34] having good experience with that. A
+[00:25:35] goose is another open source one that's
+[00:25:37] owned by the Linux Foundation. Um, it's
+[00:25:40] collaborated by a bunch of different
+[00:25:41] people. And then Chris Mason again is
+[00:25:43] writing a kernel one. Um, Krez, he's had
+[00:25:47] good results with this. Um, I think
+[00:25:48] there's been a few other people maybe in
+[00:25:50] that room that have messed with that as
+[00:25:51] well. I have not had a very much success
+[00:25:54] with it, but I'm probably doing
+[00:25:55] something wrong. Um, but there's a
+[00:25:58] kernel front specific one. And Chris has
+[00:26:00] been working on that in his spare time.
+[00:26:03] So, pay attention to that if you want
+[00:26:04] to.
+[00:26:05] Um, get a local model. Just download
+[00:26:08] something local. You can run this on
+[00:26:09] your laptop. You can it'll go slow. You
+[00:26:11] can run it on a little tiny AMD
+[00:26:14] workstation. Like you run that giant AMD
+[00:26:15] workstation. Hugging Face has the models
+[00:26:17] on there. There's they're decent enough.
+[00:26:20] You can run them on a Mac mini. Um, they
+[00:26:22] all work good enough.
+[00:26:23] Get an inference engine that'll run the
+[00:26:25] code. Rama llama or Rama llama is
+[00:26:27] another repo um, that just builds it and
+[00:26:29] runs it and runs it locally. It'll
+[00:26:32] download them and keep them up to date
+[00:26:34] and just works. It serves them up
+[00:26:35] locally. It's not hard to do it.
+[00:26:39] And then HAProxy, Willy from HAProxy
+[00:26:42] wrote all this up and showed how he did
+[00:26:43] this. I ran Mythos on HAProxy and found
+[00:26:46] a bunch of bugs and fixed them with him.
+[00:26:48] And then he got interested and started
+[00:26:50] running things on his own. He used a
+[00:26:52] downloaded model using open code and
+[00:26:55] found a bunch more. So, mythos can
+[00:26:58] popped out while as if you know how to
+[00:27:01] work on the code and this is your own
+[00:27:03] code base, um it works very very well.
+[00:27:06] Willie wrote up a big long article about
+[00:27:07] how to do this including some magic
+[00:27:09] configuration files for open code which
+[00:27:12] is very very helpful because some of the
+[00:27:14] documentation isn't very good.
+[00:27:15] I recommend everybody read that and you
+[00:27:17] can use that, follow this little
+[00:27:19] tutorial and then you can start plunking
+[00:27:21] away at your own files or code or
+[00:27:24] whatever.
+[00:27:26] Do that yourself.
+[00:27:27] Um and finally
+[00:27:30] this isn't going away. It's going to be
+[00:27:32] a rough 18 months
+[00:27:33] until we grind these down. I'm guessing
+[00:27:36] 18 months if we're lucky. Other people
+[00:27:38] are saying two to three years. Let's see
+[00:27:40] what we get through.
+[00:27:42] I have some interns working this summer
+[00:27:43] for me.
+[00:27:45] Um let's see how well they get through
+[00:27:46] this stuff. Um
+[00:27:48] but that's not for networking.
+[00:27:50] Um hopefully some of the networking
+[00:27:51] research teams can have some people
+[00:27:53] looking at this stuff as well.
+[00:27:54] And I'm here asking please, you guys
+[00:27:56] might want to get ahead of the curve a
+[00:27:58] little bit. I will notice on the file
+[00:27:59] system people, the XFS maintainers are
+[00:28:01] doing this. They posted a bunch of
+[00:28:02] series of patches today
+[00:28:04] um that are based on just running these
+[00:28:07] same type of prompts locally and they're
+[00:28:09] finding and fixing bugs ahead of time
+[00:28:10] and I recommend doing that.
+[00:28:13] That's the easiest thing.
+[00:28:15] So, questions. I kind of burned through
+[00:28:18] those pretty quick.
+[00:28:24] >> Question.
+[00:28:27] >> Uh hi.
+[00:28:28] Uh I have two questions or observations.
+[00:28:32] Let's start with observation. There are
+[00:28:34] many reports that are like malicious PF
+[00:28:39] or malicious firmware for the VF. So,
+[00:28:42] the body that the driver or company is
+[00:28:45] controlling
+[00:28:47] and but AI doesn't know that and to
+[00:28:50] report back that
+[00:28:51] PF could do something wrong to PF and
+[00:28:54] crash the PF.
+[00:28:56] Do you think we should fix those bugs or
+[00:28:59] leave them? Why?
+[00:29:00] >> So I'm sorry that I couldn't hear part
+[00:29:02] of what you're saying. Are you saying
+[00:29:03] that we care about malicious hardware?
+[00:29:06] >> No, really. AI reports those bugs or
+[00:29:09] malicious firmware at least.
+[00:29:11] >> Oh, firmware. Well, so the Linux kernel
+[00:29:13] model is once the driver binds to the
+[00:29:15] device, we trust the hardware.
+[00:29:18] So that's our model today.
+[00:29:20] Um
+[00:29:20] no, all operating systems are this way.
+[00:29:22] Nobody runs on untrusted hardware.
+[00:29:25] Um
+[00:29:26] the code confidential computing's trying
+[00:29:28] to carve out some places there. Um I
+[00:29:31] will point out Android does some bad
+[00:29:33] assumptions that they trust USB devices
+[00:29:36] blindly, um which we recommend they
+[00:29:39] never do. Um
+[00:29:41] and so they're fixing lots of bugs
+[00:29:42] there. Um firmware, if you guys want to
+[00:29:45] worry about that, go ahead, but there's
+[00:29:47] a trade-off that SCSI developers made
+[00:29:49] rejected a bunch of patches last week
+[00:29:51] for saying, "We don't want to check
+[00:29:52] every single response coming back from
+[00:29:53] the hardware cuz it's going to kill our
+[00:29:55] throughput." And that's valid. So, trust
+[00:29:58] your firmware.
+[00:29:59] >> And the same goes like for
+[00:30:01] should the virtual function
+[00:30:04] trust
+[00:30:05] other function physical function or not?
+[00:30:08] And I think it should.
+[00:30:09] >> I think you should. Yeah, I today I
+[00:30:11] think you should. Let's not worry about
+[00:30:12] that. If we want to change that threat
+[00:30:14] model, wonderful, but right now we're
+[00:30:16] saying we trust the hardware. USB
+[00:30:18] devices
+[00:30:20] takes does not trust the hardware until
+[00:30:23] a certain step happens. PCI is and same
+[00:30:25] thing with PCI. I think we will not
+[00:30:27] trust the hardware until a certain
+[00:30:28] setup.
+[00:30:29] Dan Williams is trying to work on some
+[00:30:31] patches for untrusted PCI hardware. Um
+[00:30:34] for the confidential computing stuff. He
+[00:30:35] just posted the patches again.
+[00:30:37] Um but then eventually you'll flip the
+[00:30:39] switch and trust it and then you'll
+[00:30:40] trust DMA, you'll trust IOMMU, and away
+[00:30:43] you go. Um because PCI devices can be
+[00:30:45] authenticated, USB devices can be
+[00:30:47] authenticated. Um maybe you worry about
+[00:30:49] that then, but then you're going to have
+[00:30:50] to trust that authentication. Um
+[00:30:53] trust the firmware on the device from
+[00:30:54] them.
+[00:30:56] >> Yeah, and another thing uh
+[00:30:58] when you have like
+[00:31:00] kind of ugly driver, it has a lot of
+[00:31:03] bugs.
+[00:31:04] And
+[00:31:06] uh usually reports from metas, for
+[00:31:08] example,
+[00:31:09] are just like hundred of them. And
+[00:31:13] sometimes it's much easier to just add
+[00:31:15] those null checks or something like that
+[00:31:17] instead of fully analyzing if it's like
+[00:31:20] a real problem or not. Just be cautious
+[00:31:23] and add the additional if.
+[00:31:25] What what is the take on that? We should
+[00:31:27] like spend many more time trying to find
+[00:31:31] if this is
+[00:31:32] actually exploitable or just add the if
+[00:31:36] and carry on, but then it's like not a
+[00:31:38] fix.
+[00:31:40] >> Yeah, don't worry about exploiting. I
+[00:31:41] mean, I've seen people and teams get
+[00:31:43] long list of bugs and they try and
+[00:31:45] triage them to which is more important
+[00:31:47] than other ones. We don't know. You
+[00:31:49] don't know cuz the problem with open
+[00:31:51] source is we don't know how you use our
+[00:31:53] code, right? We don't know where it's
+[00:31:54] being used. We don't we can't define how
+[00:31:56] a usage model. So, if it's a bug, fix
+[00:31:59] it. Let's just worry about that and move
+[00:32:01] on. Um if it's a if it's not a real bug,
+[00:32:03] then don't fix it. I mean,
+[00:32:05] it's that simple. Let's just fix the
+[00:32:07] bugs and move on to the next one.
+[00:32:08] Because the one good thing about these
+[00:32:11] tools or the one powerful thing about
+[00:32:12] these tools is they can chain together
+[00:32:14] very minor bugs into being a real
+[00:32:17] exploit. So, companies that previously
+[00:32:20] were only saying they're going to take
+[00:32:22] major fixes in the kernel or major fixes
+[00:32:24] to
+[00:32:24] um any software are in trouble because
+[00:32:27] minor ones can be chained together and
+[00:32:29] get something major out of. And that's
+[00:32:31] what these things can do really, really
+[00:32:32] well. Um that's a different on on
+[00:32:35] pattern matching stuff, but it is
+[00:32:36] pattern matching that it knows how to
+[00:32:38] bust through all those different layers.
+[00:32:40] Um from our point of view, let's just
+[00:32:43] fix the bugs.
+[00:32:44] Nothing wrong with that. Or delete the
+[00:32:46] driver, right? [laughter] If you guys
+[00:32:47] don't have If you guys have hardware or
+[00:32:49] protocols, I mean, I'm very happy to see
+[00:32:52] you guys get rid of a lot of this stuff.
+[00:32:54] >> Yeah, great. Thank you.
+[00:33:01] >> Another question up here.
+[00:33:07] >> What is your current local LLM of choice
+[00:33:10] and what hardware do you need for this?
+[00:33:13] >> Um my current one is
+[00:33:18] quant right there.
+[00:33:20] That's one. Um there's better ones as
+[00:33:22] well. I have a little AMD framework box.
+[00:33:26] I have a giant AMD framework box in my
+[00:33:29] attic, but it's too hot for me to turn
+[00:33:30] on right now. Um I can run bigger models
+[00:33:32] on that. But they're they're all good
+[00:33:34] enough.
+[00:33:35] Um and as proof, this thing
+[00:33:39] I ran it on Zarus and it didn't find
+[00:33:41] anything.
+[00:33:43] I
+[00:33:45] Zarus, nothing exploitable.
+[00:33:48] Okay.
+[00:33:50] My example is better.
+[00:33:53] Oh, no. So, the local model found
+[00:33:55] something.
+[00:33:56] Um
+[00:34:03] The local model found and said that you
+[00:34:04] need to do a buffer check there.
+[00:34:08] While as this other model with that
+[00:34:11] starts with an M and is supposedly the
+[00:34:13] best thing since sliced bread, found
+[00:34:15] nothing.
+[00:34:16] Um there's kind of proof of
+[00:34:18] different models find different things.
+[00:34:23] >> Uh how how do you verify these results?
+[00:34:28] >> Uh so
+[00:34:29] >> them to write a POC?
+[00:34:31] >> No, no, no, no. Just I mean, when
+[00:34:32] somebody sends you a patch, how do you
+[00:34:33] verify that works or not?
+[00:34:36] Same way.
+[00:34:37] Just reboot the kernel.
+[00:34:39] Um don't worry about proof of con- or um
+[00:34:43] you know,
+[00:34:44] if you really want to Well, networking
+[00:34:46] you guys can have add tests, right? For
+[00:34:48] this type of stuff. Haven't written some
+[00:34:50] tests.
+[00:34:51] Um I've had some pushback. I will say
+[00:34:53] Jens
+[00:34:54] um one of these tools found some bugs in
+[00:34:56] the IOU ring code for no MMU, and Jens
+[00:35:00] pushed back on me and said, "I don't
+[00:35:01] believe this is actually exploitable."
+[00:35:03] I had this tool go off and make a
+[00:35:06] exploit for a risk-five no MMU system.
+[00:35:09] It chunked away for a day, and it came
+[00:35:10] back with one. Um
+[00:35:13] and we both laughed at it cuz no one's
+[00:35:15] ever going to use this, but we fixed the
+[00:35:16] bug.
+[00:35:17] So.
+[00:35:21] It depends on what you want to do with
+[00:35:22] it.
+[00:35:24] For hardware bug fixes like this one for
+[00:35:27] a buffer overflow for a device that can
+[00:35:29] send malicious data,
+[00:35:32] yeah, just read the read the code, and
+[00:35:33] away you go.
+[00:35:36] >> I'd like to ask a question about the
+[00:35:37] future. If you roll forward 5 years,
+[00:35:39] say, after we've worked through all of
+[00:35:42] the instability caused by the the LLMs,
+[00:35:45] do you think we'll be in a better
+[00:35:46] situation security-wise than we have
+[00:35:48] been up until now? Or do you think
+[00:35:51] things are likely to be worse and stay
+[00:35:53] worse over the long term?
+[00:35:55] >> It's better. I I I mean, we see this
+[00:35:57] stuff making our code better. They're
+[00:35:58] fixing the bugs we've always had. It's
+[00:36:00] just like the fuzzers. When the fuzzers
+[00:36:02] first hit us, when syzkaller hit us, we
+[00:36:04] were like, "The world is on fire." Well,
+[00:36:05] we fixed all these bugs, and things got
+[00:36:07] better, right?
+[00:36:09] It's no different than syzkaller.
+[00:36:11] Um it's just that it works a little
+[00:36:12] differently, but I think the code is
+[00:36:14] better. Some codebases it does a very,
+[00:36:17] very good job, and it makes it better
+[00:36:19] over time.
+[00:36:21] So.
+[00:36:22] >> And how do you see a problem of security
+[00:36:25] versus performance when you, for
+[00:36:27] example, you know,
+[00:36:28] add null checks in every function, it
+[00:36:30] will basically kill the performance,
+[00:36:32] right?
+[00:36:33] >> Sure, but again,
+[00:36:36] security, there's um four words, all
+[00:36:39] input is evil, right? So, you have to
+[00:36:42] check your input.
+[00:36:44] Um be it hardware, well, what if we
+[00:36:46] trust the hardware? Don't worry about
+[00:36:47] it. If we're trusting we can't trust the
+[00:36:49] data coming off the wire from the
+[00:36:51] network, you guys need to worry about
+[00:36:53] that, right? Unless you're on a trusted
+[00:36:54] connection, yada yada yada. Look at all
+[00:36:56] the work on Bluetooth recently. That's
+[00:36:58] been to fix for broken devices or Wi-Fi
+[00:37:01] drivers that have to that deal with
+[00:37:02] malicious signals or malicious base
+[00:37:05] stations, right? We're going to have to
+[00:37:06] check that data cuz all input is evil.
+[00:37:09] And if it hits us performance-wise,
+[00:37:12] well, it's either yeah, you want
+[00:37:15] performance or you want to be have
+[00:37:17] broken code.
+[00:37:19] I mean, it's the same thing with Spectre
+[00:37:21] Meltdown. We hit a huge performance hit
+[00:37:24] just for the security of fixing the
+[00:37:26] hardware bugs.
+[00:37:28] >> Yeah, and that's actually one of the
+[00:37:29] problems because we don't probably have
+[00:37:32] enough resources to check all those
+[00:37:34] patches for for the performance.
+[00:37:38] >> Yeah, and so we rely on our users. I
+[00:37:40] mean, that's all we can do, right?
+[00:37:43] I mean, it's like any other patch that
+[00:37:45] anybody sends you,
+[00:37:47] right?
+[00:37:48] I mean, you guys are lucky in that you
+[00:37:49] can emulate and test a lot more stuff
+[00:37:52] than I can in maintaining all sorts of
+[00:37:54] random USB drivers.
+[00:37:56] Um
+[00:37:57] so, if you can test it, great. If not,
+[00:38:00] then I don't know what to do, but if
+[00:38:02] you're parsing untrusted If you're not
+[00:38:05] parsing untrusted data,
+[00:38:07] then you should be okay. If it's
+[00:38:09] trusted,
+[00:38:10] you'll be okay.
+[00:38:14] >> Um I started using kernel unit tests to
+[00:38:18] validate some of uh
+[00:38:20] LLM reports and uh fixes for this. How
+[00:38:23] much of value do we have by upstreaming
+[00:38:27] this kind of tests? Is it welcome, or it
+[00:38:29] should
+[00:38:31] should stay here locally by me?
+[00:38:33] >> Well, I mean, it depends on the
+[00:38:35] subsystem. I want as many tests as I can
+[00:38:37] get, right? So, yes. It's just like
+[00:38:40] Coccinelle. We want Coccinelle scripts
+[00:38:42] in the kernel tree so that we can run
+[00:38:43] them and the bugs don't come back in.
+[00:38:45] Run regression tests, right? Uh the
+[00:38:46] kernel unit tests.
+[00:38:48] Some for networking and BPF, right? You
+[00:38:49] guys are requiring unit tests being
+[00:38:52] added for when you fix bugs. I think so.
+[00:38:54] If that's so,
+[00:38:56] again, great. And then have the LLM
+[00:38:59] write a unit test. The funny thing is,
+[00:39:01] LLMs will write a unit test if you tell
+[00:39:02] it what to write a test for, but watch
+[00:39:04] out. A lot of times the tests lie. They
+[00:39:05] say they pass, and they don't pass. I've
+[00:39:07] had writing tests for other things, and
+[00:39:09] it's like it'll just ignore stuff, and
+[00:39:12] you have to read the code for the test
+[00:39:14] very closely. Cuz it wants to please
+[00:39:16] you. It wants to give you a green test,
+[00:39:17] right?
+[00:39:20] >> Uh what is the subsystem that was the
+[00:39:24] most hit with those security reports,
+[00:39:27] and why would you say that was the case?
+[00:39:30] >> I think it's networking. You guys are
+[00:39:33] getting hit the worst. Um
+[00:39:37] It's a combination of It's a
+[00:39:41] area where people have not thrown
+[00:39:43] fuzzers at very well.
+[00:39:45] And a combination of people like running
+[00:39:50] the tools against it. I I don't know
+[00:39:51] why.
+[00:39:52] I mean, it's an easy low-hanging fruit,
+[00:39:54] maybe. I don't know.
+[00:39:56] But, to be fair, there's been some core
+[00:39:58] bugs as well in the kernel. It's all
+[00:40:00] over the place. Look at the Look at the
+[00:40:01] CVEs that we issue. They're all over the
+[00:40:03] place. It's We're issuing 15 CVEs a day.
+[00:40:07] Um so, which is maybe one more than we
+[00:40:10] used to last year. So, the increase
+[00:40:12] hasn't gone up, but there's just bug
+[00:40:13] fixes across the whole tree.
+[00:40:17] >> Hey. Hey, good day.
+[00:40:19] Uh do you think uh LLMs would gradually
+[00:40:21] make uh fuzzers redundant or because the
+[00:40:25] way they find bugs is quite different,
+[00:40:27] but um
+[00:40:28] eventually should we start spending less
+[00:40:30] time developing the fuzzers?
+[00:40:32] >> No, LLMs drive the fuzzers. So, I as an
+[00:40:36] example said, "Spin up a KSMBD demon or
+[00:40:40] uh in a virtual machine, run the fuzzer
+[00:40:44] to fuzz and see the fuzzer and give me
+[00:40:46] and see what happens." So, those are two
+[00:40:48] different things, right? LLM can drive
+[00:40:51] the framework for the fuzzer. Fuzzer is
+[00:40:53] manipulating and
+[00:40:55] exercising the code base
+[00:40:57] and it's a different type of thing. And
+[00:40:58] then it finds the bugs after that. And I
+[00:41:00] did that for code coverage for some user
+[00:41:02] space tools. Say, "Run OS fuzz on this
+[00:41:05] user space tools and make OS fuzz do
+[00:41:09] 100% code coverage and prove that." And
+[00:41:11] then that was catching bugs that the LLM
+[00:41:14] didn't find on its own, but OS fuzz
+[00:41:16] could prove that it wasn't ever hitting.
+[00:41:18] And then you go back and add it and go
+[00:41:20] from there. So, these are two two
+[00:41:21] different methodologies. Fuzzers are
+[00:41:23] great. Um but again, it's just another
+[00:41:25] tool in the tool chest. So, keep keep
+[00:41:28] working on them, please.
+[00:41:30] >> Thanks.
+[00:41:35] >> Another question.
+[00:41:39] >> Yeah, I'll circle back to the
+[00:41:41] performance versus uh security uh
+[00:41:45] because we had a like Spectre and
+[00:41:47] Meltdown, which we mitigated in
+[00:41:50] software, but the penalty of the
+[00:41:52] performance was too high. Do you expect
+[00:41:55] similar workarounds in the kernel or or
+[00:41:58] like special flags that will disable
+[00:42:00] some of the uh potential security
+[00:42:03] vulnerabilities
+[00:42:05] like mitigations that can have such a
+[00:42:08] performance hit?
+[00:42:10] >> I haven't seen it yet.
+[00:42:12] Um I don't know. I If it's going to hit
+[00:42:15] anywhere, it's going to be in your
+[00:42:16] networking layer.
+[00:42:17] But
+[00:42:18] so far this is all in the slow paths.
+[00:42:20] These are not on the fast paths
+[00:42:22] that we see, right? Cuz again, it's
+[00:42:24] dealing with untrusted data. And
+[00:42:27] normally untrusted data is having to be
+[00:42:28] parsed somewhere.
+[00:42:30] And do we just parse it better? Do we
+[00:42:32] fix the parser? Or are we actually
+[00:42:35] finally parse it?
+[00:42:36] Most of places we're parsing it, but
+[00:42:37] we're not parsing it well.
+[00:42:39] Um
+[00:42:41] dealing with untrusted hardware is a
+[00:42:42] whole other issue. If we want to deal
+[00:42:44] with that or not is another performance
+[00:42:46] issue. Again, SCSI and networking, I
+[00:42:48] think you guys want to trust the
+[00:42:50] hardware and let it rip because that's
+[00:42:53] going to have That would take a huge
+[00:42:54] performance decrease if you were to do
+[00:42:56] that. Nobody's asking you to do that.
+[00:42:59] On USB, we might for some things, but
+[00:43:01] USB is so slow, it doesn't really
+[00:43:03] matter. You never know.
+[00:43:08] >> Um
+[00:43:09] Ma'am. Um
+[00:43:11] LLVM best review like Sashiko
+[00:43:14] increased
+[00:43:16] the quality requirements of the patches
+[00:43:18] a lot.
+[00:43:19] So
+[00:43:22] I fear that
+[00:43:24] this kind of
+[00:43:25] upstreaming budget will be not be
+[00:43:28] possible for at least some part of the
+[00:43:30] community.
+[00:43:33] Like
+[00:43:33] >> So you're saying
+[00:43:35] you can't upstream the code because you
+[00:43:37] want to upstream code that has known
+[00:43:38] bugs in it?
+[00:43:40] >> Uh yes, exactly.
+[00:43:41] >> [laughter]
+[00:43:42] >> Yeah, I mean think about think about
+[00:43:43] what you're asking for right there. I
+[00:43:44] mean Sashiko's made it Sashiko's
+[00:43:46] rejected patches I've written, and I
+[00:43:49] hate it, and it's annoying, but it's
+[00:43:51] fixing my bugs. So you got to love it,
+[00:43:54] right?
+[00:43:55] >> I mean, I have
+[00:43:57] thought about this question because yes,
+[00:44:00] it sounds ridiculous that
+[00:44:03] we
+[00:44:05] we was upstreaming things with technical
+[00:44:08] depth which was paid some some day later
+[00:44:11] by some other user, by some other
+[00:44:14] company.
+[00:44:15] And now
+[00:44:16] for example in my in our company, we our
+[00:44:19] first
+[00:44:21] uh
+[00:44:21] customer need to pay it complete
+[00:44:25] up streaming process with
+[00:44:27] covered all of technical depth now and
+[00:44:30] not later which makes up streaming
+[00:44:33] budget kind of
+[00:44:35] three, four times higher.
+[00:44:37] >> Well, they're actually you're actually
+[00:44:38] having to pay for the Remember the very
+[00:44:40] first beginning I said we have
+[00:44:42] had an industry that has relied on the
+[00:44:44] fact that we've never paid for this to
+[00:44:46] work right. Yeah. So now we're actually
+[00:44:48] having to do it right.
+[00:44:50] That's a good thing.
+[00:44:52] The whole industry the whole world's
+[00:44:53] having it. If you want to give your
+[00:44:54] customer something that is known buggy
+[00:44:57] and not up stream it and your customer's
+[00:44:58] going to pay for it, that's great, but
+[00:45:00] don't inflict that on somebody on the
+[00:45:02] rest of the community. I mean it's it's
+[00:45:04] I it sounds ridiculous and make it sound
+[00:45:06] ridiculous because it is ridiculous,
+[00:45:08] right?
+[00:45:09] >> I mean will anyone uh in the open source
+[00:45:13] community who don't have access to LLM
+[00:45:16] or
+[00:45:17] uh LM capable hardware to up stream
+[00:45:20] anything?
+[00:45:23] >> Well, look at I mean Susik is public,
+[00:45:24] right? We're running that the Linux
+[00:45:26] Foundation is running that. Um so we
+[00:45:28] want to run that as a public tool for
+[00:45:30] Linux, right? So we will review, pay for
+[00:45:33] the credits for We'll get the credits
+[00:45:35] for free. I mean let's for let's be
+[00:45:37] real. Um to make Linux better.
+[00:45:40] There's no reason that we shouldn't do
+[00:45:42] that, right? Let's And you can run Susik
+[00:45:43] locally. I recommend running it locally
+[00:45:45] so you don't have to deal with the
+[00:45:46] turnaround time of something something
+[00:45:48] to a public mailing list.
+[00:45:49] Um it can work with the local one. It
+[00:45:51] just runs a little slower.
+[00:45:53] But use it. I mean these are We don't
+[00:45:56] want to write bad code, right?
+[00:45:58] >> [laughter]
+[00:46:01] >> Hi. Uh so I would like to follow up to
+[00:46:04] this one. So I think
+[00:46:07] for the upstreaming if I speak for
+[00:46:09] people who doing it in free time, then I
+[00:46:12] understand the quality needs to be high.
+[00:46:14] Of course not to put the burden on the
+[00:46:17] maintainers.
+[00:46:18] On other hand, LLMs are good at finding
+[00:46:21] edge cases which are let's say
+[00:46:25] I have solved the problem. I have code
+[00:46:28] which works for 99% of people very
+[00:46:30] reliably and solve our current issue
+[00:46:33] and you know, it's it's proper. I would
+[00:46:36] say high quality if I compare to
+[00:46:38] downstream Android kernels. I mean, I
+[00:46:40] shouldn't say that but like, you know,
+[00:46:41] if I
+[00:46:42] >> Please do. Please.
+[00:46:43] >> If [laughter] I if I compare to
+[00:46:44] something which millions of people using
+[00:46:46] in their phones, let's say,
+[00:46:48] then this quality is much higher, but
+[00:46:51] the LLM still finding, let's say, these
+[00:46:53] edge cases. And now instead of like,
+[00:46:56] let's say, upstreaming taking like
+[00:46:58] three, four revisions of the patch set,
+[00:47:01] I will need take 10 revisions or like
+[00:47:04] put much more effort into it. And right
+[00:47:07] now within the like mobile community, we
+[00:47:09] even have like very hard time convincing
+[00:47:11] people writing patches, fixing stuff to
+[00:47:14] we are close to mainline, but
+[00:47:17] it's hard hard to convince people like
+[00:47:20] who are, let's say, not paid for the
+[00:47:22] work like to upstream and do the full
+[00:47:25] run until it hits mainline.
+[00:47:28] And with LLMs, it this will get much
+[00:47:32] more,
+[00:47:34] you know, more expensive in matter of
+[00:47:36] time.
+[00:47:38] >> Well, think about it this way. This is
+[00:47:39] giving you the perfect foil to reject a
+[00:47:41] patch.
+[00:47:43] Why would you want to take a patch that
+[00:47:44] this thing has said there's a bug,
+[00:47:46] right? So as a maintainer, this is the
+[00:47:49] perfect tool. You can say, "Hey, look
+[00:47:51] over there. It's obviously a bug cuz
+[00:47:52] it's you read the code and now it's
+[00:47:53] wrong. Fix it." I mean, this is good.
+[00:47:56] You don't want to Yes, it might work for
+[00:47:58] 90% of the time, but that 10% might with
+[00:48:02] maliciously provided data
+[00:48:04] crash your machine, take over your
+[00:48:06] machine, etc. I mean, these are good
+[00:48:08] things. We want good quality code that
+[00:48:10] people can rely on in Linux. We all
+[00:48:12] agree with that.
+[00:48:14] Again, these tools are not magic.
+[00:48:16] They're finding bugs in your code. Let's
+[00:48:17] just fix it and move on. You run them
+[00:48:19] once Well, uh locally. I mean,
+[00:48:21] literally, you can run it overnight
+[00:48:23] locally on your laptop. It'll find the
+[00:48:25] bugs. You can say make patches for it.
+[00:48:27] It'll fix the bugs. You review You merge
+[00:48:29] it in before you submit it again. It's
+[00:48:32] not from a hobbyist point of view. I
+[00:48:34] understand the issues. It's not a should
+[00:48:37] not be a problem. And as a maintainer
+[00:48:39] point of view, if you send me code, now
+[00:48:41] I have to maintain it. I don't want to
+[00:48:42] maintain known buggy code cuz now I have
+[00:48:45] to fix it. Right?
+[00:48:48] And I I do a lot of work with Android. I
+[00:48:50] merge for the LTS kernels in Android. I
+[00:48:52] know what that code base is like. Um
+[00:48:55] Google's very interested in not having
+[00:48:56] buggy code in that code base. And I
+[00:48:59] think Android devices should not have
+[00:49:00] buggy code. That being said, Pixel has
+[00:49:02] 300 out of tree drivers, which is
+[00:49:04] insane. Um and those guys need to get
+[00:49:06] their act together.
+[00:49:10] >> Okay, thanks.
+[00:49:12] I Can you repeat about that Pixel thing?
+[00:49:15] >> Oh, the Pixel has 300 out of tree
+[00:49:17] drivers.
+[00:49:18] Pixel I mean, SOCs are the most complex
+[00:49:20] piece out there, right? Servers are
+[00:49:21] simple. Disk and networking, right? Uh
+[00:49:24] maybe 2 million lines of kernel code.
+[00:49:26] Laptop is 2 and 1/2, 3 million lines of
+[00:49:28] kernel code. SOC on your phone is
+[00:49:30] running 5 million lines of kernel code.
+[00:49:32] SOCs are the most complex piece out
+[00:49:33] there.
+[00:49:34] And Pixels again have 300 out of tree
+[00:49:36] drivers.
+[00:49:38] >> And And from your experience, let's say
+[00:49:40] in the past 6 months,
+[00:49:41] um have Would you say that networking is
+[00:49:45] still the strongest hit for exploits,
+[00:49:48] and not just bugs?
+[00:49:50] Most exploits seen in any subsystem.
+[00:49:54] >> Unfortunately, yes, because of your
+[00:49:57] ability to have caps net admin in a
+[00:50:00] untrusted user container.
+[00:50:02] >> Right.
+[00:50:03] >> Um, I talked to people and they're like,
+[00:50:06] "Do you trust your users?" They're like,
+[00:50:07] "Yes." I'm like, "Then you don't worry
+[00:50:08] about this stuff." I talked to some
+[00:50:09] people in that room right there who
+[00:50:11] says, "No, we don't trust our users."
+[00:50:13] Well, you have bigger problems. So,
+[00:50:15] >> [gasps]
+[00:50:16] >> um,
+[00:50:17] don't give them cap net admin.
+[00:50:20] So, if that goes away, like I said, take
+[00:50:22] that away from untrusted code bases,
+[00:50:25] untrusted users. That I think that's
+[00:50:27] your biggest problem right now. If If
+[00:50:29] you look at the bugs you have,
+[00:50:32] that's a that's a rough attack surface
+[00:50:34] you guys got there.
+[00:50:36] >> But like Colonel CTF removed that thing,
+[00:50:38] right? They still want exploits which
+[00:50:41] are like true user space.
+[00:50:44] >> Uh
+[00:50:44] sure. I mean, Google CTF does lots of
+[00:50:47] stuff and they're finding really
+[00:50:48] interesting bugs in KVM. Right now,
+[00:50:50] KVM's getting some really interesting
+[00:50:53] hacks that are finally people are
+[00:50:55] finally watching how you can escape out
+[00:50:57] of a guest into a host in KVM. So, KVM's
+[00:51:00] being hammered pretty hard as well. Um,
+[00:51:02] but networking, you guys just have such
+[00:51:03] a large attack surface for all your
+[00:51:05] protocols and all the different things
+[00:51:06] in netfilter and all the
+[00:51:08] stuff in the BPF. It's just You have a
+[00:51:11] much, much larger attack surface,
+[00:51:13] unfortunately. I'm sorry.
+[00:51:17] So, I feel for you.
+[00:51:18] >> like you're right.
+[00:51:20] It sounds like there are concerns that
+[00:51:22] LLMs are increasing the cost of
+[00:51:24] development by making people fix more
+[00:51:26] bugs before their patches get upstream.
+[00:51:28] But I guess I'd like to argue the exact
+[00:51:29] opposite. I If I take a long-term view,
+[00:51:33] >> [snorts]
+[00:51:33] >> these are bugs I'm going to have to fix
+[00:51:35] sooner or later anyhow.
+[00:51:36] >> Exactly.
+[00:51:37] >> And And it's well known that the cost of
+[00:51:39] fixing a bug rises dramatically the
+[00:51:42] farther downstream it gets before you
+[00:51:44] fix it. And some of the the bugs Sushiko
+[00:51:46] has found in my code are really subtle
+[00:51:48] things that would be extremely difficult
+[00:51:50] for me to find later on. You know, this
+[00:51:52] is something I can find in 5 minutes and
+[00:51:54] fix in an hour that I would probably
+[00:51:56] spend a week or two trying to figure it
+[00:51:57] out if it happened in production or or
+[00:51:59] more. It'll just be very very difficult
+[00:52:01] to find. So, I think LLM's are actually
+[00:52:03] dramatically going to reduce the cost of
+[00:52:05] software development by allowing us to
+[00:52:07] find and fix bugs where it can be done
+[00:52:08] really cheaply.
+[00:52:10] >> I agree. I'm finding something switched
+[00:52:12] they're finding a whole bunch of bugs
+[00:52:14] and interrupt handlers when a device
+[00:52:15] disappears at the same time. Especially
+[00:52:18] that's a code path that we all know is
+[00:52:21] racy and rough and it's now I can do the
+[00:52:23] pattern matching and find some bugs in
+[00:52:25] that area. I think we're going to fix up
+[00:52:26] a whole bunch of issues over the next
+[00:52:28] couple next month or so because of that.
+[00:52:31] Right? And this is good. These are those
+[00:52:33] those are the heisenbugs that we never
+[00:52:35] we have users report to us and we can
+[00:52:36] never figure out how to what what
+[00:52:37] happened.
+[00:52:43] >> Now, one thing I I did want to make sure
+[00:52:44] that people I don't know how many people
+[00:52:46] are aware of um, you know, going to the
+[00:52:49] to the comments about I get a patch and
+[00:52:51] then I need to go test it and you know,
+[00:52:54] you can test in production by just
+[00:52:56] submitting it and having people run it.
+[00:52:59] Um, the networking subsystem actually
+[00:53:00] does have a full CI
+[00:53:03] um, you know, I Cuba has it um,
+[00:53:05] for the software side uh, running within
+[00:53:07] meta but um, the netdev foundation is
+[00:53:10] part of the the Linux Foundation uh,
+[00:53:13] funded hardware based CI. So, we
+[00:53:15] actually have racks
+[00:53:17] uh, running and running like continuous
+[00:53:20] integration testing all of this stuff.
+[00:53:22] So, if there are fixes going out, uh,
+[00:53:25] they are getting some run time. So,
+[00:53:27] uh,
+[00:53:28] I actually need to see about the status
+[00:53:30] of that if we have all of the the the
+[00:53:32] NICs and the hardware that we are hoping
+[00:53:34] to get um, so we can get some good cross
+[00:53:35] coverage there but um, not sure how many
+[00:53:38] people actually knew that that existed.
+[00:53:40] >> And Zero-Day does a lot of building boot
+[00:53:42] testing as well. And 0-day will come
+[00:53:44] back with performance issues. So, that's
+[00:53:46] just picking up from the mailing list
+[00:53:47] today. I've seen that happen.
+[00:53:50] Do you guys do performance testing for
+[00:53:51] networking to watch degradations?
+[00:53:54] >> I'm fairly certain it is there, yes. I
+[00:53:57] have to go look at the
+[00:53:58] There's actually a dashboard. And half
+[00:54:01] the time when I go look at the
+[00:54:02] dashboard, there's a lot of red, and
+[00:54:03] then I go to a different tab.
+[00:54:05] Um
+[00:54:05] but I do think that there are
+[00:54:07] performance regressions are part of the
+[00:54:10] the test harness.
+[00:54:12] >> Cool. And Colonel CI does a lot of work
+[00:54:13] there, too.
+[00:54:20] >> Got another question up here.
+[00:54:22] >> And does a follow-up on this
+[00:54:25] AI is making us slower? Yes, it is in
+[00:54:28] the short term, but not only you or me,
+[00:54:31] but everyone. So, it's kind of fair.
+[00:54:33] And it the was the driver was the slower
+[00:54:37] you are now.
+[00:54:38] So, it's also fair.
+[00:54:40] >> Yeah, and and to be fair, closed source
+[00:54:41] has it worse. They're they're [snorts]
+[00:54:43] they're going to they're going to get
+[00:54:43] hit worse. And it's fine. These tools
+[00:54:45] don't care about if it's open or closed.
+[00:54:47] They can easily decompile the stuff.
+[00:54:48] They're getting hit with this much, much
+[00:54:50] worse, and they have less resources to
+[00:54:52] deal with it. So, I don't feel sorry for
+[00:54:54] them, but they're much worse off than we
+[00:54:57] are.
+[00:54:59] >> Thanks.
+[00:55:02] >> Hello.
+[00:55:03] Um I have a question about the the
+[00:55:05] stable kernels. Do you do you see an
+[00:55:08] impact on the stable side? Because my
+[00:55:11] fear is that maintainers have even less
+[00:55:13] time to look at what's happening on the
+[00:55:15] stable side. And then maybe some patches
+[00:55:18] doesn't get backported or they didn't
+[00:55:21] have a good version in the stable ones.
+[00:55:25] >> Yeah, as a stable maintainer, I will
+[00:55:27] make my plea for you guys need to tag
+[00:55:29] all the patches. We are not picking up
+[00:55:31] anything except what you explicitly tag
+[00:55:33] for stable now. Um please do that. Yes,
+[00:55:37] things are getting missed. We know that.
+[00:55:39] Um, we've stopped doing the auto select
+[00:55:41] stuff because people complained about
+[00:55:43] that.
+[00:55:44] Um, so please tag it and go. But, I
+[00:55:47] don't worry too much about stable
+[00:55:48] because the patch has already been
+[00:55:49] through all your CI, all your testing,
+[00:55:51] all the review, and then Linus's tree
+[00:55:53] before it gets to us. So, it's going to
+[00:55:55] be in the next release anyway.
+[00:55:57] Um, whether we back if we backport half
+[00:55:59] of them or not, it's up to
+[00:56:01] that the interaction
+[00:56:03] doesn't usually cause a problem, but
+[00:56:05] sometimes it does. But, just properly
+[00:56:07] tag the stuff and we are seeing people
+[00:56:09] tag more things these days, which is
+[00:56:11] good. I'm I'm happy. I know we've been
+[00:56:13] missing bugs for a long time and we're
+[00:56:14] seeing more people tag things, which is
+[00:56:16] good.
+[00:56:19] And but, stable kernels are also tested
+[00:56:21] better than anything else out there as
+[00:56:23] well, which is the interesting thing.
+[00:56:24] Stable kernels are tested hard by more
+[00:56:27] people than are testing Linus's tree,
+[00:56:28] sadly.
+[00:56:44] >> Hey, uh, Greg, you're suggesting that
+[00:56:48] you want people, uh, finding security
+[00:56:51] bugs to also send patches. They don't
+[00:56:53] tend to be very good, actually.
+[00:56:55] >> No, they don't.
+[00:56:57] >> But, that's a start.
+[00:56:59] Right?
+[00:57:01] I mean, do you it's much easier to see a
+[00:57:05] patch than a wall of text trying to that
+[00:57:08] these LLMs spit out. If you tell the LLM
+[00:57:11] find me a bug, it'll spit out a wall of
+[00:57:12] text. If you said find a bug and make a
+[00:57:14] patch, a lot of the times it sits there
+[00:57:17] and realizes, oh, that wall of text I
+[00:57:19] created was not right. I cannot create a
+[00:57:21] patch. So, that knocks those away. And
+[00:57:23] then, if you actually have a patch to
+[00:57:25] start with,
+[00:57:26] then it didn't hallucinate the function,
+[00:57:27] sometimes they do. Sometimes it makes up
+[00:57:29] patches on its own, but at least it's a
+[00:57:31] starting point and we want a starting
+[00:57:33] point to go on. Otherwise, I have to
+[00:57:35] take that wall of text, feed it through
+[00:57:37] an LLM, and go
+[00:57:39] so
+[00:57:40] it's just easier that way. And we're
+[00:57:42] asking for it. It's part of the
+[00:57:43] documentation now. Um I think it's
+[00:57:46] in the past week or two we haven't or
+[00:57:48] past month we have had very few patches
+[00:57:50] very few reports come without patches
+[00:57:52] cuz if you ask the reporter, "Hey, give
+[00:57:55] me a patch, you'll get full credit for
+[00:57:56] the fix." They're always like, "Yeah, we
+[00:57:58] want credit." So
+[00:57:59] >> We were doing things for credit.
+[00:58:01] >> Because they because they're crappy
+[00:58:02] patches.
+[00:58:05] It's it's about credit, right? Would you
+[00:58:07] still give credit to this guy? You spend
+[00:58:09] two hours
+[00:58:10] uh looking at the patch, fixing it.
+[00:58:14] >> Well, then they're reported
+[00:58:15] >> I always feel bad. I I like
+[00:58:16] >> I I I know. I feel bad, too. Um I watch
+[00:58:19] you guys. You guys have the hardest time
+[00:58:21] and
+[00:58:22] a lot of these patches are really bad.
+[00:58:24] Um
+[00:58:25] but if you want if you don't want the
+[00:58:26] patch, just start from scratch and you
+[00:58:28] go from there. It's up to you, but it's
+[00:58:30] better
+[00:58:31] I think it's better to start with.
+[00:58:33] >> Yeah, okay.
+[00:58:38] >> You can throw it away and not even use
+[00:58:39] it and compare it to do something new.
+[00:58:41] >> It's it's not nice after they
+[00:58:43] after they put all that effort in.
+[00:58:45] >> Well, to be fair, honest, the effort
+[00:58:47] might be just say make a patch. It isn't
+[00:58:49] a lot of effort.
+[00:58:50] So, don't feel too bad.
+[00:58:54] These things are ob- when they're
+[00:58:55] obviously LLM generated
+[00:58:57] don't don't feel bad.
+[00:58:59] They're not feeling bad about setting up
+[00:59:00] this stuff.
+[00:59:02] >> Mhm.
+[00:59:07] >> But then give them reported by credit.
+[00:59:08] That's all they really want is reported
+[00:59:10] by credit
+[00:59:11] in the end.
+[00:59:14] >> Okay.
+[00:59:22] >> I think we can probably take one more
+[00:59:24] question.
+[00:59:31] >> Or maybe zero questions.
+[00:59:38] Oh,
+[00:59:38] we have one. All right, we have a taker.
+[00:59:48] >> So, I have a one follow-up question and
+[00:59:50] that's like um you said um we are moving
+[00:59:54] to cost uh the initial submission as we
+[00:59:56] talk about with the LLM, we need to like
+[00:59:59] fix all the issues.
+[01:00:01] Um is there any plan or um
+[01:00:04] way how to make the initial submission
+[01:00:07] easier than I mean like because all the
+[01:00:09] cost moving and uh beginning of the
+[01:00:12] submission instead of like life life
+[01:00:15] time of the code?
+[01:00:17] Is there any chance or
+[01:00:22] thing to um
+[01:00:24] you know, compensate for the early like
+[01:00:27] rise of the peak?
+[01:00:29] >> It's cost that you were getting away
+[01:00:30] with in the past. It's it's actually
+[01:00:32] faster and cheaper and to do it right
+[01:00:35] the first time. You're messing with it
+[01:00:37] it isn't add-on tiny patches per
+[01:00:39] individual thing. You can write it, fix
+[01:00:40] it all at once, and away you go.
+[01:00:43] I mean, I wish I had these
+[01:00:45] patches when I submitted initial drivers
+[01:00:46] in the very beginning because then I
+[01:00:47] wouldn't be going back and having to fix
+[01:00:49] them up late.
+[01:00:50] I mean, it it shouldn't be that much
+[01:00:52] more work. I have not seen it be a lot
+[01:00:54] more work. Um we don't get a ton of new
+[01:00:58] submissions to the to the subsystems I
+[01:01:00] deal with, but once once we do, you can
+[01:01:03] run it through and it just it finds all
+[01:01:05] the bugs so easily and then you can just
+[01:01:06] fix them and just come back with a new
+[01:01:08] version, and come back with a new
+[01:01:09] version. It's
+[01:01:10] I think it's actually better.
+[01:01:13] >> So, with the mobile ecosystem, I see
+[01:01:15] like a lot of people sending initial
+[01:01:17] version of patches and even without the
+[01:01:19] LLMs like few let's say year ago,
+[01:01:23] A lot of people get discouraged over
+[01:01:25] time. They like fix some issues, then
+[01:01:27] they get more reports and they give up.
+[01:01:30] And I I see that very often and
+[01:01:33] sometimes I send these patches and fix
+[01:01:35] fix fix them up. But
+[01:01:38] you know, with the LLMs it will be even
+[01:01:40] more demanding on the person and I I'm
+[01:01:43] afraid that the volunteers will like
+[01:01:45] gave up early instead of like finishing
+[01:01:48] the whole pad because it will be more
+[01:01:50] work. And the question is I know we
+[01:01:53] cannot probably give them LLM and like
+[01:01:55] say like okay, use the LLM to fix your
+[01:01:57] patch
+[01:01:58] for yourself. But like question is if we
+[01:02:01] can like
+[01:02:04] can give them some guidance or something
+[01:02:06] like
+[01:02:08] you know, we will have more difficulty
+[01:02:10] difficulty in the beginning. So if they
+[01:02:13] if we can give them something like you
+[01:02:15] know, to overcome that.
+[01:02:18] >> I understand what you're saying. I don't
+[01:02:20] I think it's actually easier cuz if if
+[01:02:21] you run the LLM it finds all the bugs
+[01:02:23] instantly that it's going to find.
+[01:02:25] And you fix them all and you go again.
+[01:02:26] But it's just like a human reviewer. I
+[01:02:28] mean I had patches that went through 26
+[01:02:31] different revisions over a year and a
+[01:02:33] half from some maintainers.
+[01:02:35] Um this is just normal way kernel
+[01:02:37] development happens. I don't think this
+[01:02:38] is anything special. But you can't take
+[01:02:41] no broken code, right? You don't want
+[01:02:43] that.
+[01:02:45] They don't want that in those in their
+[01:02:46] devices as well. Uh
+[01:02:48] I hear what you're saying.
+[01:02:50] I understand the frustrations. Our code
+[01:02:52] base and our development community is
+[01:02:54] still growing. If that were to slow down
+[01:02:56] and get less, then maybe we would worry
+[01:02:59] about this stuff.
+[01:03:01] We haven't seen that happening.
+[01:03:03] >> Previously, if you
+[01:03:05] uh see some code and uh
+[01:03:07] question is like did you even compile
+[01:03:10] it? Now the new verb is like did you LLM
+[01:03:14] it?
+[01:03:16] >> Well, you should just think it will do
+[01:03:17] that for you, right? You just point over
+[01:03:18] there and say, "Hey, look.
+[01:03:20] I go over there. There's a un
+[01:03:22] un
+[01:03:24] an impersonal little bot is telling you
+[01:03:26] all your problems. It's just like
+[01:03:27] running the zero-day bot, right? Zero
+[01:03:29] day is great.
+[01:03:30] Oh, here's all the build errors. Here's
+[01:03:32] all the warning errors.
+[01:03:34] Just another tool like that.
+[01:03:41] >> Oh, hi Greg. I'm Yuan-Tan and I want to
+[01:03:44] know
+[01:03:45] how do you deal with AI hallucination?
+[01:03:48] Do you generate a POC with AI to verify
+[01:03:51] its finding or you just rely on your
+[01:03:54] human understanding to verify the
+[01:03:57] finding the bot is true or not?
+[01:04:01] >> I I just verify myself because
+[01:04:04] hallucinations are always are there.
+[01:04:06] Like I said, 1/4 of the 1/3 of the time
+[01:04:08] it's fake.
+[01:04:09] Um but I treat it as if I cuz I review
+[01:04:11] patches all the time, right? So, humans
+[01:04:13] can lie and somebody stuff is broken,
+[01:04:15] too. So, I just treat it like a human
+[01:04:17] that way. And you go away and
+[01:04:21] I was I gave a link to where I was
+[01:04:23] fooled yesterday. So, I we some patches
+[01:04:27] were submitted that did not need to be
+[01:04:28] submitted because the code was just
+[01:04:30] fine.
+[01:04:31] Um so, we all get it wrong sometimes.
+[01:04:35] >> Okay, thank you. I will give a speech
+[01:04:37] on university about how how we use AI to
+[01:04:40] verify the patch. We use the sanitizer
+[01:04:43] to work. It's really It's really work
+[01:04:46] with sanitizer.
+[01:04:48] >> Yeah, I can see people trying to do that
+[01:04:49] and I I love the frameworks. I
+[01:04:52] I don't want to make things complicated.
+[01:04:54] Just fix it and move on and I treat it
+[01:04:57] as anything else I'm reviewing and go
+[01:04:59] from there. I I know a lot of
+[01:05:00] researchers want to keep a human out of
+[01:05:02] the loop
+[01:05:03] and I say if I have a human right here
+[01:05:05] in the loop say this is good or bad,
+[01:05:07] something can still go very quickly.
+[01:05:09] It's up to you, but I welcome your
+[01:05:12] research.
+[01:05:13] >> Thank you.
+[01:05:15] >> And thanks for finding and fixing all of
+[01:05:16] those bugs you guys are finding. I do
+[01:05:18] appreciate that, too.
+[01:05:22] >> So, Greg, do you have anything else that
+[01:05:25] you had planned to show?
+[01:05:27] >> No, I was going to run it on that that
+[01:05:30] tool. I just ran I kicked off two I
+[01:05:32] kicked off a Mythos run and I kicked off
+[01:05:33] a local open code or a local LLM bot and
+[01:05:37] the LLM local model found one bug in
+[01:05:40] the driver
+[01:05:42] for a malicious device and the Mythos
+[01:05:44] said everything was fine.
+[01:05:46] So,
+[01:05:47] um it wasn't very interesting.
+[01:05:49] I was hoping it would be something a
+[01:05:50] little more interesting. But, again,
+[01:05:52] that's all it took. It's just say go out
+[01:05:53] there
+[01:05:55] and uh let me show the screen
+[01:05:58] how simple the prompt was.
+[01:06:01] >> Do you expect the length of time LTSs
+[01:06:05] supported to change as a result of
+[01:06:09] uh LLMs and kind of the security issues
+[01:06:11] that are getting reported lately?
+[01:06:14] >> I want the length of LTSs to be less,
+[01:06:18] anyway. Um by virtue of
+[01:06:22] if you look at all the unfixed CVEs in
+[01:06:24] the old LTSs,
+[01:06:26] uh LLMs haven't This has been there
+[01:06:28] since the beginning of time. Now, we
+[01:06:30] have documentation that all LTSs are
+[01:06:32] actually more insecure than newer ones.
+[01:06:35] So, just use newer ones. The laws are
+[01:06:37] going to make enforce the fact that you
+[01:06:39] cannot ship devices with known CVEs in
+[01:06:42] them.
+[01:06:43] The EU law and then there's other laws
+[01:06:45] in our country is coming. So,
+[01:06:47] um I think by the fact that the
+[01:06:48] governments are going to make it so that
+[01:06:50] you do not want a long LTS. It just
+[01:06:52] won't work.
+[01:06:53] So, I don't think LLMs have anything to
+[01:06:54] do with it. I think it's just a pure
+[01:06:56] fact that people are not backporting
+[01:06:58] fixes.
+[01:07:01] Um
+[01:07:03] and here is the prompt. Was really kick
+[01:07:06] off a new run.
+[01:07:09] And that's all
+[01:07:11] I told it to do.
+[01:07:13] It's that simple of a prompt. That was
+[01:07:15] on Miso's.
+[01:07:17] And on five we're going to open I just
+[01:07:20] said scan the file, find any bugs, one
+[01:07:23] case no problem.
+[01:07:25] These are not complex prompts.
+[01:07:29] Um
+[01:07:30] And it said for this one it did find a
+[01:07:31] bug.
+[01:07:32] >> Hi Greg.
+[01:07:33] >> Yeah.
+[01:07:34] >> This example has been bothering me for
+[01:07:35] last half hour.
+[01:07:37] It's exactly what you were talking
+[01:07:39] about. That we trust hardware and if the
+[01:07:43] specification says
+[01:07:45] uh
+[01:07:46] length is larger than two, so why should
+[01:07:49] we fix this?
+[01:07:50] >> Okay, so this is an interesting problem.
+[01:07:52] USB devices, Android, so the kernel
+[01:07:56] Linux as a policy decision says no. We
+[01:07:58] trust once the driver about to device,
+[01:08:00] no. Android with 5 billion devices out
+[01:08:02] there decides to trust it. So I have to
+[01:08:05] default to the fact Android can't handle
+[01:08:08] this right now.
+[01:08:10] This is for USB. So I'm sorry.
+[01:08:12] >> Okay, is USB special? Yeah.
+[01:08:14] >> Is USB special? And we both I will say
+[01:08:16] this is not I will not treat this as a
+[01:08:17] security bug. I'll just treat it as a
+[01:08:19] bug. And it's not to be like you know
+[01:08:22] there's no we don't do um
+[01:08:25] we don't do announcements or anything
+[01:08:26] else. It will eventually get a CVE
+[01:08:27] issued because they know Android it's a
+[01:08:29] vulnerability in their devices, but
+[01:08:31] that's it.
+[01:08:32] So
+[01:08:33] yeah.
+[01:08:34] So sorry.
+[01:08:36] So
+[01:08:36] >> Thank you. Uh maybe another question
+[01:08:38] while I have the mic. Um as you say now
+[01:08:42] we should all go fix bugs and etc. Do
+[01:08:44] you think the ratio of hallucinations
+[01:08:47] will rise because the real bugs are
+[01:08:50] fixed then we will get to 80% lying LLMs
+[01:08:54] because they want to find something?
+[01:08:57] >> I was worried about that and I haven't
+[01:08:59] seen it happen. So I do so I've been
+[01:09:02] scanning there's a
+[01:09:04] um open source project we all rely on
+[01:09:06] and I've been helping them scan it a
+[01:09:08] bunch and it they peak. So, it peaks and
+[01:09:11] it finds the bugs and like, okay, it
+[01:09:12] hallucinates one or two and then fix all
+[01:09:15] the bugs, and run it again, and it maybe
+[01:09:17] hallucinates one out of three. And then
+[01:09:19] you run it again after you fix those and
+[01:09:21] it can't find anything else. So, they
+[01:09:23] stop. They they peak and they they don't
+[01:09:26] start churning out more hallucinations
+[01:09:28] than they do for some reason. I don't
+[01:09:30] know why, but I have not seen that
+[01:09:32] happen yet. I I've seen some programs I
+[01:09:35] will say some um
+[01:09:37] of the cloud computing um programs come
+[01:09:40] back with
+[01:09:41] perfect. There's no bugs that these
+[01:09:42] things have found because some of these
+[01:09:44] tools for containers that people have
+[01:09:46] been beating on with fuzzers for a very
+[01:09:48] long time are written really well. Now,
+[01:09:50] maybe the patterns for the problems are
+[01:09:52] not known yet,
+[01:09:54] so the LLMs can't find it, but these
+[01:09:56] things don't seem to be giving a huge
+[01:09:58] number of They don't do like 80% false
+[01:10:01] at that point in time.
+[01:10:03] >> Cool.
+[01:10:05] >> Maybe that'll change in the future, I
+[01:10:06] don't know,
+[01:10:07] but I haven't seen it happen.
+[01:10:10] >> Um hey, again, uh do you expect that uh
+[01:10:13] more funding will be allocated for
+[01:10:15] security from, let's say, Linux
+[01:10:17] Foundation or Open SSF?
+[01:10:19] >> So, Linux Foundation funds nothing.
+[01:10:22] So, all I I joke there's three
+[01:10:23] programmers and five accountants. Um so,
+[01:10:27] open So, companies have formed other
+[01:10:29] groups within the Linux Foundation um
+[01:10:32] funding Alpha and Omega. Alpha and Omega
+[01:10:34] is doing a lot of work on funding for
+[01:10:37] specific issues. If you find a security
+[01:10:38] problem you want to work on, they funded
+[01:10:40] kernel developers for the past 3 years
+[01:10:42] to work on the hardening and clang
+[01:10:44] integration and new kernel and new
+[01:10:45] compiler features. And now they're going
+[01:10:47] to fund somebody to work on this for
+[01:10:49] LLMs and the kernel security mailing
+[01:10:51] list. So, yeah, we have some money from
+[01:10:53] that. Um
+[01:10:55] companies should be donating this, but
+[01:10:56] companies also should be doing this on
+[01:10:58] their own with their own stuff. I know
+[01:11:00] very big companies like Google scanning
+[01:11:02] their own code bases and other companies
+[01:11:04] are scanning their own code bases and
+[01:11:05] just sending out patches. So, just do
+[01:11:07] that.
+[01:11:08] It's simple enough.
+[01:11:09] >> But as you know, they they changed their
+[01:11:11] criteria. They said like they are not
+[01:11:13] paying for any general Linux kernel bugs
+[01:11:16] until and unless that affects Android.
+[01:11:18] >> That's a policy decision on their
+[01:11:21] capture the flag stuff. That's up to
+[01:11:23] them. I
+[01:11:24] That That was never driving the security
+[01:11:27] bug fixes in the Linux kernel in the
+[01:11:28] first place. Let's just put it that way.
+[01:11:31] You know, again, we've been fixing for
+[01:11:33] We fixed 14 13 to 14 security bugs a day
+[01:11:37] for the past 3 years, and now we're up
+[01:11:39] to 15. Well, it's just added one. I
+[01:11:41] think the LLM's have added one more
+[01:11:42] security bug a day.
+[01:11:44] Again, this is a normal Tuesday for
+[01:11:48] kernel bugs.
+[01:12:07] >> Anyone else have a question or a thought
+[01:12:09] for Greg?
+[01:12:18] Okay. Well, Greg, we really do
+[01:12:21] appreciate your your time, your insight,
+[01:12:23] and sharing this.
+[01:12:25] Um yeah, thank you.
+[01:12:28] >> Thanks for having me. Appreciate it.
+[01:12:31] >> [applause]
+[01:12:39] >> Okay.

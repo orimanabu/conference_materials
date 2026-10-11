@@ -1,0 +1,648 @@
+Source: https://youtu.be/uetdaP9m11s
+Language: en
+Captions: auto-generated
+
+[00:00:00] Okay. So, hi everyone.
+[00:00:02] I'm Alkama. I work for Marvell.
+[00:00:04] So, this is about our journey to make
+[00:00:07] MACsec protected RDMA on DPUs.
+[00:00:11] So, we were discussing about the
+[00:00:13] importance of RDMA. So, the
+[00:00:16] no matter what workload you name, when
+[00:00:18] the traffic leaves the node boundary, it
+[00:00:20] literally writes over an RDMA fabric.
+[00:00:23] So, like in case of distributed training
+[00:00:25] where gradients like all it is all
+[00:00:27] gathered crosses the node boundary over
+[00:00:29] an RDMA fabric. Or in case of
+[00:00:32] disaggregated inference where AV cast
+[00:00:35] travels the node. Or or in case of
+[00:00:37] tensor parallelism or mixture of expert
+[00:00:39] models.
+[00:00:40] Or storage and like. So, the reason why
+[00:00:42] RDMA always because it gives ultra-low
+[00:00:45] latency and it gives the high high
+[00:00:48] throughput and
+[00:00:50] it does not involve the host CPU
+[00:00:53] of either of the host CPU.
+[00:00:57] So, the obvious question comes in our
+[00:00:59] mind, how do we secure it?
+[00:01:01] So, as we know like RDMA workloads
+[00:01:03] crosses uh
+[00:01:05] uh bypass the kernel. So, the TLS KTLS
+[00:01:08] or internal IPsec does not even see the
+[00:01:11] data path.
+[00:01:13] So, how would how would doing it in
+[00:01:15] software? But, that will kill the low
+[00:01:18] latency claim and also it involves the
+[00:01:21] CPUs of the host.
+[00:01:24] So, that's what it got triggered us. How
+[00:01:26] about doing it using MACsec that to on
+[00:01:30] uh DPU like hardware uh inline using
+[00:01:33] hardware MACsec.
+[00:01:37] So, DPUs are data processing units are
+[00:01:39] is programmable NIC that has
+[00:01:42] general-purpose cores and few of the
+[00:01:45] accelerators that is being used to
+[00:01:47] accelerate some of the workloads.
+[00:01:49] So, it's widely being deployed and we
+[00:01:53] have a couple of solutions that they
+[00:01:55] utilize
+[00:01:56] DPUs. So, we have infrastructure offload
+[00:01:59] which offloads the whole data path of
+[00:02:01] CNI and EBPF. We developed DPU operator
+[00:02:04] to accelerate the network function on
+[00:02:06] DPU's.
+[00:02:07] We have another solution MCT offload
+[00:02:09] that is like lined up in the Netdev the
+[00:02:11] next talk. And we have developed AI
+[00:02:14] inference gateway offload which offloads
+[00:02:17] the LLMD inference gateway
+[00:02:18] that includes Envoy and endpoint picker
+[00:02:22] the full data path of
+[00:02:25] LLMD.
+[00:02:26] So, all of these can run on
+[00:02:30] DPU's and it can use the DPU's
+[00:02:32] accelerator to accelerate few of the
+[00:02:34] stuff. How about running the same
+[00:02:36] secured RDMA on the same DPU that can
+[00:02:39] run multiple
+[00:02:41] use case solutions at a time? So, that's
+[00:02:44] what triggered us and we sit together
+[00:02:48] find a way how we can do to offload the
+[00:02:51] RDMA and at and at the same time
+[00:02:57] MACsec based encryption
+[00:02:59] using inline hardware MACsec block.
+[00:03:02] So, we use the Soft RoCE
+[00:03:05] of the like ROCE engine that runs on
+[00:03:08] DPU. So, we'll show our journey or the
+[00:03:11] architecture in deep dive later. So,
+[00:03:13] before going into the architecture, I
+[00:03:15] just wanted to make a base what the RDMA
+[00:03:17] stands for. RDMA is remote direct memory
+[00:03:21] access where one host copy or reader
+[00:03:25] write the remote host memory without
+[00:03:27] involvement of either of the CPU. So, it
+[00:03:28] does few of the stuff like set up few of
+[00:03:31] the control plane entity
+[00:03:33] and then moves the data across the
+[00:03:36] fabric.
+[00:03:37] So,
+[00:03:38] I just wanted to
+[00:03:40] compare what is the case in case of
+[00:03:43] standard RDMA whether it's Soft RoCE or
+[00:03:47] using RNIC. So, how the control plane
+[00:03:49] works and how it works in case of our
+[00:03:51] offloaded RDMA where the actual RDMA
+[00:03:54] engine runs on DPU.
+[00:03:57] So, this is the case of standard like
+[00:03:59] where everything runs on host or RNIC.
+[00:04:01] So,
+[00:04:02] uh the application which wants to uh
+[00:04:06] establish an RDMA connection, they
+[00:04:07] starts with the uh get device list, pick
+[00:04:10] an RDMA device available on the host,
+[00:04:12] and it starts the context. And the
+[00:04:15] context mostly involves uh like
+[00:04:17] allocating the protection domain which
+[00:04:19] includes
+[00:04:21] uh creating memory region, uh it pins
+[00:04:23] the memory, creates a local key, store
+[00:04:26] it, creates a remote key. It creates
+[00:04:28] completion queues, and it creates queue
+[00:04:31] pair which include I send queue, receive
+[00:04:33] queue, and after all of these creation,
+[00:04:37] it sends uh it exchange these
+[00:04:40] identifiers across the peer so that they
+[00:04:42] can be in sync so it exchange queue pair
+[00:04:44] number, GID, packet sequence number, uh
+[00:04:47] remote key key of the uh memory region
+[00:04:50] that it created, and uh the virtual
+[00:04:52] address with the peer over either TCP or
+[00:04:55] RDMA connection management.
+[00:04:57] And uh once they shared and synced with
+[00:05:00] the the peer, they change the
+[00:05:03] uh queue pair state from reset to init
+[00:05:05] to ready to receive and ready to send.
+[00:05:06] So, at this time this is the whole
+[00:05:08] control plane setups.
+[00:05:10] Uh and this time uh it is ready to send
+[00:05:13] the data over NVMe. So, the similar
+[00:05:15] thing how we are achieving in our case
+[00:05:18] where
+[00:05:19] uh the DPU is actually uh
+[00:05:22] uh a device that is connected with the
+[00:05:24] host over PCI, and the DPUs
+[00:05:27] uh runs their own kernel, and uh it runs
+[00:05:30] the RDMA engine, uh and that it speaks
+[00:05:33] for the host.
+[00:05:34] So,
+[00:05:35] we developed a one host driver Octeon
+[00:05:38] RDMA and a user space application Octeon
+[00:05:41] Rocky backend you can see that runs on
+[00:05:44] DPU, and uh which
+[00:05:46] talks as a uh proxy for
+[00:05:49] uh the DPU's RDMA engine. So the flow
+[00:05:51] works in the same case like host RDMA
+[00:05:53] wants to establish the host device wants
+[00:05:56] to establish all those RDMA
+[00:05:59] and so
+[00:06:00] the similar way it creates like it asks
+[00:06:02] for the get
+[00:06:04] calls the get device list asks for an
+[00:06:06] RDMA device. So
+[00:06:08] the Octeon RDMA of the host drivers
+[00:06:12] does all this like the PD creates CQ
+[00:06:15] creates so it creates the protection
+[00:06:17] domain on the host and also it calls an
+[00:06:20] inbox API down to the back end
+[00:06:23] user space application. So which
+[00:06:27] creates
+[00:06:28] proxy
+[00:06:30] protection domain on the DPU also
+[00:06:33] similar for CQ, QP and MR also. So once
+[00:06:36] the host wants to establish to establish
+[00:06:38] all of these
+[00:06:40] one in one QP creates on the host and it
+[00:06:43] calls to the back end and back end also
+[00:06:46] does the same. Back back ends create the
+[00:06:48] memory region then registered with the
+[00:06:50] actual RDMA engine on the DPUs.
+[00:06:53] So the PD a lot path looks like
+[00:06:56] this host driver
+[00:06:58] creates a PD on the host and it's called
+[00:07:00] an inbox API which we
+[00:07:02] wrote like PD add and comes back to the
+[00:07:05] back end which ultimately calls the same
+[00:07:09] a lot PD API to the actual RDMA engine
+[00:07:12] which creates the protection domain on
+[00:07:14] the DPUs. Same with the CQ.
+[00:07:18] And with the QP and MR there is one
+[00:07:20] extra entity because
+[00:07:22] we share that
+[00:07:24] if after creating all of these host
+[00:07:26] share some of the exchange some of the
+[00:07:28] entity with the peer so that they can be
+[00:07:31] synced and
+[00:07:33] using that
+[00:07:35] RDMA engine can actually share the
+[00:07:37] actual packet and the peer can accept
+[00:07:39] using those identifier and one of
+[00:07:41] out of those are like Q pair number GIDs
+[00:07:44] and R keys and
+[00:07:46] virtual addresses.
+[00:07:48] So, in our case, the actual RDMA engine
+[00:07:51] runs on the DPU and in the host actually
+[00:07:54] speaks the RDMA words. So, what happens
+[00:07:57] is host wants to create the Q pair.
+[00:08:00] It creates
+[00:08:02] the host driver creates a Q pair on the
+[00:08:03] DPUs on the host and calls an inbox API
+[00:08:07] to create the similar on the DPU. So,
+[00:08:09] DPUs call the actual RDMA API to create
+[00:08:15] the Q pair on the DPU using the RXC and
+[00:08:18] it creates the Q pair number and sends
+[00:08:20] back to the host. So, host actually
+[00:08:22] adopts the Q pair number that is being
+[00:08:25] created on the DPU.
+[00:08:27] Similar case for memory region also.
+[00:08:29] Host creates a memory region, but also
+[00:08:31] calls an inbox API down to the DPU,
+[00:08:34] which creates another shadow memory
+[00:08:37] region, which is being registered to the
+[00:08:39] actual RDMA engine RXC in this case.
+[00:08:42] And
+[00:08:43] it shares the remote key of
+[00:08:46] the shadow buffer that is being created
+[00:08:49] on the DPU to the host via the same
+[00:08:53] response of the API and the remote
+[00:08:55] virtual address, which
+[00:08:57] the host adopt adopts it and shares with
+[00:09:00] the
+[00:09:01] peer so that they can be synced on
+[00:09:05] on the control plane entities. So, once
+[00:09:07] the
+[00:09:08] final data path comes to
+[00:09:10] the DPU builds the packet and use their
+[00:09:13] own R key Q pair number GID and those
+[00:09:17] addresses,
+[00:09:18] which the peer already knows and they
+[00:09:20] they they can accept the packet.
+[00:09:24] So, this was the
+[00:09:25] control plane path, where
+[00:09:28] till now like not a single byte is being
+[00:09:30] shared over
+[00:09:32] over the fabric. So, we'll see the data
+[00:09:35] plane. So, this is like data path
+[00:09:37] one-sided send data path in case of uh
+[00:09:41] standard RDMA like when RDMA runs on
+[00:09:43] host or on RNIC. And we'll compare the
+[00:09:45] similar data path in case of our
+[00:09:47] offloaded solution.
+[00:09:48] So,
+[00:09:50] uh I just showed the
+[00:09:52] overview of
+[00:09:54] larger scale not
+[00:09:55] so
+[00:09:56] So, here also like the application wants
+[00:09:58] to
+[00:09:59] uh
+[00:10:01] send uh data from the local memory to
+[00:10:04] remote memory. So, it calls that uh post
+[00:10:07] send and then it goes to the host side
+[00:10:09] driver that creates the work queue, send
+[00:10:12] it to the SQ buffer and then from that
+[00:10:15] send queue
+[00:10:17] uh ring the RNIC or the whatever the
+[00:10:19] RDMA engine that runs on there can pick
+[00:10:23] the packet and it gets the WQE SG locate
+[00:10:26] the data in the registered memory and
+[00:10:28] then finally DMA the data to the
+[00:10:32] uh end of the NIC or over the fabric and
+[00:10:34] goes to the peer side and the peer side
+[00:10:37] it does the reverse.
+[00:10:38] So, we use a Rocky V2. So, the Rocky V2
+[00:10:42] uh the software RDMA or RNIC RDMA engine
+[00:10:46] creates the packet which includes like
+[00:10:48] Ethernet IP headers, UDP, uh BTH and
+[00:10:51] RETH like base transport header and
+[00:10:54] RDMA Ethernet transport header. So, BTH
+[00:10:56] has opcode and queue pair number and the
+[00:10:58] packet sequence number.
+[00:11:00] And the RETH has this uh virtual address
+[00:11:02] RKey and length and then
+[00:11:04] uh the RDMA payloads is being shared
+[00:11:08] across that. So, this this was the flow
+[00:11:10] in case of standard and this is what
+[00:11:13] the flow is in case of our solution.
+[00:11:16] So,
+[00:11:17] the same uh pod wants to share some data
+[00:11:21] which is on the host
+[00:11:23] uh
+[00:11:24] memory and uh it wants to write into the
+[00:11:27] remote memory. So, it starts with the
+[00:11:30] that send verbs and then
+[00:11:33] uh it go
+[00:11:34] that the same the packet will go to the
+[00:11:37] host site Q pair, and the host site send
+[00:11:41] Q ring, and then from there Octeon IDMA
+[00:11:45] driver will pick it, and then it will
+[00:11:48] DMA to the DPU
+[00:11:52] buffer
+[00:11:53] memory that we registered with the
+[00:11:55] actual IDMA engine. And from So, that is
+[00:11:59] like one extra
+[00:12:00] step that we are adding. So, it goes to
+[00:12:02] the DPU shadow memory region, which is
+[00:12:04] actually registered with the IDMA
+[00:12:07] engine, and that Octeon IDMA, which is
+[00:12:10] like the back end here, it So, this
+[00:12:13] Octeon IDMA, it
+[00:12:15] starts calling the exact same verbs what
+[00:12:17] the above
+[00:12:20] workloads that called. So, it will call
+[00:12:21] the same post a
+[00:12:23] post call that then again it will create
+[00:12:25] the WQE send Q, and then
+[00:12:27] the IDMA engine will form the packet and
+[00:12:31] sends to the NIC port, and then it goes
+[00:12:33] to the other end, and the
+[00:12:35] the mirror image of the other will
+[00:12:37] happen. So,
+[00:12:38] and this is the path that we made it to
+[00:12:42] run IDMA on DPUs. And but that too, if
+[00:12:46] you see this is
+[00:12:48] there's no security in the data path
+[00:12:50] till now, and it's in the plain packet
+[00:12:53] the data travels across the node.
+[00:12:56] So, that's where we
+[00:12:57] added MACsec on the data path. So,
+[00:13:01] we inclu- So, instead So, the DPU's IDMA
+[00:13:05] engine is already running on the DPU.
+[00:13:07] So, what we did is we enabled the MACsec
+[00:13:09] on the DPU, and we started IDMA on that
+[00:13:13] on that device, which is like MACsec
+[00:13:15] capable. So, the packet path is still
+[00:13:17] same, but before
+[00:13:20] the IDMA engine sends packet to the
+[00:13:23] exit, it goes via the
+[00:13:26] via the device that has
+[00:13:28] hardware maxic capabilities. So,
+[00:13:31] uh this
+[00:13:33] This is the place where it encrypts the
+[00:13:34] packet using
+[00:13:36] IEEE 802.1AE.
+[00:13:39] And it shares the and then sends packet
+[00:13:43] to the exit of the
+[00:13:45] DPU's and the packet goes encrypted over
+[00:13:48] over the fabric to the
+[00:13:50] destination of the peer node. And the
+[00:13:52] peer side also it speaks the uh same
+[00:13:55] maxic
+[00:13:57] encryption algorithm. So, it decrypts
+[00:13:59] the packet here. And then finally all
+[00:14:01] the data path of RDMA works exactly same
+[00:14:05] as of
+[00:14:07] as of the earlier case.
+[00:14:10] So,
+[00:14:12] this was this is what we did. So, this
+[00:14:14] was all our end-to-end solution
+[00:14:17] encrypted RDMA solution.
+[00:14:20] But, uh
+[00:14:21] to do this at a scale, uh we cannot do
+[00:14:25] everything manually. Cannot go and
+[00:14:28] uh
+[00:14:29] find all all of these entity
+[00:14:32] in a thousands of nodes. So, that's
+[00:14:34] where the Kubernetes comes. So,
+[00:14:36] Kubernetes is an open source
+[00:14:38] uh orchestrator that
+[00:14:41] that that runs
+[00:14:43] workloads at a scale. So,
+[00:14:45] it is being widely deployed for AI and
+[00:14:48] is
+[00:14:48] uh kind of
+[00:14:50] So, the ecosystem is growing across AI.
+[00:14:53] Almost all of the hyperscalers that they
+[00:14:55] are using uh AI in some or the other
+[00:14:58] form
+[00:14:59] uh in the Kubernetes environment. Like
+[00:15:02] almost 66% of the
+[00:15:04] This is as per the CNCF annual cloud
+[00:15:06] native report survey 2025. 66% of the
+[00:15:09] JNAI hosting organization uses
+[00:15:11] Kubernetes for their inference.
+[00:15:14] So, the reason why they use because it
+[00:15:16] is like scalable, portable, and
+[00:15:19] uh it is reliable, and
+[00:15:22] So,
+[00:15:23] the
+[00:15:26] Sorry. So, we talked about secured RDMA
+[00:15:29] and
+[00:15:30] the host application requests a secured
+[00:15:32] RDMA capabilities. So, currently
+[00:15:35] Kubernetes does not have any way to say
+[00:15:38] that secured RDMA capabilities are
+[00:15:40] shared with that. So, that's where the
+[00:15:42] community came up with the DRA or
+[00:15:45] dynamic resource allocations.
+[00:15:48] Uh dynamic resource allocation is a way
+[00:15:50] to expose any of the device, either DPU
+[00:15:53] or GPUs, their capabilities to
+[00:15:57] uh
+[00:15:57] to the top side or or Kubernetes
+[00:15:59] scheduler.
+[00:16:01] So, uh
+[00:16:02] It
+[00:16:03] It expose in four ways. So, it
+[00:16:06] the first thing is the catalog of the
+[00:16:08] node. So, DRA driver runs on each node
+[00:16:10] which publishes all the
+[00:16:13] uh catalog or what the node has as a
+[00:16:16] resource slice to the node. And then,
+[00:16:18] when the users want to claim it, they
+[00:16:21] run their own request which is like
+[00:16:23] resource claim using the category of
+[00:16:27] uh use case. Like, if they want to
+[00:16:30] deploy an RDMA workload, so they can
+[00:16:33] create a category of RDMA
+[00:16:36] uh device class and then they can
+[00:16:38] request using an RDMA resource claim.
+[00:16:41] And ultimately, the
+[00:16:43] uh Kubernetes scheduler which matches
+[00:16:46] which node has these capabilities and
+[00:16:48] then schedules the workloads there.
+[00:16:51] So,
+[00:16:52] this
+[00:16:52] using this DRA framework that the
+[00:16:54] Kubernetes community came,
+[00:16:56] uh few of the
+[00:16:58] company they developed DRAnet, uh
+[00:17:00] Kubernetes native driver using DRA,
+[00:17:03] which publishes the RDMA capabilities of
+[00:17:06] a device.
+[00:17:08] But, there was no security
+[00:17:10] uh into that. So, uh that's where we
+[00:17:12] developed DRAnet sec.
+[00:17:15] Uh we added uh security capabilities in
+[00:17:18] into the DRA to make it schedulable for
+[00:17:22] the node. So, if you see that the actual
+[00:17:24] deployment will have thousands of nodes
+[00:17:27] and they have DPU's or other hardwares
+[00:17:30] associated with that. The DRA net six
+[00:17:32] will run on each of the node and it will
+[00:17:35] publish all the capabilities of
+[00:17:38] each of the node to Kubernetes and when
+[00:17:40] the
+[00:17:42] pod with the actual request comes to
+[00:17:45] Kubernetes scheduler, they will fetch
+[00:17:47] which node has those capabilities and
+[00:17:49] based on the capabilities it actually
+[00:17:52] runs at that node. So, if you zoom out
+[00:17:55] to one of the node how we shared those
+[00:17:57] capability in case of our solution. So,
+[00:18:00] we had a maxic block MCS block on DPU.
+[00:18:05] So, from that we shared
+[00:18:08] the maxic capabilities to host via this
+[00:18:12] what's called
+[00:18:14] Mbox API. So, we have this octeon octeon
+[00:18:17] backend which calls some of the
+[00:18:20] kernel API call to get and enable the
+[00:18:23] maxic and then we shared it back to the
+[00:18:26] host driver. And from that host driver
+[00:18:29] it writes to the net dev of the device
+[00:18:32] the maxic and and same for the RDMA
+[00:18:35] also. So, from that net dev the DRA net
+[00:18:39] six which runs as a user space
+[00:18:42] application for on on each of the host
+[00:18:45] node, it takes the capabilities of each
+[00:18:49] node in this case RDMA and maxic and
+[00:18:52] publish it to the Kubernetes scheduler
+[00:18:54] as a resource slice.
+[00:18:56] From there the pod can actually request
+[00:19:00] or the user wants to deploy a workload
+[00:19:03] with that requirement can
+[00:19:06] can request that
+[00:19:08] RDMA and maxic capabilities and can get
+[00:19:11] it aligned. So,
+[00:19:15] Yeah, this is the journey how easily
+[00:19:17] that can be deployed at a scale.
+[00:19:20] Uh so,
+[00:19:22] the DR NET 6 that runs on every node
+[00:19:23] will publish all of the capabilities of
+[00:19:25] that node. Uh it finds a VF
+[00:19:28] uh and it just publishes everything that
+[00:19:30] the node has.
+[00:19:32] And then the user will declare what they
+[00:19:35] want using the
+[00:19:37] uh the Kubernetes pod YAML spec.
+[00:19:41] And then Kubernetes scheduler will match
+[00:19:44] it
+[00:19:45] based on what is requested and uh pin
+[00:19:48] the pod to that particular node. And
+[00:19:50] then then the pod get
+[00:19:52] uh allocated that device. And uh
+[00:19:56] and and at the end the pod will get the
+[00:19:59] encrypted MACsec
+[00:20:01] uh with the RDMA capabilities which they
+[00:20:04] can use.
+[00:20:06] So,
+[00:20:07] this is the demo of what we just uh
+[00:20:10] show. So,
+[00:20:12] I'll just play in a second.
+[00:20:15] Yeah.
+[00:20:18] So, here we have used three node
+[00:20:20] Kubernetes cluster which where one is
+[00:20:22] master node and other two are worker
+[00:20:24] worker one and worker two.
+[00:20:26] And
+[00:20:27] this worker
+[00:20:29] uh
+[00:20:29] and the DR NET 6 is running on both
+[00:20:32] workers node and it will publish. So,
+[00:20:35] this is the worker one has the DPU so it
+[00:20:37] publishes the RDMA and MACsec
+[00:20:39] capabilities. You will see here.
+[00:20:42] So,
+[00:20:43] it gets the resource slice of worker
+[00:20:45] node which has RDMA and MACsec true.
+[00:20:49] And then
+[00:20:50] uh this is the like pod spec that we are
+[00:20:54] requesting an RDMA and MACsec
+[00:20:56] capabilities from Kubernetes
+[00:20:58] perspective. So, it creates device class
+[00:21:00] then it will create
+[00:21:01] uh the resource claim. This is the
+[00:21:03] device class that it created and then
+[00:21:05] the pod will get
+[00:21:07] pod will use the resource claim of that
+[00:21:10] device class.
+[00:21:12] Uh
+[00:21:13] pause, sorry.
+[00:21:14] So,
+[00:21:16] yeah, it created the device class.
+[00:21:20] And this is the resource claim using
+[00:21:21] that device class. If you see the name.
+[00:21:24] And then it deploy a pod with that
+[00:21:27] device class. So,
+[00:21:32] So, we'll see the DRA will allocate
+[00:21:34] device which has both the capabilities
+[00:21:36] will
+[00:21:37] go inside the pod and verify it. So, DRA
+[00:21:40] allocated a device with the
+[00:21:43] with this name and uh it uh
+[00:21:47] gets the IP.
+[00:21:49] And if you see that it has it is showing
+[00:21:51] that the MACsec hardware offload on.
+[00:21:54] And it will show the RDMA capabilities
+[00:21:56] also.
+[00:22:00] Yeah, so it it it shows that
+[00:22:02] uh the RDM it is an RDMA device. And
+[00:22:07] now it it is SSH to the DPUs and show
+[00:22:11] that
+[00:22:12] uh the DPUs is doing the MACsec on
+[00:22:14] behalf of
+[00:22:16] this workload and it is using what
+[00:22:18] cipher suits and
+[00:22:21] uh
+[00:22:21] all of those SCs and SAs.
+[00:22:23] And it it's based on the MAC MAC
+[00:22:26] offloaded.
+[00:22:28] Oh, sorry.
+[00:22:30] Yeah.
+[00:22:39] So, yeah, the and also RXC or which is
+[00:22:42] like RDMA engine that runs on DPUs.
+[00:22:46] And
+[00:22:47] uh the peer side we are using uh
+[00:22:49] software-based RDMA as well as
+[00:22:52] uh
+[00:22:53] software-based MACsec because of
+[00:22:56] uh device availability. But we can
+[00:22:58] exactly mimic using the hardware-based
+[00:23:01] or even with the arming also
+[00:23:04] uh the whole solution can run as it is.
+[00:23:10] So, this will show the packet count on
+[00:23:14] uh without the encryption and then uh
+[00:23:18] packet count after it sends the traffic
+[00:23:20] uh of that MCS hardware.
+[00:23:25] Oh, sorry.
+[00:23:30] So, uh
+[00:23:34] Yeah, so the packet count before
+[00:23:36] encryption was uh is 64,000 some.
+[00:23:40] And then this Oh, sorry.
+[00:23:44] Yeah.
+[00:23:46] So, yeah, this was the packet count
+[00:23:47] before
+[00:23:49] uh sending the packets and uh this is
+[00:23:52] the packet count on
+[00:23:53] uh a Maxic hardware and
+[00:23:56] uh after sending was uh somewhat 64,000
+[00:24:00] something.
+[00:24:02] Yeah.
+[00:24:03] Yeah, this was the after sending it. So,
+[00:24:05] shows that the traffic going via the
+[00:24:07] Maxic block that is being claimed using
+[00:24:10] Kubernetes on the host.
+[00:24:13] So, yeah, that's all, I think.
+[00:24:16] Yeah, if any question there, happy to
+[00:24:19] Thank you.
+[00:24:28] >> Hi, uh can you hear me?
+[00:24:30] >> Yes.
+[00:24:31] >> Yeah. So, I didn't quite get the
+[00:24:34] motivation to use Maxic in the first
+[00:24:36] place. Could you just elaborate a little
+[00:24:38] bit on that one?
+[00:24:39] >> Uh so, if you want to encrypt RDMA, uh
+[00:24:43] that usually bypass the kernel stack.
+[00:24:45] So, to encrypt the RDMA data, they found
+[00:24:49] that Maxic can be a good candidate here
+[00:24:52] and if we can do that too in hardware,
+[00:24:55] so that will uh
+[00:24:58] that that we can do you line rate and
+[00:25:00] also without compromising with the
+[00:25:03] throughput. So, that is the main reason
+[00:25:05] why we did this.
+[00:25:09] >> Thank you.
+[00:25:12] >> Yeah, please pray.
+[00:25:15] >> Hi, I wanted to ask about the RXC.
+[00:25:18] You mentioned that you use RXC. Is it a
+[00:25:20] hardware accelerated RXC? Is it changed
+[00:25:23] somehow?
+[00:25:24] >> Not now. So, till now we use everything
+[00:25:27] as
+[00:25:28] an upstream RX engine.
+[00:25:31] So, we did slight tweak if you see in
+[00:25:34] the slide like we shared some of the
+[00:25:37] stuff back to the host which like
+[00:25:40] DPU creates and host adopted.
+[00:25:43] So, because we didn't change anything in
+[00:25:45] the upstream RXC engine, that's why we
+[00:25:47] have to adopt it. Yeah, for now nothing
+[00:25:49] is changed. It's pure upstream kernel
+[00:25:51] lines.
+[00:25:52] >> Okay. So, what part of
+[00:25:54] how much of the protocol is hardware
+[00:25:56] accelerated?
+[00:25:57] In that case.
+[00:25:59] >> RDMA was actually running on the
+[00:26:03] on the general core of DPU. So, DPU has
+[00:26:05] arm core where you can run any of the
+[00:26:07] applications.
+[00:26:08] So, it's a pure purely running on the
+[00:26:10] DPU
+[00:26:12] core we can say.
+[00:26:14] >> Okay.
+[00:26:14] >> The max sec that we are doing is a
+[00:26:16] hardware accelerated.
+[00:26:18] >> Okay, thank you. And one last question,
+[00:26:21] have you tried ECMP or some kind of load
+[00:26:25] balancing with this scheme?
+[00:26:28] >> Not now. So,
+[00:26:30] this is like uh
+[00:26:33] Yeah, not now. We haven't tried it.
+[00:26:35] >> Okay, thank you.
+[00:26:37] >> Thanks.
+[00:26:39] >> All right, I think we'll stop here.
+[00:26:41] >> Uh excuse me. What was the question?
+[00:26:44] >> Thank you everyone for listening.
+[00:26:45] >> Thank you.

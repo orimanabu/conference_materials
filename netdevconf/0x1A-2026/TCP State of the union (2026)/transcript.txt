@@ -1,0 +1,649 @@
+Source: https://youtu.be/OJnu6Pts-eo
+Language: en
+Captions: auto-generated
+
+[00:00:01] Hi everybody. I have a small
+[00:00:04] introduction.
+[00:00:05] Some people ask me why I had a small
+[00:00:08] font on my badge. So I have a small joke
+[00:00:12] about that because it's about TCB Fast
+[00:00:15] Openen. I'm not sure if everybody knows
+[00:00:17] about Fast Openen. So I received an
+[00:00:19] email last week about oh you are a
+[00:00:21] speaker but you haven't yet registered.
+[00:00:24] Please do so. So I okay and then in this
+[00:00:28] email I have to send another email to
+[00:00:32] ask for a coupon as a speaker. I haven't
+[00:00:35] to pay the my the fees for the net defe.
+[00:00:39] So I sent an email. I got a reply. Oh
+[00:00:43] here is the coupon. So now you can
+[00:00:45] register using the coupon.
+[00:00:49] So that's a fast open introduction
+[00:00:52] just or analogy.
+[00:00:56] Um so
+[00:00:59] I'm I'm I'm afraid there is no not much
+[00:01:01] to say today but u I only have a 30
+[00:01:04] minutes so it's going to be short. Um I
+[00:01:08] was hoping to present the future of TCP
+[00:01:11] but um I'm not sure I have the time so I
+[00:01:14] will just uh present what have been done
+[00:01:16] during the last year. Uh let's start.
+[00:01:21] So overall TCP and MPT activity quite a
+[00:01:26] lot actually. Um the total number of
+[00:01:29] patch is increasing uh especially with
+[00:01:33] AI agent nowadays which are sending
+[00:01:37] patch just because because they feel it
+[00:01:41] and yeah sometime it's useful sometime
+[00:01:44] not so much but um so the major
+[00:01:47] development which happened this year was
+[00:01:50] accurate
+[00:01:52] uh joint work with ILO and Ju
+[00:01:56] a lot of pingpongs, a lot of version
+[00:01:59] sent because um
+[00:02:02] uh we have a high standard before
+[00:02:04] accepting new patch in TCB especially
+[00:02:06] ones which could bring uh major
+[00:02:10] disruptions
+[00:02:11] uh performance issues and code sanity uh
+[00:02:16] issues. So uh it's not done yet but I
+[00:02:20] think u it's good progress on this side.
+[00:02:24] So I don't really have the time to
+[00:02:26] explain all what is in place today. Um
+[00:02:30] they are still trying to push more um a
+[00:02:34] support for accurate. So hopefully
+[00:02:37] during the next months it will be done.
+[00:02:42] Uh last year of course there was a PSP
+[00:02:45] which was merged thanks to the immense
+[00:02:49] efforts from William Jacob and others.
+[00:02:53] Um Google has been using PSP for maybe a
+[00:02:57] decade now. Um
+[00:02:59] the problem that we tried to upstream
+[00:03:02] our version but it was a bit
+[00:03:03] controversial and Czechub had to polish
+[00:03:06] it and to make it more presentable for
+[00:03:11] upstream purposes. And so in our
+[00:03:14] broadcast and now we have the two
+[00:03:15] version and we have to uh to get rid of
+[00:03:18] the old one. So that's a bit of work for
+[00:03:21] us but it's the way it is.
+[00:03:23] So in short a trim first and then back
+[00:03:27] port and then you avoid all this tech
+[00:03:30] depth. You have to uh have an downstream
+[00:03:33] kernels but
+[00:03:36] that's how I work but apparently others
+[00:03:38] don't do that all the time. So let's
+[00:03:41] repeat it.
+[00:03:42] Um
+[00:03:45] Octavian Podila one of my colleague is
+[00:03:47] working on some new idea we have um it's
+[00:03:51] called TT TCBD DDP uh direct uh data
+[00:03:54] placement it's kind of a zero copy on
+[00:03:58] the receive side but with some uh needed
+[00:04:01] support on the nick so it's not really
+[00:04:04] smart nick because we were able to
+[00:04:06] implement that on old Nick like 10 years
+[00:04:09] old Nick so that's not really DPU nick
+[00:04:12] but It's kind of uh so the motivation
+[00:04:16] are multiple here. We want to avoid the
+[00:04:20] copy of the data once it has been
+[00:04:22] received. Um the way it works is that
+[00:04:25] the application can just ask the TCP
+[00:04:28] stack. Oh, please place the next
+[00:04:30] megabyte or two, three, four megabytes
+[00:04:32] for this TCP flow at this memory
+[00:04:34] location.
+[00:04:36] Um
+[00:04:39] and and of course we could use the
+[00:04:41] existing zero copy we use at Google, but
+[00:04:43] the existing zero copy at Google right
+[00:04:45] now is uh tied to the 4K MTU uh tied to
+[00:04:50] page flipping. So we have a lot of
+[00:04:52] overhead just flipping the page and
+[00:04:54] doing TB shoot down stuff like that.
+[00:04:59] Uh so
+[00:05:02] DDP is uh in short is uh asking the the
+[00:05:06] the nick to do some kind of flow uh
+[00:05:09] steering and it's more than more more
+[00:05:12] than that you have to program five to
+[00:05:14] plus sequence range and of course some
+[00:05:17] memory location where the DMA can
+[00:05:19] happen. Um
+[00:05:22] so there is some work upgoing work of
+[00:05:26] course it's not upstream yet but that's
+[00:05:28] the the idea we are working on.
+[00:05:32] >> Uh Eric there is a question.
+[00:05:33] >> Yeah.
+[00:05:34] >> How hard or easy it is to make this
+[00:05:37] direct data placement independent of
+[00:05:40] TCP?
+[00:05:43] Well,
+[00:05:45] could be I don't app
+[00:05:49] um
+[00:05:51] let me maybe answer a bit later because
+[00:05:54] part of the design request that the data
+[00:05:59] the payload lands into the appropriate
+[00:06:01] location but the nick does very little
+[00:06:04] um verification. So the stack still has
+[00:06:08] full control on full verification like
+[00:06:11] all the
+[00:06:13] uh the time stamp validation pose and
+[00:06:16] all security check that TCB could uh
+[00:06:18] could apply the nick doesn't do that the
+[00:06:21] nick just apply oh for five well fourle
+[00:06:25] per second range directly DMA to this
+[00:06:28] location that's it uh so you could have
+[00:06:32] attacks based on that so you need to
+[00:06:34] also have a validation later on the
+[00:06:36] stack to be able to say through detect
+[00:06:38] that eventually a malicious attacker was
+[00:06:41] able to corrupt your data.
+[00:06:44] So you have to be a bit smart. It's a
+[00:06:46] bit complex. Um so but uh the advantage
+[00:06:49] are big because it's zero copy without
+[00:06:52] all the
+[00:06:54] the prere we had like 4K M2 or
+[00:06:59] page clipping uh you know all this
+[00:07:02] stuff. So, but the downside of that, of
+[00:07:05] course, is that you need a tracking on
+[00:07:07] the nick for each flow. So, in our
+[00:07:10] model, we were able to use about 1,000
+[00:07:13] flow.
+[00:07:15] That's fine because we only uh want to
+[00:07:19] speed up some elephant flows. And so, we
+[00:07:21] we cannot have more than 1,000 elephant
+[00:07:24] flows. 1,000 is already too much for
+[00:07:27] elephant flow. It's not even more an
+[00:07:29] elephant flow, but you get the idea
+[00:07:31] here. You don't need this mechanism for
+[00:07:33] all TCP. Like if you do RPC of uh 1
+[00:07:37] kilobyte, you don't need that. It's a
+[00:07:39] the zero copy doesn't bring anything to
+[00:07:42] you.
+[00:07:44] And so the last column here is about the
+[00:07:47] mitigation injection. I just uh um gave
+[00:07:52] an idea about that. So we made this
+[00:07:55] proposal only because we are using PSP
+[00:07:57] uh internally. So we have a reasonable
+[00:08:01] expectation about uh the an inability
+[00:08:04] for attackers to inject random payload.
+[00:08:07] Um but of course you need more than that
+[00:08:11] PSP is not enough to protect that.
+[00:08:15] >> Uh and how much of TCP protocol does the
+[00:08:17] nink need to know uh need to know to
+[00:08:20] support the DP? very little actually. It
+[00:08:23] just has to pass the the foruple.
+[00:08:26] >> So the IP header the and the four and
+[00:08:30] the the four bite of the ports for the
+[00:08:34] for
+[00:08:34] >> the four basically
+[00:08:35] >> and then the seconds.
+[00:08:37] >> Mhm.
+[00:08:38] >> Okay.
+[00:08:38] >> Yeah.
+[00:08:45] >> DM PCP also trying to solve the same
+[00:08:49] thing, right? Similar thing.
+[00:08:50] >> Sorry. DevM PCP.
+[00:08:52] >> Uh no because dev PCP is um you still
+[00:08:56] have an IO control once you get the
+[00:08:58] notification the packet arrive on the
+[00:09:00] receive Q you still need to get the IO
+[00:09:03] vec. So you have some kind of socket
+[00:09:06] option whatever uh to get an IOC and
+[00:09:10] then from this IOC the application can
+[00:09:12] process the data while DTP you can pass
+[00:09:15] a virtual address virtual could be a
+[00:09:18] transparent re page whatever. So the
+[00:09:20] data lands exactly in place and the
+[00:09:22] application doesn't have anything more
+[00:09:25] to do.
+[00:09:26] >> Oh, so the application
+[00:09:27] >> at the time the receive message
+[00:09:29] completes the data is there. There is no
+[00:09:31] data movement. There is no
+[00:09:32] serialization. There is no movement of
+[00:09:34] the data. It's already placed on the
+[00:09:36] right place.
+[00:09:36] >> Okay. So from the application point of
+[00:09:38] it just has to call receive message. No
+[00:09:41] socket options or anything.
+[00:09:43] >> Yeah. So the application side um I
+[00:09:45] mentioned that maybe earlier there is
+[00:09:47] some prerec you have to tell the the
+[00:09:50] stack and which we program the nick oh
+[00:09:53] that's a you elephant flow we want dp to
+[00:09:57] be applied there so the application has
+[00:09:59] to uh put in advance
+[00:10:02] u like rdmma rdmma you have to program
+[00:10:05] in advance where the data is going to
+[00:10:07] land it's exactly the same
+[00:10:10] >> so it also has the same issue That's why
+[00:10:13] you cannot have 1 million flows using
+[00:10:15] BDB because if you have a window of 2
+[00:10:17] megabytes, 2 megabytes multiply one
+[00:10:20] million flow is going to give you a lot
+[00:10:22] of pin memory. It's obviously we need to
+[00:10:24] pin the memory at the moment you do the
+[00:10:26] DDP ad buffer uh option because the DMA
+[00:10:31] is going to be on physical memory not on
+[00:10:34] virtual of course.
+[00:10:37] Eric, I didn't quite catch the property
+[00:10:40] of the protocol that would make it um
+[00:10:44] something for DDP to be more generic. So
+[00:10:47] I mean you're matching for uh for TCP
+[00:10:50] and there was one more thing you said um
+[00:10:52] that you require from TCP
+[00:10:54] >> to sequence sequence number
+[00:10:56] >> oh sequence number. So as long as the
+[00:10:58] protocol has a match that is uh constant
+[00:11:02] and a sequence number that is
+[00:11:04] incrementing
+[00:11:06] this can work
+[00:11:07] >> I guess so. Yes.
+[00:11:09] >> Okay.
+[00:11:09] >> Yeah.
+[00:11:10] >> Okay. Thanks.
+[00:11:15] >> It's still experimental right? We don't
+[00:11:16] have that in production just to be
+[00:11:19] clear. So, so what happens if you like
+[00:11:22] attack this by spoofing protocol and
+[00:11:26] sequence numbers and like throw garbage
+[00:11:28] data? Is the assumption that you're in a
+[00:11:31] network environment where that just
+[00:11:32] can't happen or
+[00:11:33] >> Well, you have the full control of TCP.
+[00:11:35] So, TCP should detect uh such an attack
+[00:11:38] and will tell the application something
+[00:11:40] happened wrong. So, don't trust the
+[00:11:42] data. But that could happen after the
+[00:11:46] data was already delivered to the app or
+[00:11:48] like like there's a lot of
+[00:11:49] synchronization with the nick that is
+[00:11:50] needed right
+[00:11:51] >> so at the moment the data has been
+[00:11:54] filled by the nick something will happen
+[00:11:56] on the
+[00:11:58] marking the data the nick won't be able
+[00:12:01] to DMA again or something like that.
+[00:12:03] >> Oh so the nick has to keep track of
+[00:12:05] which parts of the window because it
+[00:12:06] could be getting stuff out of order. We
+[00:12:08] need to trick to
+[00:12:11] because of out of order right you need
+[00:12:13] to track that also on TCP stack
+[00:12:15] >> okay
+[00:12:16] >> because you need to know exactly which
+[00:12:17] part was
+[00:12:18] >> so the nick is required to do check some
+[00:12:20] uh verification then
+[00:12:22] >> um that's orthogonal you can do the
+[00:12:24] checksum after if you want but
+[00:12:27] effectively all our nick use hardware
+[00:12:30] for check
+[00:12:36] um Okay,
+[00:12:39] time time pass. Uh so during the last
+[00:12:42] year we did some optimization.
+[00:12:45] Uh we still have a lot to do about cach
+[00:12:48] line grouping. You know the the stuff we
+[00:12:50] started two years ago with Koko and
+[00:12:52] others. Uh I I keep discovering some
+[00:12:56] fields where not placed on the right uh
+[00:12:59] group. So yeah sometime I take some when
+[00:13:03] I'm bored when I have free time I do oh
+[00:13:05] this field is not the right place so
+[00:13:07] let's move it. Um there was an
+[00:13:10] optimization about uh some some slub um
+[00:13:15] hidden uh function that we could use in
+[00:13:18] DCP. So we use that. Um
+[00:13:23] uh of course uh Eric Biggers uh did a
+[00:13:26] lot of work on TCP s pool uh it's all
+[00:13:31] related on how TCP use a crypto uh sub
+[00:13:35] layer in Linux and so the effect of his
+[00:13:39] patch is that we no longer do allocation
+[00:13:42] on the fly when we receive bucket um we
+[00:13:46] no longer have per CPU variable whatever
+[00:13:48] it's it's it's using the more modern on
+[00:13:51] crypto API and that's that's good. Um,
+[00:13:57] in the same area we had some bugs uh
+[00:14:01] about uh TCP AO that have been fixed
+[00:14:04] recently
+[00:14:06] and another one was about TCP repair.
+[00:14:09] That's the kind of bug that was detected
+[00:14:11] by sysbot or an AI agent. Uh basically
+[00:14:15] no one hit this in production I think
+[00:14:18] but was to fix.
+[00:14:21] Um so in this section I have a comment.
+[00:14:24] Oh well out of window rejection. So I've
+[00:14:28] been trying
+[00:14:30] in the past to be more strict about what
+[00:14:33] packet we accept uh when we are under
+[00:14:36] memory pressure. Um, I tried to do my
+[00:14:40] best, but apparently we had many, many
+[00:14:42] issues with the patch and eventually
+[00:14:44] Jacob had to revert it. Um,
+[00:14:47] it's very hard because you send a window
+[00:14:50] um to a remote pier and sometime the
+[00:14:53] remote pier doesn't really know or
+[00:14:56] doesn't want to. And so sometime it
+[00:14:59] sends you a packet which is bigger than
+[00:15:02] what you allowed it to send. And
+[00:15:04] apparently if you reject s packet bad
+[00:15:06] things happen even if the sender the
+[00:15:10] real is a Linux host. So okay so we have
+[00:15:13] bugs to fix. Uh oh well.
+[00:15:17] Uh in the same um area we had some bat
+[00:15:21] from Simon bats uh trying to
+[00:15:25] kind of relax when we do the memories uh
+[00:15:29] when we uh send the the window back to
+[00:15:33] zero for memory uh uh constraints and so
+[00:15:37] we had to be less strict in this regard.
+[00:15:43] It's all kind of um mitigation. It's
+[00:15:46] very hard because TCP basically when you
+[00:15:48] send a window to the remote, you bet on
+[00:15:53] the future. You bet that you will have
+[00:15:55] enough memory to store whatever the
+[00:15:57] repeater is going to send you. But uh in
+[00:15:59] many case it's too bad. You send
+[00:16:02] something and when the packet re is
+[00:16:04] received, you don't have memory to store
+[00:16:06] it. So what do you do? Uh that's the
+[00:16:09] kind of stuff uh which is hard to solve.
+[00:16:14] Um well, okay.
+[00:16:17] same um in the same area we had to fix
+[00:16:20] some out of order receive buffer growth
+[00:16:24] and on the sender side we had issues on
+[00:16:28] the TSO deferral. So TSO deferral is
+[00:16:31] about how to make sure that we are
+[00:16:34] sending the biggest TSO packet we can
+[00:16:37] and so we have all sort of horistics
+[00:16:40] when we receive a knack sometime
+[00:16:44] um let's say you receive a knack
+[00:16:46] acknowledging 2 MSS and you are
+[00:16:50] constrained by the congestion window so
+[00:16:52] you could send immediately a two packet
+[00:16:55] like two MSS back in a small TSO packet
+[00:16:58] of two um But sometime it's better to
+[00:17:01] wait a bit because the horistics in TSO
+[00:17:05] deferral tells you oh there's a very
+[00:17:07] high chance that you are going to
+[00:17:08] receive an act very soon and so this act
+[00:17:11] might acknowledge two more NSS. So if
+[00:17:14] you wait a bit more you are able to send
+[00:17:17] a TSO packet with four packets and so by
+[00:17:20] doing so you will decrease a lot the CPU
+[00:17:23] load and the CPU overhead. And so as all
+[00:17:27] the horistics uh this horistic had some
+[00:17:30] issues and so one of them was uh
+[00:17:33] particularly bad with long RT flows uh
+[00:17:38] 100 millisecond and more. Uh Eric, could
+[00:17:41] you go back to the previous slide?
+[00:17:44] So isn't this one uh more of like uh the
+[00:17:48] decision is only whether you have memory
+[00:17:50] so you can uh store an out of uh window
+[00:17:54] packet and avoid the rejection versus
+[00:17:56] saying I don't have memory so I'm going
+[00:17:57] to reject it. So it's a trade-off of
+[00:18:00] memory versus time.
+[00:18:04] >> It's it's more about it's more about
+[00:18:06] memory. What I think one fix I could
+[00:18:10] have done and maybe I will do that
+[00:18:12] later. Let's say I receive a packet of
+[00:18:15] 50 kilobytes but the window I sent
+[00:18:18] earlier was only 20 kilobytes. So my
+[00:18:21] attempt was to say oh I never send this
+[00:18:24] window of 50 kilobytes just dropped the
+[00:18:26] packet. Okay. And but it caused a lot of
+[00:18:29] issues meta especially and so we had to
+[00:18:33] revert that. So maybe an an alternative
+[00:18:35] would be okay I received this 50
+[00:18:37] kilobyte but I I only sent a window 20
+[00:18:40] kilo so let's trim the packet and keep
+[00:18:42] the 20 kilob but it it has a cost.
+[00:18:45] >> No no definitely but I mean there is a
+[00:18:47] cost.
+[00:18:47] >> Uh I I don't know if uh you were there
+[00:18:51] for the open atomic ethernet uh talk
+[00:18:53] that we had on Monday.
+[00:18:54] >> No it was netcom.
+[00:18:56] >> Okay. Yeah. Yeah. So now we talked about
+[00:18:58] this uh endally where like you know I
+[00:19:00] ask you for this much so you shall give
+[00:19:02] me only this much and if you don't give
+[00:19:04] me that much then
+[00:19:05] >> you know you have broken the system
+[00:19:07] pretty much that
+[00:19:08] >> so that's why oh well it means it's
+[00:19:11] still ongoing there's still work to do
+[00:19:13] so if someone has an idea to fix that
+[00:19:17] I will be happy to review the patch.
+[00:19:20] Um okay. Uh of course MPTCP uh went
+[00:19:24] through a lot of patch uh during this uh
+[00:19:27] year. I don't know well MPTCB so I won't
+[00:19:32] spend too much time on that.
+[00:19:38] Uh there were uh some some cleanups some
+[00:19:42] uh [sighs]
+[00:19:44] [gasps]
+[00:19:45] RFC compliance. Uh
+[00:19:48] yeah some some work done by Kuki
+[00:19:51] basically when we removed DCCP from the
+[00:19:53] kernel because DCCP this old protocol
+[00:19:57] and TCP were sharing the same common
+[00:20:00] inet uh socket layer in Linux
+[00:20:04] which was made especially especially
+[00:20:06] when DCP was introduced in the in the
+[00:20:09] canal. So basically we had to split TCP
+[00:20:12] in two parts. One which could be shared
+[00:20:15] with the CCP and so when we removed the
+[00:20:18] CCB because nobody used that anymore. uh
+[00:20:21] that was the time that was uh an
+[00:20:24] opportunity for us to remove this layer
+[00:20:27] because by doing so you can optimize a
+[00:20:30] bit more the grouping of the fields in
+[00:20:32] the TCP socket for transmit side receive
+[00:20:36] side and you know read only read write
+[00:20:40] or stuff like that. So you can minimize
+[00:20:41] the number of cache line that is used on
+[00:20:43] the fast path.
+[00:20:47] There was some change uh in the BPF TCP
+[00:20:51] iterator um submap diagnostics stuff
+[00:20:55] like that. There was also some some
+[00:20:58] small change about uh reporting the when
+[00:21:01] the socket was in um delay act mode. Uh
+[00:21:06] sometime when you do SS command you can
+[00:21:08] have a
+[00:21:10] when a timer is in place you can have an
+[00:21:13] information what kind of timer it is. Is
+[00:21:15] it a RTO timer? Is it keep alive timer?
+[00:21:18] And so we added this delayed act timer
+[00:21:20] because
+[00:21:22] um delayed act timer is especially
+[00:21:25] especially a problem when you still have
+[00:21:28] the 40 millisecond max delay timer which
+[00:21:32] we don't because normally you set up a
+[00:21:35] smaller minto timer of five millconds
+[00:21:38] and so normally the delayed timer should
+[00:21:40] be four millcond but some customers in
+[00:21:44] the cloud don't have that. So they still
+[00:21:46] have this 40 millisecond uh max uh delay
+[00:21:51] D and so when they have an issue they
+[00:21:54] don't know they ask for support um why
+[00:21:58] why my RPC are slow because I should
+[00:22:01] receive something but that's a delay u
+[00:22:05] so it's nice to have a um a diagnostic
+[00:22:09] about that
+[00:22:12] um yeah there were minor fix about
+[00:22:15] Cassissan
+[00:22:17] uh you know cassisan that's basically
+[00:22:20] sisbot but it also us to think what part
+[00:22:25] can be done without any lock and that's
+[00:22:28] always a good thing to do uh in TCP but
+[00:22:31] also in other layers of course
+[00:22:35] and there were some observability um
+[00:22:38] like escape drop prison I did uh quite a
+[00:22:41] few actually um we're still missing ing
+[00:22:44] some of them. So I think it should be
+[00:22:46] good to have someone work on that and
+[00:22:49] fix the latest point in TCP but also in
+[00:22:52] the IPv6 layer or IPv4 layer. Sometime
+[00:22:56] we drop a packet without any clear
+[00:22:58] information. So if you do the uh drop
+[00:23:01] monitor thing you you see the the the
+[00:23:05] generic drop code and you don't know
+[00:23:07] exactly. So unless you have a call graph
+[00:23:10] on the drop point, you don't know why
+[00:23:13] the packet was dropped.
+[00:23:19] Yeah. And then lastly, some micro
+[00:23:21] optimization about
+[00:23:24] nining.
+[00:23:27] You know, for example, Google use FDO
+[00:23:30] kernel. So we run a kernel in a real
+[00:23:32] production workload and with the video
+[00:23:34] we are able to relink the kernel in a
+[00:23:37] way that the fast path is really fast.
+[00:23:39] So basically some function can be in
+[00:23:41] line and stuff like that. But at least
+[00:23:44] with sung we have some
+[00:23:47] limitations. So the ining part can only
+[00:23:50] be done really if it was either an
+[00:23:53] inline function in an include file or
+[00:23:56] function in the same unit compile unit
+[00:23:58] the same C file. And so sometime you
+[00:24:01] have to move some function from one file
+[00:24:03] to the other to make sure that the the
+[00:24:06] the
+[00:24:08] link time optimization uh is going to
+[00:24:10] succeed.
+[00:24:13] It looks like small change but this kind
+[00:24:15] of change like can easily bring one two
+[00:24:18] 3% improvement in our workload. So
+[00:24:20] that's uh that's quite uh big.
+[00:24:25] I think I'm right in time. So, any
+[00:24:28] questions?
+[00:24:36] >> What's coming next?
+[00:24:39] Tell me. [laughter]
+[00:24:43] Ask the LLM.
+[00:24:44] >> You know, you know, it's interesting. Uh
+[00:24:48] when I joined Google 15 years ago, the
+[00:24:50] first guy I met in the for the first
+[00:24:53] lunch I had at Google was, "Oh, you are
+[00:24:55] hired at Linux host networking team.
+[00:24:59] What are you going to do?" Um oh, I'm
+[00:25:02] working TCP. Really? There's no future
+[00:25:05] for TCP. We are all switching to
+[00:25:07] userland networking and that's going to
+[00:25:10] be TCP is going to be dead in one year.
+[00:25:13] I'm like, "Okay, if you say so.
+[00:25:17] Yeah.
+[00:25:19] So, yeah, to answer your question, I
+[00:25:21] don't know. It's
+[00:25:23] always a lot of stuff ongoing. So, maybe
+[00:25:26] DDP, I don't know.
+[00:25:29] Uh,
+[00:25:32] >> super exciting to see your part about
+[00:25:34] GDP because even with zero carp as
+[00:25:37] you've probably
+[00:25:39] never really noticed it's a problem
+[00:25:43] inside the kernel processing but it's
+[00:25:45] also a problem for the user to have a
+[00:25:48] lot of smaller segments like smaller 4K
+[00:25:51] at best right or whatever the MTU size
+[00:25:54] is.
+[00:25:55] question. Do you think we can reuse the
+[00:25:58] MMD DCP zero cooperative user API for
+[00:26:02] the DDP?
+[00:26:03] >> Yeah, I that's the case actually.
+[00:26:06] They are sharing the a lot they have a
+[00:26:09] lot of know in common. Yeah.
+[00:26:11] >> Yeah, I was thinking the same because
+[00:26:14] you create a memory registration for
+[00:26:16] that user memory. You also probably want
+[00:26:19] to deliver like range of memory you've
+[00:26:22] received.
+[00:26:23] >> Is that the
+[00:26:24] >> No, no. So in this case you don't have
+[00:26:26] to do that the register you don't have
+[00:26:29] to pre-register some memory like a um
+[00:26:32] you don't have to do that with the DDP
+[00:26:34] it's really per application application
+[00:26:37] choice
+[00:26:38] >> okay
+[00:26:38] >> yeah uh but you know back to this uh
+[00:26:45] DDP has a lot of issues like uh what
+[00:26:47] about time weight recycling stuff like
+[00:26:49] that let's say you register uh some
+[00:26:52] window for DDP and And then suddenly you
+[00:26:55] receive a reset packet or the fin packet
+[00:26:58] whatever and so but you have to
+[00:27:02] asynchronously
+[00:27:04] consult the DTP uh reser version for the
+[00:27:06] flow but by the time the nick processed
+[00:27:09] this request maybe a new syn packet came
+[00:27:13] and so maybe a new flow was established
+[00:27:15] and maybe some data will land on the
+[00:27:19] location of the prior location. So
+[00:27:20] that's it's a bit uh
+[00:27:22] >> is there some discussion online about it
+[00:27:25] because it sounds like there should be a
+[00:27:27] lot of interesting things to figure out
+[00:27:30] what around RFC protocol and all this
+[00:27:34] stuff.
+[00:27:34] >> Yeah,
+[00:27:37] Google private for now.
+[00:27:39] >> Yeah, for now it's private with is
+[00:27:41] Octavian Pilo which is working on that.
+[00:27:44] Some of you are knowing it him.
+[00:27:48] Uh yeah, DDP very very exciting. Uh so
+[00:27:52] it requires changes in the nick, right?
+[00:27:55] To be able to reorder packets and push a
+[00:27:57] bit.
+[00:27:57] >> No, the re you don't have to do
+[00:27:59] reordering on the nick
+[00:28:01] >> doesn't care.
+[00:28:01] >> Yeah, but but it needs to it writes the
+[00:28:04] packets in the right place in the
+[00:28:05] memory, not out of order,
+[00:28:08] >> right?
+[00:28:08] >> Yeah. The the payload could be written
+[00:28:10] out of order. Yeah.
+[00:28:11] >> Okay. But basically my question is uh
+[00:28:13] which lick will support it?
+[00:28:15] >> Sorry, which lick will support it?
+[00:28:18] uh our internal Nick like the old Nick
+[00:28:21] we are using but uh maybe future Nick if
+[00:28:24] you have a working prototype then you
+[00:28:26] can ask vendors to implement that that's
+[00:28:29] how it works okay yeah okay great cool
+[00:28:32] looking forward for now it's just a
+[00:28:34] prototype we don't have any you know
+[00:28:38] serious plan about that just for
+[00:28:40] evaluation purposes yeah
+[00:28:44] >> uh Eric are you guys already running TC
+[00:28:47] PC with Swift.
+[00:28:49] >> Yes, of course.
+[00:28:50] >> And that's already all upstream.
+[00:28:53] >> No. Um, there I think there is a talk
+[00:28:56] about that. No. Uh, maybe I'm missing
+[00:28:58] something. Uh, William, maybe. What
+[00:29:02] about Swift?
+[00:29:04] Um, so Swift is not upstream yet. Our
+[00:29:07] our teammate Kevin Yang has a patch
+[00:29:10] series that I think he he intends to
+[00:29:12] send soon for whatever definition of
+[00:29:14] soon.
+[00:29:15] >> Yeah. What's after swift?
+[00:29:17] >> We are blocked with the the hardware
+[00:29:20] time stamping, you know, the on the
+[00:29:22] receive side
+[00:29:23] >> and so we have this issue with the
+[00:29:26] Thomas lexner and all the timer PTP
+[00:29:30] maintainers.
+[00:29:31] >> So we have to talk to somebody at Intel.
+[00:29:34] >> We have to convince them that we need
+[00:29:36] the stuff we need. That's uh that's
+[00:29:38] that's the blocker today.
+[00:29:41] So probably have time for one more
+[00:29:42] question.
+[00:29:44] Any
+[00:29:46] questions from downstairs
+[00:29:50] where it's much cooler down there?
+[00:29:54] Thank you.
+[00:29:54] >> Okay. Thank you, Eric. [applause]

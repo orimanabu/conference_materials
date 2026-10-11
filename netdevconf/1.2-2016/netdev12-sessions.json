@@ -1,0 +1,1897 @@
+{
+  "event": "Netdev 1.2",
+  "source_url": "https://netdevconf.info/1.2/accepted-sessions.html",
+  "retrieved_on": "2026-10-10",
+  "timezone": "Scheduleの表示時刻（東京開催）",
+  "notes": "Accepted Sessionsの全33個別URLを収録し、Scheduleの全33セッションと照合。個別ページはJavaScriptでloadsessionsのHTML断片を読み込む構成のため、その読み込み元を取得。相対リンクは実際の表示ページ（/1.2/session.html）を基準に絶対URLへ変換。Title・Descriptionは原文を収録。Keynote 3件は詳細要旨の代わりに告知文のみ、nftables workshopのDescriptionはTBD.のまま保持（description_statusで区別）。Contentsのスライド・論文・動画URLを抽出し、slides/oct5・oct6・oct7とpapersの全ファイルを照合。未公開資料の記載はmaterial_notesに保持。個別ページがないWelcoming・各日のClosingは補足に収録。添付本体の取得・リンク有効性検査は未実施。",
+  "counts": {
+    "sessions": 33,
+    "with_description": 33,
+    "with_materials": 33,
+    "attachments": 85,
+    "files": 52,
+    "links": 33
+  },
+  "sessions": [
+    {
+      "id": "david-miller-keynote",
+      "url": "https://netdevconf.info/1.2/session.html?david-miller-keynote",
+      "title": "Fast Programmable Networks & Encapsulated Protocols",
+      "listing_title": "Fast Programmable Networks & Encapsulated Protocols",
+      "description": "We're happy to announce that David S. Miller, Linux Networking\nmaintainer, will give a keynote talk, \"Fast Programmable Networks\n& Encapsulated Protocols\" on Linux netdev 1.2.",
+      "description_html": "<div><p>\nWe're happy to announce that David S. Miller, Linux Networking\nmaintainer, will give a keynote talk, \"Fast Programmable Networks\n&amp; Encapsulated Protocols\" on Linux netdev 1.2.\n</p>\n\n</div>",
+      "description_status": "announcement only",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/david-miller-keynote.html",
+      "track": "Keynote",
+      "speakers": "David S. Miller",
+      "date": "2016-10-06",
+      "time": "12:10 - 12:45, Keynote",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct6/06_davem_Tokyo_Netdev_Keynote_2016.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/david-miller-keynote.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=NlMQ0i09HMU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/david-miller-keynote.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "12:10 - 12:45, Keynote",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "KEYNOTE: Fast Programmable Networks & Encapsulated Protocols"
+        }
+      ]
+    },
+    {
+      "id": "dj-keynote",
+      "url": "https://netdevconf.info/1.2/session.html?dj-keynote",
+      "title": "Accelerating Service Delivery Using Linux Network Innovations",
+      "listing_title": "Accelerating Service Delivery Using Linux Network Innovations",
+      "description": "Damascene Joachimpillai from Verizon will give a keynote talk,\n\"Accelerating Service Delivery Using Linux Network Innovations\" on\nLinux netdev 1.2.",
+      "description_html": "<div><p>\nDamascene Joachimpillai from Verizon will give a keynote talk,\n\"Accelerating Service Delivery Using Linux Network Innovations\" on\nLinux netdev 1.2.\n</p>\n\n</div>",
+      "description_status": "announcement only",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/dj-keynote.html",
+      "track": "Keynote",
+      "speakers": "Damascene Joachimpillai",
+      "date": "2016-10-05",
+      "time": "12:10 - 12:45, Keynote",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=_9OW0VI4QF0",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/dj-keynote.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "12:10 - 12:45, Keynote",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "KEYNOTE: Accelerating Service Delivery Using Linux Network Innovations"
+        }
+      ]
+    },
+    {
+      "id": "tom-herbert-keynote",
+      "url": "https://netdevconf.info/1.2/session.html?tom-herbert-keynote",
+      "title": "The Undiscovered Internet: The Linux Network Stack, The Internet, Self-driving cars, Virtual Reality, and Pokemon Go - Where is this all going?",
+      "listing_title": "The Undiscovered Internet: The Linux Network Stack, The Internet, Self-driving cars, Virtual Reality, and Pokemon Go - Where is this all going?",
+      "description": "Tom Herbert from Facebook will give a keynote talk, titled \"The\nUndiscovered Internet: The Linux Network Stack, The Internet,\nSelf-driving cars, Virtual Reality, and Pokemon Go - Where is this all\ngoing?\" on Linux netdev 1.2.",
+      "description_html": "<div><p>\nTom Herbert from Facebook will give a keynote talk, titled \"The\nUndiscovered Internet: The Linux Network Stack, The Internet,\nSelf-driving cars, Virtual Reality, and Pokemon Go - Where is this all\ngoing?\" on Linux netdev 1.2.\n</p>\n\n</div>",
+      "description_status": "announcement only",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/tom-herbert-keynote.html",
+      "track": "Keynote",
+      "speakers": "Tom Herbert",
+      "date": "2016-10-07",
+      "time": "12:10 - 12:45, Keynote",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=5ZTpQI90Aew",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/tom-herbert-keynote.html"
+        }
+      ],
+      "material_notes": [
+        "slide (to be added)"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "12:10 - 12:45, Keynote",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "KEYNOTE: The Undiscovered Internet: The Linux Network Stack, The Internet, Self-driving cars, Virtual Reality, and Pokemon Go"
+        }
+      ]
+    },
+    {
+      "id": "herbert-xdp-workshop",
+      "url": "https://netdevconf.info/1.2/session.html?herbert-xdp-workshop",
+      "title": "XDP workshop Introduction, experience, and future development",
+      "listing_title": "XDP workshop Introduction, experience, and future development",
+      "description": "eXpress Data Path (XDP) is a programmable and high performance\n  networking data path. XDP defines a packet processing path that runs\n  very low in the system as close to the hardware as possible. BPF\n  provides the programmability for XDP allowing users to access the\n  low level networking data path to implement virtual switches, load\n  balancers, firewalls, and similar \"middlebox\" type functions. XDP\n  programs are intended to be portable across different XDP platforms\n  which includes not only Linux kernel but potentially NIC offloads,\n  switches, DPDK, and other OSes.\n\n\n\n\n\n  This workshop provides an introduction to users and developers that\n  will use XDP. We want to cover the background and technical\n  description of XDP and hold a session that demonstrates how to use\n  XDP programs and how to create new ones.\n\n\n\n\n\n  Topics for the workshop would include:\n\n\n\n\n\n  \n    Introduction to XDP: design principles, API model, and reference\n    Linux implementation. (we would like to have an accompanying\n    paper)\n  \n\n\n\n  \n    User session on writing, running, and debugging XDP programs. This\n    will include a description of the ILA router and L4 load balancer\n    which will likely be first use cases in production.\n  \n\n\n\n  \n    XDP on other platforms. HW offload to support of XDP, XDP in DPDK,\n    XDP in other OSes (Windows, BSD?).\n  \n\n\n\n  \n    Presentations on future development: Cilium, Ceth, XDP for network\n    virtualization, XDP to make a virtual switch, P4 to XDP compiler,\n    XDP over DPDK/VPP, etc.",
+      "description_html": "<div><p>\n  eXpress Data Path (XDP) is a programmable and high performance\n  networking data path. XDP defines a packet processing path that runs\n  very low in the system as close to the hardware as possible. BPF\n  provides the programmability for XDP allowing users to access the\n  low level networking data path to implement virtual switches, load\n  balancers, firewalls, and similar \"middlebox\" type functions. XDP\n  programs are intended to be portable across different XDP platforms\n  which includes not only Linux kernel but potentially NIC offloads,\n  switches, DPDK, and other OSes.\n</p>\n\n<p>\n  This workshop provides an introduction to users and developers that\n  will use XDP. We want to cover the background and technical\n  description of XDP and hold a session that demonstrates how to use\n  XDP programs and how to create new ones.\n</p>\n\n<p>\n  Topics for the workshop would include:\n</p>\n\n<ul>\n  <li>\n    Introduction to XDP: design principles, API model, and reference\n    Linux implementation. (we would like to have an accompanying\n    paper)\n  </li>\n\n  <li>\n    User session on writing, running, and debugging XDP programs. This\n    will include a description of the ILA router and L4 load balancer\n    which will likely be first use cases in production.\n  </li>\n\n  <li>\n    XDP on other platforms. HW offload to support of XDP, XDP in DPDK,\n    XDP in other OSes (Windows, BSD?).\n  </li>\n\n  <li>\n    Presentations on future development: Cilium, Ceth, XDP for network\n    virtualization, XDP to make a virtual switch, P4 to XDP compiler,\n    XDP over DPDK/VPP, etc.\n  </li>\n</ul>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/herbert-xdp-workshop.html",
+      "track": "Workshop",
+      "speakers": "Tom Herbert",
+      "date": "2016-10-07",
+      "time": "11:00 - 12:10, Workshop",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=lpJk_HcCLnQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/herbert-xdp-workshop.html"
+        }
+      ],
+      "material_notes": [
+        "slides (to be added)"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "11:00 - 12:10, Workshop",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "XDP workshop"
+        }
+      ]
+    },
+    {
+      "id": "jamal-tc-workshop",
+      "url": "https://netdevconf.info/1.2/session.html?jamal-tc-workshop",
+      "title": "TC extended workshop",
+      "listing_title": "TC extended workshop",
+      "description": "Face to Face discussions on different topics\n\n\n\n\n\n  Agenda\n\n\n\n\n\n\n 1) tc regression tests (15 minutes) -- Lucas/Roman \n\n\n 2) tc ebpf state of union (5 minutes) -- Daniel \n\n\n 3) qdisc lock discussions (5 minutes) -- John \n\n\n 4) match: cls_u32 links and maps for everyone else (5 minutes) -- John \n\n\n 5) Hardware offload discussion (35 minutes) \n\n\n\n a) Intel (John)\n\n \n b) Chelsio (Jamal on behalf of Chelsio)\n\n \n c) Mellanox CNX (Amir)\n\n \n d) Mellanox Spectrum (Yotam)",
+      "description_html": "<div><p>\n  Face to Face discussions on different topics\n</p>\n\n<p>\n  Agenda\n</p>\n\n<ul>\n\n<li> 1) tc regression tests (15 minutes) -- Lucas/Roman </li>\n<li> 2) tc ebpf state of union (5 minutes) -- Daniel </li>\n<li> 3) qdisc lock discussions (5 minutes) -- John </li>\n<li> 4) match: cls_u32 links and maps for everyone else (5 minutes) -- John </li>\n<li> 5) Hardware offload discussion (35 minutes) </li>\n<ul>\n<li> a) Intel (John)</li> \n<li> b) Chelsio (Jamal on behalf of Chelsio)</li> \n<li> c) Mellanox CNX (Amir)</li> \n<li> d) Mellanox Spectrum (Yotam)</li> \n</ul>\n</ul>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/jamal-tc-workshop.html",
+      "track": "Workshop",
+      "speakers": "Jamal Hadi Salim",
+      "date": "2016-10-05",
+      "time": "13:45 - 14:50, Workshop",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides 1",
+          "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_daniel_borkmann_2016_tcws.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jamal-tc-workshop.html"
+        },
+        {
+          "title": "slides 2",
+          "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_qdisc+match_tool_v2.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jamal-tc-workshop.html"
+        },
+        {
+          "title": "slides 3",
+          "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_Chelsio_NIC_TC_Offload_v4.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jamal-tc-workshop.html"
+        },
+        {
+          "title": "slides 4",
+          "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_Mlxsw_TC_Offloads.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jamal-tc-workshop.html"
+        },
+        {
+          "title": "slides 5",
+          "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_mlx5_nic_offloads.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jamal-tc-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=gwzaKXWIelc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jamal-tc-workshop.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "13:45 - 14:50, Workshop",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "TC extended workshop"
+        }
+      ]
+    },
+    {
+      "id": "steffen-klassert",
+      "url": "https://netdevconf.info/1.2/session.html?steffen-klassert",
+      "title": "IPsec workshop",
+      "listing_title": "IPsec workshop",
+      "description": "The IPsec workshop is a followup of the IPsec performance BoF at\n  netdev 1.1. We want to discuss about the progress we made and how to\n  proceed with IPsec development. This is also an opportunity to bring\n  IPsec developers and users together to talk about the needs of IPsec\n  users.\n\n\n\n\n\n  We currently have the following presentations:\n\n\n\n\n\n  \n    1. IPsec status update (what happened since netdev 1.1), Steffen\n    Klassert\n  \n\n\n  \n    2. IPsec configuration tutorial, Sowmini Varadhan\n  \n\n\n  \n    3. IPsec crypto offload to network devices, Boris Pismenny\n  \n\n\n  \n    4. open discussion",
+      "description_html": "<div><p>\n  The IPsec workshop is a followup of the IPsec performance BoF at\n  netdev 1.1. We want to discuss about the progress we made and how to\n  proceed with IPsec development. This is also an opportunity to bring\n  IPsec developers and users together to talk about the needs of IPsec\n  users.\n</p>\n\n<p>\n  We currently have the following presentations:\n</p>\n\n<ul>\n  <li>\n    1. IPsec status update (what happened since netdev 1.1), Steffen\n    Klassert\n  </li>\n  <li>\n    2. IPsec configuration tutorial, Sowmini Varadhan\n  </li>\n  <li>\n    3. IPsec crypto offload to network devices, Boris Pismenny\n  </li>\n  <li>\n    4. open discussion\n  </li>\n</ul>\n\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/steffen-klassert.html",
+      "track": "Workshop",
+      "speakers": "Steffen Klassert",
+      "date": "2016-10-07",
+      "time": "14:55 - 15:55, Workshop",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides 1",
+          "url": "https://netdevconf.info/1.2/slides/oct7/08_1_IPsec_workshop_Steffen_Klassert.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/steffen-klassert.html"
+        },
+        {
+          "title": "slides 2",
+          "url": "https://netdevconf.info/1.2/slides/oct7/08_2_IPsec_workshop_Boris_Pismenny.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/steffen-klassert.html"
+        },
+        {
+          "title": "slides 3",
+          "url": "https://netdevconf.info/1.2/slides/oct7/08_3_IPsec_workshop_Florian_Westphal.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/steffen-klassert.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=bCVc6o3JxK8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/steffen-klassert.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "14:55 - 15:55, Workshop",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "IPSec Workshop"
+        }
+      ]
+    },
+    {
+      "id": "jesper-performance-workshop",
+      "url": "https://netdevconf.info/1.2/session.html?jesper-performance-workshop",
+      "title": "Network Performance workshop",
+      "listing_title": "Network Performance workshop",
+      "description": "This workshop will discuss progress, current issues and next steps\n  for Linux Network Performance.",
+      "description_html": "<div><p>\n  This workshop will discuss progress, current issues and next steps\n  for Linux Network Performance.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/jesper-performance-workshop.html",
+      "track": "Workshop",
+      "speakers": "Jesper Dangaard Brouer",
+      "date": "2016-10-06",
+      "time": "13:45 - 14:50, Workshop",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "http://people.netfilter.org/hawk/presentations/NetDev1.2_2016/net_performance_workshop_netdev1.2.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jesper-performance-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=vsjxgOpv1n8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jesper-performance-workshop.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "13:45 - 14:50, Workshop",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Network Performance Workshop"
+        }
+      ]
+    },
+    {
+      "id": "pablo-nftable-workshop",
+      "url": "https://netdevconf.info/1.2/session.html?pablo-nftable-workshop",
+      "title": "nftables workshop",
+      "listing_title": "nftables workshop",
+      "description": "TBD.",
+      "description_html": "<div><p>\n  TBD.\n</p>\n\n</div>",
+      "description_status": "pending",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/pablo-nftable-workshop.html",
+      "track": "Workshop",
+      "speakers": "Pablo Neira Ayuso",
+      "date": "2016-10-06",
+      "time": "14:50 - 15:55, Workshop",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides 1",
+          "url": "https://netdevconf.info/1.2/slides/oct6/08_nf_workshop_netdev12.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/pablo-nftable-workshop.html"
+        },
+        {
+          "title": "slides 2",
+          "url": "https://netdevconf.info/1.2/slides/oct6/08_nft_netdev12_florian.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/pablo-nftable-workshop.html"
+        },
+        {
+          "title": "slides 3",
+          "url": "https://netdevconf.info/1.2/slides/oct6/08_nftables_Load_Balancing_with_nftables_II_Slides.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/pablo-nftable-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=wfWMPlZHQBk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/pablo-nftable-workshop.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "14:50 - 15:55, Workshop",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Nftables Workshop"
+        }
+      ]
+    },
+    {
+      "id": "alexander-duyck",
+      "url": "https://netdevconf.info/1.2/session.html?alexander-duyck",
+      "title": "Encapsulation Offloads LCO, GSO_PARTIAL, TSO_MANGLEID, and Why Less is More",
+      "listing_title": "Encapsulation Offloads LCO, GSO_PARTIAL, TSO_MANGLEID, and Why Less is More",
+      "description": "The last several kernel releases have seen a number of new features\n  introduced that enable significant performance improvements with\n  tunnels, and more specifically tunnels with outer checksums enabled.\n\n\n\n\n\n  Local checksum offload (LCO) is a checksum offloading approach that\n  was introduced early this year to resolve the issue of providing an\n  outer checksum while offloading the inner checksum of a given\n  tunnelled frame.\n\n\n\n\n\n  Partial GSO (GSO_PARTIAL) is an approach by which a device that\n  cannot support tunnel offloads is enabled to do so by only providing\n  the device with information on some subset of the packet headers\n  while allowing GSO itself to populate the remaining headers with the\n  correct values for the segmented frames.\n\n\n\n\n\n  TCP offload with IPv4 ID mangling (TSO_MANGLEID) is a feature that\n  was introduced to allow devices to repeat the same IPv4 ID field for\n  each packet.\n\n\n\n\n\n  With these features it becomes possible for drivers that didn't\n  previously support encapsulation offloads such as the igb, ixgbe,\n  and i40e to now support offloads. In addition they can support\n  offloads for more tunnel types than supported by most other NICs\n  with pure hardware offload support simply because they don't have to\n  rely on it and instead allow software to perform most of the header\n  configuration while handling the crucial piece which is segmenting\n  the actual frame. When combined with an outer checksum for the\n  tunnel it allows for full offloads including generic receive offload\n  (GRO) which in turn allows us to send a single flow of encapsulated\n  frames at rates exceeding 10Gbps.\n\n\n\n\n\n  This talk will go over the kernel work that has been done to enable\n  these features, demonstrate the benefits of the features, explain\n  what settings need to be configured in order to get the most out of\n  these features, and provide a look at what hardware vendors can do\n  in order to make use of these features in future devices.",
+      "description_html": "<div><p>\n  The last several kernel releases have seen a number of new features\n  introduced that enable significant performance improvements with\n  tunnels, and more specifically tunnels with outer checksums enabled.\n</p>\n\n<p>\n  Local checksum offload (LCO) is a checksum offloading approach that\n  was introduced early this year to resolve the issue of providing an\n  outer checksum while offloading the inner checksum of a given\n  tunnelled frame.\n</p>\n\n<p>\n  Partial GSO (GSO_PARTIAL) is an approach by which a device that\n  cannot support tunnel offloads is enabled to do so by only providing\n  the device with information on some subset of the packet headers\n  while allowing GSO itself to populate the remaining headers with the\n  correct values for the segmented frames.\n</p>\n\n<p>\n  TCP offload with IPv4 ID mangling (TSO_MANGLEID) is a feature that\n  was introduced to allow devices to repeat the same IPv4 ID field for\n  each packet.\n</p>\n\n<p>\n  With these features it becomes possible for drivers that didn't\n  previously support encapsulation offloads such as the igb, ixgbe,\n  and i40e to now support offloads. In addition they can support\n  offloads for more tunnel types than supported by most other NICs\n  with pure hardware offload support simply because they don't have to\n  rely on it and instead allow software to perform most of the header\n  configuration while handling the crucial piece which is segmenting\n  the actual frame. When combined with an outer checksum for the\n  tunnel it allows for full offloads including generic receive offload\n  (GRO) which in turn allows us to send a single flow of encapsulated\n  frames at rates exceeding 10Gbps.\n</p>\n\n<p>\n  This talk will go over the kernel work that has been done to enable\n  these features, demonstrate the benefits of the features, explain\n  what settings need to be configured in order to get the most out of\n  these features, and provide a look at what hardware vendors can do\n  in order to make use of these features in future devices.\n</p>\n\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/alexander-duyck.html",
+      "track": "Talk",
+      "speakers": "Alexander Duyck, Principal Software Engineer at Mirantis",
+      "date": "2016-10-05",
+      "time": "16:15 - 16:50, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct5/09_LCO_GSO_Partial.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/alexander-duyck.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=u2YqKXdvAMc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/alexander-duyck.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/LCO-GSO-Partial-TSO-MangleID.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/alexander-duyck.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "16:15 - 16:50, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Encapsulation Offloads"
+        }
+      ]
+    },
+    {
+      "id": "jerry-chu",
+      "url": "https://netdevconf.info/1.2/session.html?jerry-chu",
+      "title": "User Space TCP - Getting LKL ready for the Prime Time Use",
+      "listing_title": "User Space TCP - Getting LKL ready for the Prime Time Use",
+      "description": "This talk will present our efforts on preparing the Linux Kernel\n  Library (LKL) for the real world deployment inside Google's\n  datacenters.\n\n\n\n\n\n  We will begin with our primary goal - to run a production-strength,\n  highly inter-operable TCP stack in the user space with performance\n  comparable to that of a kernel TCP stack.\n\n\n\n\n\n  We first explain why we need a TCP stack in the user space, our\n  motivations and business needs behind it.\n\n\n\n\n\n  We then outline a number of alternatives and their pros and cons,\n  including LKL itself. We will describe the main attraction of LKL,\n  based on the high quality, highly performing Linux kernel code, and\n  its main \"architectural\" issue when attempting to run the kernel\n  code in the user space, namely the need to preserve many \"kernel\"\n  assumptions since the kernel code was meant to run in the kernel\n  environment.\n\n\n\n\n\n  The list of assumptions includes the existence of a kernel stack,\n  the host vs the \"kernel\" threads, the kernel scheduler and how it\n  conflicts with the host scheduler, which is the real scheduler\n  responsible for scheduling threads running the kernel code in the\n  user space, IRQ handling and its various optimization,...,\n  etc. Preserving these assumptions, although allowing one to avoid\n  changes to the generic kernel code, have resulted in significant\n  performance overhead for LKL.\n\n\n\n\n\n  We will present our effort in working around some of the assumptions\n  above to reduce their associated performance costs. Our work has\n  paid off and resulted in 5-10x latency improvement. Moreover, by\n  enabling all the offload supports, we attain 5-10x thruput\n  performance too. We further improve performance by providing\n  zero-copy support to sockets.  Since LKL runs the kernel code in the\n  same space as the user code, zero-copy is made much easier.\n\n\n\n\n\n  We conclude with a discussion on some limitations of LKL. This\n  includes some linkage issue with the kernel code resulting in\n  address collision with shared library objects. Also SMP support is\n  not there, and the complexity of allowing it seems to approach that\n  of providing a fully virtualized environment for the kernel.",
+      "description_html": "<div><p>\n  This talk will present our efforts on preparing the Linux Kernel\n  Library (LKL) for the real world deployment inside Google's\n  datacenters.\n</p>\n\n<p>\n  We will begin with our primary goal - to run a production-strength,\n  highly inter-operable TCP stack in the user space with performance\n  comparable to that of a kernel TCP stack.\n</p>\n\n<p>\n  We first explain why we need a TCP stack in the user space, our\n  motivations and business needs behind it.\n</p>\n\n<p>\n  We then outline a number of alternatives and their pros and cons,\n  including LKL itself. We will describe the main attraction of LKL,\n  based on the high quality, highly performing Linux kernel code, and\n  its main \"architectural\" issue when attempting to run the kernel\n  code in the user space, namely the need to preserve many \"kernel\"\n  assumptions since the kernel code was meant to run in the kernel\n  environment.\n</p>\n\n<p>\n  The list of assumptions includes the existence of a kernel stack,\n  the host vs the \"kernel\" threads, the kernel scheduler and how it\n  conflicts with the host scheduler, which is the real scheduler\n  responsible for scheduling threads running the kernel code in the\n  user space, IRQ handling and its various optimization,...,\n  etc. Preserving these assumptions, although allowing one to avoid\n  changes to the generic kernel code, have resulted in significant\n  performance overhead for LKL.\n</p>\n\n<p>\n  We will present our effort in working around some of the assumptions\n  above to reduce their associated performance costs. Our work has\n  paid off and resulted in 5-10x latency improvement. Moreover, by\n  enabling all the offload supports, we attain 5-10x thruput\n  performance too. We further improve performance by providing\n  zero-copy support to sockets.  Since LKL runs the kernel code in the\n  same space as the user code, zero-copy is made much easier.\n</p>\n\n<p>\n  We conclude with a discussion on some limitations of LKL. This\n  includes some linkage issue with the kernel code resulting in\n  address collision with shared library objects. Also SMP support is\n  not there, and the complexity of allowing it seems to approach that\n  of providing a fully virtualized environment for the kernel.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/jerry-chu.html",
+      "track": "Talk",
+      "speakers": "Jerry Chu, Yuan Liu",
+      "date": "2016-10-06",
+      "time": "10:10 - 10:45, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct6/03_jerry_chu_usTCP_LKL.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jerry-chu.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=xP9crHI0aAU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jerry-chu.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/jerry_chu.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jerry-chu.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "10:10 - 10:45, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "User Space TCP - Getting LKL ready for the Prime Time Use"
+        }
+      ]
+    },
+    {
+      "id": "david-lebrun",
+      "url": "https://netdevconf.info/1.2/session.html?david-lebrun",
+      "title": "Implementing IPv6 Segment Routing",
+      "listing_title": "Implementing IPv6 Segment Routing",
+      "description": "Segment Routing [1] is a modern version of source routing that is being\n  standardised within the IETF. It has an MPLS and an IPv6 variant. The\n  IPv6 header extension [2] encodes a list of intermediate nodes inside\n  each packet to support source routing. The path followed by a packet\n  with SR is a sequence of shortest paths between all the intermediate\n  nodes listed in the SR header. Three main types of segments exist: node\n  segments, that represent a network node; adjacency segments, that\n  represent a network link; and service segments, that represent a service\n  to apply to the packets. Additionnally, IPv6 SR supports an HMAC\n  mechanism to ensure the integrity and authenticity of SR packets emitted\n  by untrusted hosts.\n\n\n\n\n\n  We have implemented IPv6 SR in the Linux kernel [3] which is, to the\n  extent of our knowledge, the only existing Linux implementation. Our\n  implementation supports the IETF draft and extends it by providing a\n  user control interface through lightweight tunnels and the generic\n  netlink protocol, as well as an implementation of service segments\n  thanks to a memory-mapped netlink interface.\n  In this talk, we describe the Segment Routing architecture, the state of\n  the implementation in the Linux kernel, the main challenges encountered,\n  current issues, and future development plan.\n\n\n\n\n\n [1] https://tools.ietf.org/html/draft-ietf-spring-segment-routing-09\n\n\n [2] https://tools.ietf.org/html/draft-ietf-6man-segment-routing-header-01\n\n\n [3] http://segment-routing.org",
+      "description_html": "<div><p>\n  Segment Routing [1] is a modern version of source routing that is being\n  standardised within the IETF. It has an MPLS and an IPv6 variant. The\n  IPv6 header extension [2] encodes a list of intermediate nodes inside\n  each packet to support source routing. The path followed by a packet\n  with SR is a sequence of shortest paths between all the intermediate\n  nodes listed in the SR header. Three main types of segments exist: node\n  segments, that represent a network node; adjacency segments, that\n  represent a network link; and service segments, that represent a service\n  to apply to the packets. Additionnally, IPv6 SR supports an HMAC\n  mechanism to ensure the integrity and authenticity of SR packets emitted\n  by untrusted hosts.\n</p>\n\n<p>\n  We have implemented IPv6 SR in the Linux kernel [3] which is, to the\n  extent of our knowledge, the only existing Linux implementation. Our\n  implementation supports the IETF draft and extends it by providing a\n  user control interface through lightweight tunnels and the generic\n  netlink protocol, as well as an implementation of service segments\n  thanks to a memory-mapped netlink interface.\n  In this talk, we describe the Segment Routing architecture, the state of\n  the implementation in the Linux kernel, the main challenges encountered,\n  current issues, and future development plan.\n</p>\n\n<ul>\n<li> [1] <a href=\"https://tools.ietf.org/html/draft-ietf-spring-segment-routing-09\">https://tools.ietf.org/html/draft-ietf-spring-segment-routing-09</a></li>\n<li> [2] <a href=\"https://tools.ietf.org/html/draft-ietf-6man-segment-routing-header-01\">https://tools.ietf.org/html/draft-ietf-6man-segment-routing-header-01</a></li>\n<li> [3] <a href=\"http://segment-routing.org\">http://segment-routing.org</a></li>\n</ul>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/david-lebrun.html",
+      "track": "Talk",
+      "speakers": "David Lebrun",
+      "date": "2016-10-05",
+      "time": "9:35 - 10:10, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct5/02_david_lebrun_seg6.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/david-lebrun.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=F1qKzMq2WMw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/david-lebrun.html"
+        }
+      ],
+      "material_notes": [
+        "paper (to be added)"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "9:35 - 10:10, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Implementing IPv6 Segment Routing"
+        }
+      ]
+    },
+    {
+      "id": "dave-watson",
+      "url": "https://netdevconf.info/1.2/session.html?dave-watson",
+      "title": "Kernel TLS (Transport Layer Security) Socket",
+      "listing_title": "Kernel TLS (Transport Layer Security) Socket",
+      "description": "TLS (a.k.a SSL) is a widely-deployed protocol used for securing TCP\n  connections on the internet.  TLS is also a required feature for\n  HTTP/2.  This talk will cover a proposed implementation of a kernel\n  TLS socket type.  We will discuss some of the tradeoffs made, as well\n  as some of the challenges in implementation.\n\n\n\n\n\n  A kernel implementation of a TLS socket could provide access to crypto\n  hardware offload, ability to access unencrypted bytes in the kernel,\n  and a possible reduction in copies to and from userspace.  Access to\n  the unencrypted bytes in the kernel may be important for tunneling or\n  proxy applications.  BPF may be used to direct data to specific\n  sockets using KCM or REUSEPORT, but would also need access to the\n  unencrypted bytes.\n\n\n\n\n\n  Implementation challenges include parsing TCP stream data, reducing\n  copies in the crypto API, handling TLS control messages, doing\n  hardware offload without a full TOE.\n\n\n\n\nPrevious discussion & code:\n\nhttps://lkml.org/lkml/2015/11/23/634\n\n\n\nhttps://github.com/ktls/af_ktls",
+      "description_html": "<div><p>\n  TLS (a.k.a SSL) is a widely-deployed protocol used for securing TCP\n  connections on the internet.  TLS is also a required feature for\n  HTTP/2.  This talk will cover a proposed implementation of a kernel\n  TLS socket type.  We will discuss some of the tradeoffs made, as well\n  as some of the challenges in implementation.\n</p>\n\n<p>\n  A kernel implementation of a TLS socket could provide access to crypto\n  hardware offload, ability to access unencrypted bytes in the kernel,\n  and a possible reduction in copies to and from userspace.  Access to\n  the unencrypted bytes in the kernel may be important for tunneling or\n  proxy applications.  BPF may be used to direct data to specific\n  sockets using KCM or REUSEPORT, but would also need access to the\n  unencrypted bytes.\n</p>\n\n<p>\n  Implementation challenges include parsing TCP stream data, reducing\n  copies in the crypto API, handling TLS control messages, doing\n  hardware offload without a full TOE.\n</p>\n\nPrevious discussion &amp; code:\n<ul>\n<li><a href=\"https://lkml.org/lkml/2015/11/23/634\">https://lkml.org/lkml/2015/11/23/634</a></li>\n\n<li><a href=\"https://github.com/ktls/af_ktls\">https://github.com/ktls/af_ktls</a></li>\n</ul>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/dave-watson.html",
+      "track": "Talk",
+      "speakers": "Dave Watson",
+      "date": "2016-10-05",
+      "time": "11:00 - 11:35, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct5/05_davejwatson_tls_netdev12.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/dave-watson.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=LbZu0D05Wko",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/dave-watson.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/ktls.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/dave-watson.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "11:00 - 11:35, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Kernel TLS socket"
+        }
+      ]
+    },
+    {
+      "id": "yuchung-cheng",
+      "url": "https://netdevconf.info/1.2/session.html?yuchung-cheng",
+      "title": "Making Linux TCP Fast",
+      "listing_title": "Making Linux TCP Fast",
+      "description": "Over the last decade the Linux TCP stack has greatly improved in the\n  areas of congestion control, loss recovery, and other areas\n  motivated by networking performance: Fast Open, TCP small queues,\n  fq/pacing, DCTCP, RACK loss detection, Tail Loss Probe, F-RTO,\n  etc. In order to support these features, the stack has gone through\n  a major renovation to decouple several basic functionalities, such\n  as what to send (loss recovery), how fast to send (congestion\n  control), and when to send (pacing). After that it becomes much\n  easier to develop new features. But it’s sometimes difficult to get\n  a sense of the overall changes even if one follows individual\n  patches closely.\n\n\n\n\n\n  The goal of this talk is to give people an overall sense of the\n  Linux TCP stack today in terms of protocol features, because it is\n  very different from what was described in the 2003\n  paper \n  \n  \"Congestion Control in Linux\". Instead of iterating through dozens\n  of individual protocol features, we will summarize them by the basic\n  functionalities described above, with a focus on the design\n  rationales and principles behind them.\n\n\n\n\n\n  Beside presenting the current status, we’d also talk about the\n  remaining performance challenges as well as potential\n  solutions. These include but not limited to problems like\n  bufferbloat, mobile networks, packet reordering, instrumentation,\n  etc. We are hopeful this talk can stir discussions and good\n  solutions in the community to make the stack better and faster!",
+      "description_html": "<div><p>\n  Over the last decade the Linux TCP stack has greatly improved in the\n  areas of congestion control, loss recovery, and other areas\n  motivated by networking performance: Fast Open, TCP small queues,\n  fq/pacing, DCTCP, RACK loss detection, Tail Loss Probe, F-RTO,\n  etc. In order to support these features, the stack has gone through\n  a major renovation to decouple several basic functionalities, such\n  as what to send (loss recovery), how fast to send (congestion\n  control), and when to send (pacing). After that it becomes much\n  easier to develop new features. But it’s sometimes difficult to get\n  a sense of the overall changes even if one follows individual\n  patches closely.\n</p>\n\n<p>\n  The goal of this talk is to give people an overall sense of the\n  Linux TCP stack today in terms of protocol features, because it is\n  very different from what was described in the 2003\n  paper \n  <a href=\"https://www.cs.helsinki.fi/research/iwtcp/papers/linuxtcp.pdf\">\n  \"Congestion Control in Linux\"</a>. Instead of iterating through dozens\n  of individual protocol features, we will summarize them by the basic\n  functionalities described above, with a focus on the design\n  rationales and principles behind them.\n</p>\n\n<p>\n  Beside presenting the current status, we’d also talk about the\n  remaining performance challenges as well as potential\n  solutions. These include but not limited to problems like\n  bufferbloat, mobile networks, packet reordering, instrumentation,\n  etc. We are hopeful this talk can stir discussions and good\n  solutions in the community to make the stack better and faster!\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/yuchung-cheng.html",
+      "track": "Talk",
+      "speakers": "Yuchung Cheng, Neal Cardwell",
+      "date": "2016-10-05",
+      "time": "10:10 - 10:45, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct5/04_Making_Linux_TCP_Fast_netdev_1.2_final.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/yuchung-cheng.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=hIl_zXzU3DA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/yuchung-cheng.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/bbr-netdev-1.2.new.new.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/yuchung-cheng.html"
+        },
+        {
+          "title": "\"Congestion Control in Linux\"",
+          "url": "https://www.cs.helsinki.fi/research/iwtcp/papers/linuxtcp.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/yuchung-cheng.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "10:10 - 10:45, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Making Linux TCP fast"
+        }
+      ]
+    },
+    {
+      "id": "pj-waskiewicz",
+      "url": "https://netdevconf.info/1.2/session.html?pj-waskiewicz",
+      "title": "Scaling with multiple network namespaces in a single application",
+      "listing_title": "Scaling with multiple network namespaces in a single application",
+      "description": "Namespaces and containers seem to be the rage today, but it’s not\n  typical for large applications to use them directly.  Rather,\n  applications rely on frameworks such as LXC and/or Docker to manage\n  the containers they run in.\n\n\n\n\n\n  This talk will focus on how a large storage application utilizes the\n  network namespace framework, and how it uses large numbers of\n  namespaces to partition up the underlying network infrastructure\n  within the application.  An overview of parts of the application\n  architecture using the namespaces will be covered, showing the use\n  cases driving the need for them.  Lessons learned around scalability\n  and performance bottlenecks in the kernel will be shared.\n\n\n\n\n\n  Ultimately the talk would like to drive discussion about further\n  improvements to the namespace framework for better programmatic\n  management of namespaces within the kernel from userspace, as well\n  as attention to increased scalability and efficiency of networking\n  within the namespaces.",
+      "description_html": "<div><p>\n  Namespaces and containers seem to be the rage today, but it’s not\n  typical for large applications to use them directly.  Rather,\n  applications rely on frameworks such as LXC and/or Docker to manage\n  the containers they run in.\n</p>\n\n<p>\n  This talk will focus on how a large storage application utilizes the\n  network namespace framework, and how it uses large numbers of\n  namespaces to partition up the underlying network infrastructure\n  within the application.  An overview of parts of the application\n  architecture using the namespaces will be covered, showing the use\n  cases driving the need for them.  Lessons learned around scalability\n  and performance bottlenecks in the kernel will be shared.\n</p>\n\n<p>\n  Ultimately the talk would like to drive discussion about further\n  improvements to the namespace framework for better programmatic\n  management of namespaces within the kernel from userspace, as well\n  as attention to increased scalability and efficiency of networking\n  within the namespaces.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/pj-waskiewicz.html",
+      "track": "Talk",
+      "speakers": "PJ Waskiewicz",
+      "date": "2016-10-06",
+      "time": "9:00 - 9:35, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct6/01_PJ_Netdev_1.2_scaling_with_network_namespaces_in_a_single_application.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/pj-waskiewicz.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=8Ux9id-Vf3U",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/pj-waskiewicz.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/pj-netdev-1.2.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/pj-waskiewicz.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "9:00 - 9:35, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Scaling with multiple network namespaces in a single application"
+        }
+      ]
+    },
+    {
+      "id": "boris-pismenny",
+      "url": "https://netdevconf.info/1.2/session.html?boris-pismenny",
+      "title": "TLS Offload to Network Devices",
+      "listing_title": "TLS Offload to Network Devices",
+      "description": "Encrypted Internet traffic is becoming the norm, spearheaded by\n  Transport Layer Socket (TLS) of TCP connections. This trend\n  introduces a great challenge to data center servers, as the\n  symmetric encryption and authentication of TLS records adds\n  significant CPU overhead. New CPU capabilities, such as the x86\n  AESNI instruction set, alleviate the problem, yet encryption\n  overhead remains high. Alternatively, cryptographic accelerators\n  require dedicated HW, consume significant memory bandwidth, and\n  increase latency.\n\n\n\n\n\n  We propose to offload TLS symmetric crypto processing to the network\n  device.  Our solution doesn't require a TCP Offload Engine\n  (TOE). Rather, crypto processing is moved to a kernel TLS module\n  (kTLS), which may leverage inline TLS acceleration offered by\n  network devices. Transmitted packets of offloaded TLS connections\n  pass through the stack unencrypted, and are processed on the fly by\n  the device. Similarly, received packets are decrypted by the device\n  before being handed off to the stack.\n\n\n\n\n\n  We will describe the roles and requirements of the kTLS module,\n  specify the device offload APIs, and detail the TLS processing\n  flows. Finally, we will demonstrate the potential performance\n  benefits of network device TLS offloads.",
+      "description_html": "<div><p>\n  Encrypted Internet traffic is becoming the norm, spearheaded by\n  Transport Layer Socket (TLS) of TCP connections. This trend\n  introduces a great challenge to data center servers, as the\n  symmetric encryption and authentication of TLS records adds\n  significant CPU overhead. New CPU capabilities, such as the x86\n  AESNI instruction set, alleviate the problem, yet encryption\n  overhead remains high. Alternatively, cryptographic accelerators\n  require dedicated HW, consume significant memory bandwidth, and\n  increase latency.\n</p>\n\n<p>\n  We propose to offload TLS symmetric crypto processing to the network\n  device.  Our solution doesn't require a TCP Offload Engine\n  (TOE). Rather, crypto processing is moved to a kernel TLS module\n  (kTLS), which may leverage inline TLS acceleration offered by\n  network devices. Transmitted packets of offloaded TLS connections\n  pass through the stack unencrypted, and are processed on the fly by\n  the device. Similarly, received packets are decrypted by the device\n  before being handed off to the stack.\n</p>\n\n<p>\n  We will describe the roles and requirements of the kTLS module,\n  specify the device offload APIs, and detail the TLS processing\n  flows. Finally, we will demonstrate the potential performance\n  benefits of network device TLS offloads.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/boris-pismenny.html",
+      "track": "Talk",
+      "speakers": "Boris Pismenny, Ilya Lesokhin, Liran Liss",
+      "date": "2016-10-05",
+      "time": "11:35 - 12:10, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct5/06_netdev1.2_boris_pismenny_TLS_offload.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/boris-pismenny.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=T6ZvLNy8uUw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/boris-pismenny.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/netdevconf-TLS.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/boris-pismenny.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "11:35 - 12:10, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "TLS Offload to Network Devices"
+        }
+      ]
+    },
+    {
+      "id": "david-ahern-talk",
+      "url": "https://netdevconf.info/1.2/session.html?david-ahern-talk",
+      "title": "What is an L3 Master Device?",
+      "listing_title": "What is an L3 Master Device?",
+      "description": "The L3 Master Device (l3mdev) concept was introduced to the Linux\n  networking stack in v4.4. While it was created for the VRF\n  implementation, it is a separate API that can be leveraged by other\n  drivers that want to manipulate packets at layer 3 or want to\n  influence FIB lookups. This talk will do a deep dive into the l3mdev\n  implementation discussing the hooks in the IPv4 and IPv6 networking\n  stack and the driver API, why they are needed and what they\n  provide. The VRF driver provides an example of what can be done in\n  each of the driver hooks.",
+      "description_html": "<div><p>\n  The L3 Master Device (l3mdev) concept was introduced to the Linux\n  networking stack in v4.4. While it was created for the VRF\n  implementation, it is a separate API that can be leveraged by other\n  drivers that want to manipulate packets at layer 3 or want to\n  influence FIB lookups. This talk will do a deep dive into the l3mdev\n  implementation discussing the hooks in the IPv4 and IPv6 networking\n  stack and the driver API, why they are needed and what they\n  provide. The VRF driver provides an example of what can be done in\n  each of the driver hooks.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/david-ahern-talk.html",
+      "track": "David Ahern",
+      "speakers": "Talk",
+      "date": "2016-10-06",
+      "time": "9:35 - 10:10, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct6/02_ahern_what_is_l3mdev_slides.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/david-ahern-talk.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=FDv4KbHzUYY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/david-ahern-talk.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/ahern-what-is-l3mdev-paper.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/david-ahern-talk.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "9:35 - 10:10, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "What is an L3 Master Device?"
+        }
+      ]
+    },
+    {
+      "id": "eric-leblond",
+      "url": "https://netdevconf.info/1.2/session.html?eric-leblond",
+      "title": "The adventures of a Suricate in eBPF land",
+      "listing_title": "The adventures of a Suricate in eBPF land",
+      "description": "Suricata is an open source network intrusion detection and\n  prevention system. One of its packet capture method is\n  AF_PACKET. Linux kernel has been recently enhanced with support\n  extended Berkeley Packet Filter used in AF_PACKET as filter and as\n  cluster function. The cluster/load balancing function allows the\n  user to define advanced strategy of load sharing and the eBPF\n  filtering has been used to provide a bypass functionality in\n  Suricata.  This talk will present how these two functionalities have\n  been added to Suricata and what have been the difficulties in\n  implementing them.",
+      "description_html": "<div><p>\n  Suricata is an open source network intrusion detection and\n  prevention system. One of its packet capture method is\n  AF_PACKET. Linux kernel has been recently enhanced with support\n  extended Berkeley Packet Filter used in AF_PACKET as filter and as\n  cluster function. The cluster/load balancing function allows the\n  user to define advanced strategy of load sharing and the eBPF\n  filtering has been used to provide a bypass functionality in\n  Suricata.  This talk will present how these two functionalities have\n  been added to Suricata and what have been the difficulties in\n  implementing them.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/eric-leblond.html",
+      "track": "Talk",
+      "speakers": "Eric Leblond",
+      "date": "2016-10-06",
+      "time": "16:50 - 17:25, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct6/10_suricata_ebpf.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/eric-leblond.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=_UJiyCMb2IM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/eric-leblond.html"
+        }
+      ],
+      "material_notes": [
+        "paper (to be added)"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "16:50 - 17:25, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "The adventures of a Suricata in eBPF land"
+        }
+      ]
+    },
+    {
+      "id": "gilad-ben-yossef",
+      "url": "https://netdevconf.info/1.2/session.html?gilad-ben-yossef",
+      "title": "Accelerating Linux IP Virtual Server with OpenNPU",
+      "listing_title": "Accelerating Linux IP Virtual Server with OpenNPU",
+      "description": "The Linux IP Virtual Server is a layer 4 stateful load balancer\n  whose data path is implemented as a Linux networking stack kernel\n  module. It has been upstream for over 10 years and has had a good\n  user community including the likes of Wikipedia, Uber and Google but\n  has lately been losing traction to independent re-implementation\n  over user space network stacks.\n\n\n\n\n\n  This talk will describe Accelerated Linux IP Virtual Server – an\n  extension to IPVS comprised of a port of the kernel data path to the\n  NPS network processor over the open source OpenNPU[1] APIs which\n  takes Linux virtual Server from 1 Gbps to 400 Gbps with hundreds of\n  millions of concurrent flows and a flow set up rate of several\n  millions.\n\n\n\n\n\n   The talk will provide some background on OpenNPU, explore ALVS\n   itself and how it is built as well as touch upon the more general\n   subject of how to better integrate an NPU as part of the Linux\n   kernel networking stack moving forward.\n\n\n\n\n\n  [1]:  http://opennpu.org .",
+      "description_html": "<div><p>\n  The Linux IP Virtual Server is a layer 4 stateful load balancer\n  whose data path is implemented as a Linux networking stack kernel\n  module. It has been upstream for over 10 years and has had a good\n  user community including the likes of Wikipedia, Uber and Google but\n  has lately been losing traction to independent re-implementation\n  over user space network stacks.\n</p>\n\n<p>\n  This talk will describe Accelerated Linux IP Virtual Server – an\n  extension to IPVS comprised of a port of the kernel data path to the\n  NPS network processor over the open source OpenNPU[1] APIs which\n  takes Linux virtual Server from 1 Gbps to 400 Gbps with hundreds of\n  millions of concurrent flows and a flow set up rate of several\n  millions.\n</p>\n\n<p>\n   The talk will provide some background on OpenNPU, explore ALVS\n   itself and how it is built as well as touch upon the more general\n   subject of how to better integrate an NPU as part of the Linux\n   kernel networking stack moving forward.\n</p>\n\n<p>\n  [1]: <a href=\"http://opennpu.org\"> http://opennpu.org </a>.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/gilad-ben-yossef.html",
+      "track": "Talk",
+      "speakers": "Gilad Ben-Yossef",
+      "date": "2016-10-07",
+      "time": "9:35 - 10:10, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct7/02_ALVS_netdev_slides.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/gilad-ben-yossef.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=a4y7VuvyLts",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/gilad-ben-yossef.html"
+        }
+      ],
+      "material_notes": [
+        "paper (to be added)"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "9:35 - 10:10, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Accelerating Linux IP Virtual Server with OpenNPU"
+        }
+      ]
+    },
+    {
+      "id": "daniel-borkmann",
+      "url": "https://netdevconf.info/1.2/session.html?daniel-borkmann",
+      "title": "Advanced programmability and recent updates with tc's cls_bpf",
+      "listing_title": "Advanced programmability and recent updates with tc's cls_bpf",
+      "description": "In the last netdev talk entitled \"On getting tc classifier fully\n  programmable with cls_bpf.\" we gave a general introduction to what\n  eBPF is, how it ties into the Linux kernel and elaborated on how tc\n  is making use of it. Since then, many new eBPF related features have\n  found its way upstream to further improve data path programmability.\n\n\n\n\n\n  This talk is intended as a continuation and complements the previous\n  discussion around eBPF by presenting some of the more advanced\n  features along with examples for cls_bpf, such as tunneling helpers\n  for encapsulation protocols to be used with vxlan, geneve and gre,\n  the new event output helper as well as cgroup v2 support. The talk\n  will also present current challenges that need to be tackled in the\n  foreseeable future.",
+      "description_html": "<div><p>\n  In the last netdev talk entitled \"On getting tc classifier fully\n  programmable with cls_bpf.\" we gave a general introduction to what\n  eBPF is, how it ties into the Linux kernel and elaborated on how tc\n  is making use of it. Since then, many new eBPF related features have\n  found its way upstream to further improve data path programmability.\n</p>\n\n<p>\n  This talk is intended as a continuation and complements the previous\n  discussion around eBPF by presenting some of the more advanced\n  features along with examples for cls_bpf, such as tunneling helpers\n  for encapsulation protocols to be used with vxlan, geneve and gre,\n  the new event output helper as well as cgroup v2 support. The talk\n  will also present current challenges that need to be tackled in the\n  foreseeable future.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/daniel-borkmann.html",
+      "track": "Talk",
+      "speakers": "Daniel Borkmann",
+      "date": "2016-10-07",
+      "time": "14:20 - 14:55, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct7/07_advanced_programmability_and_recent_updates_with_tc_cls_bpf.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/daniel-borkmann.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=GwT9hRiqdUo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/daniel-borkmann.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/borkmann.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/daniel-borkmann.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "14:20 - 14:55, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Advanced programmability and recent updates with tc's cls_bpf"
+        }
+      ]
+    },
+    {
+      "id": "nishit-shah",
+      "url": "https://netdevconf.info/1.2/session.html?nishit-shah",
+      "title": "Linux Forwarding Stack Fastpath",
+      "listing_title": "Linux Forwarding Stack Fastpath",
+      "description": "With this implementation, we attempted to address current challenges\n  we are facing in forwarding packets at high/line rate.\n\n\n\n\n\n  This is an in-kernel implementation using some well-known\n  techniques, mainly,\n\n\n\n\n\n\n   Modified Packet Rx/Tx using Zero-copy Netmap\n    (http://info.iet.unipi.it/~luigi/netmap/)\n    rings,\n  \n\n\n  \n     Avoid per packet skb allocation/deallocation \n\n\n     Small metadata to take advantage of L2 cache\n\n\n     Batch Mode Processing, \n\n\n    \n      \n\tOn Receive side, NAPI callbacks are modified in a way that\n\tinstead of waking up user space process, packets are processed\n\tinside kernel in a batch\n      \n\n\n       \n\tOn Transmit side, only the packet pointers are moved from\n\trx-rings to tx-rings, transmit signals are issued to NIC for\n\tbatch mode transmit and doing nothing on 'Transmit Done'\n      \n\n\n    \n  \n\n   Receive side L2 prefetching (from DPDK) \n\n\n  \n     On having N packets in NAPI callback, \n\n\n    \n       Prefetch first 3 packets \n\n\n       Process 1st packet & prefetch 4th packet, process 2nd\n      packet & prefetch 5th packet and so on until Nth packet \n\n\n    \n  \n\n   Multicore Scalability \n\n\n  \n     Same number of rx/tx rings as number of cores with each\n    rx<n>/tx<n> ring binded with core<n> \n\n\n     When we have packet on rx<n> binded on core<n>,\n    same will be sent via tx<n> \n\n\n    \n       Requires per CPU locks and eliminates global lock in\n      fastpath \n\n\n    \n  \n\n   Co-existence of fast-path and kernel network stack \n\n\n  \n     To take advantage of fastpath, existing code is modified in a\n    way that same code is used but decoupled from skbs \n\n\n    \n       Currently supported: Routing, Connection Tracking,\n      NATing \n\n\n    \n     Packets those are not supported in fastpath, are sent to\n    kernel network stack (by allocating a skb and copying the\n    data) \n\n\n    \n       Plain Routing: ARP packets, Fragmented packets, IP packets\n      with options, packets without neighbor cache are currently sent\n      to kernel network stack\n      \n\n\n       Statefull Firewall: \n\n\n      \n\t First packet of the connection is sent to kernel network\n\tstack \n\n\n\t At time of connection confirm, stack can indicate fastpath\n\tprocessing by setting FAST_PATH bit in conntrack which is then\n\tused in fastpath code \n\n\n      \n    \n  \n\n\n\n\n  Above implementation gained 6x-7x performance in routing and 5x-6x\n  in statefull firewalling.\n\n\n\n\n TODOs & Discussion: \n\n\n\n\n\n   Packet/Buffer holding support in Netmap rings \n\n\n   Avoid data copies when sending packets to kernel network stack \n\n\n   Fastpath Porting: Bridge, iptables/ipset/nftables, xfrm, QoS",
+      "description_html": "<div><p>\n  With this implementation, we attempted to address current challenges\n  we are facing in forwarding packets at high/line rate.\n</p>\n\n<p>\n  This is an in-kernel implementation using some well-known\n  techniques, mainly,\n</p>\n\n<ul>\n\n  <li> Modified Packet Rx/Tx using Zero-copy Netmap\n    (<a href=\"http://info.iet.unipi.it/~luigi/netmap/\">http://info.iet.unipi.it/~luigi/netmap/</a>)\n    rings,\n  </li>\n  <ul>\n    <li> Avoid per packet skb allocation/deallocation </li>\n    <li> Small metadata to take advantage of L2 cache</li>\n    <li> Batch Mode Processing, </li>\n    <ul>\n      <li>\n\tOn Receive side, NAPI callbacks are modified in a way that\n\tinstead of waking up user space process, packets are processed\n\tinside kernel in a batch\n      </li>\n      <li> \n\tOn Transmit side, only the packet pointers are moved from\n\trx-rings to tx-rings, transmit signals are issued to NIC for\n\tbatch mode transmit and doing nothing on 'Transmit Done'\n      </li>\n    </ul>\n  </ul>\n\n  <li> Receive side L2 prefetching (from DPDK) </li>\n  <ul>\n    <li> On having N packets in NAPI callback, </li>\n    <ul>\n      <li> Prefetch first 3 packets </li>\n      <li> Process 1st packet &amp; prefetch 4th packet, process 2nd\n      packet &amp; prefetch 5th packet and so on until Nth packet </li>\n    </ul>\n  </ul>\n\n  <li> Multicore Scalability </li>\n  <ul>\n    <li> Same number of rx/tx rings as number of cores with each\n    rx&lt;n&gt;/tx&lt;n&gt; ring binded with core&lt;n&gt; </li>\n    <li> When we have packet on rx&lt;n&gt; binded on core&lt;n&gt;,\n    same will be sent via tx&lt;n&gt; </li>\n    <ul>\n      <li> Requires per CPU locks and eliminates global lock in\n      fastpath </li>\n    </ul>\n  </ul>\n\n  <li> Co-existence of fast-path and kernel network stack </li>\n  <ul>\n    <li> To take advantage of fastpath, existing code is modified in a\n    way that same code is used but decoupled from skbs </li>\n    <ul>\n      <li> Currently supported: Routing, Connection Tracking,\n      NATing </li>\n    </ul>\n    <li> Packets those are not supported in fastpath, are sent to\n    kernel network stack (by allocating a skb and copying the\n    data) </li>\n    <ul>\n      <li> Plain Routing: ARP packets, Fragmented packets, IP packets\n      with options, packets without neighbor cache are currently sent\n      to kernel network stack\n      </li>\n      <li> Statefull Firewall: </li>\n      <ul>\n\t<li> First packet of the connection is sent to kernel network\n\tstack </li>\n\t<li> At time of connection confirm, stack can indicate fastpath\n\tprocessing by setting FAST_PATH bit in conntrack which is then\n\tused in fastpath code </li>\n      </ul>\n    </ul>\n  </ul>\n</ul>\n\n\n<p>\n  Above implementation gained 6x-7x performance in routing and 5x-6x\n  in statefull firewalling.\n</p>\n\n<p> TODOs &amp; Discussion: </p><p>\n</p><ul>\n  <li> Packet/Buffer holding support in Netmap rings </li>\n  <li> Avoid data copies when sending packets to kernel network stack </li>\n  <li> Fastpath Porting: Bridge, iptables/ipset/nftables, xfrm, QoS </li>\n</ul>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/nishit-shah.html",
+      "track": "Talk",
+      "speakers": "Nishit Shah, Jagdish Motwani",
+      "date": "2016-10-07",
+      "time": "10:10 - 10:45, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct7/03_Linux_Forwarding_Stack_Fastpath.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/nishit-shah.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=DTPxGXjJhPk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/nishit-shah.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/Linux_Forwarding_Stack_Fastpath_Paper.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/nishit-shah.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "10:10 - 10:45, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Linux Forwarding Stack Fastpath"
+        }
+      ]
+    },
+    {
+      "id": "stephen-hemminger",
+      "url": "https://netdevconf.info/1.2/session.html?stephen-hemminger",
+      "title": "VNIC offloads fact or fiction?",
+      "listing_title": "VNIC offloads fact or fiction?",
+      "description": "Virtual networking interfaces like virtio, vmxnet3, netvsc, and Xen\n  net-front are the most common way networking is done with VM's.\n  Many features and optimizations have been done to try and improve\n  the performance. This talk is about a comparison of the current\n  state of each different interface type, and the impact on\n  performance.",
+      "description_html": "<div><p>\n  Virtual networking interfaces like virtio, vmxnet3, netvsc, and Xen\n  net-front are the most common way networking is done with VM's.\n  Many features and optimizations have been done to try and improve\n  the performance. This talk is about a comparison of the current\n  state of each different interface type, and the impact on\n  performance.\n</p>\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/stephen-hemminger.html",
+      "track": "Talk",
+      "speakers": "Stephen Hemminger",
+      "date": "2016-10-05",
+      "time": "16:50 - 17:25, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct5/10_East_West_Performance.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/stephen-hemminger.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=NjlyutCppcU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/stephen-hemminger.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/east-west-networks.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/stephen-hemminger.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "16:50 - 17:25, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "VNIC offloads fact or fiction"
+        }
+      ]
+    },
+    {
+      "id": "tom-herbert",
+      "url": "https://netdevconf.info/1.2/session.html?tom-herbert",
+      "title": "Data center networking stack",
+      "listing_title": "Data center networking stack",
+      "description": "This talk will cover the \"Data Center Networking Stack\" which we are\n  deploying Facebook. This will cover the overall architecture of the\n  software stack in the datacenter and several of the \"disruptive\n  technologies\" that are dramatically changing how think about network\n  stacks in the datacenter.\n\n\n\n\n\n\n  At the network layer we describe the issues and benefits encountered\n  in deploying IPv6-only datacenters. A major motivation for IPv6 is\n  that it is an enables truly scalable network virtualization; we\n  describe how we are using Identifier Locator Addressing (ILA) to\n  virtualize the datacenter. At the transport layer we describe our\n  implementation of Data Center TCP (DCTCP). Our goal for security in\n  the datacenter is to encrypt all data in flight all the time; TLS\n  and DTLS in the kernel are major steps to achieve that. At the\n  application layer we implementing Kernel Connection Multiplexor\n  (KCM); this provides a datagram API over TCP which is a more natural\n  fit for the ubiquitous RPC communications model. At the driver layer\n  we are using eXpress Data Path (XDP) to efficiently implement\n  middlebox-like functionality in the kernel. At the device layer we\n  are advocating programming flexible hardware implementations that\n  implement generic protocol features instead of narrow protocol\n  specific mechanisms; we are also working with vendors on\n  programmable hardware (such as with BPF/XDP) and also on feasible\n  crypto offloads.",
+      "description_html": "<div><p>\n  This talk will cover the \"Data Center Networking Stack\" which we are\n  deploying Facebook. This will cover the overall architecture of the\n  software stack in the datacenter and several of the \"disruptive\n  technologies\" that are dramatically changing how think about network\n  stacks in the datacenter.\n</p>\n\n\n<p>\n  At the network layer we describe the issues and benefits encountered\n  in deploying IPv6-only datacenters. A major motivation for IPv6 is\n  that it is an enables truly scalable network virtualization; we\n  describe how we are using Identifier Locator Addressing (ILA) to\n  virtualize the datacenter. At the transport layer we describe our\n  implementation of Data Center TCP (DCTCP). Our goal for security in\n  the datacenter is to encrypt all data in flight all the time; TLS\n  and DTLS in the kernel are major steps to achieve that. At the\n  application layer we implementing Kernel Connection Multiplexor\n  (KCM); this provides a datagram API over TCP which is a more natural\n  fit for the ubiquitous RPC communications model. At the driver layer\n  we are using eXpress Data Path (XDP) to efficiently implement\n  middlebox-like functionality in the kernel. At the device layer we\n  are advocating programming flexible hardware implementations that\n  implement generic protocol features instead of narrow protocol\n  specific mechanisms; we are also working with vendors on\n  programmable hardware (such as with BPF/XDP) and also on feasible\n  crypto offloads.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/tom-herbert.html",
+      "track": "Talk",
+      "speakers": "Tom Herbert",
+      "date": "2016-10-06",
+      "time": "16:15 - 16:50, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=bwoTqnyR3jo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/tom-herbert.html"
+        }
+      ],
+      "material_notes": [
+        "slides (to be added)",
+        "paper (to be added)"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "16:15 - 16:50, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Data Center Networking Stack"
+        }
+      ]
+    },
+    {
+      "id": "anjali-singhai",
+      "url": "https://netdevconf.info/1.2/session.html?anjali-singhai",
+      "title": "Single Virtual function driver for current and future Intel Network devices",
+      "listing_title": "Single Virtual function driver for current and future Intel Network devices",
+      "description": "Intel is making its Virtual function driver hardware agnostic. We\n  can now support future devices in the same Virtual function driver\n  that is available today*. This was done by preserving a common\n  minimum hardware to host interface definition for future generations\n  of products.  This also required defining a generic/extensible\n  Software virtual channel which is based on a hardware mailbox. With\n  this solution we can provide a driver that one can install in a\n  virtual machine today that will work on future hardware releases\n  that support minimum Virtual function base definition. This talk\n  will focus on what we did to make it work and how it helps the\n  user. Since we have a stable Virtual channel interface definition\n  that all Intel physical function drivers will support, it enables\n  further use of this interface for non-Intel virtual function drivers\n  as well. Our goal is to support future devices and its advanced\n  feature needs in the same VF driver while always having a driver out\n  in the market that will work with any new Intel device providing\n  basic network capabilities.\n\n\n\n\n\n  Problem Statement: Most cloud vendors want a stable VF driver that\n  works on a mix of Intel products, and can be deployed with frozen VM\n  images that work even when underlying Network hardware goes through\n  updates.\n\n\n\n\n\n  Solution:\n\n\n\n\n\n   A common VF driver for multiple HW generations, a VF driver\n  that is hardware agnostic. \n\n\n   This is useful because VM images don't have to change when new\n  hardware comes out. \n\n\n   Feature negotiation with the physical function driver to\n  support beyond base features. \n\n\n   The interface is ready for future expansion to take the VF\n  driver/device from a simple network Interface for cloud to more\n  involved Network Function Virtualization uses.",
+      "description_html": "<div><p>\n  Intel is making its Virtual function driver hardware agnostic. We\n  can now support future devices in the same Virtual function driver\n  that is available today*. This was done by preserving a common\n  minimum hardware to host interface definition for future generations\n  of products.  This also required defining a generic/extensible\n  Software virtual channel which is based on a hardware mailbox. With\n  this solution we can provide a driver that one can install in a\n  virtual machine today that will work on future hardware releases\n  that support minimum Virtual function base definition. This talk\n  will focus on what we did to make it work and how it helps the\n  user. Since we have a stable Virtual channel interface definition\n  that all Intel physical function drivers will support, it enables\n  further use of this interface for non-Intel virtual function drivers\n  as well. Our goal is to support future devices and its advanced\n  feature needs in the same VF driver while always having a driver out\n  in the market that will work with any new Intel device providing\n  basic network capabilities.\n</p>\n\n<p>\n  Problem Statement: Most cloud vendors want a stable VF driver that\n  works on a mix of Intel products, and can be deployed with frozen VM\n  images that work even when underlying Network hardware goes through\n  updates.\n</p>\n\n<p>\n  Solution:\n</p>\n\n<ol>\n  <li> A common VF driver for multiple HW generations, a VF driver\n  that is hardware agnostic. </li>\n  <li> This is useful because VM images don't have to change when new\n  hardware comes out. </li>\n  <li> Feature negotiation with the physical function driver to\n  support beyond base features. </li>\n  <li> The interface is ready for future expansion to take the VF\n  driver/device from a simple network Interface for cloud to more\n  involved Network Function Virtualization uses. </li>\n</ol>\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/anjali-singhai.html",
+      "track": "Talk",
+      "speakers": "Anjali Singhai Jain, Mitch Williams, Jesse Brandeburg",
+      "date": "2016-10-06",
+      "time": "11:35 - 12:10, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct6/05_Single_Virtual_function_driver_for_current_and_future.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/anjali-singhai.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=eo8SqFAR550",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/anjali-singhai.html"
+        }
+      ],
+      "material_notes": [
+        "paper (to be added)"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "11:35 - 12:10, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Single Virtual function driver for current and future Intel Network devices"
+        }
+      ]
+    },
+    {
+      "id": "toshiaki-makita",
+      "url": "https://netdevconf.info/1.2/session.html?toshiaki-makita",
+      "title": "Stacked Vlan: Performance Improvement and Challenges",
+      "listing_title": "Stacked Vlan: Performance Improvement and Challenges",
+      "description": "802.1ad vlan protocol type was introduced in kernel 3.10, which has\n  encouraged use of stacked vlan on Linux. With it, people can\n  integrate Linux servers into Ethernet VPN, e.g. Metro Ethernet,\n  which is a typical use case of 802.1ad.\n\n\n\n\n\n  802.1ad and stacked vlan have suffered from several problems around\n  performance and usability, which were discussed in the previous\n  Netdev conference, 0.1.\n\n\n\n\n\n  Since then, performance has been significantly improved by modifying\n  kernel networking core to enable offloading features such as\n  Tx-Checksumming and GRO when handling stacked vlan.  However, fixing\n  kernel networking core is not sufficient.  There are several\n  important features that require NIC/driver-level support, like\n  Rx-Checksumming, RSS, TSO.  This talk will introduce how kernel\n  networking core handles offloading features with stacked vlan\n  frames, and clarify what kind of modification is needed for\n  NICs/drivers to enable missing key features.\n\n\n\n\n\n  Solution of the usability problem is still a work in progress. The\n  problem is that double tagged frames are dropped by default due to\n  oversize error on NICs that receive them. This problem will also be\n  discussed in this talk.",
+      "description_html": "<div><p>\n  802.1ad vlan protocol type was introduced in kernel 3.10, which has\n  encouraged use of stacked vlan on Linux. With it, people can\n  integrate Linux servers into Ethernet VPN, e.g. Metro Ethernet,\n  which is a typical use case of 802.1ad.\n</p>\n\n<p>\n  802.1ad and stacked vlan have suffered from several problems around\n  performance and usability, which were discussed in the previous\n  Netdev conference, 0.1.\n</p>\n\n<p>\n  Since then, performance has been significantly improved by modifying\n  kernel networking core to enable offloading features such as\n  Tx-Checksumming and GRO when handling stacked vlan.  However, fixing\n  kernel networking core is not sufficient.  There are several\n  important features that require NIC/driver-level support, like\n  Rx-Checksumming, RSS, TSO.  This talk will introduce how kernel\n  networking core handles offloading features with stacked vlan\n  frames, and clarify what kind of modification is needed for\n  NICs/drivers to enable missing key features.\n</p>\n\n<p>\n  Solution of the usability problem is still a work in progress. The\n  problem is that double tagged frames are dropped by default due to\n  oversize error on NICs that receive them. This problem will also be\n  discussed in this talk.\n</p>\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/toshiaki-makita.html",
+      "track": "Talk",
+      "speakers": "Toshiaki Makita",
+      "date": "2016-10-05",
+      "time": "17:25 - 18:00, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct5/11_netdev1.2_stackedvlan_makita.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/toshiaki-makita.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=KFrE3T8BS2w",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/toshiaki-makita.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/netdev1.2_stackedvlan_makita_v2.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/toshiaki-makita.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "17:25 - 18:00, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Stacked Vlan: Performance Improvement and Challenges"
+        }
+      ]
+    },
+    {
+      "id": "jakub-kicinski",
+      "url": "https://netdevconf.info/1.2/session.html?jakub-kicinski",
+      "title": "eBPF/XDP hardware offload to SmartNICs",
+      "listing_title": "eBPF/XDP hardware offload to SmartNICs",
+      "description": "Description: This talk will lay out a method we use to offload\n  eBPF/XDP programs to SmartNICs, which allows the general\n  acceleration of any eBPF/XDP programs.  We will concentrate on\n  kernel infrastructure which we developed and the in-kernel\n  JIT/translator while covering the HW architecture to the necessary\n  degree.\n\n\n\n\n\n  This talk will cover:\n\n\n\n\n\n  a) Overview: The high level model for offload - What we are\n  offloading, the hooks, overall programmer model for transparent\n  offload (i.e without the programmer having to do anything special)\n\n\n\n\n\n  b) Hardware: intro to NFP (Network Flow Processor) architecture.\n  The packet path, the chip layout, the microengines, the memory\n  architecture\n\n\n\n\n\n  c) Implementation: details of new kernel infrastructure: TC, XDP,\n  additions to eBPF verifier, map hooks.\n\n\n\n\n\n  d) Implementation: mapping of eBPF bytecode to NFP assembler: The\n  Bytecode, NFP Assembler, Dealing with non-linear mappings\n\n\n\n\n\n  e) Implementation: eBPF JIT for 32bit architecture, methods of A/B\n  register allocation\n\n\n\n\n\n  f) Implementation: offloading maps to a device with separate memory\n  domain\n\n\n\n\n\n  g) Optimization: The use multithreading to accelerate the\n  programs-applying time multiplexed multithreading to eBPF\n  transparently\n\n\n\n\n\n  h) Demo\n\n\n\n\n\n  i) Challenges: problems we faced, lessons we learnt, suggestions on\n  making hardware offloads easier.\n\n\n\n\n\n  j) Future work: Parsing and encryption engines",
+      "description_html": "<div><p>\n  Description: This talk will lay out a method we use to offload\n  eBPF/XDP programs to SmartNICs, which allows the general\n  acceleration of any eBPF/XDP programs.  We will concentrate on\n  kernel infrastructure which we developed and the in-kernel\n  JIT/translator while covering the HW architecture to the necessary\n  degree.\n</p>\n\n<p>\n  This talk will cover:\n</p>\n\n<p>\n  a) Overview: The high level model for offload - What we are\n  offloading, the hooks, overall programmer model for transparent\n  offload (i.e without the programmer having to do anything special)\n</p>\n\n<p>\n  b) Hardware: intro to NFP (Network Flow Processor) architecture.\n  The packet path, the chip layout, the microengines, the memory\n  architecture\n</p>\n\n<p>\n  c) Implementation: details of new kernel infrastructure: TC, XDP,\n  additions to eBPF verifier, map hooks.\n</p>\n\n<p>\n  d) Implementation: mapping of eBPF bytecode to NFP assembler: The\n  Bytecode, NFP Assembler, Dealing with non-linear mappings\n</p>\n\n<p>\n  e) Implementation: eBPF JIT for 32bit architecture, methods of A/B\n  register allocation\n</p>\n\n<p>\n  f) Implementation: offloading maps to a device with separate memory\n  domain\n</p>\n\n<p>\n  g) Optimization: The use multithreading to accelerate the\n  programs-applying time multiplexed multithreading to eBPF\n  transparently\n</p>\n\n<p>\n  h) Demo\n</p>\n\n<p>\n  i) Challenges: problems we faced, lessons we learnt, suggestions on\n  making hardware offloads easier.\n</p>\n\n<p>\n  j) Future work: Parsing and encryption engines\n</p>\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/jakub-kicinski.html",
+      "track": "Talk",
+      "speakers": "Jakub Kicinski, Nic Viljoen",
+      "date": "2016-10-07",
+      "time": "16:50 - 17:25, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct7/10_nic_viljoen_eBPF_Offload_to_Hardware__cls_bpf_and_XDP_finalised.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jakub-kicinski.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=-5BzT1ch19s",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jakub-kicinski.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/eBPF_HW_OFFLOAD.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jakub-kicinski.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "16:50 - 17:25, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "eBPF/XDP hardware offload to SmartNICs"
+        }
+      ]
+    },
+    {
+      "id": "rony-efraim-1",
+      "url": "https://netdevconf.info/1.2/session.html?rony-efraim-1",
+      "title": "Using SR-IOV offload with application like openVswitch",
+      "listing_title": "Using SR-IOV offload with application like openVswitch",
+      "description": "The purpose of this talk is to introduce a method of using\n  switchdev's SR-IOV offloads for switch application such as\n  openVswitch.  Switch Applications (like OVS) shall use VF\n  representor netdevs and uplink port in order to receive packets. In\n  addition the applications shall use TC in order to config forwarding\n  rules.\n\n\n\n\n The session will cover the flowing topics: \n\n\n\n   Flow aging & counters. \n\n\n   Use the kernel as a slow path. \n\n\n   Vxlan offload. \n\n\n   Example of openVswitch.",
+      "description_html": "<div><p>\n  The purpose of this talk is to introduce a method of using\n  switchdev's SR-IOV offloads for switch application such as\n  openVswitch.  Switch Applications (like OVS) shall use VF\n  representor netdevs and uplink port in order to receive packets. In\n  addition the applications shall use TC in order to config forwarding\n  rules.\n</p>\n\n<p> The session will cover the flowing topics: </p>\n<ul>\n  <li> Flow aging &amp; counters. </li>\n  <li> Use the kernel as a slow path. </li>\n  <li> Vxlan offload. </li>\n  <li> Example of openVswitch. </li>\n</ul>\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/rony-efraim-1.html",
+      "track": "Talk",
+      "speakers": "Rony Efraim, Or Gerlitz",
+      "date": "2016-10-07",
+      "time": "17:25 - 18:00, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct7/11_rony_efraim_sriov_ovs.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/rony-efraim-1.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=r043RtJn0CM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/rony-efraim-1.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/efraim-gerlitz-sriov-ovs-final.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/rony-efraim-1.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "17:25 - 18:00, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Using SR-IOV offload with application like openVswitch"
+        }
+      ]
+    },
+    {
+      "id": "roopa-prabhu",
+      "url": "https://netdevconf.info/1.2/session.html?roopa-prabhu",
+      "title": "Network interface configuration on a Linux NOS",
+      "listing_title": "Network interface configuration on a Linux NOS",
+      "description": "Network Interface configuration is tailored to a Linux distributions\nneeds. Most Linux network interface managers use Linux networking API\nand Linux native networking tools. We believe there should be an\nsingle universal way to configure networking across all Linux\ndistributions. With ifupdown2 we have tried to unify network interface\nconfiguration on servers and switches.\n\n\n\n\n\nIn this talk I plan to cover:\n\n\n\n\n characteristics of Network interface configuration across Linux distributions \n\n\n An effort-to unify network interface configuration on servers and switches using ifupdown2 \n\n\n Network interface configuration on a Linux NOS: \n\n\n\n link settings\n\n\n bonding\n\n\n l2 config using traditional and vlan filtering bridge\n\n\n spanning tree protocol\n\n\n hardware vxlan tunnel endpoints\n\n\n virtual redundant router config\n\n\n vrfs",
+      "description_html": "<div><p>\nNetwork Interface configuration is tailored to a Linux distributions\nneeds. Most Linux network interface managers use Linux networking API\nand Linux native networking tools. We believe there should be an\nsingle universal way to configure networking across all Linux\ndistributions. With ifupdown2 we have tried to unify network interface\nconfiguration on servers and switches.\n</p>\n\n<p>\nIn this talk I plan to cover:\n\n</p><ul>\n<li> characteristics of Network interface configuration across Linux distributions </li>\n<li> An effort-to unify network interface configuration on servers and switches using ifupdown2 </li>\n<li> Network interface configuration on a Linux NOS: </li>\n<ul>\n <li>link settings</li>\n <li>bonding</li>\n <li>l2 config using traditional and vlan filtering bridge</li>\n <li>spanning tree protocol</li>\n <li>hardware vxlan tunnel endpoints</li>\n <li>virtual redundant router config</li>\n <li>vrfs</li>\n</ul>\n</ul>\n\n\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/roopa-prabhu.html",
+      "track": "Talk",
+      "speakers": "Roopa Prabhu",
+      "date": "2016-10-06",
+      "time": "17:25 - 18:00, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct6/11_network_interface_config_on_a_NOS_roopa_prabhu.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/roopa-prabhu.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=mCgbc3E2TYc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/roopa-prabhu.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://netdevconf.info/1.2/papers/network_interface_configuration_linux_NOS.pdf",
+          "kind": "paper",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/roopa-prabhu.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "17:25 - 18:00, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Network interface configuration on a Linux NOS"
+        }
+      ]
+    },
+    {
+      "id": "andrew-yongjoon-kong",
+      "url": "https://netdevconf.info/1.2/session.html?andrew-yongjoon-kong",
+      "title": "Scalable VM and container Networking using /32bit subnet and BGP Routing",
+      "listing_title": "Scalable VM and container Networking using /32bit subnet and BGP Routing",
+      "description": "Overlay network is the most popular choice in dealing with VM networking.\nHowever, overlay networks have a lot of drawbacks in scalability and stability.\nOur experince shows overlays do not handle L3 layers scaling issues well\nin large production environments. To deal with the scalability issue we\nadopted /32bit subnet based network for KVM virtual machines. \n\n\n\n\n\nThis paper examines the challenges we found in regard to increasing speed\nof IP consumption.  We will describe the configurations of hypervisors,\nNetwork switches and how we orchestrate network resources using\nopenstack and compute node's bgp daemons.\nOur desribed setup is currently deployed with more than 15,000 VMs. \n\n\n\n\n\n\nWe plan to cover:\n\n\n\n\nNetwork scaleout scenarios\n\n\nNetwork virtualizations\n\n\nDrawback in L2 and overlay and SDN in terms of scalability\n\n\nSolution against L2 connectivity\n\n\nManaging Datacenter network using openstack and bpg speakers",
+      "description_html": "<div><p>\nOverlay network is the most popular choice in dealing with VM networking.\nHowever, overlay networks have a lot of drawbacks in scalability and stability.\nOur experince shows overlays do not handle L3 layers scaling issues well\nin large production environments. To deal with the scalability issue we\nadopted /32bit subnet based network for KVM virtual machines. \n</p>\n\n<p>\nThis paper examines the challenges we found in regard to increasing speed\nof IP consumption.  We will describe the configurations of hypervisors,\nNetwork switches and how we orchestrate network resources using\nopenstack and compute node's bgp daemons.\nOur desribed setup is currently deployed with more than 15,000 VMs. \n</p>\n\n\n<p>\nWe plan to cover:\n\n</p><ul>\n<li>Network scaleout scenarios</li>\n<li>Network virtualizations</li>\n<li>Drawback in L2 and overlay and SDN in terms of scalability</li>\n<li>Solution against L2 connectivity</li>\n<li>Managing Datacenter network using openstack and bpg speakers</li>\n</ul>\n\n\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/andrew-yongjoon-kong.html",
+      "track": "Talk",
+      "speakers": "Andrew yongjoon Kong",
+      "date": "2016-10-07",
+      "time": "16:15 - 16:50, Talk",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct7/09_andrew_kong_netdefconf_2016.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/andrew-yongjoon-kong.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=XXQ26xdM1Jw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/andrew-yongjoon-kong.html"
+        }
+      ],
+      "material_notes": [
+        "paper (to be added)"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "16:15 - 16:50, Talk",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Scalable VM and Container Networking using /32bit subnets and BGP routing"
+        }
+      ]
+    },
+    {
+      "id": "stefan-schmidt",
+      "url": "https://netdevconf.info/1.2/session.html?stefan-schmidt",
+      "title": "Practical Guide to Run an IEEE 802.15.4 Network with 6LoWPAN under Linux",
+      "listing_title": "Practical Guide to Run an IEEE 802.15.4 Network with 6LoWPAN under Linux",
+      "description": "Bringing IP connectivity to tiny devices, like sensors, with just a\n  few kilobytes of RAM and limited battery power is an interesting IoT\n  challenge.  We need to get Linux ready to support the needed\n  wireless standards as well as protocols that connect these tiny\n  devices into the wider internet. To make Linux a practical border\n  router for such networks.\n\n\n\n\n\n  IEEE 802.15.4 is often used for IoT setups where low power and lossy\n  networks are common. This tutorial will demystify how to setup a\n  IEEE 802.15.4 and IETF specified 6LoWPAN adaptation layer for Linux\n  IoT networking. It is hoped that by participating in this tutorial,\n  the attendee should be able to setup his/her own IEEE 802.15.4\n  network.\n\n\n\n\n\n\n\n  The Linux-wpan subsystem, which implements the needed parts for PHY\n  and MAC layer, will be explained and the userspace configuration\n  over netlink will be demonstrated. The instructor will then\n  demonstrate how to establish basic secure communication between IoT\n  nodes and the Linux gateway. The demonstration will include setting\n  up the communication between Linux and other popular IoT operating\n  systems like RIOT or Contiki.\n\n\n\n\n\n  The tutorial will then delve into the 6LoWPAN kernel details of\n  encapsulation, fragmentation and header compression which are\n  crucial to get IPv6 running in such constrained networks.\n\n\n\n\n\n  And lastly the instructor will demonstrate a mesh topology setup use\n  case using the IETF RPL standardization effort.  A mesh topology is\n  often desired for robustness, resiliency and range; while RPL will\n  be demonstrated the instructor will also highlight other upcoming\n  mesh-under protocols.",
+      "description_html": "<div><p>\n  Bringing IP connectivity to tiny devices, like sensors, with just a\n  few kilobytes of RAM and limited battery power is an interesting IoT\n  challenge.  We need to get Linux ready to support the needed\n  wireless standards as well as protocols that connect these tiny\n  devices into the wider internet. To make Linux a practical border\n  router for such networks.\n</p>\n\n<p>\n  IEEE 802.15.4 is often used for IoT setups where low power and lossy\n  networks are common. This tutorial will demystify how to setup a\n  IEEE 802.15.4 and IETF specified 6LoWPAN adaptation layer for Linux\n  IoT networking. It is hoped that by participating in this tutorial,\n  the attendee should be able to setup his/her own IEEE 802.15.4\n  network.\n</p><p>\n\n</p><p>\n  The Linux-wpan subsystem, which implements the needed parts for PHY\n  and MAC layer, will be explained and the userspace configuration\n  over netlink will be demonstrated. The instructor will then\n  demonstrate how to establish basic secure communication between IoT\n  nodes and the Linux gateway. The demonstration will include setting\n  up the communication between Linux and other popular IoT operating\n  systems like RIOT or Contiki.\n</p>\n\n<p>\n  The tutorial will then delve into the 6LoWPAN kernel details of\n  encapsulation, fragmentation and header compression which are\n  crucial to get IPv6 running in such constrained networks.\n</p>\n\n<p>\n  And lastly the instructor will demonstrate a mesh topology setup use\n  case using the IETF RPL standardization effort.  A mesh topology is\n  often desired for robustness, resiliency and range; while RPL will\n  be demonstrated the instructor will also highlight other upcoming\n  mesh-under protocols.\n</p>\n\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/stefan-schmidt.html",
+      "track": "Tutorial",
+      "speakers": "Stefan Schmidt",
+      "date": "2016-10-05",
+      "time": "9:00 - 9:35, Tutorial",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct5/01_stefen_schmidt_netdevconf_2016_linux_wpan_short_version.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/stefan-schmidt.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=XykCwAC5Pdw",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/stefan-schmidt.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "9:00 - 9:35, Tutorial",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Practical Guide to Run an IEEE 802.15.4 Network with 6LoWPAN under Linux"
+        }
+      ]
+    },
+    {
+      "id": "david-ahern",
+      "url": "https://netdevconf.info/1.2/session.html?david-ahern",
+      "title": "Microservice Networking Leveraging VRF on the Host",
+      "listing_title": "Microservice Networking Leveraging VRF on the Host",
+      "description": "Modern data centers are moving to Clos designs that leverage a layer\n  3 fabric to address the many challenges of layer 2\n  architectures. These spine and leaf deployments simplify the network\n  fabric and provide better scalability, reliability and performance,\n  especially for server-to-server connectivity.\n\n\n\n\n\n  The next step in the evolution of this architecture is running\n  standard routing protocols such as BGP on the servers, extending the\n  layer 3 fabric and its benefits to the hosts. Network traffic\n  segmentation for applications running on the hosts is provided by\n  VRF (Virtual Routing and Forwarding), a feature recently added to\n  the Linux networking stack and now appearing in OS distributions\n  such as Ubuntu 16.04.\n\n\n\n\n\n  This tutorial will cover examples of routing on the host using a\n  2-tier Clos topology with hosts connected to multiple leafs for\n  redundancy and enabling ECMP for load balancing. The focus of the\n  tutorial is configuring networking on the host for multitenancy and\n  its integration into the network fabric: Quagga/BGP for route\n  distribution and management, VRF for traffic isolation, the modern\n  ifupdown2 interface manager for configuring interfaces and VRFs, and\n  Docker for managing containers running on the host. While Docker is\n  used as the example for managing multitenant applications, the\n  networking concepts apply to virtual machines and other container\n  technologies as well.",
+      "description_html": "<div><p>\n  Modern data centers are moving to Clos designs that leverage a layer\n  3 fabric to address the many challenges of layer 2\n  architectures. These spine and leaf deployments simplify the network\n  fabric and provide better scalability, reliability and performance,\n  especially for server-to-server connectivity.\n</p>\n\n<p>\n  The next step in the evolution of this architecture is running\n  standard routing protocols such as BGP on the servers, extending the\n  layer 3 fabric and its benefits to the hosts. Network traffic\n  segmentation for applications running on the hosts is provided by\n  VRF (Virtual Routing and Forwarding), a feature recently added to\n  the Linux networking stack and now appearing in OS distributions\n  such as Ubuntu 16.04.\n</p>\n\n<p>\n  This tutorial will cover examples of routing on the host using a\n  2-tier Clos topology with hosts connected to multiple leafs for\n  redundancy and enabling ECMP for load balancing. The focus of the\n  tutorial is configuring networking on the host for multitenancy and\n  its integration into the network fabric: Quagga/BGP for route\n  distribution and management, VRF for traffic isolation, the modern\n  ifupdown2 interface manager for configuring interfaces and VRFs, and\n  Docker for managing containers running on the host. While Docker is\n  used as the example for managing multitenant applications, the\n  networking concepts apply to virtual machines and other container\n  technologies as well.\n</p>\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/david-ahern.html",
+      "track": "Tutorial",
+      "speakers": "David Ahern",
+      "date": "2016-10-07",
+      "time": "9:00 - 9:35, Tutorial",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct7/01_ahern_microservice_net_vrf_on_host.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/david-ahern.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=J8vliS-fZwA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/david-ahern.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "9:00 - 9:35, Tutorial",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Microservice Networking Leveraging VRF on the Host"
+        }
+      ]
+    },
+    {
+      "id": "or-gerlitz",
+      "url": "https://netdevconf.info/1.2/session.html?or-gerlitz",
+      "title": "Introduction to switchdev SR-IOV offloads",
+      "listing_title": "Introduction to switchdev SR-IOV offloads",
+      "description": "The purpose of this tutorial is to bring the audience up to speed on\n  the newly introduced switchdev offloads mode for NIC SR-IOV embedded\n  switches.\n\n\n\n\n\n  Up until recently, the way SR-IOV embedded switches were dealt\n  with in Linux was limited in its expressiveness and flexibility, but\n  this was not necessarily due to hardware limitations. The kernel\n  software model for controlling the SR-IOV switch simply did not\n  allow the configuration of anything more complex than MAC/VLAN based\n  forwarding. We refer to this model as the legacy mode.\n\n\n\n\n\n  With kernel version 4.8-rc1, a new mode (switchdev) for SR-IOV\n  switches was introduced. Similarly to the case of switchdev for\n  switch ASICs, under this mode, we use a SW representation model\n  (here for the SR-IOV E-Switch port) and allow to offload the SW\n  traffic rules to HW.\n\n\n\n\n\n  The new model is based on the introduction of per VF representor\n  host netdevice.  The VF representor plays the same role as TAP\n  devices in Para-Virtual (PV) setup. A packet sent through the VF\n  representor on the host arrives to the VF, and a packet sent through\n  the VF is received by its representor. The administrator can hook\n  the representor netdev into a kernel switching component. Once they\n  do that, packets from the VF are subject to steering (matching and\n  actions) of that software component.\n\n\n\n\n\nAgenda:\n\n\n\nintroduction to SR-IOV VF representor netdevices\n\n\nintroduction to SR-IOV offloaded TC/flower filters/actions\n\n\npresent/discuss the current state of upstreaming (offloading vlans, tunneling)\n\n\npresent recorded demo of setting switchdev SR-IOV based setup\n\n\ndiscuss future extensions: HA/LAG, L3 (virtual router)",
+      "description_html": "<div><p>\n  The purpose of this tutorial is to bring the audience up to speed on\n  the newly introduced switchdev offloads mode for NIC SR-IOV embedded\n  switches.\n</p>\n\n<p>\n  Up until recently, the way SR-IOV embedded switches were dealt\n  with in Linux was limited in its expressiveness and flexibility, but\n  this was not necessarily due to hardware limitations. The kernel\n  software model for controlling the SR-IOV switch simply did not\n  allow the configuration of anything more complex than MAC/VLAN based\n  forwarding. We refer to this model as the legacy mode.\n</p>\n\n<p>\n  With kernel version 4.8-rc1, a new mode (switchdev) for SR-IOV\n  switches was introduced. Similarly to the case of switchdev for\n  switch ASICs, under this mode, we use a SW representation model\n  (here for the SR-IOV E-Switch port) and allow to offload the SW\n  traffic rules to HW.\n</p>\n\n<p>\n  The new model is based on the introduction of per VF representor\n  host netdevice.  The VF representor plays the same role as TAP\n  devices in Para-Virtual (PV) setup. A packet sent through the VF\n  representor on the host arrives to the VF, and a packet sent through\n  the VF is received by its representor. The administrator can hook\n  the representor netdev into a kernel switching component. Once they\n  do that, packets from the VF are subject to steering (matching and\n  actions) of that software component.\n</p>\n\n<p>\nAgenda:\n</p><ul>\n<li>introduction to SR-IOV VF representor netdevices</li>\n<li>introduction to SR-IOV offloaded TC/flower filters/actions</li>\n<li>present/discuss the current state of upstreaming (offloading vlans, tunneling)</li>\n<li>present recorded demo of setting switchdev SR-IOV based setup</li>\n<li>discuss future extensions: HA/LAG, L3 (virtual router)</li>\n</ul>\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/or-gerlitz.html",
+      "track": "Tutorial",
+      "speakers": "Or Gerlitz, Hadar Hen-Zion, Amir Vadai, Rony Efraim",
+      "date": "2016-10-06",
+      "time": "11:00 - 11:35, Tutorial",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct6/04_gerlitz_efraim_introduction_to_switchdev_sriov_offloads.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/or-gerlitz.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=sL7vwQMwKBM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/or-gerlitz.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-06",
+          "time": "11:00 - 11:35, Tutorial",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Introduction to switchdev SR-IOV offloads"
+        }
+      ]
+    },
+    {
+      "id": "rony-efraim-2",
+      "url": "https://netdevconf.info/1.2/session.html?rony-efraim-2",
+      "title": "Accelerating container network with channel based IO",
+      "listing_title": "Accelerating container network with channel based IO",
+      "description": "Describe the need for HW offload netdev per container. Discuss the\n  Management model for switch which can use ACLs or even a full\n  OpenVswitch",
+      "description_html": "<div><p>\n  Describe the need for HW offload netdev per container. Discuss the\n  Management model for switch which can use ACLs or even a full\n  OpenVswitch\n</p>\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/rony-efraim-2.html",
+      "track": "BoF",
+      "speakers": "Rony Efraim, Or Gerlitz",
+      "date": "2016-10-07",
+      "time": "13:45 - 14:20, BoF",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct7/06_netdev_1.2_Accelerating_container_network_with_channel_based_IO.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/rony-efraim-2.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=_Y38Q0NzqaM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/rony-efraim-2.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-07",
+          "time": "13:45 - 14:20, BoF",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Accelerating container network with channel based IO"
+        }
+      ]
+    },
+    {
+      "id": "jiri-pirko",
+      "url": "https://netdevconf.info/1.2/session.html?jiri-pirko",
+      "title": "Switchdev BoF",
+      "listing_title": "Switchdev BoF",
+      "description": "This BoF serves to discuss various issues we are facing in switchdev area:\n\n\n\nrouting offload abort, how to fix it.\n\n\nCPU port netdev - do we need it, how does it fit the model?\n\n\nstatistics (stacked devices, router interfaces) & debugibility\n\n\n (visibility of HW for user)\n\n    offload setup vs commands ordering - how to achieve the expected behavior?",
+      "description_html": "<div><p>\nThis BoF serves to discuss various issues we are facing in switchdev area:\n</p><ul>\n<li>routing offload abort, how to fix it.</li>\n<li>CPU port netdev - do we need it, how does it fit the model?</li>\n<li>statistics (stacked devices, router interfaces) &amp; debugibility</li>\n<li> (visibility of HW for user)<br>\n    offload setup vs commands ordering - how to achieve the expected behavior?</li>\n</ul>\n\n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/1.2/loadsessions/jiri-pirko.html",
+      "track": "BoF",
+      "speakers": "Jiri Pirko, Yotam Gigi, Matty Kadosh",
+      "date": "2016-10-05",
+      "time": "14:50 - 15:55, BoF",
+      "room": "LOCATION: 2F Hall A",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://netdevconf.info/1.2/slides/oct5/08_switchdev-BOF.pdf",
+          "kind": "slides",
+          "type": "file",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jiri-pirko.html"
+        },
+        {
+          "title": "video",
+          "url": "https://www.youtube.com/watch?v=gwzaKXWIelc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/1.2/loadsessions/jiri-pirko.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2016-10-05",
+          "time": "14:50 - 15:55, BoF",
+          "room": "LOCATION: 2F Hall A",
+          "schedule_title": "Switchdev BoF"
+        }
+      ]
+    }
+  ],
+  "source_urls": [
+    "https://netdevconf.info/1.2/accepted-sessions.html",
+    "https://netdevconf.info/1.2/schedule.html",
+    "https://netdevconf.info/1.2/slides/",
+    "https://netdevconf.info/1.2/slides/oct5/",
+    "https://netdevconf.info/1.2/slides/oct6/",
+    "https://netdevconf.info/1.2/slides/oct7/",
+    "https://netdevconf.info/1.2/papers/"
+  ],
+  "additional_sessions": [
+    {
+      "title": "Welcoming",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2016-10-05",
+      "time": "8:45 - 9:00",
+      "room": "LOCATION: 2F Hall A"
+    },
+    {
+      "title": "Closing",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2016-10-05",
+      "time": "18:00 -",
+      "room": "LOCATION: 2F Hall A"
+    },
+    {
+      "title": "Closing",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2016-10-06",
+      "time": "18:00 -",
+      "room": "LOCATION: 2F Hall A"
+    },
+    {
+      "title": "Closing",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2016-10-07",
+      "time": "18:00 -",
+      "room": "LOCATION: 2F Hall A"
+    }
+  ],
+  "additional_materials": [],
+  "public_directory_links": [
+    {
+      "title": "01_stefen_schmidt_netdevconf_2016_linux_wpan_sh..>",
+      "url": "https://netdevconf.info/1.2/slides/oct5/01_stefen_schmidt_netdevconf_2016_linux_wpan_short_version.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "02_david_lebrun_seg6.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/02_david_lebrun_seg6.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "04_Making_Linux_TCP_Fast_netdev_1.2_final.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/04_Making_Linux_TCP_Fast_netdev_1.2_final.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "05_davejwatson_tls_netdev12.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/05_davejwatson_tls_netdev12.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "06_netdev1.2_boris_pismenny_TLS_offload.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/06_netdev1.2_boris_pismenny_TLS_offload.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "07_tcws_Chelsio_NIC_TC_Offload_v4.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_Chelsio_NIC_TC_Offload_v4.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "07_tcws_Mlxsw_TC_Offloads.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_Mlxsw_TC_Offloads.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "07_tcws_daniel_borkmann_2016_tcws.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_daniel_borkmann_2016_tcws.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "07_tcws_mlx5_nic_offloads.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_mlx5_nic_offloads.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "07_tcws_qdisc+match_tool_v2.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/07_tcws_qdisc%2Bmatch_tool_v2.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "08_switchdev-BOF.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/08_switchdev-BOF.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "09_LCO_GSO_Partial.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/09_LCO_GSO_Partial.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "10_East_West_Performance.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/10_East_West_Performance.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "11_netdev1.2_stackedvlan_makita.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct5/11_netdev1.2_stackedvlan_makita.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct5/"
+    },
+    {
+      "title": "01_PJ_Netdev_1.2_scaling_with_network_namespace..>",
+      "url": "https://netdevconf.info/1.2/slides/oct6/01_PJ_Netdev_1.2_scaling_with_network_namespaces_in_a_single_application.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "02_ahern_what_is_l3mdev_slides.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct6/02_ahern_what_is_l3mdev_slides.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "03_jerry_chu_usTCP_LKL.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct6/03_jerry_chu_usTCP_LKL.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "04_gerlitz_efraim_introduction_to_switchdev_sri..>",
+      "url": "https://netdevconf.info/1.2/slides/oct6/04_gerlitz_efraim_introduction_to_switchdev_sriov_offloads.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "05_Single_Virtual_function_driver_for_current_a..>",
+      "url": "https://netdevconf.info/1.2/slides/oct6/05_Single_Virtual_function_driver_for_current_and_future.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "06_davem_Tokyo_Netdev_Keynote_2016.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct6/06_davem_Tokyo_Netdev_Keynote_2016.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "08_nf_workshop_netdev12.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct6/08_nf_workshop_netdev12.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "08_nft_netdev12_florian.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct6/08_nft_netdev12_florian.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "08_nftables_Load_Balancing_with_nftables_II_Sli..>",
+      "url": "https://netdevconf.info/1.2/slides/oct6/08_nftables_Load_Balancing_with_nftables_II_Slides.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "10_suricata_ebpf.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct6/10_suricata_ebpf.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "11_network_interface_config_on_a_NOS_roopa_prab..>",
+      "url": "https://netdevconf.info/1.2/slides/oct6/11_network_interface_config_on_a_NOS_roopa_prabhu.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct6/"
+    },
+    {
+      "title": "01_ahern_microservice_net_vrf_on_host.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct7/01_ahern_microservice_net_vrf_on_host.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "02_ALVS_netdev_slides.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct7/02_ALVS_netdev_slides.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "03_Linux_Forwarding_Stack_Fastpath.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct7/03_Linux_Forwarding_Stack_Fastpath.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "06_netdev_1.2_Accelerating_container_network_wi..>",
+      "url": "https://netdevconf.info/1.2/slides/oct7/06_netdev_1.2_Accelerating_container_network_with_channel_based_IO.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "07_advanced_programmability_and_recent_updates_..>",
+      "url": "https://netdevconf.info/1.2/slides/oct7/07_advanced_programmability_and_recent_updates_with_tc_cls_bpf.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "08_1_IPsec_workshop_Steffen_Klassert.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct7/08_1_IPsec_workshop_Steffen_Klassert.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "08_2_IPsec_workshop_Boris_Pismenny.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct7/08_2_IPsec_workshop_Boris_Pismenny.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "08_3_IPsec_workshop_Florian_Westphal.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct7/08_3_IPsec_workshop_Florian_Westphal.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "09_andrew_kong_netdefconf_2016.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct7/09_andrew_kong_netdefconf_2016.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "10_nic_viljoen_eBPF_Offload_to_Hardware__cls_bp..>",
+      "url": "https://netdevconf.info/1.2/slides/oct7/10_nic_viljoen_eBPF_Offload_to_Hardware__cls_bpf_and_XDP_finalised.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "11_rony_efraim_sriov_ovs.pdf",
+      "url": "https://netdevconf.info/1.2/slides/oct7/11_rony_efraim_sriov_ovs.pdf",
+      "kind": "slides",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/slides/oct7/"
+    },
+    {
+      "title": "LCO-GSO-Partial-TSO-MangleID.pdf",
+      "url": "https://netdevconf.info/1.2/papers/LCO-GSO-Partial-TSO-MangleID.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "Linux_Forwarding_Stack_Fastpath_Paper.pdf",
+      "url": "https://netdevconf.info/1.2/papers/Linux_Forwarding_Stack_Fastpath_Paper.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "ahern-what-is-l3mdev-paper.pdf",
+      "url": "https://netdevconf.info/1.2/papers/ahern-what-is-l3mdev-paper.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "bbr-netdev-1.2.new.new.pdf",
+      "url": "https://netdevconf.info/1.2/papers/bbr-netdev-1.2.new.new.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "borkmann.pdf",
+      "url": "https://netdevconf.info/1.2/papers/borkmann.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "eBPF_HW_OFFLOAD.pdf",
+      "url": "https://netdevconf.info/1.2/papers/eBPF_HW_OFFLOAD.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "east-west-networks.pdf",
+      "url": "https://netdevconf.info/1.2/papers/east-west-networks.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "efraim-gerlitz-sriov-ovs-final.pdf",
+      "url": "https://netdevconf.info/1.2/papers/efraim-gerlitz-sriov-ovs-final.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "jerry_chu.pdf",
+      "url": "https://netdevconf.info/1.2/papers/jerry_chu.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "ktls.pdf",
+      "url": "https://netdevconf.info/1.2/papers/ktls.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "netdev1.2_stackedvlan_makita_v2.pdf",
+      "url": "https://netdevconf.info/1.2/papers/netdev1.2_stackedvlan_makita_v2.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "netdevconf-TLS.pdf",
+      "url": "https://netdevconf.info/1.2/papers/netdevconf-TLS.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "network_interface_configuration_linux_NOS.pdf",
+      "url": "https://netdevconf.info/1.2/papers/network_interface_configuration_linux_NOS.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    },
+    {
+      "title": "pj-netdev-1.2.pdf",
+      "url": "https://netdevconf.info/1.2/papers/pj-netdev-1.2.pdf",
+      "kind": "paper",
+      "type": "file",
+      "source_url": "https://netdevconf.info/1.2/papers/"
+    }
+  ],
+  "material_counts": {
+    "slides": 37,
+    "video": 33,
+    "paper": 15
+  },
+  "description_counts": {
+    "announcement only": 3,
+    "abstract": 29,
+    "pending": 1
+  }
+}

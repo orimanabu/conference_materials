@@ -1,0 +1,602 @@
+Source: https://youtu.be/cCkRoczzgrM
+Language: en
+Captions: auto-generated
+
+[00:00:01] So actually in the last um presentation
+[00:00:04] someone talked about uh having to uh
+[00:00:09] simulate or test out different
+[00:00:12] congestion control or mechanisms right
+[00:00:14] there was a question on that. Well uh
+[00:00:17] coincidentally that's one of the things
+[00:00:19] that I've been looking at looking to see
+[00:00:21] how we can do pluggable congestion
+[00:00:24] control. So that's what u I'll go
+[00:00:27] through.
+[00:00:31] So um as we discussed in the previous or
+[00:00:35] otherwise the uh RDMA congestion control
+[00:00:39] is in the nick. We just mentioned that
+[00:00:41] you know in the uh MRC case the ncc
+[00:00:45] algorithm is in the nick in the in the
+[00:00:48] same way in the standard rocky
+[00:00:51] implementations in the standard RDMA
+[00:00:53] nicks the rocky protocol which is
+[00:00:56] usually DCQCN though you could have
+[00:00:58] others uh like timely or or uh as was
+[00:01:03] mentioned ZT uh RTT would be implemented
+[00:01:08] in the neck. However, if you do want to
+[00:01:11] experiment, you want to try out new
+[00:01:13] things because your um network is
+[00:01:17] slightly different or you want to try
+[00:01:18] out a different uh algorithm, it would
+[00:01:21] be good to be able to pull it out of the
+[00:01:24] congestion control out of the hardware
+[00:01:27] and possibly
+[00:01:29] uh do it in the host. Now uh one could
+[00:01:33] say that the ideal case would be if you
+[00:01:35] could have your nicks in such a way that
+[00:01:38] they allow for uh insertion of dynamic
+[00:01:42] uh congestion algorithms. But until we
+[00:01:44] have that uh the proposal I have is or
+[00:01:48] what I've experimented with is the
+[00:01:51] programmable congestion control for
+[00:01:53] RDMA.
+[00:01:58] So if you look at cajestion control
+[00:02:00] basically it comes down to something
+[00:02:02] pretty simple. You've got your nick and
+[00:02:06] it's sending out the packets and
+[00:02:08] sometimes there is congestion and you
+[00:02:10] don't get your response in time. You may
+[00:02:12] get loss. You may have a longer RT
+[00:02:15] because of the congestion.
+[00:02:17] uh you may have uh switch markings
+[00:02:20] coming back uh to the receiver with the
+[00:02:24] ECN markings and you may get a
+[00:02:26] reflection back saying that I received
+[00:02:28] ECN or they may be packet trimming uh as
+[00:02:32] in the case of the MRC discussion. So
+[00:02:35] all these are your signal metrics. It's
+[00:02:38] basically giving you an input to your
+[00:02:40] congestion control that um these are the
+[00:02:43] different signals and of course in the
+[00:02:45] future or you know depending on if
+[00:02:47] you're using HPC C++ you may be even
+[00:02:50] getting in network telemetry
+[00:02:54] as uh one of the signal inputs. So your
+[00:02:57] algorithm then works on those and then
+[00:02:59] it gives us the output which is how do
+[00:03:02] you rate control? The output is modify
+[00:03:06] the rate or reduce or increase or grow
+[00:03:09] the congestion window. So it's
+[00:03:12] essentially a very simple loop in terms
+[00:03:14] of a signal matrix and the uh congestion
+[00:03:18] control works on it and then the output
+[00:03:22] to modify the response.
+[00:03:27] So let's take a look at the default
+[00:03:29] Rocky V2 um protocol DCQCN. Now I've
+[00:03:34] simplified it but essentially as you can
+[00:03:36] see uh the sender when it sends out
+[00:03:41] these packets let's say some of them are
+[00:03:43] getting congested at the switch or
+[00:03:45] switches. So the switch which whose cues
+[00:03:49] are getting filled and you have set up
+[00:03:51] certain threshold with the
+[00:03:54] uh and once they are going above the
+[00:03:56] threshold based on the probability some
+[00:03:59] of the packets are going to be marked
+[00:04:00] with uh the ECN marking or congestion uh
+[00:04:04] notification.
+[00:04:06] This is received by the target and the
+[00:04:09] target then sends back a congestion
+[00:04:11] notification packet back to the sender.
+[00:04:15] It rate controls it. So you don't get I
+[00:04:17] think you get one per 50 microsconds or
+[00:04:20] 25 microsconds based on the speed and
+[00:04:23] configurations.
+[00:04:25] So then the sender knows that oh my
+[00:04:27] packets are be are essentially
+[00:04:30] contributing to the congestion. Let me
+[00:04:32] reduce the rate. That's exactly the loop
+[00:04:34] that I mentioned. So that's what is
+[00:04:36] implemented in the hardware in DCQCN.
+[00:04:40] Now, if you want to modify it, if you
+[00:04:42] want to test out something else, you've
+[00:04:45] got a new idea or you just want to try
+[00:04:47] some new algorithm, you need to wait for
+[00:04:51] the next cycle, for the hardware or
+[00:04:53] firmware cycles to test it out. Instead,
+[00:04:57] it would be great if we could just do it
+[00:05:00] in the in the host in software.
+[00:05:04] So, I implemented one. Yeah, it looks
+[00:05:07] complex and lot of colors but uh one
+[00:05:11] observation I would like to share and
+[00:05:13] then I'll talk about what I did. So I'm
+[00:05:15] just calling it probe RT. So if you look
+[00:05:19] at uh to the left figure here where I've
+[00:05:22] shown you know there are let's say a
+[00:05:26] couple of flows or multiple flows say uh
+[00:05:31] QPS one and two are talking to QPS one
+[00:05:34] and uh another uh set say 1 one and 22
+[00:05:39] down at the bottom through the tour and
+[00:05:41] then there are 345 talking across the
+[00:05:45] spine to the other end to 3 44 55 five.
+[00:05:48] Now these are of course where the orange
+[00:05:51] block is shown. That's one choke point
+[00:05:54] and there are of course other choke
+[00:05:55] points in the network depending on other
+[00:05:57] flows.
+[00:05:59] So at the choke point if there's a uh
+[00:06:03] congestion notification or there is some
+[00:06:06] that is the cause of the delay for your
+[00:06:08] signal matrix all those flows are going
+[00:06:10] to see the same uh same response.
+[00:06:14] They're all going to get ECN based on,
+[00:06:17] you know, which packet gets marked.
+[00:06:19] They're all going to respond the same
+[00:06:20] way. All are going to um eventually
+[00:06:24] settle down to a to a equilibrium point
+[00:06:27] and you'll get a uh re resettled
+[00:06:31] network. However, given that all of them
+[00:06:34] are being affected the same way, I
+[00:06:36] pulled out the concept that let's do it
+[00:06:38] like a congestion context. So all those
+[00:06:42] three four five since they're going to
+[00:06:43] the same target and this I'm talking
+[00:06:46] about in terms of a single path. If
+[00:06:48] you're using ECMP you would have that
+[00:06:50] many more paths like if you have got
+[00:06:52] four-way then you would have four paths.
+[00:06:54] So you've got four different contexts
+[00:06:57] over which those packets are flowing. So
+[00:07:00] you don't have to actually even if
+[00:07:02] you've got like uh 50 QPS talking
+[00:07:04] between the two endpoints but they are
+[00:07:07] all flowing over the same path you could
+[00:07:10] view that path as a single fat pipe and
+[00:07:13] do the congestion for that pipe
+[00:07:14] congestion control for that pipe and
+[00:07:17] then since you eventually have to do it
+[00:07:19] per QPN depending on your hardware you
+[00:07:22] either if your hardware is capable of
+[00:07:24] working at the context level you set the
+[00:07:26] context um congestion rate but if it is
+[00:07:31] not then you deviate up proportionately
+[00:07:33] to all the members of that set. So
+[00:07:36] that's what I implemented. Basically
+[00:07:39] what we did is this is on the Intel uh
+[00:07:43] Intel nick which has an embedded RDMA
+[00:07:46] engine call it RDMAP just a protocol
+[00:07:50] engine
+[00:07:52] and uh as you can see there's a QP state
+[00:07:55] there are various applications with Q
+[00:07:57] pairs so we have to do a little bit of
+[00:08:00] things like you have to determine which
+[00:08:03] Q pairs are coming up which q pairs are
+[00:08:05] talking to the other end so for that did
+[00:08:08] a little bit of uh um
+[00:08:12] you know just sort of a uh LD preload
+[00:08:16] kind of a thing to trap it so that we
+[00:08:18] know which ones are ideally you would
+[00:08:20] have other mechanisms but this since
+[00:08:22] this is just a prototype that's what
+[00:08:24] I've shown there that you trap the QP
+[00:08:26] create and modify you get to know which
+[00:08:28] Q pairs are going where and since you
+[00:08:31] know the routing table and you know the
+[00:08:33] uh paths and the source ports etc that
+[00:08:36] information is captured shared by what I
+[00:08:38] call the probe lemon that's why the PRDT
+[00:08:41] probing of RDT
+[00:08:43] and so we send these probes to the on
+[00:08:46] that path the uh the returning packet
+[00:08:50] gives us the RT because we use hardware
+[00:08:54] time stamp on the send and on the return
+[00:08:57] we take the hardware time stamp so we
+[00:08:59] know exactly how much the uh RT was and
+[00:09:02] if the RT is increasing congestion is
+[00:09:05] increasing if the RT is decreasing
+[00:09:07] well comes down to a target point then
+[00:09:10] we know that it's back to normal.
+[00:09:13] So this is uh you can view it as a a
+[00:09:17] form of or derived from uh Google Swift
+[00:09:20] but I modified it in my own way. So that
+[00:09:23] tells you again that how you can
+[00:09:25] flexibly flexibly move your uh
+[00:09:29] congestion control. Uh we also did
+[00:09:32] another way. So you don't have to do
+[00:09:34] probes in this way. uh just like uh uh
+[00:09:38] Chris was talking about in the previous
+[00:09:39] one, right? You've got the SR6 and
+[00:09:41] you've got the loop created. You could
+[00:09:44] have a loop for your uh for your
+[00:09:46] hardware time stamp depending on your
+[00:09:48] next capabilities when you send a
+[00:09:51] special hardware timestamp packet. The
+[00:09:54] nick may return it back to you without
+[00:09:56] actually going to a receiver like I've
+[00:09:58] shown here, which our Nick can do. So it
+[00:10:01] actually gives us a very fast uh and
+[00:10:05] very accurate uh RT value between the
+[00:10:09] two endpoints. Of course I'm talking
+[00:10:11] about one you would be doing it across
+[00:10:14] all the networks and across all the uh
+[00:10:16] systems in that network. For example, I
+[00:10:20] did it on a um my setup is a 16 uh node
+[00:10:24] cluster.
+[00:10:29] But coming back to what a congestion
+[00:10:30] control loop is and what we need to
+[00:10:33] parallelize as you can see there's a
+[00:10:35] congestion context in DCQCN it's one Q
+[00:10:38] pair in this PRDT it's a set of QPS
+[00:10:42] and the signal matrix in our case is the
+[00:10:44] RT in the case of DCQCN it's actually
+[00:10:47] ECN returned as the CNP
+[00:10:50] uh congestion algorithm PRDT I'll just
+[00:10:53] describe what it is and then the output
+[00:10:55] is rate control in the case of DCQCN in
+[00:11:00] our case it is proportionately you take
+[00:11:03] the pipes congestion and then
+[00:11:05] proportionately divide it across the uh
+[00:11:08] QPS now one thing here is because I
+[00:11:12] could pull it out into the host I have
+[00:11:15] simplified the entire network I'm not
+[00:11:17] using ECN so I don't have to uh you know
+[00:11:21] program the switches for various
+[00:11:23] thresholds
+[00:11:24] I'm not using uh PFC because I'm working
+[00:11:27] on this lossy based on RT and so I don't
+[00:11:30] need PFC setup which is another
+[00:11:32] complication in networks. So so here
+[00:11:37] even though the nick is the same I've
+[00:11:39] been able to just by switching it over
+[00:11:43] do a pluggable hostbased modified
+[00:11:46] congestion control. Of course somebody
+[00:11:48] else can take that framework and use
+[00:11:50] their own algorithm. Maybe they just
+[00:11:51] want to use ECN or they want to do
+[00:11:53] something else.
+[00:11:56] So the algorithm that I created is
+[00:11:59] somewhat uh it's simple but with some
+[00:12:02] modifications. It's basically derived
+[00:12:04] from the NSC that I mentioned earlier
+[00:12:07] with MRC or Ultra Ethernet or or Google
+[00:12:11] Swift. They all use a target delay but
+[00:12:15] uh they have their own variations. In
+[00:12:18] this case I use the target delay and see
+[00:12:21] if the RT is to that target. target
+[00:12:23] target delay is essentially the no-load
+[00:12:26] RT between the end points. So it's sort
+[00:12:28] of your if that target is met there is
+[00:12:32] no congestion you're all good. So if
+[00:12:34] you're above that you have a response
+[00:12:37] that okay my delay is increasing
+[00:12:39] therefore I should reduce and then it's
+[00:12:42] not going to go below you can't be
+[00:12:45] faster than the nload. So, so you have a
+[00:12:48] target delay which is set at certain uh
+[00:12:51] certain like 1.5 or so or some value
+[00:12:55] above the uh no load. I modified it a
+[00:12:59] little bit with other variations like uh
+[00:13:02] the gradient. So even as the RTT is
+[00:13:07] checked against the target delay but at
+[00:13:09] the same time if you find that from the
+[00:13:11] previous one your RT is now decreasing
+[00:13:14] you don't immediately react you keep a
+[00:13:15] smooth value after a little bit of trend
+[00:13:18] you say oh it's actually it was high but
+[00:13:21] it's the RT is now decreasing so things
+[00:13:24] are draining and I can you know
+[00:13:27] accordingly react to that or if it's
+[00:13:31] actually still increasing then you don't
+[00:13:34] want to uh be too optimistic about uh
+[00:13:38] you know your your response. So those
+[00:13:40] are the things that uh are built to
+[00:13:43] built into it. So again this is started
+[00:13:45] with just the basic uh uh RT based uh
+[00:13:50] algorithm then modified it. So that's
+[00:13:53] essentially what host pluggable would
+[00:13:55] be. Tomorrow I could add ECN into it.
+[00:13:58] It's the same hardware but I'm
+[00:14:00] experimenting with different um
+[00:14:03] different algorithms.
+[00:14:06] So I did some results. No PFC, no ECN
+[00:14:10] and uh this is essentially uh 12 is to1
+[00:14:14] in cast basically because it's three
+[00:14:16] nodes each with four Q pairs and they
+[00:14:20] start with uh my PRT included. I do have
+[00:14:24] a little bit of a it's not exactly slow
+[00:14:26] start but there's a concept similar in
+[00:14:29] terms of you don't just rush and put
+[00:14:31] everything because we keep the uh last
+[00:14:35] known congestion point um that is
+[00:14:39] calculated and kept. So with that as you
+[00:14:41] can see yeah there is a variation but
+[00:14:44] overall all the Q pairs if you think of
+[00:14:48] the pipe the pipe is about 30 Gbps
+[00:14:50] there's a 100 Gbps link is 30 plus minus
+[00:14:55] for all the three uh servers that are
+[00:14:59] communicating to one endpoint even
+[00:15:01] though the variation within them may be
+[00:15:03] there because you know I just use anible
+[00:15:07] to start and depends on which starts
+[00:15:09] first so there's a little bit rate of
+[00:15:10] variation there.
+[00:15:13] So that's the experiment and uh uh to
+[00:15:18] prove the feasibility of pulling out the
+[00:15:21] congestion control from uh from the
+[00:15:24] hardware or the firmware into the host.
+[00:15:27] However, can we actually make it a sort
+[00:15:31] of a framework that allows us to just
+[00:15:34] you know because in this case I wrote
+[00:15:36] everything right to write the uh input
+[00:15:41] signal. How am I capturing it? I have to
+[00:15:44] write the output. I have to collect the
+[00:15:45] signals. I have to write the probe. But
+[00:15:48] perhaps we could define a a framework
+[00:15:50] that we can put into uh practice and
+[00:15:55] then tomorrow someone else wants to add
+[00:15:57] something or they want to use it on a
+[00:15:59] different nick and you just plug into
+[00:16:01] this framework and you have a pluggable
+[00:16:04] um RDMA congestion control in the host.
+[00:16:08] So that's the general idea where you
+[00:16:10] would have a setup like in my case I had
+[00:16:12] to turn off DCQCN and I had to of course
+[00:16:15] modify the driver a little bit and I'll
+[00:16:18] talk about that. uh so and then you have
+[00:16:21] to define what is your congestion
+[00:16:23] control uh congestion control context in
+[00:16:26] my case as I said right it's the
+[00:16:28] destination it's the path in some other
+[00:16:31] case it could be admin based you could
+[00:16:32] say that all these are flows of type
+[00:16:37] storage and all these are you know HPC
+[00:16:40] and all these are RPC or whatever and
+[00:16:42] you could define different congestion
+[00:16:44] control algorithms for them different
+[00:16:46] contexts
+[00:16:48] you would have to define how you get
+[00:16:50] your signals. In my case, it's the RTT.
+[00:16:54] Tomorrow it could be ECN. So, you define
+[00:16:56] a signal gatherer. You define your
+[00:16:58] algorithm. I just showed you my
+[00:17:00] algorithm. Tomorrow, it could be a
+[00:17:01] different algorithm and then a mechanism
+[00:17:04] to actually
+[00:17:06] apply that control in the neck. In my
+[00:17:09] case, our driver has the or device has
+[00:17:12] the necessary uh CSR so that I can write
+[00:17:16] and modify the rate for the specific
+[00:17:19] flows. In the other case, it may be
+[00:17:21] something else. So that's the framework
+[00:17:24] we would need. Um maybe I'll skip this
+[00:17:27] but it basically is what I explained,
+[00:17:29] right? You have a signal gatherer, it
+[00:17:31] can get all sorts of input and it would
+[00:17:35] you would essentially have the signal
+[00:17:37] gatherer collate the input in whatever
+[00:17:40] form your algorithm needs
+[00:17:42] and then this gatherer based on some
+[00:17:46] trigger in my case the trigger is the um
+[00:17:50] RT is now greater than the uh certain
+[00:17:54] amount or target or but if it is very
+[00:17:57] close you do nothing. So there's a sort
+[00:17:59] of a trigger. So once you get that
+[00:18:01] trigger, you could either directly call
+[00:18:04] the algorithm or maybe your
+[00:18:06] implementation is that it's actually
+[00:18:09] putting it into some sort of a work and
+[00:18:11] the work q works on that algorithm and
+[00:18:14] modifies it and you could have the locus
+[00:18:17] of it. I said host I did it in user
+[00:18:20] space. Someone else could write kernel
+[00:18:23] threads or you know do it uh in some
+[00:18:25] other way.
+[00:18:28] So the idea that I was thinking of is
+[00:18:32] possibly we define um uh programmable
+[00:18:35] congestion control framework that
+[00:18:38] defines certain uh signal bindings and
+[00:18:42] output bindings and we define a set of
+[00:18:45] operations in this framework that you
+[00:18:48] fill in with your implementation.
+[00:18:52] Of course at the low level you would
+[00:18:54] need how you collect that input. So
+[00:18:58] possibly it is a driver extension. Uh
+[00:19:02] for example in um what I'm doing I'm
+[00:19:05] writing the congestion control. So that
+[00:19:09] means I need an extension in my driver
+[00:19:11] so that I can write the congestion
+[00:19:13] window for the QP. Now we could
+[00:19:17] depending on the operations define a set
+[00:19:19] of uh operations and then depending on
+[00:19:22] your driver you can say I've got this
+[00:19:23] capability or not and that allows the
+[00:19:25] framework writer to not worry about
+[00:19:28] what's present just discover your
+[00:19:30] capabilities and write to that.
+[00:19:34] So if we go back to the PRT
+[00:19:37] implementation,
+[00:19:39] uh the parallel mechanism becomes that
+[00:19:42] you do a setup which is some sort of a
+[00:19:45] config. Maybe it's a a YAML or it's some
+[00:19:48] sort of a just a regular text file which
+[00:19:51] says this is my config and um you define
+[00:19:56] what your membership rule is basically
+[00:19:58] how you define your congestion context
+[00:20:00] because you can have multiple congestion
+[00:20:02] context like I said uh for storage or
+[00:20:04] for destination or for different
+[00:20:08] elements and then you define your uh
+[00:20:12] your signal gathering function your
+[00:20:15] output function and your algorithm which
+[00:20:18] in the case of uh PRT are the timestamp
+[00:20:23] probe for the signal uh probe and then
+[00:20:26] the signal gatherer is the response
+[00:20:29] algorithm collects the SRT the gradient
+[00:20:32] etc. Those are the that's the algorithm
+[00:20:35] state and then it uses that to um to
+[00:20:39] create its output which is the new
+[00:20:41] congestion window and then the output
+[00:20:44] applier essentially the call to the
+[00:20:46] driver is it proportionately
+[00:20:48] divides it for the Q pairs that are
+[00:20:50] member of that congestion context.
+[00:20:54] Of course if we had to package it there
+[00:20:58] are multiple options you could build it
+[00:21:00] in any way. I'm not going there. I just
+[00:21:02] sort of am mentioning it. Uh and I
+[00:21:05] thought this I did just before like just
+[00:21:08] before this call maybe an hour back. So
+[00:21:12] uh the idea is that
+[00:21:15] one of the examples for example if I was
+[00:21:17] to make this framework which I've
+[00:21:19] written u to become uh this example to
+[00:21:24] be part of like a framework packaging.
+[00:21:27] You could view the framework as just
+[00:21:29] that simple uh loop that I've written
+[00:21:31] there. The framework
+[00:21:34] picks in all these uh components which
+[00:21:37] are say um relocatable dossos and then I
+[00:21:42] dl open them. I put them fill in all the
+[00:21:46] um uh the signal ops, the uh membership
+[00:21:50] ops, the output ops, etc. and the
+[00:21:53] algorithm. And then I just run that. And
+[00:21:57] there I've got my pluggable uh
+[00:21:59] framework. And then tomorrow I want to
+[00:22:02] change my signal uh gatherer to ECN or I
+[00:22:06] want to change my algorithm to something
+[00:22:08] else. I just replace those and my
+[00:22:10] framework continues to run with that. So
+[00:22:13] that's the overall uh proposal
+[00:22:17] uh the example as well as the proposal
+[00:22:20] questions.
+[00:22:23] Okay.
+[00:22:44] Thank you. Very interesting work. So uh
+[00:22:47] what you do you you have applied this
+[00:22:49] framework on some uh real Intel card and
+[00:22:52] so I mean it's and how this is I mean I
+[00:22:57] think it will be very difficult to use
+[00:22:59] on a different card on the other end if
+[00:23:02] if we have instead the Intel card is it
+[00:23:06] everything is open source so we can
+[00:23:08] replicate on an Intel card what's the
+[00:23:10] status
+[00:23:10] >> would be open sourcing I'm not yet not
+[00:23:14] yet open sourced
+[00:23:16] But we will be open sourcing.
+[00:23:18] >> Yeah. The idea of the framework is to
+[00:23:21] address the kind of thing you're asking.
+[00:23:23] So if we define the what I've
+[00:23:27] implemented is very specific, right? And
+[00:23:29] while I was doing that I was thinking
+[00:23:30] exactly the thing that if tomorrow I
+[00:23:34] have to do it on say all that list that
+[00:23:37] was shown in the previous one Thor or
+[00:23:39] Melanox uh CX or maybe some Broadcom
+[00:23:43] card uh what I have will not directly
+[00:23:47] work but I would have to modify to their
+[00:23:50] determine what their capabilities are
+[00:23:52] what can I do what do they reflect do
+[00:23:54] they reflect the same signals so that's
+[00:23:56] why I was saying maybe we define a
+[00:23:58] simple
+[00:23:59] uh extensions
+[00:24:01] that allow us to query the capabilities
+[00:24:06] and then the capabilities tell us I do
+[00:24:08] rate control, I do congestion window,
+[00:24:10] here are the stats I can give. Uh maybe
+[00:24:13] a card can even give you uh how many
+[00:24:16] times it uh saw the losses or how many
+[00:24:19] times it had to retransmit, what was the
+[00:24:22] sack response because all that is in the
+[00:24:25] hardware, right? So if you get that
+[00:24:26] info, maybe you can do a different kind
+[00:24:28] of uh algorithm in the host. So that's
+[00:24:32] why I talked about this framework that
+[00:24:34] it would generalize this implementation
+[00:24:37] and then your application or your
+[00:24:41] algorithm could be mapped to uh any card
+[00:24:46] but at present it's very
+[00:24:47] >> I agree agree it's very interesting
+[00:24:49] point I mean the step forward could be
+[00:24:51] yeah to create some abstraction layers
+[00:24:54] for for the different
+[00:24:55] >> and and that's that's the general
+[00:24:58] standard path we have anyway in in
+[00:25:00] networking. Uh thank you.
+[00:25:06] I can ask uh Vivec. So
+[00:25:10] I think most of these uh how long does
+[00:25:13] these uh flows leave like they they flow
+[00:25:16] like the RDMA flow? Does it last for a
+[00:25:18] long period of time or
+[00:25:20] >> Yeah, they do. Okay. But uh even if some
+[00:25:24] are shortlived when you think of a pipe
+[00:25:27] your the probe that I have is not
+[00:25:30] actually a part of the existing flows.
+[00:25:33] It's a flow by itself. It's suffering
+[00:25:35] the same travails of the path as
+[00:25:38] everybody else. Right? Because it's
+[00:25:40] following the same. So if there's
+[00:25:42] congestion you are tracking your probe
+[00:25:46] in this particular implementation. So
+[00:25:48] even if there was nothing hap nothing
+[00:25:51] from this machine going there and I send
+[00:25:53] a probe but because of other network
+[00:25:56] there is congestion I would know that
+[00:25:58] because my probe suffers and when I get
+[00:26:01] my RT I keep the that's what I was
+[00:26:05] talking about right I keep the uh per
+[00:26:07] path um congestion start value up to
+[00:26:12] certain limit and then it starts
+[00:26:14] increasing again so if I've done a probe
+[00:26:17] even if I I have nothing. When a new
+[00:26:19] flow comes in, it picks it up from what
+[00:26:22] the probe had so that it doesn't go and
+[00:26:25] cause more congestion by starting at
+[00:26:26] full range.
+[00:26:28] >> Okay. Okay. But the congestion control
+[00:26:30] is per I guess the flow that is per Q
+[00:26:33] pair or multiple Q pairs.
+[00:26:35] >> Correct. In our case it is in general
+[00:26:37] DCQCN or many of the algorithms have the
+[00:26:41] inline or as part of the flow they get
+[00:26:44] the input and then they each one of
+[00:26:47] those flows implements the algorithm and
+[00:26:50] then it converges to the congestion
+[00:26:52] point. Okay,
+[00:26:53] >> in this case I'm doing it in terms of a
+[00:26:56] context meaning in terms of the full
+[00:26:58] path pipe. You could define a different
+[00:27:00] context. uh you could say all my traffic
+[00:27:04] which is of certain type is one context
+[00:27:07] and I've got a different algorithm for
+[00:27:09] it if that works for that
+[00:27:11] >> and the timeliness of updating the CSRs
+[00:27:13] is pretty fast I guess right
+[00:27:15] >> pardon
+[00:27:16] >> how fast can you update the
+[00:27:18] >> ah yes so there are different ways in
+[00:27:21] our there is a latency by going through
+[00:27:23] the prototype path that I've implemented
+[00:27:26] >> okay
+[00:27:26] >> but if you
+[00:27:28] went through a different path say to
+[00:27:31] depending on your neck of course you
+[00:27:34] have a mechanism to set up the rate
+[00:27:37] control or the QS for a group of flows
+[00:27:41] you can just directly set your you know
+[00:27:44] uh like like in the case of hierarchical
+[00:27:47] QS you could go and put your node limits
+[00:27:50] and that would be pretty fast because it
+[00:27:52] would do it for all that uh that context
+[00:27:55] because you can program your context to
+[00:27:57] that uh uh flow node in the neck. All
+[00:28:00] right.
+[00:28:06] Any other question? Any other questions
+[00:28:08] or questions in the downstairs room?
+[00:28:16] >> Everyone's brains have melted out of
+[00:28:18] their heads, right?
+[00:28:22] >> I I know they're they're alive
+[00:28:24] downstairs because it's nice and cool.
+[00:28:26] So, all right. Well, thank you.
+[00:28:28] >> Thank you. Thank you very
+[00:28:34] [applause]

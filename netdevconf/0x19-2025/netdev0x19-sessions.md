@@ -1,0 +1,1481 @@
+# Netdev 0x19 全セッション一覧
+
+出典: https://netdevconf.info/0x19/pages/sessions.html
+
+Sessions一覧にある全36セッションを収録。各個別ページのTitle・Description原文、Contentsのスライド・論文・動画URLとDescription内の資料リンクを抽出。相対URLは各個別ページを基準に絶対URLへ変換。docsディレクトリの一覧取得はHTTP 403で拒否されたため、個別ページに掲載された資料リンクを収録。Scheduleのセッション個別URLとも照合し、追加セッションなし。元ページの資料リンクは保持。資料ダウンロード可否・動画再生可否は未検査。
+
+セッション: 36件 / Descriptionあり: 36件 / 資料あり: 36件 / 資料項目: 76件
+
+## 目次
+
+1. [IRQ Suspension: a new, efficient mechanism for packet delivery.](#session-irq-suspension-a-new-efficient-mechanism-for-packet-delivery)
+2. [The future of SO_TIMESTAMPING](#session-the-future-of-so_timestamping)
+3. [How to design kernel extensions with and without BPF](#session-how-to-design-kernel-extensions-with-and-without-bpf)
+4. [verify protocol behaviors using net-namespaces and the kernel-verifier](#session-verify-protocol-behaviors-using-net-namespaces-and-the-kernel-verifier)
+5. [Remote TCP Connection Offload](#session-remote-tcp-connection-offload)
+6. [The Battle Of The ZCs: Who is the prettiest of them all?](#session-the-battle-of-the-zcs-who-is-the-prettiest-of-them-all)
+7. [Communication via Internal Shared Memory (ISM) - Time to open up](#session-communication-via-internal-shared-memory-ism-time-to-open-up)
+8. [Enable Time-Sensitive Applications in Kubernetes with Container Network Interface Plugin Agnostic Metadata Proxy](#session-enable-time-sensitive-applications-in-kubernetes-with-container-network-interface-plugin-agnostic-metadata-proxy)
+9. [mq-cake: Scaling software rate limiting across CPU cores](#session-mq-cake-scaling-software-rate-limiting-across-cpu-cores)
+10. [Mitigating the Double-Reallocation Issue for IPv6 Lightweight Tunnel Encapsulations](#session-mitigating-the-double-reallocation-issue-for-ipv6-lightweight-tunnel-encapsulations)
+11. [Optimizing Bandwidth Allocation with ETS and Traffic Classes](#session-optimizing-bandwidth-allocation-with-ets-and-traffic-classes)
+12. [Introducing the DPU Operator: Vendor-Agnostic DPU Integration in K8s for Performance and Security](#session-introducing-the-dpu-operator-vendor-agnostic-dpu-integration-in-k8s-for-performance-and-security)
+13. [Linux Kernel Support for IOAM Direct Exporting](#session-linux-kernel-support-for-ioam-direct-exporting)
+14. [Enhancing virtio-net with IPsec Operations](#session-enhancing-virtio-net-with-ipsec-operations)
+15. [Accelerating an eBPF Network Stack: Our journey in completely offloading eBPF based Cilium CNI to DPU](#session-accelerating-an-ebpf-network-stack-our-journey-in-completely-offloading-ebpf-based-cilium-cni-to-dpu)
+16. [Performance Optimisation and Practices Based on MPTCP inside Datacenter](#session-performance-optimisation-and-practices-based-on-mptcp-inside-datacenter)
+17. [Traits: Rich Packet Metadata](#session-traits-rich-packet-metadata)
+18. [Congestion-control in AI/ML networks at datacenter scale](#session-congestion-control-in-aiml-networks-at-datacenter-scale)
+19. [Reservoir to the tap: with fairness and humility.](#session-reservoir-to-the-tap-with-fairness-and-humility)
+20. [Democratizing Far Edge Networking: Journey of Mainlining Wired and Wireless in Linux Kernel](#session-democratizing-far-edge-networking-journey-of-mainlining-wired-and-wireless-in-linux-kernel)
+21. [Challenges of time sync in Datacenters](#session-challenges-of-time-sync-in-datacenters)
+22. [Open Source Tooling for PHY Management and Testing](#session-open-source-tooling-for-phy-management-and-testing)
+23. [State of the union in TCP land](#session-state-of-the-union-in-tcp-land)
+24. [Introduction to eBPF socket maps](#session-introduction-to-ebpf-socket-maps)
+25. [Challenges and limitations of debugging increasingly complex virtualized networks with Retis](#session-challenges-and-limitations-of-debugging-increasingly-complex-virtualized-networks-with-retis)
+26. [Tutorial: Using Packetdrill to Write Automated Tests for the Linux Networking Stack](#session-tutorial-using-packetdrill-to-write-automated-tests-for-the-linux-networking-stack)
+27. [Diagnosing Page Pool Leaks](#session-diagnosing-page-pool-leaks)
+28. [AI Networks - RoCEv2 and the role of "netdev"](#session-ai-networks-rocev2-and-the-role-of-netdev)
+29. [Real-Time Prevention of DNS-Based Data Exfiltration BoF](#session-real-time-prevention-of-dns-based-data-exfiltration-bof)
+30. [SRv6 in Linux Kernel, FRR and eBPF : review the current status and plan the future evolution](#session-srv6-in-linux-kernel-frr-and-ebpf-review-the-current-status-and-plan-the-future-evolution)
+31. [BoF: Your Fu is Better Than Mine!](#session-bof-your-fu-is-better-than-mine)
+32. [Low Latency Networking BoF](#session-low-latency-networking-bof)
+33. [Networking For AI BoF](#session-networking-for-ai-bof)
+34. [Datapath Processing Unit BoF](#session-datapath-processing-unit-bof)
+35. [MPTCP: present, future, and its development workflow (CI)](#session-mptcp-present-future-and-its-development-workflow-ci)
+36. [Understanding and Improving Robustness of Networked Systems With Machine Learning](#session-understanding-and-improving-robustness-of-networked-systems-with-machine-learning)
+
+<a id="session-irq-suspension-a-new-efficient-mechanism-for-packet-delivery"></a>
+## 1. IRQ Suspension: a new, efficient mechanism for packet delivery.
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/irq-suspension-a-new-efficient-mechanism-for-packet-delivery.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+IRQ suspension was merged to kernel 6.13 and provides a powerful
+mechanism to balance inherent trade-offs in kernel network
+processing.
+
+
+
+In order to understand IRQ suspension, how it works, and when to
+consider using it, this talk will begin by briefly examining and
+discussing key prerequisite knowledge.
+
+
+
+We’ll examine and discuss the inherent trade-offs that exist in
+packet processing in the kernel: increased CPU usage to get lower
+latency vs reduced CPU usage for higher latency, the difficulty in
+choosing the “right values” for an application and how, until
+recently, these mechanisms were only available interface-wide.
+
+
+
+From there, per-NAPI storage will be introduced which shows how
+these settings, which were once interface-wide, can be set on a
+per-NAPI instance basis.
+
+
+
+With this background information provided, the talk will describe
+the recently merged IRQ suspension mechanism, how and when an
+application may decide to use it, and how, exactly, to use it.
+
+
+
+There is current on-going work to add support for IRQ suspension to
+an open source HTTP server. If this work is completed by the
+conference, the talk will conclude by mentioning the
+implementation, providing a link to the source as a model for others
+to follow, and mention any measurements taken from real world
+production systems running IRQ suspension.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper4-talk-slides/IRQ%20Suspension_%20a%20new%2C%20efficient%20mechanism%20for%20packet%20delivery.pdf)（file）
+- [video](https://youtu.be/o6wQYz3ycak)（link）
+
+<a id="session-the-future-of-so_timestamping"></a>
+## 2. The future of SO_TIMESTAMPING
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/the-future-of-so_timestamping.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+The future of SO_TIMESTAMPING
+
+
+
+SO_TIMESTAMPING[1] is key to debugging network in kernel and end-to-end app latency. [2] states that by using SO_TIMESTAMPING, bugs that are otherwise incorrectly assumed to be network issues can be attributed to the kernel.
+
+
+
+There are a few areas that need optimization for usability and performance[3]. These include: uAPI compatibility, extra system call overhead, and the need for application modification. Our initial solution to solve these issues constituted writing a kernel module that hooks various key functions. However, this approach is not suitable to land in the kernel officially, even though it has been deployed successfully in production. For this reason and based on feedback we took an approach of going with am eBPF extension approach.
+
+
+
+In this talk, we will discuss our eBPF extension for SO_TIMESTAMPING. Our approach transparently equips every matched flow to enable such feature without modifying any application code. Such an approach will accelerate deployment in production because it is not intrusive at all. More than that, the feature has two other dominant merits we measured with the contrast of the traditional BPF related tracing tools: perfect anti-interference and much less performance impact of monitored application, which are clearly manifested by a group of experimental statistics.
+
+
+
+One of our major goals in this work is cover all networking transmission paths. By utilizing eBPF, we’re able to capture all tx/rx path state of sockets and skbs as the last skb of each sendmsg traverses each key function in the hot path. This gives us an excellent insight into each flow than was ever possible before.
+
+
+
+In the long run, the features we are enabling could potentially be used to trace every skb when administrators need to diagnose and debug by acquiring as many fields as needed analysis and as a result more issues that contribute to latency can be analyzed. It is our hope that this feature goes as far as to replace the core functionality of tcpdump in production and cope well with various complex issues appearing in kernel.
+
+
+
+In conclusion, it can be a very promising feature in the world of tracing and debugging.
+
+
+
+[1] https://netdevconf.info/0x13/session.html?talk-tcp-timestamping
+
+
+
+[2] https://netdevconf.info/0x17/sessions/talk/so_timestamping-powering-fleetwide-rpc-monitoring.html
+
+
+
+[3] https://netdev.bots.linux.dev/netconf/2024/jason_xing.pdf
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper5-talk-slides/The%20Future%20of%20SO_TIMESTAMPING.pdf)（file）
+- [video](https://youtu.be/PyFioDifIVk)（link）
+
+<a id="session-how-to-design-kernel-extensions-with-and-without-bpf"></a>
+## 3. How to design kernel extensions with and without BPF
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/how-to-design-kernel-extensions-with-and-without-bpf.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+BPF is used in multiple layers of networking stack, in security, tracing and even task scheduling. Over the last 10 years BPF developers extended the kernel countless times. Sometimes well, sometimes not. This talk summarizes the lessons learned and proposes a framework on how to think and design new kernel extensions with and without BPF. It starts by taking a look in the design of modularity of TCP congestion control, how BPF got bolted into it, then into struct_ops mechanism, the mistakes in XDP design, and finally into practical considerations for future kernel extensions.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper6-talk-slides/netdev-0x19-paper6.pdf)（file）
+- [video](https://youtu.be/6v92D2JvfSE)（link）
+
+<a id="session-verify-protocol-behaviors-using-net-namespaces-and-the-kernel-verifier"></a>
+## 4. verify protocol behaviors using net-namespaces and the kernel-verifier
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/verify-protocol-behaviors-using-net-namespaces-and-the-kernel-verifier.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+In a stateful networking protocol each participating networking entity holds a specific state during their lifetime. Such a state is usually known on a per networking entity application context and might not be shared among other entities. Using net-namespaces we can keep track of each application state during runtime in the whole distributed network scenario as an “omniscient entity” that knows everything. In combination with the kernel-verifier [0] any application workload can be used to verify expected protocol behaviors as intended by comparing each per network entity application state with each other. If the verifier runs into an unexpected protocol behavior a reaction can happen for further debugging and this offers an additional testing layer.
+
+
+
+Currently it can be used as an additional testing mechanism for an in-kernel network protocol for distributed locking to verify protocol behaviors for any workload. In this talk I will show how I used the Linux kernel-verifier in combination with net-namespace functionality to verify expected protocol behaviors.
+
+
+
+[0] https://www.kernel.org/doc/html/v6.13-rc6/trace/rv/index.html
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper7-talk-slides/kernel_protocol_verifier.pdf)（file）
+- [video](https://youtu.be/P9AqN7lP2TA)（link）
+
+<a id="session-remote-tcp-connection-offload"></a>
+## 5. Remote TCP Connection Offload
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/remote-tcp-connection-offload.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+TCP_REPAIR has been available in Linux for a long time. The main purpose of this feature is to serialize and restore an active TCP connection. It is also possible to restore the connection in another host, or “migrate” the connection. However, connection migration requires the upstream switch to redirect the traffic, which is otherwise routed to the host that has established the connection, to the host that has restored the connection. Existing proposals use the Intel/Tofino programmable P4 switch for this purpose, introducing significant deployment burden. To obviate the need for programmable switches, we propose a host-based method that enables TCP connection migration. In this method, the host that has established the connection redirects the traffic using a combination of TC, which can redirect the traffic at a line rate with hardware offload (TC-HW), and eBPF, whose packet redirection rule can be inserted very quickly as its operation is just a map update. In particular, we insert the identical rule with both eBPF and TC-HW such that hardware-based packet redirection can be done opportunistically when its rule is active, while eBPF-based software rule takes effect until that. We integrate this connection migration method with Ceph, a widely-used object storage system.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper10-talk-slides/NetDev%200x19%20%281%29.pdf)（file）
+- [video](https://youtu.be/YO1BmSSHvHk)（link）
+
+<a id="session-the-battle-of-the-zcs-who-is-the-prettiest-of-them-all"></a>
+## 6. The Battle Of The ZCs: Who is the prettiest of them all?
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/the-battle-of-the-zcs-who-is-the-prettiest-of-them-all.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+This talk investigates the performance characteristics of two high-performance networking techniques in Linux: TCP devmem[1] and IOURING zero copy[2].
+
+
+
+While TCP devmem is designed for zero copy to/from network/accelerators like GPUs we look at it from perspective of copying to/from user memory using udmabuf. From that perspective, both techniques aim to optimize data transfer by minimizing or eliminating data copying between kernel and user space, thereby reducing CPU overhead and latency. Both are also new to the Linux world and hold different impacts on the networking application landscape and are still not fully integrated into Linux proper making them a bit of a mystery to most application writers.
+
+
+
+We conduct a comparative analysis of these techniques by implementing them in network applications and measuring their performance across key metrics, including bandwidth, latency, power and CPU utilization. Our experiments demonstrate the strengths and weaknesses of each approach under various workloads and system configurations. The findings of this study provide valuable insights for network application developers seeking to optimize data transfer performance in Linux environments.
+
+
+
+[1]https://netdevconf.info/0x17/sessions/talk/device-memory-tcp.html
+
+
+
+[2] https://netdevconf.info/0x17/sessions/talk/fast-zc-rx-data-plane-using-io-uring.html
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper13-talk-slides/TheBattleOfTheZCs.pdf)（file）
+- [video](https://youtu.be/ONlZwlqetW4)（link）
+
+<a id="session-communication-via-internal-shared-memory-ism-time-to-open-up"></a>
+## 7. Communication via Internal Shared Memory (ISM) - Time to open up
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/communication-via-internal-shared-memory-ism-time-to-open-up.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+s390 architecture machines contain Internal Shared Memory (ISM) devices.
+They provide for a method to share dedicated buffers between 2 devices, where
+the fabric guarantees that only the designated remote device can access this
+buffer. They were invented for and are used by the SMC-D protocol.
+
+
+
+Since SMC is used on other architectures as well, an smc-loopback 
+implementation has been added to the smc module, that can serve as an ISM-like
+fabric between network namespaces or containers. But smc-loopback is currently
+not fully represented in the device model.
+
+
+
+There are proposals to implement a virtio version of ISM-like devices, that 
+can be used to communicate between KVM guests.
+
+
+
+On the other hand there is ongoing work on other exploiters e.g. a terminal 
+server that accesses remote consoles on top of s390 ISM devices.
+
+
+
+So this may be the right time to define a common class of such devices with 
+common interfaces to their users. And maybe even find a better name than
+ISM-like devices?
+
+
+
+In this talk, I want to provide an overview of the concept of such a class, its
+features and existing and future usecases.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper12-talk-slides/Netdev%202025_dibs.pdf)（file）
+- [video](https://youtu.be/fgcq_QE4jaY)（link）
+
+<a id="session-enable-time-sensitive-applications-in-kubernetes-with-container-network-interface-plugin-agnostic-metadata-proxy"></a>
+## 8. Enable Time-Sensitive Applications in Kubernetes with Container Network Interface Plugin Agnostic Metadata Proxy
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/enable-time-sensitive-applications-in-kubernetes-with-container-network-interface-plugin-agnostic-metadata-proxy.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+Application deployment in cloud environment is dominated by Kubernetes-orchestrated microservices.
+Provides a secure environment, networking, storage, isolation, scheduling, and many other abstractions that can be easily extended to meet our needs.
+Time-Sensitive Applications (TSAs) have special requirements for compute and network.
+Deploying TSAs in Kubernetes is challenging because the networking implemented by Container Network Interface (CNI) plugins is not aware of the traffic characteristic required by Time-Sensitive Network.
+Even if a network interface supports TSN features (e.g.: Scheduled Traffic) and a modified CNI plugin is aware of this interface, the pod network isolation built on top of Linux deletes the metadata required for TSN protocols to work with.
+
+
+
+We propose a simple architecture that allows any TSA microservice to use the TSN capabilities of the physical NIC, without any modification.
+This architecture is tightly integrated with the Kubernetes networking model, works with popular CNI plugins, and supports services such as ClusterIP, NodePort, or LoadBalancer without additional configuration.
+Unlike former proposals, this architecture does not require either bypassing the Linux kernel network stack, direct access to the physical NIC, escalated privileges for the TSA microservice, or even modification of the TSA.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper15-talk-slides/slides.pdf)（file）
+- [paper](https://netdevconf.info/0x19/docs/netdev-0x19-paper15-talk-paper.pdf)（file）
+- [video](https://youtu.be/1Aadgip33HU)（link）
+
+<a id="session-mq-cake-scaling-software-rate-limiting-across-cpu-cores"></a>
+## 9. mq-cake: Scaling software rate limiting across CPU cores
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/mq-cake-scaling-software-rate-limiting-across-cpu-cores.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+Software rate limiting (such as that implemented in sch_tbf, sch_htb and
+sch_cake) relies on the global qdisc lock to synchronise state, and thus does
+not scale across CPU cores. This makes it challenging to rate limit at higher
+rates, since single-core performance has not kept up with network speeds. While
+there are workarounds for enforcing rate limits on individual traffic classes
+(such as splitting an HTB tree across TXQs), it is not currently possible to
+take advantage of multiple hardware queues and still enforce a global rate limit
+on the interface, using the kernel’s qdiscs.
+
+
+
+In this work, we implement a multi-queue variant of sch_cake that can scale its
+rate limiting across hardware queues (and thus CPU cores). We implement this by
+adding a small bit of shared state across multiple sch_cake instances installed
+under the mq qdisc. This allows most of the qdisc logic to run under separate
+per-TXQ qdisc locks, while still supporting a global rate limit for the whole
+interface. We perform an extensive performance evaluation and show that the
+implementation achieves close to perfect scaling across cores, with an accuracy
+deviation of less than 0.2% of the configured rate.
+
+
+
+In this talk, we will present the implementation, our performance evaluation, as
+well as discuss our proposal for an API that will make this work upstreamable,
+and applicable to other qdiscs as well.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper16-talk-slides/mq-cake-slides.pdf)（file）
+- [paper](https://netdevconf.info/0x19/docs/netdev-0x19-paper16-talk-paper.pdf)（file）
+- [video](https://youtu.be/0TQ4brmRMeQ)（link）
+
+<a id="session-mitigating-the-double-reallocation-issue-for-ipv6-lightweight-tunnel-encapsulations"></a>
+## 10. Mitigating the Double-Reallocation Issue for IPv6 Lightweight Tunnel Encapsulations
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/mitigating-the-double-reallocation-issue-for-ipv6-lightweight-tunnel-encapsulations.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+Lightweight Tunnels (LWTs) in the Linux kernel enable efficient per-route tunneling and are widely used by protocols such as In Situ Operations, Administration, and Maintenance (IOAM), Segment Routing over IPv6 (SRv6), and Routing Protocol for Low-Power and Lossy Networks (RPL). However, a performance issue was detected in their implementations, where a double-reallocation of socket buffers occurs under specific conditions, leading to significant throughput degradation. This paper investigates the root cause of the issue, which depends on the architecture of the Central Processing Unit (CPU) and the Network Interface Card (NIC). We propose a patch for the Linux kernel to fix this problem, replacing the double-reallocation with a single, efficient one. Performance evaluation demonstrates that the patch eliminates the inefficiency, improving forwarding rates by up to 28.8% for affected protocols.
+
+
+
+Merged into SRV6 workshop: https://netdevconf.info/0x19/29
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper8-talk-slides/Netdev-Slides.pdf)（file）
+- [paper](https://netdevconf.info/0x19/docs/netdev-0x19-paper8-talk-paper.pdf)（file）
+
+<a id="session-optimizing-bandwidth-allocation-with-ets-and-traffic-classes"></a>
+## 11. Optimizing Bandwidth Allocation with ETS and Traffic Classes
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/optimizing-bandwidth-allocation-with-ets-and-traffic-classes.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+Traffic shaping is a critical mechanism for managing network bandwidth, ensuring efficient and fair resource allocation. In this talk, we will explore how traffic shaping is enforced at the hardware level, with a focus on NVIDIA’s hardware implementation. We will provide an overview of existing methods for configuring traffic shaping on VF in Linux.
+We will then introduce our Enhanced Transmission Selection (ETS) use case, outlining the challenges of ensuring proper bandwidth allocation across multiple Virtual Functions. Finally, we will present our solution—a new shaping API that extends the devlink-rate interface to enable traffic-class-based bandwidth sharing across VFs. The talk will also cover the timeline of our development process.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper14-talk-slides/TrafficShaping-Netdev.pdf)（file）
+- [video](https://youtu.be/0ikXDZe1cL4)（link）
+
+<a id="session-introducing-the-dpu-operator-vendor-agnostic-dpu-integration-in-k8s-for-performance-and-security"></a>
+## 12. Introducing the DPU Operator: Vendor-Agnostic DPU Integration in K8s for Performance and Security
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/introducing-the-dpu-operator-vendor-agnostic-dpu-integration-in-k8s-for-performance-and-security.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+In today’s rapidly evolving cloud-native ecosystem, organizations are striving to boost performance, strengthen security, and simplify operations. This session explores how Red Hat OpenShift seamlessly integrates with different DPUs delivering a ready-to-use solution that offloads networking and pod execution through the OpenShift DPU Operator. Demonstrated with Marvell Octeon 10 DPU we show the transformation of OpenShift environments without adding complexity to accelerate workloads, enhance security with robust isolation and freeing up host CPUs for business logic. Designed for ease of use, it eliminates the need for prior expertise with DPUs by leveraging intuitive workflows and vendor-agnostic APIs to make these advanced capabilities accessible to developers and users alike. Join us to discover how this community-ready technology unlocks unprecedented performance, establishes stronger security boundaries, and sets a new standard for hardware offloading in cloud-native computing.
+
+
+
+Session merged with DPU BoF (https://netdevconf.info/0x19/40)
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper19-talk-slides/dpu-operator.pdf)（file）
+
+<a id="session-linux-kernel-support-for-ioam-direct-exporting"></a>
+## 13. Linux Kernel Support for IOAM Direct Exporting
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/linux-kernel-support-for-ioam-direct-exporting.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+In Situ Operations, Administration, and Maintenance (IOAM) provides a way to collect telemetry data on devices, e.g., switches and routers, in so-called limited domains (e.g., a datacenter or a service provider). Recently standardized in the IETF, IOAM has been developed with various operation modes (i.e., option-types) in order to be suitable for as many potential use cases as possible. One of the option-types, namely the Pre-allocated Trace Option-type (PTO), has already been implemented in the Linux kernel and is part of the mainline tree since version 5.15.
+
+
+
+IOAM comes with another option-type, namely the IOAM Direct EXporting (DEX). It allows each network device on the path to locally aggregate and/or export telemetry data towards one or more collector(s). This paper proposes the very first implementation of IOAM DEX in the Linux kernel, with support in ubiquitous user space tools. The paper discusses our implementation and presents performance results of our implementation. Our source code will be released upon paper acceptance.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper11-talk-slides/ioam_dex_slides.pdf)（file）
+- [paper](https://netdevconf.info/0x19/docs/netdev-0x19-paper11-talk-paper.pdf)（file）
+- [video](https://youtu.be/7K40NcSwR7M)（link）
+
+<a id="session-enhancing-virtio-net-with-ipsec-operations"></a>
+## 14. Enhancing virtio-net with IPsec Operations
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/enhancing-virtio-net-with-ipsec-operations.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+This talk will delve into the integration of IPsec operations within the virtio-net framework. Our enhancements aim to enable virtio-net to efficiently handle IPsec processing, both before transmission and after reception, providing inline offload capabilities.
+
+
+
+Key Benifits:
+• Improved Performance: Reduces the host’s processing burden, leading to better overall performance.
+
+
+
+• Future-Ready: Establishes a base for adding more Inline processing offloads, such as MACsec, PSP, DTLS and others in the future.
+
+
+
+• Device Compatibility: This proposal benefits devices that already support inline IPsec processing, such as those from Marvell, enhancing their functionality and performance
+
+
+
+Virtio-net IPsec RFC mailing list link:
+https://lore.kernel.org/virtio-comment/20241216104859.2720719-1-schalla@marvell.com/
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper22-talk-slides/Virtio_Net_IPsec_Presentation_Slides.pdf)（file）
+- [video](https://youtu.be/ywvnfZ_AEf0)（link）
+
+<a id="session-accelerating-an-ebpf-network-stack-our-journey-in-completely-offloading-ebpf-based-cilium-cni-to-dpu"></a>
+## 15. Accelerating an eBPF Network Stack: Our journey in completely offloading eBPF based Cilium CNI to DPU
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/accelerating-an-ebpf-network-stack-our-journey-in-completely-offloading-ebpf-based-cilium-cni-to-dpu.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+Kubernetes networking on Linux is dominated by eBPF based implementations, Cilium CNI is the most popular one among these. To offload an eBPF based stack like this to DPU, we have explored several key questions and challenges starting from basics like - Can we offload it ‘completely’ to a DPU ?  Can it be done without adding any complexity at user level ? What if all nodes in the cluster don’t have a DPU, can it still work ?  In a solution like this, how much of host resources can be saved ? What if security policies are present which are HW accelerated, how do these numbers look like ? Can we keep eBPF code changes minimal ? And can such a solution be opensource and HW vendor neutral ?
+
+
+
+In this session we would like to walk you through the challenges that we have encountered and the solutions we have created to achieve our goal. Demonstrated with Marvell Octeon 10 DPU we will show how this solution transparently offloads Cilium’s eBPF NW stack. We also have some intriguing metrics that can be helpful for end users.
+
+
+
+Session merged with DPU BoF (https://netdevconf.info/0x19/40)
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper24-talk-slides/netdev-0x19-paper24.pdf)（file）
+
+<a id="session-performance-optimisation-and-practices-based-on-mptcp-inside-datacenter"></a>
+## 16. Performance Optimisation and Practices Based on MPTCP inside Datacenter
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/performance-optimisation-and-practices-based-on-mptcp-inside-datacenter.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+Socket Locality based Flow Selection in MPTCP
+
+
+
+
+A multi-socket machine commonly has as many locally attached NICs as the number of sockets. Receiving network data on the NIC, that is closest to the application, leads to better end performance. Although it is possible to use static configuration to use the nearest NIC at application launch, there is no system solution for dynamically migrating the network traffic when the application needs to be migrated to a different socket.
+
+
+
+We present a new MPTCP subflow selection strategy that allows a sender to send packets on the NIC closest to the receiving application. The current MPTCP path selection algorithm only considers metrics between TCP layers; extra latency introduced during application receive and send system calls are not reflected. Our goal is to study end-to-end metrics in flow selection logic to achieve better application throughput and latency. An added benefit of using the local NIC is also that it can free up overall system bandwidth and improve access latencies to memory and I/O.
+
+
+
+We will also demonstrate the performance number of the redis memtier bechmark using our solution. Preliminary data suggests a 10% improvement in throughput and 6% in tail latencies. Cross socket communication gets reduced and traffic is aligned uniformly between multiple NICs. We will also highlight the behaviour of CFS when the load on the system increases. Ideally, to benefit from this strategy, the application should rarely schedule across sockets.
+
+
+
+We are in the process of creating an RFC of code changes to receive community feedback.
+
+
+
+
+  User-space MPTCP Practices inside Data Center
+
+
+
+
+Furthermore, we innovatively implemented the user-space MPTCP protocol stack based on DPDK, and applied it to the storage and high-performance computing scenarios in the data centers to improve the reliability of network transmission and the utilization of network resources, especially to solve practical problems such as switch black holes that are difficult to handle with standard TCP. The protocol stack refers to the RFC8684 specification, which can interact with the kernel MPTCP, and also supports automatic fallback to standard TCP when the MPTCP negotiations fail. These features facilitate the replacement and evolution of existing TCP applications. The protocol stack mainly includes two modules: sub-flow management and sub-flow selection. The sub-flow management module is responsible for the creation, destruction and address notification of sub-flows. With the help of the address notification and NIC flow bifurcation capability, it ensures that the traffic of multiple sub-flows can be processed in one DPDK PMD, which fully utilizes the multi-core processing while also maintaining the sharing nothing feature of the DPDK PMD to avoid locks; the sub-flow selection module is responsible for the sub-flow selection of sending data packets. It supports multiple selection strategies to meet the performance requirements in different scenarios. We also implemented the zero-copy interface to further improve the network throughput and latency by effectively avoiding the copy overhead between the applications and the protocol stack.
+
+### 添付資料URL
+
+- [slides 1](https://netdevconf.info/0x19/docs/netdev-0x19-paper25-talk-slides/User-space%20MPTCP%20Practices%20inside%20Data%20Center.pdf)（file）
+- [slides 2](https://netdevconf.info/0x19/docs/netdev-0x19-paper25-talk-slides/SocketLocalityBasedFlowSelection.pdf)（file）
+- [video](https://youtu.be/Z069VqCUCCA)（link）
+
+<a id="session-traits-rich-packet-metadata"></a>
+## 17. Traits: Rich Packet Metadata
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/traits-rich-packet-metadata.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+Currently, the only way to attach information to a sk_buff that travels through the network stack is by using the mark field. This 32-bit field is highly versatile - it can be read in firewall rules, drive routing decisions, and be accessed by BPF programs. However, its limited capacity creates competition for bits, restricting its practical use.
+
+
+
+At Linux Plumbers 2024 [1], we proposed an alternative to the mark field: a binary blob storage, which extends the concept of the XDP metadata area, accompanied by custom BPF-based data channels for passing metadata between the kernel and user space. The idea originated from Cloudflare’s operational needs, which include:
+
+
+
+  Tracing packets through the network stack and across the kernel-user space boundary.
+
+
+  Metadata-driven packet redirection, routing, and socket steering with early classification in XDP.
+
+
+  Extracting information from encapsulation headers and sharing it with user space or vice versa.
+
+
+
+
+Based on community feedback, we shifted to a more refined solution: a bespoke key-value store for metadata, optimized for use within the XDP code. User-space access to the store is provided natively through an extension of the Linux Sockets API. The feature is tentatively called “packet traits” to differentiate it from the already overloaded term “metadata.”
+
+
+
+In our talk, we will present the API features and performance characteristics of the packet traits KV store, backed by the existing packet headroom. We’ll also explain how a shared key space, combined with a registration API, addresses the challenges of metadata merging in scenarios like GRO packet coalescing and IP fragment reassembly.
+
+
+
+Another focus of the talk will be the user API for reading and writing packet traits. We’ll discuss the design of a networking uAPI extension that supports both connection-oriented (TCP) and connectionless (UDP) sockets. Additionally, we’ll show how these extensions align with established Linux networking API patterns, ensuring ease of adoption.
+
+
+
+[1] https://lpc.events/event/18/contributions/1935/
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper26-talk-slides/netdev-0x19-paper26.pdf)（file）
+- [video](https://youtu.be/AsBhHjSOYE0)（link）
+
+<a id="session-congestion-control-in-aiml-networks-at-datacenter-scale"></a>
+## 18. Congestion-control in AI/ML networks at datacenter scale
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/congestion-control-in-aiml-networks-at-datacenter-scale.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+Datacenters are increasingly supporting ml workloads. This necessitates high-speed and high-utilization networks providing low-latency, low jitter, quick response to changes while maintaining fairness. RDMA has been the technology of choice since it offers high-throughput and low-latency memory-to-memory data transfer across the nodes. RoCEv2 is the primary protocol used on Ethernet networks. In recent times we have seen efforts in the industry to overcome the limitations of RoCEv2 such as Google’s Falcon or the Ultra Ethernet Consortium’s interconnect.
+
+
+
+These enhanced protocols, and other research in the community,  includes a focus on datacenter congestion control. There is years of research on TCP/IP congestion that has informed the RDMA congestion proposals. The various industry proposals define the signals to detect congestion, how to react and adapt to congestion, how to schedule the packets, what is the role of the endpoints and switches. The various proposals, though targeting the same set of issues, may differ in exactly in these dimensions; and in many cases have developed their mechanisms borrowing from the other proposals. The modern proposals also leverage In-Network Telemetry (INT) to gather comprehensive link load information to further refine the CC algorithms.
+
+
+
+In this paper we survey the prominent congestion mechanisms used or proposed for the datacenter, compare the basic algorithms used, factors effecting the coexistence of various congestion, and focus on the key features that the endpoint devices must provide for efficient implementation. We investigate what must be the minimal signals that must be provided from the switches and devices to the congestion control algorithms. Looking to the future, we reason and propose that the devices’ congestion control algorithms need to be programmable.
+
+
+
+We also note that the traditional congestion control methods’ adjustment of the congestion window is governed by algorithms rather than quantifiable values. We discuss a reinforcement learning based congestion control method that collects relevant congestion control parameters and defines a reward function to train the agent in real-time.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper30-talk-slides/Congestion_control_RDMA_netdev.pdf)（file）
+- [video](https://youtu.be/Q_vsqwU-AUk)（link）
+
+<a id="session-reservoir-to-the-tap-with-fairness-and-humility"></a>
+## 19. Reservoir to the tap: with fairness and humility.
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/reservoir-to-the-tap-with-fairness-and-humility.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+In this talk we will cover two Fintech use cases that very much can scale only with the power of modern Smart NICs. We will also talk about new Linux enhancements that can bring this to many more such interesting usage in our exponentially growing Networking space.
+
+
+
+We will be talking about the following Technologies
+
+
+
+
+  PTM (Precision Time Management)
+
+
+  HW flow pacing and Time based scheduling using a Timing wheel
+
+
+  HW port 2 port forwarding
+
+
+  P4 programmable pipelines and time to launch as an action
+
+
+  Low Jitter Class of service in HW
+
+
+  AF_XDP enhancements to take advantage of flow pacing HW capabilities
+
+
+
+
+Fintech workloads and few other modern work loads require very fine grained control (down to couple of milliseconds) over packet pacing and at the same time be able to do this for millions of flows; all requiring different granularity of flow pacing. For this, a lot of different modern Network HW features are needed to work together. This talk will go in to the details of how this gets implemented. Also we will talk about low jitter requirements in such use cases and why that is so important to support in modern SmartNICs.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper32-talk-slides/netdev_hft_talk.pdf)（file）
+- [video](https://youtu.be/inmLMFOG-Z0)（link）
+
+<a id="session-democratizing-far-edge-networking-journey-of-mainlining-wired-and-wireless-in-linux-kernel"></a>
+## 20. Democratizing Far Edge Networking: Journey of Mainlining Wired and Wireless in Linux Kernel
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/democratizing-far-edge-networking-journey-of-mainlining-wired-and-wireless-in-linux-kernel.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+The Linux kernel has become increasingly important in far edge networking devices like network
+switches and wireless access points. While traditionally dominated by proprietary software
+stacks, there is growing momentum to upstream support for these devices directly into the Linux
+kernel. This talk presents real-world experiences and lessons learned from mainlining support
+for various wireless and wired SoCs, including Qualcomm’s IPQ40xx platform, Marvell’s
+Prestera switches, Microchip Sparx-5 and LAN969x family of products, as well as upcoming
+work on MaxLinear’s SoCs.
+We’ll explore the challenges and benefits of using upstream Linux for edge networking,
+including the evolution of frameworks like switchdev for network switch ASICs and the wireless
+subsystem for access points. The presentation will cover specific examples of upstreamed
+patches, discussing the technical aspects of bringing up new hardware support while
+maintaining clean abstractions. We’ll examine how standardized Linux interfaces like switchdev can replace traditionally proprietary stack while providing equivalent functionality.
+Key topics include:
+
+
+
+● Strategies for mainlining hardware support efficiently
+
+
+
+● Common pitfalls when upstreaming edge networking drivers
+
+
+
+● Benefits of upstream-first development for vendors and users
+
+
+
+● Real case studies of successful upstreaming efforts
+
+
+
+● Current gaps and opportunities in Linux’s edge networking support
+
+
+
+Drawing from extensive experience contributing to both the Linux kernel and OpenWrt project,
+this talk will provide practical insights for developers working on edge networking devices and
+guidance for companies considering an upstream-first approach.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper35-talk-slides/Netdev%200x19.pdf)（file）
+- [video](https://youtu.be/Sc65WffK2sA)（link）
+
+<a id="session-challenges-of-time-sync-in-datacenters"></a>
+## 21. Challenges of time sync in Datacenters
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/challenges-of-time-sync-in-datacenters.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+Precise time synchronization is becoming increasingly important in modern distributed systems. This talk will explore the key challenges of time synchronization in large-scale deployments.
+The first topic will introduce challenges of multi-NIC setups, where some of the PHCs will be synchronized, and how one can agree on the valid time across them.
+The second part introduces the Client Server Precision Time Protocol (CSPTP). Current 1588 profiles pose challenges for large-scale deployments and the new approach allows the servers to operate without keeping clients’ state information.
+We will then explore the “window of uncertainty” concept and its implications for accuracy and reliability.
+Additionally, we will discuss methods for achieving fast access to PHC (PTP Hardware Clock) time, enabling low-latency synchronization for time-sensitive applications.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper36-talk-slides/timesync_challenges.pdf)（file）
+- [video](https://youtu.be/I0hRjsBOKuY)（link）
+
+<a id="session-open-source-tooling-for-phy-management-and-testing"></a>
+## 22. Open Source Tooling for PHY Management and Testing
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/open-source-tooling-for-phy-management-and-testing.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+One of the techniques Ethernet uses to achieve a high rate of speed is pulse-amplitude
+modulation. This allows increasing the density of the data being sent by a signal by defining
+equalization ranges for different combinations of bits. These ranges differ based on speed and are configured in firmware before the link is up.
+
+
+
+Ranges are typically defined in firmware and seldom changed. However during hardware
+interoperability testing they must be evaluated, tested, and potentially modified. Testing requires manually starting and stopping pseudo random binary sequence(PRBS) modes and other indefinite pattern tests. Various vendors provide their own proprietary tools to set equalization values and run pattern tests. No open source tool exists to provide this functionality.
+
+
+
+At the Netdev 0x18 - Driver and H/W APIs Workshop the community discussed various
+methods to implement new common features. The community acknowledged that the kernel
+must never break user space and only accept new features once they have matured enough to become a standard interface. The purpose of this talk is to discuss whether setting equalization values and enabling pattern tests has matured enough across various vendors to develop a standard open source interface.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper37-talk-slides/Open%20Source%20Tooling%20for%20PHY%20Management%20and%20Testing.pdf)（file）
+- [paper](https://netdevconf.info/0x19/docs/netdev-0x19-paper37-talk-paper.pdf)（file）
+- [video](https://youtu.be/8ExLOziwnqM)（link）
+
+<a id="session-state-of-the-union-in-tcp-land"></a>
+## 23. State of the union in TCP land
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/talk/state-of-the-union-in-tcp-land.html
+- Track: Talk
+- 日時:  
+
+### Description
+
+This talk will describe recent changes in the Linux kernel and user space TCP world.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper42-talk-slides/state-of-the-union.pdf)（file）
+- [video](https://youtu.be/DHbeID8DHUY)（link）
+
+<a id="session-introduction-to-ebpf-socket-maps"></a>
+## 24. Introduction to eBPF socket maps
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/tutorial/introduction-to-ebpf-socket-maps.html
+- Track: Tutorial
+- 日時:  
+
+### Description
+
+eBPF socket maps are a specialized map data structure that holds active network sockets, facilitating dynamic storage, retrieval, and manipulation of sockets for diverse network management tasks. They play a vital role in managing and optimizing network traffic, enabling efficient socket lookups and packet forwarding, and supporting high-performance L7 operations.
+
+
+
+The stream verdict makes decisions based on parsed data, taking into account factors such as security policies and quality of service requirements. The stream parser inspects and analyzes network data streams in real-time, dissecting packets and maintaining L4 state information and L7 message boundaries.
+
+
+
+eBPF socket maps have numerous use cases, including load balancing, packet filtering, TCP connection hijacking, socket monitoring, and socket splicing. Sockops, or socket operations, enhance the versatility of eBPF socket maps by allowing transparent manipulation of socket behavior, enabling more sophisticated and fine-grained use cases.
+
+
+
+This tutorial offers an in-depth examination of eBPF socket maps, along with illustrative instances. Furthermore, we present the historical developments and recent advancements of eBPF socket maps. Hopefully this gives the audience a complete picture of eBPF socket maps.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper17-talk-slides/netdev-sockmap-tutorial.pdf)（file）
+- [video](https://youtu.be/Gs_vTXyGKlM)（link）
+
+<a id="session-challenges-and-limitations-of-debugging-increasingly-complex-virtualized-networks-with-retis"></a>
+## 25. Challenges and limitations of debugging increasingly complex virtualized networks with Retis
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/tutorial/challenges-and-limitations-of-debugging-increasingly-complex-virtualized-networks-with-retis.html
+- Track: Tutorial
+- 日時:  
+
+### Description
+
+The never-ending innovation that powers the Linux networking community makes today’s datapaths increasingly diverse and complex. This makes observing packets as they traverse the many layers, protocols, and drivers more challenging. Consequently, feature development, construction of complex data paths, and resolution of technical issues can become significantly more difficult and time-consuming.
+
+
+
+In order to address this challenge and speed up network problem diagnosis, Retis [1] combines the flexibility of eBPF, the popularity of libpcap filtering with extensible built-in and custom post-processing facilities to track packets, gather contextual information from the areas they traverse (e.g: nft, conntrack, openvswitch, …) and allow deep analysis of collected data.
+
+
+
+In this tutorial, we discuss the main challenges that were found and how they led to the main architectural decisions of Retis. Then we cover the most important features supported by Retis and we examine the key implementation strategies. Also, we show a demonstration of how Retis can be used to gain insights into internal packet processing which can be very useful for troubleshooting and development. Finally, we discuss the main limitations that have been found and explore future improvements.
+
+
+
+[1] https://github.com/retis-org/retis/
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper21-talk-slides/Challenges%20and%20limitations%20of%20debugging%20virtualized%20networks%20with%20Retis.pdf)（file）
+- [video](https://youtu.be/AR5d3gM9zH4)（link）
+
+<a id="session-tutorial-using-packetdrill-to-write-automated-tests-for-the-linux-networking-stack"></a>
+## 26. Tutorial: Using Packetdrill to Write Automated Tests for the Linux Networking Stack
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/tutorial/tutorial-using-packetdrill-to-write-automated-tests-for-the-linux-networking-stack.html
+- Track: Tutorial
+- 日時:  
+
+### Description
+
+Tutorial: Using Packetdrill to Write Automated Tests for the Linux Networking Stack
+
+
+
+Session Type: Tutorial  (instructor-led)
+
+
+
+Duration: 60 minutes
+
+
+
+Label: nuts and bolts
+
+
+
+Title: Tutorial: Using Packetdrill to Write Automated Tests for the Linux Networking Stack
+
+
+
+Abstract:
+
+
+
+This tutorial will provide a hands-on introduction to Packetdrill. The Packetdrill open-source scripting tool enables quick, precise, reproducible, automated unit tests for entire TCP/UDP/IPv4/IPv6 network stacks, from the system call layer down to the NIC hardware. Packetdrill works on Linux, FreeBSD, OpenBSD, and NetBSD. It can test network stack behavior over physical NICs on a LAN, or (for speed and ease of use) on a single machine using a tun virtual network device. This tutorial aims to introduce Packetdrill and explain how to use it for network stack development, troubleshooting, and automated regression testing.
+
+
+
+This tutorial will cover the following topics:
+
+
+
+
+  Introduction to Packetdrill:
+    
+      What is Packetdrill?
+
+
+      What are the goals of Packetdrill? What is it useful for? What is it not useful for?
+
+
+      How does Packetdrill work? An overview of Packetdrill’s architecture, implementation, and key features.
+
+
+      Understanding the Packetdrill scripting language, including syntax and semantics.
+
+
+    
+  
+
+
+  Hands-on Packetdrill Basics:
+    
+      Downloading, installing, and building Packetdrill and Packetdrill test suites
+
+
+      How to write a Packetdrill test
+
+
+      How to run a Packetdrill test (in local mode for single-machine testing)
+
+
+      How to interpret Packetdrill test failures
+
+
+      Testing different network protocols (e.g., TCP, UDP, ICMP)
+
+
+    
+  
+
+
+  Advanced Packetdrill techniques:
+    
+      Using local mode for single-machine testing and remote mode to test traffic between real NICs
+
+
+      Using Python embedded in Packetdrill scripts to print state and check assertions about state
+
+
+      How to troubleshoot unexpected test failures (with Packetdrill -v, tcpdump, ss, and other tools)
+
+
+      Working with sysctl values and dependencies
+
+
+      Working with network namespaces
+
+
+      Testing IPv4, IPv6, and IPv4-mapped-IPv6
+
+
+      Testing encapsulation, TOS/DSCP, ECN
+
+
+      Simulating network errors and edge cases (e.g., packet loss, reordering, fragmentation, ICMP errors)
+
+
+      Submitting patches for Packetdrill tests or changes to Packetdrill itself
+
+
+      Packetdrill forks for *BSD, SCTP, and QUIC
+
+
+    
+  
+
+
+  Integrating Packetdrill into your development workflow:
+    
+      Using Packetdrill for unit tests during network stack development, regression testing, bug reproduction, and documenting git commits for bug fixes or feature additions.
+
+
+      Automating Packetdrill tests in a CI/CD pipeline
+
+
+      Tips and best practices for effective Packetdrill usage
+
+
+    
+  
+
+
+
+
+Target Audience:
+
+
+
+This tutorial is targeted towards Linux kernel developers, network engineers, students learning about the TCP protocol, and anyone involved in developing or testing network stack implementations. Familiarity with basic networking concepts (e.g., TCP/IP, sockets) and the Linux command line is assumed.
+
+
+
+Expected Outcomes:
+
+
+
+The goal is for attendees to leave this tutorial with a solid understanding of Packetdrill’s capabilities, and how to use Packetdrill to aid kernel networking software development workflows.
+
+
+
+Why this Tutorial is Important to the Netdev Community:
+
+
+
+Packetdrill is a useful tool in the toolbox of a Linux kernel networking developer. By promoting its adoption, we can contribute to a more robust and reliable Linux network stack. This tutorial (the first Packetdrill tutorial at any conference since the open-sourcing of Packetdrill in 2013) will empower developers with a useful tool to catch bugs early, improve code quality, and ultimately deliver a better networking experience for all users.
+
+
+
+Packetrill test scripts or snippets are increasingly being used on the Linux netdev mailing list and in Linux git commit messages (by developers from different companies and universities) to precisely describe buggy or correct/fixed network stack behavior.
+
+
+
+In 2024 (Linux v6.12) Packetdrill tests were added to the self-test suite in tools/testing/selftests/net/Packetdrill/ and 66 Packetdrill tests (so far) are part of the set of automated tests the Linux networking community is using. The Packetdrill project on github has over 300 Linux Packetdrill tests that are being incrementally ported to the mainline Linux test suite, and Google has over 2,000 Packetdrill tests that are being incrementally open-sourced to github and mainline Linux.
+
+
+
+We believe this tutorial will be a valuable addition to the Linux Netdev Conference and will contribute to the advancement of Linux network stack development. We look forward to your consideration.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper23-talk-slides/packetdrill%20-%20NetDev%202025-03-10.pdf)（file）
+- [video](https://youtu.be/XeXbiY640Ko)（link）
+
+<a id="session-diagnosing-page-pool-leaks"></a>
+## 27. Diagnosing Page Pool Leaks
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/tutorial/diagnosing-page-pool-leaks.html
+- Track: Tutorial
+- 日時:  
+
+### Description
+
+Page pools have become the standard way of doing memory management on the RX data path. Implementing page pool support in a NIC driver is not rocket science. Once such support is added and the obvious problems are dealt with the driver author might be faced with a long tail of issues related to page pool leaks. While these leaks are not critical they are frustrating to deal with.
+
+
+
+This talk provides practical guidelines for diagnosing page pool leaks and narrowing down their sources using the drgn debugger [0]. Drawing from real-world examples [1][2], it demonstrates some debugging techniques and heuristics to differentiate true leaks from false positives. Although techniques for handling such issues have been discussed on the Netdev mailing list [3][4], clear examples have been lacking—this talk aims to fill that gap.
+
+
+
+The tool used in this tutorial is the drgn debugger. This tutorial can also be seen as showcase for drgn with it’s many powers. The scripts together with the small drgn changes are available in a temporary drgn fork repo [5] but hopefully some of them will be folded into drgn itself.
+
+
+
+The session will benefit driver authors who need to debug or understand such issues. It could also be interesting for savvy system administrators to understand and assess the significance of these leaks.
+
+
+
+References:
+
+
+
+[0] https://drgn.readthedocs.io
+
+
+
+[1] f232de7cdb4b (“net/mlx5e: SHAMPO, Fix page leak”)
+
+
+
+[2] aaab619ccd07 (“net/mlx5e: XDP, Fix XDP_REDIRECT mpwqe page fragment leaks on shutdown”)
+
+
+
+[3] Add netlink-based introspection for page pools:
+https://lore.kernel.org/netdev/ZWfuyc13oEkp583C@makrotopia.org/T/#m5746652f9f93b71f120a072b206732a6fcc89f5e
+
+
+
+[4] https://lore.kernel.org/netdev/20240814075603.05f8b0f5@kernel.org/
+
+
+
+[5] https://github.com/dtatulea/drgn/tree/netdevconf-0x19-talk
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper34-talk-slides/netdevconf%20-%20Chasing%20Page%20Pool%20Leaks.pdf)（file）
+- [video](https://youtu.be/kEV3AliKgZU)（link）
+
+<a id="session-ai-networks-rocev2-and-the-role-of-netdev"></a>
+## 28. AI Networks - RoCEv2 and the role of "netdev"
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/workshop/ai-networks-rocev2-and-the-role-of-netdev.html
+- Track: Workshop
+- 日時:  
+
+### Description
+
+AI training requires high bandwidth and low latency networks and networking stacks as training times are highly dependent on tail latency. Collective communications such as NCCL can use socket based designs (e.g., TCP/IP) or RDMA operations to move training data between servers. The amount of data to be moved between nodes has exploded with larger LLM sizes. That volume of data along with the increasing speeds of ethernet (800G as state of the art) emphasize the inefficiencies of socket based networking. A data path with packets traversing a full networking stack has entirely too much overhead that affects both throughput and latency to compete with RDMA and implementations like RoCEv2. So what does that mean for “netdev”? While RDMA operations are used to efficiently move data, the RoCEv2 protocol itself is based on standard networking protocols (UDP/IP/ethernet), and the core infiniband S/W stack leverages the Linux networking stack (aka, “netdev”) where possible.
+
+
+
+In this workshop, we will discuss the RoCEv2 protocol for AI training networks and the role of “netdev”. This supporting role includes the netdev device model with operations for H/W offloads, port state (mtu and carrier), and network addresses and as well as routing and neighbor resolution. The socket based stack is also used for out-of-band communications (e.g., exchanging metadata). We will also revisit the solution presented at netdev 0x16 that shows how to connect Linux TCP with QPs to avoid the traditional overhead of sockets and full-stack traversal to improve performance while re-using the advantages of TCP and its congestion control protocols. Finally, we will review the recent contributions to use device memory with Linux TCP, the related io_uring work and what that means for performance relative to RoCEv2.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper18-talk-slides/netdev-0x19-AI-networking-RoCE-and-netdev.pdf)（file）
+- [video](https://youtu.be/3nIhV2TS_JE)（link）
+
+<a id="session-real-time-prevention-of-dns-based-data-exfiltration-bof"></a>
+## 29. Real-Time Prevention of DNS-Based Data Exfiltration BoF
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/bof/real-time-prevention-of-dns-based-data-exfiltration-bof.html
+- Track: Bof
+- 日時:  
+
+### Description
+
+DNS-based data exfiltration through Command-and-Control (C2) channels and DNS tunneling techniques poses critical cybersecurity challenges, particularly in distributed environments. Attackers exploit DNS vulnerabilities to establish covert channels, exfiltrate sensitive data, and maintain persistent control over compromised systems. Traditional defenses often fail to address these sophisticated and evolving threats, leading to delayed detection, substantial data loss, and widespread network compromise. This proposal presents a scalable security framework designed to prevent DNS data exfiltration in real-time using Linux kernel eBPF programs and deep learning following endpoint security approach. Operating directly within the kernel network stack, the solution leverages eBPF over kernel traffic control (tc) and Netfilter for Deep Packet Inspection (DPI) and real-time lexical analysis of DNS traffic. Additionally, it adapts to evolving obfuscation techniques in DNS protocols, effectively neutralizing sophisticated threats. The framework also provides robust support for destroying C2 channels within seconds of creation, exposing  C2 implants processes, and preventing exfiltration over arbitrary transport ports.
+
+
+
+Key Features of the Framework:
+
+
+
+
+  
+    Deep Packet Inspection inside Linux Kernel: Utilizes eBPF programs over tc, Netfilter, and raw parsing of kernel socket buffers for advanced lexical analysis of DNS packets.
+
+
+  
+
+
+  
+    Dynamic eBPF Filter Injection: Detects and blocks encapsulated exfiltration attempts through virtual network interfaces using kernel probes.
+
+
+  
+
+
+  
+    Enhanced Observability: Delivers granular metrics and insights via eBPF maps and ring buffers, enhancing threat visibility.
+
+
+  
+
+
+  
+    Adaptive Obfuscation Detection: Employs deep learning models to counter evolving DNS exfiltration obfuscation techniques.
+
+
+  
+
+
+  
+    Transport Protocol-Agnostic Protection: Ensures comprehensive safeguards against DNS exfiltration over arbitrary TCP and UDP ports.
+
+
+  
+
+
+  
+    Real-Time Mitigation: Integrates dynamic domain blacklisting and event stream processing for enterprise-scale DNS topologies.
+
+
+  
+
+
+
+
+The framework ensures minimal data loss while providing real-time prevention of DNS tunneling and C2 channels. It offers robust protection against all forms of DNS data exfiltration, enhances observability through comprehensive metrics, and ensures resilience against dynamically evolving threats, making it a significant advancement in DNS security.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper9-talk-slides/Netdev%20DNS%20Kernel%20enforced%20Data%20Breach%20Security%20Bof.pdf)（file）
+- [video](https://youtu.be/S85YAF6QZq0)（link）
+
+<a id="session-srv6-in-linux-kernel-frr-and-ebpf-review-the-current-status-and-plan-the-future-evolution"></a>
+## 30. SRv6 in Linux Kernel, FRR and eBPF : review the current status and plan the future evolution
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/bof/srv6-in-linux-kernel-frr-and-ebpf-review-the-current-status-and-plan-the-future-evolution.html
+- Track: Bof
+- 日時:  
+
+### Description
+
+Segment Routing over IPv6 (SRv6) has become a cornerstone for modern network programmability by embedding instructions directly into the IPv6 packet header. Standardized under IETF RFC8986, SRv6 has evolved significantly since its initial support in Linux kernel 4.10 over nine years ago. The framework’s capabilities have matured with continuous updates to kernel releases, integrating performance optimizations and feature enhancements. SRv6 employs lightweight tunnel infrastructures, such as seg6 and seg6local, and extends its support to key subsystems like Netfilter and eBPF, fostering its adoption in diverse scenarios.
+
+
+
+Prominent open-source projects like FRR, Cilium, and SONiC leverage the Linux kernel’s SRv6 implementation for advanced networking functionalities. FRR facilitates L3VPN services and integrates SRv6 behaviors across its daemons. Cilium harnesses SRv6 with eBPF for efficient container networking, achieving high performance and observability in Kubernetes. Similarly, SONiC leverages SRv6 to deliver scalable routing services and policy management for large-scale deployments.
+
+
+
+In the workshop, we will specifically explore how SRv6 innovations have shaped the Linux ecosystem and delve into future opportunities. We will discuss the requirements for enhancing SRv6 support in the Linux kernel, as driven by the demands of projects like SONiC. Additionally, the latest advancements in FRR will be examined to understand how they enable robust L3VPN services and extend SRv6 capabilities. The eBPF framework in Cilium, with its focus on telemetry and traffic engineering, will be shortly presented. Finally, the current limitations of SRv6 in the Linux kernel will be identified, and a roadmap for improvements will be outlined to guide future contributions and collaboration within the networking community. The workshop also features a presentation on an SRv6 performance issue in the Linux kernel and its proposed mitigation. By addressing these themes, the workshop aims to inspire discussions that will drive the next phase of SRv6’s implementation in the Linux ecosystem.
+
+
+
+Workshop Program
+
+
+
+Tuesday March 11, 2025
+
+
+
+
+.tg  {border-collapse: collapse; border-spacing: 0; width: 100%;}
+.tg td, .tg th {
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  overflow: hidden;
+  padding: 10px 5px;
+  word-break: normal;
+}
+.tg .tg-0pky {
+  border-color: inherit;
+  text-align: left;
+  vertical-align: top;
+}
+.tg td:first-child, .tg th:first-child {
+  white-space: nowrap; /* Prevents wrapping */
+  width: 28%; /* Ensures the column takes minimal space while fitting content */
+}
+.tg td:last-child, .tg th:last-child {
+  width: auto; /* Expands to fill the remaining space */
+}
+
+
+
+  
+	
+      09:00 - 09:15
+      Stefano Salsano
+Introduction to the workshop
+    
+    
+      09:15 - 09:35
+      Ahmed Abdelsalam
+Technical intro to SRv6, IETF status, interoperability status
+    
+    
+      09:35 - 10:05
+      Andrea Mayer
+SRv6 in Linux kernel: past, present and future
+    
+    
+      10:05 - 10:20
+      Ahmed Abdelsalam
+SoNIC and SRv6
+    
+    
+      10:20 - 10:50
+      Carmine Scarpitta
+FRR: status and evolution of SRv6 support
+    
+    
+      10:50 - 11:10
+      COFFEE BREAK
+    
+    
+      11:10 - 11:25
+      Stefano Salsano
+eBPF and SRv6
+    
+    
+      11:25 - 11:40
+      Angelo Tulumello
+eBPF and SRv6: a use case for RoCEv2 support
+    
+    
+      11:40 - 12:00
+      Emilien Wansart
+Mitigating the Double-Reallocation Issue for IPv6 Lightweight Tunnel Encapsulations
+    
+    
+      12:00 - 12:30
+      Stefano Salsano (Moderator)
+Panel discussion on next steps for SRv6 in Linux networking
+    
+  
+
+
+
+
+
+
+Workshop Organizer
+
+
+Stefano Salsano   - University of Rome Tor Vergata / CNIT
+
+
+
+
+
+
+
+Speakers
+
+
+
+Ahmed Abdelsalam  - CISCO Systems
+
+Andrea Mayer          - COMMON NET / CNIT
+
+Carmine Scarpitta    - CISCO Systems
+
+Angelo Tulumello     - CNIT / University of Rome Tor Vergata
+
+Emilien Wansart       - University of Liege
+
+
+
+______________________
+
+The organization of this workshop has been supported by the European Union - Next Generation EU under the Italian National Recovery and Resilience Plan (NRRP), Mission 4, Component 2, Investment 1.3, CUP E83C22004640001, partnership on “Telecommunications of the Future” (PE00000001 - program “RESTART”).
+
+### 添付資料URL
+
+- [slides 1](https://netdevconf.info/0x19/docs/netdev-0x19-paper29-talk-slides/00-ws-intro.pdf)（file）
+- [slides 2](https://netdevconf.info/0x19/docs/netdev-0x19-paper29-talk-slides/05-srv6-ebpf.pdf)（file）
+- [slides 3](https://netdevconf.info/0x19/docs/netdev-0x19-paper29-talk-slides/01-srv6-intro.pdf)（file）
+- [video](https://youtu.be/haqL-bWpM-E)（link）
+
+<a id="session-bof-your-fu-is-better-than-mine"></a>
+## 31. BoF: Your Fu is Better Than Mine!
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/bof/bof-your-fu-is-better-than-mine.html
+- Track: Bof
+- 日時:  
+
+### Description
+
+The ever-popular, often-requested, BoF is back.  This is a safe space, a judgement-free zone.  Come with your cool hacks, workflows, test harnesses, whatever.  This is a place where all of us who have worked in this space for decades or months can converge, and share knowledge of how we work in this space better.
+
+
+
+If you’re interested, just bring a short demo.  It could be a simple git workflow to show how you automate bisecting a driver issue with tests.  Or a simple benchmark that you can show why it’s important to you.  No judgements, just pure sharing.  Often people in the audience get encouraged by who is presenting, and spontaneously decide to present something of theirs.  That’s the spirit of the OG BoF.  Let’s do this again.
+
+### 添付資料URL
+
+- [slides 1](https://netdevconf.info/0x19/docs/netdev-0x19-paper31-talk-slides/netdev0x19-vxlan.pdf)（file）
+- [slides 2](https://netdevconf.info/0x19/docs/netdev-0x19-paper31-talk-slides/JumpTrading%20-%20netdev%200x19%20Your%20Fu%20is%20Cool.pptx)（file）
+- [video](https://youtu.be/_P1vWvLhu1s)（link）
+
+<a id="session-low-latency-networking-bof"></a>
+## 32. Low Latency Networking BoF
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/bof/low-latency-networking-bof.html
+- Track: Bof
+- 日時:  
+
+### Description
+
+Low Latency is an important requirement for certain application types.  These application types don’t have to be similar.  In many cases, they are quite different.  Achieving low latency behaviors for these use cases can be reached in different ways.
+
+
+
+The BoF will include discussions on:
+
+
+
+
+  use cases and their latency constraints
+
+
+  causes of latency and jitter in Linux
+
+
+  How to achieve low latency in various scenarios and setups
+
+
+
+
+Full Agenda to be posted by conference time.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper38-talk-slides/JumpTrading%20-%20netdev%200x19%20low-latency%20BoF.pptx)（file）
+- [video](https://youtu.be/Q8rdrz9p5MA)（link）
+
+<a id="session-networking-for-ai-bof"></a>
+## 33. Networking For AI BoF
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/bof/networking-for-ai-bof.html
+- Track: Bof
+- 日時:  
+
+### Description
+
+Agenda:
+
+
+
+  An overview of networking demands of AI
+Why it is different from HPC and other datacenter needs
+
+
+  UEC transport driver and SW implementation walk through
+An initial look at the RFC that was floated and how the Packet Delivery Subsystem works
+
+
+  Deep Dive and Analysis of networking for AI
+
+
+
+
+Presented by Shrijeet Mukherjee, Nikolay Aleksandrov and Costin Raiciu this BOF should be able to introduce the audience to the basics of AI networking, what is happening in the industry to address the requirements better and how these networks operate in the real world.
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper39-talk-slides/AI%20Networking%20Workshop%20-%20Netdev%200x19.pdf)（file）
+- [video](https://youtu.be/G8mLlHvTdhg)（link）
+
+<a id="session-datapath-processing-unit-bof"></a>
+## 34. Datapath Processing Unit BoF
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/bof/datapath-processing-unit-bof.html
+- Track: Bof
+- 日時:  
+
+### Description
+
+Agenda:
+
+
+
+  
+    Accelerating an eBPF Network Stack: Our journey in completely offloading eBPF based Cilium CNI to DPU  (https://netdevconf.info/0x19/24)
+
+
+  
+
+
+  
+    Introducing the DPU Operator: Vendor-Agnostic DPU Integration in K8s for Performance and Security  (https://netdevconf.info/0x19/19)
+
+
+  
+
+
+  
+    Revision P4TC offload (Jamal Hadi Salim)
+
+
+  
+
+
+  
+    Offload P4 parser (Anjali S. Jain)
+
+### 添付資料URL
+
+- [video](https://youtu.be/9YNoOqOELZk)（link）
+
+<a id="session-mptcp-present-future-and-its-development-workflow-ci"></a>
+## 35. MPTCP: present, future, and its development workflow (CI)
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/bof/mptcp-present-future-and-its-development-workflow-ci.html
+- Track: Bof
+- 日時:  
+
+### Description
+
+Multipath TCP (MPTCP) started to appear in the Linux kernel in the v5.6 version, released in 2020. A lot of changes have been introduced since then.
+
+
+
+This session will cover different aspects about MPTCP and its development. First, and if needed depending on the audience, what is MPTCP, its use-cases, and the different components. Then how easy it is to use MPTCP today with a recent and up-to-date Linux environment. There will be some words about the current status, what are the planned next steps, and eventually some discussions about what would be great to have later on.
+
+
+
+The second part will be dedicated to the development workflow, and how a good CI can help with automated tasks: validating patches sent to a mailing list using Patchew and GitHub Actions on the default (free) public runners with KVM ; updating Patchwork status automatically ; having simple ways to reproduce issues spot by the CI (or others) thanks to containers including virtme-ng to replicate the CI environment locally ; using Syzkaller to catch various bugs, etc. Some parts can be easily re-used in other subsystems.
+
+
+
+https://mptcp.dev
+
+### 添付資料URL
+
+- [slides](https://netdevconf.info/0x19/docs/netdev-0x19-paper41-talk-slides/NetdevConf%200x19%20-%20MPTCP.pdf)（file）
+- [video](https://youtu.be/lo8biurYw5s)（link）
+
+<a id="session-understanding-and-improving-robustness-of-networked-systems-with-machine-learning"></a>
+## 36. Understanding and Improving Robustness of Networked Systems With Machine Learning
+
+- セッション個別URL: https://netdevconf.info/0x19/sessions/keynote/understanding-and-improving-robustness-of-networked-systems-with-machine-learning.html
+- Track: Keynote
+- 日時:  
+
+### Description
+
+Networks are infrastructure, and we need infrastructure to perform
+reliably. But networked systems are also complicated and difficult to
+fully observe or understand, even for their own designers and
+operators. In this talk we’ll explore how machine learning might
+provide an approach to understand the systems and protocols we have
+built and ultimately improve their robustness. We will discuss using
+machine learning as an adversary to discover environments where
+congestion control implementations perform poorly, and automatically
+diagnosing performance problems in distributed cloud applications,
+before concluding with future directions.
+
+### 添付資料URL
+
+- [video](https://youtu.be/9Mjyo8NqMAA)（link）

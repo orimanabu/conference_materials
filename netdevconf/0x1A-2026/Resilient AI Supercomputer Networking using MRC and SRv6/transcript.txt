@@ -1,0 +1,876 @@
+Source: https://youtu.be/qlVweM7rLx4
+Language: en
+Captions: auto-generated
+
+[00:00:00] Hello. Um,
+[00:00:03] hello everyone. Quick introduction. Uh,
+[00:00:05] I'm Kristoff. I'm from OpenAI and I'm
+[00:00:07] going to talk about uh how we build a
+[00:00:10] resilient AI supercomputer using ARC and
+[00:00:13] SRV6.
+[00:00:15] So first of all uh want to highlight
+[00:00:18] that this work has been very
+[00:00:20] crossunctional across different
+[00:00:21] companies open AAI obviously Microsoft
+[00:00:24] AMD Broadcom Nvidia large number of
+[00:00:27] people have been involved in this um and
+[00:00:30] uh credit is due to due to everyone here
+[00:00:33] on the slide and everyone else that
+[00:00:34] didn't fit on the slide so I just want
+[00:00:37] to make sure that this has been all
+[00:00:39] these people have been working on this
+[00:00:42] so let me start by taking a look at what
+[00:00:45] is actually um what do we actually doing
+[00:00:48] here? What are we trying to achieve? Uh
+[00:00:50] when we at OpenAI we are training a
+[00:00:53] model, we are doing what is called a
+[00:00:55] pre-training and it has some kind of
+[00:00:57] different pre-training has different
+[00:00:59] properties in terms of networking
+[00:01:00] compared to more traditional networking
+[00:01:03] that what one may be used to when doing
+[00:01:06] uh customer device networking stacks.
+[00:01:09] First of all, there's a large number of
+[00:01:11] GPUs that are involved in this. And each
+[00:01:13] GPU GPU is doing some compute. Why? And
+[00:01:17] the compute that each GPU is doing is
+[00:01:19] basically the same compute but on
+[00:01:21] different types of data set. After this
+[00:01:24] compute, the GPUs have to exchange some
+[00:01:26] data and each GPU is sending basically
+[00:01:29] roughly the same amount of data at each
+[00:01:31] step and each training job is a very
+[00:01:34] large number of uh discrete steps that
+[00:01:36] it's doing. Now when we are doing this
+[00:01:39] data exchange um if there is one GPU
+[00:01:42] that is kind of a little bit slow all
+[00:01:44] the other GPUs need to wait for this one
+[00:01:47] GPU that is kind of slow right so what
+[00:01:50] does this means is that the next step
+[00:01:52] can only start when this slow GPU
+[00:01:55] finally finished its data transfer
+[00:01:58] now improving the step time meaning
+[00:02:00] making this uh weight time as small as
+[00:02:03] possible is very important. If for
+[00:02:05] example we can reduce the step time by
+[00:02:07] 30%. It means we can train the next AI
+[00:02:10] model instead of it taking three months
+[00:02:12] it's only going to take two months. So
+[00:02:14] that's a big deal. Meaning step time and
+[00:02:16] tail latency is one of the most
+[00:02:18] important metrics that we are looking
+[00:02:20] at.
+[00:02:22] The second part is also uh uh errors and
+[00:02:25] failures. So imagine this one GPU never
+[00:02:28] reaches the end of the step and it never
+[00:02:30] completes its transaction. What happens
+[00:02:32] is that we are not going to be able to
+[00:02:35] actually um we are not going to be able
+[00:02:37] to start the next step. We need to crash
+[00:02:40] the job, tear everything down and start
+[00:02:43] and restart from a checkpoint.
+[00:02:46] Uh restarting from a checkpoint is a
+[00:02:48] very expensive operation. Takes a lot of
+[00:02:50] time. There's obviously some setup cost
+[00:02:52] uh involved in that. But more
+[00:02:54] importantly also when we have a very
+[00:02:56] large number of GPUs that are all at the
+[00:02:58] same time starting up and starting the
+[00:03:00] same calculation uh they start drawing a
+[00:03:04] lot of P power all at the same time and
+[00:03:06] so with a large number of GPUs we can
+[00:03:08] cause issues on the on the power grid
+[00:03:10] and so we are powers moving this startup
+[00:03:13] to prevent this kind of issues on the
+[00:03:15] power grid.
+[00:03:17] So what this means is when we are doing
+[00:03:20] uh AI training the goals are first of
+[00:03:22] all obviously we want to use all of the
+[00:03:24] capacity in the most efficient way high
+[00:03:26] throughput and very low tail latency.
+[00:03:29] It's not the P99 that matters it's the
+[00:03:31] P100.
+[00:03:33] Um second reliability is extremely
+[00:03:36] important. We prefer to step slightly
+[00:03:38] slower than having to restart the job
+[00:03:40] because a restart is extremely
+[00:03:41] expensive. So we have to be uh as much
+[00:03:45] redundant as possible.
+[00:03:47] And uh of course also these are large
+[00:03:50] clusters. We want to have it uh operate
+[00:03:52] as automated as possible. We don't have
+[00:03:55] a very large team that is in charge of
+[00:03:57] of running these things. Uh it's very
+[00:03:59] small actually. And so we want it to be
+[00:04:01] very easy in terms of maintenance, in
+[00:04:03] terms of operations.
+[00:04:08] So uh quick show of hands. Who here in
+[00:04:10] this room uh knows uh a lot about Rocky?
+[00:04:14] knows Rocky very well.
+[00:04:16] So, everybody else who didn't raise his
+[00:04:18] hand. So, that's why I have the Rocky
+[00:04:20] 101. About a year ago, I was in this
+[00:04:23] situation as well. I didn't know
+[00:04:24] anything about it, but it's actually
+[00:04:26] fairly simple. Um, basically Rocky is uh
+[00:04:30] a connectionoriented protocol. Uh, you
+[00:04:32] have a QP which is a Q pair and
+[00:04:35] basically the mental model can be a Q
+[00:04:37] pair is a UDP flow. It's a five tubble,
+[00:04:39] right? We have the CPU that is in charge
+[00:04:42] of driving the nick by using a certain
+[00:04:45] uh API. It's called IB verbs. It
+[00:04:48] registers memory, creates a QP. It posts
+[00:04:52] work. And when it is posting work, it's
+[00:04:53] telling the nick get the data from this
+[00:04:56] memory region on the GPU and send it to
+[00:04:58] this other guy. Uh the nick then is in
+[00:05:00] charge of dmaing the data from the GPU
+[00:05:04] over uh to the network segmenting
+[00:05:06] everything into packets and transmitting
+[00:05:08] things reliably over UDP over this one
+[00:05:11] UDP flow to the other pier.
+[00:05:14] The receiver nick is uh basically
+[00:05:17] receiving these packets, needs to
+[00:05:18] reassemble everything, put everything in
+[00:05:20] order and then DMAS the data over to the
+[00:05:24] uh to the GPU and posts also a
+[00:05:27] completion to the CPU so that the CPU
+[00:05:29] can let the GPU know that data has
+[00:05:31] arrived and everything is there. So
+[00:05:34] basically um Rocky creates a poor meds
+[00:05:39] TCP over UDP inside the nick. Uh it's a
+[00:05:42] little bit what one may may call it
+[00:05:44] quick but uh so yeah
+[00:05:49] so let's see what is with Rocky uh that
+[00:05:52] doesn't uh work well. First of all let
+[00:05:55] me show you how regular our one of our
+[00:05:57] data centers look like. We have a bunch
+[00:05:59] of GPUs here at the bottom. These GPUs
+[00:06:02] are connecting to the leaf switches uh
+[00:06:04] with uh for example a single link and
+[00:06:06] these leaf switches are uh because we
+[00:06:09] have a full bisection bisectional
+[00:06:11] bandwidth we have a cross topology so
+[00:06:13] they uh connect to a large number of
+[00:06:15] spine switches. This here is a two-tail
+[00:06:17] network. So if you we use Rocky because
+[00:06:21] Rocky uses for one QP it uses a uh a
+[00:06:25] five UDP 5o and with ECMP hashing this
+[00:06:29] Rocky flow is going to use one specific
+[00:06:32] path in the data center and um this path
+[00:06:36] is going to use the full capacity of the
+[00:06:38] nick and so it is for example if it's an
+[00:06:40] 800 gig nick it will be able to use 800
+[00:06:43] Gbits per second. The risk with using
+[00:06:46] Rocky here is that if we create another
+[00:06:48] p another flow with the un
+[00:06:51] nondeterministic ECMP hashing this other
+[00:06:54] flow that may between be between two
+[00:06:57] entirely different GPUs may end uh end
+[00:07:00] up using colliding on a single path
+[00:07:02] right and so in this particular case
+[00:07:04] here the two QPS will not be able to use
+[00:07:07] 800 Gbits per second but they will only
+[00:07:09] use 400 Gbits per second. So that's of
+[00:07:11] course a big problem because now we have
+[00:07:13] a flow that operates at half of the
+[00:07:16] speed and so we have a tail latency
+[00:07:18] problem.
+[00:07:19] Some are trying to work around this by
+[00:07:22] creating multiple QPS and having the
+[00:07:24] application load balance traffic over
+[00:07:26] the multiple QPS but that is very
+[00:07:29] difficult to get right and it's very
+[00:07:31] hard to adapt uh with those uh to adapt
+[00:07:35] to the changing link conditions and so
+[00:07:36] on. It's like basically creating
+[00:07:39] multipath transport on top of TP
+[00:07:41] sockets. It's also extremely hard to get
+[00:07:43] it right. So how is MRC solving this
+[00:07:47] problem is we are spraying packets
+[00:07:49] across all possible paths in the data
+[00:07:51] cell. So in this particular example if
+[00:07:54] uh host one GPU1 is talking to GPU 10 it
+[00:07:58] is uh obviously using all of the
+[00:08:01] capacity of its nick and then beyond
+[00:08:03] this on the T0 on the on the leaf
+[00:08:06] switches it is spraying to all the T1s
+[00:08:08] and the T1s then are transmitting
+[00:08:10] traffic back to the to the uh
+[00:08:12] destination
+[00:08:14] and so on the in basically in the back
+[00:08:17] end instead of using one link at full
+[00:08:20] capacity we are using all the links at a
+[00:08:22] small capacity for one QP here. So if we
+[00:08:26] have a second flow, this second flow
+[00:08:27] easily fits within uh within this scheme
+[00:08:30] and it doesn't run into the risk of
+[00:08:32] causing uh flow collisions.
+[00:08:36] Now if we are spraying packets, what is
+[00:08:39] going to happen is on the receiver side
+[00:08:42] nick all the all the packets are going
+[00:08:44] to arrive at the nick out of order. So
+[00:08:47] that for Rocky is going to cause a lot
+[00:08:49] of problems because Rocky will need to
+[00:08:50] reassemble everything, store all the
+[00:08:53] data in the nick before it will be able
+[00:08:55] to uh DMA things over to the GPU.
+[00:08:59] And so uh in order to to handle this in
+[00:09:03] MRC, we are doing something very simple.
+[00:09:06] We are adding in each packet we indicate
+[00:09:09] where on the GPU this packet the payload
+[00:09:11] of this packet belongs to so that when
+[00:09:13] the nick receives it the nick can
+[00:09:15] immediately DMA things to the GPU. It
+[00:09:18] doesn't need to store in a buffer
+[00:09:20] locally um all the all the payloads
+[00:09:23] right it can just like immediately uh
+[00:09:25] push it to the GPU and so that is a big
+[00:09:28] benefit. Obviously, we still need to
+[00:09:30] wait for all the out of order packets to
+[00:09:32] arrive in order to post the completion,
+[00:09:34] but at least in terms of uh uh the nick
+[00:09:38] dmaing things over to the GPU, it can do
+[00:09:40] it directly when each packet arrives.
+[00:09:46] So now that we have done this, let's
+[00:09:47] take a look at how we can design the
+[00:09:48] data center. Um the question is if we
+[00:09:52] take current modern hardware, what is
+[00:09:54] the fastest and biggest data center we
+[00:09:56] can build? If we take a 51 uh terabit
+[00:10:00] per second switch with 64 800 gig ports
+[00:10:03] and a fully uh connected cloth topology
+[00:10:07] with three terriers, we can only connect
+[00:10:09] 65,000 GPUs in this network. So 65,000
+[00:10:14] GPUs is not a lot. We would like to go
+[00:10:16] far beyond that. And the this design has
+[00:10:19] another problem is that each nick each
+[00:10:22] GPU has only a single link to its leaf
+[00:10:24] switch. So if that link breaks, if the
+[00:10:27] link flaps or if the leaf switch uh
+[00:10:30] reboots or crashes, then the entire job
+[00:10:34] needs to restart and we need to restart
+[00:10:36] from the checkpoint, right? And as I
+[00:10:38] mentioned earlier, we're trying very
+[00:10:40] hard to avoid restarts.
+[00:10:43] So how can we solve this scalability
+[00:10:45] problem and the single point of failure
+[00:10:47] problem? It's actually very simple. If
+[00:10:50] we take this 64 port switch that has 800
+[00:10:53] gig nicks and we split these 800 gig
+[00:10:56] ports into 8 uh 800 gig nicks into eight
+[00:11:00] 100 gig ports. So now we have basically
+[00:11:02] created a 512 port switch. So we
+[00:11:05] increase the radex of the switch and now
+[00:11:08] we can create a two-tier topology with
+[00:11:10] 130,000 GPUs
+[00:11:13] and now we have however we have a
+[00:11:15] network of only 100 Gbits per second.
+[00:11:18] So, how do we get back to 800 Gbits per
+[00:11:20] second per GPU? Well, on the GPU side,
+[00:11:23] the nick, we split it all. So, in 8* 100
+[00:11:26] Gbit per second ports. And so, we
+[00:11:28] basically create eight separate 100 gig
+[00:11:30] networks. And by doing this, we will be
+[00:11:33] able to on just a two-tier network
+[00:11:35] connect 130,000 GPUs, but still at 800
+[00:11:38] GB per second.
+[00:11:40] Additionally to that, because we use in
+[00:11:42] this way for this kind of uh number of
+[00:11:45] GPUs, we use less switches. So we also
+[00:11:47] reduce the amount of power that we are
+[00:11:49] consuming and everything. So it's all
+[00:11:50] kind of very beneficial to use a
+[00:11:52] multiplane two-tier network.
+[00:11:58] Now we have a lot of path diversity in
+[00:12:00] this network. First of all the nick
+[00:12:02] needs to decide on which port it sends
+[00:12:04] and then from the t0 we need to choose
+[00:12:07] which uh spine switch we send to in
+[00:12:09] order to use all of this uh these uh
+[00:12:11] paths and in order to allow he to spray
+[00:12:14] packets.
+[00:12:16] So for each destination there's a set of
+[00:12:18] path selectors that are eligible and the
+[00:12:21] path selector defines basically the path
+[00:12:23] it uses inside the data center. So it
+[00:12:26] defines which port outgoing port on the
+[00:12:28] nick we are using and then it defines
+[00:12:31] which uh t0 to t1 or uh leave to spine
+[00:12:36] link we are using and then once we are
+[00:12:38] in the spine the path down to the
+[00:12:40] destination is always the same.
+[00:12:43] So MRC chooses a subset of those
+[00:12:46] eligible path selectors for its
+[00:12:48] operation and it's going to start then
+[00:12:50] spraying over this. Now it needs to use
+[00:12:52] these path selectors in a in an
+[00:12:54] intelligent way. So let me show you how.
+[00:12:57] First of all, we divide the number of
+[00:12:59] path selectors in two sets. We have an
+[00:13:01] active set and a backup set. And MRC is
+[00:13:05] going to send basically each one one
+[00:13:07] packet at a time in a round trip round
+[00:13:09] robin way across all the path selectors.
+[00:13:13] Right? It's going to set the first
+[00:13:15] packet on PS1, the next packet on PS2,
+[00:13:18] on PS3, on PS4, on PS5 and so on. And so
+[00:13:22] it's going to round robin on the active
+[00:13:24] set. And each path selector, of course,
+[00:13:27] these paths are spraying across the
+[00:13:28] different nick ports and across the
+[00:13:30] different uh path uh uh links from the
+[00:13:33] spine from the leaf to the spine.
+[00:13:37] If we get one packet loss on one of the
+[00:13:39] path selectors, then we mark this path
+[00:13:42] selector as bad. We move it to the bad
+[00:13:44] list and we take another path selector
+[00:13:46] from the backup list back into the
+[00:13:48] active set. So we can still spray among
+[00:13:51] the um same number of of paths.
+[00:13:55] The path that we move to the bad list is
+[00:13:57] now we are going to start probing on it.
+[00:13:59] And when I say we, I mean all of this is
+[00:14:01] happening inside the nick. The nick is
+[00:14:03] going to start probing on it. And once
+[00:14:05] it has a certain number of successes of
+[00:14:07] probes, it is going to move this path
+[00:14:09] back to the backup list. And it that way
+[00:14:11] the path becomes eligible again to be
+[00:14:13] used next time when we are shuffling
+[00:14:15] paths around again.
+[00:14:21] Now how does a path selector ends up
+[00:14:23] being routed over the network? So the
+[00:14:25] path selector defines two things. Which
+[00:14:27] port we use on the egress and what is
+[00:14:30] the link from the uh from the leaf
+[00:14:32] switch to the spine switch. Now we use
+[00:14:35] SRV6 for this routing inside the inside
+[00:14:37] the data center. So first SRV6 has a
+[00:14:40] locator it is 32 bits and then we use
+[00:14:43] the micro sit to define which path we
+[00:14:45] use in the data center. So first we need
+[00:14:48] to decide which of the nick ports that
+[00:14:50] we use for the egress traffic. That's
+[00:14:52] the the first micro set that uh the nick
+[00:14:54] is going to add to this packet.
+[00:14:58] Then from the from the leaf switch to
+[00:15:00] the spine switch, we need to decide
+[00:15:02] which uh uplink we use. That's the next
+[00:15:04] uh micro set. Again, this is coming also
+[00:15:07] from the path selector
+[00:15:09] from the destination IP address of the
+[00:15:12] of the nick that we are sending to. Uh
+[00:15:15] we know how we can uh in which building
+[00:15:18] this GPU is in which road is. So the
+[00:15:21] path from the T1 from the T1 to the T0
+[00:15:25] uh switch is determined by that. And we
+[00:15:27] append this micro sit and finally we
+[00:15:29] have the destination because the leaf
+[00:15:32] switch needs to know on which path it's
+[00:15:33] going to send on which port it is going
+[00:15:35] to send the final to the final GPU.
+[00:15:39] So the nick is generating this SRV6
+[00:15:42] address and encapsulates our uh IPv6 UDP
+[00:15:46] packet inside this. And so now we can
+[00:15:49] deterministically steer the traffic in
+[00:15:50] the data center.
+[00:15:53] And on the switch side basically it's a
+[00:15:55] very simple SRV6 operation. Each switch
+[00:15:59] um checks the incoming packet. It left
+[00:16:02] swi left um left uh uh shifts. Thank
+[00:16:07] you. It left shift 16 bits and then it
+[00:16:11] does again the prefix match to see which
+[00:16:13] port it needs to forward forward the uh
+[00:16:16] forward the packet to. It does it on the
+[00:16:18] t1 and the destination t0 again.
+[00:16:24] So what are the benefits of SRV6? There
+[00:16:26] are actually three uh three things.
+[00:16:29] First of all, it allows to keep the
+[00:16:30] network really really simple. Um we
+[00:16:34] don't have to worry about ECMP hashing.
+[00:16:37] We don't have to worry about keeping the
+[00:16:39] ECMP hash resilient. Uh we don't worry
+[00:16:42] about BGP convergence. There's no
+[00:16:43] routing protocols that are running in
+[00:16:45] the back end. It's all just simple
+[00:16:47] forwarding. It's all static.
+[00:16:50] Second, the uh entos can
+[00:16:52] deterministically steer the traffic. On
+[00:16:54] the entos side, we know exactly which
+[00:16:56] paths are available and we can send
+[00:16:58] deterministically steer the traffic. So
+[00:17:00] we don't have to rely on a certain
+[00:17:04] switch behavior to load balance
+[00:17:05] properly. No, we we do it all ourselves
+[00:17:07] on the on the host side. And finally, we
+[00:17:11] even build a tool which we call cluster
+[00:17:13] mapper which allows to probe paths by
+[00:17:16] creating a loop srv6 probe. Usually if
+[00:17:19] we want to probe a path we would have to
+[00:17:21] send to another node and ICMP ping to
+[00:17:23] another node to see if this path is
+[00:17:24] available is is operational right and so
+[00:17:27] it depends on the destination node to be
+[00:17:29] available to reply to the ICMP ping.
+[00:17:32] With SRV6, we send basically a loop
+[00:17:34] back, meaning we send it a packet from
+[00:17:36] locally from one host up to the uh spine
+[00:17:40] switch and then the packet goes back
+[00:17:41] down to the node itself. And so we can
+[00:17:43] ping ourselves and measure determine
+[00:17:46] whether a path is operational or not.
+[00:17:49] By doing this, we basically create a uh
+[00:17:53] a view of the link availability inside
+[00:17:55] the data center and we can report this
+[00:17:58] and aggregate this information and then
+[00:18:00] even push it back to the different hosts
+[00:18:02] and create a deny list for MRC so that
+[00:18:04] MRC upfront knows which paths are
+[00:18:06] available or not. I have to say the MRC
+[00:18:10] way of mapping out bad paths works so
+[00:18:12] well that we ended up not even creating
+[00:18:14] this deny list for MRC.
+[00:18:20] So where is MRC implemented? It is
+[00:18:22] implemented by three nick vendors uh
+[00:18:24] Nvidia on the connect x8 and 9. It is
+[00:18:27] implemented on the AMD polar and vulcano
+[00:18:30] and the broadcom ultra thor ultra.
+[00:18:33] Locally we have it in a bunch of data
+[00:18:35] centers. Uh we have two types. one where
+[00:18:37] we split the nick into four 200 gig
+[00:18:40] ports and another one where we split it
+[00:18:42] into eight 100 gig ports. Everything is
+[00:18:45] two-tier multiplane uh uh networks uh so
+[00:18:49] uh with several very large number of
+[00:18:52] GPUs.
+[00:18:54] So let me show you some uh uh data from
+[00:18:57] training jobs that we have been running.
+[00:19:02] First of all, I mentioned that MSse maps
+[00:19:04] out the bad parts on its own. When we
+[00:19:06] are starting up a job, uh MSC needs to
+[00:19:09] find which are the bad links that are
+[00:19:11] not operational. You have to keep in
+[00:19:13] mind in this large data center, there
+[00:19:15] are millions of links from the spine to
+[00:19:17] the uh to the leaf switches, right? And
+[00:19:21] among these always there are tens of
+[00:19:22] thousands of those links that are down
+[00:19:24] or that are having issues. Now, we don't
+[00:19:27] take these links out of the network. We
+[00:19:29] oper we repair them whenever there's
+[00:19:32] time and where whenever our operator has
+[00:19:34] time to repair them but we keep them
+[00:19:36] there and so at the beginning needs to
+[00:19:39] map out those paths which means when we
+[00:19:41] are starting a job we have a spike of
+[00:19:43] packet loss and needs to move these path
+[00:19:46] selectors then to the bad list and you
+[00:19:48] can see here how very quickly um is able
+[00:19:52] to find these bad paths and the packet
+[00:19:54] loss is dropping down to reasonable
+[00:19:56] levels afterwards and so at the end when
+[00:19:58] we stepping we have in this this case
+[00:20:00] was a 75,000 GPU cluster where we are
+[00:20:03] doing a pre-training job in the end we
+[00:20:06] have about 1,000 packet loss events per
+[00:20:09] second those remaining packet loss
+[00:20:10] events are not due to bad links but
+[00:20:13] there are two reasons for that first of
+[00:20:15] all we well they are still due to bad
+[00:20:17] links we have first of all we have a few
+[00:20:18] QPS that are sent very very little
+[00:20:20] traffic and so for those it takes a lot
+[00:20:23] of time to map out the bad paths that
+[00:20:25] takes a very long time and second also
+[00:20:28] So uh in an early version of a firmware
+[00:20:31] that we used which was using which we're
+[00:20:33] using for this training training run we
+[00:20:36] had some issues with RX discards on the
+[00:20:38] nick uh but by now those have been
+[00:20:40] solved and uh a newer graph would
+[00:20:42] probably show much less packet loss on
+[00:20:43] the tail end.
+[00:20:48] Another example is uh what happened when
+[00:20:50] we had a T1 or a spine switch that
+[00:20:52] stopped for forwarding traffic. This was
+[00:20:55] a 75,000 GPU job. Uh because the way we
+[00:20:59] are spraying uh we because of because of
+[00:21:01] the way MRC is spraying traffic across
+[00:21:04] all links. Se 25% of all the QPS in the
+[00:21:08] entire cluster were affected by this one
+[00:21:10] T1 that stopped forwarding traffic. So
+[00:21:12] we had a very large number of packers
+[00:21:14] that were being dropped about 580K.
+[00:21:17] What happened in this case? all of these
+[00:21:19] QPS needed to detect this bad path and
+[00:21:22] uh map out the bad path, retransmit the
+[00:21:25] packets and continue the continue the
+[00:21:28] work. So in this graph here we see on
+[00:21:30] the x-axis we see the time and on the
+[00:21:32] y-axis we see the throughput across the
+[00:21:35] entire cluster. On this 75,000 GPU job
+[00:21:39] um the uh sustained throughput was in
+[00:21:42] the order of 13 pabits per second. So at
+[00:21:45] the moment when the switch started
+[00:21:47] failing we we see a dip in throughput.
+[00:21:50] Dip dip. This dip is because um all of
+[00:21:53] these QPS needed to start retransmitting
+[00:21:55] packets right and so we had one step in
+[00:21:58] the training job that lasted a little
+[00:22:00] bit longer and each training step is
+[00:22:03] transmitting the same amount of data and
+[00:22:04] so the throughput looks like it's
+[00:22:06] dropped but in the end the throughput
+[00:22:07] itself is is still the same. It's just
+[00:22:10] uh a training step took a little bit
+[00:22:12] longer.
+[00:22:14] Immediately after that though the the
+[00:22:15] throughput recovers again and we
+[00:22:17] continue stepping even without this T1
+[00:22:19] switch forwarding traffic. Um as the
+[00:22:22] switch reboots um nothing changes in the
+[00:22:25] cluster there's no remapping of flows
+[00:22:27] that is disturbing anything just
+[00:22:29] naturally as uh the QPS keep churning
+[00:22:32] through their active and backup sets
+[00:22:35] naturally um uh we move traffic back to
+[00:22:38] the T1.
+[00:22:41] Another example is where we had a T-
+[00:22:44] switch transceiver that is flapped. So
+[00:22:46] the the T0 switch transceiver flapped.
+[00:22:48] So the T0 switch the ports we have a
+[00:22:51] transceiver that is splitting it out
+[00:22:52] into four 200 gig ports, right? And each
+[00:22:55] of these 200 gig links goes to different
+[00:22:58] GPUs. So when where when the transceiver
+[00:23:00] flaps four GPUs are losing 25% of their
+[00:23:04] capacity,
+[00:23:06] right? So what happened here is the T0
+[00:23:09] switch transceiver went down. it it came
+[00:23:11] back up again.
+[00:23:14] What we see in this case is on the host
+[00:23:18] side the host realizes this that one of
+[00:23:20] its port has has gone down. So it is
+[00:23:23] going to stop sending traffic on that
+[00:23:25] port. So on the sender side or the on
+[00:23:27] the host itself it is going to be able
+[00:23:29] to immediately detect this and adjust to
+[00:23:32] that. However, it also needs to indicate
+[00:23:35] this to the other nodes that are sending
+[00:23:38] to it. Right? There might be traffic
+[00:23:39] that has been incoming that was on its
+[00:23:41] way. That traffic is going to drop. So
+[00:23:44] the sender of this traffic needs to
+[00:23:45] retransmit it. Map out those path
+[00:23:48] selectors. But at the same time, the
+[00:23:50] host that is experiencing the link flap
+[00:23:53] is going to send a notification to the
+[00:23:55] peer to tell it, hey, please stop
+[00:23:57] sending traffic on this particular port.
+[00:24:00] That way the other side knows this as
+[00:24:02] well. And so that's why we again we see
+[00:24:04] a slight dip in terms of throughut.
+[00:24:06] immediately um we recover again and uh
+[00:24:10] traffic can continue. Yes, for those
+[00:24:12] four GPUs during the time when the
+[00:24:15] transceiver was down uh the incoming and
+[00:24:18] outgoing traffic rate was 25% lower and
+[00:24:22] that meant of course yes the entire
+[00:24:24] steps during this time were kind of
+[00:24:25] slower but the moment the transceiver
+[00:24:27] came back up we went back to full speed
+[00:24:29] again.
+[00:24:34] So to conclude the talk um what is the
+[00:24:37] benefits of of first of all link flaps
+[00:24:41] or maintenance we don't care about them
+[00:24:44] uh even while we are uh stepping a job
+[00:24:47] it's okay we are just going to let the
+[00:24:49] operators go and replace a T1 switch it
+[00:24:52] doesn't matter we don't need to stop or
+[00:24:53] alert anyone the MRC just keeps churning
+[00:24:56] through these kind of issues if we have
+[00:24:59] failures sv6 allows us to be very allows
+[00:25:02] us to diagnose it very easily. We can
+[00:25:05] easily find which paths or winch links
+[00:25:07] are down and let the operators know so
+[00:25:09] they can go and repair those links. We
+[00:25:11] don't rely on accurate let's say switch
+[00:25:14] telemetry. Of course, we are still
+[00:25:16] pulling switch telemetry, but we have an
+[00:25:18] other way to measure these the quality
+[00:25:20] of the paths.
+[00:25:22] And finally, of course, the packet
+[00:25:23] spraying allows us to achieve very low
+[00:25:25] latency and high throughput and
+[00:25:27] basically have very little congestion
+[00:25:29] almost no congestion in our in our data
+[00:25:32] center at all.
+[00:25:33] There are some parts I didn't talk about
+[00:25:35] packet trimming, congestion control, uh
+[00:25:37] how we use ECN for load balancing and
+[00:25:39] all of this. Uh only at 30 minutes, so
+[00:25:42] maybe next year I can talk about those
+[00:25:43] things.
+[00:25:45] So thanks and I'm ready to take
+[00:25:47] questions.
+[00:25:59] Um uh question um so about the pocket
+[00:26:02] spraying uh uh does this mechanism uh
+[00:26:05] means that the bandwidth planning or
+[00:26:07] bandwidth scheduling problem is not
+[00:26:09] relevant anymore in this AI fabrics.
+[00:26:12] >> Sorry I didn't hear what is not relevant
+[00:26:14] anymore.
+[00:26:14] >> Uh the bandwidth scheduling or bandwidth
+[00:26:16] planning. So because you just spray
+[00:26:19] every flow exactly evenly.
+[00:26:21] >> Yeah, we are not planning any bandwidth.
+[00:26:22] I mean we make sure that the data center
+[00:26:24] is fully bisection bandwidth that it can
+[00:26:26] sustain all of that but there's no the
+[00:26:28] way you call it bandwidth planning where
+[00:26:30] you're dedicating bandwidth to certain
+[00:26:32] flows or anything like that.
+[00:26:36] Okay, thank you.
+[00:26:40] >> Okay, I'll I'll ask first. Um
+[00:26:43] Christopher, I didn't I I know that
+[00:26:45] multiplane is a big thing now, but is it
+[00:26:48] for redundancy mostly or is it for
+[00:26:52] uh so you can interle the compute versus
+[00:26:55] network?
+[00:26:57] Where is the value prop? Are it's
+[00:26:58] redundancy? Is that correct? When you
+[00:27:00] have the multiplane multip Oh, the
+[00:27:02] multiplane. Yeah.
+[00:27:03] >> Yeah. First of all, it's the size of the
+[00:27:05] data center that we can construct
+[00:27:07] because we increase the ratings of the
+[00:27:09] switch. So a two-tier clust topology can
+[00:27:11] hold more switch more GPUs. And the
+[00:27:14] second is of course the redundancy. Yes.
+[00:27:17] >> Is the redundance because yes, we don't
+[00:27:19] care if a link goes down between the
+[00:27:21] switch and the server. We don't care
+[00:27:22] about that.
+[00:27:23] >> Does it help in the scheduling of the
+[00:27:25] the interle of compute versus network?
+[00:27:29] >> Can you can you pump more data because
+[00:27:31] you have you have more ports? No, not
+[00:27:33] necessarily. No, I mean the nick like
+[00:27:36] one QP gets spread across all the
+[00:27:38] planes, right? So we don't really the
+[00:27:42] interle of compute and transfer is
+[00:27:44] something that had happens rather on the
+[00:27:46] collective side where yes we try to
+[00:27:48] interle and overlap these operations but
+[00:27:51] the multiplane doesn't really contribute
+[00:27:54] to that. The multiplane is yeah it's
+[00:27:56] more I'm not sure I'm answering your
+[00:27:57] question.
+[00:27:57] >> Yeah, I don't know. So you you're still
+[00:27:59] writing to one QP and it's just it's
+[00:28:01] spraying across multiple ports.
+[00:28:03] >> Yes.
+[00:28:04] >> Okay.
+[00:28:06] >> Um so thank you for the talk is very
+[00:28:10] interesting. Uh actually I read the
+[00:28:12] paper a couple so a week ago. So I I
+[00:28:15] have a two curiosities about this uh
+[00:28:18] this paper. Uh the first is
+[00:28:23] uh okay uh source rooting is a is a nice
+[00:28:26] way to to balance this uh it's work if
+[00:28:30] you are a single uh owner of of the
+[00:28:33] network. Do you think what happens if
+[00:28:35] you are in a multi-tenant environment in
+[00:28:37] which multiple uh workflow are competing
+[00:28:41] for this that this is why usually is the
+[00:28:44] switch that decide the the load
+[00:28:46] balancing instead of the static uh
+[00:28:49] source routing.
+[00:28:56] So I think the multi-tenency can be seen
+[00:28:59] as like when we are running in one
+[00:29:00] cluster we are running multiple training
+[00:29:02] jobs in parallel and in that case we
+[00:29:04] also don't care because in the end the
+[00:29:06] data center has all the capacity it
+[00:29:08] needs. The spraying makes sure that
+[00:29:10] there's no congestion and so in the end
+[00:29:12] we don't care about that. Uh there's no
+[00:29:15] obviously there's no prioritization
+[00:29:18] among workloads. Uh I think if you want
+[00:29:21] to prioritize then things become tricky.
+[00:29:23] uh but if you consider all workloads
+[00:29:26] equal then uh MSC the spraying of MSC
+[00:29:29] takes care that there's no congestion
+[00:29:30] between the workloads.
+[00:29:32] Okay. The second one is a curiosity
+[00:29:34] because I was unable to understand how
+[00:29:36] this uh splitting of uh one nick to
+[00:29:42] eight or to four different link works. I
+[00:29:45] know that you used these breakout cables
+[00:29:49] but after the breakout I don't know how
+[00:29:51] you recon converge the eight to the one
+[00:29:54] and let me ask the the real question
+[00:29:56] about this I think that this make
+[00:30:01] is a sort of additional failure point no
+[00:30:05] because if you break out and after you
+[00:30:07] put together in another way you are a
+[00:30:10] very strange stuff that is possible to
+[00:30:13] to to be broken for some strange case.
+[00:30:16] >> Yeah. So the is broken up into four,
+[00:30:18] right? And so we are basically creating
+[00:30:22] four separate networks. They cannot talk
+[00:30:24] to each other.
+[00:30:26] Okay. And so uh and we don't care about
+[00:30:30] that having them talk to each other
+[00:30:31] because each nick talks to its peer on
+[00:30:35] the other side on the same network. So
+[00:30:38] in aggregate we can use 800 gigabits per
+[00:30:40] second. Am I answering your question?
+[00:30:44] No, because don't
+[00:30:46] sorry we can talk offline of this but I
+[00:30:49] don't understand how you after the
+[00:30:51] breakout put together the the cables to
+[00:30:54] the same switch port and if this is a a
+[00:30:58] single point of ferro that can break the
+[00:31:00] physical uh cable because it's just one
+[00:31:03] cable from one side and are four or
+[00:31:06] eight cables on the other side but no
+[00:31:08] it's four cables on all sides.
+[00:31:11] It's four on this just one transceiver.
+[00:31:15] >> Yeah.
+[00:31:17] >> Yes. So the D splits out into four and
+[00:31:20] and so the transceiver is single point
+[00:31:21] of phase
+[00:31:22] >> the switch also. Yeah. Transceiver
+[00:31:24] single point of on the switch side
+[00:31:26] >> but as I explained we lost the
+[00:31:28] transceiver it doesn't matter.
+[00:31:30] >> If we lose a transceiver on the nick
+[00:31:32] side. If we lose the nick. Yes. This is
+[00:31:33] still a single point of failure.
+[00:31:34] >> Thank you.
+[00:31:35] >> Yes.
+[00:31:37] Uh uh so the property of how many GPUs
+[00:31:40] you are um able to um put it in a class
+[00:31:45] network is because of the 256 uh
+[00:31:47] limitation of those nodes in the switch.
+[00:31:50] >> Yeah.
+[00:31:50] >> Uh my question is do would you not need
+[00:31:53] more at some point?
+[00:31:57] >> Sure. Eventually yes.
+[00:31:59] >> Okay. So now walking backward, would you
+[00:32:03] do that problem solving on your nick or
+[00:32:06] would you do it on your switch?
+[00:32:10] >> You said your switch is very simple
+[00:32:13] forwarding.
+[00:32:14] >> Yeah.
+[00:32:14] >> And SRV6 processing
+[00:32:17] >> and there is also packet trimming that
+[00:32:19] you are thinking of doing.
+[00:32:20] >> Yeah.
+[00:32:21] >> Right. I mean which is quite nice. It's
+[00:32:23] quite simple but uh once you scale that
+[00:32:27] u I don't know if the assumption that
+[00:32:30] you're going to do congestion control is
+[00:32:32] going to hold. So think about it as
+[00:32:34] congestion management rather than
+[00:32:36] control and then congestion avoidance
+[00:32:38] like we were talking.
+[00:32:40] >> Yeah.
+[00:32:40] >> So
+[00:32:40] >> so we have very little congestion in
+[00:32:43] that network like barely any ever. uh we
+[00:32:47] we have very little packet loss on the
+[00:32:49] switches actually none and so it just
+[00:32:54] at that point we we we kind of don't
+[00:32:57] care now if you want to go bigger what
+[00:33:00] we do is we inter we can interconnect
+[00:33:01] different clusters of this size
+[00:33:04] uh if we want to go bigger than this on
+[00:33:07] a single cluster I think we will need
+[00:33:09] more ports on the switches to
+[00:33:11] interconnect or we would go have to go
+[00:33:13] three tiers but we try to avoid that
+[00:33:16] >> yeah I mean yeah think about it that
+[00:33:19] layering I I don't know how much scales
+[00:33:21] that's about it
+[00:33:24] >> yeah so um just I have a question uh
+[00:33:27] where you uh put the the SRB6 tag
+[00:33:31] basically in the packet and that should
+[00:33:33] be really coupled with the RDMA uh
+[00:33:37] algorithm and with with the congestion
+[00:33:39] control I mean you are deciding
+[00:33:41] different parts uh together with the
+[00:33:44] congestion control. So I assume that
+[00:33:46] this is implemented really in hardware
+[00:33:49] in the in the nick. So what is the
+[00:33:52] visibility that for example on the
+[00:33:53] kernel you have on this process?
+[00:33:57] >> Yes, it's all implemented in the nick.
+[00:33:59] We we program the dick with telling it
+[00:34:02] what is the uh path selectors, what is
+[00:34:04] the topology, what how to map a path
+[00:34:07] selector to an SRV6 address. there are
+[00:34:10] some rules uh basically there are some
+[00:34:13] some bits from the path selector that
+[00:34:15] fit into this certain place in the SIV6
+[00:34:17] destination IP and there are some rules
+[00:34:19] for that and we program the nick for
+[00:34:21] that that way the nick knows how to map
+[00:34:24] a path selector to a destination IP and
+[00:34:26] then it just the nick just churns
+[00:34:28] through the active and the backup path
+[00:34:30] selectors and rotates them obviously
+[00:34:32] there are some knobs to configure it
+[00:34:34] some telemetry we can pull and so on
+[00:34:36] yeah
+[00:34:37] >> so the the the big part is done really
+[00:34:40] in the in the neck in real time. Yeah.
+[00:34:43] >> Yes.
+[00:34:45] >> So, uh you said that the congestion
+[00:34:48] control is implemented in the neck. Is
+[00:34:50] this do these the ones that you
+[00:34:52] mentioned do they already implement
+[00:34:54] NCSC?
+[00:34:57] >> Uh I do not know. I am not sure about
+[00:34:59] that. Yes, the congestion control is
+[00:35:01] kind of specific to what the nick is
+[00:35:03] doing. The nick didn't need to follow
+[00:35:05] the specification of C. So uh I'm not
+[00:35:08] sure about which one
+[00:35:10] >> refers to the ultra ethernet ncc
+[00:35:13] um and ncc essentially is based around
+[00:35:17] rt plus ccn. So that's I was wondering
+[00:35:20] if that is already implemented in these
+[00:35:22] next.
+[00:35:23] >> For example, the CX8 is doing its uh
+[00:35:25] ZRTTC
+[00:35:26] the
+[00:35:26] >> Oh, they're doing ZRT. Okay. Okay. And
+[00:35:29] what about the other two you have used?
+[00:35:31] >> I'm not sure about that.
+[00:35:33] >> Okay. Thank you.
+[00:35:37] >> I probably have time for maybe one more.
+[00:35:39] >> Oh yeah.
+[00:35:40] >> You know just just to follow up on on my
+[00:35:43] question. So in the case if uh uh for
+[00:35:45] example me as an academic I want to do
+[00:35:47] some experiment on on on changing this
+[00:35:50] congestion control and things like this
+[00:35:52] I mean you can just resort to simulation
+[00:35:54] because I I cannot have the the real
+[00:35:56] hardware where things are are running
+[00:35:58] there.
+[00:35:59] >> Yes. Unfortunately, yes. Uh unless you
+[00:36:01] have uh the hardware, yes, you're
+[00:36:03] clearly a result of back to simulation.
+[00:36:05] And as far as I know, I don't think
+[00:36:07] there's a simulation of MRC available.
+[00:36:11] >> Any plan
+[00:36:13] or any
+[00:36:16] >> not on my side, I'm busy.
+[00:36:22] >> Well, thank you.
+[00:36:23] >> Thank you.
+[00:36:25] [applause]

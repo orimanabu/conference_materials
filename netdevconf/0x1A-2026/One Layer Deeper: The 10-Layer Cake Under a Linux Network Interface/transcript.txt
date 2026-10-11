@@ -1,0 +1,1034 @@
+Source: https://youtu.be/Bd7ct9pPWTg
+Language: en
+Captions: auto-generated
+
+[00:00:00] Hi everyone. I'm I'm Jesse Brandenberg.
+[00:00:03] Uh today I'll talk to you a little bit
+[00:00:05] about my my talk about how I went from
+[00:00:08] being a driver developer to working at
+[00:00:10] Cloudflare and some of the things that
+[00:00:12] I've learned as a driver developer
+[00:00:13] working in a pre in a high pressure
+[00:00:16] production environment. Now so about me
+[00:00:19] um I'm a principal engineer. I've been
+[00:00:22] working on drivers for a long time. Some
+[00:00:24] of you know me already. Uh, I really
+[00:00:26] like helping people with um their career
+[00:00:28] development and working on making
+[00:00:30] systems go faster. So, this is a perfect
+[00:00:32] job for me now, the current one. Um, I
+[00:00:35] do miss being down at the driver level
+[00:00:37] as much as I was before. But, um, it's
+[00:00:40] an interesting change and it's
+[00:00:41] interesting what's left over to make
+[00:00:43] what what what's things from my career
+[00:00:45] were able to be um, useful as I moved
+[00:00:48] into working at Cloudflare.
+[00:00:53] What I'm going to talk to you about
+[00:00:54] today is these layers. We will uh cover
+[00:01:00] we'll jump around in between the layers
+[00:01:01] and some of them are combined throughout
+[00:01:02] the presentation. The idea here is is
+[00:01:05] that that that when I was splitting this
+[00:01:06] up for the different layers is that
+[00:01:09] you really need to be thinking about all
+[00:01:11] the different pieces that come together
+[00:01:13] when you go into production. And one of
+[00:01:15] the things that I learned moving it, you
+[00:01:16] know, starting working at Cloudflare is
+[00:01:18] that there's a lot of interaction in
+[00:01:19] between the layers. And I was always
+[00:01:21] working at the driver layer and making
+[00:01:23] things go as fast as possible. And so
+[00:01:27] we can get started my my whole entire
+[00:01:29] career working on drivers. Make things
+[00:01:31] go really really fast. And how many
+[00:01:33] millions of packets per second can we
+[00:01:35] do? And this was
+[00:01:38] kind of the playbook over and over again
+[00:01:40] throughout the career my career, right?
+[00:01:41] And working on kernel drivers. You're
+[00:01:44] what you're doing is um developing new
+[00:01:46] features. you're releasing new hardware
+[00:01:48] and then you're trying to make your
+[00:01:50] driver go as fast as possible and maybe
+[00:01:52] you're competing on CPU or millions of
+[00:01:54] packets per second and this is I think a
+[00:01:58] pretty common pattern for a lot of
+[00:02:00] kernel devs right they end up in this
+[00:02:03] world and and just circling around doing
+[00:02:06] kind of the same thing there's a lot of
+[00:02:08] problems to solve it was never boring um
+[00:02:10] this is why I stuck around in the
+[00:02:11] industry for so long right but the idea
+[00:02:14] is um you know was often turn everything
+[00:02:17] off and go as fast as possible. And so I
+[00:02:19] spent a lot of my time thinking in those
+[00:02:21] terms. You move to some place like
+[00:02:24] Cloudflare and reality hits. You're
+[00:02:29] you're you're having to deal with
+[00:02:30] firewalls. You're having to deal with
+[00:02:32] lots of observability problems,
+[00:02:34] multi-tenant, noisy neighbors,
+[00:02:37] connection tracking, which is a
+[00:02:39] nightmare. Um,
+[00:02:41] the things that I thought about a lot
+[00:02:43] like offloads and making your cues work
+[00:02:47] and making your interrupts work and
+[00:02:48] interrupt moderation and those kind of
+[00:02:50] things, they don't matter so much when
+[00:02:52] you're at production scale across
+[00:02:54] thousands and thousands of machines. I
+[00:02:56] was always thinking in one machine with
+[00:02:58] one adapter, maybe lots of cues, maybe
+[00:03:01] lots of interrupts, but it wasn't the
+[00:03:02] same as as what I'm working on now. So
+[00:03:05] it was always before make a machine
+[00:03:07] scream just you know go as fast as
+[00:03:09] possible hundreds of millions of
+[00:03:10] packets. This is uh less useful now to
+[00:03:14] me in my current job. Um but what I
+[00:03:17] wanted to describe to you today is some
+[00:03:20] of the key learnings that I have you
+[00:03:21] right this thing about um 31.4 four ter
+[00:03:24] terabit per second attack that we
+[00:03:26] fielded at Cloudflare, right? It doesn't
+[00:03:28] even show up as a blip. Like nobody's
+[00:03:30] worried about it. Um it just gets
+[00:03:33] distributed and handled. All the
+[00:03:35] automation just takes care of it. And
+[00:03:36] from the nick perspective, right, you
+[00:03:38] might have one machine or a few machines
+[00:03:40] that are getting pounded on really hard.
+[00:03:41] But um it doesn't usually last very
+[00:03:44] long. So these kind of these kind of
+[00:03:46] attacks aren't very sustained. And that
+[00:03:48] blog link that you see there at the
+[00:03:50] bottom is uh
+[00:03:52] is more information if you're
+[00:03:54] interested. But the point of that is
+[00:03:56] that
+[00:03:58] the the way that we handle those things
+[00:04:00] is not on one box, right? When you're
+[00:04:02] working in a distributed architecture,
+[00:04:04] it's a whole different deal for than
+[00:04:05] when you're working on a driver.
+[00:04:10] One thing you know to to mention before
+[00:04:13] I move on from this slide is that the
+[00:04:15] the scale is much larger and the
+[00:04:17] offloads were are much harder to use in
+[00:04:20] practice once you hit this production
+[00:04:22] wall
+[00:04:26] as an example here. So,
+[00:04:30] one of the things that I worked on with
+[00:04:32] some of our product teams is that we
+[00:04:35] were seeing these issues with some of
+[00:04:38] these applications that we have. And as
+[00:04:41] I investigated more deeply, I noticed
+[00:04:43] that they were using the kernel socket
+[00:04:45] buffer as their like storage layer for
+[00:04:47] their traffic. And they were calling
+[00:04:50] receive from one after the other. This
+[00:04:52] one packet per sys call thing shouldn't
+[00:04:54] be a surprise to anybody that people are
+[00:04:56] using this, right? this interface is
+[00:04:58] there and it's it's designed that way to
+[00:04:59] be used. The problem is is that when
+[00:05:01] you're trying to write a high
+[00:05:02] performance application that's handling
+[00:05:03] lots of traffic, it turns out it's not
+[00:05:05] the best thing to do, right? This
+[00:05:06] receivem message is an interesting way
+[00:05:09] to handle the batches. And the reason it
+[00:05:11] matters is because the SIS call layer,
+[00:05:14] right? So when you're talking about at
+[00:05:16] scale, right, making SIS calls across
+[00:05:19] thousands of um processes, it starts to
+[00:05:22] become a big load on the system with um
+[00:05:25] lots of context switching and lots of um
+[00:05:29] kernel interrupts, IPIs, and lots of
+[00:05:32] opportunities for scheduling. So these
+[00:05:34] things mean that when you're writing an
+[00:05:36] application that maybe is working
+[00:05:38] perfectly, it may not be designed well,
+[00:05:41] right? Right. And this is an example of
+[00:05:42] one of our you know application teams
+[00:05:44] having this issue. And in fact I've seen
+[00:05:46] it in several other applications with
+[00:05:48] our team. Um and you know it it seems
+[00:05:51] like it's really simple on the surface
+[00:05:54] but when you just look at this app and
+[00:05:56] it was designed this way and it's been
+[00:05:57] running that way for a long time and
+[00:05:59] then you start to scale you start
+[00:06:01] running into problems. And the other
+[00:06:03] thing that happened is is that this
+[00:06:05] works great on an unloaded system right?
+[00:06:08] It works perfect all the time when
+[00:06:09] you're testing it on your developer box.
+[00:06:11] But when you get to a machine that's
+[00:06:12] running at 60 or 80% load across the
+[00:06:16] whole box and then you have this
+[00:06:18] behavior, it causes all sorts of like
+[00:06:20] weird side effects, right? As you're as
+[00:06:22] you're context switching and um things
+[00:06:25] go away really badly. The problems
+[00:06:28] happen and you can't really correlate
+[00:06:30] them easily. So this is an example of of
+[00:06:33] that kind of behavior. Another one that
+[00:06:35] we ran into is that you know uh we I was
+[00:06:38] trying to make a Rust application go
+[00:06:40] faster. So working with our our Rust
+[00:06:42] application team we found that um one of
+[00:06:46] the current well-used libraries that I
+[00:06:49] will not mention um is disables
+[00:06:53] timestamps when you start trying to use
+[00:06:55] multi- message receives. So um this is a
+[00:06:59] bad behavior right because this
+[00:07:01] application they wanted to have
+[00:07:03] timestamps. So now they're stuck either
+[00:07:05] trying to figure out a different crate
+[00:07:06] to use or a different way to figure
+[00:07:08] their uh to figure their um application
+[00:07:12] out to get it to work. Right?
+[00:07:17] So
+[00:07:22] when you're talking about these
+[00:07:23] different layers and the adjacencies and
+[00:07:25] looking around like what are your
+[00:07:26] dependencies? Sometimes they're hidden,
+[00:07:28] sometimes they're down at the IO layer
+[00:07:31] or at the hardware level. So you end up
+[00:07:34] when you're trying to go fast using the
+[00:07:36] same stack and um all these resources
+[00:07:41] are shared among all your applications.
+[00:07:44] So it's really hard sometimes to figure
+[00:07:45] out which CPU is handling your interrupt
+[00:07:48] and if you're an application developer
+[00:07:50] maybe you're ending up um getting no
+[00:07:53] information about all these things that
+[00:07:55] are happening underneath in the system
+[00:07:57] layers. So a surprise to me was we need
+[00:08:01] to make these things really visible and
+[00:08:02] have them be discoverable. And I think,
+[00:08:04] you know, lots of the people here that
+[00:08:06] work on production level systems
+[00:08:08] understand this, but I'm not sure it
+[00:08:10] gets back to us in the kernel developer
+[00:08:11] community very well that we're not doing
+[00:08:13] a good job sometimes about communicating
+[00:08:17] what's happening, right? And a good
+[00:08:19] example of this is e tool statistics.
+[00:08:21] Lots of them are available, but are they
+[00:08:24] common? Right? Is there a way to collect
+[00:08:26] them across a lot of different machines?
+[00:08:28] We run three different versions of mix.
+[00:08:31] Well, more versions than that, but three
+[00:08:32] different drivers. And
+[00:08:35] can you collect the data that you need
+[00:08:37] to figure out what's going on at the
+[00:08:39] time when you have a packet being
+[00:08:41] received on CPU 2 because RSS steered
+[00:08:46] the packet randomly to that core and
+[00:08:48] then your application is running
+[00:08:50] somewhere else because that's what
+[00:08:51] theuler felt like doing that day, right?
+[00:08:53] And so you're taking a hit on your
+[00:08:55] application performance, but it's very
+[00:08:56] hard to see at the end when you're
+[00:08:58] trying to digest it from uh a metrics
+[00:09:01] perspective or a performance perspective
+[00:09:03] at the end, right, with applications. So
+[00:09:06] as a kernel developer, I'm trying to
+[00:09:07] figure out how do I help my team in
+[00:09:11] performance and help our application
+[00:09:13] developers really figure out what things
+[00:09:16] do they need to do and how can they
+[00:09:18] chase where their performance problem
+[00:09:20] is. Sometimes because these things are
+[00:09:22] happening at such a low level, right?
+[00:09:23] Like you see on this slide,
+[00:09:26] they're just invisible,
+[00:09:29] right? I might even have a whole bunch
+[00:09:30] of application statistics and none of
+[00:09:32] them mention what core my packet was
+[00:09:35] received on. So this gets back to a call
+[00:09:37] out or shout out to to Jacob's
+[00:09:39] presentation about our SKB metadata,
+[00:09:40] right? We want to be able to track where
+[00:09:43] these things came in so we can get more
+[00:09:45] visibility information about how these
+[00:09:48] things are connected to what's happening
+[00:09:50] in the system, right? And that's what
+[00:09:52] I'm turning into more now as a system
+[00:09:54] performance engineer. Um, and it's
+[00:09:57] useful to understand the kernel and it's
+[00:09:59] a skill that I have that not many people
+[00:10:00] at uh, Cloudflare do.
+[00:10:06] One of the things that I stumbled upon
+[00:10:08] and a lot of our um products stumble
+[00:10:11] upon is drops. We they just surprise us.
+[00:10:15] They appear out of nowhere. You can't
+[00:10:17] tell why they occurred. Um it's super
+[00:10:20] fun that uh we had an application that I
+[00:10:23] was benchmarking and I'm like, "Look, it
+[00:10:26] can do 750,000 packets per second." And
+[00:10:31] um then I looked a little bit closer and
+[00:10:33] I'm like, "Wait, but my sender was
+[00:10:35] sending one and a half million packets
+[00:10:36] per second and the application is like
+[00:10:38] 100% throughput 750,000." And I'm like,
+[00:10:41] "Where did the other packets go?" It
+[00:10:43] turns out they're getting dropped at the
+[00:10:45] socket, right? But the application
+[00:10:47] statistics don't have any visibility
+[00:10:50] into what's really happening at the
+[00:10:51] socket unless they go and dig really
+[00:10:53] deeply um quite frequently to try and
+[00:10:57] dig that out. But as an application
+[00:10:58] developer, you might not think that
+[00:10:59] that's something that you needed to do.
+[00:11:01] They even had a drop statistic, but it
+[00:11:04] didn't include socket drops that are
+[00:11:06] happening before it even hits the
+[00:11:07] application. So all these these points
+[00:11:11] um are are all valuable, right? They're
+[00:11:14] all skills that um or skills or or
+[00:11:18] features that you can use to make a
+[00:11:20] production thing run well. And you can
+[00:11:22] see like, you know, XTP is awesome,
+[00:11:24] right? It can drop things really fast.
+[00:11:25] we use it in production to help us
+[00:11:27] handle those huge attacks like I
+[00:11:28] mentioned earlier. But um it's really
+[00:11:31] hard to see what happened if that packet
+[00:11:34] was dropped at that layer. You know,
+[00:11:36] it's even harder if the packet was
+[00:11:37] dropped in the hardware due to a rule in
+[00:11:39] in hardware. Um so
+[00:11:43] you kind of get the idea here. Some of
+[00:11:45] these things can be valuable to you as a
+[00:11:48] developer. They can be valuable to our
+[00:11:50] application developers. um when we're
+[00:11:52] working in the kernel are we asking
+[00:11:54] those questions of how is this going to
+[00:11:56] get used
+[00:11:58] right and I think that for me as a
+[00:12:00] kernel developer coming in and seeing
+[00:12:01] this from the outside this is the
+[00:12:03] question that I always end up asking is
+[00:12:05] like how is this going to get used from
+[00:12:07] the kernel moving forward up into the
+[00:12:09] other layers right I'm moving into TC
+[00:12:12] contract um socket layer those things
+[00:12:18] these are all super useful but they're
+[00:12:20] also may be a
+[00:12:22] It's a many different ways to shoot
+[00:12:24] yourself in the foot.
+[00:12:29] As I said before, a lot of these things
+[00:12:31] happen as production problems. They're
+[00:12:34] oftentimes invisible. So ask yourself,
+[00:12:38] how can we make the behaviors that we're
+[00:12:40] implementing or visible to in a
+[00:12:43] standardized way? So this is something I
+[00:12:45] know Kuba had had thought about a lot
+[00:12:47] before and had done implementations for
+[00:12:50] like in E tool trying to make things
+[00:12:52] more common. I think we should be
+[00:12:53] chasing that as a general theme.
+[00:12:56] Um making common statistics that work
+[00:13:00] across vendors etc.
+[00:13:07] The other thing is is that features are
+[00:13:10] great but they always cost something.
+[00:13:12] And a lot of times people who are using
+[00:13:14] these features don't understand what
+[00:13:15] they cost. So helping our users figure
+[00:13:19] out like which is the best thing to use
+[00:13:21] in a modern kernel is a is a really
+[00:13:24] useful helpful thing. And I'm not sure
+[00:13:26] that we do a good enough job of that as
+[00:13:27] a kernel community trying to help people
+[00:13:30] understand what features they should use
+[00:13:33] now, right? Because there's a big
+[00:13:35] smorgus board and there's maybe
+[00:13:37] documentation on the thing from three
+[00:13:39] years ago.
+[00:13:41] But um you know where can we go from
+[00:13:42] here?
+[00:13:47] >> Yeah. Somebody write a skill will you
+[00:13:49] please? Yeah.
+[00:13:51] Uh the the comment from out in the
+[00:13:52] audience was use use AI prompts and so
+[00:13:55] maybe we should just write a skill for
+[00:13:56] doing good networking kernel interfaces.
+[00:14:03] So let's talk a minute about leaky
+[00:14:05] abstractions.
+[00:14:07] So when I first arrived at Cloudflare,
+[00:14:09] there was this concept or this this
+[00:14:11] feature that was being used on the Nyx.
+[00:14:13] It's called VLANs. You may have heard of
+[00:14:15] it. Um as it turns out, Cloudflare had
+[00:14:18] to disable VLAN offload on our Nix. And
+[00:14:20] when I arrived at Cloudflare, I was
+[00:14:21] like, "Oh my god, why is this off? It'd
+[00:14:23] be so much better if it was on." And so
+[00:14:26] I dove down the rabbit hole. Who turned
+[00:14:28] this off? We're losing a whole ton of
+[00:14:30] performance, you guys. Come on. This is
+[00:14:31] a big deal. I'm like a driver guy,
+[00:14:33] right? Like,
+[00:14:34] >> no, not probably really, but a little
+[00:14:37] bit.
+[00:14:39] Um,
+[00:14:41] you know, offloading the VLAN can be
+[00:14:43] probably useful. Arguably, maybe not a
+[00:14:45] whole bunch, but a little. Um, and it
+[00:14:48] shows up over, you know, trillions of
+[00:14:49] packets, right? Um, scale like I said
+[00:14:52] before.
+[00:14:55] So, my instinct was to immediately
+[00:14:56] reenable this feature like we have to,
+[00:14:58] right? I dug into why it was turned off
+[00:15:00] and it's because we're using XTP and the
+[00:15:04] XTP frame needs to see the VLAN. There's
+[00:15:06] no metadata,
+[00:15:08] right, being handled along. Um and
+[00:15:13] the the surprise to me was that you know
+[00:15:16] the we were trading the cycle efficiency
+[00:15:19] of hardware offload for the necessity of
+[00:15:24] the metadata like having that at at our
+[00:15:27] uh disposal in the XTP layer. So
+[00:15:31] this is all fine but it lends to my talk
+[00:15:35] right we're talking about these layers
+[00:15:37] and you should always be thinking about
+[00:15:38] the thing that's underneath you at the
+[00:15:40] abstraction level you're working at so
+[00:15:41] that you can um understand what's really
+[00:15:44] happening and like the application
+[00:15:46] developers oftentimes they don't think
+[00:15:48] about anything beyond their interfaces
+[00:15:50] that they're using
+[00:15:52] right they don't think about what the
+[00:15:54] consequences are of using that interface
+[00:15:56] so anything we can do along those lines
+[00:15:58] to help application developers and
+[00:16:00] people in general using the kernel um
+[00:16:02] and the features that we make is a great
+[00:16:06] play and very valuable and pays
+[00:16:08] dividends that you might not ever even
+[00:16:10] see, right? Because it's not a bug.
+[00:16:12] They're not going to come to you and ask
+[00:16:14] you about it. Um
+[00:16:17] these features like TCP offloads,
+[00:16:20] they're mature and predictable. Um and
+[00:16:22] they generally work really well. UDP
+[00:16:24] offloads for instance are pretty fragile
+[00:16:26] and opt in and they don't get used a lot
+[00:16:28] because they're all optin and they don't
+[00:16:30] turn on automatically like TCPs do. Um
+[00:16:33] they also have a lot of consequences.
+[00:16:34] Um, I know that Willam worked on uh,
+[00:16:39] you know, doing the the UDP segmentation
+[00:16:41] offload stuff and the Intel hardware
+[00:16:43] actually supports it that I worked on
+[00:16:45] before I left Intel. And it's awesome.
+[00:16:48] But the problem is is that it's really
+[00:16:50] hard to use and it's very easy and
+[00:16:52] fragile to break. Meaning that if you
+[00:16:54] have a layer of things in the kernel
+[00:16:57] like a V and a Ton device and maybe a a
+[00:17:01] virtual machine or something like this
+[00:17:03] that is communicating through these
+[00:17:04] kernel interfaces, you might lose your
+[00:17:07] UDP offload and it might just be
+[00:17:09] happening in at runtime like it might
+[00:17:11] work once in a while and then it might
+[00:17:12] not work for other traffic and it's very
+[00:17:14] difficult to debug and and chase.
+[00:17:20] We talked about VLANs before. Um, VLAN
+[00:17:23] acceleration is helpful until it isn't,
+[00:17:24] right? I I mentioned it got broken um or
+[00:17:27] it broke our functionality that we
+[00:17:29] needed because the the VLANs were
+[00:17:30] missing. Um,
+[00:17:33] to to make matters worse, this VLAN
+[00:17:36] problem that I described in the previous
+[00:17:37] slide, we were
+[00:17:40] the Intel hardware for instance, I don't
+[00:17:41] know about the others hardware out
+[00:17:43] there, but the Intel hardware has
+[00:17:45] another mode that you can use that
+[00:17:46] actually offloads the VLAN into the
+[00:17:48] descriptor. So the driver has access as
+[00:17:50] metadata and it leaves it in the packet.
+[00:17:53] But the Linux kernel doesn't have an
+[00:17:55] interface to configure that particular
+[00:17:57] behavior today. So it's not available to
+[00:18:01] users. So we don't use it, right? You
+[00:18:04] have the knob in E tool and you turn off
+[00:18:05] von offload. Um kind of a bummer. The
+[00:18:09] hardware actually has support for just
+[00:18:10] leaving it which is exactly what
+[00:18:13] Cloudflare's use case at least wanted.
+[00:18:16] Um, it's a place for us to possibly
+[00:18:19] improve. It could be a patch I work on
+[00:18:21] maybe someday. Um, if it's interesting
+[00:18:23] to you, come talk to me after. I'd be
+[00:18:25] glad to talk to you about it.
+[00:18:34] Application runtimes. These things are a
+[00:18:37] little bit of the bane of my existence
+[00:18:38] right now. We have these higher level
+[00:18:40] applications, right? Like Go, Node, um,
+[00:18:43] Rust. They have their own schedulers.
+[00:18:45] They have their own thread pools, their
+[00:18:47] own management. It's now fighting
+[00:18:49] against the kernel. It's now fighting
+[00:18:51] and it doesn't have knowledge about NUMA
+[00:18:54] or memory bandwidth or um different
+[00:18:57] allocations of hardware resources like
+[00:19:00] cues and things like that. So none of
+[00:19:03] these are communicated up into these
+[00:19:04] application layers and they're not
+[00:19:05] handling this well. But these kind of
+[00:19:07] things can be a layer that you're using
+[00:19:10] or that your customers are using that
+[00:19:13] they run into problems with that they
+[00:19:15] don't even know how to debug because
+[00:19:17] it's hidden in one of the abstractions
+[00:19:19] that they're that they're using.
+[00:19:22] It's another way for you to have drops
+[00:19:24] as well, right? the packets can come in,
+[00:19:27] be dropped and uh or mishandled at the
+[00:19:31] the runtime scheduler um due to some
+[00:19:35] queue being full. And again, this comes
+[00:19:38] back to visibility like I talked about.
+[00:19:40] Uh can you detect that? How you debug
+[00:19:44] it? Do you can you connect it to
+[00:19:45] problems that were coming from a Q or a
+[00:19:48] nappy or um a software Q? this gets to
+[00:19:53] be a real issue. And I'll state it
+[00:19:56] again, it's really important to
+[00:19:58] understand the layers that you're
+[00:19:59] working with. Um, and I think from a
+[00:20:01] kernel developer perspective, it's
+[00:20:03] really I missed it a lot during my
+[00:20:05] career. I didn't understand the layers
+[00:20:07] and I wasn't exposed to the layers very
+[00:20:08] well above me. I would just turn them
+[00:20:10] off because I wanted to go really fast.
+[00:20:17] One specific example is um
+[00:20:21] we ran into the Tokyo library doing
+[00:20:24] default things like launching
+[00:20:27] 192 threads by default because it wasn't
+[00:20:31] configured and so that's as many CPUs as
+[00:20:34] you have. So you have an application
+[00:20:35] that's only using two CPUs and it
+[00:20:37] launched 192 Tokyo threads. the problem
+[00:20:40] actually isn't visible until you run a
+[00:20:42] whole bunch of other threads on that
+[00:20:44] machine and then you're like, why is my
+[00:20:45] machine thrashing around so badly? Um,
+[00:20:49] oh, there's 10,000 Tokyo worker threads
+[00:20:53] from our 10 different apps, right?
+[00:20:56] Causing all sorts of problems.
+[00:21:00] Again, it's good to be aware of the
+[00:21:01] layers. So, here's another layer. The
+[00:21:05] packet path goes through cache. At the
+[00:21:09] end of the day, the CPU isn't really
+[00:21:11] dealing with packets. It's dealing with
+[00:21:13] cache lines. And what it comes down to
+[00:21:16] is that mostly packet processing is
+[00:21:18] memory access, right? And um if you are
+[00:21:23] developing for drivers or for
+[00:21:25] applications, your
+[00:21:28] knowledge about what's happening in the
+[00:21:30] caches in your machine can really help
+[00:21:33] influence how you make decisions about
+[00:21:35] your data structures, whether or not
+[00:21:37] things are aligned or smooshed together
+[00:21:39] or packed. Um a little call out to poke
+[00:21:41] a hole here. Um, right. Figuring out how
+[00:21:45] to make those things work better so that
+[00:21:47] your caches are optimized is a really
+[00:21:49] important layer to understand. And
+[00:21:52] again, our application developers, they
+[00:21:54] don't get this, right? The application
+[00:21:56] guys are just, let me write an
+[00:21:57] application in my fancy language, right?
+[00:21:59] And um, and get it to work and get my
+[00:22:01] features out the door so that my
+[00:22:02] customers will be happy. Um, and then
+[00:22:04] they pay the technical debt later of not
+[00:22:07] understanding all the dependencies that
+[00:22:08] they were really getting into by being
+[00:22:10] part of a system that's running a whole
+[00:22:12] workload with lots of stuff happening
+[00:22:14] all at once.
+[00:22:19] Our CPUs spend a lot of time chasing
+[00:22:22] data structures as we're context
+[00:22:24] switching like crazy and doing lots of
+[00:22:26] different work. So
+[00:22:29] um you know as you see these numbers or
+[00:22:32] this scale of uh things on the on the
+[00:22:34] chart um they aren't scaled at all. So
+[00:22:38] don't take that as as a gospel.
+[00:22:41] It's just an example of
+[00:22:44] you know these numbers kind of give you
+[00:22:46] an idea about what it costs to have
+[00:22:48] these different um pieces of cash and
+[00:22:50] TLB hitting um your performance.
+[00:22:59] Another issue I ran into is this code
+[00:23:02] size versus instruction selection
+[00:23:04] problem. So on a really busy system, and
+[00:23:08] I didn't quite understand this when I
+[00:23:09] was working on drivers, what it looks
+[00:23:12] like to be part of a really busy system,
+[00:23:15] right? Something that's heavily loaded,
+[00:23:16] 80% 90% load. uh the really busy system
+[00:23:21] has different kind of performance tuning
+[00:23:23] problems and the way that I thought and
+[00:23:28] in fact many times our our CPU vendors
+[00:23:31] will suggest to us hey just recompile
+[00:23:33] your binary with optimized instructions
+[00:23:36] and it'll go much faster and I'm like
+[00:23:38] yeah I get it let's go do that so I
+[00:23:41] tried it on one of our applications I
+[00:23:43] tried setting up the thing to run with
+[00:23:45] more optimized instructions well it
+[00:23:47] turns out that the code got larger. No
+[00:23:50] big surprise. The code getting larger
+[00:23:53] causes more TLB accesses during the hot
+[00:23:56] path. More TLB accesses during the hot
+[00:23:58] path causes more TLB thrash causes you
+[00:24:01] to have problems and your performance to
+[00:24:03] go down because all you're doing is
+[00:24:06] depending more on memory access due to
+[00:24:08] the code size change. So, it's an
+[00:24:10] interesting battle and balancing act
+[00:24:12] that you have to take on. And it was a
+[00:24:14] surprise to me that I wanted to relay to
+[00:24:16] you that sometimes getting bigger may
+[00:24:19] not be faster. Maybe even using faster
+[00:24:21] instructions may not be faster.
+[00:24:24] And it was a surprise to me. So I wanted
+[00:24:26] to share with you. Um
+[00:24:29] like I said, if you're TB limited or
+[00:24:31] memory bandwidth bound, you really got
+[00:24:33] to solve those problems first before you
+[00:24:36] can start tuning performance. And this
+[00:24:39] was a big lesson for me in that I
+[00:24:42] thought that the AVX instructions would
+[00:24:44] really help. But as it turns out,
+[00:24:48] they could hurt and they did in this
+[00:24:50] case for us. However, the benchmarks on
+[00:24:54] the application were much faster. But in
+[00:24:56] production, the application was slightly
+[00:24:58] slower.
+[00:25:00] Not enough to turn them off because
+[00:25:02] we're going to fix the TB problems, but
+[00:25:04] it's still
+[00:25:12] One of the things I ran across a bunch
+[00:25:14] is people are monitoring their
+[00:25:16] abstractions. So, a lot of our
+[00:25:19] application engineers have databases
+[00:25:21] full of statistics from Prometheus. Um,
+[00:25:24] and Linux has lots of counters, but it's
+[00:25:28] hard to see those sometimes unless
+[00:25:30] they're being exported to Prometheus,
+[00:25:32] right? our um application developers in
+[00:25:35] our setup don't have direct access to
+[00:25:37] the metals to our to our uh edge
+[00:25:40] machines and I think this is pretty
+[00:25:42] common in cloud right as a developer you
+[00:25:45] don't really have access to the deep
+[00:25:46] level um OS details sometimes right you
+[00:25:51] might if you if you rent an entire
+[00:25:52] physical machine or if you rent a VM but
+[00:25:56] um a these application developers got
+[00:25:59] caught out because their prior
+[00:26:00] expectations were describing to and what
+[00:26:02] to monitor. So they were monitoring the
+[00:26:05] things that had happened in the past.
+[00:26:07] You have to think about designing your
+[00:26:08] statistics. And I think this helps
+[00:26:10] kernel developers as well. Thinking
+[00:26:12] about like how would I debug a problem
+[00:26:15] if
+[00:26:16] X happened, right? So you're like um
+[00:26:18] wargaming, right? You're trying to think
+[00:26:20] about how I could approach a problem
+[00:26:23] with information in the future that I
+[00:26:26] haven't had yet. So this is a change in
+[00:26:29] mindset for me trying to think about how
+[00:26:32] do I debug this stuff that hasn't
+[00:26:34] happened yet and putting those things in
+[00:26:37] place is a big mindset change. So when
+[00:26:40] you're monitoring the system and you see
+[00:26:42] all these different um
+[00:26:45] layers that have issues, you might want
+[00:26:48] to go and look at the layers underneath
+[00:26:51] and see if you can find some information
+[00:26:53] about those. From a kernel developers
+[00:26:55] perspective, we want to make sure that
+[00:26:56] those layers that we're creating are
+[00:26:58] ending up visible. E tool statistics is
+[00:27:01] one thing. Socket statistics is another.
+[00:27:03] Um, they're there, but they're really
+[00:27:06] hard to get at. And also, it's really
+[00:27:08] hard to store them. Um, because the
+[00:27:11] cardality explosion of having 60,000
+[00:27:14] sockets on a machine and trying to
+[00:27:15] monitor their model and statistics,
+[00:27:16] that's a lot of stuff to upload. So this
+[00:27:19] starts to become a problem for um us as
+[00:27:22] kernel developers and for our
+[00:27:24] application developers. Let me tell you
+[00:27:26] a little bit story about an issue I ran
+[00:27:28] into.
+[00:27:30] Just happened to see a chat one day with
+[00:27:32] our S sur people and they were like,
+[00:27:35] "Man, the Intel drivers suck." I'm like,
+[00:27:38] "Yeah, okay."
+[00:27:41] And then they were like, "We've got this
+[00:27:44] problem. These Intel drivers, they're so
+[00:27:46] noisy. We get these packets that have
+[00:27:48] UDP check some errors, right? We're
+[00:27:49] connected to the internet. People are
+[00:27:51] sending all sorts of packets at us. Um,
+[00:27:53] and we're getting alerts. The SR guys
+[00:27:56] are saying, "We're getting alerts from
+[00:27:57] these uh this this Intel driver. It's so
+[00:27:59] weird. We get these bursts of packets
+[00:28:01] and they come in and we get all these
+[00:28:03] these alerts. Let's just turn off the
+[00:28:05] alerts on the Intel drivers." And I'm
+[00:28:07] like, "No, no. I mean, I kind of know
+[00:28:09] what's happening. I used to work on
+[00:28:11] those drivers." And I'm like they're I'm
+[00:28:13] like I can just fix the driver code
+[00:28:15] because I think I know what's wrong. It
+[00:28:17] turns out the ICE driver was the only
+[00:28:18] driver in the kernel that was
+[00:28:20] aggregating RX check some errors into
+[00:28:23] the RX errors field in the if if config
+[00:28:25] stats. I sort of knew about this from my
+[00:28:28] past history as being a thing that we
+[00:28:31] were doing or we in the past me was
+[00:28:34] doing. Um, and so the driver was
+[00:28:38] working. The packet was being handed to
+[00:28:40] the stack just like it always would have
+[00:28:42] been. The driver was just adding a
+[00:28:44] counter and putting it into if config.
+[00:28:47] This ended up causing an alert.
+[00:28:50] The right way to solve it was actually
+[00:28:52] the kernel patch. And I have a kernel
+[00:28:53] patch that I submitted and was accepted
+[00:28:55] to break that statistic out. Um,
+[00:29:01] so the lesson here is when something uh
+[00:29:04] the system tells you something is
+[00:29:06] broken, you know, don't just adjust the
+[00:29:09] alert. Don't put on a band-aid. Maybe
+[00:29:11] look one layer deeper and see if you can
+[00:29:14] find out what's really going on. In this
+[00:29:16] case, the kernel driver was being stupid
+[00:29:20] and uh and counting something it
+[00:29:22] shouldn't.
+[00:29:28] So to wrap up here, um you know, try and
+[00:29:32] think about as a kernel developer trying
+[00:29:35] to think about the layers that are going
+[00:29:36] to be above you in production. Um when
+[00:29:40] you're working on something, try and
+[00:29:41] make sure that you understand the
+[00:29:42] semantics of the layer below your
+[00:29:44] abstraction. I think this will really
+[00:29:46] help you as a developer. It helped me in
+[00:29:49] my new job, right? um
+[00:29:53] make sure that you're monitoring at
+[00:29:54] multiple layers and um
+[00:29:58] it will help you be successful. So
+[00:30:01] that's kind of about it for my talk. if
+[00:30:04] you have any questions. And I do want to
+[00:30:05] say a special thanks to the conference
+[00:30:07] organizers and sponsors.
+[00:30:16] I'm surprised that people think that
+[00:30:18] VLAN offload has any value. It's four
+[00:30:22] bytes and an offset. like just the
+[00:30:26] branch misprediction on whether it has
+[00:30:28] been offloaded or not and reaching into
+[00:30:30] the metadata field instead of into the
+[00:30:32] header that you're parsing anyway. Like
+[00:30:33] is it really worth it? Like worst case
+[00:30:35] you're moving around a 14 by Ethernet
+[00:30:37] header. It's not even a cache line.
+[00:30:40] >> Yeah, I know. We we wish it wasn't 14
+[00:30:42] bytes either, right? Um
+[00:30:45] does it really matter? Yeah, I think it
+[00:30:47] does. Uh I mean it offsets the rest of
+[00:30:49] the packet data by two bytes when it if
+[00:30:51] it's stripped by the hardware device as
+[00:30:53] it's being DMA. Um the packet is
+[00:30:56] shorter. So there's just less data hit
+[00:30:57] into cache. Uh
+[00:31:00] >> but there's more data in the descriptor
+[00:31:02] and more data in the metadata, right?
+[00:31:04] Like you could strip it out of the
+[00:31:05] metadata.
+[00:31:06] >> The descriptors are always fixed size at
+[00:31:07] least in the Intel hardware. So whether
+[00:31:10] or not the VLAN tag was there or not. Um
+[00:31:12] but yes, it does end up getting stored
+[00:31:13] in the SKB. But the I think the the
+[00:31:17] takeaway for me is that
+[00:31:20] yeah, VLAN's minor, but it was an
+[00:31:22] example of me coming in and and getting
+[00:31:24] surprised that this offload was
+[00:31:26] disabled. I'm like, this stuff should
+[00:31:28] just work, right? It's been around
+[00:31:29] forever and ever. Oh, well, not quite.
+[00:31:33] I've often wished that we'd have the
+[00:31:35] opposite, which is like every packet
+[00:31:36] that comes in gets a VLAN tag zero if it
+[00:31:38] doesn't have one, so that everything
+[00:31:41] looks the same. Um, right. Second
+[00:31:44] comment about some of this um UDP gso
+[00:31:49] stuff. I've seen nicks on which if you
+[00:31:51] try to do UDP gso transmit, you just get
+[00:31:54] an error out of send message. It's super
+[00:31:57] annoying for apps to deal with, right?
+[00:32:00] Like as the kernel, we should really do
+[00:32:03] something about that. Like notice that
+[00:32:05] the nick just doesn't work and turn the
+[00:32:07] feature off or something.
+[00:32:10] >> I agree. Yeah. Um like I said, it's
+[00:32:12] fragile.
+[00:32:15] a question from the other room.
+[00:32:17] >> Uh just a I have question and a comment
+[00:32:21] about the previous question. So with
+[00:32:23] regards to VLAN offload uh yeah it's the
+[00:32:27] value is a bit negligible. However for
+[00:32:30] TSO offload a TSO with VLAN support here
+[00:32:34] it has a value to for the nick to have a
+[00:32:36] support for VLAN right because otherwise
+[00:32:39] you you cannot segment the packets and
+[00:32:41] TSO has value. So this was my first my
+[00:32:43] first comment. So I'm not sure if it's
+[00:32:45] fits into van offload but yeah having
+[00:32:47] van support on the nick is important for
+[00:32:49] other offloads. That was the the first
+[00:32:52] uh the first comment and the question
+[00:32:55] for for you now is after all these
+[00:32:58] presentation
+[00:33:00] what what are your thought about user
+[00:33:02] space networking because honestly now I
+[00:33:04] feel like
+[00:33:06] you're you're maturing for for this
+[00:33:08] right uh in in in your new job not not
+[00:33:12] the old one. Yeah, I I the audience here
+[00:33:16] I think is kernel developers mostly. So
+[00:33:19] I'm I'm gonna stick with the safe answer
+[00:33:21] and say I believe in the kernel. Um
+[00:33:24] >> no each one each one has their use
+[00:33:26] cases. This is mine. I mean user space
+[00:33:29] is not better than kernel space. Kernel
+[00:33:31] space is not better than user space for
+[00:33:33] each there are there are use cases
+[00:33:35] right.
+[00:33:36] Yeah, I think there is. But I think that
+[00:33:38] the application developers have a
+[00:33:40] tendency to get themselves into more
+[00:33:41] trouble by having less visibility, less
+[00:33:43] scope. So if you're doing user user
+[00:33:46] space applications, sometimes they're
+[00:33:48] really good at one thing and they don't
+[00:33:49] realize that they're part of a system.
+[00:33:52] So it works fine on your own developer
+[00:33:54] box or on a box that's dedicated doing
+[00:33:56] that user space stuff, but maybe not so
+[00:33:58] great when you're trying to um cooperate
+[00:34:01] between a whole bunch of different
+[00:34:02] processes. And that's what the colonel
+[00:34:03] is really good at managing, right?
+[00:34:06] >> Okay, let's talk afterwards.
+[00:34:09] >> So, uh not so much a question but more
+[00:34:12] in the form of an eology which you can
+[00:34:15] give to a living person as well. Okay.
+[00:34:17] Jesse Brandenburg definitely a system
+[00:34:20] performance engineer as I've seen him I
+[00:34:22] don't know since 2004. Okay. Uh packet
+[00:34:26] drop not that common actually. Uh it
+[00:34:28] turns out what is common is memory
+[00:34:31] corruption. very common uh bits are
+[00:34:34] dying because of maybe solar storm or
+[00:34:36] cheap memory or whatever or HPM versus
+[00:34:40] uh LPDDR debates. Um so I would say find
+[00:34:44] pattern in packet drops. Uh there is a
+[00:34:47] pattern uh there is a paper actually
+[00:34:49] sikcom paper by Google uh and there they
+[00:34:52] did a analysis that there is patterns
+[00:34:54] and that's how they found out that it's
+[00:34:56] actually bit flips that's happening not
+[00:34:58] so much of packet drops. Um uh and then
+[00:35:03] I would say think about the memory and
+[00:35:05] time tradeoff. absorb congestion not in
+[00:35:08] memory but in time because memory is
+[00:35:11] where the world is fighting right now.
+[00:35:13] So let's leave the memory aside.
+[00:35:15] >> Um
+[00:35:16] >> memory is a big problem today as most of
+[00:35:18] us know.
+[00:35:19] >> Yeah. Um and I would say beauty is in
+[00:35:23] simplicity and coherency is great but
+[00:35:25] only in a very localized environment and
+[00:35:27] that's for PJ.
+[00:35:29] Um so I don't know if we forgot
+[00:35:32] something called Ubuntu and Ubuntu says
+[00:35:34] if you have to go fast go alone but if
+[00:35:37] you want to go long bring friends along
+[00:35:40] so you go long but I would say actually
+[00:35:43] going slow is really fast.
+[00:35:48] Um
+[00:35:50] getting bigger is not faster. Look at
+[00:35:53] humans. Uh Jesse, you said that we have
+[00:35:56] to always look at our own body, the best
+[00:35:58] machine that nature can build, which is
+[00:36:02] our body and our mind. Okay.
+[00:36:05] Um slow is always fast because it's
+[00:36:08] deliberate and proactively and
+[00:36:11] uh it's proactive and not reactive. That
+[00:36:14] that's the point. Uh just like small is
+[00:36:17] always big. uh one thing that I would
+[00:36:20] really emphasize is cross domain.
+[00:36:24] The best thing that is coming out right
+[00:36:25] now in science is from chemical
+[00:36:27] engineering and a body studies and what
+[00:36:30] they're finding is these uh genes they
+[00:36:32] actually look like little robots doing
+[00:36:34] the work uh the you know the proteins
+[00:36:37] and stuff like that. So it is the best
+[00:36:41] best motivation for us to design the
+[00:36:44] best systems is actually coming from our
+[00:36:46] body. So look at that. Um
+[00:36:50] >> Anelie, if I may interrupt you, I I
+[00:36:51] think we have another question as well.
+[00:36:53] I I would love to talk with you after if
+[00:36:57] that's okay. Okay. So the thanks the
+[00:37:00] thanks for this talk because it's like a
+[00:37:03] you're coming now from actually
+[00:37:05] connecting both worlds really because
+[00:37:07] you have a big background in the kernel
+[00:37:09] and now work on the upper layer. Uh my
+[00:37:12] question is like is Cloudflare going to
+[00:37:15] do some kinds of uh blog posts about
+[00:37:18] things you find out because it's very
+[00:37:20] interesting for like people with kernel
+[00:37:23] people because I believe we live into
+[00:37:25] siloses like you know kernel people try
+[00:37:28] to optimize like you said the workloads
+[00:37:31] that they think of while the rest of the
+[00:37:35] world uses those those workloads in a
+[00:37:38] bit different environments different
+[00:37:40] configurations. s and I think something
+[00:37:42] like that would be very useful at least
+[00:37:45] you know some kind of uh how to
+[00:37:47] replicate a basic workload that that
+[00:37:51] makes sense from the from the from your
+[00:37:54] perspective as someone who really uses
+[00:37:56] it.
+[00:37:56] >> Yeah, the doing the busy system um
+[00:37:59] reproduction is a real tough thing to
+[00:38:01] manage. Um and your point is really
+[00:38:03] good, right? Uh I have been asked for
+[00:38:07] and several times people on our team
+[00:38:09] have been posting blog posts. So there
+[00:38:11] there's already blogs from Yesper about
+[00:38:13] performance stuff um that he was working
+[00:38:15] on. So yeah, our team is definitely
+[00:38:17] doing that. I don't think I have
+[00:38:18] anything that I've directly contributed
+[00:38:19] to yet, but um it's a
+[00:38:22] >> Yeah, it's right here. Exactly.
+[00:38:26] >> Sure. Thank you for the encouragement.
+[00:38:27] Yeah, I'll definitely look into that
+[00:38:28] because the blog team is always bugging
+[00:38:30] us for for content. Yep. Thanks.
+[00:38:35] >> Thank you for a great presentation and
+[00:38:37] uh welcome to the bloody production. Uh
+[00:38:41] so I I would also say that uh you
+[00:38:44] mentioned this problem with like uh uh
+[00:38:48] collecting the current uh counters
+[00:38:50] differently across the nigs. So it and I
+[00:38:53] would say it hurts like a much more log
+[00:38:57] people that it seems to be because if it
+[00:39:00] is not like aggregated the same way in
+[00:39:02] the kernel somebody will do this instead
+[00:39:05] of kernel people and what I usually see
+[00:39:08] that like the normal statistics exporter
+[00:39:11] like that uh like industrywide
+[00:39:14] standards. So they try to collect the
+[00:39:17] counters. They try to collect the
+[00:39:19] counters from all the nigs try to map
+[00:39:22] those counters into some like
+[00:39:25] well understandable behavior and try to
+[00:39:27] show this and when you try to actually
+[00:39:29] see what is happening you you definitely
+[00:39:32] see those kind of problems. Ah I hate
+[00:39:34] those intel nicks because they are like
+[00:39:36] behaving bad but it's not behaving bad
+[00:39:38] because they are doing some stuff and uh
+[00:39:41] statistics were aggregated on some upper
+[00:39:43] level by other people who are don't know
+[00:39:46] Intel nicks good but they just try to
+[00:39:48] like recombine all the statistics from
+[00:39:50] different nicks from different vendors
+[00:39:53] like one value for everybody and it just
+[00:39:56] doesn't work
+[00:39:57] >> right um I it is yeah I think it's a
+[00:40:00] call to action for us that we should be
+[00:40:01] as driver developers trying to
+[00:40:04] um those interfaces be as common as
+[00:40:06] possible. And I think there should be
+[00:40:08] some more enforcement hopefully from the
+[00:40:10] community to to push back and say, "Hey,
+[00:40:12] look, you got to fit your stuff into
+[00:40:14] this um this system of uh common common
+[00:40:18] things."
+[00:40:21] Another question. Do we have time, PJ? I
+[00:40:23] know we're quite over. Okay.
+[00:40:25] >> Uh it'll be quick. Um it it's kind of in
+[00:40:28] similar vein to the last question
+[00:40:30] because kind of what has resonated
+[00:40:31] resonated with me from this
+[00:40:33] presentation, right, is like you have
+[00:40:34] all these engineers that like work in a
+[00:40:36] different like layer of this cake and
+[00:40:39] like a lot of issues come from engineers
+[00:40:42] not understanding like the layer like
+[00:40:44] above or below them,
+[00:40:46] >> right? Do you have any like advice or
+[00:40:50] like recommendations for like how we
+[00:40:52] could get everyone to start like
+[00:40:54] understanding like the whole cake
+[00:40:56] instead of like just their layer?
+[00:40:59] >> Come to NetDev. Oh,
+[00:41:06] >> um, no. Uh besides the flippin answer, I
+[00:41:10] I think
+[00:41:13] you know making conference presentations
+[00:41:15] about things that you know about,
+[00:41:16] helping people learn, right? Um
+[00:41:20] sharing your knowledge amongst you know
+[00:41:22] finding becoming a mentor, right? Really
+[00:41:25] simple things um
+[00:41:28] like that can be super helpful as far as
+[00:41:32] helping application developers learn the
+[00:41:34] other layers. I think if we're doing a
+[00:41:36] good job with documentation
+[00:41:39] or teaching AIs how to
+[00:41:43] how to use the features that we have um
+[00:41:45] it's a productive way forward. Um but
+[00:41:48] yeah, asking questions is the key and
+[00:41:52] being curious, right? So if somebody has
+[00:41:55] uh a problem and you think they might be
+[00:41:57] able to learn something, you might be
+[00:41:59] able to have the point them in a
+[00:42:00] direction by asking a really good
+[00:42:02] question.
+[00:42:05] >> All right. Well, thank you, Jesse.

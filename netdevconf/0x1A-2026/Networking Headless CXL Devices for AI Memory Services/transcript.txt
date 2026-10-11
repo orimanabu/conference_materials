@@ -1,0 +1,556 @@
+Source: https://youtu.be/JaqEdCahElA
+Language: en
+Captions: auto-generated
+
+[00:00:00] Good morning.
+[00:00:02] My name is Goravaral.
+[00:00:04] I am joined with my colleague Vijay. Uh
+[00:00:08] I think you are all familiar with the
+[00:00:09] topic of our talk. So let's get into it.
+[00:00:17] So first to set the context,
+[00:00:20] the memory constrained XPUs is
+[00:00:22] struggling in serving AI workloads with
+[00:00:24] scaled data sets as they face the memory
+[00:00:27] wall
+[00:00:29] which gets worse due to sparse data,
+[00:00:32] highly dimensional vectors and high um
+[00:00:35] and long sequences.
+[00:00:37] And the result of memory wall is that
+[00:00:42] the XPUs those precious XPUs they starve
+[00:00:46] for data and which not only affects the
+[00:00:49] performance but drives the cost up.
+[00:00:52] You'd be surprised that the both
+[00:00:53] generative AI as well as predictive AI
+[00:00:57] the MFU the utilization of GPUs is as
+[00:01:02] low as 20 to 30% range.
+[00:01:07] So due to the significantly diverse
+[00:01:08] requirements of the AI workloads,
+[00:01:12] a composable and flexible solution is
+[00:01:14] needed which is cost effective, energy
+[00:01:18] efficient with scalable performance
+[00:01:24] and that's why the domain specific
+[00:01:26] architectures are rapidly evolving
+[00:01:30] not only in form of specialized compute
+[00:01:34] but also
+[00:01:35] smart memory and storage devices behind
+[00:01:38] the fabric
+[00:01:40] and many of these storage and memory
+[00:01:42] devices now come with compute
+[00:01:45] capabilities
+[00:01:46] for processing data.
+[00:01:49] So the operators can compose systems
+[00:01:52] which is matched to their load
+[00:01:55] totally optimized to their load because
+[00:01:58] cost and energy efficiency is crucial
+[00:02:02] in this AI era.
+[00:02:06] So here is an accelerator from Marvel
+[00:02:09] called Structera
+[00:02:12] which is a CXL 2.0 O memory expander
+[00:02:18] with compression and encryption support.
+[00:02:22] And even though it's a type CXL type3
+[00:02:25] device,
+[00:02:26] it also gives you an option to have 16
+[00:02:31] serverass cores for nearmemory
+[00:02:33] computation.
+[00:02:35] And these ARM neoor V2 cores,
+[00:02:39] these are truly server class cores with
+[00:02:42] serious horse compute horsepower.
+[00:02:44] Basically the same cores that make up
+[00:02:48] the Nvidia's uh Grace or uh Amazon's
+[00:02:53] Graviton.
+[00:02:56] And this controller comes with 4 DDR5
+[00:02:59] 6400 channels. So you get 200 GBTE of
+[00:03:03] memory per second bandwidth which
+[00:03:06] equates to over 12 GB per second
+[00:03:11] bandwidth memory bandwidth per core
+[00:03:14] which is about 2x of best-in-class x86
+[00:03:20] host cores.
+[00:03:25] And here is an example of a dual socket
+[00:03:29] system that has been scaled up with
+[00:03:32] these accelerators
+[00:03:35] to 10 terabytes of memory
+[00:03:41] at 2.4 terabyte per second of the
+[00:03:45] aggregate system memory. Yeah, that's
+[00:03:49] 2.4 4 terabyte of DAM bandwidth that you
+[00:03:52] get
+[00:03:54] in this simple example with additional
+[00:03:58] 128 serverass cores with class leading
+[00:04:01] vector processing engines.
+[00:04:04] And all of this is at very modest
+[00:04:08] power uh incremental power
+[00:04:12] and and and now this is serious
+[00:04:14] horsepower
+[00:04:16] and we shall see some real world
+[00:04:18] applications that would benefit by such
+[00:04:21] scalability.
+[00:04:27] So as the heterogeneous systems evolve,
+[00:04:31] software must evolve to operationalize
+[00:04:34] these heterogeneous systems for various
+[00:04:37] key aspects of these heterogeneous
+[00:04:39] architectures
+[00:04:41] such as computational programming models
+[00:04:45] for the heterogeneous components.
+[00:04:48] runtimes
+[00:04:50] that can optimally partition compute and
+[00:04:52] data and place them in this des
+[00:04:56] disagregated architecture across these
+[00:04:59] heterogeneous components based on their
+[00:05:01] capabilities
+[00:05:04] and the control plane for discovery
+[00:05:06] provisioning and the whole life cycle
+[00:05:08] management.
+[00:05:10] Vijay will walk us through what he's
+[00:05:13] done to make these structur a
+[00:05:15] accelerators work for us.
+[00:05:25] Thank you Goro.
+[00:05:27] So let's do this with a real world
+[00:05:29] example. Uh this is a production grade
+[00:05:33] billion scale solution which is like
+[00:05:36] widely deployed. This is malware vector
+[00:05:39] DB. So unlike traditional database where
+[00:05:42] you search with a key and just get a
+[00:05:45] value here we are actually doing a
+[00:05:48] similarity search you give a value which
+[00:05:51] you vector which you which is
+[00:05:53] represented as a multi-dimensional value
+[00:05:55] which is like from 128 to almost 3k
+[00:05:59] size. You're trying to find
+[00:06:02] what are the closest 10 possible values.
+[00:06:05] To actually do that this is actually
+[00:06:08] represented as a graph in the data in
+[00:06:10] the memory. It lives as a graph and you
+[00:06:12] need to do lot of small computations but
+[00:06:16] try to get next node in the graph which
+[00:06:19] is like completely random. So it it
+[00:06:22] helps if your memory is fast and also
+[00:06:26] your it's very close to your compute. So
+[00:06:30] near memory compute is a very good uh
+[00:06:34] need for this kind of solutions right.
+[00:06:37] So in this which which this picture
+[00:06:39] actually shows the real deployment of
+[00:06:41] how the MLS DB actually uh gets deployed
+[00:06:44] in production environment. So all the
+[00:06:46] nodes which you are seeing here each
+[00:06:48] blue box is a node uh which has certain
+[00:06:51] functionality wherein let's say uh the
+[00:06:54] query comes to the proxy node which will
+[00:06:56] kind of route your query to different uh
+[00:07:00] uh nodes which actually do the search
+[00:07:03] and uh the coordinator is like a
+[00:07:06] controller and the data node does the uh
+[00:07:09] housekeeping work and streaming node is
+[00:07:11] the one who keeps updating the data
+[00:07:12] right so because of the scale of the
+[00:07:15] system uh at like this is deployed in a
+[00:07:19] cluster of hundreds of nodes and each of
+[00:07:22] these nodes should be scaled
+[00:07:24] independently. So any deployment of this
+[00:07:28] uh this kind of solution is done with an
+[00:07:31] orchestrator in a cloud native
+[00:07:32] environment. So this entire thing is uh
+[00:07:36] done in Kubernetes. So each one is a pod
+[00:07:38] in a Kubernetes environment which is
+[00:07:41] like a bunch of uh processes combined as
+[00:07:45] a single name space. This is basically a
+[00:07:47] container right couple of containers. So
+[00:07:51] uh in this the query node which is the
+[00:07:54] guy who is like actually doing the
+[00:07:56] search is the main node which you want
+[00:07:58] to uh have a NMC added to it. So that's
+[00:08:03] where the problem is like so you have
+[00:08:04] the solution which needs an NMC and we
+[00:08:08] have uh the structure IA which go just
+[00:08:11] showed and the next slides I'm going to
+[00:08:13] show how we have like uh went through
+[00:08:16] that uh process of adding it. So one
+[00:08:19] problem with uh the uh any solution
+[00:08:22] which you try which is like already
+[00:08:24] widely deployed and you have a new piece
+[00:08:26] of hardware which can do something new
+[00:08:28] is that you don't want to change so many
+[00:08:30] things that nobody will adapt. So you
+[00:08:32] have to keep the changes minimal while
+[00:08:34] also uh making it work with the uh
+[00:08:37] existing solution with without any
+[00:08:40] reliability issues. So one thing is in
+[00:08:43] Kubernetes everything is a service. So
+[00:08:45] everything has an IP address and you
+[00:08:47] should be able to reach it and this
+[00:08:48] structure that this near memory uh
+[00:08:51] compute device is a memory device. It
+[00:08:53] doesn't have a network interface. So
+[00:08:55] that's the first thing which we need to
+[00:08:57] do. Uh so what we did uh as a first step
+[00:09:00] is like created a simple network
+[00:09:04] interface on that uh using that memory.
+[00:09:06] So we just use the basic building blocks
+[00:09:09] of Linux. We didn't write anything new.
+[00:09:11] So it's just a tunnel interf uh
+[00:09:14] interface on both the sides. So one side
+[00:09:16] sits on the host the other side sits on
+[00:09:18] the structure because it has ARM
+[00:09:20] coursees it runs Linux it runs a proxy
+[00:09:23] app both will run proxy app pulling the
+[00:09:25] memory. So we have like a very bas basic
+[00:09:28] implementation uh to just make it work
+[00:09:32] make it have a network interface. Uh so
+[00:09:35] that's what we have done. So we we did
+[00:09:37] it in a very base way like uh like
+[00:09:40] unidirectional two channels
+[00:09:41] unidirectional it is lossy so TCP takes
+[00:09:45] care. So we we are not like worried
+[00:09:47] about that. So in that way once we made
+[00:09:49] this work uh now actually we made we
+[00:09:52] move to what io which is like faster we
+[00:09:54] use the cxl.io IO for that. This is like
+[00:09:57] based on CXL me. Uh but with this we are
+[00:10:01] able to like build the whole solution
+[00:10:02] while the work was going on on our
+[00:10:04] whatio. So that's also uh open source.
+[00:10:07] It's it's in our repo. Uh so so once we
+[00:10:10] reach this point where we added a
+[00:10:12] network interface that's still not
+[00:10:14] enough
+[00:10:16] because a node in Kubernetes has its own
+[00:10:19] IP address which is visible at the
+[00:10:21] cluster level. But this is like this
+[00:10:23] memory interface is only visible to the
+[00:10:25] host. it's not visible to outside world
+[00:10:27] and also it should be like a
+[00:10:30] discoverable resource which you should
+[00:10:32] be able to say that okay these nodes
+[00:10:34] have structur so if I'm deploying all my
+[00:10:37] nodes like we have like different kinds
+[00:10:39] of nodes a query node should be deployed
+[00:10:41] here so that kind of uh intelligence to
+[00:10:44] be able to give to the scheduleuler this
+[00:10:47] will still not be enough so we we built
+[00:10:49] another framework around it using this
+[00:10:51] interface as a base and uh so So that's
+[00:10:55] how this it looks. So basically you have
+[00:10:58] the structure a device and the blue
+[00:11:00] dotted line is the is your host uh and
+[00:11:03] you have a another pod uh which has a
+[00:11:07] proxy pod which does the translation. So
+[00:11:09] this proxy pod uh which is showing as so
+[00:11:12] this this solution which I'm talking
+[00:11:14] about is like generic I in the initial
+[00:11:17] uh slide I showed malware but here I'm
+[00:11:20] just showing radius because it works
+[00:11:21] across the problems are same the
+[00:11:24] requirement for near memory is same for
+[00:11:27] both the solution also same it's same
+[00:11:29] it's just it doesn't nothing changes
+[00:11:31] here so the proxy pod is the one which
+[00:11:35] kubernetes will deploy and this proxy
+[00:11:37] pod will do the proxy thing and also set
+[00:11:40] up Iliad, load the application uh in
+[00:11:43] this case the query node into the
+[00:11:45] structure device and then it will do the
+[00:11:48] translation so that the actual DB search
+[00:11:53] is happening on the ARM course with the
+[00:11:56] memory which is like very near and the
+[00:11:57] queries which are coming over this proxy
+[00:12:00] are not so much bandwidth intensive
+[00:12:02] relatively. So this still works right.
+[00:12:05] So with this in place with this scheme
+[00:12:08] in place we were able to do all this. So
+[00:12:11] uh basically if you see the points which
+[00:12:13] I have on the right so you can have a
+[00:12:15] heterogeneous cluster where you have mix
+[00:12:17] of devices in and some have one or some
+[00:12:21] have like more than one structural
+[00:12:22] devices and based on the capacity which
+[00:12:25] you ask for a node you can the the query
+[00:12:30] node will get automatically deployed
+[00:12:31] there. So the discovery will happen
+[00:12:33] automatically and the scheduling is like
+[00:12:36] hardware aware. It knows like where it
+[00:12:38] is. It launches the proxy pod and proxy
+[00:12:40] pod will actually uh do the traffic uh
+[00:12:43] to the actual solution uh whether it is
+[00:12:47] malware vector uh query node or radius
+[00:12:50] db uh via the proxy board mechanism
+[00:12:54] which we have there.
+[00:12:57] So all which all we need to change with
+[00:12:59] this solution in place is like just one
+[00:13:01] line change in the actual solution. So
+[00:13:04] Melisd DB will have a Helm chart wherein
+[00:13:07] you you define all the things which you
+[00:13:09] how you your uh cluster will get
+[00:13:12] utilized by your parts like how many
+[00:13:14] number of this query nodes or how many
+[00:13:17] number of proxy parts and things like
+[00:13:18] that and then you would just say oh for
+[00:13:21] this particular node I want CXL it's
+[00:13:23] just like one line change. So then it
+[00:13:26] it's already discovered so it gets
+[00:13:28] launched and query nodes will be running
+[00:13:30] on structure and we have like some
+[00:13:32] performance numbers to show that the
+[00:13:34] difference between you running the query
+[00:13:36] node on the host versus you running it
+[00:13:38] on structural with this uh mechanism.
+[00:13:41] Right? So this is what the final
+[00:13:43] solution of ours looks like. basically
+[00:13:46] the all the other parts the ones which
+[00:13:48] are not in the green box are gets
+[00:13:51] launched as they are defined but uh in
+[00:13:54] your entire cluster I mean I'm just
+[00:13:56] showing like a very small one but
+[00:13:57] imagine this is like scaled across
+[00:13:59] hundreds of nodes and it searches where
+[00:14:02] these nodes are and it gets launched
+[00:14:04] there and you get automatically improved
+[00:14:06] performance right the lines of codes are
+[00:14:08] like code is like very very very less
+[00:14:10] right with this I want to give it back
+[00:14:12] to Goro he want to we will share some
+[00:14:15] more data on this.
+[00:14:17] >> Okay, thanks Vijay. So Vijay has
+[00:14:21] actually shown us how
+[00:14:24] Kubernetes work beautifully for these
+[00:14:28] heterogeneous devices. Um and and this
+[00:14:31] is how the cl this is how it all comes
+[00:14:35] this is how it all comes together.
+[00:14:37] Um what I call cluster in a box
+[00:14:41] solution.
+[00:14:42] Uh as you can see on the left hand side
+[00:14:45] is your traditional uh cluster uh in a
+[00:14:49] network environment whereas on the right
+[00:14:51] side you have sort of like every each
+[00:14:55] structera
+[00:14:57] is basically becomes like a node in a
+[00:15:00] cluster uhorked over CXL
+[00:15:05] and Kubernetes architecture
+[00:15:08] architecturally just fits. It's a direct
+[00:15:10] fit and the software applications that
+[00:15:13] are built for scale using Kubernetes can
+[00:15:17] be very easily deployed and so you get
+[00:15:21] the heterogeneous components these
+[00:15:24] custom accelerators that that can be
+[00:15:27] operationalized
+[00:15:29] and ready for adoption at scale which is
+[00:15:32] the beauty of it.
+[00:15:39] and and here we have limited time so I'm
+[00:15:44] cherrypicking um some some some specific
+[00:15:47] data to kind of give you guys the idea.
+[00:15:52] So one of the key aspect of near data
+[00:15:55] processing call it near data processing
+[00:15:57] near memory compute um processing near
+[00:16:01] memory. So same uh you know everything
+[00:16:05] is the same. What you see is on the left
+[00:16:09] hand side is a scenario where the
+[00:16:13] processing of the vector search is being
+[00:16:16] performed on the host CPU
+[00:16:19] where when the data is sitting
+[00:16:22] in the fabric attached memory in this
+[00:16:24] case across CXL the the host CPU would
+[00:16:30] actually have to perform the search.
+[00:16:33] In order for it to perform the search,
+[00:16:34] it would have to pull the raw data from
+[00:16:37] the database from the vector database
+[00:16:40] which is sitting across the fabric.
+[00:16:42] Right?
+[00:16:43] And whereas on the right hand side
+[00:16:46] instead of having to pick the uh raw
+[00:16:50] vectors ac across the fabric just the
+[00:16:54] search vector is provided to the device
+[00:16:58] and the whole index navigation
+[00:17:02] and the search is performed by the
+[00:17:04] device and it returns back you the
+[00:17:07] resulting vectors of interest. So what
+[00:17:10] you see is the reduction in the amount
+[00:17:14] of data that had to be moved across the
+[00:17:16] fabric in this in this scenario as
+[00:17:19] detailed over here. Uh it goes down this
+[00:17:23] is for one batch of query goes down from
+[00:17:28] 3.8 gabytes to 64 megabytes which is
+[00:17:33] basically a reduction of 60x. Yeah,
+[00:17:36] that's right. a 60x reduction which
+[00:17:38] directly equates to the energy saved and
+[00:17:41] the cost savings
+[00:17:44] and of course improved performance.
+[00:17:47] And this chart shows the linear scaling.
+[00:17:51] As you as you need more performance, you
+[00:17:55] introduce more of these devices and you
+[00:17:58] get linear scaling obviously.
+[00:18:03] Um so vector search is very centric.
+[00:18:10] It's also called similarity search for
+[00:18:12] those who may not be familiar with
+[00:18:14] vector search. It it's very centric to
+[00:18:17] the AI applications. Most of the AI
+[00:18:20] workloads involve vector data
+[00:18:24] in all these different pipelines whether
+[00:18:26] it's generative AI or predictive AI.
+[00:18:30] Here is a
+[00:18:32] generative AI pipeline that's shown end
+[00:18:35] to end where vector database is involved
+[00:18:39] in the retrieval step.
+[00:18:43] Then there are other
+[00:18:46] data services that are crucial.
+[00:18:50] For example, KV um KV cache is very
+[00:18:56] centric to the generative AI and and and
+[00:19:00] similarly the vector embeddings centric
+[00:19:03] to deep learning recommendation models
+[00:19:06] that are used in recommend uh recommener
+[00:19:09] systems. So all these workloads are
+[00:19:13] basically memory bound as I explained in
+[00:19:17] the beginning. You need tons of memory
+[00:19:20] which is not going to be in form of HBM
+[00:19:24] anytime soon on the XPUs
+[00:19:28] for obvious reasons. I mean HBM can pro
+[00:19:31] you know is is is great. It provides
+[00:19:34] tons of um uh bandwidth but is capacity
+[00:19:38] constrained. So you need
+[00:19:42] data near XPU and tons of data near XPU
+[00:19:46] and and that's where um this data as a
+[00:19:51] service architecture fits pretty well.
+[00:19:54] Um
+[00:19:56] talking about KV cache I mean here in
+[00:19:59] this chart you can see the impact of KV
+[00:20:04] cache. Um, not only it speeds up, but
+[00:20:10] there is a significant cost
+[00:20:13] consideration.
+[00:20:15] When you look at OpenAI or pretty much
+[00:20:17] any AI provider, the cost of cash tokens
+[00:20:23] is onetenth of you know when when they
+[00:20:26] have to be computed. So KB cache buys
+[00:20:29] you performance as well as saves you
+[00:20:33] cost and
+[00:20:36] in real world deployments
+[00:20:39] the cache hit rates have actually gone
+[00:20:42] significantly up. If you look at uh
+[00:20:45] deepseek v3r1
+[00:20:48] um deepseek has actually published over
+[00:20:52] 51% of cache hits that has actually been
+[00:20:55] able to save 50% of their cluster size
+[00:21:00] reduction. So that's that's it's that
+[00:21:02] significant.
+[00:21:05] Um
+[00:21:07] here is just a general idea just to give
+[00:21:10] you guys general idea of this um KB
+[00:21:13] cache workload how it fits really well
+[00:21:17] for disagregated processing. I will uh
+[00:21:20] in the interest of time I will not get
+[00:21:22] into details. Um
+[00:21:25] and but here what we have done is uh we
+[00:21:28] have we have done an implementation
+[00:21:31] where we have XPUs sitting next to
+[00:21:34] Nvidia GPUs
+[00:21:36] uh on the uh uh same PCIe uh fabric and
+[00:21:41] are able to do peer-to-peer
+[00:21:44] peer-to-peer communication in a very
+[00:21:47] efficient way uh to retrieve KV cache
+[00:21:51] off of structuras.
+[00:21:54] um and and the performance is basically
+[00:21:57] only limited by the PCIe bandwidth.
+[00:22:02] So with that we conclude our talk. Uh
+[00:22:06] open for questions.
+[00:22:18] Any questions?
+[00:22:20] Uh Hello, I have just thank you for your
+[00:22:24] presentation. It was very interesting.
+[00:22:27] Uh I have a question about the
+[00:22:28] networking aspect you mentioned. Uh you
+[00:22:31] you mentioned that you are going to a
+[00:22:33] vertio implementation to communicate
+[00:22:35] between the host system and uh and your
+[00:22:40] uh your your ARM system. uh in this
+[00:22:43] implementation is the memory just to so
+[00:22:47] I understand the memory of the buffers
+[00:22:49] is it backed by CX the memory on the
+[00:22:51] host side or on the accelerator side
+[00:22:57] so this is uh standard what we have a
+[00:22:59] hardware to support that on CXL device
+[00:23:02] but the memory is not shared actually
+[00:23:04] not needed to be shared it's just
+[00:23:06] network communication to the CXL device
+[00:23:09] and the ARM course will actually do all
+[00:23:12] the memory memory handling because the
+[00:23:14] actual application is running on the um
+[00:23:16] course there.
+[00:23:17] >> Okay, thank you.
+[00:23:18] >> Yeah,
+[00:23:26] >> great. Thanks everyone.
+[00:23:28] >> Uh I got I got one I got a quick
+[00:23:29] question for you. So you're you the
+[00:23:33] interconnect is what uh is the
+[00:23:35] interconnect PCIe? You should what's the
+[00:23:40] interconnect between that you're using?
+[00:23:42] >> Yes, the scenarios that we have gone
+[00:23:45] over this is PCIe but this near memory
+[00:23:50] compute paradigm applies to any you know
+[00:23:53] u fabric attached memory in any form.
+[00:23:57] Um, CXL is a great solution which is
+[00:24:00] available today and there are efforts
+[00:24:03] underway for other interconnects. For
+[00:24:06] example, uh, you know, real futuristic
+[00:24:09] is photonix fabric. Okay. But UA link
+[00:24:14] uh, you know, there are some efforts
+[00:24:17] underway to have uh, memory and storage
+[00:24:21] be available on uh, other interconnects
+[00:24:24] like UA link.
+[00:24:25] >> Yes. So that that that won't be
+[00:24:27] considered CXL, right?
+[00:24:30] >> I'm sorry. Come again.
+[00:24:31] >> Is that is that considered CXL still?
+[00:24:34] >> No, the the UA link and photonix, those
+[00:24:37] are different interconnects.
+[00:24:38] >> Okay.
+[00:24:39] >> No, I was just trying to I was wondering
+[00:24:40] if you could use this for KV cache
+[00:24:42] transfer, but it seems maybe a little do
+[00:24:45] you think it could be used for KV cache
+[00:24:47] transfers?
+[00:24:49] >> Uh uh see I sorry
+[00:24:52] >> at the speed of PCIe which is a bit uh
+[00:24:54] yes that limited. Yes, that's the
+[00:24:56] example that I showed. Okay. So here
+[00:25:00] what you're seeing is Nvidia GPU and
+[00:25:03] instructor is connected over PCIe CXL
+[00:25:09] link and the transfer between the XPU
+[00:25:14] between the GPU and the uh structura is
+[00:25:17] being done in a peer-to-peer
+[00:25:20] uh optimized manner where we have DMA
+[00:25:25] engines on both ends on GPU as well as
+[00:25:29] on a structera to be able to perform KV
+[00:25:32] cache transfers in a most efficient way.
+[00:25:35] >> Does that answer your question?
+[00:25:37] >> Yeah, I was wondering about the
+[00:25:38] bandwidth uh of PCIe as being rather
+[00:25:42] limiting but okay.
+[00:25:44] >> Yes. So bandwidth of PCIe I want to
+[00:25:46] address you know uh one thing there. So
+[00:25:50] yes bandwidth of PCIe is limited. Okay.
+[00:25:53] What options do you have today? Um
+[00:25:57] here's the thing
+[00:26:00] when you look at the other solutions
+[00:26:04] RDMA is a solution. So in case of RDMA,
+[00:26:08] sure enough, Ethernet bandwidth is
+[00:26:10] tremendous. But what's the bandwidth
+[00:26:12] between the GPU and the DPU which is
+[00:26:15] sitting? It's all limited by PCIe. And
+[00:26:19] moreover um I don't have that chart but
+[00:26:22] when you look at the
+[00:26:25] how what is the token rate at which GPUs
+[00:26:29] can consume KV cache. Okay, when you
+[00:26:33] look at the real world deployments,
+[00:26:36] the input token rate
+[00:26:39] for which KV cache needs to be retrieved
+[00:26:41] from the data store
+[00:26:44] is maximum at around 8 to 10,000 tokens
+[00:26:48] per second. Now, of course, the size of
+[00:26:50] the token depends upon the model, okay?
+[00:26:54] But gener generally speaking
+[00:26:58] one or two such devices on PCIe is able
+[00:27:02] to saturate the latest greatest GPUs.
+[00:27:08] Anything more than that is wasteful. And
+[00:27:12] as we know PCI gen 6 and then seven on
+[00:27:16] you know the the bandwidth just going to
+[00:27:19] keep going up and like I mentioned um
+[00:27:22] the UA link and other interconnects uh
+[00:27:26] of course you know address the bandwidth
+[00:27:28] side as well.
+[00:27:44] Any other questions?
+[00:27:49] Thank you, gentlemen.
+[00:27:51] >> Sure. Thanks.

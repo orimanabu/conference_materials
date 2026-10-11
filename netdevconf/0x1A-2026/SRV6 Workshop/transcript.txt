@@ -1,0 +1,2670 @@
+Source: https://youtu.be/VWlH9D7FSCU
+Language: en
+Captions: auto-generated
+
+[00:00:01] Okay. So, welcome everybody. It's it's
+[00:00:04] my pleasure to introduce this SRV6
+[00:00:07] workshop. Also, it's my pleasure to to
+[00:00:09] welcome you in in Rome because I am also
+[00:00:12] helping in in the in the organization of
+[00:00:14] this and very very happy to to see uh
+[00:00:17] many many uh participants so far. Um so
+[00:00:22] the the workshop is SRB6 workshop. I
+[00:00:26] will uh uh I will skip what is uh SRV6.
+[00:00:30] So basically it's as you know there are
+[00:00:34] segments or instructions that are put
+[00:00:36] inside the uh um the packet header the
+[00:00:40] the IPv6 header and um this uh this
+[00:00:46] workshop on on SRV6 is is a already a
+[00:00:51] small tradition. We had the first
+[00:00:52] edition in in Lisbon 2022.
+[00:00:56] uh last year we we had a very very nice
+[00:00:59] workshop also in in in Zagreb and now we
+[00:01:02] have a uh the third third edition and uh
+[00:01:07] we we will present basically uh the
+[00:01:10] state-of-the-art with with the SRV6
+[00:01:13] implementation in the in the Linux
+[00:01:15] ecosystem and we'll try to specifically
+[00:01:20] uh address three uh three direction that
+[00:01:23] are I think very very uh interesting and
+[00:01:26] and very uh timely.
+[00:01:29] Um
+[00:01:31] so we will uh um focus on uh uh source
+[00:01:36] routed AI back ends. So how we can use
+[00:01:40] and is already used uh SRV6 in the in
+[00:01:45] the back ends used basically for uh
+[00:01:49] training of large LLM models.
+[00:01:54] uh and because uh we we can uh uh we can
+[00:01:58] use uh some very nice feature of of a
+[00:02:01] service 6 that you we can control we can
+[00:02:04] steer the packet from the source that
+[00:02:06] that's very very uh interesting uh then
+[00:02:10] um I mean this is not maybe the right
+[00:02:12] order in which we'll discuss we will
+[00:02:14] focus on how uh a service can be used in
+[00:02:19] provider uh backbones so not in uh
+[00:02:22] backbones for AI but in more traditional
+[00:02:26] network uh network uh backbone what we
+[00:02:29] call provider grade SRV6 and uh finally
+[00:02:33] with focus on how we can uh use uh SRV6
+[00:02:37] to uh um implement to support layer to
+[00:02:42] layer to service to similar to what is
+[00:02:45] currently mostly done with v uh van
+[00:02:51] uh the agenda of of of today is here. So
+[00:02:55] a tight schedule several contributions.
+[00:02:58] So there will be a quick introduction
+[00:03:00] about SRV6 by Hamemed from from Cisco.
+[00:03:04] Uh I will talk about the uh SRV6 for AI
+[00:03:08] back end and also that will be a kind of
+[00:03:11] introduc introduction that will be a
+[00:03:13] very very interesting talk in the main
+[00:03:16] conference about MRC. So it's really the
+[00:03:19] the the state-of-the-art on uh
+[00:03:24] congestion control and routting in IIE
+[00:03:26] back ends that will be presented in in a
+[00:03:29] paper by by Kristoff in the in the uh in
+[00:03:32] the main in the main conference uh and
+[00:03:34] at NDEV.
+[00:03:36] Then we will have a look at two uh
+[00:03:40] important ecosystems in which SRV6 have
+[00:03:44] been introduced in the past years. So
+[00:03:47] the the sonic ecosystem and again by
+[00:03:51] AMED and then the FR um which is the the
+[00:03:56] the most important uh open routting
+[00:03:59] suite and Carmin from Cisco will as well
+[00:04:03] give this a short overview of the uh
+[00:04:06] state-of-the-art and the latest work on
+[00:04:09] this. Um then the the second topic was
+[00:04:12] the SRB6 in network providers with a
+[00:04:16] presentation by far from from Ericson.
+[00:04:20] Um and then we have two presentation by
+[00:04:24] Andrea Meyer who is the maintainer in
+[00:04:26] the Linux kernel for the uh SRV6 uh
+[00:04:30] staff. And Andrea will quickly u make an
+[00:04:34] overview of the current uh um ongoing
+[00:04:38] work on SRB6 support in in Linux kernel.
+[00:04:42] Andrea welcome. And finally uh he will
+[00:04:45] give um the talk on SRB6 um support for
+[00:04:52] layer two layer two services and if time
+[00:04:57] will be enough uh we hope to have 15
+[00:05:00] minutes for a gap and discussion at the
+[00:05:01] end. Okay. So I think that we can uh
+[00:05:05] move to the first uh talk by Ahmed
+[00:05:12] and of course you can uh uh you can
+[00:05:15] break uh the the floor with uh questions
+[00:05:18] at any any moment and also keep
+[00:05:21] questions for the end as as as you
+[00:05:23] prefer.
+[00:05:28] Okay.
+[00:05:33] >> Still say
+[00:05:33] >> yes.
+[00:05:34] >> Okay.
+[00:05:36] Really really quick. Uh let's find if
+[00:05:39] you guys want to grab your badges, they
+[00:05:40] are here. So just uh wander back down a
+[00:05:43] little registration desk um if you need
+[00:05:45] it. Uh I recommend it because the shoe
+[00:05:48] art does have a schedule, a link to the
+[00:05:50] schedule as well. So you just need
+[00:05:52] something really easy to get to. Uh that
+[00:05:55] would be a good motivation you'll get.
+[00:05:56] But
+[00:05:59] >> Chris,
+[00:06:01] >> I will we'll send that early.
+[00:06:04] >> Okay.
+[00:06:05] >> Yeah. When they're when they're done
+[00:06:07] lunch, uh it should be outside there
+[00:06:10] foxes. Um I think if you have dietary
+[00:06:13] restriction or shooting something on
+[00:06:15] batch, match it up with the kerat.
+[00:06:22] >> Okay. Thanks uh Stephano for for the
+[00:06:24] introduction and many thanks for the um
+[00:06:27] for the community for organizing such a
+[00:06:29] wonderful event. It's always pleasure as
+[00:06:31] Stephano mentioned to come back here
+[00:06:34] every year and present some updates on
+[00:06:36] SRV6. It has been a habit for the last
+[00:06:38] three years but it was always pleasure
+[00:06:40] to attend even as as a listener to uh to
+[00:06:43] the conference. So today it's rather
+[00:06:46] being an SRV6 introduction is I want to
+[00:06:49] give you an update on the SRV6 status in
+[00:06:52] the industry where it is being used now
+[00:06:55] who is using it and what are the
+[00:06:57] different use cases that they are using
+[00:06:58] it for. My name is Ahmed A. I work in in
+[00:07:01] the segment in segment routting team at
+[00:07:03] Cisco and have been uh working with
+[00:07:06] Stephano for the last 10 years first as
+[00:07:08] a PhD student. So I did my PhD in
+[00:07:10] segment routting uh with Stephano and
+[00:07:12] actually Stephano is one of the
+[00:07:14] professor who had I think who has the
+[00:07:16] most PhD students on SRV6 at least in
+[00:07:20] this room there is three or four so he's
+[00:07:23] uh he has been there from from the very
+[00:07:26] beginning
+[00:07:27] so before we go into SRV6 and why we
+[00:07:30] started this SRV6 project and why what
+[00:07:33] was the actual motivation to do it
+[00:07:35] basically is is really to go back to the
+[00:07:38] IP protocol which one of let's say the
+[00:07:40] greatest innovation in the digital
+[00:07:42] communication basically everything that
+[00:07:44] we do is on top of IP whatever you do in
+[00:07:47] terms of streaming uh access to the
+[00:07:49] cloud everything that we do is over IP
+[00:07:53] but if we look at how this IP protocol
+[00:07:56] was designed from the beginning we want
+[00:07:59] to understand what was the missing what
+[00:08:01] was the problem statement actually to
+[00:08:03] start this segment routting or the SRV6
+[00:08:05] for IBV6 uh project if we look at IP the
+[00:08:10] way it was designed I I think more than
+[00:08:12] 40 years ago basically it was always
+[00:08:15] limited to best effort which basically
+[00:08:18] an IP basically is identifies an end
+[00:08:22] point in the network and everything else
+[00:08:24] that you need to do in top of IP we need
+[00:08:26] to define a layer on top of IP for
+[00:08:28] example we have to do NLS over IP to do
+[00:08:32] traffic engineering in the we have to do
+[00:08:34] VXLAN on top of IP to do multi-tenency
+[00:08:38] in the data center for service chaining
+[00:08:40] we did NSH for the mobile communication
+[00:08:43] we have for for the mobility we have GTP
+[00:08:46] so IP by itself was never enough to
+[00:08:49] deliver those those service but the
+[00:08:52] problem is that all of these layers has
+[00:08:54] been defined on per domain basis so you
+[00:08:57] have a a a protocol or a shim layer for
+[00:09:00] each domain and in reality your packet
+[00:09:03] is never going to start in one domain
+[00:09:05] and and end there it has to cross this
+[00:09:07] domain And the packet has to go from
+[00:09:09] data center to one and back to another
+[00:09:11] data center etc. And in order to make
+[00:09:14] those different protocols work together
+[00:09:17] we have to define uh an interoperability
+[00:09:21] gateways or a stitching gateways. The
+[00:09:24] issue of this stitch stitching gways
+[00:09:27] basically you you have a lot of
+[00:09:29] reliability issues. A device that could
+[00:09:31] not do a a single protocol stack now is
+[00:09:34] asking to do two and do the translation.
+[00:09:37] But also you don't have one one one
+[00:09:39] translation from each protocol to
+[00:09:41] another. Some of the options that you
+[00:09:43] have in one protocol does not exist in
+[00:09:46] the other protocol etc. But also there
+[00:09:49] is another point which is important that
+[00:09:52] since you are not native in that IP
+[00:09:54] protocol you lose some of the key
+[00:09:56] capabilities of the IP. The first thing
+[00:09:58] that we all that we always learn in in
+[00:10:01] university is how to do summarization in
+[00:10:03] IP and for example when we did MLS there
+[00:10:07] was no summarization so you lose one of
+[00:10:09] the scaling feature so all of these
+[00:10:12] let's say problems or all of the or that
+[00:10:14] background make us think about one
+[00:10:17] question how we can make that IP
+[00:10:19] protocol self-sufficient in order to to
+[00:10:23] deliver all of these service without the
+[00:10:25] need of any of those shim layer on top
+[00:10:27] of it and that was the actual problem
+[00:10:30] statement where the SRV6 started and and
+[00:10:33] that was the mission of SRV6 how to
+[00:10:35] enrich that IP protocol to make it
+[00:10:38] self-sufficient so we can deliver all of
+[00:10:40] those services that we had in the past
+[00:10:42] but without the need of any shim layer
+[00:10:45] and the way it works it's very simple in
+[00:10:47] IP in IPv6 we have 128 bits that was
+[00:10:51] basically only used to define or to
+[00:10:55] identify an end point in the network and
+[00:10:58] this 128 bits to be fair has been poorly
+[00:11:02] used. You don't need 128 bits to to
+[00:11:05] identify each device in the network. So
+[00:11:07] how can we use that 128 bits in a
+[00:11:10] smarter way and that basically was SRV6
+[00:11:13] is to take that 128 bits we use uh what
+[00:11:17] we call the block which is the first 32
+[00:11:19] bits are common across all of the nodes
+[00:11:21] in the network and then you have a
+[00:11:23] remaining n 96 bits in this 96 bits we
+[00:11:27] encode all of the instruction that we
+[00:11:30] had to you to define shim layers for
+[00:11:32] them in the past so that 128 bit defi
+[00:11:37] It turns into a kind of a program and in
+[00:11:39] this program you have a set of
+[00:11:40] instruction and each instruction can be
+[00:11:43] bound to anything. It can be underlay
+[00:11:45] for traffic engineering. It can be
+[00:11:46] overlay for any overlay or VBN service
+[00:11:50] that you need. But it can be also for
+[00:11:51] service chaining or any other function
+[00:11:54] that you that you define. And how many
+[00:11:57] of these service how many of this
+[00:11:58] instruction we can have in the
+[00:12:00] destination address up to six. And if
+[00:12:02] you look at many of the deployment or
+[00:12:05] majority of the deployment now those six
+[00:12:07] instruction has been enough. And if you
+[00:12:10] need or you have an ultra scale traffic
+[00:12:12] engineering where you need to encode
+[00:12:14] more than those six hops, you have the
+[00:12:16] segment routting extension header where
+[00:12:18] you can carry more of those uh
+[00:12:20] instruction.
+[00:12:21] And again by going back into the native
+[00:12:24] of IP and removing this shim layer, you
+[00:12:27] can now outperform all of these shim
+[00:12:29] layer because being native in in in the
+[00:12:32] protocol allows you to provide much more
+[00:12:34] performance scale compared to the the
+[00:12:37] shim layer. And as a result of this
+[00:12:40] since we have now IP could deliver all
+[00:12:42] of those kind all of those different
+[00:12:45] services without the need of any sim
+[00:12:47] layer we finally have a single protocol
+[00:12:49] that can deliver anything. So it can
+[00:12:51] provide a it provides a solution for the
+[00:12:53] AI network and we will look at this very
+[00:12:56] quickly and also service provider
+[00:12:59] enterprise network. So in this next two
+[00:13:03] uh sections of the presentation I will
+[00:13:05] share with you how some of the uh
+[00:13:08] hyperscaler operators etc has been using
+[00:13:10] using SRV6 in these two uh different
+[00:13:13] parts of the network.
+[00:13:15] So if you look at the AI network now
+[00:13:17] there are multiple let's say parts of
+[00:13:20] the of the network you have what is
+[00:13:22] called the AI back end which some people
+[00:13:25] call it scale out there is scale out
+[00:13:27] scale across and scale up but you have
+[00:13:29] different domains within the but you
+[00:13:31] have also the front end network that
+[00:13:33] connects this AI back end to the outside
+[00:13:36] to the outside world and if if you if
+[00:13:39] you are following what the news you
+[00:13:42] could see that there are SRV6 deployment
+[00:13:44] In all of these different parts in the
+[00:13:47] AI back end we will look at this very
+[00:13:49] quickly at Microsoft Openi and Oracle in
+[00:13:52] the scale across which is a kind of the
+[00:13:54] DCI one of the AI basically at Alibaba
+[00:13:57] and in the front end at Nibius which is
+[00:13:59] one of the new cloud building specific
+[00:14:02] infrastructures for AI network.
+[00:14:05] I think if you if you have been
+[00:14:07] following bit the news around May uh
+[00:14:10] this year there was a lot of news about
+[00:14:13] the use of SRV6 or MRC plus SRV6. MRC is
+[00:14:18] basically a new transport protocol and I
+[00:14:21] guess um Kristoff is going to explain
+[00:14:23] much more on on this um dur during the
+[00:14:27] week but basically that's the transport
+[00:14:29] protocol that we use for RDMA traffic um
+[00:14:33] uh how to say uh transport and on top
+[00:14:37] this this transport protocol what it
+[00:14:39] uses basically to steer the traffic
+[00:14:41] underneath is SRV6 and there are a lot
+[00:14:44] of let's say uh public references from
+[00:14:46] Microsoft from OpenAI, Oracle and and
+[00:14:50] there is even an IETF draft um identify
+[00:14:53] or um documenting this solution. So in
+[00:14:56] the AI back end SRV6 has been used to
+[00:15:00] empower one of the largest AI if not the
+[00:15:03] largest AI data center in the in the
+[00:15:05] world. But then in the AI uh front end
+[00:15:09] the front end how was the front end
+[00:15:12] basically designed in the past?
+[00:15:14] Basically you have inside the so this
+[00:15:17] front end is what connects your data
+[00:15:19] center to the outside or the users
+[00:15:22] coming from the internet. So the traffic
+[00:15:24] has to go on the front end DC but also
+[00:15:27] on the one and typically the typical
+[00:15:29] design was basically to use EVBN vxlan
+[00:15:32] inside the data center some kind of
+[00:15:34] segment routting for MLS in the one and
+[00:15:37] do the stitching between between the
+[00:15:40] two. In one uh in a in a public
+[00:15:42] presentation, Nibius explained how
+[00:15:44] actually they they completely changed
+[00:15:47] that design and use basically SRV6 to do
+[00:15:51] that end to end. Why? Because now they
+[00:15:53] have all of the capabilities that they
+[00:15:55] had in SRPLS, they have it in SRV6. All
+[00:15:59] of the things that they could do with
+[00:16:00] VXLAN, they have it already in SRV6. And
+[00:16:03] finally, they can have one single
+[00:16:05] solution that does it end to end.
+[00:16:08] Then in the DCI one basically if you
+[00:16:12] also look at at the current um AI
+[00:16:16] infrastructure that hyperscaler are
+[00:16:18] building basically you don't have enough
+[00:16:20] power to fit all of those GPUs in a
+[00:16:22] single data center. So what they do they
+[00:16:24] build multiple data center uh let's say
+[00:16:28] in a different region and they have to
+[00:16:30] come with a new layer which typically
+[00:16:32] called scale across or the e the easy
+[00:16:35] terminology that we all know about is
+[00:16:37] the DCI or or when and it's basically
+[00:16:41] used to connect those different data
+[00:16:43] center there is already a public
+[00:16:45] reference for an SRV6 deployment um in
+[00:16:48] China across all of the cities to
+[00:16:50] connect um to connect those data center
+[00:16:53] and it has been presented publicly this
+[00:16:55] year at the upper side conference in in
+[00:16:58] Paris.
+[00:16:59] So that's a bit on the AI side. But what
+[00:17:02] about the traditional or the classical
+[00:17:04] deployment? Basically in the mobility or
+[00:17:07] the SP you have a lot of public
+[00:17:10] references. This is something that the
+[00:17:13] first deployment was in 2019 and there
+[00:17:16] is a lot of public references from what
+[00:17:19] the big big operator like Verizon, DT,
+[00:17:21] Rakon or Swisscom explaining how they
+[00:17:24] use SRB6 to do to provide the the VPN
+[00:17:28] service do service chaining traffic
+[00:17:29] engineering etc. and what was the
+[00:17:31] capabilities. There is a lot of public
+[00:17:33] references uh for the for the
+[00:17:35] deployment. I'll leave you the slides
+[00:17:37] here. But one of the key metrics to to
+[00:17:40] share with you is that right now there
+[00:17:42] is more than 100,000 of those routers of
+[00:17:45] this SRV6 router deployed in those SP
+[00:17:49] network.
+[00:17:51] Just last thing to share with you a bit
+[00:17:53] on the ecosystem of of SRV6 how it is
+[00:17:57] now in terms of opensource support
+[00:18:01] industry support but also let's say
+[00:18:03] vendor merchant silicon uh etc.
+[00:18:07] The first thing I want to share with you
+[00:18:08] that actually the first meeting for SRV6
+[00:18:11] started here in Rome in February 2017
+[00:18:14] that that was the first the first
+[00:18:16] kickoff for the project. It was a
+[00:18:18] meeting between multiple vendors,
+[00:18:21] multiple operators and multiple research
+[00:18:23] uh universities. I was a PhD student at
+[00:18:26] that time doing my PhD with Stephano and
+[00:18:29] we we were invited to this uh to this
+[00:18:31] workshop. We look a bit younger in this
+[00:18:34] picture Stephano but uh but we were
+[00:18:36] there. So that was when we started the
+[00:18:40] SRV6 and when we started this the
+[00:18:42] operator asked three main commitments.
+[00:18:45] If you want to pro to propose a new
+[00:18:48] technology, it has to have three key
+[00:18:51] characteristics. It must be a standard
+[00:18:53] technology. We are not going to deploy
+[00:18:55] anything proprietary. It must have a
+[00:18:58] very rich ecosystem both from vendor but
+[00:19:01] very importantly from an open-source um
+[00:19:05] viewpoint and since then we have been
+[00:19:08] working on on that uh on that ecosystem.
+[00:19:11] So when we started I think we started
+[00:19:13] this slides an empty slides. So that's a
+[00:19:16] very old slide actually it's almost 10
+[00:19:18] years old and we have been adding to
+[00:19:20] this slides over time but now you could
+[00:19:22] see all of the major vendors support
+[00:19:24] SRV6 all of the merchant silicon and
+[00:19:27] very importantly in open source. The
+[00:19:29] first thing that we did after this
+[00:19:31] workshop in um in Rome was basically to
+[00:19:35] start the SRV6 implementation in the in
+[00:19:38] the Linux kernel. It was done around
+[00:19:41] February or March 2017 just one month
+[00:19:44] after after this uh after this workshop.
+[00:19:49] Then in terms of standardization
+[00:19:52] also we have been very committed to to
+[00:19:54] do the standardization working with the
+[00:19:56] other vendor working with with the
+[00:19:58] open-source community and and also the
+[00:20:00] research um community to bring SRV6 into
+[00:20:05] a standardization and by now every
+[00:20:07] single piece of that solution is already
+[00:20:09] is already a standard. last thing
+[00:20:12] because I come from from from there in
+[00:20:15] academia that was something I think
+[00:20:18] let's say very let's say growing very
+[00:20:21] fast so by now you have there is more
+[00:20:23] than 50 research uh article Stephano and
+[00:20:27] and and many people here in the room are
+[00:20:29] author of the of this article there are
+[00:20:31] more than 10 PhD student that did their
+[00:20:34] PhD on on SRV6 three of them are
+[00:20:37] speakers in this uh in this workshop
+[00:20:40] today and there was a a lot of
+[00:20:41] collaboration and that was some part of
+[00:20:44] this was already supported by the
+[00:20:46] research uh university research program.
+[00:20:48] I did my PhD as part of that uh of that
+[00:20:51] uh research program. Uh one last thing
+[00:20:55] if you are interested to learn about
+[00:20:57] more about SR6 and how who is deploying
+[00:21:00] it what are the use case there is an an
+[00:21:02] event happening every year around the
+[00:21:04] end of summer. Um and in that event it's
+[00:21:08] basically it's not a vendor coming to
+[00:21:10] explain to you uh what they have in in
+[00:21:13] their product but it's more or at least
+[00:21:16] 70% of this um of this content is
+[00:21:19] operators coming to share what was the
+[00:21:22] actual motivation for them to to uh to
+[00:21:25] look at SRV6 what was their initial use
+[00:21:28] case to start with and basically what
+[00:21:31] was their journey from starting from an
+[00:21:34] idea up to up to deployment this year.
+[00:21:37] The event is happening in uh in in
+[00:21:39] Barcelona from September 22 to 23. So if
+[00:21:42] you are interested, please reach out to
+[00:21:44] Stephano or myself and you will be very
+[00:21:48] welcome to join the event. Last thing is
+[00:21:51] basically we have this website called
+[00:21:53] segment-rooting.net
+[00:21:54] net where we publish all of the new news
+[00:21:57] all of the let's say new implementation
+[00:21:59] in open source all of the news from the
+[00:22:02] event and there is already a book in
+[00:22:04] SRV6 if someone is interested to let's
+[00:22:06] say to go into deep details uh on this I
+[00:22:10] hope I'm on time Stephan thank you and
+[00:22:12] maybe we can take few questions
+[00:22:15] >> okay thanks Samantha
+[00:22:18] [applause]
+[00:22:22] >> is it car after No, just me on the back
+[00:22:26] ends and then Yeah. Yeah.
+[00:22:50] Okay. So in this uh
+[00:22:55] in this talk I will uh uh shortly
+[00:22:58] introduce uh uh something that uh I will
+[00:23:01] go in more detail and something that
+[00:23:03] Ahmed has already introduced the use of
+[00:23:05] SRV6 for AI uh back ends.
+[00:23:10] So first of course we um describe that
+[00:23:15] an IEA is is really a different uh uh
+[00:23:19] network with respect uh to the internet
+[00:23:22] or to the network of uh uh an on ISP.
+[00:23:27] No. So it is basically a very very large
+[00:23:31] scale network but with uh one owner uh
+[00:23:35] one fabric. The topology is typically
+[00:23:38] regular. So these are this is an example
+[00:23:41] of a data center leaf spine
+[00:23:43] technologies. The real one of course are
+[00:23:46] larger than this. Maybe there are more
+[00:23:49] tires than this but the idea is that you
+[00:23:51] have a regular network a very very large
+[00:23:54] network and the characteristics of the
+[00:23:57] flows are very very uh uh peculiar. So
+[00:24:00] we have a huge and long lived flows
+[00:24:03] among the GPUs and these are the flows
+[00:24:06] that are needed for the the GPU to
+[00:24:08] exchange uh the parameters of the models
+[00:24:11] that they are trying to uh to train and
+[00:24:15] uh there there is there are special
+[00:24:17] traffic patterns that happens during the
+[00:24:20] process of LLM training in particular
+[00:24:24] there there are the so-called the
+[00:24:25] synchron collectives operation that in a
+[00:24:28] synchronous they require uh synchronous
+[00:24:31] way required that all GPUs exchange uh
+[00:24:34] uh um a lot of a lot of of that a lot of
+[00:24:37] of of parameters and there are some
+[00:24:40] special characteristics that in in this
+[00:24:43] exchange it's um you should not try to
+[00:24:46] improve the for example the average
+[00:24:48] throughput which is a common uh um
+[00:24:52] target when when you uh design your
+[00:24:55] network because there is a problem that
+[00:24:57] the slowest flow
+[00:24:59] sets the job completion time. If if you
+[00:25:01] have a problem in a in a single flow,
+[00:25:04] then this can uh prevent all other
+[00:25:08] processes to to to to proceed. And so
+[00:25:11] this will um
+[00:25:14] increase a lot the the time for example
+[00:25:17] that you need to train a model. And uh
+[00:25:20] so this is the the the goal that you
+[00:25:22] have to optimize this network for this
+[00:25:25] very specific traffic uh traffic uh
+[00:25:28] pattern. So there's been a lot a lot of
+[00:25:31] uh uh work in in defining uh uh
+[00:25:35] solutions new congestion control
+[00:25:37] protocols and things like this in order
+[00:25:39] to to uh address this very very specific
+[00:25:42] uh requirements.
+[00:25:45] And one u one thing is that uh I mean
+[00:25:48] the common approach that uh we use in uh
+[00:25:53] in network backbones that the use of
+[00:25:56] ECMP
+[00:25:58] um
+[00:26:00] of course it is used it it helps but it
+[00:26:04] may have some problem um the problem is
+[00:26:07] that when you do this ECMP spreading
+[00:26:10] you're trying to get the best of your
+[00:26:14] network because you are uh spreading uh
+[00:26:17] your flows your your transfer across
+[00:26:20] many many uh flows but you are not uh
+[00:26:24] planning it basically you're doing in a
+[00:26:26] random way you're trying to get the best
+[00:26:28] by using for example a large spreading
+[00:26:31] factor across 16 or sorry yeah 16 or 64
+[00:26:37] or 128 different parts and you in this
+[00:26:40] way of course you try to to get the best
+[00:26:43] of your network. But when uh you you are
+[00:26:46] doing this in the typical way that you
+[00:26:49] do in in a in a backbone that you are
+[00:26:52] creating an ash of your flow and you are
+[00:26:54] deciding basically on this hash which
+[00:26:57] path you follow uh you may have
+[00:27:00] collisions and so you may because you
+[00:27:03] have these huge flows and so in some
+[00:27:06] case you may have a suboptimal uh
+[00:27:09] spreading of your um of your flows.
+[00:27:13] Okay. So the point is that we are doing
+[00:27:15] something in a statistical way and this
+[00:27:17] may not be the the optimal the optimal
+[00:27:20] solution.
+[00:27:21] Um so source routting uh give us an hint
+[00:27:28] give give us a possibility to improve
+[00:27:30] this because um with source routting you
+[00:27:33] can uh encode the path that your flow
+[00:27:37] will follow without relying on this
+[00:27:40] statistical let's say uh uh distribution
+[00:27:43] based on the on the ash and so in in um
+[00:27:48] in this way uh you can control for each
+[00:27:53] single flow which are the path that you
+[00:27:55] follow uh the path that you follow and
+[00:27:58] also you are you take advantage the fact
+[00:28:01] that the network is very regular and uh
+[00:28:05] you you can uh uh much better than in a
+[00:28:09] uh let's say a chaotic ISP network you
+[00:28:11] can decide uh what to do so this is in
+[00:28:14] general the the idea that uh the
+[00:28:17] intuition that uh source routting
+[00:28:21] um can improve because you can take uh u
+[00:28:26] the shift so you can plan rather than
+[00:28:28] rely on a statistical uh distribution of
+[00:28:31] of the flow. Uh an important also
+[00:28:36] uh aspect is that differently from uh a
+[00:28:40] service provider network uh you you can
+[00:28:44] you prefer in such a network to disable
+[00:28:48] uh dynamic routting that um reorganize
+[00:28:54] the network automatically in case of
+[00:28:57] failures and problems. because this
+[00:29:00] gives you a um a level of impredibility
+[00:29:04] that uh prevents you from taking uh um
+[00:29:09] the best possible solution and to plan
+[00:29:11] them in advance. So this is a second
+[00:29:14] ingredient of uh the AI backbones how
+[00:29:18] they are now uh managed for for AI is
+[00:29:22] that you disable the uh dynamic routting
+[00:29:26] and you uh choose the path by explicitly
+[00:29:31] um enumerating the hops that you want to
+[00:29:34] follow. So in case that uh you have some
+[00:29:37] failure in a way you should go back to
+[00:29:39] the source and it will be the source
+[00:29:41] that avoids the the failure by choosing
+[00:29:44] a different path. So this is very
+[00:29:46] different from what happens in a normal
+[00:29:48] uh uh uh ISP uh backbone where you
+[00:29:51] prefer to have dynamic routting to uh uh
+[00:29:54] to to address the the failures.
+[00:29:58] Okay. So ideally now we say okay with
+[00:30:02] this uh deterministic and congestion
+[00:30:05] aware placement you can do a better uh a
+[00:30:08] better solution. You can choose the path
+[00:30:11] and have the optimal solution.
+[00:30:14] Unfortunately this is not the case. So
+[00:30:16] this is not uh the the full solution. Uh
+[00:30:20] why? Uh basically uh because u
+[00:30:25] the best solution it is not that you
+[00:30:28] have a single path even if you can
+[00:30:31] optimally choose this single path. The
+[00:30:34] best solution requires that you exploit
+[00:30:38] in any case a multipath solution. So and
+[00:30:40] here comes the problem and here comes
+[00:30:43] let's say the research uh um questions
+[00:30:46] that we are trying to address right now.
+[00:30:48] So you have to do multipath but you
+[00:30:51] would like to avoid doing it
+[00:30:53] statistically. So and that that's uh uh
+[00:30:56] let's say how the the there is there are
+[00:30:59] some open research research question. So
+[00:31:04] the state-of-the-art the one that
+[00:31:06] Kristoff will will show in the in the
+[00:31:10] paper in the regular talk during the
+[00:31:12] conference is that you have uh a
+[00:31:15] congestion control it's called MRC and
+[00:31:18] you spray your um con connection between
+[00:31:22] two end points into a very large set of
+[00:31:26] parts 128 or 256
+[00:31:31] and you do it let's say statistically
+[00:31:34] you you do not choose this one. You just
+[00:31:37] use all the available available one and
+[00:31:40] then you rely on a smart congestion
+[00:31:43] control to uh better to to put let's say
+[00:31:48] more uh traffic in the best part uh uh
+[00:31:52] and of course to discard the bad the bad
+[00:31:56] part. So this is the current
+[00:31:58] state-of-the-art that Kristoff will uh
+[00:32:00] will show and this is what is uh that
+[00:32:03] been implemented in uh in some large
+[00:32:06] very very large scale AI uh uh
+[00:32:09] backbones.
+[00:32:10] Um so I would say the research question
+[00:32:14] is how we can go beyond this uh let's
+[00:32:18] say uh reactive congestion control and
+[00:32:21] try to do something with a more careful
+[00:32:23] planning of the set of paths that we can
+[00:32:26] uh we cannot we can use but this is uh
+[00:32:29] for future research. Uh another
+[00:32:33] uh interesting research topic is uh how
+[00:32:36] we can use Linux in all all this uh uh
+[00:32:41] uh scenario. Um the point and the
+[00:32:44] difficult part is that
+[00:32:47] much of this uh data part is hardware
+[00:32:50] accelerated. So typically in Linux we
+[00:32:53] can build a very nice software stack but
+[00:32:57] uh in the real in the real world uh
+[00:32:59] everything is hardware accelerated. So
+[00:33:02] all this congestion control are uh uh
+[00:33:05] implemented in in chips on the on the
+[00:33:08] network interface cards. And so it is it
+[00:33:11] is an open uh uh again an open research
+[00:33:15] issue how we can use some uh uh Linux
+[00:33:19] kernel uh um stuff for example to to
+[00:33:24] first we can use it to experiment. And
+[00:33:27] another way is that we can use it in any
+[00:33:30] case to uh set up and to choose the
+[00:33:33] possible paths and then of course we we
+[00:33:37] need to define some mechanism to offload
+[00:33:40] it in hardware. So the the the very
+[00:33:44] interesting thing is how we can uh do
+[00:33:46] some uh uh generic part let's say in the
+[00:33:50] Linux kernel that then can be offloaded
+[00:33:54] to the different hardware and to the
+[00:33:56] different accelerator that you have in
+[00:33:58] the in the n. So this is again a
+[00:34:02] research point.
+[00:34:05] The point is is this that uh uh in uh
+[00:34:10] with the software implementation we
+[00:34:12] cannot reach the line rate that is
+[00:34:15] needed in this very very large scale AI
+[00:34:18] backbones we go uh something like 800
+[00:34:22] gigabytes per per second. So we we you
+[00:34:26] surely need uh Nick
+[00:34:29] offload and so I mean it's it's a it's
+[00:34:33] time to start interesting discussion
+[00:34:35] about the combination between uh uh
+[00:34:38] Linux uh opensource stuff and and the
+[00:34:41] hardware
+[00:34:44] uh and uh of course this needs to be
+[00:34:47] integrated in a in a larger vision
+[00:34:50] because uh the the ecosystem that likely
+[00:34:53] will be using it is based on FRR sonic
+[00:34:57] and we will have the update on the state
+[00:35:00] of of this. uh we will use some
+[00:35:04] telemetry to to learn something from
+[00:35:07] from our network and again we can use
+[00:35:10] some Linux stuff uh and we can implement
+[00:35:14] uh this and then there is this uh the
+[00:35:17] interaction with congestion control like
+[00:35:20] MRC that will be presented in the next
+[00:35:22] uh uh u the next days. So I think that
+[00:35:26] it's a very very interesting uh uh set
+[00:35:28] of questions and I hope that we can use
+[00:35:30] also this workshop just to start the
+[00:35:33] discussion and continue maybe in the
+[00:35:36] next few days interesting discussion on
+[00:35:38] this uh on these topics.
+[00:35:43] Okay. So uh in uh what we have now we
+[00:35:47] have an SRV6 architecture in which we
+[00:35:50] can have a deterministic in where we put
+[00:35:53] our flows.
+[00:35:55] But uh we we can discuss how we can turn
+[00:35:59] this into real uh world solution for AI
+[00:36:04] backbones that runs at a huge uh line
+[00:36:08] line uh uh line rate. So thank you for
+[00:36:12] thank you for uh uh your attention and
+[00:36:14] I'd like to move to next uh speaker. I
+[00:36:16] don't know if you have some quick
+[00:36:17] questions now and yeah maybe yes please
+[00:36:22] microphone
+[00:36:33] uh yeah so talking about the offload
+[00:36:35] onto the device uh one of the things
+[00:36:38] that I'm finding it a little bit
+[00:36:40] challenging and that might be because of
+[00:36:42] my ignorance so I understand that let's
+[00:36:46] take the example that is not a cloth
+[00:36:48] network it is a mesh network so the
+[00:36:52] devices are all intelligent they can do
+[00:36:54] this right so you have a packet coming
+[00:36:57] in are you saying that we remove some
+[00:37:00] headers like peel off the onion and then
+[00:37:02] put something else and then it goes out
+[00:37:04] the wire
+[00:37:05] >> can you repeat it can you remove
+[00:37:07] >> so SRV6 if I understand it like this
+[00:37:11] like basic analogy is that it is like an
+[00:37:14] onion like You you have one layer you
+[00:37:16] put one layer and you take out another
+[00:37:18] one. So like you the packet arrived
+[00:37:20] suppose at the nick right and you said
+[00:37:24] okay it is source guided you received
+[00:37:27] something and now that that information
+[00:37:28] is not needed you removed it you put
+[00:37:30] another information is that how I should
+[00:37:34] imagine
+[00:37:34] >> no I I would say that you in this
+[00:37:37] approach um your host where you have the
+[00:37:40] c the the GPU and you have the nick is
+[00:37:43] just originating your flow okay so you
+[00:37:46] are originating your flow and your flow
+[00:37:48] needs to cross the AI backbones and
+[00:37:50] reach the other G node where there is
+[00:37:53] the remote GPU and you are syncing your
+[00:37:55] parameters. Yeah. So
+[00:37:57] >> what I'm saying suppose those
+[00:37:58] intermediate nodes are intelligent nicks
+[00:38:00] as well.
+[00:38:01] >> Okay.
+[00:38:02] >> So everything is is the same.
+[00:38:04] >> No. Yeah. Yeah. No in this in this in
+[00:38:05] this view I I I think that the role of
+[00:38:08] the internal network is rather limited.
+[00:38:11] So the idea is that you put the
+[00:38:14] intelligence in your periphery in your
+[00:38:17] nick and so you may have maybe in some
+[00:38:20] case you may have a controller that
+[00:38:22] assists your nick in choosing the paths
+[00:38:25] but normally you you do not change
+[00:38:29] something you do not do something to
+[00:38:31] intelligence let's say in the AI
+[00:38:33] backbone the idea is that you should
+[00:38:36] keep this um uh internal part of the
+[00:38:41] network very simple and you take the
+[00:38:45] rooting decision or the rrooting
+[00:38:47] decision in your nicks that are uh
+[00:38:51] injecting the traffic that's that's
+[00:38:53] >> yeah no u I totally agree with that and
+[00:38:55] that's the right approach uh my question
+[00:38:58] is slightly
+[00:39:00] suppose let's take this example right so
+[00:39:02] so something has to go from GPU host A
+[00:39:05] to GPU host um the other
+[00:39:08] >> C okay and we have to go through that
+[00:39:10] spine
+[00:39:11] uh let's assume that spine one is quite
+[00:39:13] dumb. Okay. uh and you know in between
+[00:39:16] those leaves that you have those are the
+[00:39:18] intelligent nicks right my question is
+[00:39:21] if you were hopping more right and you
+[00:39:25] were hopping a lot of those spines right
+[00:39:28] uh ultimately something
+[00:39:31] you know if the network is really big
+[00:39:33] something has to say okay yeah I I'm an
+[00:39:36] intermediate nick I can still send this
+[00:39:39] packet to the right place I'm not the
+[00:39:43] destination
+[00:39:44] Yeah. Okay.
+[00:39:45] >> So
+[00:39:45] >> I would say that currently the idea is
+[00:39:49] like you want to remove dynamic routing
+[00:39:52] inside. So the idea is that to really
+[00:39:54] simplify what is there and just put uh
+[00:39:58] something here in the host and if needed
+[00:40:01] with with a controller. So what is
+[00:40:03] state-of-the-art is really this is
+[00:40:06] completely dumb. You are here trying to
+[00:40:10] send over 128 different parts just
+[00:40:14] because you choose here 128 different
+[00:40:18] segment routting lists. Okay. And so
+[00:40:20] here in the network you do not really do
+[00:40:22] nothing because you have a congestion
+[00:40:24] control. You're just it's just like the
+[00:40:27] TCP. This is the current state that here
+[00:40:30] you're nothing. And just like the TCP
+[00:40:32] reacts to what happens in the network
+[00:40:34] based on the end points. This is how MCR
+[00:40:37] work. Okay, maybe
+[00:40:39] >> there is a little bit more there is
+[00:40:40] streaming that helps you to detect where
+[00:40:44] is let's say the congestion but
+[00:40:46] basically all all the the the important
+[00:40:49] decision then are taken by the handos.
+[00:40:51] So that that's
+[00:40:52] >> so what I understood is at each of the
+[00:40:56] sources there is information outside in
+[00:40:58] an outside network to say okay these are
+[00:41:00] your possibilities where
+[00:41:02] >> you know you can uh you know route to um
+[00:41:05] when when you're doing source routed
+[00:41:07] packets my question is um still I still
+[00:41:12] uh am not clear if I got the answer so
+[00:41:15] suppose I learned everything you know
+[00:41:18] there was some backbone network that
+[00:41:20] taught me everything that is there to
+[00:41:22] know in the the smart nick
+[00:41:27] how much processing do I have to do to
+[00:41:29] handle this SRV6
+[00:41:31] >> okay
+[00:41:32] >> that's what I'm trying to understand
+[00:41:33] >> yeah yeah yeah so in the processing in
+[00:41:36] the in the smart nick for SRV6 is
+[00:41:40] actually very very simple because it's
+[00:41:42] just like adding let's say a tag you you
+[00:41:46] can say that your part is just a tag
+[00:41:50] because it is a sequence of three ops
+[00:41:52] for example. So you you you know that if
+[00:41:54] I want to put my flow on path here here
+[00:41:59] here they are just three identifiers and
+[00:42:03] your um uh SRB6 header just encodes this
+[00:42:08] uh identifier. So it's very simple just
+[00:42:12] adding a a tag which is a portion of
+[00:42:16] your IPv6 destination address in the
+[00:42:18] outgoing uh packet. That's that's
+[00:42:20] >> how big can my SRV6 header be?
+[00:42:24] >> Yeah. Uh in if you are using what is
+[00:42:27] called the reduced encapsulation that
+[00:42:30] means that you can put let's say up to
+[00:42:33] six hops into an SRV6 destination
+[00:42:37] address and you are not adding any uh um
+[00:42:42] header addition either basically it is
+[00:42:45] IP in IP encapsulation. So you are
+[00:42:48] adding one IP header. It's uh um 40 40
+[00:42:53] bytes. That that's exactly one IPv6
+[00:42:56] header that you are adding to the
+[00:42:57] original packet. So you have your
+[00:42:59] original packet and you encapsulate with
+[00:43:01] another outer IPv6 header. Inside this
+[00:43:04] IPv6 header, you have up to six
+[00:43:07] instructions. That's that's the the
+[00:43:10] >> Okay. So
+[00:43:13] I mean assuming the AI back end scales
+[00:43:16] to millions.
+[00:43:18] >> Yeah.
+[00:43:19] >> Six hobs probably is still I mean I know
+[00:43:22] the statistical analysis six or seven is
+[00:43:25] always still enough
+[00:43:26] >> uh the way things are done. So to put
+[00:43:30] six or seven hops you're saying still
+[00:43:32] it's about just 64 bytes or something
+[00:43:34] like that.
+[00:43:35] >> It's so it's 40 bytes which is exactly
+[00:43:37] one IPv6 header. Uh uh exactly. Okay.
+[00:43:42] Thank you.
+[00:43:43] >> Welcome. Thank you.
+[00:43:45] >> Yes.
+[00:43:51] >> Uh so my understanding is that uh this
+[00:43:54] traffic engineering for AI fabrics uh
+[00:43:56] it's very different from the typical
+[00:43:57] traffic engineering in ISP networks. So
+[00:43:59] my question is um is there any standard
+[00:44:02] or any list of requirements for the
+[00:44:05] controller in order that what what
+[00:44:07] controller needs to do in order to
+[00:44:08] support this? Yeah. Okay. That that's a
+[00:44:10] very very good question. Um I would say
+[00:44:12] that uh you can do uh without controller
+[00:44:17] and just relying on end to end
+[00:44:19] congestion control or you can do with
+[00:44:23] controller but this is this is let's say
+[00:44:25] research. It's still research. I think
+[00:44:27] that current current solution mostly
+[00:44:30] just they rely on end to end congestion
+[00:44:33] control and the role of the controller
+[00:44:36] is is kind of of limited maybe it's just
+[00:44:39] that you you can in some case uh uh
+[00:44:42] understand the topology and help maybe
+[00:44:45] your your nick to identify which is the
+[00:44:48] set of uh of
+[00:44:51] parts that you can encode
+[00:44:54] >> okay so the current implementations they
+[00:44:56] don't do any bandwidth scheduling and
+[00:44:57] they not aware of end to end delay and
+[00:44:59] this
+[00:44:59] >> exactly exactly exactly correctly you're
+[00:45:01] just doing congestion control so you are
+[00:45:03] just like you do in TCP you're trying to
+[00:45:06] exploit all your 128 parts and you
+[00:45:09] understand which are the parts in which
+[00:45:11] you can put more uh uh packets and which
+[00:45:14] are the parts that have problems and you
+[00:45:16] avoid putting uh the the packets there.
+[00:45:19] I think Christoph will explain it in in
+[00:45:21] his in his talk. Yeah. in the future are
+[00:45:23] there any plans to like integrate
+[00:45:25] controller into this? I'm interested.
+[00:45:27] Yes, I'm a controller.
+[00:45:29] >> You can you can come to me. So that's a
+[00:45:30] very good work for for a PhD student for
+[00:45:33] example. And that's exactly why we are
+[00:45:36] trying to to understand if there is a uh
+[00:45:38] room for doing something better than
+[00:45:41] just having a reactive congestion
+[00:45:43] control and a statistical uh use of all
+[00:45:46] the possible parts.
+[00:45:47] >> Okay. Thank you. Thank you.
+[00:45:51] Okay. So I think we can uh maybe move to
+[00:45:54] the next one and keep maybe questions
+[00:45:56] for the final discussion. Thanks again
+[00:45:58] for your
+[00:46:01] >> interest.
+[00:46:08] [applause]
+[00:46:22] Okay.
+[00:46:25] So, so far we have let's say we we give
+[00:46:28] you a bit of overview where let's say on
+[00:46:31] the different let's say parts of where
+[00:46:33] SRV6 is being used. Stephano briefly
+[00:46:36] introduced the AI back end how SRV6 is
+[00:46:40] being used and maybe Stephano if I could
+[00:46:42] let's say add few statements to what you
+[00:46:45] just explained on on the use of SRV6
+[00:46:48] especially on the nick because that's
+[00:46:49] question we we we get very often how
+[00:46:52] complex is it to do SRV6 in the nick in
+[00:46:56] reality basically all of the nicks they
+[00:46:58] can do um how say they they are able to
+[00:47:01] do encapsulation they can do IP and IP
+[00:47:03] they can to IP in in uh in V in IPvx LAN
+[00:47:07] etc. And here what what the nick needs
+[00:47:10] to do in terms of SRV6 support is
+[00:47:12] basically being able to do the
+[00:47:14] encapsulation. And here if you wish you
+[00:47:17] can see that I that um destination or
+[00:47:20] IBV6 destination that is as an IB that
+[00:47:23] has six instruction but for the nick
+[00:47:25] it's completely let's say opaque. What
+[00:47:27] he needs to to get is 128 bits. I'm
+[00:47:30] going to do my IB encapsulation and I'm
+[00:47:32] going to put that 128 bits as a
+[00:47:35] destination address. It doesn't really
+[00:47:36] need to know even what is what is inside
+[00:47:39] the inside them. And maybe it was a
+[00:47:41] question for the controller. I don't
+[00:47:43] want to steal your beach this Stephano
+[00:47:46] but but really from from a controller
+[00:47:48] viewpoint you have that fabric. I think
+[00:47:51] Stephano also mentioned it. It's very
+[00:47:52] static. So those passes are not going to
+[00:47:54] change. So when you let's say when you
+[00:47:57] decide a GPU to GPU communication you
+[00:47:59] have what is called the NCCL or the or
+[00:48:02] the collective u communication
+[00:48:05] collective library where you will know
+[00:48:08] who is going to talk to and those gets
+[00:48:10] just a set of passes and they're going
+[00:48:11] to use them and when a pass goes bad
+[00:48:14] they receive packet training or ECN they
+[00:48:16] take it from let's say from the good one
+[00:48:19] to put it in the list of the bad passes
+[00:48:22] and on that bad pass they have a kind of
+[00:48:24] monitoring where they could bring it
+[00:48:26] back. So in terms of let's say a
+[00:48:29] controller work, it's likely more like a
+[00:48:32] provisioning at the beginning where you
+[00:48:34] give each one this is your list of
+[00:48:36] passes, use them and then you run your
+[00:48:38] monitoring on on top of them to move
+[00:48:40] from good to to bad
+[00:48:44] but still worse doing a BHD.
+[00:48:48] So okay. So the next co the next uh part
+[00:48:51] that we we going to to to touch here if
+[00:48:54] you look at this AI back end what is the
+[00:48:56] operating system that is being used
+[00:48:59] inside inside those AI back end and you
+[00:49:02] you see that everyone now is let's say
+[00:49:05] sonic is is being a h and actually it's
+[00:49:07] the operating system or the no that
+[00:49:09] powers those AI data center. So in this
+[00:49:13] in this presentation I'll I'm going to
+[00:49:15] give you a quick interview of actually
+[00:49:17] what is Sonic because I did some time
+[00:49:20] this presentation and and I went
+[00:49:22] directly okay what is supported in Sonic
+[00:49:24] and then at the end of the presentation
+[00:49:26] I get the question okay but you need to
+[00:49:29] explain me first what is this Sonic and
+[00:49:31] why it is different from from uh from a
+[00:49:34] a traditional vendor not so that's the
+[00:49:36] the part the first part that I'm going
+[00:49:38] to cover in the presentation and I'm
+[00:49:39] going to give you very quickly update on
+[00:49:41] what are the feature that are being
+[00:49:43] supported there. But if we look at this
+[00:49:46] SRV6 support in Sonic right now, we have
+[00:49:50] many many like very mature support with
+[00:49:53] with a lot of use cases including the
+[00:49:55] static programming of ARV6 which is TB
+[00:49:58] which is being used now in the AI back
+[00:50:00] end network. the classical use cases
+[00:50:02] like layer 3 VBN, the global routing
+[00:50:05] table or the GRT where basically you
+[00:50:07] need to just carry the traffic or like
+[00:50:10] the internet traffic even um over SRV6
+[00:50:14] some of the underlay overlay uh uh
+[00:50:16] feature and one of the uh interesting
+[00:50:19] feature that has been added recently is
+[00:50:21] the BBLs for the topology uh information
+[00:50:26] it has a lot of let's say there are a
+[00:50:27] lot of contribution from different uh
+[00:50:30] vendors and and research uh universities
+[00:50:33] to to that to that support and it is
+[00:50:35] being deployed now in the fairwater the
+[00:50:38] sea by Microsoft which is that largest
+[00:50:40] AI data center and being used also by
+[00:50:43] Alibaba. So when you look at Sonic you
+[00:50:45] get so many terminologies. Some people
+[00:50:48] you will you will hear SAI uh FRR sonic
+[00:50:52] SDK what is the difference between uh
+[00:50:54] the BGB container the the SI adapter the
+[00:50:58] P4 all of those terminologies what is a
+[00:51:00] wide box versus a vendor sonic all of
+[00:51:03] these terminologies you you you go
+[00:51:06] through them and really the definition
+[00:51:08] of them or where they fit in that stack
+[00:51:10] is not is not very clear. when I started
+[00:51:13] first working on this let's say I
+[00:51:15] collected all of these terminology and
+[00:51:17] basically that was the output from from
+[00:51:20] uh from uh from the definition by that
+[00:51:22] time there was no chbet it was 2020 so
+[00:51:25] it was hard actually to understand what
+[00:51:27] is turbulence but I I was let's say
+[00:51:30] fortunate because I work as a network
+[00:51:32] vendor so the first question that I
+[00:51:34] asked myself is that okay how is the
+[00:51:36] traditional nos of a vendor works and
+[00:51:39] how it compare to that to that sonic
+[00:51:43] sonic nost. So first let's take a
+[00:51:46] classic or a vendor nos how is it uh
+[00:51:49] composed. So if you look what is inside
+[00:51:51] that router you basically you have the
+[00:51:53] hardware part where you have your
+[00:51:55] hardware as programmable typically these
+[00:51:59] days in in P4 on top of that you have an
+[00:52:02] SDK that exposes the capabilities of
+[00:52:04] that hardware in in kind of native APIs.
+[00:52:09] So if you want to program a route etc
+[00:52:11] you have all of the SDK BIS uh for them
+[00:52:14] on top of that because that vendor not
+[00:52:16] typically run on on different hardware
+[00:52:18] from different merchant silicon so they
+[00:52:21] kind of have an abstraction layer what
+[00:52:23] they call it the hardware abstraction
+[00:52:25] layer or sometimes they call it the
+[00:52:27] platform dependent layer that abstract
+[00:52:30] is the the hardware for you if I'm
+[00:52:32] programming on a merchant silicon from
+[00:52:34] Broadcom is the same as I'm programming
+[00:52:36] a mer silicon from Cisco or or Marvel
+[00:52:39] And then on top of that you have the fib
+[00:52:42] layer which defines your forwarding
+[00:52:44] chain. When I receive a packet with that
+[00:52:47] uh with that prefix I need to do the
+[00:52:49] locab and on based on that lookup I
+[00:52:52] choose that encapsulation object etc. So
+[00:52:54] you build that forwarding chain in the f
+[00:52:57] on top of that you have what is called
+[00:52:59] the rib or the uh routing information
+[00:53:02] base where you have all of the
+[00:53:03] information coming from all of the
+[00:53:05] different demons. So assume that you
+[00:53:08] have ISIS or OPF. You need to choose
+[00:53:11] what is the best pass. But maybe you
+[00:53:12] have multiple passes coming from ISIS or
+[00:53:15] BGB. You need to choose which one is the
+[00:53:17] best. So you have that RIP
+[00:53:18] functionality. And on top of that, you
+[00:53:20] have all of the routing protocol demon
+[00:53:23] like BGB or SPF or or whatever. That's
+[00:53:26] typically how a vendor NOS is is is
+[00:53:29] built. Okay. How we can map this into
+[00:53:33] Sonic. So how is this different from
+[00:53:35] Sonic and what Sonic really brought into
+[00:53:37] that into that space? So that layer of
+[00:53:41] hardware is an SDK, it's exactly the
+[00:53:45] same. It's common. So when you take the
+[00:53:46] SDK or the hardware with the SDK from
+[00:53:49] one vendor, it's the same SDK that you
+[00:53:51] use on a vendor nose or in Sonic. But
+[00:53:54] you remember there is something in the
+[00:53:56] vendor nos is called the hardware
+[00:53:59] abstraction layer. So we need a layer to
+[00:54:01] abstract that hardware. In the Sonic
+[00:54:04] world that is called SAI or switch
+[00:54:06] abstraction interface. I think it's
+[00:54:08] called switch because at the beginning
+[00:54:10] Sonic was let's say proposed to be a
+[00:54:12] switch rather than a router. So that's
+[00:54:15] why that terminology abstra uh switch
+[00:54:18] abstraction interface that switch
+[00:54:20] abstraction interface makes you use all
+[00:54:23] of the SDK of all of the different
+[00:54:25] vendor in the same way. merchant silicon
+[00:54:28] from any vendor it's exactly the same I
+[00:54:30] just need to care about the sigh every
+[00:54:33] vendor takes that s API and implement it
+[00:54:35] by himself we don't care I me I talk
+[00:54:38] only sigh on top of that s you have the
+[00:54:41] actual sonic stack that's what is
+[00:54:43] actually called sonic there is the sonic
+[00:54:45] let's say software stack that you run on
+[00:54:47] top of this it has the set of let's say
+[00:54:49] databases where and and and building
+[00:54:52] that forwarding chain when you get a
+[00:54:54] next hub you need to find the outgoing
+[00:54:56] interface for that next all of that work
+[00:54:58] is done in inside the Sonic and then on
+[00:55:01] top of that you have the RIB
+[00:55:03] functionality and the let's say the
+[00:55:05] routing demon which what provided now
+[00:55:07] with the F FRR routing ST so if you look
+[00:55:11] at Sonic is basically provide the same
+[00:55:13] functionality as a vendor no but is
+[00:55:15] composed by multiple components that you
+[00:55:17] have to put them together to build an
+[00:55:19] image for for that box fr FRR is
+[00:55:22] maintained by itself the sonic routing
+[00:55:25] or the sonic software ST is a is a
+[00:55:27] different let's say it has a different
+[00:55:29] community. It's maintained separately
+[00:55:31] and the site is the same. But you need
+[00:55:33] to get boot all of them together in
+[00:55:35] order to get that that box. But then you
+[00:55:39] look at this and you say why all of that
+[00:55:41] hassle? Why people actually would want
+[00:55:43] this Sonic? I mean if I have to build
+[00:55:45] something that give me the same
+[00:55:46] functionality as a traditional vendor
+[00:55:49] knows why do I need to do it? Basically
+[00:55:52] the question the answer is is pretty
+[00:55:55] straightforward. I want typically in the
+[00:55:58] past I was deploying multiple vendor no
+[00:56:01] and I want and but every vendor no has
+[00:56:03] its own different APIs has its own
+[00:56:05] working model etc. I want the same NOS
+[00:56:08] that can run in the the same way. So me
+[00:56:11] I talk you see in Sonic we talk only SI
+[00:56:14] so we don't care about the SDK here is
+[00:56:17] the same I only talk if I have a
+[00:56:19] controller or or I run my my network or
+[00:56:22] I I run the the uh the network
+[00:56:24] management system I need to care about
+[00:56:27] only one operating system. So I can use
+[00:56:30] Sonic for that. So it's the same north
+[00:56:33] boundary back but underneath I can get
+[00:56:36] the hardware capabilities from the
+[00:56:37] different vendor. I like vendor X for
+[00:56:39] mentioning silicon because their silicon
+[00:56:41] gives me lower latency. So I can I can
+[00:56:44] be build a sonic with that but I like
+[00:56:47] another merchant silicon because they
+[00:56:49] are not good at the latency but they are
+[00:56:51] good for a different use case for
+[00:56:52] buffering etc. But again all of this as
+[00:56:55] is completely abstracted for me and I
+[00:56:58] manage them exactly in the in the same
+[00:57:00] way.
+[00:57:02] Then it comes again the hassle of okay
+[00:57:04] do I need to build that sonic uh or uh
+[00:57:08] by myself or can I get the same sonic
+[00:57:12] that I like that sonic model but I want
+[00:57:14] to have that sonic model in a way that
+[00:57:17] is similar to the traditional NOS and
+[00:57:20] that's where you see the difference
+[00:57:22] between what is called the white box
+[00:57:24] sonic where you say kind of do it
+[00:57:27] yourself so you take all of these
+[00:57:29] component you go to an OEM you build
+[00:57:31] your sonic If you are not a hyperscaler,
+[00:57:33] you are not necessarily being you will
+[00:57:35] not be able to do this because you
+[00:57:36] cannot let's say afford it. So some some
+[00:57:40] that's is the model typically used by
+[00:57:42] hyperscaler. But if me I am I'm an
+[00:57:45] enterprise customer but I like that
+[00:57:46] sonic model and I like its API because
+[00:57:48] it's a Linux etc. You have what they
+[00:57:51] call kind of enterprise sonic or vendor
+[00:57:54] sonic. you can go and take that sonic
+[00:57:56] exactly uh let's say just from from a
+[00:58:00] vendor and you get the same support and
+[00:58:02] everything kind of let's say red hat
+[00:58:04] model uh if you wish uh for uh for Linux
+[00:58:08] so you have the two option one option if
+[00:58:10] you have the scale another option if you
+[00:58:13] really want to get just to get the
+[00:58:15] functionality and basically without
+[00:58:17] going into into the the hassle of uh of
+[00:58:20] building your own sonic
+[00:58:23] then Okay, now we understand how those
+[00:58:26] layers of the of the sonic work, where
+[00:58:28] do we have the SRV6 basically support
+[00:58:31] for them. So in order to build or to add
+[00:58:34] a new technology, imagine tomorrow you
+[00:58:35] come up with a different protocol
+[00:58:37] different from SR6 for a different use
+[00:58:38] case what it takes you in order to add
+[00:58:41] the support of that protocol into that
+[00:58:43] Sonic. the first layer that we talked
+[00:58:45] about you need we need to have it in the
+[00:58:48] hardware because if you have it in the
+[00:58:49] software and your hardware cannot do it
+[00:58:51] then it's it's basically it's basically
+[00:58:53] useless. So in a service we have that
+[00:58:56] support and we have seen it in the in
+[00:58:58] the ecosystem slide with all of the
+[00:59:01] merchant silicon being supporting that.
+[00:59:03] But also very key here is is is Linux
+[00:59:05] because when you do development over
+[00:59:08] over um over sonic you need a kind of a
+[00:59:11] virtual switch or a virtual sonic in
+[00:59:14] order to be able to do your testing and
+[00:59:16] that's typically use the Linux as a data
+[00:59:18] plane. So having also SRV6 in the Linux
+[00:59:21] enable all of this development to have
+[00:59:23] your let's say my own sonic that I can
+[00:59:26] use for for for my software development.
+[00:59:29] Then you go to the layer above. Now I
+[00:59:32] have the capabilities in the SDK. I need
+[00:59:34] to define the SI layer. And to be
+[00:59:37] completely honest that's the most let's
+[00:59:40] say challenging layer because you have
+[00:59:41] to you have to bring all of those
+[00:59:44] merchant silicon to agree on one API
+[00:59:47] because some sometime this API is it
+[00:59:50] exposes the limitation of the hardware.
+[00:59:52] So I need to be able to program anything
+[00:59:55] then the one merchant silicon will say
+[00:59:58] no I cannot do it. So he will not agree
+[01:00:00] to that to that API. So getting all of
+[01:00:02] the merch and silicon to agree on one S
+[01:00:05] AI I think that's one of the most
+[01:00:07] crucial thing but once you have this
+[01:00:08] okay I have the functionality in the
+[01:00:10] hardware I have a a standard API to
+[01:00:13] program it then I need to build the
+[01:00:16] layers on top of it. So sonic is
+[01:00:19] basically that kind of let's say
+[01:00:22] forwarding table you need to just it's
+[01:00:24] to be to be fair sonic to me in in let's
+[01:00:27] say when you bring a routing feature the
+[01:00:30] sonic itself itself is not the most is
+[01:00:32] not the biggest um the biggest challenge
+[01:00:34] because it's almost transparent it's
+[01:00:36] just a set of databases that you need to
+[01:00:38] program them but where is the brain and
+[01:00:40] where is let's say the smart guy in all
+[01:00:42] of that uh box is FRR that's where you
+[01:00:46] need to implement all of the routing re
+[01:00:48] functionalities in order to be able to
+[01:00:50] exchange the route uh compute the best
+[01:00:53] pass provide all of those different use
+[01:00:56] cases and here we basically leverage how
+[01:00:59] to say sonic leverage all of that SV6
+[01:01:03] support in FRR that come natively
+[01:01:05] because there are two ways to to develop
+[01:01:08] things in sonic either you take the FRR
+[01:01:11] mainstream and you just use it to build
+[01:01:14] your sonic image and if you have the
+[01:01:16] feature there it makes your life very
+[01:01:19] easy but there is also another model
+[01:01:21] which is a bit hacky that if I don't
+[01:01:23] have the feature in FRR then I can take
+[01:01:26] the F FRR and try to add some patches on
+[01:01:28] it but okay this patches one release the
+[01:01:32] release of of F FR is changing every six
+[01:01:34] months in Sonic then if you decide to to
+[01:01:38] divi develop your feature as patches
+[01:01:40] then your patch is going to be farther
+[01:01:42] away from the main line of FRR every
+[01:01:45] single way and it make it complex. So if
+[01:01:48] you the most the cleanest way is to get
+[01:01:51] it into into FRR mainline and that's
+[01:01:54] what we we have been doing and in the
+[01:01:56] next presentation basically that will be
+[01:01:58] the topic of the presentation how how
+[01:02:01] much of SRV6 is being supported in FRR
+[01:02:04] routing stack which basically made the
+[01:02:07] life of sonic people easy they could
+[01:02:09] just pull the FRR main line and and um
+[01:02:13] and and and it works uh for them okay
+[01:02:17] And I'm done. So if you have any
+[01:02:20] questions,
+[01:02:25] >> my name is Mitro. I have
+[01:02:28] >> I know you because you contributed a lot
+[01:02:30] to SRV6 in FRR.
+[01:02:33] >> Thank you.
+[01:02:35] So basically the first question that I
+[01:02:37] have as far as I remember last time
+[01:02:39] checked sonic no has docker containers.
+[01:02:43] >> Yes. And uh the docker container that is
+[01:02:45] responsible for the netcon fian
+[01:02:48] interface is under construction let's
+[01:02:51] say
+[01:02:52] >> so the controller that is managing this
+[01:02:54] device that is ISP was using before
+[01:02:57] >> mhm
+[01:02:57] >> for other devices like young models
+[01:03:01] to combine the multiple devices by this
+[01:03:04] one controller is quite challenging for
+[01:03:07] the sonic. So
+[01:03:10] what would you what would you suggest to
+[01:03:13] implement something like par parameo net
+[01:03:16] parameo interface between the controller
+[01:03:18] or native net conf
+[01:03:23] or you choose to support just one model
+[01:03:28] in the controller and distribute all of
+[01:03:33] the support via the sai. So the question
+[01:03:35] is distribute the support in the
+[01:03:37] controller or distribute the support in
+[01:03:40] the site. What is the best according to
+[01:03:42] your opinion?
+[01:03:43] >> So the best I cannot tell the best
+[01:03:45] because I I'm not in any position to to
+[01:03:48] say what is the what is the best but I
+[01:03:50] can tell you from the experience is that
+[01:03:53] ideally what you propose is to have the
+[01:03:55] common data model that's actually the
+[01:03:58] best approach. However, you have to look
+[01:04:01] at this from let's say the hyperscaler
+[01:04:04] or the operator who needs to deploy this
+[01:04:07] today and he has his controller doing it
+[01:04:10] this way. So, everyone kind of try to
+[01:04:13] optimize for his uh let's say his own
+[01:04:17] use case
+[01:04:18] >> time to market.
+[01:04:19] >> It's it's time to it's not it's it's
+[01:04:22] even is even much closer than this
+[01:04:24] because it's not it's not really to
+[01:04:26] market. They have the need already for
+[01:04:28] it. it's it's already waiting for them
+[01:04:30] to deploy. So what they go they do is
+[01:04:33] basically they go directly with okay
+[01:04:35] there is an config DB in uh in uh in
+[01:04:38] Sonic. I'm not going to how to say go
+[01:04:41] now into the fight of going
+[01:04:44] across uh let's say vendors or or across
+[01:04:47] community to fight on an API or a or a
+[01:04:50] or a data model. what I'm going to use
+[01:04:52] I'm going to use the native APIs that
+[01:04:54] they have until we come up with um how
+[01:04:59] to say with a with a common model. It's
+[01:05:01] not ideal for sure but but that's is the
+[01:05:04] reality o of it and the problem that
+[01:05:07] people get busy from one project to
+[01:05:10] another. So they say okay we deploy that
+[01:05:12] use case with the current model but I
+[01:05:16] promise the next time the next use case
+[01:05:18] we going make we're going to make it
+[01:05:19] clean. Well, they get how to say more
+[01:05:22] pressure when they have to deploy the
+[01:05:24] next use case. So, I know that that kind
+[01:05:26] of young data model is not really ideal
+[01:05:30] in in that Sonic,
+[01:05:33] but apparently is not a highest priority
+[01:05:36] for people deploying the Sonic.
+[01:05:39] >> Thank you. I have one more question.
+[01:05:40] Yeah, sure.
+[01:05:41] >> Maybe a little bit more profound. Uh you
+[01:05:45] mentioned that uh SAI is an absurd
+[01:05:48] between multiple vendors. So SDKI SDK
+[01:05:51] >> between merchant silicon
+[01:05:52] >> mer silicon and
+[01:05:54] >> hal
+[01:05:55] >> hybrid abstraction layer. So what if you
+[01:05:58] take the
+[01:05:59] >> not closed mentioned mentioned silicon
+[01:06:02] that uh is on the market but you take
+[01:06:05] the FPGA
+[01:06:07] >> FPGA nick like net FPGA and you take the
+[01:06:12] [clears throat] some equivalent of the
+[01:06:14] pins before integrated ST that is
+[01:06:17] already in the Sonic. There is a BMC
+[01:06:19] model reference model. By the way, the
+[01:06:21] question is regarding the pins. Uh what
+[01:06:24] is the status of P4 service support in
+[01:06:28] Sonic for the castle smart nicks FPJS?
+[01:06:32] Well, it's uh let's say I'm again you
+[01:06:35] ask me the question that some some some
+[01:06:38] people in the industry they could not
+[01:06:40] come to a consensus but I can tell you
+[01:06:43] if how to say what I see like as a model
+[01:06:48] is that what you really care about is
+[01:06:50] that s the minute you make sigh how to
+[01:06:53] say good enough then you could force any
+[01:06:57] let's say anyone who provide an hardware
+[01:07:00] on SDK to comply to the site if you want
+[01:07:02] to run Sonic on the Nick. Okay, make the
+[01:07:04] Nick vendor have the SA implementation.
+[01:07:08] That's that's I think the model that is
+[01:07:10] working is basically to to agree on the
+[01:07:13] SA and anyone who has to do how to say
+[01:07:16] to run Sonic has to comply to the SA
+[01:07:18] API. That's what I I I see at least now
+[01:07:22] people are doing.
+[01:07:24] >> Thank you. Thank you.
+[01:07:25] >> Thank you.
+[01:07:26] >> I have a question
+[01:07:27] >> for sure. But but maybe if we I don't
+[01:07:28] know if anyone else has a question not
+[01:07:30] to
+[01:07:32] >> Okay, it's the last one.
+[01:07:33] >> Okay, so basically
+[01:07:36] people the transonic I suppose they
+[01:07:38] experience some uh in the master branch
+[01:07:42] uh some
+[01:07:45] need to provide a feedback regarding the
+[01:07:48] stability.
+[01:07:49] >> Mhm. And uh this is something that is
+[01:07:51] addressed frequently uh and it's a great
+[01:07:53] thing that community community is very
+[01:07:56] active on this subject. Is there some
+[01:07:59] kind of association regarding around the
+[01:08:02] Sonic that is providing the uh the
+[01:08:05] stability feature as a feature for the
+[01:08:08] Sonic but there is already let's say if
+[01:08:11] you wish for any for any Sonic you have
+[01:08:14] the Sonic let's say management uh
+[01:08:16] management framework where they do all
+[01:08:18] of the testing etc. And in sonic there
+[01:08:21] is already uh if you look there is one
+[01:08:24] repository is called sonic build the
+[01:08:26] image and in that sonic build image
+[01:08:28] let's say I take I build my sonic so I
+[01:08:30] take fr FRR 9.1 and I use it now but I
+[01:08:34] found there are some issues here so I'm
+[01:08:36] not going to wait until those issues is
+[01:08:38] going to be fixed in the mainline so
+[01:08:40] what they do they kind of let's say or
+[01:08:42] there are those issues has been fixed in
+[01:08:44] a newer release what they take they take
+[01:08:47] those those as batches until we upgrade
+[01:08:50] to the new but I think one of the key
+[01:08:52] rules here is that when you accept
+[01:08:55] something as a batch make sure that it's
+[01:08:56] already in the mainstream so you don't
+[01:08:59] you don't have to carry it on your own
+[01:09:00] so I keep it for one year because it has
+[01:09:04] been fixed in the main line that I that
+[01:09:06] I'm going to to how to say to take in
+[01:09:09] one year but don't do let's say custom
+[01:09:11] batch
+[01:09:13] >> thanks
+[01:09:14] >> thank you
+[01:09:17] more questions Let's
+[01:09:21] thank you guys.
+[01:09:23] [applause]
+[01:09:25] Now we're
+[01:09:30] on the same PC. Perfect. So I do not
+[01:09:32] have to do any
+[01:09:39] It's not up there.
+[01:09:42] Okay.
+[01:09:49] Good. Hello everyone. I'm Carmen
+[01:09:52] Escarpita. I'm a software engineer at
+[01:09:54] Cisco and today I'm going to talk about
+[01:09:57] the service support in FRR. So we we
+[01:10:01] will go through over a quick uh overview
+[01:10:04] of the feature that we currently support
+[01:10:06] in FRR.
+[01:10:08] So the SV6 support in FRR is very
+[01:10:11] mature. So it's supported since FRR 8.1
+[01:10:16] back to uh 2021
+[01:10:19] and over the year we have been um many
+[01:10:22] contribution from many companies and
+[01:10:25] today we have more than 400 pull request
+[01:10:29] a service 6 pull request with more than
+[01:10:32] 1,500
+[01:10:33] commits so it's a large number and the
+[01:10:37] main contributors of the service 6 code
+[01:10:39] in FR are from companies like Cisco
+[01:10:41] Isco, Alibaba, Line Corporation, and six
+[01:10:44] window.
+[01:10:46] Uh, and Cisco is the top contributor
+[01:10:48] with more than 20 um, 200 pull requests
+[01:10:52] and more than 900 commits. And I would
+[01:10:57] like to thank you the FR community for
+[01:10:59] their help, their support
+[01:11:02] um, with review and collaboration of SR6
+[01:11:06] code.
+[01:11:10] So uh we have a large uh feature set in
+[01:11:14] FRR. So we have on the service side we
+[01:11:18] support the service 6 in BGP in
+[01:11:22] particular layer three services. We
+[01:11:24] support the service in the underlay in
+[01:11:28] ISIS
+[01:11:29] and we also have support for static
+[01:11:32] seeds and static traffic engineering
+[01:11:34] traffic steering into an service 6 list
+[01:11:38] and finally we we also have support for
+[01:11:41] BGP link state which enables the
+[01:11:44] topology export in um in FRR. So in the
+[01:11:49] rest of the presentation I will go I
+[01:11:51] will do a quick overview of of these
+[01:11:54] features.
+[01:11:56] So let's start from BGP
+[01:11:59] from BGP layer 3VPN
+[01:12:03] and um there is an RFC
+[01:12:07] uh RFC 9252 in this RFC um it defines
+[01:12:11] some SV6 extensions for BGP to support
+[01:12:15] the layer 3VPN services. So the idea is
+[01:12:18] simple. We use BGP as um routing
+[01:12:22] protocol to exchange some VPN routes
+[01:12:25] from one P to another P. And we use a
+[01:12:28] service 6 in the data plane to exchange
+[01:12:30] VPN traffic across the S the IPv6 core
+[01:12:34] from P to another P.
+[01:12:37] This layer 3VPN use case is fully
+[01:12:39] supported in FRR for both IPv4 and IPv6
+[01:12:43] prefixes.
+[01:12:46] Now let's look how um it works. So um I
+[01:12:52] have a simple topology with NIPv6 core.
+[01:12:55] I have two PE routers connected to that
+[01:12:58] core and I have two C routers connected
+[01:13:01] to the PE.
+[01:13:03] So um C2
+[01:13:07] will will advertise a a prefix in the
+[01:13:11] IPv4 address family towards P2. Then P2
+[01:13:16] receives the update and generates a BGP
+[01:13:19] update into the uh IPv4 VPN address
+[01:13:23] family.
+[01:13:25] It also attaches a SRV6 UD46 seed to
+[01:13:29] that update
+[01:13:31] and then this update arrives at P1. P1
+[01:13:35] install the prefix together with the
+[01:13:37] service 6 seed in its uh fib and finally
+[01:13:42] P1 advertise this prefix to C1.
+[01:13:46] So that's how the control plane work.
+[01:13:48] Once the control plane is set up
+[01:13:51] um we can look at the data plane. So we
+[01:13:55] will have C1 will will generate some
+[01:13:57] traffic for example this packet. It will
+[01:14:01] send this packet to P1. Then P1 will
+[01:14:04] perform a encapsulation. It's a a P in a
+[01:14:09] PV6 encapsulation where the destination
+[01:14:12] address of the outer header is the UD46
+[01:14:17] seed instantiated at P2.
+[01:14:21] Once the packet arrives at P2, P2
+[01:14:23] decapsulate the packets and send the
+[01:14:26] inner packet, the original packet to
+[01:14:29] toward C2.
+[01:14:33] So and that's it for the layer 3VPN.
+[01:14:36] There is another uh service BGP service
+[01:14:39] which is the GRT where GRT stands for
+[01:14:43] global routing table. It's another
+[01:14:46] service defined in the same RFC
+[01:14:49] and uh it's quite similar to the layer
+[01:14:52] 3VPN use case but um so we still use BGP
+[01:14:55] to advertise something to advertise some
+[01:14:58] routes and we'll still use SRV6 in the
+[01:15:01] data plane to carry the the traffic from
+[01:15:04] P1 to P2 but differently from the layer
+[01:15:08] 3VPN in this case there are no customer
+[01:15:11] ver there are no VPN routes but instead
+[01:15:14] said here we are just exchanging
+[01:15:17] uh regular IPv4 and IPv6 routes from the
+[01:15:21] global routing table. So that's the
+[01:15:23] difference
+[01:15:25] and this uh this use case is fully
+[01:15:28] supported in in FRR.
+[01:15:32] So let's look at the control plane very
+[01:15:34] quickly. So again we have the C2 sending
+[01:15:39] some uh advertising some prefixes in the
+[01:15:41] IPv4 address family. P2 receives the
+[01:15:44] advertisement and generates an update in
+[01:15:47] the IPv4 address family. So now it's not
+[01:15:51] uh VPN address family, but now it's the
+[01:15:54] IPv4 uniccast address family.
+[01:15:58] And again it also touches the UD46 SID.
+[01:16:02] The update will arrive at P1. P1 install
+[01:16:06] prefix plus
+[01:16:08] uh seed in its fib and finally generates
+[01:16:12] an update towards uh C1.
+[01:16:19] Now let's move to the next feature that
+[01:16:21] I want to talk about which is the SRV6
+[01:16:24] support in the ISIS underlay.
+[01:16:28] Uh so ISS is basically an IGP protocol
+[01:16:32] which means it's used for building the
+[01:16:34] underlay topology. So normally it
+[01:16:37] exchange uh reachability information
+[01:16:40] prefixes and link metrics and some more
+[01:16:44] uh things but there is also an RFC that
+[01:16:48] extends the proposing extension of ISIS
+[01:16:52] to also advertise
+[01:16:55] some SRV6 information. This information
+[01:16:58] include the locator of the nodes in the
+[01:17:01] SIS network. Also the UN and UA seeds
+[01:17:06] instantiated at each node and TS6
+[01:17:10] capabilities
+[01:17:12] uh such as the how many know how many
+[01:17:15] seeds a node is able to encapsulate and
+[01:17:18] again this um S36 extensions are
+[01:17:21] supported in FRR.
+[01:17:26] Now the next topic that I want to cover
+[01:17:28] is static seats. So so far we saw some
+[01:17:32] BGP use cases where BGP allocate seats
+[01:17:35] dynamically. But there is also another
+[01:17:37] uh deployment model which is the SRV6
+[01:17:40] SDN deployment
+[01:17:42] where we have an SDN controller. The SDN
+[01:17:45] controller has the full view of the
+[01:17:47] topology and the SDN controller decides
+[01:17:50] how to allocate uh services, how to
+[01:17:53] allocate seeds uh at each node.
+[01:17:58] So this is what uh we mean by static
+[01:18:00] seats and again this is fully supported
+[01:18:03] in Ferrar we can um instantiate the
+[01:18:06] static un ua and udc in in FR. An
+[01:18:12] example of this deployment is the
+[01:18:13] Microsoft S36 SDN use case in Sonic
+[01:18:17] which is a work done in collaboration by
+[01:18:20] um Cisco, Alibaba, Microsoft and Nvidia.
+[01:18:28] We also support static traffic steering
+[01:18:30] in FRR.
+[01:18:32] Um what is static traffic steering?
+[01:18:35] Basically with traffic steering we can
+[01:18:38] steer an IPv6 or IPv4
+[01:18:41] prefix over um an explicit path and this
+[01:18:46] part is typically is encoded as an SRV6
+[01:18:49] seed list. So to give you an example I
+[01:18:53] take this simple topology with five
+[01:18:55] nodes. I have a routing protocol on this
+[01:18:59] topology. routing protocol calculates
+[01:19:02] the best path and by default traffic
+[01:19:05] will follow the best but with the
+[01:19:07] traffic steering I can uh override the
+[01:19:11] best but force the the the traffic
+[01:19:15] send the traffic over a different part
+[01:19:18] for example the red but in the figure
+[01:19:23] in Ephra we support the traffic steering
+[01:19:25] for for both IPv4 and IPv6 um address
+[01:19:29] families This
+[01:19:32] the last feature I want to talk about is
+[01:19:34] the support of BGPing state in FRR. So
+[01:19:38] what is BGPing state? It's basically an
+[01:19:41] extension of the BGP protocol and it is
+[01:19:44] used to um export the topology from a
+[01:19:48] network. So the idea of BGP linking
+[01:19:50] state is very simple. So it can collect
+[01:19:54] information topology information from a
+[01:19:56] network protocol like IGP um protocol or
+[01:20:01] uh BGPA and then it can distribute the
+[01:20:05] topology information to an external
+[01:20:07] process or an application that needs the
+[01:20:09] the topology.
+[01:20:11] Uh so BGPs is able to collect
+[01:20:14] information about nodes. So the routers
+[01:20:18] of the network, the links between the
+[01:20:20] routers and also the prefix um attached
+[01:20:25] uh to each router. Not only this, but
+[01:20:28] there are also some more some SRV6
+[01:20:31] extensions that allow BGP link state to
+[01:20:35] also uh export SRV6 information which
+[01:20:39] include the locators instantiated at um
+[01:20:42] configurate at each node and also the
+[01:20:45] seeds and SRV6 capabilities.
+[01:20:51] So to conclude this quick overview this
+[01:20:53] presentation
+[01:20:55] the service 6 support in Ferrari is very
+[01:20:57] mature. So we have a large feature set
+[01:21:01] with we we have support in BGP we have
+[01:21:03] support in ISIS
+[01:21:05] and we we also have the BGP link state
+[01:21:08] support. It's a very rich ecosystem
+[01:21:11] contributor uh contributed by many
+[01:21:15] companies including Cisco, Alibaba, six
+[01:21:17] win and line corporation
+[01:21:20] and we are committed to um extend SRV6
+[01:21:24] supporting FRR with new features, bug
+[01:21:26] fix and and more testing.
+[01:21:30] Thank you.
+[01:21:32] [applause]
+[01:21:36] >> Thanks Carina. I know there is a
+[01:21:39] question but I kindly ask to postpone
+[01:21:41] the discussion for later t and I ask the
+[01:21:45] next speaker to come because we are
+[01:21:48] otherwise we do not have time. No I
+[01:21:50] think there is a fering. Yeah
+[01:22:03] >> to this side there. Thank you.
+[01:22:17] >> Thank you. Uh I'm Ference Ves from I'm
+[01:22:20] Ference Ves from Ericson and uh here I
+[01:22:24] would like to talk about what we are
+[01:22:27] looking in SRV6 to use it as a
+[01:22:30] replacement for SLMs
+[01:22:33] and uh in our uh experiments we used
+[01:22:37] Linux plus FR stack because that's what
+[01:22:40] we that's what we
+[01:22:43] experimenting with and uh during the
+[01:22:47] debugging of the network. We created a
+[01:22:50] small helper tool called table snoop. I
+[01:22:52] will show you that in a moment. And uh
+[01:22:56] we we would like to propose a new SRV6
+[01:23:03] uh function. It's called redundant
+[01:23:05] redundancy SID. And uh I show you how we
+[01:23:08] implemented this without uh ker
+[01:23:11] modification just uh using XDP and the
+[01:23:15] existing service support. Some
+[01:23:18] abbreviations I skipped that uh so
+[01:23:25] some of our customers uh have SRMs VPNs.
+[01:23:29] That's what we bring to our customers uh
+[01:23:32] historically. And some new customers
+[01:23:34] might want SRV6VPN. So uh and they we
+[01:23:40] also give them alternate paths uh with
+[01:23:43] traffic engineering for the uh provider
+[01:23:46] edge routers. And uh in this I created a
+[01:23:50] small uh test network which has uh IGP
+[01:23:54] best pass and the low delay and the low
+[01:23:56] cost traffic engineering passes.
+[01:23:59] And uh we would like to bring a combined
+[01:24:02] deployment. So one can use both SRV6 and
+[01:24:06] SRMs on the same network. For example,
+[01:24:09] during a migration, it will be it will
+[01:24:12] be useful. And we would like to know if
+[01:24:15] feature parity is desired or possible.
+[01:24:18] And important to emphasize that this is
+[01:24:20] not a DC or AI network. We have no EVPN,
+[01:24:25] only layer 3VPN right now.
+[01:24:28] uh we don't have ECMP and u this is a
+[01:24:33] classic MLS provider network
+[01:24:36] and uh
+[01:24:39] just to show show you how this network
+[01:24:41] looks like u it's it has the same
+[01:24:44] challenges as a real network of course
+[01:24:46] is a toy network a mini miniature
+[01:24:48] network it has dual home uh CA routers
+[01:24:53] and it has uh dual uh connected peer
+[01:24:57] routers. So adjacency seeds at this
+[01:25:01] guest will play a role here to select
+[01:25:05] which pass you want to use.
+[01:25:08] And for the experiments I uh uh we used
+[01:25:12] miniet. So we emulate the network with
+[01:25:14] network name spaces and vet interfaces.
+[01:25:18] And to for very quick and dirty
+[01:25:22] observability we use net netm delay just
+[01:25:24] to uh check the ping uh delay. So the
+[01:25:28] good ta pass will take place or it going
+[01:25:31] to another unexpected pass.
+[01:25:35] We use BGP as an AGP and of course we
+[01:25:38] that's what we use for advertise the the
+[01:25:41] VPN uh labors and SR six seeds and we
+[01:25:45] used uh ISIS SDIGP and it it turns out
+[01:25:50] when we went through FR's uh commit
+[01:25:53] history and FR uh FR pull request the
+[01:25:57] ISI support is more mature than OPF. So
+[01:26:01] that's why we decided to go with go
+[01:26:03] ahead with that.
+[01:26:04] and everything what I will say it's true
+[01:26:07] for Linux 7 and FR 10.6 six and as as we
+[01:26:14] see see in the previous uh presentation
+[01:26:16] it will likely change in the future when
+[01:26:19] I put put the config files and the
+[01:26:21] network online.
+[01:26:25] How our SRMs config look like. We have
+[01:26:28] of course the the uh infrastructure loop
+[01:26:33] back addresses those used for BGPing as
+[01:26:36] well. and we allocate a node seed a node
+[01:26:40] uh seed for node label for them and uh
+[01:26:45] from this block. So on router one we use
+[01:26:48] index one which result uh uh 20,0001 as
+[01:26:53] a node SID node label for SRMs
+[01:26:58] and that's and of course we uh advertise
+[01:27:03] the VPN labels with BGP and uh we set a
+[01:27:08] static uh label for that one.
+[01:27:16] So for example, here's how the
+[01:27:19] here's how the uh
+[01:27:23] uh
+[01:27:25] VRF uh look like VRF routting table look
+[01:27:28] like and uh we BGP can uh recursively uh
+[01:27:35] resolve the uh full uh label stack for
+[01:27:40] the egress C routters.
+[01:27:43] For example, this CI routers, it can
+[01:27:46] know the uh node label of the node seed
+[01:27:49] of this egress router will be this
+[01:27:52] 20,0002 and the service label will be
+[01:27:55] this
+[01:27:58] and uh that's so far using IGP best
+[01:28:02] pass. So the packet take uh follow the
+[01:28:05] IGP best pass but we want to support TIA
+[01:28:08] for that FR support uh traffic
+[01:28:12] engineering supports for MLS origely
+[01:28:15] implemented in PASD. So we have to
+[01:28:18] exchange the uh ISIS database with the
+[01:28:23] segment routing uh MLS traffic
+[01:28:27] engineering database. So we we will we
+[01:28:30] used importing this one the importing
+[01:28:34] the database
+[01:28:36] and um
+[01:28:39] what what also uh required is to import
+[01:28:43] the C uh CA router prefixes with
+[01:28:47] different colors and these colors can be
+[01:28:50] uh uh imported into different uh uh VRFs
+[01:28:55] and uh the egress packets can be uh
+[01:28:59] steered into those colored VRFs uh via
+[01:29:02] the uh FRS uh policy based routting maps
+[01:29:06] and those polit PBR maps are very
+[01:29:09] similar to classical root maps and uh
+[01:29:13] for example you can set a match to for
+[01:29:16] example match to DSCP2 and we steer that
+[01:29:20] into the low delay VRF and and so on for
+[01:29:24] for the DSCP6 for the MPL LS traffic
+[01:29:28] engineering uh VRF table cost
+[01:29:32] and it only works if we put that into
+[01:29:34] the uh into the uh VRF interface because
+[01:29:40] at Linux the VRF interface is a kind of
+[01:29:43] a master device and you can enslave uh
+[01:29:47] physical device into the VRF but the
+[01:29:50] egress packets uh egress ingress uh
+[01:29:53] interface will be replaced by the VRF
+[01:29:55] interface. So the matching is takes
+[01:29:58] place here and uh error by default if
+[01:30:01] you didn't uh set anything else uh
+[01:30:05] create render the PBR maps into IPv4
+[01:30:09] rules. So you have to use uh some dummy
+[01:30:12] uh match all uh IPv6 to enforce uh IPv6
+[01:30:18] uh rule renders.
+[01:30:23] And the last piece uh in the SRM pls
+[01:30:26] puzzle is to have uh defined candidate
+[01:30:29] passes. Candidate pass. These are only
+[01:30:33] candidate passes because the
+[01:30:36] availability of this pass might be might
+[01:30:39] be varied on on link availability or or
+[01:30:43] traffic errors. So uh if
+[01:30:47] the network is uh operating uh as
+[01:30:52] expected,
+[01:30:54] this uh segment list might be used to uh
+[01:30:58] transport packets on the uh low delay
+[01:31:02] pass from R1 to R2. That's that what it
+[01:31:05] means.
+[01:31:07] So it's kind of dynamic but the the
+[01:31:10] config is static and if you can define
+[01:31:13] multiple passes uh segment lists uh some
+[01:31:17] of them picked by pass the based on the
+[01:31:20] availability on the of the uh labels
+[01:31:24] and and the uh ISIS root for that
+[01:31:27] labels. So that's how the interaction
+[01:31:31] between the apher dammons uh look like
+[01:31:35] [snorts]
+[01:31:36] and we have some challenges
+[01:31:39] I I might it it might be interesting I
+[01:31:42] don't want to uh take too much time into
+[01:31:46] that what was what was rather uh really
+[01:31:50] surprising for us is we have to use IPv4
+[01:31:53] low loop backs on loop back interface
+[01:31:56] because there is um appendix of an old
+[01:32:00] RFC which was apparently not implemented
+[01:32:04] in uh FR. So it didn't really uh
+[01:32:09] exchange the MLS labels of the prefix or
+[01:32:12] node seeds on a pure IPv6 network. So
+[01:32:17] even if we have a pure IPv6 network, we
+[01:32:20] have to still use IPv6 addresses as
+[01:32:24] dummy addresses.
+[01:32:27] Um
+[01:32:29] and
+[01:32:34] so the traffic will look something like
+[01:32:36] that. If a packet received from the C
+[01:32:39] cia router, it will be uh based on the
+[01:32:44] attachment link, it will be used either
+[01:32:46] MLS or SRV6 and based on the DSCP value,
+[01:32:50] it classified into the uh cost or delay
+[01:32:53] uh VRFS or for anything else it will use
+[01:32:57] the IGP best route based on the IGP
+[01:33:00] metrics.
+[01:33:03] And uh as it turns out at the moment the
+[01:33:06] by just copy pasting SRM pls network
+[01:33:09] does not work because uh there's a
+[01:33:13] missing piece in this puzzle and maybe I
+[01:33:16] I uh search it in the wrong place but uh
+[01:33:19] pdi of srv6
+[01:33:21] uh support is is missing. So we cannot
+[01:33:25] uh we cannot create nice uh uh end to
+[01:33:30] end u srv6 uh uh headers to steer the
+[01:33:36] packet into the right right path. So but
+[01:33:40] in a
+[01:33:42] a very similar combination can be
+[01:33:44] achieved with static and uh uh by the
+[01:33:49] combination of static and the BGP and
+[01:33:51] ISIS protocol config. For example here
+[01:33:54] the BGP is configured to allocate the uh
+[01:33:59] VPN uh functions automatically. These
+[01:34:02] are these will be and the DT6 functions
+[01:34:05] and uh uh we
+[01:34:10] we just use the auto uh automatic uh
+[01:34:13] seed alloc function uh allocation for
+[01:34:15] that and uh
+[01:34:21] ISIS advertised the local uh locator
+[01:34:23] block as a flat prefix. So, SRV6 end to
+[01:34:28] end uh behavior is is poorly local
+[01:34:31] config not not needed to use the uh not
+[01:34:35] needed to uh
+[01:34:39] advertise the TLVs of the of the
+[01:34:44] uh function length uh node lens prefix
+[01:34:46] length because the base prefix we steer
+[01:34:50] the packets into the right uh p routers
+[01:34:55] And uh without party the best uh we can
+[01:35:00] do is uh static uh traffic engineering
+[01:35:02] pass without interfering with the
+[01:35:04] routing protocols. So we try to don't
+[01:35:07] step into the uh uh toes of BGPs
+[01:35:12] allocated SRV6 functions and uh it's by
+[01:35:17] default it uses uh different blocks. So
+[01:35:21] there's in FRR there is a block uh used
+[01:35:24] uh there is an FR uh function block can
+[01:35:28] be used for static uh allocated seats
+[01:35:30] and there is another uh part of the same
+[01:35:33] block and this can be used for protocol
+[01:35:37] allocated uh protocol allocated seeds
+[01:35:40] and uh we tried
+[01:35:43] to be clever and put uh put the traffic
+[01:35:47] engineering uh passes into into the
+[01:35:50] other the statically allocated blocks.
+[01:35:53] So with BGP and IGP the traffic uh can
+[01:35:58] still reach the good uh P router and
+[01:36:02] there when it's there uh the
+[01:36:06] there will be a decapsulation of this uh
+[01:36:09] VRF uh function
+[01:36:13] but as as again as I said it's it's
+[01:36:16] fully static so if some link fails uh
+[01:36:20] that's your traffic engine growth no
+[01:36:22] longer longer works and we would need uh
+[01:36:25] pass demo for that.
+[01:36:29] Uh there we found an interesting
+[01:36:32] behavior where uh seemingly random uh
+[01:36:36] VRF will be looked up for instead the
+[01:36:39] right uh traffic engineering VRFs
+[01:36:43] and uh even if we set DFCP to the right
+[01:36:46] value
+[01:36:48] uh pass looked up in another VRFs or
+[01:36:51] from the I uh IGP uh table and what we
+[01:36:56] found that uh there's the destination
+[01:37:00] cache in the SRV6 lightweight tunnel.
+[01:37:04] And that destination cache will uh store
+[01:37:08] the uh next store the previous uh uh
+[01:37:13] successful lookup of the next hop
+[01:37:16] object.
+[01:37:17] And if you import the route from the
+[01:37:20] same uh root target in BGP in in FR uh
+[01:37:26] BGP uh Zebra will allocate or reuse the
+[01:37:30] same next next hub group object and with
+[01:37:33] that uh you end up with this behavior.
+[01:37:36] So instead what we used for uh the SRMs
+[01:37:42] config uh where we use the same root
+[01:37:44] target to import the same roots the same
+[01:37:47] CA prefixes into TIA tables different
+[01:37:50] TIA tables and the IGP table. We defined
+[01:37:54] uh three uh three VRFs, three uh
+[01:37:58] distinct VRFs for uh though uh for the
+[01:38:03] TI passes uh and uh we use different uh
+[01:38:08] root targets for both import and export
+[01:38:11] between them. And with that we enforced
+[01:38:15] uh next hope object allocation even if
+[01:38:18] the destination address will be the
+[01:38:21] same.
+[01:38:23] And as you might expect uh
+[01:38:27] we went through lots of debugging in
+[01:38:29] this network and we found out that uh
+[01:38:32] with TCP dump and wire sharkark uh this
+[01:38:35] might be tricky because you even if your
+[01:38:38] the whole network emulated in a machine
+[01:38:40] with with miniet with network name
+[01:38:42] spaces you didn't have a global view
+[01:38:44] what's happening hop by hop or you you
+[01:38:47] have to run multiple instances of DCP
+[01:38:50] dump and wireshark on on each node and
+[01:38:53] and collect the traces and analyze
+[01:38:55] what's happening. So, and also it only
+[01:38:58] works if package are generated and
+[01:39:01] sometimes if you messed up the route
+[01:39:03] really bad doesn't even ingress packet
+[01:39:05] generated. So, you cannot do uh nothing
+[01:39:08] you have nothing to work with during the
+[01:39:11] debugging. But if you have packets, you
+[01:39:13] have the ground through and it will be
+[01:39:15] very high information uh uh uh you have
+[01:39:21] and um
+[01:39:24] there's a lower level function level uh
+[01:39:26] approach that's really really for uh
+[01:39:31] hardcore coernetes or kernel development
+[01:39:34] debugging uh uh tools. uh PVRU retis I
+[01:39:40] guess presented last year uh in netv and
+[01:39:43] IPF32
+[01:39:45] these are these are hooking into every
+[01:39:49] socket buffer uh argument function and
+[01:39:52] XDP functions and they are have they
+[01:39:56] have very detailed and low-level view
+[01:39:58] but you have to be a
+[01:40:01] maybe not a kernel expert but uh you
+[01:40:03] have to know which can function how
+[01:40:06] transform packet and uh that might that
+[01:40:09] might be even a single uh ping packet
+[01:40:12] can generate hundreds of line of traces
+[01:40:14] and that might be too too much to
+[01:40:17] consume. So we tried to came up with a
+[01:40:20] tool which is something in between. So
+[01:40:22] you have the essential lookup
+[01:40:24] informations
+[01:40:26] uh on the whole node or just in a
+[01:40:29] network name space. Uh the main drawback
+[01:40:32] is that uh we didn't have uh
+[01:40:37] uh very very good filtering. So in the
+[01:40:41] previous tools you can filter by source
+[01:40:44] address, destination address. With that
+[01:40:46] you didn't really have that so far.
+[01:40:50] This is for example a a example. This is
+[01:40:54] an example output of of our tool. It's
+[01:40:57] open source and uh right now here is the
+[01:41:00] previously uh mentioned network and if I
+[01:41:04] start ping here and start this uh tool
+[01:41:08] you will see the uh routting lookups and
+[01:41:11] you also see the root uh policy lookups.
+[01:41:14] So the IP rule lookups as well even
+[01:41:17] though they are uh returned in reverse
+[01:41:21] direction we we used we reverse them to
+[01:41:25] uh show you first the rule call and then
+[01:41:28] the uh rand fib call because uh
+[01:41:32] otherwise it will be annoying. And for
+[01:41:34] SRV6, we even show you the cached uh uh
+[01:41:38] because the cached uh uh routting
+[01:41:42] lookups. What we find out you didn't
+[01:41:45] really have uh
+[01:41:47] uh real uh full low pass uh uh cold pass
+[01:41:53] um fib lookup if you have cached segment
+[01:41:56] routing six next hop
+[01:41:59] and uh
+[01:42:02] there were there were there were some
+[01:42:04] challenges for example it take took some
+[01:42:08] time to find out how we can show the
+[01:42:11] find out the network name space of the
+[01:42:13] failed uh fib uh for lookups for fib 6
+[01:42:18] for IPv6 is easy because you have the
+[01:42:20] struck net in the in the parameters of
+[01:42:23] the uh parameters of the fib lookup
+[01:42:27] function. So when you trace that you
+[01:42:29] have the network cookie and you can find
+[01:42:30] out but here you only have the rooting
+[01:42:33] table where the lookup takes place. So
+[01:42:36] we have to use uh we from the rooting
+[01:42:40] table we have to find the contra
+[01:42:42] container strct uh uh container hashmap
+[01:42:46] and of the container hashmap where the
+[01:42:49] rooting tables are. We we have to
+[01:42:51] extract the uh struck net from that and
+[01:42:55] then we have to iterate the whole uh
+[01:42:58] strct net uh routting tables to find out
+[01:43:02] uh which one the actual we we got there.
+[01:43:05] So and same trickery for the for the
+[01:43:09] routting for the interface names.
+[01:43:13] And u last part I would like to show you
+[01:43:17] a small example how we how we
+[01:43:20] implemented a new SRV6 end behavior and
+[01:43:25] highup or headend behavior.
+[01:43:28] Um it's the roots of that from a from
+[01:43:32] from of my previous uh presentation at
+[01:43:35] an at an older net with the XDP FRA. So
+[01:43:41] per packet service protection is
+[01:43:43] essentially uh introducing packet level
+[01:43:46] redundancy and with that you can avoid
+[01:43:49] packet losses by uh send multiple
+[01:43:52] replicas of the same packet on disjoint
+[01:43:54] passes. So if
+[01:43:57] one replica uh reach the destination you
+[01:44:01] have the data and uh you can drop the
+[01:44:03] rest and if there are of course link
+[01:44:06] failures some packets might not uh
+[01:44:09] receive at all. So there are some places
+[01:44:14] like factories and
+[01:44:16] for example military uh or or military
+[01:44:21] airplane or some other uh very high uh
+[01:44:24] mission critical places where the cost
+[01:44:26] of service auditage is much much higher
+[01:44:30] than having redundant passes. So you can
+[01:44:35] you can happy to uh put some more cables
+[01:44:38] and radios instead of having one hour of
+[01:44:42] outage and that's that's where this
+[01:44:44] standard aim that's the environment
+[01:44:47] environment that uh per packet service
+[01:44:50] protection standard aiming for
+[01:44:54] uh it defines stream identification.
+[01:44:57] It's really it's van based for layer two
+[01:45:00] vector v algorithm. So you can uh
+[01:45:03] distinguish between packet losses and
+[01:45:05] time modes and the link layer
+[01:45:07] encapsulation.
+[01:45:10] And we wanted to do the same at network
+[01:45:13] layer not in link layer by introducing
+[01:45:16] new segment routing v6 functions. We
+[01:45:19] call that redundancy
+[01:45:21] uh segment ID or in short r
+[01:45:25] and we define new uh behaviors. So one
+[01:45:28] is the uh replication and the RCD
+[01:45:32] encapsulation.
+[01:45:34] We have the uh layer 2 variant and to to
+[01:45:38] protect link layers uh encapsulated into
+[01:45:42] SRV6 and we have a reduced version as
+[01:45:44] well and there is the elimination where
+[01:45:46] we drop the replica pockets.
+[01:45:50] um it's still subject of ITF
+[01:45:54] standardization. So we don't have RFC
+[01:45:56] numbers yet and we use the same uh
+[01:46:00] sequence generation and vector recovery
+[01:46:02] algorithm from the ITLE E standard for
+[01:46:05] from layer 2 because it's it's really
+[01:46:08] the same.
+[01:46:10] This is how the air seat header uh
+[01:46:13] format proposal looks like. We have some
+[01:46:17] uh
+[01:46:19] uh the function is fixed for this uh
+[01:46:22] value right now and uh the flow ID is 20
+[01:46:26] bits like just like MLS labels or IPv6
+[01:46:30] flow labels. So you can directly uh map
+[01:46:34] uh those values to that flow label uh uh
+[01:46:38] header uh header field and uh the
+[01:46:42] sequence number is 16 bits that's coming
+[01:46:45] from the layer link layer standard from
+[01:46:47] it e but we extended it with some
+[01:46:50] reserve bits so one can use it with uh
+[01:46:53] longer uh bits uh to don't have too on
+[01:46:58] high speeds you don't have much
+[01:47:00] wraparound of the sequence numbers and
+[01:47:03] uh first what we tried to do is
+[01:47:05] implement the full it fully mix DP but
+[01:47:10] because that's what we did for lay link
+[01:47:12] layer and it turned out it's too much uh
+[01:47:15] too much uh duplicate work let's say
+[01:47:18] because you have to reimplement all the
+[01:47:22] SL uh H uh encapsulation decopsulation
+[01:47:26] and IPv6 encopsulation decopsulation in
+[01:47:29] XDP you have to do the XDP can uh XDP
+[01:47:34] have helpers to root uh look up the next
+[01:47:38] host but you have to you have to call it
+[01:47:41] by hand every time you have a packet and
+[01:47:43] that's automatically done by Linux if
+[01:47:46] you you using the uh norm routing stack
+[01:47:50] same for network table lookups
+[01:47:53] and the Linux native implementation and
+[01:47:56] basically that's what we are uh talking
+[01:47:58] about uh most of the time is adding a
+[01:48:01] new SE saxics uh encop format and there
+[01:48:05] the stream identification can be tricky
+[01:48:08] because uh how you how you steer the
+[01:48:11] flow not a prefix but flow into a into
+[01:48:15] the right uh sexics encode. So there
+[01:48:19] there is activity for layer 2 as well
+[01:48:21] but it it might be takes some uh uh
+[01:48:26] effort to do that and maybe it's
+[01:48:30] this function doesn't really used by
+[01:48:34] hyperscalers. So maybe the target
+[01:48:36] audience is too narrow to put that much
+[01:48:39] effort into the app streaming and uh
+[01:48:43] and at least we can reuse every uh SRV6
+[01:48:48] what we have right now in the Linux. So
+[01:48:50] we decided on a hybrid approach where we
+[01:48:52] use XDP just for identifying the right
+[01:48:55] stream uh generate the sequence numbers
+[01:48:58] and eliminate the uh replica pockets
+[01:49:01] then remove only the uh redundancy seed
+[01:49:04] and create the replica pockets and reuse
+[01:49:07] the network stack part for uh for using
+[01:49:10] and defining different segment six se
+[01:49:14] six uh passes for the for the disjoint
+[01:49:18] uh passes and of course for looting
+[01:49:21] table lookups and this approach didn't
+[01:49:23] didn't interfere with Mac learning and
+[01:49:26] neighbor lookups. So uh and we use sex
+[01:49:30] uh inline what you might know it's it's
+[01:49:32] a Linux thing. It's uh didn't didn't
+[01:49:36] unfortunately into the standard. Do do
+[01:49:39] some check some concerns as I remember.
+[01:49:42] So, and uh uh you can make fun of me but
+[01:49:47] I first I tried to to uh I I came up
+[01:49:52] with different ideas how we can do that
+[01:49:55] by combining XDP and uh and SRV6
+[01:49:59] scanner. So of course the first version
+[01:50:02] you cannot have replicas here. You don't
+[01:50:05] have replicas. So you you don't you have
+[01:50:07] to do something in XDP to have replica
+[01:50:09] packets. We used uh BG uh BPF redirect
+[01:50:13] map which has a broadcast flag and with
+[01:50:16] broadcast flag you can replicate the
+[01:50:18] same packets or duplicate the same
+[01:50:20] packets into other interfaces. But so
+[01:50:24] why not just uh do uh some replica and
+[01:50:28] uh just re recirculate
+[01:50:32] that into the egress interface. That's
+[01:50:34] not possible because these are uh
+[01:50:36] transmit packets. So there's they will
+[01:50:39] be transmitted from the uh uh from the
+[01:50:43] ingress interface as an eress.
+[01:50:47] Okay, let's create some dummy device vth
+[01:50:51] pair and uh redirect multiple copies
+[01:50:55] into the same uh and this doesn't really
+[01:50:59] work because there's no way you can
+[01:51:02] distinguish between packets. you can you
+[01:51:05] receive identical replicas and it didn't
+[01:51:08] really work. We how how you can how you
+[01:51:10] can uh set which packet goes on which
+[01:51:14] passes. So it doesn't work. And so what
+[01:51:18] we end up almost what we end up it's
+[01:51:21] there's a typo in the numbers but
+[01:51:25] creating multiple dummy VTH
+[01:51:28] but only if you redirect them the packet
+[01:51:31] the VT MAC likely not the MAC used by
+[01:51:36] the uh physical nick. So your replicas
+[01:51:39] might be dropped if you don't touch
+[01:51:41] them. So what we end up using is uh
+[01:51:45] there's the
+[01:51:47] uh packet received with the destination
+[01:51:50] MAC of the physical uh nick we
+[01:51:55] unconditionally switch that if if the
+[01:51:58] stream identified and it's for us for
+[01:52:01] the protection we uh replace that MAC
+[01:52:05] with a statically uh built-in or baked
+[01:52:09] in MAC address is doesn't it will never
+[01:52:13] show up on anywhere. It doesn't learn by
+[01:52:16] any other node or any other bridge
+[01:52:19] because the these are not into a bridge
+[01:52:21] is a two two uh nick segment and it
+[01:52:25] doesn't even matter if you put the same
+[01:52:28] uh nick uh put the same mac on multiple
+[01:52:31] vth it doesn't concern the the Linux. So
+[01:52:35] we create the replica packets. These
+[01:52:38] will be egre uh ingress packets on the
+[01:52:42] v2 vth uh and the me destination mech is
+[01:52:47] for us. So we steer them into finally
+[01:52:50] steer them into the se segment routing
+[01:52:53] uh process processing
+[01:52:56] and uh
+[01:52:58] the multiple vth is needed because the
+[01:53:02] replicas are exactly this identical and
+[01:53:06] after the replication we have to know uh
+[01:53:09] we have to distinguish between the
+[01:53:12] packets which goes where and uh that
+[01:53:15] that's why we use the uh interface index
+[01:53:19] and the flow ID as a key for the
+[01:53:24] uh replication SID.
+[01:53:28] So this is the
+[01:53:31] final uh structure what we have. So we
+[01:53:35] have the encapsulation node, we can have
+[01:53:38] transit node and we have the tuner
+[01:53:40] termination nodes and these are the uh
+[01:53:44] operations they they do. So of course we
+[01:53:48] rewrite the MAC address as I said and uh
+[01:53:52] encapsulate the packet with the R SID
+[01:53:56] and this is the example config don't go
+[01:54:00] into details uh here's the full setup on
+[01:54:03] our readme
+[01:54:05] and um my closing remarks that uh
+[01:54:09] L3VPN's Linux SRV6 support is in good
+[01:54:13] shape but uh FRR is still catching up in
+[01:54:17] my observation.
+[01:54:19] uh observability for routting another
+[01:54:21] table lookups can be useful uh when no
+[01:54:25] egress uh packets are generated
+[01:54:29] and uh for that we proposed table snoop
+[01:54:32] as a tool and we will plan to put new
+[01:54:36] functions into that and we are still
+[01:54:38] working on it and uh Linux can be
+[01:54:41] extended with a services network
+[01:54:43] function uh with XDP program without uh
+[01:54:46] upstream changes It highly depends of
+[01:54:49] course of your SRV6 program and what you
+[01:54:52] want to do. And here are some links for
+[01:54:54] the uh things I just show you. And uh if
+[01:55:00] you have some I don't know if No.
+[01:55:03] >> Okay. You can find me in the whole week.
+[01:55:06] So
+[01:55:13] >> okay at midquest. So I will look for you
+[01:55:15] and we will we will discussion. So how
+[01:55:19] do can man do you think that we can
+[01:55:21] extend 10 minutes the session or there's
+[01:55:23] another session after this one?
+[01:55:24] >> H watchh.
+[01:55:26] >> So yeah we have 10 minutes.
+[01:55:27] >> Okay. Yeah sure.
+[01:55:29] >> May I ask you that we we extend just 10
+[01:55:32] minutes just to give the possibility at
+[01:55:33] least to Andrea to to show up.
+[01:55:38] >> Yeah. Yeah.
+[01:55:40] >> Just just three minutes just to give
+[01:55:44] it really quick. Um they'll be getting
+[01:55:47] to gravy stairs. They are here. I ask um
+[01:55:51] if you have a dietary restriction, you
+[01:55:53] should have a code on your badge.
+[01:55:55] >> Oh, I'm sorry.
+[01:55:59] >> Mario was giving me the look. Um so
+[01:56:02] please go ahead and grab your badges
+[01:56:03] downstairs. The QR code on the badge
+[01:56:05] will give you a link to the schedule and
+[01:56:07] other uh information about the venue.
+[01:56:09] You should all know where it is, but
+[01:56:11] there is actually a map on that as well.
+[01:56:13] Um, but there is if you have a dietary
+[01:56:16] restriction, it will be printed on your
+[01:56:17] badge. Um, please don't pick up a lunch
+[01:56:22] um that is a dietary restriction one. If
+[01:56:24] you don't have one, if you do have a a
+[01:56:26] restriction and you didn't uh indicate
+[01:56:28] that, come find myself. Um, or you can
+[01:56:31] grab Carlo and he'll find me or Jamal.
+[01:56:33] Um, but yeah, just please make sure we
+[01:56:35] do have a limited number of the um the
+[01:56:37] vegetarian and the vegan meals uh for
+[01:56:39] those who registered for it. So, if you
+[01:56:40] did not register for that and you need
+[01:56:42] one, let me know. Um, otherwise after
+[01:56:44] this uh lunch will be out here. There'll
+[01:56:46] be little boxes and uh enjoy and try not
+[01:56:49] to melt. Um, and uh yeah. All right,
+[01:56:52] that's it.
+[01:56:53] >> Thanks.
+[01:56:56] >> Okay. So, can
+[01:56:59] >> Yeah.
+[01:57:01] Okay. So, here that uh we had in the um
+[01:57:04] agenda two talks by Andrea. So the the
+[01:57:08] first one is just the the wrap up of
+[01:57:11] what's happening in SRB6 in Linux
+[01:57:14] kernel. So I will just uh tell you three
+[01:57:18] things.
+[01:57:21] We had
+[01:57:24] this this patch already merged that we
+[01:57:27] can
+[01:57:29] identify an index that is a local
+[01:57:33] adenency. Um
+[01:57:36] before we could only identify the local
+[01:57:38] adency with an IPv6 address and that
+[01:57:42] created problems when we have link local
+[01:57:45] addresses on the outgoing interfaces. So
+[01:57:48] that this pack patch fixes it so that we
+[01:57:51] can have we we can have now an outgoing
+[01:57:56] interface
+[01:57:58] um parameter where we can put the device
+[01:58:00] name. So this is very important when we
+[01:58:02] want to do in some case traffic
+[01:58:05] engineering special case where we really
+[01:58:07] have to identify the outgoing interface.
+[01:58:10] Then the second uh uh support is that we
+[01:58:13] can now explicitly set the source
+[01:58:17] address of the uh outer tunnel with a
+[01:58:20] specific parameter that is can be
+[01:58:22] different for each tunnel that we create
+[01:58:26] basically. So this is another very
+[01:58:28] interesting feature that we have added
+[01:58:31] um thanks to to a patch that has been
+[01:58:33] contributed and what now we are uh
+[01:58:36] really doing there is there is something
+[01:58:38] which is in flight um is that um when we
+[01:58:43] are doing uh when we are adding our um
+[01:58:48] outer packet basically when we are
+[01:58:50] encapsulating the packet uh with this
+[01:58:53] patch now we can uh um decide on which
+[01:58:58] table we will do the lookup of the outer
+[01:59:03] uh destination address that we are
+[01:59:05] adding into the packet. So we are this
+[01:59:08] is what typically happens when you have
+[01:59:10] a VRF that you put your um external uh
+[01:59:16] addresses and then of course you have to
+[01:59:19] look up the first uh address in your uh
+[01:59:23] seed list and uh it was not possible to
+[01:59:27] explicitly uh specify on which table you
+[01:59:30] want to look up this destination
+[01:59:33] address. And this is normally a problem
+[01:59:35] because if you are in a VRF, you do not
+[01:59:37] want to expose inside the VRF the
+[01:59:40] address of your underlay network. So
+[01:59:43] with this patch, it is now possible to
+[01:59:45] have a clear separation with between the
+[01:59:48] addresses in the uh uh overlay that that
+[01:59:51] will be inside your VRF and the
+[01:59:54] addresses in the uh underlay that can
+[01:59:57] stay in several tables that you may
+[01:59:59] explicitly reference when you create uh
+[02:00:02] the tunnel. basically. So these are the
+[02:00:04] three important updates and now the the
+[02:00:08] final one is the update on the what
+[02:00:12] Andrea is currently working on that is
+[02:00:15] um a better support for layer 2 and cap.
+[02:00:19] So we will only introduce the idea here
+[02:00:22] and for the details I think we will
+[02:00:24] Andrea will be available for uh uh for
+[02:00:27] giving explanations. Yeah, because there
+[02:00:29] is a lunch so I I want to
+[02:00:35] avoid the lunch. Um yeah. Um
+[02:00:40] okay.
+[02:00:43] Uh let me check this.
+[02:00:49] Okay. So um
+[02:00:54] in the kernel we also have the L2 for
+[02:00:56] the encapsulation but uh let's say it's
+[02:00:59] only meant for working with routes
+[02:01:02] because is an extension we use it with
+[02:01:04] the lightweight tunnel.
+[02:01:07] uh so this is uh uh not useful when we
+[02:01:11] want to use and build up a layer 2
+[02:01:15] networks using uh encapsulation with
+[02:01:18] segment routing and then uh this is only
+[02:01:21] obviously a gap in the Linux
+[02:01:23] implementations not in the RFC. So uh we
+[02:01:27] come up with the idea of implementing a
+[02:01:29] new device a new virtual device which is
+[02:01:32] called SR 6 on the FC was called S2 but
+[02:01:37] after a discussion on the mailing list
+[02:01:39] we decide to go with this name and
+[02:01:41] together with the SR6 we have a new
+[02:01:44] behavior which is called NDTU and that's
+[02:01:47] this this is interesting because um in
+[02:01:51] SV6 is one way so we need find a way to
+[02:01:54] decapate bugget it's only one interface
+[02:01:56] that do both encapsulation and
+[02:01:58] encapsulation at the same time. Uh
+[02:02:01] because let's say our idea is to
+[02:02:03] creating something which uh open
+[02:02:06] operationally equivalent to what we can
+[02:02:08] have with vixan in pointto-point
+[02:02:10] configuration at this moment. Um
+[02:02:15] this is what we can do with the uh this
+[02:02:17] is a very very uh simple let's say use
+[02:02:20] case what that we use with BLAN uh
+[02:02:23] usually we have a NOS a Linux bridge and
+[02:02:25] then we put into the bridge the van
+[02:02:27] interface and this do all the stuff uh
+[02:02:30] that do the encapsulation use the BNI to
+[02:02:33] identify the bridging domain and so on
+[02:02:36] and so forth. Um the most interesting
+[02:02:40] things here is that we uh identify the
+[02:02:42] bridging domain using DVNI that that's
+[02:02:44] the point. Um
+[02:02:49] so this is uh uh
+[02:02:55] what uh this is what I anticipate you
+[02:02:57] before what we have in the year two for
+[02:02:59] the segment routing we have at the
+[02:03:01] moment one behavior which is uh the uh
+[02:03:04] end.x X but it's only across meant for
+[02:03:07] cross connecting. So we need to have
+[02:03:10] another behavior which is the NDT2 is
+[02:03:12] always in the RFC but this is not
+[02:03:15] implemented at the moment and this is
+[02:03:17] what we are going to do with our FC. Uh
+[02:03:21] the idea is uh to do a decapsulation and
+[02:03:24] then deliver this uh encapsulated the
+[02:03:27] decapsulated frame to a log letter
+[02:03:30] domain not like a please take the bucket
+[02:03:33] the capsulate the bugget and send the
+[02:03:35] bucket to an interface which is the
+[02:03:36] cross connect and already exist in the
+[02:03:38] kernel. Um and this is what uh is really
+[02:03:42] is still missing in the kernel. So we if
+[02:03:45] we want to do the same as we did for the
+[02:03:46] big slan uh there is a a something
+[02:03:50] points a missing here this part this is
+[02:03:54] the missing part so we cannot have a
+[02:03:57] roost that uses a bridge and then we put
+[02:03:59] in the bridge something because the
+[02:04:01] encapsulation at layer 2 is only used
+[02:04:04] through the routes. So you can create a
+[02:04:06] lat tunnel we can put a letter tunnel in
+[02:04:08] the bridge as it is. So um and this is
+[02:04:11] why we say that layer 2 encapsulation
+[02:04:14] second traveling is not a real layer 2
+[02:04:16] because for instance we cannot
+[02:04:18] encapsulate our packets
+[02:04:22] um with our uh solution let's say uh
+[02:04:26] with RFC that we already submit we uh
+[02:04:30] try to fit this gap and uh what we did
+[02:04:33] was creating a new interface it is a
+[02:04:35] virtual interface uh that you can use
+[02:04:37] both in standalone mode so you create a
+[02:04:39] virtual interface interface assign a
+[02:04:41] interface configured with a second
+[02:04:43] routing list and each bug that you send
+[02:04:45] through this interface the packets will
+[02:04:47] be encapsulated with the outer appv6 the
+[02:04:50] sr or in the future also without the sr
+[02:04:54] in the let's say reduce mode
+[02:04:57] and um
+[02:04:59] this is uh we already send the version
+[02:05:02] the RFC version one in those uh months
+[02:05:05] we work on a version two that uh brings
+[02:05:08] up a new feature
+[02:05:10] But uh keeping the things uh let's say
+[02:05:13] uh easier u because uh uh the idea is
+[02:05:18] that uh we can also support the lookup
+[02:05:22] table. So we have the uh layer 2
+[02:05:24] interface the service 6 and then we say
+[02:05:26] okay uh without staying without do the
+[02:05:28] lookup in the rooting context in which
+[02:05:30] the devices have been deployed uh we can
+[02:05:33] use a lookup table to say okay you take
+[02:05:37] the packet you are going to do that
+[02:05:38] encapsulation and then for the post
+[02:05:40] routing uh seed root lookup use please
+[02:05:44] use that table or it could be used
+[02:05:46] together with the BRF
+[02:05:49] uh and Um
+[02:05:52] this the uh this is the idea. Uh now we
+[02:05:55] support only the SR but uh likely in the
+[02:05:59] in the RFC uh version two that we will
+[02:06:01] send we will use also the reduce part.
+[02:06:05] Uh on the other side on the
+[02:06:07] decapsulation part we have the let's say
+[02:06:10] the DT2 uh the DT2 is quite easy is like
+[02:06:13] another behavior. So you configure the
+[02:06:16] behavior by binding to a SID. uh this
+[02:06:19] seed means uh please do the capsulations
+[02:06:22] and apply this kind of processing and
+[02:06:26] the interesting things here is that the
+[02:06:28] uh this behavior uh uh took like um
+[02:06:32] let's say an attribute a parameter what
+[02:06:35] we call the layer 2 device which could
+[02:06:37] be uh a part of the bridge so we can
+[02:06:39] reject the packet into the bridge or
+[02:06:42] direct to uh SR6 if you don't want to
+[02:06:45] use uh bridges so standalone
+[02:06:47] configuration one device and the other
+[02:06:49] device and um
+[02:06:53] this is what we can do today with uh uh
+[02:06:56] the RFC1 and then with the RFC2
+[02:06:59] uh we have the encapsulation part uh the
+[02:07:03] backbone the network that carries out
+[02:07:05] the traffic encapsulate the traffic and
+[02:07:07] then on the receiving part we have the
+[02:07:09] decapsulation so with the NDT2 and then
+[02:07:12] it will reinject the bug into the bridge
+[02:07:15] so you can reach the OS on the other
+[02:07:17] slide um
+[02:07:20] very very quickly two minutes. So um
+[02:07:24] just to uh
+[02:07:27] this is a uh I also explain you so we
+[02:07:31] can skip it. Um and uh as I told you the
+[02:07:35] one of the most interesting things that
+[02:07:37] we have in uh upcoming uh version RFC
+[02:07:41] version two is that now the SR6
+[02:07:43] interface can be uh configured in
+[02:07:46] several way. Uh one way is to put the RF
+[02:07:50] the SR6 interface into the verf. And if
+[02:07:54] you put the SR6 into the verf uh the
+[02:07:56] encapsu when you send packets through
+[02:07:59] the SR6 uh the lookup for the seed will
+[02:08:02] be done into the verf. Uh but also you
+[02:08:05] can specify which table do you want to
+[02:08:07] use to do the lookup encapsulate do the
+[02:08:09] lookup for the seed and then you can
+[02:08:11] that's both you can put SR6 into the
+[02:08:13] verf and then you can also define which
+[02:08:15] table that you want to use and obviously
+[02:08:18] if you if you put the SR6 into the uh
+[02:08:21] verf and you also specify the uh table
+[02:08:24] uh the table would have the uh let's say
+[02:08:27] uh priority on top of the VRF uh this is
+[02:08:31] done for uh specific use cases now I
+[02:08:33] don't have so much time to explain it
+[02:08:35] but on the documentation everything will
+[02:08:37] be probably explained and uh this is how
+[02:08:40] you can configure it. Let's create a new
+[02:08:42] interface with the side the C list and
+[02:08:45] then uh we put for instance in this case
+[02:08:48] the uh new interface inside uh as a part
+[02:08:52] of the bridge and on the receiving part
+[02:08:55] uh uh this is only for uh and on the
+[02:08:58] receiving part usually you can do uh the
+[02:09:01] configuration for the entity too. So
+[02:09:03] creates the new uh having the seed bind
+[02:09:06] this to the behavior create the
+[02:09:07] behavior. And then you specify which
+[02:09:09] action which is entity 2 and then
+[02:09:11] specify which will be the interface
+[02:09:13] through which the traffic will be
+[02:09:15] injected. So if sr6-0
+[02:09:19] is within a bridge this traffic will go
+[02:09:21] through the bridge. Uh if it's not in
+[02:09:23] the bridge it will completely deliver it
+[02:09:25] to the interface. Um yeah this is uh
+[02:09:30] another uh I also spray it. uh we also
+[02:09:36] provide a full uh self test here in in
+[02:09:39] the in the let's say in the FC so with
+[02:09:42] several different configuration and uh
+[02:09:45] let's with the hope to cover all the
+[02:09:47] most useful use cases let's say
+[02:09:51] um just uh um a brief recaps on what we
+[02:09:55] what we are uh doing for encapsulation
+[02:09:59] uh this is a comparison with the vlan we
+[02:10:01] have an outer overhead of 40 uh 40 uh 56
+[02:10:05] bits with the uh SR uh with the FC
+[02:10:09] version two that now this doesn't
+[02:10:10] support the uh reduce part we have 64
+[02:10:14] byt with one seed but when we have the
+[02:10:17] uh reduce part implemented so we will we
+[02:10:20] have only 40 bytes because it's an epin
+[02:10:23] pink absolution and that's and that's
+[02:10:25] all so uh what is missing uh there is
+[02:10:28] another behavior which is called DTM2
+[02:10:30] but this is uh for another let's say uh
+[02:10:35] topic another discussion about that for
+[02:10:37] what missing in the control plane is
+[02:10:39] something that uh let's say uh uh spread
+[02:10:43] the seed and configure and configure the
+[02:10:46] data plane and the idea is also trying
+[02:10:48] to find a way to replace uh the standard
+[02:10:51] or vxlan or other kind of encapsulation
+[02:10:54] in uh some kind of let's say hypercon
+[02:10:58] converged solution like that we want to
+[02:11:00] use uh
+[02:11:02] OVN and Kubernetes or also on let's say
+[02:11:05] cloud stack and stuff like that and um
+[02:11:10] also we need to do some uh performance
+[02:11:13] evaluation about on what we had but
+[02:11:16] that's that's the idea
+[02:11:18] um in conclusion I already explained in
+[02:11:22] 10 minutes what we what we have today uh
+[02:11:27] I think that's all thank you very very
+[02:11:30] wiki
+[02:11:31] >> [applause]
+[02:11:34] >> It's

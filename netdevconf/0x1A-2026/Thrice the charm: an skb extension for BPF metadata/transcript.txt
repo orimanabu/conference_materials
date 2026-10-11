@@ -1,0 +1,834 @@
+Source: https://youtu.be/ot2K4-PFQDc
+Language: en
+Captions: auto-generated
+
+[00:00:00] Okay, right. Good morning everyone.
+[00:00:02] First talk of the day, so thanks for
+[00:00:04] showing up. We can get through this
+[00:00:06] together.
+[00:00:08] Hope everyone has their coffee.
+[00:00:10] Uh like PJ mentioned, I'm Jakub.
+[00:00:13] Uh I'll be talking about an SKB
+[00:00:15] extension for BPF metadata.
+[00:00:18] Um
+[00:00:19] day-to-day I do performance and kernel
+[00:00:21] stuff at Cloudflare, and this talk we
+[00:00:24] wouldn't have done it in time run of
+[00:00:26] experiments without help from my
+[00:00:28] colleague Andre.
+[00:00:30] So, thanks to him.
+[00:00:31] Um
+[00:00:32] All right. Um
+[00:00:34] So, what's our motivation in case you're
+[00:00:37] seeing this for the first time.
+[00:00:39] We're trying to enable users of BPF to
+[00:00:43] attach lots of
+[00:00:46] metadata to SKBs as they travel through
+[00:00:48] the stack. We have a bunch of use cases
+[00:00:51] for that, but I won't go into them
+[00:00:54] because we've been like conferencing
+[00:00:55] going to conferences and talking about
+[00:00:57] them for a couple years now, so
+[00:00:59] hopefully you've seen some of our
+[00:01:01] previous talks.
+[00:01:03] Uh so, this is our third attempt at
+[00:01:06] upstreaming this. Uh so, just to recap
+[00:01:09] what we tried so far.
+[00:01:12] Uh so, our
+[00:01:14] at first where we
+[00:01:16] um we aimed to make use of what's
+[00:01:18] already there. So, we have this
+[00:01:20] mechanism called XDP uh or SKB metadata
+[00:01:24] or two names within the kernel. And you
+[00:01:27] can pass arbitrary
+[00:01:30] information using this from XDP to TC
+[00:01:33] hook, um
+[00:01:35] but it doesn't persist as the SKB
+[00:01:38] travels to the upper layer.
+[00:01:41] Uh so, we tried to
+[00:01:43] uh fix that
+[00:01:44] uh by
+[00:01:46] exposing it this buffer as a dim pointer
+[00:01:50] to BPF programs and tracking where the
+[00:01:54] metadata lives in the headroom.
+[00:01:57] Uh but that didn't work out Uh uh
+[00:02:00] because uh well the approach required
+[00:02:02] patching all the cold sites where we
+[00:02:05] push all pull pull headers from
+[00:02:08] uh SKB data.
+[00:02:10] And we'll also have to kind of commit
+[00:02:12] and freeze the layout of the head room,
+[00:02:15] right? And we weren't ready to do that
+[00:02:17] at this point.
+[00:02:19] Um so it was suggested that we should
+[00:02:21] look at uh SKB extensions. Uh so that's
+[00:02:25] what we did next, but we kind of
+[00:02:27] over-engineered it.
+[00:02:28] Uh
+[00:02:29] we uh
+[00:02:31] prototyped an SKB extension, or actually
+[00:02:35] a local BPF local storage for SKBs
+[00:02:37] backed by an SKB extension. And local
+[00:02:40] storage is this uh pattern in the BPF
+[00:02:44] ecosystem that has really nice user
+[00:02:46] experience because uh
+[00:02:49] every BPF program gets very little slice
+[00:02:51] of data. They don't need to coordinate
+[00:02:55] uh when sharing the buffer as it is with
+[00:02:58] uh the case for XDP metadata.
+[00:03:01] Um but it's uh also a really complex
+[00:03:05] uh set up data structure.
+[00:03:07] Uh the memory layout is not great
+[00:03:09] because uh to create
+[00:03:12] uh the slice for yourself, you need to
+[00:03:14] do
+[00:03:15] three up to free memory allocations when
+[00:03:17] you're doing it for the first time.
+[00:03:20] And that that might be acceptable even
+[00:03:23] for you, but then every time you access
+[00:03:24] it, you have to do pointer chasing.
+[00:03:28] And that's uh uh
+[00:03:29] not so cheap on arm, as I hear.
+[00:03:32] Um
+[00:03:34] So in general, uh when we proposed it, I
+[00:03:38] learned that
+[00:03:39] the whole local storage pattern uh has
+[00:03:42] been kind of deprecated in the BPF
+[00:03:44] ecosystem. We're not adding any more
+[00:03:47] local storage for new entities.
+[00:03:51] Um yeah, and we shouldn't do that,
+[00:03:53] right?
+[00:03:55] So, this is our third attempt. We kind
+[00:03:57] of took the feedback from this first
+[00:04:00] failed
+[00:04:01] first two failed attempts and took the
+[00:04:04] parts that were not controversial
+[00:04:08] and simply simplified things. So,
+[00:04:11] what we're going with this time
+[00:04:13] as an SKB extension,
+[00:04:16] um,
+[00:04:17] but with a simple byte buffer embedded
+[00:04:21] in the chunk for the extension itself.
+[00:04:25] So, the only thing you have to allocate
+[00:04:29] is the
+[00:04:30] memory for the SKB extensions, which
+[00:04:33] which is what is happening already
+[00:04:35] today.
+[00:04:36] Uh, and the chunk is in line, so no
+[00:04:38] pointer chasing on access.
+[00:04:42] Um,
+[00:04:44] the structure itself is really
+[00:04:46] really trivial. You know, we have
+[00:04:49] a little bit of state,
+[00:04:52] uh, at the beginning and it's followed
+[00:04:54] by the buffer that,
+[00:04:57] uh, your BPF programs can store stuff
+[00:04:59] in.
+[00:05:00] And, of course, it's it's hard to make
+[00:05:03] it one-size-fits-all, so, uh, we decided
+[00:05:06] to make this uh, configurable at build
+[00:05:09] time. So, you've got two,
+[00:05:12] uh,
+[00:05:13] two knobs. Like, you can opt out of it
+[00:05:16] completely if you don't care about it,
+[00:05:18] so it doesn't uh, burden your SKB
+[00:05:21] extension allocations because if you in
+[00:05:23] case you don't know,
+[00:05:25] SKB extensions,
+[00:05:27] no matter which one you're using at run
+[00:05:30] time, the memory gets pre-allocated to
+[00:05:33] fit all of the extensions, right? So,
+[00:05:36] you always pay the cost, right?
+[00:05:38] And then there's the second, uh, knob,
+[00:05:41] which I mentioned, which lets you choose
+[00:05:44] how much,
+[00:05:46] um, space you need for your metadata.
+[00:05:49] One cache line to cache lines, but up to
+[00:05:51] up to four cache lines we figured would
+[00:05:53] be enough for everyone.
+[00:05:56] Um, all right. Um, how do you uh get to
+[00:05:59] it from your BPF programs?
+[00:06:02] Uh, well, the then pointer that was
+[00:06:05] non-controversial um,
+[00:06:07] when we did it for XDP / SKB metadata.
+[00:06:12] Uh, it's a well-established API. You can
+[00:06:16] if your program in other languages,
+[00:06:18] higher-level languages like Go and Rust,
+[00:06:20] you can think of it as a slice. It's a
+[00:06:22] view of of
+[00:06:24] a byte buffer, right? So, uh, to get
+[00:06:28] access to your extension, you pass um,
+[00:06:31] either a pointer to SKB or these days
+[00:06:34] the verifier is smart enough that it
+[00:06:37] knows that the context object is a
+[00:06:40] projection of an SKB, so you can pass it
+[00:06:43] either. You can say how many bytes
+[00:06:46] you're interested in
+[00:06:49] in when it comes to operating on them.
+[00:06:51] If you don't know how many, you can get
+[00:06:53] all of them.
+[00:06:54] And then there are some flags which were
+[00:06:57] going to
+[00:06:58] going to go into more.
+[00:07:00] The first one is uh, uh, so we can
+[00:07:03] F_CREATE so we can control when the
+[00:07:05] allocation happens. Obviously, you're
+[00:07:07] going to be doing that on hot path, so
+[00:07:10] we wanted users to have complete
+[00:07:12] control, no implicit allocations.
+[00:07:15] And the other one uh,
+[00:07:17] is to persist your
+[00:07:20] data across uh,
+[00:07:22] we're going to get into that. Across
+[00:07:24] tunnels and network namespaces now. So,
+[00:07:27] uh, return values. So, yeah, what can
+[00:07:28] happen when or what can go wrong when
+[00:07:31] you try to get access to this? Uh, well,
+[00:07:35] if you're not choosing to allocate, then
+[00:07:37] you will be interested in knowing that
+[00:07:39] maybe the extension doesn't exist and
+[00:07:41] there's nothing to to read. Of course,
+[00:07:43] uh
+[00:07:44] we're getting some memory from the
+[00:07:45] kernel, so location can fail. You can
+[00:07:48] mess up your flags, um unlikely, or you
+[00:07:50] can go too big, like you you're trying
+[00:07:52] to get more data than your
+[00:07:54] uh access to more data than your kernel
+[00:07:56] was built with, so we'll report that as
+[00:07:58] well.
+[00:08:00] Uh now, every time you try to uh
+[00:08:03] uh
+[00:08:04] attach some data to SKBs, you always
+[00:08:07] need to think about how you're going to
+[00:08:09] uh handle SKB clones uh to have some
+[00:08:12] sane semantics there.
+[00:08:15] Uh
+[00:08:15] so, what we what we figured would be
+[00:08:17] least surprising for the users is uh
+[00:08:21] um kind of something that naturally fits
+[00:08:24] into the SKB extension framework, so
+[00:08:26] this
+[00:08:27] SKB extension memory is actually ref
+[00:08:30] counted.
+[00:08:32] So, if a clone get gets created,
+[00:08:35] uh it just bumps the ref count, right?
+[00:08:38] So,
+[00:08:39] uh what we figured would work is
+[00:08:41] um if you're trying to get access to the
+[00:08:44] BPF metadata,
+[00:08:46] uh and the extension
+[00:08:50] uh memory happens to be shared, well, by
+[00:08:52] default, you will uh get a read-only
+[00:08:55] pointer to that, uh so you don't uh
+[00:08:59] uh step on each other's toes as you know
+[00:09:02] that
+[00:09:02] you might be operating on this data from
+[00:09:05] two different points of the network
+[00:09:06] stack at the same time.
+[00:09:08] Um but you also might be interested in
+[00:09:10] writing to it, and in that case, you
+[00:09:12] have to kind of explicitly
+[00:09:14] um explicitly signal that, "Hey,
+[00:09:18] if uh if this is shared, I will I want
+[00:09:21] to write to it." So, that will indicate
+[00:09:24] to the to the underlying code that uh we
+[00:09:26] need to
+[00:09:27] uh unshare it, do a copy, uh and this
+[00:09:31] fits nicely into the SKB extensions
+[00:09:33] framework.
+[00:09:35] It already has some interface for that,
+[00:09:37] but is intended exactly for this use
+[00:09:40] case.
+[00:09:43] All right, so I mentioned
+[00:09:45] I mentioned scrubbing. Um
+[00:09:48] So um
+[00:09:50] how SKB extensions behave today is where
+[00:09:55] when your SKB happens to go through some
+[00:09:58] kind of a tunnel either in one direction
+[00:10:01] or the other so encapsulation or
+[00:10:03] decapsulation
+[00:10:05] uh it's going to get scrubbed. Mm that's
+[00:10:07] what it's called.
+[00:10:08] Uh so the extensions just get dropped.
+[00:10:10] And it makes sense, right? If If you
+[00:10:13] have some MPTCP state attached to to SKB
+[00:10:17] or I don't know some IPsec state when
+[00:10:20] you encapsulate the packet it's no
+[00:10:22] longer valid, right? So we drop it.
+[00:10:25] And the same thing
+[00:10:27] mm naturally happens when your SKB
+[00:10:31] travels across network namespace
+[00:10:33] boundary which you can think of as a
+[00:10:35] tunnel, I guess.
+[00:10:37] Uh and that's fine in in some cases but
+[00:10:41] um
+[00:10:41] imagine you're using BPF metadata to
+[00:10:45] trace your packets or timestamp your
+[00:10:49] packets.
+[00:10:50] Uh you might be interested in keeping
+[00:10:53] the state across at least tunnel side, I
+[00:10:56] think, and ideally also across network
+[00:10:59] namespaces so we can watch your SKB
+[00:11:02] travel from container to container.
+[00:11:06] We're getting somewhere. So what what we
+[00:11:10] thought
+[00:11:11] could solve this problem is uh extending
+[00:11:15] the SKB extensions framework to allow
+[00:11:18] the extensions to opt in or actually opt
+[00:11:22] out from being scrubbed.
+[00:11:25] Uh so how that would work your uh SKB
+[00:11:29] extension implementation would query
+[00:11:32] each extension, "Hey,
+[00:11:34] should I keep you around during
+[00:11:36] scrubbing or not?" And as your SKB goes
+[00:11:39] for a tunnel, the extensions that didn't
+[00:11:42] opt out, they get cleaned as usual. And
+[00:11:45] whatever requests that being left
+[00:11:48] persist, right? And that would work for
+[00:11:50] us.
+[00:11:51] Um but of course, it shouldn't be the
+[00:11:53] default
+[00:11:54] um because you might unintentionally
+[00:11:57] uh leak state across network namespaces.
+[00:12:00] So, from our API, the users would have
+[00:12:03] to opt in
+[00:12:04] uh opt into that uh through a no scrub
+[00:12:06] flag. That's uh that's what we're
+[00:12:08] proposing.
+[00:12:10] Um there's one question that we're still
+[00:12:12] pondering, like um
+[00:12:15] what the semantics should be. I mean,
+[00:12:17] once you create your BPF metadata and
+[00:12:20] you mark it uh
+[00:12:22] saying that it "Hey, this shouldn't be
+[00:12:24] scrubbed."
+[00:12:25] Should like programs down
+[00:12:29] uh the network stack path that the SKB's
+[00:12:31] traveling, should they be able to unset
+[00:12:34] this flag? Uh it's an open question. If
+[00:12:36] you have opinions, please let me know.
+[00:12:39] Um lastly, uh you know, there are memory
+[00:12:42] considerations here. You allocate extra
+[00:12:46] memory for each SKB to which you want to
+[00:12:49] attach metadata.
+[00:12:51] Uh so, when I um
+[00:12:54] tried that in production, I I checked
+[00:12:56] how much we're allocating for
+[00:12:58] extensions. It was less than half a page
+[00:13:02] uh at the moment.
+[00:13:04] Uh and from that
+[00:13:07] uh
+[00:13:08] um 16 bytes goes to SKB extension
+[00:13:10] headers. There's nothing to optimize
+[00:13:12] there. And during the experiment, we
+[00:13:14] went for the almost maximum what you can
+[00:13:17] use for BPF metadata. We figure we don't
+[00:13:20] need as much. Probably one cache line
+[00:13:23] will be enough for us. So,
+[00:13:25] we'll trim that down. And then I also uh
+[00:13:28] audited
+[00:13:30] whatever other
+[00:13:32] extensions exist there. And I think
+[00:13:34] there there isn't much there that could
+[00:13:36] be like compiled out in our use case.
+[00:13:40] Maybe
+[00:13:41] netfilter bridge support. These days I'm
+[00:13:43] not sure we're using that and that's
+[00:13:45] like 32 bytes. And then there's
+[00:13:48] transform framework
+[00:13:51] that
+[00:13:52] probably has some state that could be
+[00:13:55] like build time optional. That's that's
+[00:13:57] up to be checked with uh
+[00:14:00] Stefan and Sabrina.
+[00:14:02] All right. So, now that
+[00:14:04] that's the design, the idea we had, and
+[00:14:07] now the interesting part to like how
+[00:14:10] does it
+[00:14:11] perform in production cuz that's
+[00:14:13] that's what we uh were going after here.
+[00:14:16] So, to evaluate this, we
+[00:14:20] we took a system that we already have
+[00:14:22] today running in production and passing
+[00:14:24] SKB metadata.
+[00:14:26] Um but using a BPF map per LRU per CPU
+[00:14:32] hash as a side storage for it because
+[00:14:36] SKB extension doesn't exist yet.
+[00:14:38] So, we have like XDP
+[00:14:41] producing the metadata
+[00:14:43] that travels
+[00:14:45] in the headroom
+[00:14:48] using XDP metadata to the TC hook where
+[00:14:52] we extracted this information and stash
+[00:14:55] it in our BPF map.
+[00:14:57] Um and
+[00:15:00] then we do it only for SYN packets in
+[00:15:03] this case. And then
+[00:15:05] we get a callback from the network stack
+[00:15:07] when hey, there's a new incoming
+[00:15:09] connection uh TCP connection from sock
+[00:15:12] ops hook. We retrieve the metadata from
+[00:15:15] our BPF map and transfer it to socket
+[00:15:18] storage. That's the That's what we we in
+[00:15:20] prod in prod today, right? So, to
+[00:15:25] uh transition it using SKB extensions,
+[00:15:30] we got rid of
+[00:15:32] BPF map that
+[00:15:34] acted as a metadata stash. So, now
+[00:15:37] instead of that, our TC program is doing
+[00:15:41] is allocating the memory for extension
+[00:15:44] and copying the data from the headroom
+[00:15:47] to the extension buffer.
+[00:15:49] And our sock ups program
+[00:15:52] is accessing the extensions. That's the
+[00:15:54] change, right?
+[00:15:55] And we also had to
+[00:15:57] adapt it for for UDP to get uh
+[00:16:01] meaningful data because we track both
+[00:16:04] protocols. So, we couldn't modify just
+[00:16:08] the one. UDP is similar. We just
+[00:16:10] retrieve
+[00:16:12] the metadata at the different point
+[00:16:14] because sock ups only run for TCP.
+[00:16:20] Uh
+[00:16:21] right. So,
+[00:16:22] to evaluate that, we set up an
+[00:16:24] experiment where we had uh
+[00:16:26] uh three servers or metals, as we call
+[00:16:30] them, in each group. We had a control
+[00:16:32] group and a
+[00:16:33] test group called test group two
+[00:16:35] uh
+[00:16:37] in on these slides that used the
+[00:16:40] modified kernel with SKB extension
+[00:16:42] feature uh
+[00:16:44] and modified BPF programs that accessed
+[00:16:48] the BPF metadata backed by an SKB
+[00:16:50] extension. Sanity check if our control
+[00:16:54] and test group is more or less evenly
+[00:16:56] loaded.
+[00:16:58] Yeah, it seems like our test group was
+[00:16:59] handling a little bit more of traffic or
+[00:17:02] actually attaching uh metadata to more
+[00:17:05] packets in this case. So, this is uh not
+[00:17:09] in our favor. So, we're not uh
+[00:17:12] uh won't be reporting too optimistic
+[00:17:15] results here. So, that's all right.
+[00:17:17] Uh and when we looked at
+[00:17:20] how much CPU time all the BPF programs
+[00:17:24] involved in passing metadata
+[00:17:27] consumed, uh
+[00:17:30] we we noticed like I think it's like a
+[00:17:32] healthy 2%
+[00:17:35] drop and here like 100% is
+[00:17:39] one CPU core being completely busy, so 1
+[00:17:43] second of a CPU core.
+[00:17:45] Uh so we're not doing worse for sure.
+[00:17:48] I think we're doing better.
+[00:17:51] And I 2% maybe not much if you think
+[00:17:54] about it at first because it's like one
+[00:17:57] core in a
+[00:17:58] on a machine that has thousands sorry
+[00:18:00] thousands has hundreds of CPU cores, but
+[00:18:03] if you multiply it by the number of
+[00:18:07] machines we have in our fleet that that
+[00:18:09] that just adds up and real savings. So
+[00:18:11] it's it's it's a pretty significant win
+[00:18:14] in the end.
+[00:18:15] And the other thing we track is like
+[00:18:19] what's the average run time. So you take
+[00:18:21] the total CPU time consumed and divide
+[00:18:24] it by how many times the programs ran.
+[00:18:26] And here we also observe a drop kind of
+[00:18:29] as expected, right? Because we don't
+[00:18:31] run programs more or
+[00:18:33] more times or or fewer times. In this
+[00:18:35] case the same number of times, but we
+[00:18:37] just consume less CPU time. So it that
+[00:18:39] adds up, right?
+[00:18:42] Uh so that's good.
+[00:18:44] That's that's promising.
+[00:18:47] We still want to do
+[00:18:49] Well, I'll talk about it more what we
+[00:18:51] want to do next. So there's also an
+[00:18:54] alternative approach
+[00:18:56] um that was discussed at BPF Summit that
+[00:19:00] we kind of have to address and we
+[00:19:03] uh
+[00:19:03] when
+[00:19:05] it's a variation of what we're doing
+[00:19:07] today in production. So we use
+[00:19:10] your BPF map uh a BPF map as a side
+[00:19:12] storage, you use your SKB address as a
+[00:19:15] key uh for finding your metadata in the
+[00:19:18] BPF map, but you
+[00:19:21] um
+[00:19:22] clean up or prune entries in the map
+[00:19:24] differently than we do today. Uh instead
+[00:19:27] of uh
+[00:19:29] doing it from sock ops or C group SKB
+[00:19:32] ingress as you see we do today,
+[00:19:35] uh
+[00:19:36] when we know it's all happening on the
+[00:19:38] same CPU and you can we can use per CPU
+[00:19:41] uh LRU map, we do it at the last
+[00:19:43] possible moment, so when the SKB gets
+[00:19:46] destroyed and that can happen in two
+[00:19:49] places, either consume SKB or Kfree SKB
+[00:19:54] function, right? And
+[00:19:56] um what's the
+[00:19:59] what's the use for that? Well,
+[00:20:03] not in every use case we have, we we can
+[00:20:06] save from from the start where uh which
+[00:20:10] path through the network stack the SKB
+[00:20:12] is going to take. Like
+[00:20:14] uh for instance, we have one use case
+[00:20:17] where we would like to attach or tag
+[00:20:19] every egress packet with some kind of
+[00:20:21] customer ID, so if it gets
+[00:20:24] unintentionally dropped, we we can uh
+[00:20:28] log that and then
+[00:20:30] it'll help us uh
+[00:20:32] you know, know whose traffic we're
+[00:20:34] dropping, right? Uh
+[00:20:36] and we we don't know right where the SKB
+[00:20:39] will end, so we have to
+[00:20:41] uh clean up the metadata entries during
+[00:20:43] Kfree SKB.
+[00:20:45] Um
+[00:20:46] so
+[00:20:48] um
+[00:20:49] to do to do that to to like implement
+[00:20:51] that, we would have to modify our
+[00:20:53] approach
+[00:20:54] uh like I mentioned to
+[00:20:56] uh
+[00:20:57] use a global map, not a per CPU map, and
+[00:21:00] then attach to
+[00:21:02] um both of these functions using trace
+[00:21:05] points.
+[00:21:07] Um so that's what did so to run a second
+[00:21:10] experiment
+[00:21:12] and to see how that performs.
+[00:21:14] Um yeah, so so together we had Well, the
+[00:21:18] only thing we had to modify is like from
+[00:21:21] where we prune the entries. Like I
+[00:21:23] mentioned it was happening from sock ups
+[00:21:24] before and now we for the experiment we
+[00:21:27] added to trace point programs that do
+[00:21:31] the cleaning.
+[00:21:33] Um same arrangement as before. We had a
+[00:21:37] control group, test group, more or less
+[00:21:39] evenly loaded.
+[00:21:41] But when we run that
+[00:21:43] that test group, which was using this
+[00:21:45] trace points that I mentioned, it
+[00:21:47] consumed 5% more of CPU time overall.
+[00:21:53] Um the average execution time
+[00:21:57] um
+[00:21:57] uh went down. Um
+[00:22:00] You probably can guess why.
+[00:22:02] Uh
+[00:22:03] it's because we're now running
+[00:22:07] programs more because we also run for
+[00:22:09] each SKB which doesn't carry any
+[00:22:12] metadata. When we checked like what is
+[00:22:15] our workload
+[00:22:19] uh
+[00:22:20] it turned out that
+[00:22:21] we're actually attaching metadata to
+[00:22:24] less than 1% of the SKBs. So it's not
+[00:22:28] even every incoming connection.
+[00:22:31] So in this case this this approach
+[00:22:33] doesn't
+[00:22:34] work right for us because we have lots
+[00:22:36] of SKBs flying through the
+[00:22:39] host network stack
+[00:22:41] uh without metadata. We have tons of
+[00:22:44] Unix domain sockets
+[00:22:47] uh traffic where we're not planning to
+[00:22:49] attach metadata.
+[00:22:51] Uh yeah. So so
+[00:22:53] attaching to consume SKB just to be able
+[00:22:56] to
+[00:22:57] check if there's metadata to prune
+[00:22:59] that's like of like waste efforts,
+[00:23:02] if you're tagging such a small portion
+[00:23:05] of your traffic.
+[00:23:08] Uh side by side
+[00:23:10] just to recap things.
+[00:23:12] Uh
+[00:23:12] baseline then when you use their all
+[00:23:15] trace points and when you use the SKB
+[00:23:18] extension prototype. Uh
+[00:23:20] we're planning to run some more
+[00:23:22] experiments. We would like to
+[00:23:24] uh
+[00:23:25] also uh
+[00:23:26] do an experiment where we attach uh
+[00:23:29] metadata to all the egress traffic that
+[00:23:32] we know it's going to be heading out of
+[00:23:34] the machine.
+[00:23:36] But even in this case, I would be
+[00:23:38] surprised to if we would go over like
+[00:23:40] 20% of all the SKBs. So uh I'm not sure
+[00:23:45] that trace point approach is going to
+[00:23:47] work out uh
+[00:23:48] but
+[00:23:50] one open question that is there and that
+[00:23:53] we have to ask ourselves is like
+[00:23:55] versus this new BPF map type that's uh
+[00:23:58] just got queued for some kernel 0.2 uh
+[00:24:02] RHash that just wraps the
+[00:24:05] existing RHash implementation in in the
+[00:24:07] kernel.
+[00:24:08] And the benchmarks for it, they they
+[00:24:11] report really significant speedups
+[00:24:13] against
+[00:24:14] uh BPF hash map.
+[00:24:16] So um
+[00:24:18] yeah, I mean
+[00:24:19] it would be nice to check if if that
+[00:24:22] speedup can can kind of close the gap
+[00:24:25] uh when compared to SKB extensions. But
+[00:24:27] since we're running on an LTS kernel we
+[00:24:30] won't get to evaluate that for for some
+[00:24:32] time. Maybe we can run some synthetic
+[00:24:34] benchmarks.
+[00:24:37] All right, so um um
+[00:24:39] switching gears
+[00:24:40] uh from the kernel side
+[00:24:42] um
+[00:24:43] let's talk about user API for a moment.
+[00:24:45] So we have like this ultimate holy grail
+[00:24:49] use case for metadata where we
+[00:24:52] would be uh would like to be able to
+[00:24:55] observe or trace the L7 requests as they
+[00:24:58] travel through
+[00:25:00] different paths on our metals that
+[00:25:03] consist of a change of proxies uh and
+[00:25:06] doing that is
+[00:25:09] not possible something without
+[00:25:11] modifying your user space apps.
+[00:25:15] Uh so they can carry the metadata
+[00:25:18] together with the request. So we need to
+[00:25:21] achieve that in some way to pass
+[00:25:23] metadata in both directions from the
+[00:25:25] kernel to user space and and back.
+[00:25:29] Um so we've been thinking how we can how
+[00:25:32] we can do that.
+[00:25:33] For TCP the situation is quite good.
+[00:25:37] We already have
+[00:25:39] socket storage, socket local storage and
+[00:25:43] hooks for get sock opt, set sock opt. So
+[00:25:47] we're kind of covered there.
+[00:25:49] Uh the only
+[00:25:51] challenge we found here is that
+[00:25:54] uh
+[00:25:55] uh in order to pass metadata from XDP to
+[00:26:00] your sock opts you need to do it in TCP
+[00:26:03] to your
+[00:26:04] ACK that uh
+[00:26:06] um
+[00:26:08] concludes the three-way handshake
+[00:26:11] and
+[00:26:13] it's
+[00:26:14] hard or impossible to detect it without
+[00:26:17] keeping any state
+[00:26:19] cuz it's just a pure ACK like any other
+[00:26:22] pure ACK. And at first we
+[00:26:25] kind of naively I guess thought that a
+[00:26:27] pure pure ACKs are
+[00:26:29] probably not that frequent. I mean what
+[00:26:31] you have keep alives and maybe some
+[00:26:33] window updates. But when we tried it
+[00:26:36] when we tried attaching metadata to just
+[00:26:39] every pure ACK
+[00:26:40] uh we we got like a 5x
+[00:26:45] jump in and then how many packets we're
+[00:26:47] tagging. So it didn't work out great. It
+[00:26:50] led to that's of wasted effort. So, what
+[00:26:53] what you need to do instead is like you
+[00:26:55] need to do a socket lookup.
+[00:26:58] Um
+[00:26:59] actually in two steps where you need to
+[00:27:01] first check if a request socket exists.
+[00:27:04] And then you know this is your
+[00:27:07] preemption act or uh then if there's
+[00:27:11] just a listening socket, you need to
+[00:27:12] check if
+[00:27:14] uh our socket cookie is being issued for
+[00:27:16] that listening socket to not miss that
+[00:27:19] case.
+[00:27:19] >> But even with a lookup, this what we did
+[00:27:21] in our experiment,
+[00:27:23] uh we still, you know, managed to save
+[00:27:25] some CPU time. So, that's
+[00:27:28] worked out.
+[00:27:30] Um so, TCP is in a good shape, I would
+[00:27:33] say. UDP is super hard today. Um pass I
+[00:27:36] mean passing metadata to applications
+[00:27:39] where you using UDP.
+[00:27:41] There are no hooks that allow you to
+[00:27:43] produce C messages. Socket options don't
+[00:27:45] work
+[00:27:47] uh because you're usually multiplexing a
+[00:27:50] single UDP socket. Connected UDP sockets
+[00:27:53] are rare.
+[00:27:54] Um so, you can hack it together uh
+[00:27:58] today, but the code is like even too
+[00:28:01] long to fit on a slide. You do you need
+[00:28:03] to hook to two different trace points um
+[00:28:07] because you can only uh modify user
+[00:28:09] memory from BPF. So, there's a UDP
+[00:28:13] receive message trace point at where you
+[00:28:15] have access to the
+[00:28:17] uh control buffer where where you put
+[00:28:20] the contents of a C message. Uh but from
+[00:28:23] where you can't up there update the
+[00:28:25] control line which which tells user
+[00:28:28] space how many bytes are valid in that
+[00:28:31] buffer, right? Because uh we actually
+[00:28:33] copy that control structure to kernel
+[00:28:37] memory and that's what UDP receive
+[00:28:39] message processes. So, we need to hook
+[00:28:41] to
+[00:28:42] uh quad underscore sys_recvmsg
+[00:28:46] dispatcher function to do uh patch
+[00:28:49] control and where
+[00:28:51] it's it's kind of ridiculous how much
+[00:28:53] work it takes considering that we have a
+[00:28:57] BPF receive message hook running from a
+[00:29:00] context where we have SKB
+[00:29:04] available
+[00:29:05] and the only thing that's missing
+[00:29:08] uh
+[00:29:09] is a function that would allow you to
+[00:29:11] interface with uh C message structure,
+[00:29:15] maybe a BPF iterator. From what we
+[00:29:18] looked at, that fits
+[00:29:20] uh nicely.
+[00:29:21] And
+[00:29:23] a sleepable uh variant of that hook
+[00:29:27] because well, you'll be accessing user
+[00:29:29] memory. You might have to page it in.
+[00:29:34] Right. So,
+[00:29:35] um
+[00:29:36] I want to leave you with some food for
+[00:29:38] thought. Like I mentioned that our holy
+[00:29:41] uh grail use case is tracing L7
+[00:29:43] requests.
+[00:29:45] Um but actually tracing L7 requests from
+[00:29:49] the kernel where you see L4 flows
+[00:29:52] it's it's really hard if not even maybe
+[00:29:55] even not doable because even for HTTP
+[00:29:58] 1.1, you have connection reuse. So, you
+[00:30:01] establish one TCP connection, then send
+[00:30:03] one request, one that's then you can
+[00:30:05] send another. And things just get worse
+[00:30:08] with HTTP/2 and
+[00:30:11] quick HTTP/3 because
+[00:30:13] you can have multiple requests
+[00:30:16] in the same frame.
+[00:30:18] So
+[00:30:20] >> So, Jacob,
+[00:30:21] if we can wrap it up.
+[00:30:23] >> Yeah, the last slide. Yeah.
+[00:30:25] Uh so, what I'm saying is there's
+[00:30:27] one-to-many mappings from L4 flow to L7
+[00:30:32] requests. So, maybe we can't track L7
+[00:30:34] requests, but maybe we can trace at
+[00:30:37] least the first one in an L4 flow, and
+[00:30:40] but a start, and maybe that's good
+[00:30:41] enough.
+[00:30:42] Uh so, I'm sure you're
+[00:30:44] uh by now you are dying to see the code.
+[00:30:47] So, we have our C patches posted, and
+[00:30:51] that's all I have. If you want to reach
+[00:30:53] me or Andre, shoot us an email. And
+[00:30:56] thank you for your time.
+[00:31:03] >> Thank you, Yakov. Uh if one
+[00:31:05] If I may
+[00:31:06] Sorry. If anyone has a question, we have
+[00:31:08] time for only one. Um yes.
+[00:31:10] >> Yeah, I'll be here till the end of the
+[00:31:12] conference. So, if you have comments,
+[00:31:14] questions, feel free to grab me in the
+[00:31:16] hallway.
+[00:31:17] >> The only one. I I feel honored. I don't
+[00:31:19] know. Um
+[00:31:20] I was I had a question about that that
+[00:31:22] flag that you have to optionally scrub.
+[00:31:25] >> Mhm.
+[00:31:25] >> Like scrubbing is um sort of admin
+[00:31:27] control to isolate
+[00:31:30] um containers, right?
+[00:31:31] >> Yeah.
+[00:31:32] >> Um I think like
+[00:31:35] do you think that there are any BPF
+[00:31:38] extensions that would not I should that
+[00:31:40] would want to be scrubbed?
+[00:31:43] Like do you does the flag give you any
+[00:31:45] value?
+[00:31:46] >> Um I have
+[00:31:48] Yeah, I think only metadata BPF metadata
+[00:31:50] makes my makes sense to keep around when
+[00:31:52] scrubbing.
+[00:31:54] >> So, so the other one like BPF requires
+[00:31:56] superuser privileges to load the
+[00:31:57] program. So, I think it's fine in that
+[00:31:59] case to ignore whatever network name
+[00:32:01] spaces do. But um extensions that don't
+[00:32:04] require um
+[00:32:06] um superuser privileges would not should
+[00:32:08] not be allowed to to decide whether they
+[00:32:10] get scrubbed or not.
+[00:32:11] >> Right. Right. I mean
+[00:32:13] they would have to plug in a code to
+[00:32:16] support not scrubbing cuz we have like a
+[00:32:19] I added like a callback to SKB extension
+[00:32:21] framework that
+[00:32:23] asks each extension that's in the
+[00:32:26] kernel, are you do you want to be
+[00:32:28] scrubbed? And if there is no code for
+[00:32:30] your extension where it will just got
+[00:32:33] get scrubbed as usual. So,
+[00:32:35] uh yeah, we're not changing anything for
+[00:32:37] existing extensions. That's what I'm
+[00:32:39] trying to say.
+[00:32:40] >> Okay. Yeah, I just wonder if if every
+[00:32:42] BPF extension will probably not want to
+[00:32:44] be scrubbed. So then you might as well
+[00:32:45] drop the flag all together.
+[00:32:47] >> Sorry, you were saying every BPF
+[00:32:50] extension or every SKB extension?
+[00:32:52] >> BPF extension.
+[00:32:53] >> So like every user of buffer. Yeah, so
+[00:32:57] that's the problem with having a shared
+[00:32:58] buffer, right?
+[00:33:01] I I see what you're saying now that like
+[00:33:03] not all this you might not want to be
+[00:33:06] not want to pass all this data across
+[00:33:09] network name spaces, right? So
+[00:33:12] in our case we control all the BPF
+[00:33:14] programs in production. So we can kind
+[00:33:17] of cooperate and then
+[00:33:20] manage that. But if you're running a
+[00:33:22] Kubernetes cluster
+[00:33:24] that is an issue, right?
+[00:33:27] >> Okay. All right. I'm going to claim this
+[00:33:29] is the same question. The SC message is
+[00:33:31] like you have to you have to access user
+[00:33:33] memory, but can you just write to the
+[00:33:35] kernel copy before that gets copied back
+[00:33:38] into user memory?
+[00:33:39] >> Is there
+[00:33:39] right to Well, if we had a hook, then
+[00:33:42] yes. From trace points no, because you
+[00:33:45] can't poke kernel memory.
+[00:33:46] >> Yeah, okay.
+[00:33:47] Yeah, we just need a good hook.
+[00:33:49] >> Yes.
+[00:33:50] >> Thank you.
+[00:33:51] Thank you.

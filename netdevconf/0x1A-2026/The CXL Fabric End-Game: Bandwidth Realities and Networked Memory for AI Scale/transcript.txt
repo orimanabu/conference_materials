@@ -1,0 +1,1332 @@
+Source: https://youtu.be/idStzK7MPTc
+Language: en
+Captions: auto-generated
+
+[00:00:01] All right, we're good. All right. Well,
+[00:00:02] good morning. Um, so if I did anything
+[00:00:05] right in this conference, it was putting
+[00:00:07] their talk before mine. Um, because some
+[00:00:10] of the issues about the PCIe bandwidth
+[00:00:12] and how is it scaling and where are we
+[00:00:14] hitting the wall is exactly what I'm
+[00:00:17] going to try to talk about. So,
+[00:00:20] like one or two ain't bad in the
+[00:00:21] schedule. So anyways, um Jamal had
+[00:00:24] approached me before this and said, uh I
+[00:00:27] know you're working on CXL stuff and all
+[00:00:29] of the CXL stuff I've talked about over
+[00:00:31] the last five-ish years has been CXL
+[00:00:34] type 2 accelerators and I've ignored
+[00:00:36] memory. Um just wasn't interesting for
+[00:00:39] use cases that were uh relevant to us.
+[00:00:41] Um,
+[00:00:43] but I think uh something that's been
+[00:00:45] kind of simmering in the back of my mind
+[00:00:46] is how do we take CXL memory and try to
+[00:00:49] scale it in like giant HPC clusters and
+[00:00:52] we never had a really good use case that
+[00:00:54] justified some of the work that would
+[00:00:56] need to happen um and it's a fairly
+[00:00:58] significant amount of work in my opinion
+[00:01:01] uh until this thing called AI came along
+[00:01:02] and gave us a use case um to start
+[00:01:05] looking at how do we apply uh these
+[00:01:08] things that are growing out of control
+[00:01:10] um in terms of the memory footprints and
+[00:01:12] the compute footprints and how do we get
+[00:01:13] memory everywhere that it needs to be.
+[00:01:15] So that's what I'll try to talk about
+[00:01:17] today and seeuh how many people want to
+[00:01:18] throw things at me at the end of it.
+[00:01:21] As if you hadn't heard me talk enough
+[00:01:23] this week, you get to listen to me now.
+[00:01:27] All right. So I'd like to start my talks
+[00:01:28] off with what do I think you guys should
+[00:01:30] walk away from at the end of this. So we
+[00:01:33] can come back to this slide at the uh
+[00:01:34] end and see if we hit this. Um, but just
+[00:01:37] to make sure that this is what your
+[00:01:38] expectations are,
+[00:01:41] um, I do want to just briefly recap, uh,
+[00:01:44] what CXL is. Um, how many people in here
+[00:01:47] know what CXL is? Like really, really
+[00:01:50] well. I hope you guys do. Um, so it's
+[00:01:54] good boilerplate. We won't spend a lot
+[00:01:55] of time on it. Um, there's tons and tons
+[00:01:57] of talks uh, out there available um, to
+[00:02:00] be able to um, really dig into it, what
+[00:02:02] it is. uh but then I'll go ahead and
+[00:02:04] start talking about what I see as the
+[00:02:06] bandwidth wall and then you know VJ and
+[00:02:08] Garov also outlined that with some you
+[00:02:11] know real use cases uh that they see
+[00:02:13] today. Um
+[00:02:16] and then start kind of going through the
+[00:02:18] generational bits of CXL. So we have
+[00:02:20] like our different spec versions and
+[00:02:22] what new features have been coming along
+[00:02:24] the way. Um
+[00:02:27] and then get into what I think is a is a
+[00:02:29] moonshot. It's what is it going to take
+[00:02:31] to kind of get over that bump that we
+[00:02:33] take CXL into a fabric itself. Um like
+[00:02:36] an actual network connecting multiple
+[00:02:38] hosts that can um address memory in a
+[00:02:40] coherent way
+[00:02:44] and then put out some ideas of where do
+[00:02:46] I think this coherency manager should
+[00:02:48] live within this fabric. Right? If you
+[00:02:50] have potentially thousands of of nodes
+[00:02:53] um connected to a giant chunk of memory,
+[00:02:58] who owns the coherency across all of
+[00:03:00] these nodes?
+[00:03:04] So, um yeah, who am I? I I think
+[00:03:07] everyone probably should know I'm PJ by
+[00:03:09] now. I've worked for Jump Trading. Um
+[00:03:11] I've been working with Linux since the
+[00:03:13] late 90s, but uh professionally as a
+[00:03:16] kernel engineer for over 20 years. Um,
+[00:03:19] which is really sad to kind of think
+[00:03:20] about and then I see the the white hair
+[00:03:22] here and the less hair here and then I'm
+[00:03:24] like, "Yeah, well, this is happening."
+[00:03:26] Um, and my last bullet, I usually like
+[00:03:28] to have a fun fact of who I am. That
+[00:03:30] used to say, uh, I like to drive my Jeep
+[00:03:33] over things in the woods and race
+[00:03:34] motorcycles. And since some of this has
+[00:03:37] happened, kids showed up, those two
+[00:03:39] things went away. And then I had to do
+[00:03:40] something a lot less hazardous, um,
+[00:03:42] which is well, modeling stuff in CAD and
+[00:03:45] doing a lot of 3D printing. Although I
+[00:03:47] did just get a laser cutter on mine. So
+[00:03:48] maybe the hazardous part is coming back.
+[00:03:52] Okay, so what is CXL?
+[00:03:56] So it stands for compute express link in
+[00:03:58] case you didn't know. Um I call this
+[00:04:01] like the new interconnect protocol and
+[00:04:03] CXL is actually three protocols within
+[00:04:06] an interconnect. So CXL.io
+[00:04:09] is effectively PCI Express. It's just
+[00:04:12] framed differently. So, if you were to
+[00:04:14] have a device linked to CXL and you
+[00:04:17] pulled a bus trace and you looked at the
+[00:04:19] the flit, which is the transaction uh
+[00:04:21] packet, um it would look pretty much
+[00:04:23] identical to PCI Express TLP. I mean,
+[00:04:27] pretty much identical in terms of the
+[00:04:28] payload. The framing is a little
+[00:04:29] different. Um but, um all of the
+[00:04:33] semantics of uh like MMIO's
+[00:04:36] usually go over CXL.io. uh a DMA request
+[00:04:40] looks exactly like the same um as it
+[00:04:42] does on PCI Express interrupts uh yeah
+[00:04:44] MSIX messages all that. The other two
+[00:04:48] protocols are where CXL is very
+[00:04:50] interesting. So CXL.mme and CXL.cache
+[00:04:54] um basically remove the root complex in
+[00:04:56] PCI Express as the arbiter of coherency
+[00:04:59] and allow your device your endpoint
+[00:05:00] device to do this. So where a PCI
+[00:05:04] Express device today if you do a read um
+[00:05:07] your device is not directly influencing
+[00:05:09] the coherency model of the CPUs and the
+[00:05:12] memory controllers. It has to be orbited
+[00:05:14] by the PCI Express root complex. So
+[00:05:17] we're taking that out and now your
+[00:05:18] device is actually directly influencing
+[00:05:20] this which means your device is now a
+[00:05:22] little bit more complicated. Well,
+[00:05:23] actually a lot more complicated uh
+[00:05:25] because it has to also implement the
+[00:05:27] same coherency model that the CPUs and
+[00:05:29] memory controllers and the cache home
+[00:05:31] agents do of the CPUs that you're
+[00:05:33] plugged into. So having this flexibility
+[00:05:36] at your endpoint device gives you a lot
+[00:05:39] of options for um new use cases, but it
+[00:05:43] also comes with a fairly significant uh
+[00:05:45] complexity cost and the cost is worth it
+[00:05:48] to be perfectly honest. Um, so it does
+[00:05:52] run on PCI Express hardware. So a lot of
+[00:05:54] people um, and I I put this here because
+[00:05:56] a lot of people are like, "Well, CXL is
+[00:05:57] just PCIe, isn't it?" Like, no, it's
+[00:05:59] not. It's it's very different, but it's
+[00:06:01] at the same level as PCI Express. It
+[00:06:04] uses the FI, uses the same traces, the
+[00:06:06] slots are identical. Um, and that is why
+[00:06:09] you'll see CXL and PCI Express coupled
+[00:06:11] together in terms of the specs. Like CXL
+[00:06:13] 2.0 came with PCI Express 5.0 because
+[00:06:17] the FI and all of the uh the electricals
+[00:06:20] um are identical. But beyond that,
+[00:06:22] that's where the protocol takes over um
+[00:06:25] and they diverge.
+[00:06:28] So I don't have my normal slide that I
+[00:06:30] have of what what type devices are.
+[00:06:33] Sorry. Um there are three type devices
+[00:06:35] that are defined by CXL. And I always
+[00:06:38] felt like they were more marketing terms
+[00:06:39] than anything, but um a type one device
+[00:06:42] would be I'm a cache accelerator. I I
+[00:06:44] pretty much only doc cache. I do CPU
+[00:06:46] acceleration. A type two device is what
+[00:06:50] we would traditionally think of as an
+[00:06:52] accelerator device like a GPU or a smart
+[00:06:54] nick, some sort of intelligent
+[00:06:57] controller with some memory that is
+[00:06:59] specific to the device like HBM on a
+[00:07:01] GPU. Um, and a type three device is uh
+[00:07:05] typically known as a memory expander. So
+[00:07:07] I plug this thing in with a bunch of RAM
+[00:07:09] on it. It's got a CXL controller and
+[00:07:11] then poof, I have more memory on my
+[00:07:13] host. And that's a very gross
+[00:07:15] oversimplification of what that is, but
+[00:07:17] that's kind of the three classes. So you
+[00:07:19] can think of it like a CPUless numa
+[00:07:21] node. So a numa node that shows up on
+[00:07:23] your host that has no CPU. It's just a
+[00:07:25] memory range. And I think that this is
+[00:07:27] where the trouble starts. Um, thinking
+[00:07:29] of it this way.
+[00:07:32] Um, this is more of like a visualization
+[00:07:35] of where we have come through the
+[00:07:38] various versions of CXL. And I won't go
+[00:07:40] through this too much because I actually
+[00:07:42] have more words on the next slide that
+[00:07:44] that of the more important pieces. But
+[00:07:46] like on the left here, CXL1.1 that was
+[00:07:49] our first version of the spec that
+[00:07:51] showed up in um shipping silicon like
+[00:07:55] you know Intel CPUs, AMD CPUs and we
+[00:07:58] have like kind of marched through time
+[00:08:01] of having a very very um basic device
+[00:08:04] with memory to do expansion. Then we
+[00:08:07] move into CXL 2.0 know um where we have
+[00:08:09] pools memory pools uh and I'll talk a
+[00:08:12] lot more about u what these um you know
+[00:08:15] multiple logical devices and um logical
+[00:08:18] devices and then CXL 3.0 and you'll hear
+[00:08:21] me say 3.x mostly because there's a 3.0
+[00:08:23] 3.1 and 3.2 spec um and vendors have
+[00:08:27] chosen to implement 3.x X with various
+[00:08:31] flavors cherrypicked from the specs. Um,
+[00:08:35] but anyways, you can see that this is
+[00:08:37] starting to look a lot more like a
+[00:08:39] network.
+[00:08:42] So, boiling it down into more spec to
+[00:08:45] timeline to
+[00:08:47] um features that are interesting, we
+[00:08:49] have, like I said, 1.1. This shipped in
+[00:08:52] the Sapphire Emerald Rapids time frame
+[00:08:54] or Genanoa um so a few years ago.
+[00:08:59] And when that shipped, we had CXL 3.0 as
+[00:09:02] a spec ratified. So, we have like all
+[00:09:05] this super awesome goodness down on that
+[00:09:06] third line, and everyone was like, "Man,
+[00:09:08] CXL is just going to take over the
+[00:09:09] world." And then CXL 1.1 showed up, and
+[00:09:11] everyone's like, "I thought it was going
+[00:09:12] to be better." Um, turns out it was
+[00:09:15] super basic. It was actually very hard
+[00:09:16] to use. Uh, fully reliant on the BIOS to
+[00:09:19] do all of the heavy lifting. Um, the OS
+[00:09:22] basically had no idea what was
+[00:09:23] underneath it. It was like, "There's a
+[00:09:24] device there." And um it it was very
+[00:09:27] very hard to kind of bend it to your
+[00:09:28] will.
+[00:09:30] CXL2 um showed up in Granite Rapids. Are
+[00:09:34] we getting uh wind noise? Oh man, it's
+[00:09:38] stealing my fan.
+[00:09:41] At least my legs will be nice and cool
+[00:09:42] now. Um so CXL 2.0 is what we can get
+[00:09:46] today. Granite Rapids, um, Intel CPUs,
+[00:09:49] um, Turin, uh, with AMD and we get, uh,
+[00:09:52] the OS now actually is mostly dependent
+[00:09:56] on or CXL is mostly dependent on the OS
+[00:09:59] for its management. So the CXL host, uh,
+[00:10:01] drivers that that exist um, will load
+[00:10:05] and I should caveat, it will load on
+[00:10:07] type 3 devices today. Uh, type two
+[00:10:09] devices are still in flight. There's RFC
+[00:10:13] patches that have been up there for
+[00:10:15] about two years. Try to get through. Um
+[00:10:18] there have been a lot of discussions on
+[00:10:20] this on the list about it. We're almost
+[00:10:23] there. Um
+[00:10:26] then CXL 3.x this is where fabrics come
+[00:10:28] in port-based routing. Um backend
+[00:10:31] validation coherency. We'll get to this.
+[00:10:33] If you see uh BI is also known as HDMBB.
+[00:10:37] I'm going to try really hard not to
+[00:10:38] throw all of the TLAs at you, the
+[00:10:40] threeletter acronyms, but the the the
+[00:10:42] CXL specs were written by or well mostly
+[00:10:45] written by a company I used to work for
+[00:10:47] that really likes their threeletter
+[00:10:49] acronyms, but um and their font in the
+[00:10:51] CXL spec happens to look like a lot of
+[00:10:53] their documentation. Anyways, um I
+[00:10:55] diverge, but yeah, then we have like the
+[00:10:58] gym, the CXL hotness monitoring unit and
+[00:11:00] PCI Express 6. So all of these things
+[00:11:02] are coming in features to help basically
+[00:11:05] support CXL as a network. Um and then
+[00:11:08] CXL 4 is where we intercept PCI Express
+[00:11:12] 7 and I intentionally put out the 128
+[00:11:14] gig transfers per second per lane and
+[00:11:16] bundled ports which is allows us to lash
+[00:11:19] together physical links into a logical
+[00:11:21] link. think like bonding for uh PC
+[00:11:23] express links so we can get bandwidth up
+[00:11:26] which is why again like Garov and BJ's
+[00:11:29] talk right before this and they
+[00:11:30] mentioned this right before I came up
+[00:11:31] was like yes that that's exactly what
+[00:11:33] I'm going to talk about so
+[00:11:35] and we don't I mean we do know when it's
+[00:11:37] coming but I can't put that on the slide
+[00:11:39] because well that's not public
+[00:11:40] information yet
+[00:11:42] but you could probably figure it out.
+[00:11:45] Okay, so we'll go through some of this
+[00:11:48] um quickly so that we're not running too
+[00:11:50] late. So, initially when CXL showed up,
+[00:11:54] people are reading the specs. They're
+[00:11:56] starting to do napkin math before
+[00:11:57] Sapphire Rapids and and Genanoa showed
+[00:12:00] up. And they're like, man, if I remove
+[00:12:02] that root complex thing out of PCI
+[00:12:04] Express and I have direct access to the
+[00:12:06] CPUs for both memory um or cache, my
+[00:12:11] latency should go down. And everyone got
+[00:12:13] super excited. uh and for good reason
+[00:12:15] because it it is a real thing. Um but
+[00:12:18] you know just kind of looking at where
+[00:12:20] CXL lands in terms of latency. Um these
+[00:12:24] are real numbers you know so local DDR
+[00:12:26] you know it could be varying um you know
+[00:12:29] try to read um DDR5 about 78 ncondsish
+[00:12:33] um you know out and back uh for cast
+[00:12:35] latencies differences and whatever. um a
+[00:12:38] remote numa hop like these are things
+[00:12:40] that we've been dealing with for for for
+[00:12:42] a very long time especially in
+[00:12:43] networking when we're like touching
+[00:12:45] remote uh numa nodes you can't scale
+[00:12:47] very well um but you're about 135 nconds
+[00:12:50] about going to a remote numa node and
+[00:12:52] back and then a uh cxl direct which was
+[00:12:56] if you think back to the slide that I
+[00:12:58] went through really fast and I'm sure
+[00:12:59] you got to read the whole thing and
+[00:13:01] commit it to memory um this is a I have
+[00:13:03] a PCI express form factor card that goes
+[00:13:06] directly into a host and It's like that
+[00:13:08] is part of the host. So, it's physically
+[00:13:09] attached to the system. The latency is
+[00:13:12] about it's about 235 nonds to go out to
+[00:13:16] that device and then back. So, not too
+[00:13:20] bad, right? This is like a far numa
+[00:13:21] node. would be if I were to have another
+[00:13:23] hop. You know, back in the day, if you
+[00:13:25] guys remember, like Boxton, which is
+[00:13:27] like the Nalum um quad socket, and it
+[00:13:30] was there weren't enough, but they
+[00:13:32] called them UPI, not QPI and XPI, but
+[00:13:34] UPI links, and you had to go through
+[00:13:35] like a couple hops to get to the NUMA
+[00:13:37] node. Um it wasn't an integrated mesh.
+[00:13:40] You saw your latency suck. Well, this
+[00:13:42] doesn't really suck, but um it is a
+[00:13:45] little bit farther, but it's not too
+[00:13:46] bad.
+[00:13:48] And then we start extrapolating out to
+[00:13:50] like existing switches today, CXL
+[00:13:52] switches, they add some latency. Uh and
+[00:13:54] then just to compare like against RDMA,
+[00:13:56] if I want to touch remote memory across
+[00:13:58] an RDMA link, um you know, we're in like
+[00:14:00] the one and a half microcond range,
+[00:14:02] right? So you can kind of see how this
+[00:14:04] looks and you're like, man, CXL isn't
+[00:14:07] too bad on the latency side, but the
+[00:14:09] bandwidth is where things start to fall
+[00:14:12] apart, right? We look at HBM like 3.3
+[00:14:16] terabytes a second uh throughput um on
+[00:14:18] an H100 to like a genoa um you know
+[00:14:24] basically touching through one core out
+[00:14:26] like how much aggregate bandwidth can
+[00:14:27] you get um
+[00:14:30] per channel is that right no per system
+[00:14:34] and um Sapphire Rapids at an eight
+[00:14:37] channel right it's going to be a little
+[00:14:38] less because it has less channels to go
+[00:14:40] through and then you look at the
+[00:14:42] theoretical maximum you can get of a CXL
+[00:14:46] x6 PCIe 5.0 or CXL 2.0 device and you're
+[00:14:51] at 64 gigabytes a second which is like
+[00:14:53] your theoretical maximum which in
+[00:14:55] reality it's between like 18 and 52
+[00:14:57] gigabytes a second depending on like you
+[00:14:59] know card uh manufacturer and all that
+[00:15:01] stuff. So orders of magnitude um lower
+[00:15:07] and and we we we have hit the bandwidth
+[00:15:09] wall.
+[00:15:12] Okay. So again, I won't read through all
+[00:15:16] of this, but this is just basically
+[00:15:17] showing um the math behind like where
+[00:15:20] where are the orders of magnitude and
+[00:15:21] how much pain is this if you're trying
+[00:15:23] to use this and you're looking at like,
+[00:15:25] hey, I want to build a fabric around
+[00:15:27] this and a network and I'm going to add
+[00:15:28] all these nodes and all of a sudden
+[00:15:30] you're looking at the reality of the
+[00:15:31] constraintment of the PCI Express
+[00:15:33] interconnect. Um, and it's going to be a
+[00:15:35] massive bottleneck.
+[00:15:41] And okay, so I also told Jamal that I
+[00:15:44] wasn't like I I been trying not to give
+[00:15:47] talks for a while because they're a lot
+[00:15:49] of work. Um, and I just kind of float
+[00:15:51] and so I'm now giving what, three this
+[00:15:53] time. So that didn't work out. And I
+[00:15:55] said, I really don't think I want to put
+[00:15:56] in AI because then everyone's going to
+[00:15:57] be like, man, it's just another AI talk.
+[00:15:59] Well, here we are talking about AI. So
+[00:16:01] that one I didn't get right either. But
+[00:16:03] um
+[00:16:06] >> GPU
+[00:16:07] >> it's GPUs. Yeah. Okay. Yes. Yes. Just
+[00:16:10] cover AI and just like say GPU. Okay.
+[00:16:14] But this is really just kind of trying
+[00:16:15] to highlight
+[00:16:17] um you know the bandwidth between
+[00:16:21] how has uh like compute scaled like
+[00:16:23] we've we've always had this leaprog
+[00:16:25] problem of you know is it the network is
+[00:16:27] the bottleneck is it the CPU is the
+[00:16:28] bottleneck is the memory is the
+[00:16:30] bottleneck. uh throughout like the last
+[00:16:32] what 25 years and right now it's obvious
+[00:16:34] that the memory is the bottleneck right
+[00:16:37] our our compute capacity and
+[00:16:40] capabilities have skyrocketed especially
+[00:16:41] with GPUs and and then everyone like
+[00:16:43] buying them you know as much as they
+[00:16:46] possibly can with all of this funny
+[00:16:47] money they keep finding um and then
+[00:16:49] driving up the price of our RAM. Um but
+[00:16:52] you know the capacity is is is a real
+[00:16:54] thing.
+[00:16:58] Okay, so kind of shifting gears through
+[00:17:00] like CXL technology and what is coming,
+[00:17:04] what is here right now, and why maybe it
+[00:17:07] isn't what we think it is yet.
+[00:17:11] So pooling um so CXL pooling is
+[00:17:15] something that showed up in CXL 2.0 and
+[00:17:18] again we read the spec and we're like,
+[00:17:19] "Oh man, I can have multiple hosts
+[00:17:21] connected to a single shared memory
+[00:17:24] pool."
+[00:17:25] uh and then the wheels start turning and
+[00:17:28] then people leap to I can have multiple
+[00:17:31] hosts managing the same memory in this
+[00:17:34] pool and that is not the case with CXL
+[00:17:36] 2.0. So I can have a multi multiple
+[00:17:39] logical device. So my my CXL device can
+[00:17:42] now be um an MLDD. I can address up to
+[00:17:45] 16 logical devices. So I'm partitioning
+[00:17:47] this out. Um and I have all these new
+[00:17:51] things that show up in in CXL 2.0. Got a
+[00:17:54] fabric manager. That's the FM. Got this
+[00:17:56] CCI, this component command interface.
+[00:17:59] This is like the API through the fabric
+[00:18:01] manager to connect hosts to logical
+[00:18:03] devices.
+[00:18:05] And so I have the reality is I have two
+[00:18:08] hosts on one multiple logical device and
+[00:18:10] they share that device, but they don't
+[00:18:12] share the actual memory region. Okay. So
+[00:18:15] this is the important bit right here.
+[00:18:17] And sorry for the people downstairs. I'm
+[00:18:18] pointing at it with like a a real laser
+[00:18:20] pointer. So maybe I'll do
+[00:18:23] let's not do that. Everything's working.
+[00:18:24] I don't want to screw it up. But the no
+[00:18:26] hardware coherent cross host sharing uh
+[00:18:28] is defined in 2.0. So this is truly take
+[00:18:32] a CXL device, maybe it's like a giant
+[00:18:34] chunk of memory, and then partition it
+[00:18:35] up and have multiple hosts be able to
+[00:18:37] hit it. So something like in a tour um
+[00:18:40] is kind of what you can kind of start
+[00:18:41] thinking about. Um, but the problem is
+[00:18:44] your capacity is still going to be
+[00:18:46] constrained because now you're taking um
+[00:18:49] a bunch of
+[00:18:52] uh hosts. You're taking one partition or
+[00:18:54] um one resource cutting it up and that
+[00:18:57] one resource is still going over the
+[00:18:59] exact same link that one host would be
+[00:19:02] going over. So you can kind of see where
+[00:19:03] this is going.
+[00:19:05] So yeah, there was a study done like
+[00:19:07] where's the sweet spot and uh for
+[00:19:10] pooling where you're actually saving
+[00:19:13] some bandwidth uh and not really like
+[00:19:15] hurting yourself too much. So what does
+[00:19:17] it actually look like? So if we look at
+[00:19:21] uh local DDR5 on the left uh on a genoa
+[00:19:24] with 96 cores and I want to do what is
+[00:19:26] my me memory bandwidth per core um I get
+[00:19:30] about what 3.9 gigabytes a second per
+[00:19:33] core.
+[00:19:35] So I look at that exact same system with
+[00:19:36] a CXL device and again this is a
+[00:19:39] dedicated device so it's plugged into
+[00:19:40] the system physically. I get 500
+[00:19:43] megabytes
+[00:19:44] um a second per core and this is purely
+[00:19:47] because of the PCI Express link right I
+[00:19:49] should say the CXL link right it's the
+[00:19:51] bandwidth of of the interconnect
+[00:19:54] and then I start fanning this out the
+[00:19:56] third one from the left or the second
+[00:19:58] one from the right one CXL device that
+[00:20:00] is shared a pulled MLDD that's carved up
+[00:20:02] into four LDS so I've got four Genanoas
+[00:20:06] 384 cores you're at looking at 130
+[00:20:08] megabytes a second of throughput per
+[00:20:10] host
+[00:20:12] that really sucks. And then we go out to
+[00:20:14] eight hosts and I mean like you can see
+[00:20:16] then we're at like 70 megabytes a second
+[00:20:18] per core. Um so if you're trying to run
+[00:20:20] stuff that is needing memory capacity
+[00:20:23] and memory bandwidth, this is not the
+[00:20:25] right solution, right? This will not
+[00:20:27] scale and your CPU is going to be idle.
+[00:20:30] So if you have capacity of CPU and you
+[00:20:32] can't use it, then it's completely
+[00:20:34] worthless. It's just burning power.
+[00:20:38] Um, now I do want to call it out. Um,
+[00:20:42] there was a really nice paper that
+[00:20:43] Google wrote um, for hotnetss
+[00:20:46] basically saying pooling is the wrong
+[00:20:48] solution and um, you know, it's a good
+[00:20:50] paper. I think you should go read it if
+[00:20:52] you want. Um, I do agree with this for
+[00:20:56] the use case that they called out. Um, I
+[00:20:58] do think that there are uh use cases
+[00:21:00] because they were talking about like
+[00:21:02] having multiple hosts hitting an MLDD in
+[00:21:04] general was not the right way to go and
+[00:21:06] for this use case I agree but for the
+[00:21:09] broader use case of a CXL fabric and
+[00:21:12] having coherency and then with all of
+[00:21:14] the bandwidth um optimizations coming in
+[00:21:17] uh PCIe 7 uh I I I don't think that this
+[00:21:21] is like a blanket uh we shouldn't pull.
+[00:21:24] So really bandwidth plus coherence um
+[00:21:28] for cluster execution I think is is is a
+[00:21:30] very different question than um what
+[00:21:32] they were trying to solve and that's why
+[00:21:35] we're here talking about it.
+[00:21:38] Okay. So,
+[00:21:40] this is where I start getting into the
+[00:21:44] what doesn't exist, what do I think
+[00:21:46] needs to be done, and we start getting
+[00:21:49] into the controversial stuff where
+[00:21:50] people might either get very very
+[00:21:51] animated or um I might just walk out of
+[00:21:54] the room. I don't know. It's it's a lot
+[00:21:56] hotter outside, so don't do that. You're
+[00:21:57] stuck here. Or you can go downstairs.
+[00:22:00] It's a lot colder down there.
+[00:22:02] Okay. So there's four layers that I
+[00:22:04] think need to be addressed that when
+[00:22:06] you're looking at how do I build out
+[00:22:07] like uh coherency uh fabrics and then
+[00:22:10] the bandwidth is is is a separate thing
+[00:22:12] but we'll get to that. Uh what are the
+[00:22:14] different layers? So the switching in
+[00:22:16] the fabric um so like the reality is
+[00:22:20] that switch silicon today that would um
+[00:22:23] support coherency is nent. It's either
+[00:22:26] being built right now or they're still
+[00:22:28] trying to think about how the heck am I
+[00:22:29] going to build this thing? Um, you know,
+[00:22:32] it this is as with all great
+[00:22:34] specifications, this is vaporware. It it
+[00:22:37] exists in paper um or virtual paper. Um,
+[00:22:40] but CXL3.x fabrics and port-based
+[00:22:43] routing all sound great. Up to 4,000
+[00:22:46] nodes or, you know, 4K nodes, typically
+[00:22:48] 4 4,95 plus your GFAM. I promised I
+[00:22:52] wouldn't use the TLAs. That's actually a
+[00:22:53] four-letter acronym, so that's okay. But
+[00:22:55] it's my global fabric attached memory.
+[00:22:57] So, my my CXL device. Um,
+[00:23:01] and the the reality is right now today,
+[00:23:04] CXL 2.0 devices that are single rack are
+[00:23:06] the only things that we can see. So like
+[00:23:09] the 3.x fabrics stuff is like I really
+[00:23:12] want to get there, but I've got like
+[00:23:13] this clunker of like a topper rack CXL
+[00:23:16] 2.0 switch that I can only plug 16
+[00:23:18] devices or 16 hosts into a device. Um,
+[00:23:21] still very useful, but this is the
+[00:23:22] reality um that we're in.
+[00:23:27] Uh another thing that we need to
+[00:23:28] consider is the physical reach, right?
+[00:23:30] So PCI Express 5 uh and similarly uh CXL
+[00:23:35] 2 um has very real signal integrity
+[00:23:38] stuff like SI is a thing. Um and as we
+[00:23:44] get faster and faster and the encodings
+[00:23:46] like you're you this is a real problem
+[00:23:48] for like the electrical engineers to to
+[00:23:50] solve. Um, and so right now PCI Express
+[00:23:54] and CXL cap out roughly 2 meters of
+[00:23:57] copper. So if you're thinking about a
+[00:23:58] rack, like you can get to a tour
+[00:24:02] sort of um like if I I can't get to the
+[00:24:05] top of the rack, but um but some of
+[00:24:07] these big OV3 racks which are like what
+[00:24:09] 48 or or higher you like they can't get
+[00:24:12] up to the top physically.
+[00:24:15] Um there is work being done to to try to
+[00:24:18] figure out can we um fix some of this
+[00:24:19] with optical uh so we can get much more
+[00:24:22] um like much broader range but then like
+[00:24:26] your optics and your DSPs and all of
+[00:24:28] that stuff again the electrical engineer
+[00:24:30] issues I'm looking right at Matt um you
+[00:24:34] know this this just go fix this please
+[00:24:36] um like this these are real really hard
+[00:24:38] problems to solve and it's not um
+[00:24:40] specific to CXL it's it's it's PCI
+[00:24:43] Express and all of this
+[00:24:45] But then if you want to leave the rack
+[00:24:47] um then I I I think that we have to go
+[00:24:49] uh to an RDMA um pipeline.
+[00:24:54] And
+[00:24:56] I mean switches cost latency, right? I
+[00:24:58] mean the best switches around can add a
+[00:25:00] much like smaller number than 600
+[00:25:02] nconds, but like that's conservative.
+[00:25:05] Um, but with if we're going to build
+[00:25:08] like some switch silicon that has a
+[00:25:11] massive coherency manager in it
+[00:25:12] potentially, they're going to be complex
+[00:25:14] and the latency hit is is probably going
+[00:25:17] to be a lot bigger than that.
+[00:25:21] Okay, so moving up the stack, I feel
+[00:25:24] like there's a theme today. There's like
+[00:25:26] layers and then Jesse's got layers of
+[00:25:27] cake and all this stuff today. So, this
+[00:25:30] is a this is a good thing. Maybe we'll
+[00:25:31] have some more tiramisu out there uh
+[00:25:33] later on with the layers.
+[00:25:36] Okay. Um, so the firmware, so the the
+[00:25:40] fabric manager, so we're going to talk
+[00:25:42] about there's actually two two managers
+[00:25:44] involved here. So the fabric manager is
+[00:25:46] something that exists in CXL 2.0. Um,
+[00:25:49] and it has a whole bunch of stuff added
+[00:25:50] in 3.x.
+[00:25:52] Um, but this is basically your control
+[00:25:55] plane. So how do you attach hosts to
+[00:25:58] logical devices? How do you manage all
+[00:26:00] of that? Um and then eventually CXL 3.1
+[00:26:04] adds the port-based routing switch
+[00:26:06] fabric manager a API and then OCP
+[00:26:10] um
+[00:26:12] I did write yeah the composable fabric
+[00:26:14] management like again all of the TLAs
+[00:26:17] like the TA soup um but all of this
+[00:26:20] stuff is coming to so that you can you
+[00:26:22] know manage stuff over Redfish so you
+[00:26:24] can you know deploy it fleetwide
+[00:26:26] um
+[00:26:29] and there are some areas that we have to
+[00:26:31] look at in the kernel. So the host to
+[00:26:33] fabric manager stuff is not really well
+[00:26:36] defined. So how do you you know have an
+[00:26:39] API that you can go through the kernel
+[00:26:40] through MMIO to manage the fabric
+[00:26:43] manager and attach your devices and all
+[00:26:44] that stuff. Um and then we have these
+[00:26:46] like pesky like realities of like I have
+[00:26:49] this like wonderful thing. I've got this
+[00:26:50] CXL fabric devices will just show up and
+[00:26:52] memory expands and everyone's coherent
+[00:26:54] and happy. Um, but today you try to put
+[00:26:57] a device in and like hot plug it in, you
+[00:27:01] probably can't because typically the
+[00:27:02] BIOS has to do all of the like mapping
+[00:27:04] of the MMIO bars and and like these are
+[00:27:07] real real things. Um, so we have to get
+[00:27:09] and figure out how to hot plugin devices
+[00:27:12] um without having to like reset the
+[00:27:15] host. Uh, it' be very disruptive.
+[00:27:18] Uh, and then things like yeah
+[00:27:19] multi-tenant orchestration the the QoS
+[00:27:22] mechanisms CXL 3.2
+[00:27:25] two, I think, um, has a lot of stuff for
+[00:27:28] like encryption and isolation in the
+[00:27:30] fabric. It might might be 3.1. It's one
+[00:27:32] of them. Um, but things like like
+[00:27:35] confidential compute, how do I protect
+[00:27:37] my data? How do I keep it from like
+[00:27:38] malicious things attaching to the
+[00:27:40] fabric? Um, like all of that stuff is
+[00:27:42] still like TBD. It's all in the spec.
+[00:27:47] Okay. So, the other pieces in the
+[00:27:49] kernel, obviously, because we're talking
+[00:27:51] about CSL memory, we also hit the memory
+[00:27:53] subsystem. So this is not just a netv
+[00:27:55] problem. Um but the good news is that
+[00:27:58] there has been some work done here. Um
+[00:27:59] and some really good work. So we've had
+[00:28:02] page demotion. So moving pages from like
+[00:28:05] what we'll call hot pages out to like
+[00:28:07] CXL memory which was like you know cold
+[00:28:08] cache or cold pages. Um so this is
+[00:28:11] transparent page placement TPP. This was
+[00:28:13] something that meta pushed um and got
+[00:28:15] into the kernel. We have weighted
+[00:28:17] interle. So you can interle CXL devices
+[00:28:21] just like you can interle um like DDR
+[00:28:23] chips for reasons. Um it's a bandwidth
+[00:28:27] mitigation. It's not really helping
+[00:28:29] capacity. But um then we have other
+[00:28:31] tools in in the memory management
+[00:28:32] subsystem like Don um which is like a
+[00:28:35] self-tuning kind of uh you know best
+[00:28:37] effort of like moving things around to
+[00:28:39] to get hot memory where it needs to go.
+[00:28:41] Um then we'll have the actual hotness
+[00:28:43] monitoring unit for CXL to say like this
+[00:28:45] memory is getting pounded by hosts. we
+[00:28:48] need to get it promoted out into
+[00:28:49] something that would be a little bit
+[00:28:50] closer to who's who's beating on it. And
+[00:28:53] this stuff is like inflight.
+[00:28:56] Um, so
+[00:28:58] the area that we're really kind of
+[00:29:00] thinking of is that today still like
+[00:29:02] promotion, like moving the pages around
+[00:29:04] is very slow. It's very reactive. It's
+[00:29:06] like, man, this thing's getting cooked.
+[00:29:07] How do I move it to somewhere where it's
+[00:29:09] not going to get cooked? And by the time
+[00:29:10] I get it there, it may be done. Um, so
+[00:29:13] we have to get better there. So knowing
+[00:29:15] where the bandwidth bottlenecks are in
+[00:29:17] the fabric and being able to place
+[00:29:19] memory there opportunistically is is
+[00:29:21] really kind of an big improvement that
+[00:29:22] needs to happen. Um
+[00:29:26] the second one is also like the really
+[00:29:28] really really important one to to call
+[00:29:29] out that right now there is no memory
+[00:29:32] model in Linux to say what happens if
+[00:29:35] host A touches a memory region that host
+[00:29:38] B also has mapped. Like think about
+[00:29:41] atomics. You do an atomic increment on a
+[00:29:44] variable that's sitting on a CXL shared
+[00:29:46] fabric memory that's supposed to be
+[00:29:47] coherent with the other guy. Do you go
+[00:29:49] and validate all of his cache lines? Do
+[00:29:50] you stall his CPUs while you're in
+[00:29:52] invalidating all of the cache lines?
+[00:29:55] I don't know. This is this coherency
+[00:29:58] model of like how does this shared
+[00:29:59] memory model work outside of your host
+[00:30:01] really needs to be defined.
+[00:30:05] Uh and then networking. So,
+[00:30:08] one cool thing is, yeah, if we have
+[00:30:11] multiple hosts sharing a coherent
+[00:30:13] region, so I actually have this
+[00:30:14] coherency thing that I just talked about
+[00:30:16] that needs to be built. Um, you don't
+[00:30:18] really have to copy memory around. You
+[00:30:20] just you just go get it. Um, so like NPI
+[00:30:23] over CXL is a thing. There's there's all
+[00:30:25] sorts of studies that that um was
+[00:30:28] actually presented at uh supercomput
+[00:30:31] 2025 last year. Uh it's pretty cool
+[00:30:33] stuff. Um it is very competitive with
+[00:30:36] RDMA.
+[00:30:37] Um
+[00:30:39] yeah and then I mentioned the uh
+[00:30:43] uh automicity on pulled memory like what
+[00:30:45] happens when I when I have to do some
+[00:30:48] sort of you know memory barrier
+[00:30:51] like but there's another node that is
+[00:30:53] also trying to access that same memory
+[00:30:54] in its own operating system that has no
+[00:30:57] idea why I'm fencing out off this this
+[00:30:59] memory. Like what what happens here?
+[00:31:04] >> [snorts]
+[00:31:04] >> Okay. So,
+[00:31:06] I think we're doing okay on time, right?
+[00:31:08] Is
+[00:31:11] Oh, we'll just keep going.
+[00:31:14] Okay. So, where do I think this
+[00:31:15] coherency fabric should live? Um, so
+[00:31:19] like I mentioned, there's two fabric or
+[00:31:21] two managers involved. There's a fabric
+[00:31:23] manager that is defined by the spec.
+[00:31:25] This is the control plane entity. We
+[00:31:26] already sort of talked about it. Um,
+[00:31:28] this is not part of the coherency data
+[00:31:30] path, right? It has nothing to do with
+[00:31:32] coherency. So we have a coherency
+[00:31:34] manager which is the data plane. So this
+[00:31:36] is the hot path. So this would be like
+[00:31:38] your home agent directory snooing
+[00:31:42] um everything that we know how a like
+[00:31:45] thing that manages coherency would look
+[00:31:47] like. Um and in cxl3.x they went ahead
+[00:31:52] and and added the snoop filter
+[00:31:54] definitions and they added this back
+[00:31:55] invalidate uh live on the device.
+[00:31:58] So back in validate like I mentioned you
+[00:32:00] can if you looked in the spec you'll see
+[00:32:01] HDM which is like host uh device memory
+[00:32:04] decoders uh DB which I don't remember
+[00:32:07] what that um the DB stands for but it
+[00:32:10] also that is like equal equal to BI so I
+[00:32:14] why why they had to have two acronyms to
+[00:32:16] name the same thing who who the hell
+[00:32:17] knows but um what this means though this
+[00:32:20] is a very very important feature and it
+[00:32:22] shows up in in 3.x X. Um, so it'll be in
+[00:32:25] Diamond Rapids, it'll be in uh Venice.
+[00:32:28] This allows a device, my CXL device to
+[00:32:31] invalidate um cache lines, basically
+[00:32:34] invalidate um, you know, memory access
+[00:32:36] and in influence the coherency directly.
+[00:32:39] So if I know that I'm about to dirty a
+[00:32:41] page, I can issue the coherency
+[00:32:44] semantics and the op codes out to the
+[00:32:46] fabric to invalidate that. Today, if I
+[00:32:50] needed to do this like in CXL 3.0, Oh,
+[00:32:53] without back invalidate,
+[00:32:55] I have to ask the host CPU to do it for
+[00:32:57] me. And so all of a sudden, you create a
+[00:33:00] massive bottleneck shoving your um data
+[00:33:03] plane coherency management tasks up to
+[00:33:06] the CPU to basically manage the fabric
+[00:33:09] for you. This is saying, okay, we're
+[00:33:10] going to we've given you the coherency
+[00:33:13] capabilities. We've given you all of
+[00:33:15] these capabilities, and we're also going
+[00:33:17] to give you the capabilities to manage
+[00:33:19] your coherency directly. Um, so this was
+[00:33:21] like this was basically a very big ad
+[00:33:24] that was needed to make this all work.
+[00:33:27] Uh, and HDMBB by the way BI support is
+[00:33:31] in QMU. Um, Jonathan Cameron at Huawei
+[00:33:35] has been doing a lot of really really
+[00:33:36] great work getting features that don't
+[00:33:38] exist in hardware yet into QMU so people
+[00:33:40] can start like proof of concepting a lot
+[00:33:42] of this stuff. Um, so you you actually
+[00:33:45] can test back and validate in a in a you
+[00:33:47] know emulated environment.
+[00:33:51] So I ask is the device your CXL device
+[00:33:54] the right home when no one owns the
+[00:33:56] fabric and the reason why is let's look
+[00:33:59] at the five things that I think where
+[00:34:01] they live because the spec says um this
+[00:34:04] fabric manager should live on the device
+[00:34:07] right so if you have a whole bunch of
+[00:34:08] hosts connecting into the device um and
+[00:34:11] then you have a coherency fabric manager
+[00:34:13] living on the device um you know back in
+[00:34:16] validate has to be there you don't have
+[00:34:17] to go hop out to anywhere that's
+[00:34:19] Um, but think about you grow out to like
+[00:34:22] multiple terabytes or beyond of RAM in a
+[00:34:25] fabric and you're doing back and
+[00:34:27] validate and cache coherency granularity
+[00:34:29] at 64 byt cache lines.
+[00:34:32] You will never be able to scale that. It
+[00:34:34] will be impossible.
+[00:34:37] Especially if you have like one host
+[00:34:40] happens to do like a giant mud map of
+[00:34:42] like a terabyte region and the BI storm
+[00:34:45] that would happen after that would just
+[00:34:46] bury the whole fabric. it would it would
+[00:34:48] it just won't scale.
+[00:34:50] So maybe we put it in the switch. Um
+[00:34:54] like that's a good place like logically
+[00:34:56] where everyone connects to. Well,
+[00:34:58] everyone has to go through that.
+[00:34:59] Everyone should be able to talk to the
+[00:35:00] uh fabric manager maybe there. Um
+[00:35:04] problem is that switch would be horribly
+[00:35:05] complicated. Um you know SRAM is a
+[00:35:08] thing. Uh can you fit you know
+[00:35:12] basically the the whole Snoop directory
+[00:35:14] the the Snoop filter directory into a
+[00:35:16] switch um runtime? And I'm going to say
+[00:35:19] no. I don't think you'll ever be able to
+[00:35:21] scale that. That switch will be so you
+[00:35:23] you think that things are cost
+[00:35:24] prohibitive now with RAM and GPUs. I'd
+[00:35:27] like to see the price tag on a switch
+[00:35:29] like that. But like more power to anyone
+[00:35:32] who wants to build that switch. Uh we
+[00:35:34] can put it on the host CPU. Um okay,
+[00:35:37] maybe. Um but then you're basically
+[00:35:40] moving the problem somewhere else. So
+[00:35:41] the host CPU already has its cache
+[00:35:43] agents. Um, and you might have to be
+[00:35:46] multiple hopping on a DPU, on a smart
+[00:35:50] nick, put it close to the edge of your
+[00:35:52] device. Um,
+[00:35:54] and the thing is like that there's
+[00:35:56] really not been a lot of work here. Uh,
+[00:35:58] so I'm kind of foreshadowing and maybe
+[00:36:00] we distribute this. Maybe a little bit
+[00:36:02] of it everywhere. Um,
+[00:36:06] but like the reality is we already know
+[00:36:08] how to do this
+[00:36:10] sort of, right? two CPUs, we already
+[00:36:12] know how to do a fabricbased management
+[00:36:15] of coherency. So if I want to go ahead
+[00:36:19] and get something that is owned by a
+[00:36:21] cache line on an on a node next to me,
+[00:36:24] there is a fabric that I go across and
+[00:36:26] there is a you know XPI link or QPI link
+[00:36:28] or you know infinity fabric link. Um I
+[00:36:31] know how to pull this data in. Um and
+[00:36:34] certain pieces people you know own and
+[00:36:37] then there are you know filters that
+[00:36:39] bubble up. Um, and it it starts to look
+[00:36:42] like a networking thing.
+[00:36:44] So, now we're to the part where you
+[00:36:46] start throwing stuff at me.
+[00:36:50] I'm going to put this thing out that I
+[00:36:52] call the fabric resident tier coherence
+[00:36:54] manager.
+[00:36:57] Um, so I think that having one piece of
+[00:36:59] hardware that manages all the coherence
+[00:37:00] is is the wrong target, right? Single
+[00:37:02] point of failure. It's not going to be
+[00:37:03] buildable to scale. Um, so what if we
+[00:37:07] take coherency agents and have basically
+[00:37:11] little home agents that live on like a
+[00:37:13] DPU or a smart nick on the host that
+[00:37:15] you're connecting to the fabric and then
+[00:37:18] you shard out the directory across the
+[00:37:20] switches. So they all have a little bit
+[00:37:22] of like knowledge of who might that one
+[00:37:25] uh like basically it could be a
+[00:37:26] hashbased um yeah that's a
+[00:37:29] implementation detail. Um, look at that.
+[00:37:31] I I'm like doing spec stuff like it's an
+[00:37:33] implementation detail. Um, on the GFAM
+[00:37:36] itself, the global fabric attached
+[00:37:38] memory device. This is the big CXL
+[00:37:39] device with a coherent uh region. Um, it
+[00:37:42] should probably own uh part of this. And
+[00:37:45] I would contend that to make this work
+[00:37:46] and scale in hardware. So like the
+[00:37:49] switch silicon pieces itself um should
+[00:37:53] have a small hot region that is managed
+[00:37:55] purely by hardware on the coherence. But
+[00:37:58] then you can also run the coherence
+[00:38:00] model on all of this stuff in like a
+[00:38:01] software or firmware level that would
+[00:38:03] manage the rest of it. That way stuff
+[00:38:05] that really really has to be tight and
+[00:38:07] fast and you're tearing everything out.
+[00:38:08] You're moving pages around based on the
+[00:38:10] hotness monitoring can land in the hot
+[00:38:12] region and then hardware handles all of
+[00:38:14] the coherency calls. Uh and then
+[00:38:16] anything else that you don't really care
+[00:38:17] about you shove out to the bulk region.
+[00:38:20] Um and then the kernel would have uh
+[00:38:22] control over which things show up in uh
+[00:38:24] what areas.
+[00:38:29] Yeah. So, the hardware precision. Okay.
+[00:38:30] So, I won't go through this whole thing.
+[00:38:33] Um, the paper that I that I wrote to go
+[00:38:36] with this goes into much more detail.
+[00:38:38] It's already it's already posted on the
+[00:38:39] netv site. Uh, the slides will be up
+[00:38:41] there after this, but this is basically
+[00:38:43] showing what these tiers and who owns
+[00:38:45] what in this model would look like, you
+[00:38:48] know. So, you have your switches, you
+[00:38:49] have your um, you know, your your smart
+[00:38:51] nicks with with this uh, ECA on them.
+[00:38:54] and you know, you're running these
+[00:38:55] fabric management agents everywhere and
+[00:38:57] you got a GPU hooked up and then you
+[00:38:59] have your CXL thing down at the bottom
+[00:39:01] and this starts looking really really
+[00:39:02] like a network.
+[00:39:05] Um, I won't write or run through the
+[00:39:07] coherent right um just for the sake of
+[00:39:09] time but it's also really tiny but
+[00:39:12] basically what would a coherent write
+[00:39:14] look like? How would it get applied to
+[00:39:15] the fabric with other hosts being uh
+[00:39:17] notified? Um, so like the backend
+[00:39:19] validates kick in and all of that stuff.
+[00:39:21] So I'll go ahead and leave that to the
+[00:39:24] reader later.
+[00:39:26] Um,
+[00:39:29] so what does this actually look like?
+[00:39:30] Um,
+[00:39:32] so we have work to do on the netv side.
+[00:39:36] Um, DPU shows up as a coherency agent,
+[00:39:39] right? These little fabric managers and
+[00:39:40] ECAs show up. I would propose that this
+[00:39:43] is a new device role. This isn't just
+[00:39:45] some random offload. Um, that like this
+[00:39:47] is actually something that this would be
+[00:39:49] part of something in the future.
+[00:39:52] um we would have to figure out how um
+[00:39:56] how do you like have shared state
+[00:39:57] ownership, exclusive state ownership,
+[00:39:59] all of the memory coherence things that
+[00:40:01] we deal with today at the CPU level, CXL
+[00:40:03] shoves into like this level, we have to
+[00:40:06] figure out how to consume that. Um and
+[00:40:09] then you know is there a shift where we
+[00:40:12] have to say okay we're in CXL fabric
+[00:40:13] mode and we have to go to RDMA mode to
+[00:40:15] like go far across the data center or
+[00:40:17] maybe to a different data center. What
+[00:40:19] does that handoff look like?
+[00:40:21] And then on the memory management side,
+[00:40:23] you know, the MM core, um, we need to be
+[00:40:26] able to tell the host that these regions
+[00:40:29] are coherent with some other host. Uh,
+[00:40:32] and then this is where that, uh,
+[00:40:34] coherency model with multiple host
+[00:40:36] coherency needs to be defined.
+[00:40:39] Um, maybe we have croup accounting for
+[00:40:43] um, the hot region making sure that
+[00:40:44] someone's not abusing it. You know, we
+[00:40:46] can get telemetry out. um you know a lot
+[00:40:49] of work in Don and then like the TPP uh
+[00:40:52] to be able to move stuff between the hot
+[00:40:54] and the and the bulk areas.
+[00:40:57] Now I hope that some of you are thinking
+[00:40:59] okay we talked about bandwidth being a
+[00:41:01] bottleneck we talked about this
+[00:41:02] coherency thing for scalability but what
+[00:41:05] do they have to do with each other? So,
+[00:41:08] if all of you thought about that, could
+[00:41:10] uh if any of you are still like, I don't
+[00:41:12] know what the hell this guy is talking
+[00:41:13] about, that's okay. We'll we'll just
+[00:41:15] keep going. Just smile and nod. Um
+[00:41:19] so, does coherence fix bandwidth? And
+[00:41:22] the answer is no. Um it can't physically
+[00:41:25] widen the pipe. Um if you have bytes
+[00:41:28] crossing, they have to cross the link.
+[00:41:30] Um but does bandwidth fix coherence? And
+[00:41:32] the other thing is no. Um because if you
+[00:41:35] look at CXL uh 4, we start getting we
+[00:41:39] finally start getting some bandwidth
+[00:41:40] relief with like the pipe size with the
+[00:41:43] uh port bundling. Um we start getting to
+[00:41:46] where we can be pushing like 1 1.5
+[00:41:48] terabytes per second of throughput um
+[00:41:51] theoretically which would be great. Um
+[00:41:54] but
+[00:41:55] but my conjecture is when you start
+[00:41:57] getting the bandwidth that will finally
+[00:42:00] start making the coherent fabric a
+[00:42:03] possibility where it actually can scale
+[00:42:06] then you need the coherence to be able
+[00:42:07] to make it work. Otherwise you have this
+[00:42:09] giant pipe into a single resource and
+[00:42:12] it's not that interesting.
+[00:42:14] So build the coherency fabric in
+[00:42:18] preparation for when the giant bandwidth
+[00:42:20] pipe shows up and then we can make use
+[00:42:22] of it right out of the gate.
+[00:42:28] Okay? So leave some open questions like
+[00:42:30] these are things that I'm here to say
+[00:42:33] maybe think about. I'm not inviting to
+[00:42:35] say like let's answer these right out
+[00:42:37] after this. Come talk to me like email
+[00:42:40] me, flame mail me. Um, but things like
+[00:42:42] that I'm thinking about that that need
+[00:42:44] need some answers. Um,
+[00:42:48] like what is the directory sharding
+[00:42:49] address to home under multipath? Like if
+[00:42:51] I multipath out of two devices, right?
+[00:42:54] That's a thing. We're going to need that
+[00:42:55] for redundancy and and um, you know, uh,
+[00:42:58] disaster recovery, how do you share the
+[00:43:01] directory, the the the home agent uh,
+[00:43:03] coherence directory? Um, how do you
+[00:43:06] encode this thing so that you have
+[00:43:08] thousands of nodes hitting this and you
+[00:43:10] have like all of these uh directory
+[00:43:12] cache invalidates flying around? Um, how
+[00:43:14] do you encode it so that it's not uh
+[00:43:16] unmanageable?
+[00:43:18] Um, how big can we size this hot region?
+[00:43:21] I don't know. Is it really really tiny?
+[00:43:22] Is it really big? Um, and then again
+[00:43:26] coming back to this like how do I keep
+[00:43:27] consistency with atomics? Like this is a
+[00:43:29] this is a big sticking point that needs
+[00:43:32] to be solved no matter what.
+[00:43:35] Um, and then the the the memory
+[00:43:37] correctness model, like what does this
+[00:43:38] look like?
+[00:43:40] Yeah. And none of these are solved. So,
+[00:43:44] um, all right. So, you're still awake.
+[00:43:46] What did you miss? This is like the, you
+[00:43:49] know, TLDDR. Go to the last slide. Um,
+[00:43:52] latency is fine. Bandwidth is the wall.
+[00:43:53] Orders of magnitude uh due to the link.
+[00:43:56] Um, CXL 2.0 looks really cool on paper,
+[00:44:00] but it's not coherency. uh it is like um
+[00:44:04] partitioned up memory devices.
+[00:44:06] Um the moonshot does span multiple
+[00:44:09] layers. This is a this is a big effort,
+[00:44:11] right? This is getting vendors involved,
+[00:44:13] ODM's involved, the kernel involved.
+[00:44:16] Like there's a lot of moving pieces here
+[00:44:18] that if we're going to make this work,
+[00:44:19] there's a lot of people that have to do
+[00:44:21] this.
+[00:44:23] Um I think coherency should be in the
+[00:44:26] fabric, uh distributed out in the
+[00:44:28] fabric. Um that's my my proposal.
+[00:44:31] Um, yeah. Come argue with it.
+[00:44:36] Um, and you know, I had to be very
+[00:44:38] cheesy. Uh, yeah. Yeah. Yeah. And, uh,
+[00:44:42] I'll open it up to questions.
+[00:44:44] Oh, wow. That was really fast. It's very
+[00:44:48] low latency on the, uh, the question
+[00:44:50] request.
+[00:44:53] >> Okay. So, I have probably two questions.
+[00:44:56] Uh number one is the concepts of
+[00:45:00] multi-tier memory I believe existed in
+[00:45:04] the past because uh Intel had the NVDs
+[00:45:08] uh which were kind of a colder storage.
+[00:45:11] Uh does CXL reuse those concepts or it
+[00:45:14] comes with a new ones inside the kernel
+[00:45:18] because I believe there were some
+[00:45:19] primitives for that.
+[00:45:21] >> So it's a very good question. Um the
+[00:45:23] very simple answer is yes. Uh so like
+[00:45:26] the DAX subsystem
+[00:45:28] um incidentally there's a guy you might
+[00:45:31] know Dan Williams who worked on the NVD
+[00:45:34] dim stuff at Intel wrote all the DAX
+[00:45:36] stuff and when that
+[00:45:40] died unceremoniously on the vine um he
+[00:45:43] moved on to working on CXL and he wrote
+[00:45:45] a good chunk of the CXL core in the
+[00:45:47] kernel that happens to use DAX um to
+[00:45:51] define a memory device. So some of those
+[00:45:53] semantics of like far memory
+[00:45:57] I we we got for free because of that.
+[00:45:59] But yes. Okay. And the second one is
+[00:46:02] more moonshotty. Uh because like as you
+[00:46:07] mentioned the biggest limitation of CXL
+[00:46:10] is the physical layer. It gets even
+[00:46:13] worse with uh moving towards PCIe Gen 7
+[00:46:17] because the like it has integrity
+[00:46:21] problems even when routing on the
+[00:46:23] motherboard. So it won't even reach
+[00:46:26] those 2 meters. uh do you think the
+[00:46:29] concepts or the CXL spec will move to
+[00:46:32] different protocols physical layers for
+[00:46:34] example like uh silicon photonics or
+[00:46:38] maybe even DDR as as a as a transport
+[00:46:42] >> it's excellent question um so the very
+[00:46:45] simple answer again is yes um even PCIe6
+[00:46:49] there was a lot of discussion u before
+[00:46:51] the spec was ratified to maybe looking
+[00:46:53] at like sil silicon photonics on the
+[00:46:55] motherboard um but it do move to a
+[00:46:58] different uh transceiver in PCIe6 which
+[00:47:00] actually
+[00:47:02] hurts um move to panform encoding. Um so
+[00:47:10] basically the latency addition overhead
+[00:47:12] of having that new transceiver is
+[00:47:14] something that's completely unavoidable.
+[00:47:16] So
+[00:47:17] for someone who works somewhere where uh
+[00:47:20] for for a good chunk of our workload or
+[00:47:22] or most of our workload is very latency
+[00:47:24] sensitive um like PCIe 6 is a
+[00:47:27] non-starter uh and 7.0 doesn't get any
+[00:47:30] better. But it it's a problem
+[00:47:33] independent of any of the other cool
+[00:47:36] things and widgets that CXL might bring.
+[00:47:38] It is it's something that they have to
+[00:47:39] fix. There's no way to scale to to those
+[00:47:42] types of throughputs without solving it
+[00:47:45] because yes, if you can only have like a
+[00:47:47] trace length of like a centimeter wide
+[00:47:49] to keep your signal integrity at PCIe7,
+[00:47:51] it's completely useless.
+[00:47:53] >> Yeah.
+[00:47:53] >> Yeah.
+[00:47:55] Right. John,
+[00:47:56] >> suppose I were to play devil's advocate
+[00:47:59] and just ask about the fundamental
+[00:48:01] viability of CXL. So the this what the
+[00:48:04] challenge I see is the ecosystem around
+[00:48:06] CXL seems to be advancing very very
+[00:48:08] rapidly. Memory bandwidth is going up,
+[00:48:10] network bandwidth is going up and of
+[00:48:12] course computation is going up both in
+[00:48:14] terms of number of cores per chip and of
+[00:48:16] course the GPUs. And it feels like this
+[00:48:18] creates tremendous pressure on CXL
+[00:48:21] because it feels like CXL is sort of
+[00:48:23] stuck with sort of fixed points from PCI
+[00:48:26] Express in terms of of bandwidth and
+[00:48:28] also physical expandability. And so as
+[00:48:31] these other things in the ecosystem
+[00:48:33] increase, it feels to me like the place
+[00:48:36] for CXL to stand is shrinking and
+[00:48:38] getting smaller and smaller and smaller
+[00:48:40] as they press in. Uh is there a flaw in
+[00:48:43] that argument? Is there a risk that in
+[00:48:45] fact that place to stand is eventually
+[00:48:46] just going to vanish because there's
+[00:48:48] just too much pressure from the the
+[00:48:49] advances in the outside technologies?
+[00:48:52] >> It's e excellent question because um to
+[00:48:55] be perfectly honest, I ask myself that
+[00:48:57] from time to time. Um
+[00:49:00] I have been looking at CXL like I said
+[00:49:02] at the very beginning for years not on
+[00:49:04] the memory expansion side but on the
+[00:49:06] accelerator side. So how can I influence
+[00:49:08] like the CPU cache to reduce latency of
+[00:49:11] my workload and that's a very one to one
+[00:49:13] device like my you know CXL device my
+[00:49:16] nick is now faster like latency wise and
+[00:49:19] that's very compelling to my workloads
+[00:49:21] but it's a niche uh kind of thing. Now
+[00:49:26] if say like a very large GPU vendor
+[00:49:29] decided to build a CXL capable GPU
+[00:49:33] um it would be better
+[00:49:35] in terms of like throughput and latency
+[00:49:37] well more latency um but I would have
+[00:49:40] better semantics of I can get to memory
+[00:49:42] without having to go through like a
+[00:49:43] private memory range translation layer.
+[00:49:46] My GPU memory would be mapped directly
+[00:49:47] into the kernel memory space. Now I'm
+[00:49:49] just like literally writing to the GPU
+[00:49:51] memory. But um they won't do that
+[00:49:54] because they have this other fabric that
+[00:49:55] they built that they want you to buy
+[00:49:57] things that's all nicely connected. So,
+[00:50:00] um, yeah, when CXL was defined, none of
+[00:50:03] this AI nonsense was happening, right?
+[00:50:05] And so, seeing this massive spike, um,
+[00:50:09] no one saw coming. Now, well, I'm sure
+[00:50:11] people did see it coming, but um, CSL
+[00:50:14] survived, um, competing against two
+[00:50:16] other very similar protocols, uh, CCIX
+[00:50:19] or C6 and, um, Gen Z. Thank you. Like, I
+[00:50:24] see it in my head. Um, but
+[00:50:28] it still gives a device, there's nothing
+[00:50:30] else that will give a device the ability
+[00:50:32] to be memory coherent or cache coherent
+[00:50:34] directly with the CPU. And I think that
+[00:50:36] that's where it will still live and and
+[00:50:39] stand on its own. Um, but these like
+[00:50:42] grander CXL fabrics might have a
+[00:50:45] challenge. Um, but I think if we can get
+[00:50:48] the bandwidth up and start showing I can
+[00:50:52] back something that's not needing like
+[00:50:54] immediate very very close memory. Um,
+[00:50:56] but I can have like a like a cache store
+[00:50:59] where I can be coherent across multiple
+[00:51:01] hosts that it could be a little bit
+[00:51:02] slower. CXL might still have something
+[00:51:06] left to give.
+[00:51:07] >> Do you think that the bandwidth
+[00:51:09] improvements that are coming in CXL?
+[00:51:11] think that it can get up on a curve. So,
+[00:51:13] it's not just a matter of of making an
+[00:51:16] improvement, but getting on the same
+[00:51:17] curve as all of the other technologies
+[00:51:19] because they're going to probably
+[00:51:20] continue to increase also. What are the
+[00:51:21] chances of of that happening?
+[00:51:23] >> Um, so my my personal opinion, the
+[00:51:25] chances of that are low um just because
+[00:51:28] the the physical interconnect that we're
+[00:51:30] tied to it it's it it also isn't growing
+[00:51:34] as as fast as that, right? So, um, but
+[00:51:37] like like to Mach's point of does CXL
+[00:51:39] move to something or PCI Express move to
+[00:51:41] something like a DDR type um
+[00:51:43] interconnect
+[00:51:45] maybe at that point. But yes, we've got
+[00:51:47] to get over some of these fundamental
+[00:51:49] pipe sizing and limitations before we
+[00:51:52] get on the same, you know, crazy train
+[00:51:54] that that we're on with AI.
+[00:51:57] It's a great question.
+[00:52:00] >> Uh, uh, in the room below there's a
+[00:52:03] question. If nobody's asking I am. Okay.
+[00:52:07] Uh the meta question which is uh has
+[00:52:09] anybody compared ZXL, UL, NV link, EON,
+[00:52:13] DGX? What are we missing?
+[00:52:17] >> Well, the problem is a lot of So, so the
+[00:52:21] the simple answer is no. Um it's because
+[00:52:24] like CXL3
+[00:52:27] um physically does not exist today. It
+[00:52:29] it's vaporware. So, I I can't go out and
+[00:52:32] buy a Venice or a Diamond Rapids and get
+[00:52:34] 3.0 to be able to test some of the stuff
+[00:52:36] against um like these big shared fabrics
+[00:52:40] like an NBLink kind of thing and an NBL.
+[00:52:43] Um also, if I'm trying to compare like a
+[00:52:47] DGX sort of thing where the devices
+[00:52:49] still aren't like fully coherent to the
+[00:52:52] host, like they still have to go through
+[00:52:54] controllers. Um, it's still like an
+[00:52:56] apples oranges comparison because my
+[00:52:58] device being able to influence the CPU
+[00:53:00] directly versus still having to go
+[00:53:01] through an intermediary, it's it's very
+[00:53:03] hard to extrapolate where like if
+[00:53:06] something doesn't look right in the
+[00:53:08] numbers, where's the problem, right?
+[00:53:10] It's a
+[00:53:11] but yeah, without without having some of
+[00:53:13] the other hardware that would get it
+[00:53:14] more on par with that stuff, uh, it's
+[00:53:17] really hard to to to
+[00:53:19] guess where it would be.
+[00:53:21] >> Okay, I guess I got the AR to compare
+[00:53:23] and come back.
+[00:53:31] Okay, please uh feel free to email me.
+[00:53:34] Um more than happy to talk about this
+[00:53:36] stuff. Find me uh the rest of today. Um
+[00:53:39] and I thank you for your time.
+[00:53:44] >> [applause]

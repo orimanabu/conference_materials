@@ -1,0 +1,263 @@
+Source: https://youtu.be/0ikXDZe1cL4
+Language: en
+Captions: local speech recognition (mlx-community/whisper-small-mlx); unreviewed
+
+[00:00:00] Good morning everyone. Welcome to my presentation.
+[00:00:03] So I will be talking today about traffic shaping and enhanced transmission selection.
+[00:00:09] I'm Carolina Jobran and I work at NVIDIA.
+[00:00:15] So let's go quickly through the agenda.
+[00:00:18] First, I will give an overview of how traffic shaping is work,
+[00:00:26] especially in NVIDIA's hardware.
+[00:00:29] Next, I will outline the ETS use case and how do we achieve a proper solution for it.
+[00:00:35] And finally, I will give a timeline for this work.
+[00:00:41] So traffic shaping is a mechanism used to control the outgoing data from a network node.
+[00:00:53] And in practice, traffic shaping usually uses parameters to define desired rate limits.
+[00:01:06] Two common parameters are minimum rate and maximum rate.
+[00:01:11] So minimum rate is the minimum guaranteed bandwidth for a given node.
+[00:01:15] And this is the rate actually that the node will always receive if the link is fully utilized.
+[00:01:23] If the link is not fully utilized, the node potentially can transmit faster up to its maximum rate
+[00:01:32] or to the link capacity. Maximum rate is the maximum bandwidth a node is allowed to transmit.
+[00:01:41] And usually this is enforced by a token bucket mechanism
+[00:01:47] that ensures that the outgoing traffic for the node doesn't exceed its rate limits.
+[00:01:55] So actually sending a packet consumes some amount of tokens.
+[00:01:59] If there are sufficient tokens to transmit the packet, the packet will be sent out.
+[00:02:04] If not, the packet will just wait until we have available tokens enough to transmit the packet,
+[00:02:12] which actually will pause the traffic and implements a backpressure.
+[00:02:18] So a backpressure in this context is the effect of a rate limit causing traffic to slow down.
+[00:02:26] So as we can see in the diagram, we have here a hardware send queue that have
+[00:02:32] processed the packets that they need to be sent out.
+[00:02:37] So the hardware will try to transmit these packets.
+[00:02:41] If there are available tokens, they will be sent out.
+[00:02:44] But if there are no available tokens, so the packets will be held up in the queue
+[00:02:51] and they will wait until the token bucket is refit, which is our backpressure.
+[00:02:59] An important note here is that by packet, I mean an Ethernet frame, which includes
+[00:03:07] the Ethernet header and the data payload.
+[00:03:10] So tokens are calculated based on it.
+[00:03:15] So I will be mainly discussing virtual function traffic shaping.
+[00:03:21] And this happens from the e-switch side, from the hypervisor side.
+[00:03:25] As you know, traffic shaping on a virtual function is important.
+[00:03:30] So multiple virtual functions that share the same nick can fairly share the link.
+[00:03:39] So I will give a quick overview of some methods that can configure traffic shaping on a virtual function.
+[00:03:49] The first one is the IndioSetWaftRate.
+[00:03:52] It's the legacy method to do it.
+[00:03:54] And it can set a maximum rate or a minimum rate on an individual virtual function.
+[00:04:01] Next is a match all traffic control filter and a policy that can be set on the in-egress traffic
+[00:04:09] of the virtual function representor, which actually maps the egress traffic of the virtual
+[00:04:18] function.
+[00:04:21] And the policy will just drop packets that exceed the limit.
+[00:04:25] So this method have two downsides.
+[00:04:32] The first one is that we use a match all filter, which can complicate further classification
+[00:04:39] on the traffic.
+[00:04:41] And the next, the other one is that this is a policy and not shaping.
+[00:04:47] And the difference is that the virtual function doesn't have any feedback.
+[00:04:53] So if there are packets that exceed the limit, they will just be dropped.
+[00:05:00] On the opposite with traffic shaping, the packets will be held up in the queues.
+[00:05:07] And the virtual function will be indirectly slowed down.
+[00:05:14] The last method is the DiveLink rate, which actually functions on a DiveLink port.
+[00:05:24] And it can set rate limits on a virtual function or on a group of virtual functions.
+[00:05:32] And it can make a bit more complex hierarchies for quality of service needs.
+[00:05:37] And now I will be discussing how this scheduling works on the hardware, on Nvidia's devices.
+[00:05:50] So as you see in the bullets, these devices support a hierarchical quality of service
+[00:05:56] of load on the A-switch side, where like transmitting and shaping happens right on the device.
+[00:06:06] And the firmware provides a mechanism to configure this hierarchical tree.
+[00:06:14] And it exposed each virtual function as the driver can configure it.
+[00:06:22] So if we look at the hierarchy at the top, we have the root element,
+[00:06:28] which actually reflects the physical link and or the wire and its total bandwidth capacity.
+[00:06:36] Below the root, we have a DWRR element. Can you see my, no?
+[00:06:44] You see it? No? Right now, yeah. Okay, so below the root, we have a DWRR element,
+[00:06:52] which implements a deficit-weighted round robin scheduler.
+[00:06:57] And it actually helps us to allocate the bandwidth fairly or proportionally between the connected
+[00:07:04] nodes. And finally, we have the virtual functions where we can set the rate limit directly on them.
+[00:07:13] So the firmware exposed this whole tree so we can configure the rate limits and
+[00:07:19] traffic shaping as we need. Now I will zoom in a bit into the transmitter scheduler.
+[00:07:29] So on the previous slide, we discussed the left side. Now I will be mainly discussing the right
+[00:07:36] side where we can see the scheduling queue. So each virtual function is provided by default.
+[00:07:47] One scheduling queue per traffic class. So actually we have eight scheduling queues.
+[00:07:54] And each scheduling queue have a five-four list of queues that have packets ready to transmit.
+[00:08:03] So once a queue want, I sent queue one to send a packet, the hardware will insert this queue into
+[00:08:11] the tails of the list. And once this scheduling queue is chosen to transmit,
+[00:08:23] we will just take the head, send queue to proceed with the transmitting. In addition,
+[00:08:31] each scheduling queue have a token bucket. And actually whenever we transmit the packets,
+[00:08:43] the amount of tokens that were used, it will be decremented from this token bucket. And this
+[00:08:52] token bucket is refilled at a fixed rate. And once the token bucket is empty, the queue list
+[00:09:02] will be waiting until we have sufficient tokens to continue transmitting, which actually
+[00:09:09] implements the back pressure. Finally, an important note here is that since the hardware maps each
+[00:09:17] scheduling queue with traffic last, it's important to have different send queues for different types
+[00:09:27] of traffic. Now I will actually outline the use case, the ETS use case. So in our scenario, we have
+[00:09:38] a physical nick that have multiple virtual functions. And we want to manage bandwidth by
+[00:09:49] traffic loss on those virtual functions. In other words, we want to prioritize certain types of
+[00:09:57] traffic on a proportion of the link, which actually the promise of enhanced transmission
+[00:10:03] selection. It allows us to allocate bandwidth on a link. And it does that dynamically. So for
+[00:10:12] instance, if traffic class zero is not using its allocated bandwidth, other types of traffic can use
+[00:10:20] this bandwidth, which actually corresponds to the minimum rate parameter that I have already mentioned.
+[00:10:29] So let's look at the following use case example. We have a physical nick that is capable of
+[00:10:37] transmitting 100 giga. And we have two virtual functions, virtual function one and virtual
+[00:10:44] function two, that shares 50 giga under one group. And both virtual function one and two
+[00:10:55] transmits high priority traffic and low priority traffic, let's say traffic class zero and traffic
+[00:11:01] class one. We want to, we want a way to set 80% of the group capacity for traffic class zero
+[00:11:13] and 20% of the group capacity for traffic class one. In other words, we want to treat
+[00:11:21] class zero traffic from both virtual functions as one combined 40 giga pool and class one traffic as
+[00:11:33] combined 10 giga pool from both functions. So the first approach is there. One can say that let's
+[00:11:43] split bandwidth inside each virtual function. So here we have two problems with this approach.
+[00:11:53] The first one is that this is done from inside the virtual function. So if the hypervisor doesn't
+[00:12:00] have access anymore to the virtual function, the virtual function actually can change these
+[00:12:06] configurations. And the promised bandwidth allocation won't be met. But let's assume for a moment that
+[00:12:16] the virtual function is not going to change these configurations.
+[00:12:25] The problem number two is that high priority traffic can be blocked. Since each virtual function
+[00:12:33] allocates the bandwidth dynamically inside or within the virtual function, traffic class zero
+[00:12:41] unused traffic can be used by a traffic class one. As a result, traffic class one traffic from
+[00:12:51] virtual function one can fully utilize the link. Even though virtual function two had traffic
+[00:12:59] class zero traffic that was ready to transmit. Because we don't have any system wide
+[00:13:11] environment that prioritizes traffic class zero traffic from virtual function two over
+[00:13:21] traffic class one from virtual function one. So actually the guarantee of 80% bandwidth on
+[00:13:30] traffic class zero won't be met. What's needed instead is a way to have shared pools for specific
+[00:13:46] traffic classes on both virtual functions. So if traffic class zero from virtual function two
+[00:13:56] want to transmit, it can use the unused bandwidth by traffic class zero from virtual function one
+[00:14:03] instead of being taken by traffic class one. And this is actually why users asked for this
+[00:14:11] capability. They want a way to share the bandwidth fairly across different types of traffic.
+[00:14:23] The next approach is configuring ETS on the physical Linux, which can be done today with
+[00:14:32] DCB tools. The issue here is that we don't have per group control. So if there is a third
+[00:14:43] virtual function that is sharing the same physical Nick, it actually can fully utilize the link or
+[00:14:52] figure out what is the most prioritized type of traffic and fully utilize the link.
+[00:15:03] So in order to solve this, we need the scheduling hierarchy to be aware of three things.
+[00:15:14] The first thing that we need is we need like what is the type of traffic each virtual function is
+[00:15:23] processing. So in one virtual function node, we won't be able to handle this because we will
+[00:15:30] be processing all types of traffic under the same umbrella. So we need a scheduling element per
+[00:15:38] virtual function and traffic class. And in the example where we had two virtual functions,
+[00:15:46] so now we will have 16 elements. Each element is called a V port DC element that corresponds to
+[00:15:56] a virtual function and a traffic class. The second thing is that we need a shared pool mechanism
+[00:16:07] in order so we can group multiple virtual functions under the same type of traffic.
+[00:16:21] And these elements actually are called the V ports DC scheduling element and they can help us to
+[00:16:30] achieve grouping on multiple virtual functions for the same traffic class. And the third thing is we
+[00:16:40] need to set this on only a proportion of the link on a group actually. Instead of
+[00:16:50] setting this on the whole route which will actually map to the usual ETS. And these elements are
+[00:16:58] called the traffic class arbiter where we can set directly the rate limits for a group on these
+[00:17:06] elements. An important detail here that, oh sorry I missed something, since
+[00:17:16] the hardware maps each scheduling queue with a traffic class. So now for example scheduling
+[00:17:24] queue for traffic class zero for virtual function one will be connected here.
+[00:17:34] So an important detail is that since the hardware maps each scheduling queue with a specific type
+[00:17:43] of traffic, we need different types of, we need different send queues for different types of
+[00:17:52] traffic. But the issue is that MLX 5 driver by default have a queue per CPU core not per traffic
+[00:18:01] class. So actually high priority traffic and low priority traffic can end up on the same
+[00:18:08] send queue. And they can, this can result in head of line blocking. So our solution for this is to
+[00:18:18] use MQ prior on DCB mode which actually will configure different send queues for different
+[00:18:26] traffic types. The next thing that, like having the scheduler hierarchy in place is great but we
+[00:18:37] still need to classify the packets. So here comes the packet classification which
+[00:18:45] actually, usually packet classification is used. So after the traffic is classified we can
+[00:18:59] implement inequality of service needs on the traffic. And this can be done using PCP or DCP.
+[00:19:06] PCP is a three bit value in the VLAN header and the DCP is a six bit value in the IP header.
+[00:19:15] And so we need the hardware to be aware of what type of classification we are doing. And for that
+[00:19:24] we have a trust mode that can be set for the device. And whether to trust DCP or PCP for classifying
+[00:19:34] the packets into traffic classes. So for the solution we actually extend the DevLink create
+[00:19:46] API with a new OTC bandwidth argument. And where we can specify the bandwidth proportions
+[00:19:59] on directly on a rate node or specifically in this example on the group. So this extension can,
+[00:20:12] using this DCB bandwidth argument we can say, okay let's set like 80% for traffic class 0,
+[00:20:20] 20% for traffic class 1 and all the other traffic will get 0% on a specific group. So the
+[00:20:30] firmware can take these proportions and like, the firmware can take these proportions and
+[00:20:42] set them directly on the scheduling hierarchy. Here's an example command that sets 80% for
+[00:20:54] traffic class 0 and 20% for traffic class 1 on a group named TCZ group. So now that I have presented
+[00:21:03] the solution, I would like to mention that this is still work in progress.
+[00:21:11] Let's have a quick run over the timeline. So by August 2023 there was an upstream discussion that
+[00:21:20] we had traffic shaping methods all over the place and we had a very fragmented
+[00:21:27] landscape. So it was clear that we needed a way to a more unified API for traffic
+[00:21:35] shapings in the kernel. And then by June 2024 Paolo Abini from Red Hat proposed the NIT shapers
+[00:21:43] and it was really a very flexible and unified API. It can control traffic shaping both on a
+[00:21:52] device or per queue device. By August 2024, we at NVIDIA posted an RFC patch for the
+[00:22:01] DevLink extension with the TC bandwith argument and we didn't receive any comments so I just
+[00:22:08] moved forward with the development. By October 2024 NIT shapers was accepted upstream and the
+[00:22:18] work was really appreciated by the community and Jerry Perco from NVIDIA also expressed his
+[00:22:28] desire to convert the DevLink rate API to use the NIT shapers API. And finally by December 2024
+[00:22:37] we posted my DevLink patches and the Mlex 5 support for it. But the community actually
+[00:22:48] asked us for a mapping for this new argument into the NIT shapers API because there's a future plan
+[00:22:54] to convert the DevLink rate to use this API. So initially we had some challenges and
+[00:23:02] my teammate Kosmin Ratio and I had discussions with Paolo Abini and Simon Haroun from Red Hat
+[00:23:13] to address these challenges. And last week we actually posted the plan for this argument
+[00:23:22] in two NIT shapers and I'm excited to see where the discussion will lead next. This is just a
+[00:23:33] references slide for the DevLink rate and the NIT shapers API and all DevLink patches for the
+[00:23:40] DC band with the extension and that's all I have. Thank you.
+[00:23:53] Hi. So I've got two questions. The first one, does it work with VFX and how does it work with
+[00:24:13] Pi PFCs? What was the first one? It works with lags. Yeah. It works with lags. And then how would
+[00:24:23] you form this roots of rate shaping? I didn't get the question. Because your root complex is
+[00:24:33] mapped to the physical interface, right? And you've got two interfaces. So how would you map that then?
+[00:24:38] With the root element? Yeah. So you will have the firmware will actually provide a capability to share
+[00:24:49] these traffic class elements with other root. So they will have control on this element from other
+[00:24:58] roots. They will be actually connected to another root even though they are
+[00:25:05] actually part of this root. So they will just be moved to another one.
+[00:25:14] I answered the question. Maybe we could discuss it later. Okay. Thanks.
+[00:25:20] Oh. So you said that you use the DCB. Sorry. Oh, sorry. Okay. So you're using DCB in some of the
+[00:25:31] scenarios for the like the MQPRIO with DCB mode. Are you using anything like DCBX to
+[00:25:39] communicate any of the traffic class configurations between switches or endpoints?
+[00:25:44] No. So you're just using like the traffic class prioritizations? Yeah. Actually, for the traffic
+[00:25:51] classes, we have like verification tool that inject these traffic classes into the right
+[00:26:04] headers so we can work to classify the packets. Great. Thank you. Yeah. We still have some time.
+[00:26:14] So if anybody wants to ask? Yes. So does it apply only for VF and Qs with VF? Or can it
+[00:26:21] apply for Qs that are set on the connectix board? It's on the host side. I mean, I don't think that
+[00:26:29] this applies for connectix4. Like it's only from connectix6.dx? Yes. So I mean connectix6 or 7m.
+[00:26:39] But does it, because here, for instance, on your slide and your example, you always show
+[00:26:44] such example with using some VF, some virtual functions? I can't hear you. You're applying
+[00:26:51] it for virtual functions, VF1, VF2. Yeah. Same for the example you show with dev links,
+[00:26:58] always using some virtual functions. But can we apply the same for the Qs which are sent on the
+[00:27:07] PF? Because I mean, we have many use cases where the same could apply without having any VF on the
+[00:27:17] system. I think that, no, this currently doesn't apply for a PF. I think that the only method that
+[00:27:27] you can use on a PF is DCB, ETS, directly on the physical NIC. But I think that there are some
+[00:27:40] plans to expose dev link rate to work directly with the physical NIC. So you can set rate limits
+[00:27:50] on this physical port on the PF. And you can, the scheduling hierarchy for the DCManduth will
+[00:28:03] work as well. Okay, thank you. Yeah, we are doing well on time, Caroline. So I'm going to ask a question,
+[00:28:14] maybe two. So I think your work is, prior to this, all the VFs would get exactly the same bandwidth.
+[00:28:24] You can't, you can differentiate between VF0 and 1. When you provision the bandwidth for each VF,
+[00:28:32] it has to be the same across the PF. Your work makes it so that you can have individual VFs with
+[00:28:40] different bandwidth. Okay. Now I'm looking at this diagram. I'm going to ask a question,
+[00:28:45] which may be controversial. I haven't followed up Paul's self. I'm assuming people have looked at
+[00:28:50] this and say, what I'm about to ask, it doesn't work. This looks like TCQDisk layout. The traffic
+[00:28:58] class arbitrator could be a class. You have a root QDisk at the top. Traffic class 0 to 7 are other
+[00:29:04] classes, which could be child, children of the first traffic class arbitrator. What was the
+[00:29:09] challenge of not using TCQDisk? Because you can't share this over two virtual functions.
+[00:29:18] I think I can answer that better, Jamal. Some of the ports are not Ethernet. They don't have
+[00:29:23] net devs. So they would put storage and stuff, for instance, sometimes. So that was the goal.
+[00:29:28] That's why they started using the DevLink rate. I see. Okay. Good. All right. Thanks. I think it's
+[00:29:35] great work. Thank you. He has some questions. I can go for it. Thank you. It's a little bit
+[00:29:45] related to Jamal's question. I see these three and what are the limitations? What you can do?
+[00:29:53] Build a tree from shapers. For example, traffic classes are at the same hierarchy level. But you
+[00:30:03] can use, for example, traffic class 1 as a child of traffic class 0 or this kind of things. You
+[00:30:14] are asking with the net shapers? Yes. So with net shapers, there is a constraint that you can't
+[00:30:23] have multiple routes for the same virtual function. So you won't be able to have virtual
+[00:30:30] function 1, traffic class 0, and virtual function 1, traffic class 1. So we'll have only one node
+[00:30:38] per virtual function. Okay. Thank you. Today. Can I? Next? I didn't understand why you have
+[00:30:47] classification. This is egress. You don't have the pocket when you make the scheduling decision.
+[00:30:52] So how do you classify? The hardware doesn't classify. So you fetch the pocket into the device
+[00:30:58] and then you decide which TC it is? Yeah. So what if it is a pocket for the TC that doesn't have credits?
+[00:31:05] I didn't get that. Sorry. So I think the class is assigned to a queue or is it assigned? Like,
+[00:31:13] can you mix traffic on a single queue for different TC's? Yeah. Okay. So there's like
+[00:31:19] head of line blocking problems potentially. That's right. Yeah. So you will need to configure from
+[00:31:25] inside the virtual function. You need the collaboration between the virtual function
+[00:31:29] and the hypervisor. But actually all of our tests ran with one thing sent queue per core and not per
+[00:31:41] traffic class and this achieved a great result. So I think that the... Okay. Is this desirable or is it
+[00:31:49] just how the hardware works? Because like if I assign a priority to a queue, why does the hardware
+[00:31:55] reclassify? Would I already kind of decide it, right? Yeah. I think that this wasn't taken into
+[00:32:01] consideration. All right. Yeah. So sort of related question. I was curious how the back pressure
+[00:32:11] to the host works. So... And I think maybe you just answered it, but just to confirm. So if you
+[00:32:19] don't have credits to send, you just queue the packet in the hardware. You don't push back to the
+[00:32:24] stack and stop the queue. Right. You don't push back. Okay. And this is a 50Q? Yeah. It's a 50Q.
+[00:32:33] How long? Actually, I didn't know. Okay. So there's no sort of AQM or anything? Yeah.
+[00:32:41] Okay. Are you running any latency tests at all with this? I think yes. We are currently working
+[00:32:47] on expanding the verification for this actually with the also the different sent queues for
+[00:32:53] different traffic classes and for the different classification methods. So yeah. Okay. But in
+[00:33:01] this case, you would have one hardware queue for each traffic class. And the example that's on the
+[00:33:07] screen now. Sorry, I think... Would you have one hardware queue per traffic class in this example?
+[00:33:15] Like after classification, it would... Okay. So you will always have one scheduling queue per
+[00:33:20] traffic class. Okay. But then different VFs will share a queue. No. The scheduling queue are default
+[00:33:27] for each virtual function. So we will have different scheduling queues per traffic class
+[00:33:33] for different virtual functions. So here you will have two scheduling queues for traffic class zero,
+[00:33:40] for example, one for virtual function one and the other one for virtual function two.
+[00:33:45] Okay. So you have... So the back pressure is per leaf. Okay. Yeah. And then you do round robin
+[00:33:52] to the traffic class. Yes. Okay. But then... Yeah. Okay. But you could still sort of get some...
+[00:34:01] There's some sharing of scheduling between VFs. Yeah. They share the memory. Actually,
+[00:34:08] all scheduling hierarchy shares the same memory. Okay. So this is to fear with sort of
+[00:34:16] isolation between VFs. Like if one VF is using... Sending a lot of traffic, that would sort of induce
+[00:34:22] some curing on the other ones. I think that the firmware have a method to track this. So you
+[00:34:32] one virtual function cannot use the whole shared memory. Thank you. One more here.
+[00:34:42] So I may have missed it. So you have all of the hardware classifications and all of the policies
+[00:34:49] there. Is it the hypervisor that is actually dictating configuring the e-switch down in the
+[00:34:54] hardware for each VF? Like where is that policy getting set? Is it via dev link from the hypervisor?
+[00:35:01] From the hypervisor, yes. Okay. Okay.
+[00:35:09] Thank you so much.

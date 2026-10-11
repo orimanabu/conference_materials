@@ -1,0 +1,589 @@
+Source: https://youtu.be/peHxKX72H7U
+Language: en
+Captions: auto-generated
+
+[00:00:01] Here we will talk about securing agent
+[00:00:03] access to MCB servers.
+[00:00:05] Uh
+[00:00:06] so
+[00:00:08] um
+[00:00:08] MCB means model context protocol.
+[00:00:11] It standardizes how AI agents reach
+[00:00:14] external tools.
+[00:00:15] It
+[00:00:17] So,
+[00:00:18] it exposes a consistent surface for
+[00:00:21] accessing tools, requests, and
+[00:00:24] resources, and prompts
+[00:00:26] over
+[00:00:27] standard JSON-RPC.
+[00:00:29] It abstracts back-end specifics
+[00:00:32] uh one protocol across
+[00:00:34] uh
+[00:00:35] APIs and REST services, databases, and
+[00:00:38] SQL drivers, file systems, and
+[00:00:41] enterprise tools.
+[00:00:42] Without MCB, each new API surface
+[00:00:45] requires
+[00:00:46] client-side integration code changes.
+[00:00:59] >> [snorts]
+[00:01:01] >> MCB protocol
+[00:01:03] open surface demands security and
+[00:01:05] authentication.
+[00:01:08] Tools and databases such as MongoDB,
+[00:01:11] they sit on host behind the MCB servers.
+[00:01:17] Clients When the clients try to access
+[00:01:19] them, uh they need security. This
+[00:01:22] involves some security risks such as
+[00:01:24] data interception, unauthorized clients,
+[00:01:27] and malicious MCB servers.
+[00:01:30] Every agent connection needs a protect
+[00:01:32] path protected path to back-ends.
+[00:01:35] So, every request must be authenticated
+[00:01:37] and authorized.
+[00:01:40] MCB protocol standard requires OAuth 2
+[00:01:43] open authorization protection, which is
+[00:01:45] used by web servers, and uh JWT
+[00:01:49] JWT is a mode for edge devices like
+[00:01:52] mobiles.
+[00:01:53] Traditionally, is security
+[00:01:55] Traditionally, security is managed
+[00:01:57] entirely on the host by reverse proxies
+[00:02:00] are load balances.
+[00:02:09] As millions of mobiles and laptops
+[00:02:13] uh run AI apps,
+[00:02:15] scaling MCP turns security into an
+[00:02:18] infrastructure problem.
+[00:02:22] Using this ChatGPT, cursor, and all of
+[00:02:25] the AI applications, uh nowadays mobiles
+[00:02:28] and laptops connect to uh different
+[00:02:31] number of different MCP servers, and
+[00:02:34] these connections make up make into
+[00:02:36] millions.
+[00:02:37] These MCP sessions, each app opens
+[00:02:40] sessions to reach APIs and tools.
+[00:02:43] This increases a large number of TLS
+[00:02:46] connections per server.
+[00:02:48] Uh this causes host cycles to be used
+[00:02:51] for TLS termination and OAuth 2
+[00:02:54] processing.
+[00:02:59] >> Recording in progress.
+[00:03:03] >> To solve this prob- uh to solve this
+[00:03:06] problem of
+[00:03:07] uh host usage for security processing,
+[00:03:10] uh we came up with a solution
+[00:03:13] uh that is introducing DPUs in the data
+[00:03:15] path.
+[00:03:16] DPUs are already widely deployed across
+[00:03:18] the data center.
+[00:03:20] Today, they are already handling
+[00:03:21] infrastructure offloads such as
+[00:03:24] uh CNA offloads and uh inference gateway
+[00:03:27] offloads,
+[00:03:29] uh
+[00:03:30] and RDMA offloads.
+[00:03:32] Uh today we are talking about MCP
+[00:03:34] offload uh
+[00:03:36] via KTLS proxy.
+[00:03:38] Um KTLS proxy is a reverse proxy which
+[00:03:40] offloads security and authentication
+[00:03:43] to DPU.
+[00:03:48] >> [snorts]
+[00:03:51] >> By moving the security to DPU, DPU acts
+[00:03:54] as a trust boundary for MCP traffic.
+[00:04:00] Vector databases and tools still run on
+[00:04:02] the host
+[00:04:04] along with the MCP servers.
+[00:04:09] But the reverse proxy, which is KTLS
+[00:04:11] proxy, runs on DPU. It provides TLS
+[00:04:14] termination and JWT validation.
+[00:04:18] It isolates host from running
+[00:04:20] applications. Security is processed on
+[00:04:23] the DPU.
+[00:04:24] Client connects to
+[00:04:26] proxy over HTTPS.
+[00:04:29] And the proxy terminates the TLS and
+[00:04:32] sends a plain HTTP packets to MCP
+[00:04:34] backends.
+[00:04:35] Invalid Invalid requests are rejected at
+[00:04:38] the DPU.
+[00:04:39] And backends are never touched.
+[00:04:46] Now let's look at the KTLS proxy
+[00:04:48] architecture.
+[00:04:50] KTLS proxy implements security and
+[00:04:53] authentication. And it uses kernel TLS
+[00:04:57] module for record processing.
+[00:04:59] Handles TLS handshake via OpenSSL
+[00:05:02] library.
+[00:05:03] And it it has inbuilt JWT validation,
+[00:05:07] which is JSON web JSON web token against
+[00:05:11] JSON web keys from the issuer. Here we
+[00:05:14] are running Hydra as the token issuer on
+[00:05:18] on some server.
+[00:05:28] Enabling KTLS using a shared SSL
+[00:05:30] context.
+[00:05:33] This solution relies on Linux kernel TLS
+[00:05:37] module,
+[00:05:38] Linux kernel TLS framework. So this This
+[00:05:41] is called KTLS.
+[00:05:43] KTLS module
+[00:05:45] For the KTLS module, uh, TLS handshake
+[00:05:48] still happens in user space and TLS
+[00:05:50] record processing such as encryption and
+[00:05:52] decryption is moved to kernel. So,
+[00:05:55] kernel module
+[00:05:57] handles the encryption and decryption
+[00:05:59] and gives the plain text to the
+[00:06:00] application.
+[00:06:02] So, for that, proxy needs to create a
+[00:06:04] shared SSL context during startup.
+[00:06:08] After the So, it has to set a particular
+[00:06:11] flag, SSL operation enable KTLS on the
+[00:06:15] context using SSL context set options
+[00:06:18] API.
+[00:06:21] This is done in step two. In step three,
+[00:06:24] proxy will set ciphers, which are
+[00:06:26] required. Currently, KTLS KTLS is
+[00:06:30] supported from supported from TLS 1.3
+[00:06:33] onwards.
+[00:06:34] It requires a
+[00:06:36] kernel and OpenSSL configured with the
+[00:06:38] SSL
+[00:06:40] configured with the KTLS support.
+[00:06:43] So, in step three, we will set the
+[00:06:45] ciphers. In step four, we will bind the
+[00:06:47] identity, which is certificates and
+[00:06:49] keys. So,
+[00:06:50] we load those certificates and keys into
+[00:06:52] the context during step four.
+[00:06:56] After loading the certificates and
+[00:06:58] configs,
+[00:06:59] this SSL shared SSL context is ready for
+[00:07:03] KTLS processing.
+[00:07:06] Every new TLS connection inherits this
+[00:07:08] shared SSL context
+[00:07:10] and it participates in the
+[00:07:12] TLS processing while offloading the
+[00:07:14] record processing.
+[00:07:20] Each TLS connection hands off record
+[00:07:23] processing to the kernel. In the
+[00:07:25] diagram, in the step one, when the
+[00:07:27] client sends a TCP connection to the
+[00:07:29] KTLS proxy at the right,
+[00:07:32] which is sitting at port 8443,
+[00:07:35] the proxy will accept the client
+[00:07:37] connection, then it creates a shared SSL
+[00:07:40] Sorry, it creates a per connection SSL
+[00:07:43] context. So, for that it will call SSL
+[00:07:46] new
+[00:07:47] on the shared context.
+[00:07:49] So, it gets a per connection context.
+[00:07:51] Then, it will call SSL accept on the
+[00:07:53] connection.
+[00:07:56] So, during step three
+[00:07:57] client will send a client hello and SSL
+[00:08:01] OpenSSL will give a SSL
+[00:08:04] server hello.
+[00:08:06] And once the TLS handshake is done
+[00:08:10] OpenSSL
+[00:08:12] as part of SSL accept it will enable TLS
+[00:08:15] on the socket by calling TCP upper layer
+[00:08:18] protocol to TLS. It will set the upper
+[00:08:21] layer protocol to TLS using set sock
+[00:08:23] options.
+[00:08:25] Then, it will install the session keys
+[00:08:26] during step five.
+[00:08:28] It will install TX keys and RX keys
+[00:08:31] using the set sock option.
+[00:08:34] Now, KTLS is active on that connection.
+[00:08:39] During step seven, when client sends
+[00:08:41] some encrypted TLS packets
+[00:08:44] KTLS will try to decrypt that packet and
+[00:08:47] it will try to send the plain text to
+[00:08:49] proxy.
+[00:08:50] If if the underlying NIC supports TLS
+[00:08:54] devops
+[00:08:55] it will offload the crypto part to uh
+[00:08:59] crypto hardware.
+[00:09:02] When the packet is received on KTLS
+[00:09:04] proxy
+[00:09:05] uh the proxy will continue using SSL
+[00:09:07] read.
+[00:09:08] And
+[00:09:10] inside the SSL read,
+[00:09:12] SSL read will check if the KTLS is
+[00:09:15] enabled via bio KTLS enabled
+[00:09:19] macro.
+[00:09:20] And if the KTLS is enabled
+[00:09:23] it will assume that the record is
+[00:09:26] already decrypted and it will
+[00:09:29] consume the packet.
+[00:09:31] During SSL write
+[00:09:33] uh
+[00:09:34] write also it will check if the bio KTLS
+[00:09:36] is enabled. And if it is enabled, it
+[00:09:39] will send a plain text as it is to the
+[00:09:41] KTLS module instead of and doing encrypt
+[00:09:44] in the user space.
+[00:09:46] So, uh user space encryption and
+[00:09:49] decryption are offloaded to KTLS module.
+[00:09:53] So, now KTLS module will do the
+[00:09:55] encryption part and it will send the
+[00:09:57] encrypted packet to the client.
+[00:10:06] DPU validates JWTs at the edge.
+[00:10:10] Here,
+[00:10:11] uh
+[00:10:11] uh after the TLS processing,
+[00:10:14] uh the next part comes the
+[00:10:15] authentication.
+[00:10:17] If client sends a uh
+[00:10:20] JWT token in the authorization bearer of
+[00:10:23] every HTTP request.
+[00:10:25] KTLS proxy fetches JSON web keys from
+[00:10:29] the issuer and caches them.
+[00:10:31] When the client sends a request using
+[00:10:34] the key ID in the request, it finds a
+[00:10:36] relevant key and it will match the
+[00:10:39] uh
+[00:10:40] JWT token.
+[00:10:42] It uses JWT auth validate.
+[00:10:45] If the token is invalid, it will send a
+[00:10:48] 401 unauthorized error to the client.
+[00:10:52] If the token is valid, it will pass
+[00:10:54] through the token to the MCP backend.
+[00:11:07] MCP session ID
+[00:11:09] enables session affinity. MCP is
+[00:11:11] stateful.
+[00:11:12] After initialize, follow-up calls must
+[00:11:15] reach the same backend.
+[00:11:18] At the beginning, client sends a client
+[00:11:21] posts a initialize request to {slash}
+[00:11:23] MCP.
+[00:11:26] KTLS proxy,
+[00:11:28] uh initial as it's the initial request,
+[00:11:31] it will find a back end using round
+[00:11:33] robin.
+[00:11:34] In this case, it shows MCP server A.
+[00:11:37] It forwards the request to MCP server A.
+[00:11:40] Server will now accept the request and
+[00:11:44] it will include a
+[00:11:46] uh session ID in the response, which is
+[00:11:48] step three.
+[00:11:52] Now the proxy will pass the session ID
+[00:11:54] and it will store it
+[00:11:57] against the back end in the session
+[00:11:59] table.
+[00:12:01] During step five, when the client sends
+[00:12:03] another request such as resources/list,
+[00:12:08] proxy will find the matching back end
+[00:12:11] from the session ID and it will forward
+[00:12:12] it to the same back end.
+[00:12:16] So, now the server accepts this request
+[00:12:20] and it does not fail.
+[00:12:27] Operational challenges of deploying DPU
+[00:12:30] offload at scale.
+[00:12:31] The This diagram shows a heterogeneous
+[00:12:33] cluster where there are
+[00:12:35] uh multiple hosts.
+[00:12:38] The host one has a associated DPU
+[00:12:41] and host is running MCP servers
+[00:12:44] with a KTLS proxy on the DPU.
+[00:12:48] On the host two, there are some VLLMs
+[00:12:50] running
+[00:12:51] uh
+[00:12:52] making some inference. On DPU, we are
+[00:12:54] running a Rocky RDMA offload.
+[00:12:57] But on the next host,
+[00:13:00] there are some MCP servers,
+[00:13:02] but the associated card is not a DPU.
+[00:13:04] It's a standard NIC. So, it's a wrong
+[00:13:06] placement.
+[00:13:08] Uh To efficiently use the offload, uh
+[00:13:11] MCP servers and KTLS proxy should be
+[00:13:13] running on a matching
+[00:13:15] uh host and DPU pair.
+[00:13:19] Along with this deployment problem,
+[00:13:21] there is some operational challenges
+[00:13:22] also. The VFs are provisioned manually
+[00:13:26] in traditionally.
+[00:13:27] Uh so, to connect the host side running
+[00:13:30] workloads and DPU side network functions
+[00:13:32] like K8s proxy,
+[00:13:34] we use some PCIE mechanism like SR-IOV
+[00:13:37] VFs.
+[00:13:38] The These VFs must be provisioned for
+[00:13:40] each server which is running on the host
+[00:13:43] and the DPU.
+[00:13:46] Along with the provisioning, they also
+[00:13:48] configured with the flow rules to
+[00:13:50] integrate in the OVS data path.
+[00:13:53] These are the operational challenges.
+[00:14:01] To address those challenges, we
+[00:14:03] integrate the solution with Kubernetes.
+[00:14:06] Kubernetes comes handy in deploying uh
+[00:14:09] workloads in large data centers along
+[00:14:11] with the specified hardware.
+[00:14:14] The control plane on the top shows a
+[00:14:15] scheduler which is a standard Kubernetes
+[00:14:18] API server
+[00:14:19] along with a DPU operator.
+[00:14:22] Kubelet,
+[00:14:23] the below control plane at the bottom,
+[00:14:26] it shows kubelet which runs on every
+[00:14:28] node,
+[00:14:29] uh participates in uh disc- uh
+[00:14:33] discovering the node resources,
+[00:14:35] and it talks to the scheduler at the
+[00:14:37] top. So, the scheduler has a full view
+[00:14:39] of the entire cluster as each nodes
+[00:14:43] as every node runs a kubelet.
+[00:14:45] So, the scheduler is aware of uh
+[00:14:48] number of nodes available and their
+[00:14:50] resources and their placement.
+[00:14:52] The other node components at the bottom
+[00:14:54] are DPU daemon and vendor plugin. They
+[00:14:57] discover the hardware such as VFs,
+[00:15:01] virtual functions available,
+[00:15:03] and it publishes them to the kubelet.
+[00:15:06] And the DPU CNI and OVS DPU CNI
+[00:15:10] configures the
+[00:15:12] uh
+[00:15:12] DPU CNI provides those VFs to the
+[00:15:15] application,
+[00:15:16] and configures the flow rules.
+[00:15:20] The result is
+[00:15:22] uh deploy secure MCP
+[00:15:25] by manifest which is pod spec.
+[00:15:27] Bottom shows the MCP back end and KTLS
+[00:15:30] proxy pod specs which talks about node
+[00:15:34] selectors. So this diagram also shows
+[00:15:37] some node roles
+[00:15:38] DPU host for the for a host with a DPU.
+[00:15:42] Host alone for a standard host.
+[00:15:44] Uh
+[00:15:45] So
+[00:15:47] the placement of the workloads and
+[00:15:49] network functions decides decided by the
+[00:15:53] manifest
+[00:15:54] at the bottom which is node selector and
+[00:15:57] network name. Network name is to select
+[00:16:00] the
+[00:16:01] VFs.
+[00:16:02] And uh
+[00:16:03] it also shows number of VFs required
+[00:16:06] and the along with the ports.
+[00:16:14] This is our KTLS proxy lab setup uh
+[00:16:18] to show our demo.
+[00:16:19] So uh here uh there are two MCP servers
+[00:16:23] running at uh
+[00:16:24] uh running on the host.
+[00:16:26] Uh they are into subnet 10.56.217.
+[00:16:30] Uh
+[00:16:31] And .50 and .51 are their addresses.
+[00:16:34] And MCP client is running at
+[00:16:36] 20.20.20.20.
+[00:16:39] MCP client connects to KTLS proxy which
+[00:16:42] is running on 20.20.20.1
+[00:16:45] inside DPU.
+[00:16:47] And KTLS proxy has an other end in blue
+[00:16:50] color which is 10.56.217.1.
+[00:16:54] MCP client connects over HTTPS.
+[00:16:58] KTLS proxy terminates them and forwards
+[00:17:00] them forwards the packets to the back
+[00:17:02] ends
+[00:17:03] over the isolated network.
+[00:17:45] >> This demo shows host run time. So, here
+[00:17:49] two MongoDB parts are running
+[00:17:51] and the host is labeled DPU-host.
+[00:17:55] And the second row show the second
+[00:17:58] column shows
+[00:18:00] MongoDB zero, MongoDB one, and then
+[00:18:02] control plane components such as DPU
+[00:18:04] daemon, DPU operator, and then uh
+[00:18:08] network injector.
+[00:18:25] The second half shows DPU run time.
+[00:18:28] Uh
+[00:18:29] here, the control plane is running on
+[00:18:32] the DPU also.
+[00:18:34] It includes DPU daemon and DPU operator.
+[00:18:44] Here, we are deploying the KTLS proxy
+[00:18:47] onto DPU.
+[00:19:05] Now, the proxy is deployed with the
+[00:19:07] backends uh dot 50 and dot 51.
+[00:19:11] So, net one interface is connected
+[00:19:13] towards IMCP client.
+[00:19:15] Uh
+[00:19:16] this shows a TCP TLS traffic.
+[00:19:21] And net two is connected with the back
+[00:19:23] end. Uh plain traffic will run on the
+[00:19:26] run on it.
+[00:19:41] Now, the client is sending a request. It
+[00:19:43] shows the
+[00:19:44] uh JWT token in the authorization
+[00:19:47] header.
+[00:19:55] So, uh this 20.20.20
+[00:19:58] to 20.20.1
+[00:19:59] is a TLS packet.
+[00:20:15] And this uh
+[00:20:16] these are the decrypted packets, which
+[00:20:18] are HTTP packets. This is toward back
+[00:20:21] end dot 51,
+[00:20:23] which is server B here.
+[00:20:25] And uh
+[00:20:26] it shows there is a MCP session ID
+[00:20:28] included.
+[00:20:31] And it also shows the authorization
+[00:20:33] header with the JWT token.
+[00:20:40] And this is a response from the back
+[00:20:42] end.
+[00:20:43] Uh in this response, it sent a 200 OK
+[00:20:47] with the MCP session ID.
+[00:21:06] These are the tools uh, sent in the
+[00:21:08] response.
+[00:21:23] These are the KTLS stats before starting
+[00:21:25] the test.
+[00:21:32] The fields, sorry.
+[00:21:42] Here, currently TLS current TX and
+[00:21:46] current RX are zero because currently
+[00:21:48] there are no packets in
+[00:21:50] uh, execution.
+[00:21:52] Uh, it is showing completed stats. Uh,
+[00:21:54] it has processed some 30 packets
+[00:21:57] uh, compared to the previous
+[00:21:59] transaction. 30 packets are encrypted
+[00:22:01] and 30 packets are decrypted via the TLS
+[00:22:04] TX software and RX software.
+[00:22:06] And uh, the next next column TLS TX
+[00:22:10] device uh, shows any offload. Currently
+[00:22:13] we haven't tested offload. So this TLS
+[00:22:16] TX and RX stats device stats are zero.
+[00:22:19] And there are no decrypt and decrypt
+[00:22:22] errors.
+[00:22:31] And this shows performance impact if
+[00:22:34] tested with crypto hardware offload.
+[00:22:36] Previously we tested Nginx TLS
+[00:22:39] termination using
+[00:22:40] uh, crypto hardware.
+[00:22:42] Uh, here it shows a one for single core
+[00:22:46] it shows five times performance gain
+[00:22:48] compared to software TLS.
+[00:22:51] And uh, at peak
+[00:22:53] uh, while running on 12 cores it shows
+[00:22:56] the 2.8 times performance gain uh, uh
+[00:23:01] compared to
+[00:23:02] so user space.
+[00:23:09] Our future work is uh currently we are
+[00:23:12] configuring back ends uh
+[00:23:15] back end IP addresses
+[00:23:18] uh on the KTLS proxy
+[00:23:20] uh via some script. Uh this is the same
+[00:23:23] case with the even Nginx
+[00:23:26] and Nginx proxy. Uh but our aim is to
+[00:23:29] make it intelligent so the proxy learns
+[00:23:32] the back end addresses by itself
+[00:23:34] uh via the DPU operator.
+[00:23:41] Uh we Any queries?
+[00:23:43] Any queries? We are done.
+[00:23:44] >> Yeah.
+[00:23:52] >> Uh so you mentioned layer 7 load
+[00:23:54] balancing. Is that happening in the ASIC
+[00:23:56] or it is happening on the course?
+[00:23:57] >> Yes.
+[00:23:58] >> On the ASIC?
+[00:24:00] >> No, the solution in this solution it
+[00:24:02] happens on the DPU.
+[00:24:05] >> Uh what does that mean?
+[00:24:06] >> The reverse proxy handles the layer 7
+[00:24:09] load balancing and it directly sends the
+[00:24:11] packets to particular back end after the
+[00:24:13] load balancing.
+[00:24:15] >> But DPU has cores and it has the packet
+[00:24:18] processing. So where?
+[00:24:27] >> Uh
+[00:24:28] who On the host back ends will run
+[00:24:31] uh which are MCP servers and APIs.
+[00:24:33] >> My question is do you have anything
+[00:24:35] that's running on in the ASIC, not the
+[00:24:37] arm cores, the ASIC?
+[00:24:39] >> Yeah, I think you didn't get the
+[00:24:40] question.
+[00:24:40] >> Yeah.
+[00:24:41] >> Yeah, it is done on the arm cores, not
+[00:24:43] on the ASIC. Load balancing is done on
+[00:24:44] arm cores
+[00:24:46] but the encryption can be done on the
+[00:24:48] crypto crypto engines are there.
+[00:24:49] >> Uh but but this this solution here you
+[00:24:52] the data is showed that's on the ASIC or
+[00:24:54] on the Where is the crypto done?
+[00:24:57] Are you doing it on the arm cores using
+[00:24:58] some AES instructions there maybe?
+[00:25:01] >> So we have both versions. The version
+[00:25:03] which he showed is it's done on
+[00:25:05] software. The reason is that
+[00:25:08] we worked on the solution with Red Hat
+[00:25:10] and there are like some drivers pending
+[00:25:12] to be upstream. But if we run the same
+[00:25:14] thing on Ubuntu, we can actually do it
+[00:25:17] on hardware.
+[00:25:18] >> Right. I think it'd be interesting to
+[00:25:19] see the crypto offload.
+[00:25:21] >> As opposed Yeah, just do that. Yeah,
+[00:25:23] >> And offload doesn't mean running on the
+[00:25:24] arms, but running on the SS.
+[00:25:26] >> Exactly. Yes.
+[00:25:27] >> Okay.
+[00:25:29] Um anybody else with a question?
+[00:25:35] >> Uh
+[00:25:36] could you elaborate on the choice of
+[00:25:38] OVS? Why OVS and how How do you use it?
+[00:25:41] >> Uh it's not uh so
+[00:25:44] this solution is deployed using Red Hat.
+[00:25:47] So OVS is part of the data path.
+[00:25:49] Uh it's So
+[00:25:51] OVS is not not a
+[00:25:53] prerequisite here. You can integrate
+[00:25:55] into any data path.
+[00:25:58] >> Okay. Thank you.
+[00:26:03] >> What was
+[00:26:05] >> Oh you There's one slide. Okay. We still
+[00:26:07] have 2 minutes. There's one slide you
+[00:26:08] showed Rocky V2 somehow in the MCP data
+[00:26:11] path. The
+[00:26:13] Anybody using Rocky V2 or this kind of
+[00:26:16] stuff? I thought just should be just
+[00:26:17] plain Ethernet TCP.
+[00:26:22] I Yeah, there. Rocky, see? Correct
+[00:26:24] placement.
+[00:26:25] >> Uh so the intention is to show
+[00:26:27] uh any
+[00:26:29] So in a large cluster, there can be any
+[00:26:32] type of workloads. So one side LLM plus
+[00:26:36] uh Rocky offload, one side NCB plus DPU.
+[00:26:39] So in a large cluster uh
+[00:26:41] any combination of workloads can be
+[00:26:43] happening. That is That's why I
+[00:26:45] mentioned Rocky.
+[00:26:47] >> Okay, but you know, doing Rocky to solve
+[00:26:48] the TLS problem.
+[00:26:51] >> It's the LLM's covers but
+[00:26:53] hmm? So long.
+[00:26:56] Why would you want to run MCB servers on
+[00:26:58] Rocky? I don't It's It's TCP.
+[00:27:00] >> Yeah, I think I think the intention is
+[00:27:02] different. The what he's trying to show
+[00:27:04] here is that
+[00:27:05] a DPU you can do multiple time things at
+[00:27:08] the same time. You can do Rocky on one.
+[00:27:10] You can do VLLM on another one or you
+[00:27:13] can do a combination of these because
+[00:27:15] they are just arm cores. You can just
+[00:27:17] run any workload on that.
+[00:27:19] So, in that in a deployment scenario
+[00:27:21] like that, you can actually do this on
+[00:27:23] some of them because we are talking
+[00:27:25] about deployment here in this slide
+[00:27:27] which is that's the intent there.
+[00:27:30] All right. Thank you. Any questions or
+[00:27:32] we can end it on time.
+[00:27:35] Thank you.

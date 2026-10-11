@@ -1,0 +1,648 @@
+Source: https://youtu.be/TEM1JAgpYbg
+Language: en
+Captions: auto-generated
+
+[00:00:00] Morning, everyone. Should we get
+[00:00:02] started?
+[00:00:06] Thank you to be here today. I'm
+[00:00:07] delighted to be here today in order to
+[00:00:09] present our latest research on how we
+[00:00:11] are going to secure IOM telemetry data
+[00:00:14] inside the Linux kernel in order to
+[00:00:15] reach trustworthy telemetry data.
+[00:00:19] Before getting started, since we are
+[00:00:20] going to talk about IOM, I will give you
+[00:00:22] a short introduction on IOM and also on
+[00:00:25] AEAD, which is a crypto system.
+[00:00:27] Afterwards, we will look at the an
+[00:00:30] overview of the solution that we are
+[00:00:32] going to propose to secure IOM inside
+[00:00:34] the kernel,
+[00:00:35] followed by a details on the kernel
+[00:00:37] space implementation. And finally, we
+[00:00:40] will look into some measurements of the
+[00:00:42] performance of the solution to see if it
+[00:00:44] can be reused inside a realistic
+[00:00:46] deployment.
+[00:00:48] So, now we'll get started with IOM and
+[00:00:50] AEAD.
+[00:00:51] Oops.
+[00:00:53] What's going on? Okay, perfect. So, what
+[00:00:56] is IOM? It's an acronym which stands for
+[00:00:58] In-situ Operation, Administration, and
+[00:01:00] Maintenance. It's a network
+[00:01:03] telemetry solution for gathering metrics
+[00:01:05] about the state of the network. It is
+[00:01:07] standardized by the IETF using nine
+[00:01:10] RFCs, and more are being written
+[00:01:13] currently.
+[00:01:14] Usually, when we talk about network
+[00:01:16] telemetry, there are two main
+[00:01:18] categories. First, we have active
+[00:01:20] telemetry which relies on packets that
+[00:01:23] are dedicated to gathering network
+[00:01:25] measurements. On the other hand, we have
+[00:01:28] passive telemetry which relies on the
+[00:01:31] existing packets to infer some
+[00:01:33] statistics.
+[00:01:34] IOM is kind of a middle ground, so it is
+[00:01:37] referred to as an hybrid telemetry
+[00:01:39] method because it relies on the existing
+[00:01:42] packets like a passive solution, but it
+[00:01:44] needs to modify them to insert an
+[00:01:46] additional header which is closer to an
+[00:01:49] active approach. So, it's a mix between
+[00:01:51] these two approaches.
+[00:01:53] So, how does it work? You have your
+[00:01:54] usual network header, the existing
+[00:01:57] packet payload, and in between you are
+[00:01:59] going to insert an additional header
+[00:02:02] which can contain up to two things.
+[00:02:04] First, it will contain information on
+[00:02:07] how to perform the operation to gather
+[00:02:10] the metrics, the telemetry metrics, and
+[00:02:12] optionally some telemetry data that has
+[00:02:15] been gathered along the network path.
+[00:02:18] Here, it is important to keep in mind
+[00:02:20] that IOM is intended to be used inside a
+[00:02:23] limited domain such as an internet
+[00:02:25] service provider or your favorite cloud
+[00:02:27] provider.
+[00:02:30] So,
+[00:02:31] IOM is going to be used with an existing
+[00:02:33] network protocol.
+[00:02:35] Currently, it is standardized to be used
+[00:02:37] with either network service header or
+[00:02:39] NSH in short or IPv6. For this talk and
+[00:02:43] our proposed solution, we are going to
+[00:02:46] focus only on the IPv6 encapsulation
+[00:02:49] because the plain text approach is
+[00:02:51] already implemented in the kernel, so it
+[00:02:53] was easier to be uh to modify it.
+[00:02:56] So, if we take back our initial packet
+[00:02:58] structure, we now have IPv6 as the
+[00:03:01] network header, the packet payload stays
+[00:03:03] the same obviously, and we are going to
+[00:03:05] insert an additional header for IOM,
+[00:03:08] which will be an IPv6 extension header
+[00:03:11] and in particular an O option which will
+[00:03:13] contain all the information pertaining
+[00:03:16] to IOM.
+[00:03:19] Regarding the the kind of metrics that
+[00:03:21] can be gathered with IOMs, we have the
+[00:03:23] usual network metrics such as hop limit
+[00:03:25] or time to live depending of IPv4 IPv6,
+[00:03:28] the ID of the order, the ID of the
+[00:03:30] network interfaces, and so on and so on.
+[00:03:35] So, how does IOM work in a practical
+[00:03:38] deployment? It has been standardized
+[00:03:40] with a few mode of operations which are
+[00:03:43] referred to as option type, but for this
+[00:03:45] talk we are only going to consider the
+[00:03:47] pre-allocated trace option type because
+[00:03:49] it was is implemented in the kernel, so
+[00:03:51] we are going to rely on it.
+[00:03:53] So, let's assume we have a network
+[00:03:55] domain, an ISP, a data center network,
+[00:03:57] whatever, composed of the following four
+[00:03:59] routers.
+[00:04:00] So, the two one at the borders are the
+[00:04:03] trust domain of the domain. The first
+[00:04:06] one is the encapsulating node, which is
+[00:04:08] it's which is the input of the domain.
+[00:04:10] While the last one is the output or the
+[00:04:12] egress of the domain, and every router
+[00:04:15] in between will be considered uh transit
+[00:04:18] routers.
+[00:04:20] So, we would assume that we have uh
+[00:04:21] incoming IPv6 packet with its network
+[00:04:24] header and packet payload.
+[00:04:26] The first node is going to insert the
+[00:04:29] additional IPv6 extension header for
+[00:04:32] carrying the IOM data
+[00:04:34] along with a pre-allocated space, which
+[00:04:36] initially will be blank,
+[00:04:38] which will contain the telemetry data
+[00:04:40] that will be inserted by every
+[00:04:42] subsequent node along the path.
+[00:04:44] So, the first node is going to insert
+[00:04:46] that header, which is a IPv6 OBI option,
+[00:04:49] and add its own telemetry data inside
+[00:04:52] this pre-allocated space.
+[00:04:54] Of course, the packet will go to the
+[00:04:56] next node, which will insert its own
+[00:04:58] telemetry data, and so on and so on,
+[00:05:01] until we reach the end of the domain,
+[00:05:04] where the last node is going to remove
+[00:05:05] the additional header and the telemetry
+[00:05:08] data to prevent the leakage of
+[00:05:10] potentially sensitive telemetry data.
+[00:05:12] And one once the header has been
+[00:05:14] removed, it can be exported towards an
+[00:05:17] external collector for subsequent
+[00:05:19] processing or analysis of the telemetry
+[00:05:22] data.
+[00:05:23] And obviously, at the end, the packet
+[00:05:25] becomes what it was at the beginning.
+[00:05:29] So, regarding AED, it's an acronym which
+[00:05:32] stands for associated data
+[00:05:34] Sorry, authenticated encryption with
+[00:05:36] associated data.
+[00:05:37] It's a cryptosystem which relies on
+[00:05:39] these four inputs,
+[00:05:41] which are the following.
+[00:05:43] It's a very particular cryptosystem
+[00:05:44] which has the benefit to provide at the
+[00:05:47] same time both confidentiality and
+[00:05:50] authentication using a single private
+[00:05:52] key.
+[00:05:53] So, the key will be unique and be used
+[00:05:56] for both the encryption and the
+[00:05:58] authentication.
+[00:05:59] And another input is a nonce, which must
+[00:06:02] be kept unique because if we reuse the
+[00:06:04] nonce with the same key, it is possible
+[00:06:07] to retrieve the key using a special
+[00:06:09] attack.
+[00:06:10] Then we have some associated data, which
+[00:06:13] will be only authenticated but not
+[00:06:15] encrypted. While obviously the plain
+[00:06:17] text will be both encrypted and
+[00:06:20] authenticated.
+[00:06:22] You might see the benefits for network
+[00:06:23] packets. It is quite common to use AED
+[00:06:27] AED cryptosystem for networking because
+[00:06:30] you will use the packet header as
+[00:06:32] associated data. So, it is
+[00:06:34] authenticated. It cannot be manipulated,
+[00:06:36] but it can still be be interpreted by
+[00:06:39] middle boxes or orders, while the
+[00:06:41] payload is both encrypted and
+[00:06:43] authenticated, so it cannot be modified
+[00:06:45] nor interpreted.
+[00:06:49] Now that you know about IOM and AED
+[00:06:52] cryptosystem, I will show you an
+[00:06:54] overview of our proposed solution before
+[00:06:56] we dig into the kernel level details.
+[00:07:00] But before going into that, to
+[00:07:02] understand why we are we want to protect
+[00:07:04] IOM data, we need to have a threat model
+[00:07:06] of IOM.
+[00:07:08] So, once again, we'll take the same
+[00:07:09] domain with the forwarders.
+[00:07:11] The two forwarders at the border will
+[00:07:14] form the trust boundary of the domains.
+[00:07:17] And in this case, the assets that we
+[00:07:19] want to protect are the packets carrying
+[00:07:21] the sensitive telemetry data, and also
+[00:07:24] one or more telemetry collectors that
+[00:07:26] are keeping an history of all the
+[00:07:27] telemetry measurements.
+[00:07:30] So, the weakness in IOM arises from the
+[00:07:33] lack of both encryption and
+[00:07:35] authentication.
+[00:07:37] And in this threat model, we have
+[00:07:38] potentially two types of attackers.
+[00:07:41] Either they are outside the trusted
+[00:07:43] network or inside the trusted networks.
+[00:07:47] These two attackers, whatever wherever
+[00:07:50] they are operating, they can perform the
+[00:07:51] same two operations uh the same two
+[00:07:53] attacks. The first attack is to try to
+[00:07:56] inject some misleading telemetry data
+[00:07:59] inside the system to mislead the system
+[00:08:02] into a fake state of the network.
+[00:08:05] That is the first attack.
+[00:08:06] The second attack is to try to intercept
+[00:08:09] the telemetry measurements in order to
+[00:08:11] be able to infer on the state of the
+[00:08:14] network.
+[00:08:16] Of course, the mitigation to prevent
+[00:08:18] these two attacks is to use uh
+[00:08:20] cryptography to authenticate and encrypt
+[00:08:24] the telemetry data. The encryption will
+[00:08:26] prevent the interception of the data
+[00:08:28] because if you are able to intercept
+[00:08:30] encrypted data, you cannot uh interpret
+[00:08:32] it.
+[00:08:33] While the authentication will prevent
+[00:08:35] the injection of uh misleading data
+[00:08:38] inside the network.
+[00:08:41] So, obviously, we are going to use a AED
+[00:08:44] cryptosystem.
+[00:08:45] And
+[00:08:47] this is what we are going to do. So, as
+[00:08:49] an AED uh scheme, we are going to use
+[00:08:51] either AES-GCM or ChaCha20 combined with
+[00:08:55] Poly1305 for the authentication.
+[00:08:59] Uh we made this choice on these two
+[00:09:01] cryptosystems for many reasons. First,
+[00:09:04] they are already available in the
+[00:09:05] cryptography API of the kernel, so it
+[00:09:07] was easier to implement our solution.
+[00:09:10] And second, these are well known uh for
+[00:09:12] networking. These have already been used
+[00:09:14] uh for TLS since version 1.2.
+[00:09:18] Then, as a key, we are going to use a
+[00:09:20] key which will be uh kept unique
+[00:09:23] per IOM order or IOM node and uh IOM
+[00:09:27] namespace.
+[00:09:28] Here, we need to be a bit careful. An
+[00:09:30] IOM namespace is just a logical
+[00:09:33] subdivision of the network. It has
+[00:09:35] nothing to do with Linux namespaces. So,
+[00:09:37] it's very important to keep in mind this
+[00:09:40] distinction between these two concepts.
+[00:09:43] As a nonce, of course, we are going to
+[00:09:45] keep it monotonically increasing to
+[00:09:48] prevent the nonce attack, which allowed
+[00:09:51] to retrieve the private key.
+[00:09:53] In our case, we are not going to use any
+[00:09:55] associated data, while the plaintext
+[00:09:57] will obviously be the telemetry data of
+[00:09:59] each node along the path.
+[00:10:03] As you can imagine, using such a
+[00:10:04] solution comes with two drawbacks.
+[00:10:07] First, it requires more computation for
+[00:10:10] every packet, because now for every
+[00:10:12] packet, we need to perform some AAD
+[00:10:13] computation, obviously. And also, it
+[00:10:16] requires more data for every node along
+[00:10:19] the path, because
+[00:10:21] before using the existing plaintext
+[00:10:23] solution, every node was inserting only
+[00:10:27] its telemetry data as a plaintext, but
+[00:10:30] now
+[00:10:31] every node needs to insert its
+[00:10:33] ciphertext, which is the same size of
+[00:10:35] the payload, but additionally to that,
+[00:10:38] it also needs to insert the nonce, which
+[00:10:40] is 12 bytes, and the tag, which is the
+[00:10:43] hash for the authentication, which is 16
+[00:10:45] bytes.
+[00:10:46] As you can imagine, this is going to
+[00:10:48] lead to a space constraint.
+[00:10:51] But before going into the details of the
+[00:10:54] space constraint, I think it is quite
+[00:10:55] interesting to look at the packet
+[00:10:58] structure.
+[00:10:59] So, we will assume again that we are
+[00:11:01] going to use IOM with IPv6 as a O byte
+[00:11:04] up option. So, at the top, we will have
+[00:11:07] our extension header, followed followed
+[00:11:10] by the header for the O byte up option.
+[00:11:13] Then, we have
+[00:11:14] two
+[00:11:15] We have eight bytes, which are for the
+[00:11:17] pre-allocated trace option type, which
+[00:11:19] is the mode of operation of IOM that we
+[00:11:21] are considering in this talk. And
+[00:11:23] finally, we have the data area, which
+[00:11:26] will store the telemetry of each node
+[00:11:28] along the path.
+[00:11:30] So, the issue comes from this particular
+[00:11:33] field, the up data length field, which
+[00:11:36] represents the size of the O by O
+[00:11:38] option.
+[00:11:39] So, if we take everything into
+[00:11:41] consideration, it leaves us with 244
+[00:11:44] bytes for the data area,
+[00:11:46] which is quite limiting because if you
+[00:11:49] remember from the previous slides, every
+[00:11:51] node is going to add its plain text, the
+[00:11:53] nonce, and the tag.
+[00:11:54] So, if we assume that every node only
+[00:11:56] uses one metric, which is on 4 bytes,
+[00:11:59] then every every node is inserting 4
+[00:12:02] bytes plus 12 plus 16. So, at the end,
+[00:12:04] only seven nodes can insert their
+[00:12:06] telemetry data inside this area before
+[00:12:09] we exhaust the entire space.
+[00:12:12] This is what we did for our first
+[00:12:14] implementation, but we quickly realized
+[00:12:16] that seven nodes might be quite a
+[00:12:19] limiting factor for deployment.
+[00:12:21] So, we did a very hacky fix. I hope
+[00:12:24] nobody here is from the IETF, otherwise
+[00:12:27] some people are going to be very mad.
+[00:12:29] So, we do not use the option data length
+[00:12:32] field to calculate the size of the data
+[00:12:35] area.
+[00:12:36] Instead, we rely on this field, the
+[00:12:39] remaining remaining length field.
+[00:12:41] If you look at the RFC currently,
+[00:12:44] this field, the remaining remaining
+[00:12:45] length field, represents the size of the
+[00:12:48] data area as a multiple of 4 bytes, but
+[00:12:51] now we are going to consider that it is
+[00:12:53] a multiple of 16 bytes.
+[00:12:55] Of course, we know that this is not
+[00:12:57] compliant with the RFCs out there, but
+[00:12:59] it was a very quick solution in order to
+[00:13:01] be able to test our solution because the
+[00:13:04] main idea of our research is just to
+[00:13:07] evaluate whether it is possible to
+[00:13:10] protect IOM metrics along the transit
+[00:13:12] path inside the kernel.
+[00:13:15] So, if we did if we do this hacky
+[00:13:17] solution, then if every node uses a
+[00:13:20] single metric, we are able to have the
+[00:13:23] telemetry data for 13 nodes inside the
+[00:13:25] data area before we exhaust the space,
+[00:13:28] which which is 40 nodes might be more
+[00:13:30] than enough for any deployment because
+[00:13:33] keep in mind that IOM is for a limited
+[00:13:35] domain such as an ISP or data center
+[00:13:37] networks. So, 40 orders in line must be
+[00:13:40] enough.
+[00:13:41] And on the other end, if we assume that
+[00:13:44] every node uses all the potential
+[00:13:46] fields, this leaves us enough space for
+[00:13:48] 12 nodes, which might be more than
+[00:13:51] enough also.
+[00:13:54] Okay. So, now we know about IOM AAD.
+[00:13:58] You know how the proposed solution
+[00:13:59] works. So, now we will look into the
+[00:14:01] details at the kernel level.
+[00:14:05] But first, I think it is quite
+[00:14:07] interesting to remember the history of
+[00:14:10] IOM inside the kernel. The initial
+[00:14:13] implementation of the plaintext
+[00:14:14] approach, which is standardized by the
+[00:14:16] ETF, was presented at this very own
+[00:14:18] conference a few years ago by Justin,
+[00:14:21] which is around so you might have a chat
+[00:14:23] with him inside the hallways.
+[00:14:25] And it has been mainline in the kernel
+[00:14:27] since version 5.15 with of obviously
+[00:14:30] some updates in the subsequent releases.
+[00:14:34] So, now I will show you some of the code
+[00:14:36] of our patch just to give you an idea.
+[00:14:38] Our kernel level patch is around 700
+[00:14:41] lines, but it's still quite short
+[00:14:43] because we try to reuse as much as
+[00:14:44] possible of the existing code.
+[00:14:47] So, if you take a look at this
+[00:14:49] particular header file, so we have the
+[00:14:52] existing structure IOM 6 namespace,
+[00:14:54] which represents an IOM namespace. Keep
+[00:14:57] in mind that an IOM namespace is just a
+[00:15:00] subdivision of the network. It has
+[00:15:02] nothing to do with Linux namespaces.
+[00:15:04] Into this structure, which is already
+[00:15:06] existing, we will add a packet counter,
+[00:15:09] which will be increased for every
+[00:15:11] packet incoming into the the router.
+[00:15:14] And this packet counter will obviously
+[00:15:16] be the nonce used inside the AAD
+[00:15:18] calculation.
+[00:15:20] And then we have two transformers. These
+[00:15:23] two transformers represent a structure
+[00:15:26] that they are going to be used by the
+[00:15:27] crypto API of the kernel to perform the
+[00:15:30] AAD computation.
+[00:15:32] So, the goal of storing these two
+[00:15:33] transformers inside the structure is
+[00:15:36] that we are able to initialize them once
+[00:15:39] we create a namespace, and they can be
+[00:15:40] reused for every subsequent packet. So,
+[00:15:43] on the transit path, we are able to save
+[00:15:45] some CPU cycles.
+[00:15:47] We also added an enumeration presenting
+[00:15:50] the two crypto systems that are
+[00:15:51] supported by our solution.
+[00:15:55] We have function, which is given pointer
+[00:15:57] to the namespace, returns the
+[00:15:59] appropriate transformer to be used by
+[00:16:01] the IOM6 AAD function, which will
+[00:16:04] perform the AAD computation given the
+[00:16:07] plain text and the nonce using the
+[00:16:09] crypto API of the kernel.
+[00:16:11] And finally, the last function is just
+[00:16:13] gathering the telemetry data as a plain
+[00:16:16] text, and this plain text will be used
+[00:16:18] as an input to the IOM6 AAD function.
+[00:16:23] So, I was talking
+[00:16:25] just a few seconds ago about what
+[00:16:27] happens when we create the namespace.
+[00:16:29] So, we modify the existing function, and
+[00:16:31] during the namespace
+[00:16:33] creation, we initialize the two
+[00:16:34] transformers, which will be reused for
+[00:16:36] the subsequent packets.
+[00:16:38] It is quite short, as you can see, it
+[00:16:40] relies on the three function calls plus
+[00:16:42] error handling, of course, and this is
+[00:16:44] for both AAD schemes.
+[00:16:49] We also allow to easily change the key,
+[00:16:51] the private key that is used for the AAD
+[00:16:53] computation from user space. So, we also
+[00:16:56] provide a small patch for IP route to do
+[00:16:58] so.
+[00:16:59] And the function is quite simple, so we
+[00:17:02] just copy the key from user space and
+[00:17:05] update the two transformers that are
+[00:17:07] used by the crypto API.
+[00:17:11] So, we are doing the encapsulation. So,
+[00:17:14] the encapsulation is when you insert the
+[00:17:16] additional header in the packets. We had
+[00:17:20] to modify a bit the existing function.
+[00:17:22] So, using a new kernel parameters, if
+[00:17:26] the security solution is enabled, we
+[00:17:28] need to modify the size of the data
+[00:17:30] area, which is the len aligned variable,
+[00:17:33] times 16 if you use the security
+[00:17:34] solution. Otherwise, if you use the
+[00:17:36] existing code, we just multiplied by
+[00:17:39] four.
+[00:17:42] So now, if we take a look at the kernel
+[00:17:45] the functional flow at the
+[00:17:47] encapsulation,
+[00:17:48] this existing function is called for
+[00:17:50] every incoming packet on the server.
+[00:17:54] Then, this function is responsible for
+[00:17:56] inserting the extension header without
+[00:17:59] anything in the header.
+[00:18:02] Then, the do fill function will fill the
+[00:18:04] O by O option,
+[00:18:06] and this one is going to rely on the
+[00:18:08] gather data to get the plain text
+[00:18:11] metrics,
+[00:18:12] which is finally ciphered by the sec ED
+[00:18:15] function, and the result is obviously
+[00:18:17] added inside the packet by the IOM 6 do
+[00:18:20] fill method.
+[00:18:23] For the transit, it is slightly
+[00:18:25] different.
+[00:18:26] So, the existing parse TLV function
+[00:18:28] parse type length value encoded
+[00:18:31] O by O option,
+[00:18:32] which will call the function dedicated
+[00:18:35] to processing the IOM header when it
+[00:18:37] detects that this header is present
+[00:18:39] inside the packet.
+[00:18:41] This one will like the encapsulation
+[00:18:43] gather the plain text data,
+[00:18:46] cipher it, and authenticate it, and
+[00:18:48] finally copy everything inside the
+[00:18:51] packet.
+[00:18:53] If we take a look into more details on
+[00:18:55] the existing function,
+[00:18:57] what we did is that based on the new
+[00:18:59] kernel parameters, we need to modify a
+[00:19:01] bit the pointer the offset pointer
+[00:19:04] offset, sorry, pointer that is used for
+[00:19:06] parsing the header along with the
+[00:19:09] remaining number of bytes to be parsed
+[00:19:11] because if you remember correctly, we
+[00:19:13] multiply the size of the data area by
+[00:19:16] four. So, we need to mingle these two
+[00:19:18] values.
+[00:19:20] This function, so this is the code
+[00:19:22] assuming that we are using the protectic
+[00:19:25] solution. First, we get the plain the
+[00:19:28] plain text data. We protect it, so
+[00:19:31] authentication and encryption. And
+[00:19:33] finally, inside the packet, we just do a
+[00:19:36] memcpy of nouns, tag, and the cipher
+[00:19:39] text.
+[00:19:42] And finally, this is the function that
+[00:19:44] is used for protecting the telemetry
+[00:19:46] data.
+[00:19:47] As you can see, first, we get the
+[00:19:48] transformer. So, as a reminder, the
+[00:19:51] transformer is what is used to interact
+[00:19:53] with the crypto API to request the AED
+[00:19:56] computation.
+[00:19:57] Then, we initialize the request, the AED
+[00:20:00] request. We need to Then, we need to
+[00:20:03] configure the input. The input is just a
+[00:20:05] plain text telemetry data that is given
+[00:20:08] as an input to this function.
+[00:20:10] While the output will be both the cipher
+[00:20:12] text combined with the hash or the tag.
+[00:20:15] Then, we specify that we are not going
+[00:20:18] to use associated data in our case.
+[00:20:21] Uh followed by that, we need to set the
+[00:20:24] input and the output to the request. And
+[00:20:27] at the end, we can request the crypto
+[00:20:29] API to perform the AED computation and
+[00:20:32] free the request that has been
+[00:20:33] initialized.
+[00:20:35] So, how do we do to use this solution?
+[00:20:39] First, we use the new kernel parameters
+[00:20:42] to
+[00:20:42] enable the security approach.
+[00:20:46] Then, we need to choose between AES GCM
+[00:20:48] or Salsa20 combined with Poly1305.
+[00:20:53] And finally, we need to configure the
+[00:20:55] key, the private key for the encryption
+[00:20:58] and authentication.
+[00:21:00] Okay. So, now we know about everything.
+[00:21:03] We will look into the measurements to
+[00:21:05] see if the solution leads to a very
+[00:21:08] to a considerable impact on the network
+[00:21:11] traffic.
+[00:21:13] So, what we did to measure performance
+[00:21:14] is that we built a small test bed made
+[00:21:16] of two physical servers.
+[00:21:18] The one on the left is generating the
+[00:21:20] packets with a tool named T-Rex from
+[00:21:22] Cisco, while the one on the right is
+[00:21:25] running the patch kernel with the of
+[00:21:27] course
+[00:21:28] security solution.
+[00:21:30] So, the measurements that I'm going to
+[00:21:31] present have been made to evaluate
+[00:21:35] separately the encapsulation, so meaning
+[00:21:38] when we insert the additional header
+[00:21:40] and the transit when we are
+[00:21:43] ciphering and authenticating the
+[00:21:44] telemetry data.
+[00:21:46] We have configured quite heavily the
+[00:21:49] server on the right running the patch
+[00:21:51] kernel.
+[00:21:52] At the end of the slides, we have a QR
+[00:21:54] code linking back to our GitHub repo, so
+[00:21:56] you can check the scripts to see exactly
+[00:21:58] the configuration that we have made.
+[00:22:00] But, the most important one is that we
+[00:22:02] have configured the server to receive
+[00:22:05] all the packets inside a single queue,
+[00:22:07] and that single queue being mapped to a
+[00:22:09] single CPU core to ensure that we have a
+[00:22:11] very stable comparison basis for our
+[00:22:14] measurements.
+[00:22:16] What we wanted to do was to evaluate the
+[00:22:19] impact of the proposed solution on
+[00:22:22] packet forwarding. So, first we needed
+[00:22:24] to have an idea of how much packet per
+[00:22:25] seconds the device on the test is
+[00:22:28] actually capable of forwarding.
+[00:22:31] Based on our evaluation, it can forward
+[00:22:33] almost a slightly more than 11 gigabit
+[00:22:36] per second once again on a single CPU
+[00:22:38] core with a single receiving queue.
+[00:22:42] So, when inserting the additional
+[00:22:44] header, which is required for IOM,
+[00:22:48] we have
+[00:22:49] these values depending on the injection
+[00:22:52] rate.
+[00:22:53] This rate is the percentage of packets
+[00:22:56] that are going to use IOM with the
+[00:22:58] proposed security solution.
+[00:23:00] If we take a look at the result, we can
+[00:23:02] see that up to a 1% injection injection
+[00:23:05] rate,
+[00:23:06] the size of the data area to store the
+[00:23:08] telemetry packet
+[00:23:10] does not lead to a difference on the
+[00:23:12] impact on the network forwarding. But,
+[00:23:15] as we increased the injection rate, the
+[00:23:18] greater sizes lead to a greater impact
+[00:23:21] on the forwarding performances,
+[00:23:23] which is an unexpected result in our
+[00:23:24] case because this extra space in the
+[00:23:27] header uh requires a reallocation of the
+[00:23:30] headroom inside the SKB
+[00:23:32] structure.
+[00:23:35] Uh on the transit path, so when we are
+[00:23:38] authenticating
+[00:23:39] and encrypting the telemetry data,
+[00:23:42] we can see that for an injection rate up
+[00:23:44] to 1%,
+[00:23:46] the plaintext approach, denoted as no
+[00:23:48] security, which is the existing code,
+[00:23:51] leads to the same performances as our
+[00:23:53] proposed solution.
+[00:23:55] But, as we increase the injection rate,
+[00:23:58] obviously, the plaintext approach has
+[00:24:00] better performances because you do not
+[00:24:02] have the computation which is required
+[00:24:04] by the AEAD cryptosystem.
+[00:24:06] And also, an interesting conclusion is
+[00:24:08] that AES leads to better performances.
+[00:24:12] It was expected in our in our case
+[00:24:14] because the CPU of the device under test
+[00:24:17] has the other extension, the Intel other
+[00:24:19] extension for performing AES
+[00:24:21] computation.
+[00:24:24] Finally, the last metrics we wanted to
+[00:24:26] measure was
+[00:24:27] the impact on the performance depending
+[00:24:30] on the number of telemetry metrics that
+[00:24:32] are gathered.
+[00:24:34] As we can see, it does not change
+[00:24:36] anything because if even if we use all
+[00:24:39] the metrics, it is only 48 bytes, which
+[00:24:41] is still quite relatively small to
+[00:24:44] encrypt and authenticate.
+[00:24:48] That's all for me. If you scan this QR
+[00:24:49] code, you have
+[00:24:51] link to our GitHub repo with the kernel
+[00:24:53] space patch, the IP wood patch, all the
+[00:24:55] measurement data, all the scripts,
+[00:24:57] everything.
+[00:24:58] So, if you have any questions, feel free
+[00:24:59] to ask now or during the the break.
+[00:25:02] Thank you.

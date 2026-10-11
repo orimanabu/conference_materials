@@ -1,0 +1,623 @@
+Source: https://youtu.be/ndMJnAJc79I
+Language: en
+Captions: auto-generated
+
+[00:00:00] Hi. Um
+[00:00:02] we're going to go for the next session.
+[00:00:04] Um so, the next session is about um
+[00:00:07] implementation of um HighStart++ um the
+[00:00:11] reason why uh and this is actually uh
+[00:00:14] the work of um uh ViaSat and um WPI. We
+[00:00:18] we actually are focusing on improving
+[00:00:21] the slow start performance because uh
+[00:00:24] you know, our BDP is actually very high.
+[00:00:27] So, impro- uh you know, improving uh you
+[00:00:29] know, slow slow start behavior really is
+[00:00:31] a key to um
+[00:00:32] giving the um the good uh quality of
+[00:00:35] experience to our users. So, that is the
+[00:00:37] uh the focus area and um while we're
+[00:00:40] actually doing the research, uh we try
+[00:00:43] to uh you know, compare different uh
+[00:00:45] slow start behaviors like, you know, the
+[00:00:47] vanilla slow start and uh HighStart. And
+[00:00:50] then uh these days uh you know,
+[00:00:52] HighStart++ is in the RFC, so we wanted
+[00:00:55] to compare the stuff that we're working
+[00:00:57] on uh with those things, but we actually
+[00:01:00] found that HighStart++ is not in the
+[00:01:02] Linux kernel. You know, uh it's uh in
+[00:01:05] other places, but we cannot really do uh
+[00:01:08] apple-to-apple comparison if the
+[00:01:10] operating system is different. So, uh we
+[00:01:12] decided to implement HighStart++ and
+[00:01:15] make it available to Linux community.
+[00:01:17] So, uh that is the uh the presentation
+[00:01:20] um that we're going to give.
+[00:01:24] >> Hello everyone. Uh my name is Maryam
+[00:01:26] Atoosi Kashi and I'm a PhD student at
+[00:01:29] Worcester Polytechnic Institute in US.
+[00:01:32] My advisor is Professor Mark Claypool.
+[00:01:35] Uh we are working with ViaSat team
+[00:01:38] including Dr. Jay Chan, Dr. Phong Le,
+[00:01:40] and Benjamin Peters. And a group of a
+[00:01:43] student at WPI also are contributed to
+[00:01:46] this project.
+[00:01:47] Uh Dr. Jay Chan is attending in person
+[00:01:50] and will also help answer questions
+[00:01:52] during the discussion.
+[00:01:54] Uh today we will present our work on the
+[00:01:57] validation and evaluation of Highstart++
+[00:02:01] for Linux.
+[00:02:04] TCP slow start is used at the beginning
+[00:02:06] of connection to quickly discover the
+[00:02:08] available network capacity.
+[00:02:11] During a slow start, the congestion
+[00:02:13] windows approximately doubles every RTT,
+[00:02:16] and this allows the sender to increase
+[00:02:18] its rate quickly.
+[00:02:20] But this exponential growth can also
+[00:02:23] continues after reaching B E and
+[00:02:25] overshoot the link bandwidth.
+[00:02:27] So, the important question here is what
+[00:02:30] signal should TCP use to stop this
+[00:02:33] exponential growth and exit from a slow
+[00:02:35] start?
+[00:02:39] Traditional TCP slow start use loss as a
+[00:02:41] signal. So, it waits until loss happens
+[00:02:44] and then exit. But it's too late because
+[00:02:47] already overshoot happen.
+[00:02:49] Uh, loss happen and then exit. So, it
+[00:02:52] has net cost for the network.
+[00:02:56] Highstart++ is designed to exit earlier.
+[00:03:00] Uh, its goal
+[00:03:02] is to exit after reaching capacity but
+[00:03:04] before loss, and it uses RTT and act
+[00:03:08] behavior, and it is on as a default on
+[00:03:11] Linux.
+[00:03:13] But unfortunately, on the past with
+[00:03:16] variable RTT, it can interpret normal
+[00:03:19] delay variation as congestion and exit
+[00:03:22] too early. So, this early exit leads to
+[00:03:26] underutilization and it takes more time
+[00:03:29] to ramp up to capacity during congestion
+[00:03:31] avoidance.
+[00:03:34] Highstart++ was designed to reduce the
+[00:03:37] premature exit problem of Highstart, and
+[00:03:40] it is standardized in RFC 9406.
+[00:03:44] It is the default slow start exit
+[00:03:45] mechanism in Windows and FreeBSD, but it
+[00:03:49] has not yet been incorporated into the
+[00:03:50] mainline Linux kernel.
+[00:03:53] The key difference in HighStart++ with
+[00:03:57] HighStart is the middle estate, the
+[00:03:59] estates between a slow start and
+[00:04:02] congestion avoidance, that it is called
+[00:04:04] conservative a slow start or CSS.
+[00:04:09] So, when HighStart is in a slow start,
+[00:04:11] after detecting delay signal, it
+[00:04:14] immediately exits exits a slow start and
+[00:04:17] enters congestion avoidance.
+[00:04:20] But, uh HighStart++ when is in a slow
+[00:04:23] start and detect possible delay signal,
+[00:04:26] it enters to the middle estate. It
+[00:04:28] enters to the CSS.
+[00:04:31] And in this estate, the congestion
+[00:04:33] window continues to grow but at a
+[00:04:35] reduced rate.
+[00:04:36] And then, if it find that the delay
+[00:04:39] increase is correct, this is the correct
+[00:04:42] signal, it
+[00:04:46] complete the CSS and then
+[00:04:48] exit from CSS and enters to the
+[00:04:51] congestion avoidance. And if the delay
+[00:04:54] increase disappeared, it find that this
+[00:04:56] is wrong signal, it goes back to the a
+[00:04:59] slow start.
+[00:05:02] Therefore, we can say that CSS gives the
+[00:05:05] sender additional time to distinguish
+[00:05:08] transient or delay variation from
+[00:05:10] persistent queue buildup.
+[00:05:15] In this presentation,
+[00:05:16] we will first walk through the
+[00:05:18] HighStart++ RFC the flow chart.
+[00:05:21] Then, uh we show where the same behavior
+[00:05:24] appears in Linux implementation.
+[00:05:27] After that, we summarize the validation
+[00:05:29] result.
+[00:05:31] And then, we present the evaluation
+[00:05:33] result from controlled and geo test bed.
+[00:05:37] And at the end, we have conclusion and
+[00:05:39] future work.
+[00:05:41] So, in the next uh slide, we walk
+[00:05:42] through the HighStart++ RFC.
+[00:05:47] Uh in this uh slide we want to walk
+[00:05:49] through HighStart++ RFC. So, at the
+[00:05:53] start of each connection, the
+[00:05:55] HighStart++ is initialized and then when
+[00:05:59] an ACK arrives, HighStart++ first checks
+[00:06:02] whether there has been a congestion
+[00:06:04] signal like loss or ECN or not.
+[00:06:07] If so, it leaves HighStart++ and enter
+[00:06:10] congestion avoidance.
+[00:06:13] And if not, it just check whether the
+[00:06:16] ACK marks the end of the current round
+[00:06:18] or not. Do we need to start new round or
+[00:06:20] not?
+[00:06:21] If we need it, it starts new round. It
+[00:06:24] updates RTT measurements and round
+[00:06:27] boundary.
+[00:06:28] And if not, it checks for the current
+[00:06:31] estate. We are in a slow start or CSS.
+[00:06:34] It also need to do this checks after
+[00:06:37] starting new round.
+[00:06:39] If we are in a slow start, it updates
+[00:06:41] congestion windows based on a standard a
+[00:06:44] slow start and uh also updates uh
+[00:06:47] minimum RTT values, the current min RTT
+[00:06:51] and uh last min RTT.
+[00:06:55] And then, it
+[00:06:57] it needs to checks for delay increase
+[00:07:00] preconditions. It needs to make sure
+[00:07:03] that we have enough uh valid delay
+[00:07:05] samples to decide for exiting from a
+[00:07:08] slow start and entering to the next
+[00:07:10] estate. So, if we don't have enough uh
+[00:07:14] delay samples, it just remains a slow
+[00:07:17] start. But if we have
+[00:07:19] uh enough samples, it computes a delay
+[00:07:22] threshold and then checks whether the
+[00:07:24] current round min RTT has increased
+[00:07:27] sufficiently relative to the previous
+[00:07:30] round.
+[00:07:31] If delay increase doesn't happen, it
+[00:07:34] just remains in a slow start. But if uh
+[00:07:38] the delay increase happens, it get the
+[00:07:40] delay signal and so it exit a slow start
+[00:07:43] and enters
+[00:07:44] uh a CSS. So, if we are in high start,
+[00:07:48] it immediately goes to the congestion
+[00:07:51] avoidance, but as you can see in high
+[00:07:52] start plus plus, it enters CSS.
+[00:07:56] And in this step, it also set the
+[00:07:58] baseline RTT equal to the current mean
+[00:08:03] RTT.
+[00:08:05] Then on the CSS path, it updates
+[00:08:09] congestion windows. The congestion
+[00:08:11] window grows more slowly here.
+[00:08:13] And also it updates mean RTT values.
+[00:08:17] And then again it checks for the
+[00:08:20] enough
+[00:08:21] valid RTT samples because it wants to
+[00:08:24] decide is this the current correct
+[00:08:27] signal?
+[00:08:28] If this is wrong, we need to back to the
+[00:08:30] slow start. So, if it has enough signal,
+[00:08:33] it checks for
+[00:08:36] signal correction. So, if the RTT falls
+[00:08:40] below the CSS baseline, it returns to
+[00:08:44] the standard slow start.
+[00:08:46] If not or if it doesn't have enough RTT
+[00:08:49] [snorts] samples, it
+[00:08:52] just checks for CSS completion.
+[00:08:55] If
+[00:08:57] CSS doesn't continue for the required
+[00:09:00] number of rounds, it remains in CSS, but
+[00:09:04] if it completes
+[00:09:06] CSS, it exit from CSS and enters
+[00:09:11] congestion avoidance.
+[00:09:14] And now that we have the RFC behavior,
+[00:09:17] we will show how this maps to the Linux
+[00:09:20] implementation.
+[00:09:24] The implementation we evaluate is not
+[00:09:26] part of the main line Linux kernel as I
+[00:09:29] said before. It is a modified Linux
+[00:09:32] cubic implementation developed by Mahdi
+[00:09:35] Araghi Vani.
+[00:09:36] In this implementation, the high start
+[00:09:38] plus plus behavior is distributed across
+[00:09:41] several cubic callback. So,
+[00:09:44] initialization occurs in cubic TCP init
+[00:09:48] function.
+[00:09:49] RTT sampling and round tracking are
+[00:09:52] mainly performed in cubic TCP act
+[00:09:54] function.
+[00:09:56] And then, if there is no congestion
+[00:09:59] signal, it just
+[00:10:01] increase the congestion windows in cubic
+[00:10:04] TCP con avoid function.
+[00:10:06] And [snorts] if there is a signal, it
+[00:10:08] recalculate SS threshold and change the
+[00:10:11] S state in these two functions.
+[00:10:17] This is slide summarizes the
+[00:10:19] responsibilities of the main Linux
+[00:10:21] passes. The first pass,
+[00:10:24] uh, the cubic TCP act handles RTT
+[00:10:28] measurements and round tracking.
+[00:10:30] It maintains the current and previous
+[00:10:32] round minimum RTT values, counts RTT
+[00:10:35] samples, checks for new rounds, and
+[00:10:38] handles a possible return from CSS to a
+[00:10:41] standard SS start.
+[00:10:44] Uh, the other one, the second pass, uh,
+[00:10:47] the cubic TCP con avoid function, uh,
+[00:10:52] controls congestion window growth. It
+[00:10:54] detects entering to CSS or applies
+[00:10:57] either normal SS start growth or reduce
+[00:10:59] CSS growth.
+[00:11:01] And the final passes,
+[00:11:03] uh, the cubic TCP state and cubic TCP
+[00:11:06] recalculate SS threshold functions,
+[00:11:09] uh, deactivate high start plus plus when
+[00:11:11] the connection experiences a congestion
+[00:11:13] event.
+[00:11:15] Together, these separate passes
+[00:11:17] reproduce the main SS transitions shown
+[00:11:20] in the RFC flow chart. And uh, this flow
+[00:11:23] chart and descriptions are all in the
+[00:11:25] paper, but we just gave a high-level
+[00:11:28] overview of the code flow here.
+[00:11:32] Now that we also have uh, identified the
+[00:11:35] Linux passes,
+[00:11:37] we will summarize how closely their
+[00:11:39] behavior matches HighStart++ RFC.
+[00:11:45] This table maps each major RFC behavior
+[00:11:48] to its flowchart state and Linux
+[00:11:51] implementation functions.
+[00:11:53] For example, RTT and round updates map
+[00:11:56] mainly to cubic TCP act and the
+[00:11:59] HighStart parameter function.
+[00:12:02] Delay detection and CSS entry map mainly
+[00:12:06] to cubic con avoid and HighStart++
+[00:12:10] adjust congestion window function.
+[00:12:12] The CSS rollback and completion in
+[00:12:16] involves the act processing pass
+[00:12:19] and loss and ECN handling involves the
+[00:12:21] estate and slow start recalculate
+[00:12:24] threshold callbacks.
+[00:12:25] So, the purpose of this table is not
+[00:12:28] only to show that related code exists,
+[00:12:31] but to trace each major RFC behavior to
+[00:12:34] a specific Linux execution pass.
+[00:12:39] Our validation shows that the main
+[00:12:42] HighStart++ estate machine is preserved
+[00:12:44] in Linux.
+[00:12:45] The behavior marked match are
+[00:12:48] behaviorally equivalent to the RFC.
+[00:12:50] These include initialization, current
+[00:12:52] round RTT updates,
+[00:12:54] delay detection and CSS entry, CSS
+[00:12:57] completion, and restricting HighStart++
+[00:13:00] just to the initial slow start episode.
+[00:13:02] And [snorts] the behavior marked match a
+[00:13:04] star preserve the main behavior, but
+[00:13:07] they are different in timing or
+[00:13:09] implementation details.
+[00:13:12] We identified four differences.
+[00:13:14] The first one is related to the starting
+[00:13:17] new round. So, RFC starts a new round
+[00:13:20] then an act reads or passes the same
+[00:13:22] boundary,
+[00:13:23] but Linux implementation as used the um
+[00:13:27] after function, it uh uh uh uh
+[00:13:30] waits until the act passes the boundary.
+[00:13:32] So, it doesn't do anything if it reach
+[00:13:34] it just a start new round after passing
+[00:13:38] the boundary. But, RFC if also reach the
+[00:13:41] boundary, it start new round.
+[00:13:43] The second one is related to increasing
+[00:13:45] congestion window. So, RFC applies the
+[00:13:48] per act limit L for increasing the
+[00:13:51] congestion window.
+[00:13:52] Uh
+[00:13:53] but, Linux passes the acknowledgement
+[00:13:56] packet count
+[00:13:57] directly to the standard TCP growth
+[00:13:59] function. So, RFC has limitation on the
+[00:14:01] growth, but
+[00:14:03] um
+[00:14:03] um Linux implementation doesn't have.
+[00:14:06] Uh
+[00:14:07] but, there is something here. So, if um
+[00:14:10] it is paced, the L is infinite, and so
+[00:14:13] there is no difference between RFC and
+[00:14:16] um Linux implementation. But, but if no
+[00:14:21] pace, they are different because RFC has
+[00:14:23] limitation, but um Linux doesn't have
+[00:14:26] this
+[00:14:27] um limitation on the growth.
+[00:14:30] Then, the next one is for returning from
+[00:14:33] CSS to the a slow start exit. So, the
+[00:14:36] RFC evaluates CSS rule back after eight
+[00:14:40] RTT samples, but Linux
+[00:14:44] um first evaluates the condition
+[00:14:47] um after nine RTT sample.
+[00:14:52] And the last one is
+[00:14:55] um related to setting the
+[00:14:58] um SS threshold. So,
+[00:15:00] um after loss or ECN, the RFC set the SS
+[00:15:04] threshold equal to the current
+[00:15:05] congestion windows. Uh while Linux uses
+[00:15:09] the a standard cubic multiplicative
+[00:15:12] decrease calculation.
+[00:15:14] Uh so, these differences don't remove
+[00:15:17] the main a slow start to CSS to
+[00:15:19] congestion avoidance behavior, but they
+[00:15:21] are mostly implementation level
+[00:15:24] differences.
+[00:15:31] Uh after validating the implementation,
+[00:15:33] uh we evaluated how traditional S- low
+[00:15:36] start, high start, and high start plus
+[00:15:38] plus
+[00:15:39] behave under different network
+[00:15:41] conditions.
+[00:15:44] Uh
+[00:15:45] for evaluation, we used two experimental
+[00:15:48] environments. Uh the left one is control
+[00:15:52] test bed. The sender is a virtual
+[00:15:54] machine uh
+[00:15:55] runs one of the three algorithms, high
+[00:15:58] start, high start plus plus, and
+[00:15:59] traditional S- low start. The receiver
+[00:16:02] uses an unmodified Linux stack, and a
+[00:16:05] Raspberry Pi router controlled the
+[00:16:07] bottleneck rate, RTT, Q size, and
+[00:16:09] jitter.
+[00:16:11] So, we have three different rates, three
+[00:16:13] different base RTTs, three different Q
+[00:16:15] sizes, and three different jitters.
+[00:16:19] Uh
+[00:16:20] the duration of each run is 10 seconds.
+[00:16:23] Uh we perform 30 run per configs, uh
+[00:16:27] giving 2,430
+[00:16:30] runs per algorithm, and in total we have
+[00:16:33] 7,290
+[00:16:36] controlled runs. And for the other test
+[00:16:40] bed, for the geo test bed, we use a
+[00:16:42] ViaSat two geo satellite connection with
+[00:16:45] the performance-enhancing proxy
+[00:16:47] disabled.
+[00:16:49] Uh
+[00:16:50] again, we have three different
+[00:16:51] algorithms, but each one runs on a
+[00:16:54] different server because we want to
+[00:16:57] sequentially uh run these uh algorithms
+[00:17:01] through a day to make sure that we cover
+[00:17:03] all different times of a day.
+[00:17:05] And uh the duration of each run is 45
+[00:17:09] seconds, and we collect 161 runs per
+[00:17:13] algorithm.
+[00:17:17] This graph shows uh
+[00:17:19] mean download time as a function of
+[00:17:21] object size in the control data set
+[00:17:24] for each object size, for each
+[00:17:26] algorithm, we combined the results from
+[00:17:29] all control testbed configuration into a
+[00:17:31] single data set. So, it includes all the
+[00:17:34] different rates, different RTTs,
+[00:17:37] different queue sizes, and jitter
+[00:17:38] levels.
+[00:17:40] Uh the shaded area around each curve
+[00:17:43] also shows 95% confidence intervals.
+[00:17:48] As you can see in the graph, for the uh
+[00:17:50] smallest objects, the three algorithms
+[00:17:53] are relatively close. And this is
+[00:17:55] because the transfers often finish
+[00:17:57] before their S-low start behaviors
+[00:17:59] diverge substantially.
+[00:18:01] And as the object sizes increases, you
+[00:18:04] can see that the differences becomes uh
+[00:18:07] clearer.
+[00:18:08] The traditional S-low start, the uh the
+[00:18:10] blue curve, has the shortest average
+[00:18:14] completion time because it continues
+[00:18:16] exponential growth until loss or another
+[00:18:19] congestion event.
+[00:18:21] HighStart, the orange one, which is the
+[00:18:23] default S-low start mechanism in uh
+[00:18:26] Linux, has the longest completion time.
+[00:18:29] It's delay detector often exits S-low
+[00:18:31] start very before uh reaching the
+[00:18:34] available capacity, and so because of
+[00:18:37] the underutilization, it takes long time
+[00:18:39] to download
+[00:18:40] uh
+[00:18:41] larger object size.
+[00:18:44] And HighStart Plus Plus generally lies
+[00:18:47] between these two.
+[00:18:49] CSS allows it to continue probing after
+[00:18:52] the first delay signal, so it preserves
+[00:18:55] more of the performance benefit of S-low
+[00:18:58] start and HighStart
+[00:18:59] while remaining less aggressive than
+[00:19:02] traditional S-low start.
+[00:19:05] Uh
+[00:19:06] however, download time is only one part
+[00:19:08] of the overall performance picture. A
+[00:19:11] faster transfer may also produce more
+[00:19:14] queuing delay, packet loss, or
+[00:19:16] retransmissions. So, in the next slide,
+[00:19:20] we look at those congestion-related
+[00:19:22] costs, as well.
+[00:19:25] So, in this slide, as I mentioned, we
+[00:19:28] want to show why download time alone
+[00:19:30] doesn't provide the completion picture.
+[00:19:33] So, in the first slide, the horizontal
+[00:19:35] axis is the number of retransmitted
+[00:19:38] packets when 5 MB have been downloaded,
+[00:19:41] and the vertical axis is the time
+[00:19:43] required to download those 5 MB.
+[00:19:46] Lower values are preferable on both
+[00:19:49] axes.
+[00:19:51] As you can see, traditional slow start
+[00:19:54] is the fastest, but it also produces by
+[00:19:57] far the most retransmissions.
+[00:20:00] High start produces the fewest
+[00:20:03] retransmissions, but it has the longest
+[00:20:06] completion time.
+[00:20:07] And High Start Plus Plus lies between
+[00:20:10] them. It completes the transfer faster
+[00:20:12] than High Start, while producing
+[00:20:15] substantially fewer retransmissions than
+[00:20:18] traditional.
+[00:20:21] In the second plot, we compare the
+[00:20:23] amount of data downloaded until a slow
+[00:20:25] start exit with the estimated normalized
+[00:20:28] queue occupancy at exit.
+[00:20:30] So, as you can see, High Start exit with
+[00:20:34] the smallest queue, but it also exits
+[00:20:36] after downloading the least data,
+[00:20:38] because it exits prematurely, and it
+[00:20:40] doesn't use the
+[00:20:42] link
+[00:20:44] capacity.
+[00:20:46] Traditional remains in a slow start
+[00:20:49] longer and downloaded substantially more
+[00:20:51] data before exit, but it also creates
+[00:20:54] the largest estimated queue.
+[00:20:57] And High Start Plus Plus is the most
+[00:21:00] favorable relative to traditional in
+[00:21:02] this plot. So, it downloads more data
+[00:21:04] before exit, while using less queue than
+[00:21:08] traditional.
+[00:21:10] So, we can say that HighStart++ is
+[00:21:13] actually better than traditional here.
+[00:21:16] Um it downloads more data before exit
+[00:21:18] while using less queue. So, the real
+[00:21:21] trade-off in this plot is between
+[00:21:23] HighStart++ and HighStart. So,
+[00:21:26] HighStart++ gets more data before exit,
+[00:21:29] but with somewhat higher queue.
+[00:21:35] Uh
+[00:21:36] this graph again shows a download time,
+[00:21:38] but this time this is over the ViaSat
+[00:21:42] Geo satellite path.
+[00:21:44] Uh
+[00:21:45] again, the traditional S low start, the
+[00:21:48] blue curve, achieves the shortest mean
+[00:21:51] completion time for all different uh
+[00:21:53] object size.
+[00:21:55] Uh for a small object size, uh the
+[00:21:58] HighStart and HighStart++ have similar
+[00:22:01] completion time.
+[00:22:03] Um HighStart++
+[00:22:05] is slightly faster for some uh small
+[00:22:08] object sizes, but um for large objects,
+[00:22:12] um
+[00:22:13] they are close, but HighStart++ is uh
+[00:22:17] slightly slower than HighStart in this
+[00:22:19] data set.
+[00:22:21] So,
+[00:22:22] it doesn't show what we see in the um
+[00:22:25] control data set, and uh one likely
+[00:22:28] reason is
+[00:22:29] uh
+[00:22:30] that uh the RTT variation is um the RTT
+[00:22:35] is large, and RTT variation is huge on
+[00:22:38] satellite path. So, HighStart++ makes
+[00:22:41] the first delay signal reversible, but
+[00:22:44] repeated RTT variation can repeatedly
+[00:22:48] triggers CSS. And so, we know that
+[00:22:51] during each CSS period, congestion
+[00:22:53] window growth is reduced even when the
+[00:22:56] path may uh still have additional
+[00:22:58] available capacity. So, it can cause
+[00:23:00] long time for
+[00:23:02] uh large object size to download.
+[00:23:06] Our long-term goal is to develop a slow
+[00:23:10] start exit mechanism that achieves
+[00:23:12] shorter download time than traditional
+[00:23:14] slow start while also maintaining lower
+[00:23:17] queue occupancy and zero
+[00:23:19] retransmissions.
+[00:23:20] This is the direction represented by
+[00:23:23] search, our delivery-based slow start
+[00:23:25] exit algorithm, which we presented at
+[00:23:28] the NetDev conference in 2024.
+[00:23:32] Uh we can also use
+[00:23:35] a delivery-based signal with RTT.
+[00:23:38] Use this as backbone using delivery as a
+[00:23:40] confirmation signal for the exit
+[00:23:42] decision.
+[00:23:44] Or
+[00:23:45] another direction can be tuning
+[00:23:47] Highstart++ itself. For So, for example,
+[00:23:50] we can tune uh delay threshold, CSS
+[00:23:54] duration, and CSS growth rate to move
+[00:23:57] closer to this goal.
+[00:24:03] Uh to conclude, I will summarize what
+[00:24:06] the validation and evaluation results
+[00:24:09] tell us about Linux Highstart++.
+[00:24:14] Our first conclusion is that the Linux
+[00:24:16] implementation faithfully implements the
+[00:24:19] main Highstart++ RFC state.
+[00:24:22] So, a standard slow start followed by
+[00:24:26] conservative slow start, correct signal
+[00:24:28] congestion avoidance, strong signal
+[00:24:31] returns to slow start.
+[00:24:33] Our second conclusion is that CSS
+[00:24:36] reduces the impact of premature high
+[00:24:38] start exits. Instead of making the first
+[00:24:41] delay signal irreversible, Highstart++
+[00:24:44] continues probing and can return to a
+[00:24:46] standard slow start.
+[00:24:49] Based on the control testbed,
+[00:24:52] uh we can see that Highstart++ is less
+[00:24:56] conservative than HighStart and less
+[00:24:58] aggressive than traditional slow start.
+[00:25:03] And uh
+[00:25:04] >> [sighs]
+[00:25:05] >> with the by that result, we see that uh
+[00:25:08] the RTT variation is still remains a
+[00:25:11] fundamental challenges. So, on wireless
+[00:25:15] and satellite passes, an RTT increase
+[00:25:18] doesn't always mean that the pass has
+[00:25:21] reached its capacity.
+[00:25:25] Our future work has two main directions.
+[00:25:28] Uh the first one is to tune HighStart++
+[00:25:31] for passes with high RTT variation. So,
+[00:25:35] it includes adopting the delay
+[00:25:36] threshold, CSS duration, and CSS growth
+[00:25:40] rate.
+[00:25:41] So, for example, a pass with high RTT
+[00:25:43] variability may need a less restrictive
+[00:25:46] response to isolate a delay spike.
+[00:25:48] Or in contrast, persistent queue
+[00:25:51] build-up may require a shorter CSS
+[00:25:54] period or faster transition to
+[00:25:56] congestion avoidance.
+[00:25:58] Our second work is
+[00:26:02] to use delivery behavior as an
+[00:26:04] additional slow start signal. So, one
+[00:26:07] design could use delivery growth to
+[00:26:09] confirm an RTT signal.
+[00:26:12] And the other one is
+[00:26:15] uh use the delivery behavior as the
+[00:26:17] primary signal.
+[00:26:22] Uh thank you for your attention. Uh
+[00:26:25] we will be happy to take questions.
+[00:26:33] >> Thank you, Miriam. Anyone has questions?
+[00:26:42] >> Hi, thank you for the talk.
+[00:26:46] What are the plans about the upstreaming
+[00:26:47] this HighStart++ support in Linux?
+[00:26:51] Do you have any?
+[00:26:54] >> Um not exactly now because the
+[00:26:57] implementation is not the implementation
+[00:27:00] that I shown in the slide is not ours,
+[00:27:03] so we are working to
+[00:27:05] uh implement high start plus plus
+[00:27:07] because it has some the differences with
+[00:27:10] RFC, so
+[00:27:11] uh after we make this maybe as we uh try
+[00:27:15] to bring this to the
+[00:27:17] uh Linux.
+[00:27:19] >> Okay.
+[00:27:27] Yeah, so we will we will uh stream uh
+[00:27:29] you know.
+[00:27:37] >> I have two mics now. If you have any
+[00:27:38] mics.
+[00:27:40] Nope.
+[00:27:42] Downstairs, do you have any questions?
+[00:27:50] Okay. Thank you, Marian.
+[00:27:52] >> Yeah.
+[00:27:54] Thank you.

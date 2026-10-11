@@ -1,0 +1,267 @@
+Source: https://youtu.be/fgcq_QE4jaY
+Language: en
+Captions: local speech recognition (mlx-community/whisper-small-mlx); unreviewed
+
+[00:00:00] Hello, good morning.
+[00:00:03] So good morning everybody, thank you very much for showing up so early to giving me a chance to present this little project. I'm
+[00:00:11] currently working on
+[00:00:13] When I sent in the proposal for this talk, I called it communication via ISM
+[00:00:18] Today I would call it dips for reasons I will explain later
+[00:00:23] I thought about a different name, but the name is currently still under construction
+[00:00:28] So let me tell you what this is all about
+[00:00:32] So first let me tell you why I think I should be working on this
+[00:00:38] and then what is a dips device, what is it all about and
+[00:00:44] First two main point are what I'm mainly interested in so if you have any questions
+[00:00:48] I would like to take the time to discuss them then if there's still time left
+[00:00:53] I can go into more details what dips is about and tell you a little bit more about the next plan steps
+[00:01:00] But as I said if you have any questions interrupt me, especially in
+[00:01:04] point one and two
+[00:01:08] So what is the motivation
+[00:01:11] On the mainframe S390 architecture we have ISM devices
+[00:01:18] internal shared memory devices
+[00:01:20] they were
+[00:01:22] Invented actually for the SMC protocol shared memory communications specifically SMC D
+[00:01:29] SMC direct there's also an SMCR for SMC remote that
+[00:01:34] Uses RDMA devices, but SMC D uses ISM devices that were developed for that purpose
+[00:01:40] Not only for Linux, but also for other operating systems on the mainframe
+[00:01:44] so in
+[00:01:46] Linux on Z we have obviously an ISM device driver
+[00:01:51] Running on the ZPCI layer because our PCI interface has some well
+[00:01:56] It's not a separate layer, but it's some additions to the general Linux PCI layer that are special for IBM C and
+[00:02:03] This device driver is really tightly interleaved together with the SMC D module
+[00:02:09] Because that's the purpose it was developed for
+[00:02:13] Then people thought of course what can we do other things with these ISM devices?
+[00:02:17] Maybe use them for remote consoles or so, but it was hard to integrate them because the driver was so intermingled with the SMC D module
+[00:02:25] So there was a little layer ISM client interface added that other
+[00:02:31] Clients could attach to the ISM devices
+[00:02:36] Then came the idea
+[00:02:39] To use to create an ISM loopback device the main purpose of that was to be able to test
+[00:02:46] SMC D on non S3 name 90 architectures to do regression tests without having an IBM Z machine
+[00:02:53] But it can also be used to do SMC D between containers
+[00:02:57] The loopback device, but because it was kind of hard to put it in it was changed from an ISM loopback to an SMC loopback
+[00:03:05] and is today a part of the SMC module and
+[00:03:09] Kind of hidden inside SMC
+[00:03:12] Which does not make it usable for other clients than SMC D
+[00:03:16] There's also the idea and there was an RFC on the word IO mailing list to create a word IO ISM
+[00:03:24] Device to be able to do SMC D across
+[00:03:28] KVM guests from KVM guests to KVM guests, but how would that fit in without clear interfaces?
+[00:03:34] So that is the status today and
+[00:03:37] That is what I'd rather have instead
+[00:03:41] So my idea is to create some kind of shim layer a dips layer in between where all kinds of devices can attach to
+[00:03:49] the
+[00:03:50] ISM devices on S3 90 to communicate between the partitions of S3 90
+[00:03:56] dips loopback of word IO dips whatsoever and
+[00:04:00] One reason I decided not to call it ISM layer is because there's total confusion with the existing ISM devices and future
+[00:04:07] ISM type like similar devices
+[00:04:10] So I think a different name would really be called for whether it be dips or something else we can make sure about that
+[00:04:22] So my motivation is not to invent the next greatest device and the next greatest
+[00:04:29] Communication method but streamland things that exist today and work that is already in progress to enable that
+[00:04:36] Describe the internal interfaces
+[00:04:38] Remove duplicate code remove dependencies between these modules
+[00:04:43] Dependencies on S3 90 where they are not necessary, etc
+[00:04:46] But of course I'd be delighted if this shim layer is done in a good way that it can be used for future things and future projects
+[00:04:55] So that's also why I think it would be a good idea to present it here
+[00:04:59] First of all to enable you to review this stuff, but also maybe you have some ideas how to use it for other purposes
+[00:05:10] So if there are no questions I would now try on a high level to explain the general concept of these
+[00:05:18] dips devices
+[00:05:21] So
+[00:05:27] Dips term I came up with first of all because I like the sound of it and it stands for direct internal buffer sharing
+[00:05:34] Which makes some sense. I think
+[00:05:38] Internal is there because it really assumes that two systems be it
+[00:05:45] Virtual machines or logical partitions or whatever are on the same hardware
+[00:05:51] All existing dips fabrics are using memory
+[00:05:55] Copy methods to communicate with each other. They're all based on the fact that they are using the same hardware
+[00:06:01] That's where the internal comes from
+[00:06:04] it's based on some kind of fabric that is provided by the hardware or by a hypervisor and
+[00:06:10] dips devices and these devices are assigned to the system so that is one
+[00:06:17] Method of access control if you don't have a device that belongs to the fabric you cannot use the fabric
+[00:06:23] So the admin can assign the devices to the systems that he wants to communicate
+[00:06:29] And the third important concept are these do you see the mouse? No, okay
+[00:06:35] The third important concepts are the DMP buffers direct memory buffers. That's where the be and dips comes from
+[00:06:42] buffer sharing and
+[00:06:44] These buffers are really kind of special
+[00:06:48] they are created on a
+[00:06:51] Device be here on the blue system for exactly one other device a
+[00:06:58] So only device a can write into this purple buffer and the fabric makes sure that access control is in place
+[00:07:06] So the fabric keeps kind of a table which device is created which buffer for which other devices and
+[00:07:13] Make sure that only these devices can write into these buffers
+[00:07:16] So that's what makes it different from a general shared memory concept
+[00:07:27] The D for direct is that system a can now say hey
+[00:07:31] I want to move this chunk of data into this DMP that was created for me at exactly this offset
+[00:07:38] So there's no message queuing or something you tell the length and the offset and you write directly into you the buffer
+[00:07:44] That is available for you. That's where the D and dips comes from and
+[00:07:50] Just to mention it today's
+[00:07:52] Implementations because they are all based on physical memory moves. They are lossless. They are synchronous
+[00:07:58] So in the today's clients, there's really no need for anything more sophisticated because you're just moving stuff
+[00:08:06] Eugene you have a question
+[00:08:09] And you need a microphone
+[00:08:22] Thank you
+[00:08:40] Thank you, sorry sorry for the delay
+[00:08:43] So am I correct that it is exactly one writer
+[00:08:48] Per buffer. Yes, great. Thanks
+[00:08:52] Except obviously system B can always write into this buffer because it's in its own memory space, but why should it?
+[00:08:59] So the purpose is yes one writer system a is the only writer into this buffer
+[00:09:07] However, it's not a point-to-point connection the fabric and offer many devices for many systems
+[00:09:13] so
+[00:09:14] Like here system B can provide a purple buffer for system a and a green buffer for system C and system a can write stuff into
+[00:09:21] The purple buffer in system B and into the purple buffer in system C
+[00:09:25] So it's not a point-to-point, but the buffers themselves. They are have only two endpoints
+[00:09:36] It's also not only a single fabric per machine you can define multiple fabrics and have them isolated from each other
+[00:09:42] Like here the orange and the red
+[00:09:44] They are two different fabrics and S390 for ISM devices
+[00:09:49] So that only system H and system I can use the red fabric and a to
+[00:09:56] AB and D can use the the orange fabric here. I have an example you can do a pass-through
+[00:10:02] into a guest just like for other devices and
+[00:10:08] Same obviously for the word IO dips when it comes you can define more than one fabric in a hypervisor
+[00:10:13] The loopback is a special case. It is a fabric with only a single interface just like other loopback interfaces
+[00:10:22] And therefore it has a special identifier for foxes
+[00:10:29] One thing that was added after the ISM devices so the ISM devices do not offer that but
+[00:10:36] loopbacks does and word IO has plans to do that is instead of
+[00:10:41] Sending a block of data into the remote DMB
+[00:10:45] The device can offer the possibility to create a mapped version kind of a ghost buffer of a remote DMB
+[00:10:51] So whenever system a writes into such an address
+[00:10:57] The dips fabric and the dips devices will make sure that the remote DMB is updated accordingly
+[00:11:03] So just mapping the the memory into your own memory space
+[00:11:11] So that is the summary of this overview
+[00:11:16] Dips is based on devices and fabric that the hardware admin or the hypervisor administrator
+[00:11:23] Can create and assign to the different systems. It's based on the DMB direct memory buffers that are
+[00:11:30] Dedicated to exactly one external device
+[00:11:32] You can write directly at an offset and the access is controlled by the fabric. That is basically the
+[00:11:39] The main common features of such a dips construct
+[00:11:48] Order
+[00:11:50] Yes
+[00:12:02] So the access control by the fabric
+[00:12:05] so a lot of the stuff in in like
+[00:12:07] Virtual machine land has been going in the direction of like encryption encrypted memory
+[00:12:13] So how does this?
+[00:12:15] Guarantee that you've got a buffer moving from one system to another especially in the virtual machine space that that is
+[00:12:21] Truly protected that you're not going to allow someone else to be able to snoop that or
+[00:12:34] Word IO is not yet upstream there has been one RFC
+[00:12:38] So I cannot tell you how exactly it is
+[00:12:40] But I think it should be not a big deal because similar to what firmware is doing for the ISM devices
+[00:12:46] You don't have a copy you directly move the data from the memory of system a into the memory of system b
+[00:12:52] With one memory move and this is via hardware right or hardware or firmware doing that. Yeah, okay
+[00:12:59] So then that's probably yeah, so it's not buffered anywhere and for the height of our visor. It would be the same
+[00:13:04] It's not buffered anywhere in the hypervisor
+[00:13:06] It's directly moved from the memory of one system into the memory of the other system
+[00:13:10] So I don't see how any third party could intercept that. Thank you
+[00:13:21] Other questions
+[00:13:25] Otherwise I have some time to go into a little bit more detail
+[00:13:29] So
+[00:13:32] I'm working now on this dips layer trying to turn the ISM client interface into a more general dips layer and
+[00:13:40] I've never done such a thing before so I'm looking around how to do that
+[00:13:44] And I'm really thankful for any hints and comments or bear with me if I may be doing stupid things
+[00:13:51] But remember these things need to be compatible with existing
+[00:13:56] devices and clients and on
+[00:13:58] The other systems could be older Linux's and other OS's that still need to be able to work with these
+[00:14:05] So what do I do this dips layer of course should contain the definitions of common structures for all devices and clients
+[00:14:13] some
+[00:14:15] Structures for the client some obstacles that the devices need to provide some of them optional
+[00:14:20] That's what those were my thoughts and I also thought it should would be nice to have it represented as a Linux
+[00:14:28] driver model device class
+[00:14:31] so that you would show up there and
+[00:14:35] By the way any
+[00:14:37] Client can access any device even in parallel
+[00:14:41] So if we have two clients like the console and the SMCD client they can use the same ISM device
+[00:14:47] But the DMBs are dedicated to a client so they will never share a DMB
+[00:14:52] but they can use the same device and
+[00:14:55] So SMCD can have some buffers here and some buffers in loopback so they can also use more than one device
+[00:15:02] So any client can access any device
+[00:15:06] And
+[00:15:07] That's what such a class structure could look like so you would have in class dips you would have a ISM zero
+[00:15:14] numbering them and a loop back device and
+[00:15:18] The ISM zero would have a pointer to the physical PCI device that is below it
+[00:15:23] And loopback would not have such a pointer because it's a virtual device just like other device classes
+[00:15:28] And you can have attributes obviously CISFS attributes
+[00:15:33] For this prototype I would have a global identifier and a fabric ID that could be read via CISFS
+[00:15:43] These IDs by the way the dips concept is based on three types of tokens a token for the fabric ID a
+[00:15:51] Token per device the global identifier that is large and in UUID type
+[00:15:58] So that is basically the way to identify
+[00:16:01] the other side and I wrote here
+[00:16:04] where they're guaranteed to be unique guaranteed by the fabric and
+[00:16:08] The DMBs need token so that the other side knows where to write to but the exchange of these tokens is not part of the dips device
+[00:16:17] Concept that's for example one thing that SMCD SMC handles for SMCD
+[00:16:24] So some example of these ops that the device drivers need to provide one example is query remote git
+[00:16:31] so a system knows it has access to a dips device and
+[00:16:38] It wonders if it can communicate to another system so it can issue this command query remote git
+[00:16:44] on
+[00:16:45] My device can I reach the git of device B for that purpose? Of course you have to know somehow
+[00:16:53] Upfront what is the git of the other device? I'm trying to communicate
+[00:16:56] But if you know the git you can query where the communication is possible
+[00:17:01] Another thing the device drivers need to offer is registering the buffers obviously so the blue device here now says hey
+[00:17:10] I want to create a buffer for the purple device
+[00:17:13] So it does a registered DMB
+[00:17:16] for the git of device a
+[00:17:18] for the client on on my side the client B of this size and
+[00:17:23] Then it will get a buffer with an address and especially a token a1 and it can now tell the purple
+[00:17:30] System hey, you can use it token a1 to write into this buffer. I created it for you
+[00:17:37] So the actual move
+[00:17:39] Is then done in exactly that way the purple device can take a chunk of data and say
+[00:17:45] I want to write the data at this address this length into
+[00:17:50] token a1
+[00:17:51] at a certain offset and then it will get moved over there
+[00:17:57] In addition, there is a signaling mechanism
+[00:18:01] That the purple device can say I want to signal the other side regular interrupt on the other side
+[00:18:07] Doesn't have to maybe it wants to write first multiple times before triggering the signal and
+[00:18:12] In addition it can add an index
+[00:18:16] as additional information and the purpose of that is that the devices
+[00:18:22] They can coalesce the interrupts. So by the time the interrupt is presented
+[00:18:27] There may be more than one signal that
+[00:18:31] Is presented to the blue system so it may get hey
+[00:18:35] Here's a dip signal handle this dips interrupts for buffer able one and
+[00:18:41] with a mask of maybe four two and
+[00:18:44] What it exactly means this mask? It's just coalesce, but what it exactly means is up to the clients
+[00:18:51] For SMC for example, they slice up such a buffer and it means like the the second and the fourth slide
+[00:19:00] Slice have date new data in it. You should look at them, but it could mean other things. It's just a
+[00:19:06] Bite of information. I think two bites of information
+[00:19:10] That is sent with the interrupt and the idea is that you can coalesce the interrupts
+[00:19:17] Optionally you can also have event signaling the ISM devices do that the loopback does not
+[00:19:24] So what ISM does is if a device goes away on this fabric
+[00:19:28] It will signal everybody who has buffers for this device. Hey, by the way, this device went away
+[00:19:35] Could be useful, but it's optional
+[00:19:41] So those were some details I wanted to talk about I'm actually good in time
+[00:19:47] Yes a question here
+[00:19:54] Yes, so about
+[00:19:58] Not kind of dibs event if the device that went away is the one who asked for buffers to be allocated for it
+[00:20:07] We shouldn't be the one to clean them up before
+[00:20:10] Deregistering
+[00:20:13] Sorry, I did not fully understand the scenario
+[00:20:16] Well, so if I have a device who asked for buffers, I'm sorry
+[00:20:20] Well, so if I have a device who asked like if the the pink device here asked the blue device to allocate a buffer for it
+[00:20:28] I shouldn't it also
+[00:20:30] explicitly tell it to free that buffer and the register it before it it leaves the fabric
+[00:20:36] Yeah, that would be of course a nice thing to do and SMCD does that typically but you could have things
+[00:20:43] Like you go to the hardware console and just remove that device so it doesn't have a chance
+[00:20:49] to D register or
+[00:20:52] You could have a problem at that device so it
+[00:20:56] Goes into error state things like that and then the fabric could own its own signal to the other devices that this one has got
+[00:21:03] Okay. Yeah. Yeah, so that's the idea, but you're right the the other way to do it would be
+[00:21:09] that the device driver or the client signals and
+[00:21:14] Tears down in order the DMB's
+[00:21:19] Any other questions
+[00:21:26] So what are the next steps I've sent a V1 in January and thank you to everybody who sent comments on that I
+[00:21:35] Wanted to send a version 2 RFC before the conference, but unfortunately I did not manage
+[00:21:42] It's almost ready, but I did not manage to send it up in front of the conference
+[00:21:47] So expected within the next weeks
+[00:21:50] I'll be traveling next week. So I didn't want to send it right before I went offline. So but
+[00:21:57] Soon hopefully
+[00:21:59] And then of course, I'd be happy to receive any comments recommendations whatsoever
+[00:22:06] I'm trying to keep it to the minimum
+[00:22:09] And there may be follow-ups that can be done later more simplifications more common functions
+[00:22:14] Other future possibilities
+[00:22:18] Dastli has from Alibaba has been telling me that they're actually waiting for this RFC for the Dips layer to send out to base the word IO
+[00:22:29] Implementation on that and send out the next RFC from their side. So hopefully that will be expected soon after we have a Dips layer
+[00:22:39] and as I mentioned, there's the
+[00:22:41] Thoughts to have a console client over dips
+[00:22:46] The idea behind that is that system a could provide a virtual console device over dips and then system B could have a dips console driver and use that virtual device
+[00:22:55] So that system a could provide a terminal server for a user to log into the console and we think that may come handy because it's a virtual device
+[00:23:06] And that would be a quite convenient way to do that without
+[00:23:10] Networks especially before the network is designed or if you want to debug the network or change the network configuration
+[00:23:17] And especially during early boot or install config scenarios where you do not have the network defined yet. You could have a console via dips in
+[00:23:26] The console
+[00:23:28] And that's the main thing that I think is really important to me
+[00:23:32] That the network defined yet you could have a console via dips in really small simple implementation. That's the idea behind that
+[00:23:43] But before we can go there, let's improve the foundation and create such a dips layer that more devices and more clients can hopefully easily plug into
+[00:23:57] So if there are no further
+[00:23:59] Comments or questions? Thank you for listening to me. I hope it became a little bit clearer what this is about and maybe you have the time to send some comments to the patch set when I send an expression.
+[00:24:14] Thank you.

@@ -1,0 +1,1397 @@
+Source: https://youtu.be/0_ZREgPkJbY
+Language: en
+Captions: auto-generated
+
+[00:00:00] Okay, so this talk is about um doing a
+[00:00:04] performance comparison for KV cache
+[00:00:06] transfer. Just out of curiosity, how
+[00:00:08] many people know what a KV cache
+[00:00:10] transfer is?
+[00:00:12] Okay, how many people know
+[00:00:15] how GP how LLM inference works?
+[00:00:19] Okay, maybe I'll do a little bit of
+[00:00:20] intro. It seems like maybe 10% of the
+[00:00:22] people here. So here's the problem that
+[00:00:26] we are trying to solve. If you look at
+[00:00:29] the state of art of uh
+[00:00:33] how the models have been growing over
+[00:00:35] the years
+[00:00:37] shows there. Yeah. Okay. So 2018
+[00:00:40] you classical model was about 110
+[00:00:44] million parameters at 8 byt per
+[00:00:47] parameter. That's close to uh one less
+[00:00:51] than one gigabyte.
+[00:00:53] If you zoom forward to 2016 2026, you're
+[00:00:57] hitting this says 800 gig uh 800 million
+[00:01:00] parameters. But if you look at things
+[00:01:02] like deepseek is more than a trillion
+[00:01:04] parameters.
+[00:01:05] Take a parameter. If the quantization is
+[00:01:08] one bite,
+[00:01:10] you're you're literally looking at uh
+[00:01:14] hundreds
+[00:01:15] of uh gigabytes like one terabyte of
+[00:01:18] RAM. So in the meantime, GPUs haven't
+[00:01:21] been keeping up. If you notice this is a
+[00:01:23] logarithmic scale so it exaggerates a
+[00:01:26] little bit how things go and uh the GPUs
+[00:01:30] have not been keeping up. So the way you
+[00:01:32] operate this is you connect them on a
+[00:01:35] network and you do some memory
+[00:01:36] transactions between the memory that
+[00:01:38] resides on different GPUs. bigger
+[00:01:41] challenge for us is if you notice the
+[00:01:43] cost of the GPU,
+[00:01:46] you know, uh 206 uh Nvidia B200, you're
+[00:01:50] looking at 35,000 to 40,000, that's a
+[00:01:53] nice little car. Uh a typical 4U chassis
+[00:01:58] with has eight GPUs. Multiply that by
+[00:02:00] eight, you can buy a house with that.
+[00:02:02] And then you need maybe a few a few of
+[00:02:05] those nodes, right? All we want to do is
+[00:02:07] to test networking. We want to try to
+[00:02:10] see if an how effective a network
+[00:02:12] protocol is, how uh whether we want to
+[00:02:15] innovate some new network protocol.
+[00:02:18] So, so that's the problem we were faced
+[00:02:21] with. You either have to go and buy new
+[00:02:22] GPUs. Uh as you can see, there's newer
+[00:02:26] versions every year. This is just
+[00:02:28] looking at Nvidia.
+[00:02:30] Um starting with A100's to then you have
+[00:02:34] H100s. They're already obsolete almost.
+[00:02:36] Then you have the H200's. Then now you
+[00:02:39] have the uh the GB200s. Okay. Um if
+[00:02:44] someone was curious about this deep this
+[00:02:47] uh deep here
+[00:02:49] that was back before 2022 everybody
+[00:02:52] thought if I have a lot of parameters my
+[00:02:55] models are huge then I'll get my
+[00:02:58] accuracy is going to improve. And then
+[00:03:00] at some point I think Google wrote a
+[00:03:02] paper called the chin chinchilla.
+[00:03:05] says you you don't necessarily need a
+[00:03:07] lot of parameters. What you need is a
+[00:03:08] lot of data to to accumulate into your
+[00:03:11] model. So everybody started going down
+[00:03:13] in terms of uh the model sizes and then
+[00:03:16] was discovered let's say was sort of
+[00:03:18] became a thing in 2024. So you can see
+[00:03:21] the
+[00:03:22] parameter sizes going up again and
+[00:03:26] that's just uh
+[00:03:28] uh so problem domain we're trying to
+[00:03:30] solve, right?
+[00:03:32] How does networking connect? If you are
+[00:03:34] in uh Santa Clara Netdev, you saw
+[00:03:37] someone presenting on ultra ethernet. So
+[00:03:40] there are two types of networks as far
+[00:03:42] as this is concerned or three. The
+[00:03:45] middle one is called a scaleup network.
+[00:03:47] It's a typically within the node within
+[00:03:50] the frame of the node as you can see
+[00:03:52] here the node is
+[00:03:55] encapsulating anywhere between four to
+[00:03:57] eight GPUs. So when you buy your your
+[00:04:00] chassis
+[00:04:01] fully equipped, it comes with eight uh
+[00:04:04] four to eight GPUs depending on how much
+[00:04:06] you need or how much you want to pay. So
+[00:04:08] if your model fits within the same node,
+[00:04:10] you don't have to go outside of the box,
+[00:04:12] right? So you then use what's known
+[00:04:15] typically as a scaleup network. The most
+[00:04:18] predominant player there is Nvidia. They
+[00:04:21] have something called NVLink.
+[00:04:23] So your exchange is a very high
+[00:04:25] throughput memory memory transaction
+[00:04:27] kind of bus.
+[00:04:29] So you can stick within that node. Now
+[00:04:33] at some point 8 GPUs are insufficient
+[00:04:36] and then you have to start going outside
+[00:04:37] the yellow and that's called a scale out
+[00:04:40] network.
+[00:04:42] And now in fact the concept of a node is
+[00:04:46] scaling to more than one GPU. You're
+[00:04:48] scaling to a rack level. So the new node
+[00:04:50] is essentially a rack and it could go up
+[00:04:53] to multiple racks and there are
+[00:04:54] protocols being defined for for the
+[00:04:57] scaleup network outside of what NVLink
+[00:04:59] does.
+[00:05:01] If you're doing uh if you if you're
+[00:05:03] running a sashi code it's coming in
+[00:05:04] through here
+[00:05:06] and then it gets broken down and gets
+[00:05:08] scheduled on on specific GPUs.
+[00:05:11] Okay. So uh to come down to what we're
+[00:05:15] trying to solve our motivation is we
+[00:05:18] don't want to deal with the cost of ever
+[00:05:20] growing models
+[00:05:22] ever evolving model optimizations.
+[00:05:24] There's tons of model optimizations.
+[00:05:26] This is a very very fastmoving
+[00:05:28] environment. We don't want to have to
+[00:05:30] deal with approaches to different model
+[00:05:32] optimizations. What we want is to or
+[00:05:35] keep up to date with what the latest GPU
+[00:05:39] infrastructure we need.
+[00:05:41] uh we just want to focus on networking
+[00:05:44] right and if we want to probably we deal
+[00:05:48] with network equipment only nicks
+[00:05:50] switches
+[00:05:52] and we want to experiment in innovate on
+[00:05:54] new technologies without incurring the
+[00:05:56] cost of the GPUs
+[00:05:58] that's what we're we're sol we're trying
+[00:06:00] to solve because this is an extremely
+[00:06:02] fastmoving environment it's likely that
+[00:06:05] memory is not the only bottleneck that's
+[00:06:07] going to appear in the future but at the
+[00:06:09] moment the reason you you scale your uh
+[00:06:12] compute of GP the matrix multiplication
+[00:06:15] across multiple nodes and AC and for for
+[00:06:19] either multiplication or when you're
+[00:06:20] doing inference you have various uh
+[00:06:23] opportunities to parallelize there's the
+[00:06:25] most popular across scale up it's called
+[00:06:27] tensor parallelism you can do pipeline
+[00:06:29] parallelism you can do data parallelism
+[00:06:32] the reason you need that is to scale
+[00:06:34] across compute but also across memory
+[00:06:37] domains okay
+[00:06:40] All right. So
+[00:06:42] the scope uh so the scope is we're just
+[00:06:44] going to focus on inference. We're not
+[00:06:46] talking about training and in particular
+[00:06:49] only about on a specific area of
+[00:06:51] inference where the concept of prefill
+[00:06:55] and decode is separated across two GPUs.
+[00:06:59] Um
+[00:07:01] uh so I'm going to describe a short
+[00:07:03] description of given what I've seen here
+[00:07:05] but I'll give a little bit description
+[00:07:07] of what inference and KV cache and how
+[00:07:08] this thing fits. I'll describe
+[00:07:12] using models we have tested some small
+[00:07:16] simple models in order to verify that
+[00:07:17] our approach is correct. We tried with
+[00:07:20] three different models uh much newer
+[00:07:23] generation of models.
+[00:07:26] uh why what we're doing is accurate and
+[00:07:30] then I'm going to describe our tooling
+[00:07:31] approach. I'll show some experiments and
+[00:07:33] of course there's always those
+[00:07:34] challenges and at the end I'm going to
+[00:07:36] make some recommendations.
+[00:07:38] Okay.
+[00:07:41] Uh so our scope of experimentation is we
+[00:07:45] given the equipment we have we just
+[00:07:47] going to test with standard TCP which
+[00:07:50] doesn't require any feature. is just
+[00:07:51] TCP. It copies to user space and cop
+[00:07:55] there's a copy domain between kernel and
+[00:07:58] user space dev zero copy TCP. We're
+[00:08:00] using an Intel nick 8 8 8xx I think it's
+[00:08:03] 810. Uh we're going to compare against
+[00:08:06] uh IU ring and the nick happens to
+[00:08:08] support Rocky V2 which is very popular
+[00:08:11] in uh the AI world.
+[00:08:14] The GPU we used initially to validate
+[00:08:17] our results. It's an H100 and which has
+[00:08:20] a floating point capacity of 3,900
+[00:08:24] teraflops. If you're doing FP8
+[00:08:27] computation at FP16, that goes down by
+[00:08:30] half. This GPU can only take has only 8
+[00:08:34] GB of NV RAM built in. And it has a
+[00:08:36] memory bandwidth. You can you can reach
+[00:08:38] this memory from within the kernel
+[00:08:41] inside the GPU of 3.3 terabytes per
+[00:08:44] second terabytes. So that's multiply
+[00:08:46] that roughly by 10, you get over 30
+[00:08:48] terabytes per second. We picked a few
+[00:08:51] models. They're all dense models. We can
+[00:08:54] this what I'm describing here also works
+[00:08:56] with, but these are dense and they are
+[00:08:59] kind of modern. They maybe over the last
+[00:09:02] year these three models have appeared.
+[00:09:04] They're not that big, but the point was
+[00:09:06] just to prove the concept. Japo is from
+[00:09:08] Google. I think Quen is from Alibaba.
+[00:09:11] Mistrol is from Mistl in France. I think
+[00:09:14] it's a French company if I'm not
+[00:09:15] mistaken. Okay.
+[00:09:18] All right. So, first thing I'm going to
+[00:09:20] try and prove to you is that
+[00:09:23] uh our approach based on the KV cache
+[00:09:26] production
+[00:09:28] is reasonable, right? Because we are
+[00:09:30] just going to generate this data and
+[00:09:31] then send it across the network to test.
+[00:09:33] We don't have GPUs.
+[00:09:35] So, first to thing to understand is if
+[00:09:39] you have
+[00:09:41] if you're doing inference, this is what
+[00:09:42] you do. So there's a first phase which
+[00:09:44] is called uh prefield which is very
+[00:09:46] compute [clears throat] intense does a
+[00:09:48] lot of matrix multiplication and then
+[00:09:51] what happens is you produce that first
+[00:09:52] token right so it takes your sashiko
+[00:09:55] input because people are familiar with
+[00:09:57] sashiko I know you know more than
+[00:09:58] sashiko but I'm going to use sashiko as
+[00:10:00] an example as the input that you see on
+[00:10:03] the left hand corner there and it
+[00:10:05] generates the one token only one token
+[00:10:09] like one output and then the second
+[00:10:11] phase of that is uh regressive and it
+[00:10:14] you com you you start uh outputting the
+[00:10:16] other tokens. Uh the disagregated
+[00:10:19] serving is something that takes those
+[00:10:23] two state there's two phases and
+[00:10:24] separates them into two different GPUs.
+[00:10:27] So the first phase which is the compute
+[00:10:29] is run into typically a cluster of one
+[00:10:33] or more GPUs there and then when you're
+[00:10:37] done you output this cache of the
+[00:10:39] computation which is called KV cache key
+[00:10:41] value cache and then you transport it to
+[00:10:45] typically in a load balanced environment
+[00:10:47] to one of many uh decode GPUs. So what
+[00:10:51] you normally you could use two different
+[00:10:53] types of GPUs. The first one is very
+[00:10:55] capable of doing a lot of matrix
+[00:10:57] multiplication but it doesn't have very
+[00:10:58] good memory bandwidth. Then you buy the
+[00:11:00] next one which is not necessarily high
+[00:11:03] compute capability but very good at
+[00:11:07] memory bandwidth. So this is I I believe
+[00:11:10] this is where the industry is going and
+[00:11:12] someone can correct me if I'm wrong. Is
+[00:11:14] people in the know is that am I correct
+[00:11:16] in saying that? Okay. So
+[00:11:23] okay so what we're interested in in is
+[00:11:26] to say if I have a node that is produced
+[00:11:29] of network traffic that's doing prefill
+[00:11:31] and then once I create the network
+[00:11:33] traffic I'm going to transfer it using
+[00:11:35] either TCP dev I ring or rocky v2 to
+[00:11:38] another node. So that's our test
+[00:11:41] environment. We're going to test that
+[00:11:42] network transfer. But I'm going to
+[00:11:45] describe how we create we produce the
+[00:11:47] network traffic and how we consume it.
+[00:11:50] That make sense?
+[00:11:52] This is the essence of our testing
+[00:11:54] essentially.
+[00:11:56] Okay. So this defines the
+[00:11:59] characteristics. So it so happens that
+[00:12:01] if you're familiar with the layout of
+[00:12:03] the attention mechanism in LLMs and
+[00:12:06] transformers that a lot of these
+[00:12:09] inference serving engines like I'm going
+[00:12:12] to say this wrong VLM I got this right I
+[00:12:14] always say LLVM
+[00:12:16] so you can see that Gemma 4 produces
+[00:12:19] spikes of data so at every layer they
+[00:12:23] output the you don't get the KV cache at
+[00:12:26] the end of the computation after the
+[00:12:28] first token is produced
+[00:12:30] It's done incrementally
+[00:12:32] at every layer. So you as as as the
+[00:12:34] computation iterates if you can abstract
+[00:12:37] that in your head it abstracts the
+[00:12:39] neuronet it's outputting data the it's
+[00:12:43] outputting this KV cache right so you
+[00:12:46] can see that gem of uh tries to play
+[00:12:48] some trick with they they run to reduce
+[00:12:51] the amount of data they have so every I
+[00:12:54] think sixth layer they emit 16 megabytes
+[00:12:57] of data right uh and every
+[00:13:01] sorry every sixth layer they do a full
+[00:13:03] attention they emit the every amount of
+[00:13:06] data they have otherwise they compress
+[00:13:07] it so there's some compression algorithm
+[00:13:09] there right so it's it's called a
+[00:13:11] sliding window attention whereas the two
+[00:13:14] other models Quen 3 and Mistrol they do
+[00:13:17] the classical thing they at every layer
+[00:13:20] they emit exactly the same amount of
+[00:13:22] data based on uh the input the input is
+[00:13:26] a huge parameter uh consideration in
+[00:13:29] this so you can see that if I go to
+[00:13:31] prompt size a small prompt size of 4096.
+[00:13:34] You know, I'm not hitting uh I'm hitting
+[00:13:37] three to the 7 between three and four,
+[00:13:41] but as I go down here, I'm doing 30,000
+[00:13:45] and I am
+[00:13:48] and and and the volume goes up and as I
+[00:13:51] add more prompt sizes,
+[00:13:54] they go up. So, just to give you a
+[00:13:56] perspective, we have tested sashikon. It
+[00:13:59] likes to send up to a million input uh
+[00:14:02] parameters tokens. I'm sorry, 1 million.
+[00:14:05] So I'm showing something very small
+[00:14:07] here. You can imagine how much data is
+[00:14:10] being emitted if you're running prefill
+[00:14:13] and decode separation. What's a million
+[00:14:15] tokens going to do? These these um these
+[00:14:18] models typically have what's known as a
+[00:14:19] context window. So the all of these
+[00:14:22] three happen to have 128k as the maximum
+[00:14:26] context window. So we didn't want to go
+[00:14:28] above that. So you see that we stop at
+[00:14:29] around 120 right um whether producing a
+[00:14:35] little bit so there's a lot of
+[00:14:36] optimizations of how this KV cache is
+[00:14:38] being generated
+[00:14:39] such as what Google is doing here with
+[00:14:41] Gemma 4 the question is whether it's
+[00:14:46] less accurate if you produce less cash
+[00:14:50] or not I it's still an outstanding
+[00:14:52] question research but we didn't see any
+[00:14:54] much difference in the results okay so
+[00:14:57] having said
+[00:14:58] How much data are we talking about per
+[00:15:00] layer?
+[00:15:02] Um this is what mistrol and quen
+[00:15:04] generate. You can see that they all
+[00:15:06] generate exactly the same amount of
+[00:15:08] data. Right? Uh now this is per layer.
+[00:15:12] So as they as you iterate through the
+[00:15:16] layers you are emitting this much data
+[00:15:19] and that's is something we send out on
+[00:15:21] the wire basically.
+[00:15:23] All right. If you on the other hand, you
+[00:15:25] look at all three of them. You can see
+[00:15:27] the blue. This is at the end of the
+[00:15:30] transaction just to get that first
+[00:15:32] token. This is the total amount of data
+[00:15:33] being produced. Right? You can see that
+[00:15:35] Gemma is very good. Very little data,
+[00:15:38] but not that little, right? As the prom
+[00:15:41] size of 120, you're already doing about
+[00:15:44] 10 gigabytes, I think, of data for just
+[00:15:46] GMA. And of course it's about four times
+[00:15:49] more for uh mistrol. And the reason it's
+[00:15:55] that much for mistrol is because they
+[00:15:57] have a lot more uh they have a lot more
+[00:16:00] layers. So remember we're producing this
+[00:16:03] per layer and then we're summing it up
+[00:16:05] at the end. So there's a lot more layers
+[00:16:07] for mistro than there is for
+[00:16:10] uh quen, right? So Quinn overall
+[00:16:12] produces less data because they use less
+[00:16:15] amount of layers and GM4 plays this
+[00:16:18] trick with sliding window. So every
+[00:16:21] sixth window they emit the full thing.
+[00:16:23] Others they emit just about 16
+[00:16:25] megabytes. Okay.
+[00:16:28] All right. So having said that now let's
+[00:16:31] take a look at what is the effective
+[00:16:33] network bandwidth. on the left hand side
+[00:16:36] there you can see that this is if you
+[00:16:40] take the flops that um appear on H100
+[00:16:43] which is that line there how fast can it
+[00:16:46] produce data if I give it 30,000 tokens
+[00:16:49] as an input so on the left hand side you
+[00:16:52] see the GPU production of this to of of
+[00:16:55] the KV cache compared to the network
+[00:16:58] link so the very top at the very far
+[00:17:02] right here that's 100 gig
+[00:17:05] You keep doubling it until you hit 800
+[00:17:06] gig. You can see that the network can't
+[00:17:08] keep up with this data. Okay,
+[00:17:12] if I go on and I'm going to plug in NV
+[00:17:14] link, even NVLink can't keep up. And
+[00:17:16] that's running at about uh 3.6 GB
+[00:17:20] terabytes per second. So even 3.6
+[00:17:22] terabytes can't keep up with a simple
+[00:17:24] model, a small model like GMO. Okay. So
+[00:17:30] what I'm trying to argue here is and of
+[00:17:33] course you have PCIe now you have PCIe
+[00:17:35] four five six right four is at the very
+[00:17:39] bottom here at the very right end and
+[00:17:42] six is the dark uh green one I think the
+[00:17:46] first one that's closer to to NV link so
+[00:17:49] you can't keep up PCIe can't keep up
+[00:17:51] there's just so much data being
+[00:17:52] generated the bottleneck is not the GPU
+[00:17:56] it's the link
+[00:17:58] Okay. So my argument is basically the
+[00:18:02] if I'm going to look at GPU uh KV cache
+[00:18:05] transfer my bottleneck is not the GPU my
+[00:18:09] metric for calculating when does that
+[00:18:11] first talking come out is going to be
+[00:18:13] bottleneck by the link by the network
+[00:18:16] link right so the model optimization
+[00:18:19] techniques have huge influence you can
+[00:18:21] cut the quantization from 16 bits to
+[00:18:23] four bits you're still going to be
+[00:18:25] bottlenecked by the link Right? Uh so it
+[00:18:31] means the network is 100% busy.
+[00:18:33] Therefore I argue that this is a
+[00:18:35] throughput problem we have to deal with.
+[00:18:37] It's not a latency problem like when
+[00:18:39] you're doing training etc.
+[00:18:42] Any disagreement?
+[00:18:46] We're producing a lot of data. The link
+[00:18:48] is 100% busy all the time unless you're
+[00:18:51] not using it.
+[00:18:54] Right?
+[00:18:56] So uh there is a metric in uh the LLM
+[00:19:00] world or in the a IML world which is
+[00:19:03] called TTFT for time to fast token. If
+[00:19:06] I'm if I ask the AI something I want to
+[00:19:09] see as a human I want to see something
+[00:19:10] come out. So the moment between you
+[00:19:13] asking the question to the moment you
+[00:19:15] get a the first initial response and if
+[00:19:18] you're running any model on your laptop
+[00:19:20] you know what I mean it's very slow
+[00:19:22] right? So how long did I do something
+[00:19:25] wrong? That's that metric is called
+[00:19:27] TTFT. Now what this is produced by
+[00:19:32] asking Gemini what is a good value for
+[00:19:34] TATFT.
+[00:19:36] So the it's excellent if I can receive
+[00:19:38] it in less than 200 millisecond. It's
+[00:19:40] very bad if it takes over a second.
+[00:19:41] Right? My I get impatient and I may
+[00:19:43] click again or something like that.
+[00:19:45] Right?
+[00:19:46] So the
+[00:19:50] argument here is if I was to
+[00:19:53] I'm sorry, did I go back? Yeah. So I'm
+[00:19:55] I'm going to also take that
+[00:19:58] uh description of what's a good TTF and
+[00:20:01] lay it out against uh link speeds,
+[00:20:05] right? And the model. So if I take JR4,
+[00:20:08] the green means it's in the good area,
+[00:20:10] which is uh sorry. So link speeds. So if
+[00:20:15] I'm on the far right there at at 800
+[00:20:18] gig, I will always get an excellent TTFT
+[00:20:22] with GMO. Always I I'll be that in that
+[00:20:25] excellent area. And as I move towards
+[00:20:27] the right, you can see that it's it's
+[00:20:30] getting into the good area. So overall,
+[00:20:32] regardless of the link speed with Gemma
+[00:20:34] 4 and the optimization techniques, I'm
+[00:20:36] always getting good results, right? I'm
+[00:20:39] as a human, I'm patient enough. I can
+[00:20:41] wait. is
+[00:20:44] however if I start going into Quinn you
+[00:20:46] can see Quinn is now hitting red line
+[00:20:48] there after about uh
+[00:20:51] what is that number there 50,000 tokens
+[00:20:55] it becomes a little bit uh ineffective
+[00:20:58] but it's not that bad and they it just
+[00:21:01] gets worse as I go as I start hitting
+[00:21:03] the 100k onwards right
+[00:21:07] um on the other hand Mistl is really
+[00:21:10] hitting the red zone a lot sooner and
+[00:21:12] that's because they generate a lot more
+[00:21:14] data.
+[00:21:15] Again, this is all building up to the
+[00:21:17] fact that I would like to argue that the
+[00:21:21] it's a throughput problem. The network
+[00:21:22] is always busy.
+[00:21:25] And if I was to look at the TTFT angle
+[00:21:28] of things, it's always the link
+[00:21:32] bottleneck is what's going to slow me
+[00:21:34] down. A lot of these VLM like VLM as an
+[00:21:37] inference engine when they do a transfer
+[00:21:41] a KV cache they they discard the token
+[00:21:44] they just generated and regenerate it on
+[00:21:46] the other side
+[00:21:48] right
+[00:21:50] um so that's the intro the argument I've
+[00:21:53] been trying to build so far is this is a
+[00:21:56] throughput problem
+[00:21:58] and uh it's yes a transport of choice
+[00:22:03] will will cause uh will result in
+[00:22:06] different um human interaction but
+[00:22:12] overall if you have a bad implementation
+[00:22:15] of a transport you may suffer but I'm
+[00:22:18] not sure there's some there's some
+[00:22:20] question there I'm not sure if
+[00:22:22] the GPU is not the problem we need solve
+[00:22:26] a it's a network problem and it's a
+[00:22:28] specifically a throughput problem that
+[00:22:29] we need to solve
+[00:22:32] Okay,
+[00:22:35] there's a mic. Um Oh, yeah. PJ has a
+[00:22:37] mic.
+[00:22:44] >> I I heard two problems. You said there's
+[00:22:46] the PCIe interface which is bottlenecked
+[00:22:49] as well as a throughput problem. Is that
+[00:22:51] what you mean?
+[00:22:52] >> Yeah, I I I'm trying to argue that there
+[00:22:54] is no link that's fast enough to keep up
+[00:22:57] with the KV cache generation. So
+[00:23:01] regardless whether you use a PCIe NV
+[00:23:03] link or 800 gig you're always going to
+[00:23:06] be 100% busy transferring
+[00:23:08] >> but then you're mixing scale up and
+[00:23:10] scale out I thought you where do you
+[00:23:12] want
+[00:23:12] >> so it it doesn't matter even NV link
+[00:23:14] can't keep up even if I had the speed of
+[00:23:16] NVL link for scale out I would still
+[00:23:19] have bottlenecks of the link
+[00:23:22] >> and you couldn't get hold of a TPU
+[00:23:24] >> was that
+[00:23:26] >> you were running uh Gemma 4 on H100 00
+[00:23:30] in Nvidia,
+[00:23:32] >> right?
+[00:23:32] >> Were you able to get hold of a TPU?
+[00:23:35] >> No, I I don't know. I' I'd love to get
+[00:23:38] if you have one, send me or a couple,
+[00:23:44] >> right? Sorry.
+[00:23:44] >> So So I have a question of type of
+[00:23:46] communication. So is a pointto-point
+[00:23:49] communication or there is some broadcast
+[00:23:52] or some sort of collection
+[00:23:53] >> Perto. So the Yeah, sorry. The NVL link
+[00:23:56] problem
+[00:23:57] >> the sorry the KV cache problem is a huge
+[00:24:00] bust of very large amount of data
+[00:24:02] unidirectional
+[00:24:04] >> you from one pier to another yes exactly
+[00:24:08] there is no uh all to all or all reduce
+[00:24:12] that none of that happens here it's
+[00:24:14] strictly uniccast and only one way
+[00:24:19] >> uh so from what I understand you did
+[00:24:21] this setup on two H100s right one
+[00:24:25] >> validation only the tool is independent
+[00:24:27] of the H100s but we had up two to four
+[00:24:30] right
+[00:24:30] >> oh okay okay so uh if we take like one
+[00:24:33] H100 it has 3.3 terabytes per second HBM
+[00:24:37] bandwidth
+[00:24:38] >> right
+[00:24:38] >> and uh 450
+[00:24:41] >> unidirectional out of which 400 are
+[00:24:44] actually achievable so it's probably a
+[00:24:47] rat like ax ratio and uh from my
+[00:24:51] experiments there is
+[00:24:54] I couldn't had the prefill to actually
+[00:24:56] generate that much uh
+[00:25:00] actual KV cache transfer so that uh the
+[00:25:02] link is 100% busy. Uh did you enable
+[00:25:06] like prefix caching and did you like
+[00:25:09] >> try every time to reuse and increase the
+[00:25:12] same KV cache because it would be sort
+[00:25:16] of interesting if you could also compute
+[00:25:19] the KV cache in um such fast time that
+[00:25:25] um you would make the link busy when the
+[00:25:28] link is just eight times slower
+[00:25:30] >> than the compute. So what what we're
+[00:25:32] using batching or what's your experience
+[00:25:34] are you using batching of the of users
+[00:25:37] or is just a single
+[00:25:39] >> so yeah if you just take I don't know an
+[00:25:41] inference engine VLM and you use the VLM
+[00:25:46] benchmark tools um how many or how many
+[00:25:50] tokens per second did you get on the
+[00:25:52] prefill if you have the number
+[00:25:54] >> I have yes I have the number but I did
+[00:25:56] not put it here because I'm trying to
+[00:25:57] focus on the networking aspect of things
+[00:25:59] but I can talk to you after.
+[00:26:01] >> Okay. Okay.
+[00:26:01] >> Right. But the So your argument is
+[00:26:04] there's a lot more overhead than what
+[00:26:06] I'm projecting here. Right.
+[00:26:08] >> Sorry, he's still he's still talking.
+[00:26:12] >> Yeah. So basically that my argument is
+[00:26:14] that the link isn't actually in practice
+[00:26:16] 100% busy. Neither if you use envelout.
+[00:26:20] So the prefill actually takes a lot
+[00:26:22] longer.
+[00:26:23] >> That's my experience. So the
+[00:26:24] communication slash the scheduling of
+[00:26:26] communication versus compute is
+[00:26:29] basically doesn't make keep it busy.
+[00:26:31] >> Basically you need a lot of compute to
+[00:26:33] actually saturate a 400 gig RDMA network
+[00:26:38] to do prefilled decode. That's my
+[00:26:40] experience.
+[00:26:41] >> Okay, that's not what exactly. So
+[00:26:43] there's there's another point there.
+[00:26:50] >> But wouldn't that be model specific?
+[00:26:54] like different models will behave
+[00:26:55] differently and will actually share the
+[00:26:57] data in different way.
+[00:27:04] >> Yeah. And also probably Nicole versus
+[00:27:06] Roco versus they may they will behave
+[00:27:08] differently as well.
+[00:27:09] >> Yeah. So as you as you get a larger
+[00:27:11] model it will generate the larger KV
+[00:27:13] cache size. So it's really model
+[00:27:15] dependent whatever workload you're
+[00:27:17] using. the smaller the the smaller the
+[00:27:20] models or the smaller the KV cache size
+[00:27:22] but also the faster your prefill. So
+[00:27:24] it's not an easy way to to say actually
+[00:27:28] how the things scale. It's really
+[00:27:30] workload dependent.
+[00:27:36] >> Do you know sorry I Ari go ahead.
+[00:27:39] >> Uh so I'll probably try to comment both
+[00:27:43] uh both ways. So to uh to your what you
+[00:27:46] were mentioning about uh total link
+[00:27:48] utilization there's memory uh throughput
+[00:27:52] and there's memory latency and you are
+[00:27:54] limited by memory latency. So you add on
+[00:27:56] your slides that you have like gazillion
+[00:27:58] of HBMs which does uh 3 terabytes per
+[00:28:02] second. That's in theory.
+[00:28:04] >> Yeah. The H100. Yeah.
+[00:28:05] >> Uh right. So um first thing it's not
+[00:28:10] 124bit channel. it's it's eight or 16 of
+[00:28:14] 128 or 64 bits. That means you need to
+[00:28:16] in order to lo achieve that throughput,
+[00:28:18] you need to load all of them in
+[00:28:19] parallel. So yes, uh like a CU or SM can
+[00:28:23] do that reasonably easy. But from a
+[00:28:25] protocol perspective, that's still the
+[00:28:27] same DDR. That means you may have no
+[00:28:29] more than 16 or 32 depending on actual
+[00:28:32] model um DDR4 versus DDR5 of open rows.
+[00:28:37] That means that you can have no more
+[00:28:39] than 16 or 32 equivalent of kilobytes
+[00:28:42] open at the same time for reading or
+[00:28:44] writing. And this is where the latency
+[00:28:47] of memory comes in. Right? So you need
+[00:28:49] to open another row uh close the
+[00:28:51] previous one. That's a protocol latency
+[00:28:54] and cannot do anything uh except of uh
+[00:28:57] basically adjusting your memory readr
+[00:29:01] algorithm to be more optimized and uh
+[00:29:03] aligned with uh the memory. Right? This
+[00:29:06] way uh you may achieve uh more
+[00:29:10] throughput at the cost of uh having more
+[00:29:14] complex scheduuling and basically on an
+[00:29:16] algorithmical level. But uh so I would
+[00:29:18] tend to agree violently that in order to
+[00:29:22] fully load for these types of users like
+[00:29:24] 400 or 800 things you really really
+[00:29:26] really need to try hard because you are
+[00:29:29] limited by memory uh latency. So you are
+[00:29:32] modeling this and you are getting uh
+[00:29:35] correct data which assumes that the
+[00:29:38] memory latency is constant and near
+[00:29:41] zero.
+[00:29:42] >> Yeah, we're sort of ignoring some of
+[00:29:44] this
+[00:29:44] >> right and that's not necessarily how the
+[00:29:47] real hardware behaves.
+[00:29:49] >> So what would be your guesstimate if we
+[00:29:51] were to say let's factor in all the
+[00:29:53] parameters? What is it 80% 85% of
+[00:29:57] >> purely so purely from my experience
+[00:30:00] dealing with low-level software
+[00:30:01] performance optimizations related to
+[00:30:03] memory systems four times is easily
+[00:30:06] achievable not 4% 400%.
+[00:30:09] >> Okay.
+[00:30:11] >> So basically uh it's easy to screw up uh
+[00:30:14] if you are not careful enough with your
+[00:30:16] memory geometry you can easily get four
+[00:30:19] times slow down.
+[00:30:20] >> I should put a caveat that we're not
+[00:30:22] using nickel. So to verify so I have
+[00:30:24] some formulas I'm going to show that we
+[00:30:26] used for this emulation
+[00:30:29] to verify that our our values were
+[00:30:31] correct we went and rerun the same model
+[00:30:34] and the same test using H100
+[00:30:37] and then we checked for example how much
+[00:30:40] cash is being produced if it was it
+[00:30:42] applied the same way to our uh cash
+[00:30:45] production as well right so we only use
+[00:30:47] the H100 which we unfortunately there we
+[00:30:50] under the control for the scheduling
+[00:30:52] of nickel and VLM
+[00:30:55] we do not we cannot control how the
+[00:30:57] scheduling works. Uh however for we
+[00:31:01] built a tool what I'm I'm going to show
+[00:31:04] here is the tool that tries to emulate
+[00:31:05] both nickel and VLM without really
+[00:31:08] considering much of this overhead you
+[00:31:11] describe.
+[00:31:12] >> Yeah. Well certainly so basically your
+[00:31:14] data shows probably the maximum possible
+[00:31:17] throughput requirements right. So say
+[00:31:20] best theoretically optimal case right
+[00:31:22] and that's that's the right model to
+[00:31:24] have uh but uh in in a real environment
+[00:31:28] those numbers will be well quite
+[00:31:30] noticeably
+[00:31:32] lower
+[00:31:33] >> what handwave what 15 20% of
+[00:31:38] >> um more than that substantially more
+[00:31:40] than that
+[00:31:43] >> is link
+[00:31:44] >> yeah so that was my comment that in H100
+[00:31:48] you don't get a choice. I believe you
+[00:31:50] get high bandwidth memory by default and
+[00:31:53] not LPDDR.
+[00:31:55] With LPDDR, you do have a little more
+[00:31:58] control over little yes. Uh to play with
+[00:32:02] the latency and the jitter portion of
+[00:32:04] it, but yeah.
+[00:32:05] >> Okay.
+[00:32:06] >> Yeah. Let's uh let Jamal
+[00:32:08] >> I want to get to the So that was just
+[00:32:10] background context. What we're trying to
+[00:32:13] do is not to use nickel or the GPUs.
+[00:32:15] Actually, we did try to use nickel. Let
+[00:32:16] me go to the challenges now. So, so our
+[00:32:20] goal is again to simulate real LLM
+[00:32:22] distribution without any GPUs. So, we
+[00:32:24] can probably put a dampening factor to
+[00:32:26] say you're not going to keep it 100%
+[00:32:29] busy. You'll keep it 85% busy. Now, if
+[00:32:31] you have batching to your point, if you
+[00:32:33] do batching, you're going to fill that
+[00:32:35] link, I believe. Right. It's not a
+[00:32:37] single user or a single uh transaction
+[00:32:40] going across. It's multiple user where
+[00:32:41] you batch the tokens and you're
+[00:32:43] maximizing your network bandwidth.
+[00:32:45] Would you agree with that? Okay, he
+[00:32:48] agrees. Okay, so I'm just going to
+[00:32:50] describe uh how how did we create this
+[00:32:53] emulation? We came up with some
+[00:32:54] formulas. Uh so if you if I know what
+[00:32:57] you have an H100
+[00:32:59] and uh you give me the model I can kind
+[00:33:03] of come up with the uh with how much
+[00:33:06] data I have to generate
+[00:33:09] at and at what so I I can sort of uh
+[00:33:12] estimate the compute versus
+[00:33:14] communication cycle right based on that.
+[00:33:18] So this this is how it works. Basically
+[00:33:20] as you can see you have the operational
+[00:33:22] parameters which describe what the uh
+[00:33:25] GPU is and whether you want to use FP8
+[00:33:28] or whatever. There's there's some
+[00:33:29] formulas which I'm going to show and
+[00:33:31] then we suck in a hugging face model
+[00:33:33] description
+[00:33:35] and we generate the compute cycle which
+[00:33:39] then emits data that goes across. Right?
+[00:33:44] So our interest is the network link
+[00:33:46] here.
+[00:33:49] This is a formula we found uh that's
+[00:33:52] been used by a few people on the on some
+[00:33:54] research papers that given
+[00:33:58] uh the GPU you can sort of uh compute
+[00:34:02] how long it takes to uh in seconds.
+[00:34:12] Yes. So we can compute how long it takes
+[00:34:15] to
+[00:34:17] uh for the compute cycle for each layer
+[00:34:20] basically. Okay. So and this is the one
+[00:34:23] we use. I think probably this is not
+[00:34:25] controversial at all. Um that's how
+[00:34:30] given uh as as to how much part each
+[00:34:34] layer that we iterate how much KV cache
+[00:34:36] is going to be produced right it depends
+[00:34:38] on the how many KV heads you have what
+[00:34:41] is the quantization size you're using
+[00:34:43] how many what's the head dimension and
+[00:34:46] then VLM for example will take the
+[00:34:48] number of blocks to be 16 uh tokens
+[00:34:52] grouping as a block size
+[00:34:55] I'm not going to go on this but we can
+[00:34:56] have this discussion after right because
+[00:34:58] I want to get to the networking part.
+[00:35:00] So,
+[00:35:02] so we did validate our formula like I
+[00:35:04] said we did run all this data and our
+[00:35:08] goal here was not necessarily to
+[00:35:11] um to get it 100% accurate. There was
+[00:35:14] some slight we just wanted to validate
+[00:35:16] the formulas. We check with four H100s.
+[00:35:20] We could do up to one or two being two
+[00:35:23] being used as prefill or one being used
+[00:35:25] prefill and the other one is uh the
+[00:35:28] decode and in between there's a network.
+[00:35:31] It happens to be NV link because we only
+[00:35:32] used it on one node. Okay. And we've
+[00:35:35] verified that our estimates were
+[00:35:39] accurate if we used Nvidia's uh insight
+[00:35:41] profiler, right? to check. I didn't want
+[00:35:45] to show this here, but here's here's the
+[00:35:49] overall architecture of the tool. So,
+[00:35:52] you suck in this is hugging face. I
+[00:35:55] guess people are familiar with what
+[00:35:56] hugging face is,
+[00:35:58] right? It it has all the descriptions we
+[00:36:00] need to compute the KV cache per layer.
+[00:36:03] And then you describe to us what your
+[00:36:05] input size is, what this 30,000 4,96
+[00:36:11] and the GPU type. And we will do an
+[00:36:13] estimate of what I would call the
+[00:36:16] compute cycle. Essentially just you
+[00:36:20] sleep up to X amount of seconds. Then
+[00:36:22] you emit a KV cache that gets sent to
+[00:36:24] the other side. Does it sound
+[00:36:26] reasonable?
+[00:36:28] Right. So okay, experimental setup
+[00:36:31] details. We have that Zeon machine. Uh
+[00:36:35] hyperthreading was off.
+[00:36:38] It's an Intel 810 2x100. That's the only
+[00:36:42] piece of hardware that we had that
+[00:36:43] worked.
+[00:36:45] Uh the servers were identical machines
+[00:36:47] on both sides with that next net next uh
+[00:36:50] version. Uh and we don't have because we
+[00:36:55] only had two machines. We were only
+[00:36:56] emulating a single prefill versus a
+[00:36:58] single uh decode uh node. There was no
+[00:37:02] load balancing. Typically, you'll have
+[00:37:04] some scheduleuler selecting where to go,
+[00:37:07] right? Um,
+[00:37:11] ICE is the 810. So, we set up for TCP we
+[00:37:15] used uh 3698. So, we could fit the
+[00:37:18] headers plus the payload in one page.
+[00:37:20] Uh, dev me is 4148. So, we you know use
+[00:37:24] hardware RGM was 4200
+[00:37:27] and TCP header split was enabled so that
+[00:37:29] dev me uh and IO ring would work. set up
+[00:37:34] to those are the device ring sizes.
+[00:37:37] Uh buffer, we set it such that we can
+[00:37:41] buffer up to 10% of the traffic that's
+[00:37:44] running on the wire. So that's about 305
+[00:37:47] kilo kibs.
+[00:37:50] Uh and ICE has some interesting uh uh
+[00:37:56] optimizations. It rounded it down to 24.
+[00:37:59] And we bound the flows to a single CP Q
+[00:38:02] on either side.
+[00:38:05] Uh and the KV cache is generated for by
+[00:38:08] the CPU.
+[00:38:10] Right? So these are other parameters of
+[00:38:13] interest. So we had we steered
+[00:38:15] everything that was not TCP or
+[00:38:18] uh to to CPU zero. We then bound the
+[00:38:23] softqs and the network stack essentially
+[00:38:25] to CPU one. and the application our tool
+[00:38:28] was bound to CPU3. No, don't ask me why
+[00:38:31] CPU3. It just happens that's
+[00:38:34] one we were using. So we essentially
+[00:38:37] isolating any uh interprocess uh noise,
+[00:38:41] right? We set it to governor mode uh
+[00:38:44] sorry uh govern mode set was set to
+[00:38:47] performance. Um these are the command
+[00:38:49] line tweaks. I noticed actually the
+[00:38:51] gentleman earlier this morning with the
+[00:38:53] DPI talk was using something very
+[00:38:55] similar. But if you've been playing
+[00:38:57] around this space, you you understand
+[00:38:59] what these parameters are and we can
+[00:39:01] talk offline what they mean. Okay. Um so
+[00:39:05] on both sides we again for both RDMA and
+[00:39:08] dev and I ring we pre-allocated a pool
+[00:39:11] of 1 GBTE.
+[00:39:13] Um
+[00:39:15] so we did find that as as we
+[00:39:17] experimented that this memory pool was
+[00:39:19] sizing of this correctly was very
+[00:39:21] important. So 10% of 100 gig
+[00:39:24] uh for devme people familiar with devme
+[00:39:27] we uh implemented
+[00:39:30] we invoked the batch release of tokens
+[00:39:34] um for every receive system call right
+[00:39:37] so we don't want to call multiple set
+[00:39:39] ops uh forma we this is our own
+[00:39:43] implementation I should have shown you
+[00:39:44] that we attempted initially to use
+[00:39:47] nickel we attempted to use many other
+[00:39:49] engines that exist
+[00:39:51] But there's no one good way to do it
+[00:39:53] because if you use nickel, you have to
+[00:39:54] have a GPU. So there's all kinds of u
+[00:39:58] negative um uh so we end that's why we
+[00:40:02] implemented our own tool. Um
+[00:40:05] I ring follows the same logic.
+[00:40:08] The one thing is I ring transmit was not
+[00:40:11] available. I think uh Pavl just posted a
+[00:40:15] few patches patches last week. to after
+[00:40:19] we have run we're going to test with
+[00:40:20] those in the future. So we used uh
+[00:40:23] message zero copy on transmit side
+[00:40:25] whereas on the receive side we used I
+[00:40:27] rink
+[00:40:29] and we
+[00:40:31] basically optimized this so to ensure
+[00:40:34] there's no drops right we tweaked it so
+[00:40:37] that there are no drops on the wire at
+[00:40:40] all
+[00:40:41] u okay so if your questions afterwards I
+[00:40:45] can any questions on the setup
+[00:40:48] there's a question somewhere
+[00:40:53] Oh. Oh, yeah.
+[00:40:58] Uh, no, we have not evaluated C. So, the
+[00:41:01] question is, have you evaluated CXL to
+[00:41:03] improve CPU performance on a node by
+[00:41:05] reducing memory wall uh beyond GPU node
+[00:41:08] interconnects? No. Uh, but interesting
+[00:41:11] is I think there's a couple of CXL talks
+[00:41:13] and one of them is touching on this
+[00:41:15] space this afternoon. Okay.
+[00:41:19] All right. Um, any other question?
+[00:41:23] Nothing downstairs.
+[00:41:25] All right. My own time.
+[00:41:28] Okay. So, experimental results
+[00:41:31] not very surprising. You can see that uh
+[00:41:34] TCP is the one as we expect. The blue
+[00:41:38] one here is TCP,
+[00:41:40] right? As you increase the token sizes
+[00:41:44] here, the input tokens. I mean it starts
+[00:41:47] going down down down down that's that's
+[00:41:48] what's expected I ring and and these are
+[00:41:52] different models right so the GMA is the
+[00:41:53] bluish one and quen 3 is the reddish one
+[00:41:58] similar behavior with mistrol so we no
+[00:42:02] point in showing mistrol is behave very
+[00:42:04] similar to uh quen 3
+[00:42:08] um of course we didn't expect TCP to do
+[00:42:10] a lot and it was cons
+[00:42:13] uh the throughput was not only
+[00:42:15] deteriorating But the CPU was pretty
+[00:42:17] high, right? Uh the surprising thing for
+[00:42:21] us was the RDMA. Now we're only using a
+[00:42:24] single Q pair. The RDMA on this specific
+[00:42:27] knee could not do more than 45 gig
+[00:42:31] gigabits per second on a single Q pair
+[00:42:33] whereas TCP was able to consume the link
+[00:42:37] with a single Q pair. Uh link meaning
+[00:42:40] 100 gig.
+[00:42:42] Um so DevM and Irene both achieve
+[00:42:46] similar thing top about as I showed we
+[00:42:50] consume a CPU for the stack a CPU for
+[00:42:53] the application so we're consuming about
+[00:42:55] 200%
+[00:42:58] u
+[00:43:00] of CPU 225 for dev I ring O as well
+[00:43:04] achieves wire speed at small prompt
+[00:43:07] sizes we noticed that I ring uh was
+[00:43:10] using high CPU Right? Like I say, look
+[00:43:12] at 1496 here compared to devme. So you
+[00:43:17] can see for example these two here,
+[00:43:21] right? That's one the higher one is I
+[00:43:23] ring
+[00:43:25] um rdma like I said actually it was 48
+[00:43:28] Gbits
+[00:43:30] uh topping it was using 100% CPU because
+[00:43:33] we were busy polling on that 100% on
+[00:43:35] that one CPU. Okay, this what this shows
+[00:43:38] is is this total of both sides both the
+[00:43:40] send and the receive in terms of when we
+[00:43:42] looked at CPU.
+[00:43:44] Okay, so if you want to break it down
+[00:43:46] into send or receiver
+[00:43:48] um
+[00:43:50] again you can see that um in both uh
+[00:43:54] models the application uh CPU on the
+[00:43:57] receiver tops it's the receiver as the
+[00:43:59] bottleneck not the sender um and it it
+[00:44:02] it tops the 200% CPU. So you have the
+[00:44:06] yellow which is the stack has up to 100%
+[00:44:10] of one core. It's consuming this much.
+[00:44:14] Um this happens because of the bigger
+[00:44:17] buffers. Network stack CPU goes down as
+[00:44:20] a as a throughput deteriorates
+[00:44:23] for TCP.
+[00:44:25] Um this is the CPU breakdown for dev me.
+[00:44:30] You can see that it's uh so I I should
+[00:44:33] clarify something that the application
+[00:44:35] CPU is
+[00:44:38] uh does not mean that the application is
+[00:44:41] being given the CPU. It's answering the
+[00:44:43] question if I gave you this amount of
+[00:44:47] work how much CPU would you use. So it's
+[00:44:49] showing like it's not consuming um not
+[00:44:52] as much here as of of was to I ring
+[00:44:57] which consumes the yellow a lot more.
+[00:44:59] You can see that like I'm going to play
+[00:45:01] back and forth, right? You see that
+[00:45:04] Irene ring consumes more of the softq
+[00:45:07] level CPU whereas uh net uh sorry dev is
+[00:45:12] lower
+[00:45:14] but overall the amount of total CPU used
+[00:45:16] is about the same. So hitting like 150
+[00:45:19] on on all scenarios, right? Um so I I
+[00:45:23] ring delegates a lot of the housekeeping
+[00:45:25] to the kernel whereas dev
+[00:45:29] uh you know you're doing your socket set
+[00:45:31] sock ops etc receiving in user space
+[00:45:35] and uh so this was was strange for us
+[00:45:38] and we I I'll explain later on in our
+[00:45:41] investigation
+[00:45:43] um RDMA we were stuck with the
+[00:45:48] um regardless of which model we used we
+[00:45:51] were stuck at at um 100% because we're
+[00:45:55] doing busy polling. Nothing exciting to
+[00:45:58] see there. So the summary is uh nonzero
+[00:46:01] TCP as expected was the least performant
+[00:46:04] on zero copy. Both I ring was and dev
+[00:46:07] memory able to hit 100%. However, I ring
+[00:46:09] is observed to consume more CPU at lower
+[00:46:12] prompt size. As a matter of fact, at
+[00:46:14] 1496 it was up to 20% more CPU. In all
+[00:46:18] TCP cases, the receiver side was always
+[00:46:20] the bottleneck and RDMA picks at 45.
+[00:46:24] That's just observation. I'm going to
+[00:46:26] skip over the latency because when we
+[00:46:27] started doing TC this, we thought
+[00:46:29] latency was a factor. But I'm going to
+[00:46:31] ignore the fact latency is a factor for
+[00:46:34] the sake of time, right? But we did we
+[00:46:36] did measure latency while idle. And of
+[00:46:39] course, clearly you can see RDMA was a
+[00:46:40] big winner. And that means this test was
+[00:46:44] bas basically just taking one page with
+[00:46:46] no noise in the traffic in the wire and
+[00:46:48] just sending it on the other side and
+[00:46:50] measuring at the application level how
+[00:46:52] long it took right because if you start
+[00:46:54] adding housekeeping things totally
+[00:46:56] change housekeeping means if you're
+[00:46:58] doing how much are you doing to process
+[00:47:01] these messages so I'm I'm just going to
+[00:47:03] ignore that for a second. Okay. So um so
+[00:47:07] recommendations just based on the
+[00:47:09] experiments we run we would say use TCPD
+[00:47:11] me however there's still open questions
+[00:47:14] why was I ringing TCP
+[00:47:18] CPU behaviors looked strange
+[00:47:21] and why is rocky v2
+[00:47:24] not giving us the throughput we expect
+[00:47:25] maybe somebody knows why this link
+[00:47:32] why why TCP um Sorry, the Intel nick.
+[00:47:36] Well, why why the Intel nick can't do
+[00:47:38] more than one 40 to 45 to 48 Gbits per
+[00:47:42] second?
+[00:47:44] Uh the problem was a lot of contention
+[00:47:46] and you mentioned before you put uh
+[00:47:50] the driver and nick on a different CPU
+[00:47:54] from the user space. Yes.
+[00:47:55] >> And there was a lot of contention and
+[00:47:58] actually I sent a patch set like maybe a
+[00:48:01] week ago.
+[00:48:03] uh addressing this
+[00:48:05] >> it was quite a huge difference when you
+[00:48:08] try to address all the contention.
+[00:48:10] >> Did do do you remember if we used this
+[00:48:12] patch because we kind of Okay. So
+[00:48:15] >> it's not merged. You you probably didn't
+[00:48:18] pick it up. Uh you probably haven't seen
+[00:48:21] it yet.
+[00:48:22] >> Yeah. Okay. But the I'm going to get I'm
+[00:48:24] going to dig into the next few slides.
+[00:48:26] I'm going to dig into what issues we saw
+[00:48:28] with IU ring versus dev me and it showed
+[00:48:31] I ring doing better
+[00:48:33] >> right so
+[00:48:35] >> the expect expectation versus reality
+[00:48:37] sorry go ahead an
+[00:48:38] >> yeah I have a question so
+[00:48:41] the latency difference between RDMA yes
+[00:48:44] of course we know about that but in the
+[00:48:46] infrance workload does that latency
+[00:48:48] matter or it's just the jitter that one
+[00:48:51] should be
+[00:48:52] >> so I'm I'm arguing that latency is not
+[00:48:54] as relevant for KV cache transfer. Maybe
+[00:48:57] the gentleman over there knows if this
+[00:48:58] is true or not.
+[00:49:03] >> So on the if you do the KV cache
+[00:49:06] transfer itself, the latency, yeah, it
+[00:49:07] doesn't matter because it's really
+[00:49:10] unmeode
+[00:49:13] does or even prefill. So yeah.
+[00:49:15] >> Okay. So it's a throughput problem
+[00:49:16] basically for KV cache. Okay. I'm not
+[00:49:18] arguing that if you're doing training or
+[00:49:20] if you're doing tensor parallelism on
+[00:49:23] scale up or whatever that it doesn't I
+[00:49:26] think it matters there but it just
+[00:49:27] doesn't matter for KV cache.
+[00:49:29] >> Yeah. No, it makes total sense. Thanks.
+[00:49:31] >> Okay. So, I think there's some
+[00:49:33] contradictory data to that recently. I
+[00:49:35] I'd been under the assumption that
+[00:49:36] latency doesn't matter at all for AI
+[00:49:38] applications. All that matters is
+[00:49:39] throughput for large transfers. But as
+[00:49:42] I've been learning over the last six
+[00:49:43] months or so, it appears that things in
+[00:49:45] the eye world are shifting so that the
+[00:49:47] computations are be being done in a more
+[00:49:49] granular fashion, particularly for
+[00:49:51] inference for the LLMs where they're
+[00:49:54] trying to churn out tokens on the order
+[00:49:56] of 5 to 10 millisecond boundaries
+[00:49:58] between them. And so the computation
+[00:49:59] size is now down in the range of 5 to 10
+[00:50:02] milliseconds. And what's happening is
+[00:50:04] there needs to be coordination. So the
+[00:50:06] actual KV cache transfer indeed huge
+[00:50:09] transfer but there's typically some kind
+[00:50:11] of coordination operation that precedes
+[00:50:13] that for example the receiving node
+[00:50:15] needs to first check to see if the KV
+[00:50:18] cache entry is actually present. If it's
+[00:50:20] not present, then it will recomputee it.
+[00:50:23] And so there's this very short message
+[00:50:26] that needs to get through to do that
+[00:50:27] check. And if that short message suffers
+[00:50:29] from tail latency, which it tends to
+[00:50:32] today, it can take longer to find out
+[00:50:34] whether the KV cache entry was present
+[00:50:37] than the time it would have taken to
+[00:50:38] recmp compute it yourself.
+[00:50:39] >> I got it. So, so it's mostly the control
+[00:50:41] protocol. There is a control subsequent
+[00:50:44] control protocol that may that requires
+[00:50:46] very low latency,
+[00:50:47] >> right? Similarly, when the computation
+[00:50:49] gets spread across multiple nodes for
+[00:50:51] each one of these steps, at the end of
+[00:50:53] computing each token, there needs to be
+[00:50:55] some sort of barrier synchronization or
+[00:50:57] global communication among all of the
+[00:50:58] nodes to coordinate before they start
+[00:51:01] the next computation step. And again,
+[00:51:03] those are short metadata messages. If
+[00:51:05] those get delayed, again, you could the
+[00:51:07] GPUs are sitting idle while you're doing
+[00:51:09] that exchange to decide on the next
+[00:51:11] step. And so, you can end up losing a
+[00:51:13] lot of your GPU computation if you have
+[00:51:14] tail latency on the short messages. So,
+[00:51:17] so, so the stuff you're looking at, I
+[00:51:18] think, still matters. I'm not arguing
+[00:51:20] that, right? But in fact, it appears
+[00:51:22] that latency is becoming more and more
+[00:51:24] of a factor as well.
+[00:51:25] >> Okay. John,
+[00:51:26] >> do you have any references to a paper?
+[00:51:28] Maybe I could read on this, but
+[00:51:30] >> if if you have any links to something, I
+[00:51:32] could
+[00:51:32] >> I think if you look at the LLVM paper,
+[00:51:34] for example, by the people at Berkeley,
+[00:51:36] I believe they that you could get a
+[00:51:37] sense of that.
+[00:51:38] >> Okay. Thanks,
+[00:51:39] >> John. But what I heard is you're h
+[00:51:41] having a longest poll issue and that's
+[00:51:44] still jitter. It's not latency.
+[00:51:49] >> Okay. Well, I mean, it is a latency
+[00:51:51] issue. The jitter causes because you
+[00:51:53] care about the longest latency of many
+[00:51:54] message exchanges. So, so jitter and
+[00:51:57] latency to me are kind of one and the
+[00:51:58] same.
+[00:51:59] >> No, they they're not for sure.
+[00:52:01] >> All right. Let me just zoom through this
+[00:52:03] quick. We have about fiveish minutes.
+[00:52:05] >> All right. So, I'm going to
+[00:52:06] >> I'm just going to say they they were
+[00:52:07] draggles, of course. What What else is
+[00:52:09] new? Um, we had to fix a bunch of bugs
+[00:52:12] in the driver like is here maybe. So,
+[00:52:16] it's just a oneliner for the first one
+[00:52:18] and the other one said, "Okay, we're not
+[00:52:19] going to fix it." Okay, it's a driver
+[00:52:21] bug. Um, and then of course we went to
+[00:52:24] try and look for this problem which I
+[00:52:26] was alluding to earlier. Why was this
+[00:52:28] happening with uh the mystery of soft
+[00:52:33] cub being so high with dev me versus uh
+[00:52:35] you can see it's very high on on iO ring
+[00:52:40] and uh so and looking closer we saw a
+[00:52:44] lot of ax for um
+[00:52:48] devme versus I ring if you plot the
+[00:52:54] you run some probe you can see that
+[00:52:56] there's I ring behaving very nicely.
+[00:52:59] Okay, very nicely. Okay, I'm being
+[00:53:00] disconnected. Probably that's a good
+[00:53:03] [laughter] that's a sign that I have to
+[00:53:04] wrap this up. But um so we looked at it
+[00:53:08] closely and it turns out that we were
+[00:53:10] using this defa task run
+[00:53:13] which was uh it's a feature that's
+[00:53:15] supposedly helping us. There's the man
+[00:53:17] page right there. There's a nice
+[00:53:18] feature. I like this feature. The
+[00:53:21] problem was um
+[00:53:24] um it it there was such a smooth uh
+[00:53:27] window size. It it immediately at after
+[00:53:30] every hardware after every GRO SKB we
+[00:53:34] received with up to 17 um pages it will
+[00:53:38] immediately uh respond to the other
+[00:53:41] side. Uh so you can see here how this
+[00:53:44] thing behaves. So, I'm going to skip it
+[00:53:46] here, but um
+[00:53:50] I'm also going to skip this. But you can
+[00:53:51] see that we broke down the amount of uh
+[00:53:56] where the cleanup bites are happening
+[00:53:57] and it's dev because we're controlling
+[00:54:00] it in user space was behaving slightly
+[00:54:02] differently. The timeout was not the
+[00:54:05] timing was slightly different. But we
+[00:54:08] solved this by finding this and we
+[00:54:10] didn't even have to ask Pavl anything.
+[00:54:12] It's on the man pages. the Iring submit
+[00:54:14] and wait. So we added a timeout
+[00:54:16] basically right you say okay please uh
+[00:54:19] wait up to 300 u uh completion entries
+[00:54:23] or up to 100 milliseconds then you
+[00:54:26] respond and you can so we didn't spend a
+[00:54:28] lot of time but you can see that the uh
+[00:54:32] that this number went up right so this
+[00:54:34] is what it used to be before that and
+[00:54:35] here's where it is and that's how TCP
+[00:54:37] dev will behave right so our number of
+[00:54:40] acts on the wire went up down by quite a
+[00:54:44] huge amount amount. And of course, our
+[00:54:47] our u uh CPU dramatically improved. The
+[00:54:51] before and after. You can see we went
+[00:54:54] from 98 here to 87 45 to 30 and the rest
+[00:54:59] is
+[00:55:01] we we did notice some Rocky V2 TLB
+[00:55:03] trashing that uh it just we just had to
+[00:55:07] um use huge pages and it worked better.
+[00:55:10] Uh coalescing very bad for you. Jesse,
+[00:55:13] are you responsible for co adaptive
+[00:55:15] coallesing? Yeah. Well, we we just
+[00:55:19] turned it off and it things got better.
+[00:55:21] All right. so harmful for any of this
+[00:55:25] kind of stuff you're doing because it
+[00:55:27] ends up accumulating a little bit more
+[00:55:29] data uh not in a deterministic way and
+[00:55:32] it could could get back drops
+[00:55:34] conclusions and
+[00:55:37] um given the nature of KV cache transfer
+[00:55:40] or we argue that which is very huge
+[00:55:43] peer-to-peer unidirectional
+[00:55:45] that we believe
+[00:55:48] TCP zero copy devme or I ring
+[00:55:52] are good fits. Now I'm going to put some
+[00:55:57] disclaimers. This we our test was based
+[00:55:59] on a single nick from a single vendor.
+[00:56:01] It was only doing 100 gigabits per
+[00:56:04] second and we had to tweak the
+[00:56:06] congestion control. Okay. So I'm going
+[00:56:09] to do some quick projections and I wrap
+[00:56:10] it up. Okay. So if let's say we had
+[00:56:15] this was was uh this was based on that
+[00:56:17] if you if I had a million dollars I'll
+[00:56:19] buy more ketchup song. If you're old
+[00:56:22] enough you know what that is. Uh so
+[00:56:25] projecting on high speeded links. Let's
+[00:56:26] say we the receiver protocol uh so we
+[00:56:30] know that the receiver protocol
+[00:56:31] processing is the bottleneck.
+[00:56:34] If we just assumed it will scale
+[00:56:37] linearly
+[00:56:39] um
+[00:56:40] we could we could we could go to 800
+[00:56:43] Gbits per second with RSS of five flows.
+[00:56:46] That's the claim. Okay. Now not sure how
+[00:56:49] that true is but I don't have 800 Gbits
+[00:56:51] to pro to show. So hardware general in
+[00:56:53] the in our past experiments
+[00:56:56] uh what if the protocol processing was
+[00:56:58] zero meaning that I offloaded everything
+[00:57:01] instead of using the TCP stack on on the
+[00:57:04] CPU and software then I ring would be
+[00:57:10] huge improvement over defam right
+[00:57:15] uh because it's mostly kernel it's
+[00:57:19] mostly softq centered right projecting
+[00:57:22] Rocky V2. Unfortunately, I think this
+[00:57:25] could be a bug in the nick or it could
+[00:57:28] be design intent because as you are
+[00:57:31] suggesting maybe this was designed for
+[00:57:33] like uh all reduce or all to all kind of
+[00:57:36] traffic and it works well in that world
+[00:57:39] but doesn't work well for a uniccast
+[00:57:42] flow that is huge right uh there is one
+[00:57:46] big advantage with I want to mention
+[00:57:47] that the protocol CPU requirement for
+[00:57:50] rock is very low compared to TCP
+[00:57:53] you basically you could essentially
+[00:57:55] manage many Q pairs with a single CPU
+[00:57:58] call right you cannot do that with CCP
+[00:58:00] because you're running the soft the
+[00:58:02] protocol on the soft on the on the
+[00:58:04] kernel right and so okay I'm going to
+[00:58:07] stop there sorry I had to rush the last
+[00:58:09] few ones but questions or yeah I think
+[00:58:11] maybe one or two questions and then
+[00:58:13] we'll have time uh to break for lunch
+[00:58:18] >> I I can try to explain the difference
+[00:58:20] between software QNC
+[00:58:23] uh sys call processor right
+[00:58:25] >> the thing is and I think I mentioned it
+[00:58:28] last year when you you've done some
+[00:58:30] testing it's more of a design decision
+[00:58:32] difference between dev man and auring
+[00:58:35] because uh how we return buffers but in
+[00:58:39] short we we we do more work on softq
+[00:58:43] side to
+[00:58:45] uh to check our cues and return buffers
+[00:58:48] back when dev man does it more on the
+[00:58:51] cisco Python's application whether it's
+[00:58:53] a problem or not I don't know we are
+[00:58:56] moving from one CPU to another from
+[00:58:58] nappy uh from sys call to nappy
+[00:59:00] basically uh but yeah that's explain and
+[00:59:05] that explains the difference between uh
+[00:59:08] higher software IQ and maybe lower
+[00:59:10] application sys call for
+[00:59:13] and for the prediction on the iing
+[00:59:17] scaling better if you remove the
+[00:59:20] protocol stack
+[00:59:21] You will have still you will still have
+[00:59:24] all the soft IQ processing on the zero
+[00:59:27] compressive side. It's not really
+[00:59:30] protocol processing but are youing zero
+[00:59:32] comprehive processing so probably not
+[00:59:36] going to scale that much uh as you
+[00:59:39] showed.
+[00:59:40] >> Yeah. So I I'd like to just add one more
+[00:59:41] comment here. It's not a plug for Intel.
+[00:59:44] generally if you're doing KV cash
+[00:59:46] transfer do you really need an expensive
+[00:59:49] nick or can a foundational nick with
+[00:59:50] headersplit be sufficient right it's not
+[00:59:53] a plug I'm just saying this is the nick
+[00:59:55] which we have which does this yeah 100
+[00:59:58] gigabits is nothing but still
+[01:00:02] >> uh one uh very last one Jamal so um I
+[01:00:06] don't know what is the equivalent of
+[01:00:08] socket on the RDMA site let's say it's
+[01:00:09] our socket there are some parameters
+[01:00:12] that you can use that'll help. I don't
+[01:00:14] know if you were able to use those
+[01:00:17] >> for for the the
+[01:00:19] >> RDMA side of things.
+[01:00:20] >> Um,
+[01:00:22] okay. I I tried to reach out some
+[01:00:24] people. Nobody responded. So, I had to
+[01:00:28] >> if you're here and you feel guilty, talk
+[01:00:30] to me after this. Okay.
+[01:00:33] >> We can talk about it.
+[01:00:34] >> Right.
+[01:00:35] I tried to reach out to the vendor.
+[01:00:36] Basically, I didn't get much.
+[01:00:39] Okay. Well, thank you, Jamal. Okay.
+[01:00:41] Thanks,
+[01:00:43] >> [applause]

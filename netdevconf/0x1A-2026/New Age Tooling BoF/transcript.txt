@@ -1,0 +1,3324 @@
+Source: https://youtu.be/w-fGQuNK3pU
+Language: en
+Captions: auto-generated
+
+[00:00:01] Okay, so we
+[00:00:03] So this both
+[00:00:05] is about the new tooling.
+[00:00:08] The old days maybe compilers and
+[00:00:10] debuggers are the tools.
+[00:00:12] Um
+[00:00:13] I was inspired by this by a patch by
+[00:00:16] sorry by a POC that Rajat sent.
+[00:00:19] Which got root within about what? 10
+[00:00:22] milliseconds or so of running it.
+[00:00:24] Now I know you you had probably even a
+[00:00:27] lot more POCs that could do that, but
+[00:00:30] Here's the Here's the inspiration behind
+[00:00:32] this. We are seeing a lot of bugs in the
+[00:00:33] kernel from for me as a TC subsystem
+[00:00:37] maintainer.
+[00:00:38] I always look at them and some of them
+[00:00:40] will take hours to reproduce. Some of
+[00:00:42] them are just bogus and I wasn't sure
+[00:00:44] who these people were, right?
+[00:00:47] So that that's how this started.
+[00:00:49] Uh
+[00:00:50] So this both is to try and gather an
+[00:00:53] understanding of the inspiration behind
+[00:00:56] the people who are creating these tools.
+[00:00:57] What are these tools to begin with? How
+[00:00:59] do they create these bug exploits?
+[00:01:02] And what systems do they use? Hopefully
+[00:01:04] and lucky for us they agreed to share
+[00:01:06] with the community.
+[00:01:08] So we'll have a wide variety of
+[00:01:11] uh
+[00:01:12] sessions today here.
+[00:01:14] Uh so the first one of the first speaker
+[00:01:16] would be
+[00:01:18] uh
+[00:01:19] Schedul and their tooling is to do
+[00:01:23] stateful protocol flow
+[00:01:26] fuzzing.
+[00:01:27] And they are focusing at the moment on
+[00:01:28] the MTCB.
+[00:01:30] Uh in in MPTP multipath TCP.
+[00:01:35] Uh this will be followed by Rajat who is
+[00:01:39] uh
+[00:01:40] going to describe his system for
+[00:01:41] patching and make some recommendations I
+[00:01:43] suppose.
+[00:01:45] Uh this is going to be followed by
+[00:01:49] uh
+[00:01:52] Andrea Zittl or Stefano presenting.
+[00:01:55] Stefano is going to present.
+[00:01:57] Uh
+[00:01:58] the symmetry of this
+[00:02:00] fox sending all these bug fixes,
+[00:02:03] finding bugs and then sending probably
+[00:02:05] not so good bugs fixes.
+[00:02:08] And then how much time the developer or
+[00:02:10] the kernel maintainer has to spend
+[00:02:12] time on.
+[00:02:14] And
+[00:02:15] and then we're going to have Yuan
+[00:02:17] um
+[00:02:19] who is building up big infrastructure.
+[00:02:24] Uh
+[00:02:25] he's going to talk about his plans for
+[00:02:28] for his agent infrastructure that is
+[00:02:31] finding kernel bugs.
+[00:02:33] Not slightly different from Rajat.
+[00:02:37] And finally, I guess everybody has heard
+[00:02:39] of Sashiko. We're lucky to have Roman
+[00:02:41] who's going to be showing up and
+[00:02:42] fortunately he couldn't make it so he's
+[00:02:43] going to do a virtual talk on Sashiko
+[00:02:46] plans, etc., etc. and
+[00:02:49] I'm sure it's going to be a very lively
+[00:02:50] discussion and I'm going to start by
+[00:02:52] having
+[00:02:53] Bartole.
+[00:03:02] >> Thank you, Jamal. Hi, everyone.
+[00:03:04] So,
+[00:03:05] this session focuses on the work we did
+[00:03:08] to extend a fork of syzkaller
+[00:03:10] uh that enables us to reach
+[00:03:13] the hard-to-reach paths of MPCTCP that
+[00:03:16] the stock syzkaller, the default
+[00:03:18] syzkaller struggles to reach.
+[00:03:22] So, just we'll go through the three
+[00:03:24] names quickly because
+[00:03:26] our work is based on this. So, for
+[00:03:27] anyone who's not aware, MPTCP or
+[00:03:30] multipath TCP enables us to create
+[00:03:33] multiple subflows or paths for a single
+[00:03:36] [snorts] TCP connection.
+[00:03:37] And the syzkaller, most of you are aware
+[00:03:39] of, which is the coverage-guided fuzzer
+[00:03:42] by Google. Um one thing that syzkaller
+[00:03:45] gives which is relevant to us is the
+[00:03:47] pseudo syscall features. So, syzkaller
+[00:03:50] has a program generator and a mutator
+[00:03:53] which generates a set of test programs
+[00:03:56] which is basically a sequence of
+[00:03:57] syscalls and mutates on it based on the
+[00:03:59] coverage information that it gets.
+[00:04:01] And the corpus as well.
+[00:04:03] So, it also gives an option to add
+[00:04:05] pseudo syscalls which is we can have our
+[00:04:08] own sequence of syscalls and decide on
+[00:04:10] how to, you know, run them and mutate
+[00:04:11] them.
+[00:04:12] And then there's this BRF which was an
+[00:04:15] academic project a couple of years ago
+[00:04:18] which was done by Emery Hogan and team.
+[00:04:21] So, what they did is they forked
+[00:04:22] Sykaller and tried to achieve states
+[00:04:26] wherein BPF could be first further
+[00:04:28] because Sykaller is not able to first
+[00:04:29] BPF by default. So, they added pseudo
+[00:04:33] syscalls as well as BPF features which
+[00:04:35] is a program generator apart from the
+[00:04:37] Sykaller's generator. So, it generates
+[00:04:40] BPF programs, compiles into object
+[00:04:42] files, and also has a set of pseudo
+[00:04:44] syscalls that enables them to, you know,
+[00:04:47] run BPF open, BPF attach, load, and
+[00:04:50] trigger the BPF hooks which
+[00:04:52] the generator had created.
+[00:04:54] So, we picked up BRF because we found it
+[00:04:57] to be already have some useful features
+[00:05:00] to
+[00:05:01] address the problems that MPTCP fuzzing
+[00:05:04] had in our opinion.
+[00:05:07] Right. So, let's look at the MPTCP flow.
+[00:05:11] One example where a stateless fuzzer
+[00:05:14] would struggle to get into.
+[00:05:17] So, when we want to add a subflow into
+[00:05:20] an already established MPTCP connection,
+[00:05:22] this is the handshake.
+[00:05:25] So, when we have two client and server
+[00:05:28] and we have to go through this handshake
+[00:05:30] in order to achieve
+[00:05:32] or establish a new subflow.
+[00:05:34] So, yeah, I mean,
+[00:05:37] Sykaller is not aware of this. So, it
+[00:05:39] doesn't know that first before
+[00:05:41] establishing an MP join or requesting an
+[00:05:43] MP join connection, an MP capable
+[00:05:45] connection is needed
+[00:05:46] for an MP join to, you know, pass and
+[00:05:50] get a new subflow added.
+[00:05:52] So, yeah, a new path is tested only
+[00:05:54] after a token then HMAX. So, there's a
+[00:05:56] crypto-based handshake. Uh crypto
+[00:05:58] computing uh is is part of this
+[00:06:01] handshake which uh Cisco struggles to
+[00:06:03] pass through. There are some numbers we
+[00:06:05] we have some numbers on the stock Cisco
+[00:06:08] versus the extensions that we made.
+[00:06:10] Uh so, Cisco is able to pass this
+[00:06:13] handshake, but
+[00:06:14] the numbers are very low as compared to
+[00:06:16] what we were able to generate. We'll be
+[00:06:17] showing the numbers soon.
+[00:06:19] And another path that was interesting
+[00:06:22] for us was the rejection uh flow. So,
+[00:06:25] like if we look at the first path, this
+[00:06:28] was like uh Cisco was able to make this
+[00:06:31] request and through the kernel path
+[00:06:33] manager that MPTCP has, it was also able
+[00:06:36] to achieve valid HMAX uh
+[00:06:39] like valid connections, valid MP join
+[00:06:40] connections. But, it was not able to
+[00:06:42] create a condition where one of the HMAX
+[00:06:45] is like if it is false, if it is wrong,
+[00:06:48] then you know, the rejection paths uh
+[00:06:51] the Cisco was not able to take those at
+[00:06:52] all.
+[00:06:53] And the valid MP join connections were
+[00:06:55] also very low in numbers, so we'll see
+[00:06:57] those.
+[00:06:59] So, what we did is we leveraged the
+[00:07:01] features provided by BRF
+[00:07:03] to add pseudo Cisco so that we can bring
+[00:07:06] up a proper MPTCP connection before we
+[00:07:08] start fuzzing.
+[00:07:10] And through that, we were able to get
+[00:07:12] access to, you know, the these flows as
+[00:07:15] well. The middle handshake flows which
+[00:07:17] could lead to the rejection paths.
+[00:07:20] So, yeah, I mean, our tool what it does
+[00:07:22] is it it owns both the endpoints and
+[00:07:25] this it does capture the crypto tokens
+[00:07:27] as well, but we are not using them right
+[00:07:29] now. We'll be extending it when we
+[00:07:31] uh fuzz more of user space PM.
+[00:07:35] And we are able to flip one of the
+[00:07:37] fields. So, if we flip the HMAX over
+[00:07:40] here from the server or if we flip HMAC
+[00:07:42] B here, then the
+[00:07:45] path validation call fails. The HMAC
+[00:07:47] validation, sorry, call fails and we are
+[00:07:49] able to exercise the rejection flows as
+[00:07:52] well.
+[00:07:53] So, yeah, as you can see the HMAC
+[00:07:55] established both fuzzers are able to
+[00:07:57] reach, but the wrong HMAC, the rejection
+[00:08:00] paths, only the tool that we are
+[00:08:02] extending is able to reach right now.
+[00:08:04] So, just one bit flip through NFQ uh
+[00:08:07] because we know the connection and we
+[00:08:09] know that the MP join is going to
+[00:08:11] happen. So, we are able to like the
+[00:08:12] executor in cis caller uh in our tool is
+[00:08:15] able to identify the packet with
+[00:08:18] SYN ACK packet or ACK packet and
+[00:08:20] accordingly flip in order to target the
+[00:08:23] mutation that we are uh trying to
+[00:08:25] achieve.
+[00:08:26] So, this we are able to do on demand and
+[00:08:29] for stock cis caller it has to rely on
+[00:08:31] random fuzzing to be able to achieve
+[00:08:33] just the valid HMAC.
+[00:08:36] So, these are the additions that we did
+[00:08:39] on top of the existing BRF system that
+[00:08:42] was created. So, we added uh pseudo cis
+[00:08:45] calls in order to capture the real token
+[00:08:47] and drive a genuine MP join uh handshake
+[00:08:50] and also gain the capability to bit uh
+[00:08:53] flip a field to see the rejection paths
+[00:08:55] uh light up in the coverage.
+[00:08:58] And then we also wrap the HMAC
+[00:09:00] validators plus option parsers so that
+[00:09:02] the coverage is visible. So, like
+[00:09:04] currently in the default MPTCP code, uh
+[00:09:07] the soft IRQ coverage is not available.
+[00:09:10] So, the stock cis caller doesn't even
+[00:09:11] know if it is able to cover this or not.
+[00:09:13] So, I mean, we have made some local
+[00:09:16] changes, but we are trying to
+[00:09:17] standardize them so that they can become
+[00:09:19] more upstream friendly
+[00:09:21] and maybe we'll send the patches so the
+[00:09:23] soft IRQ paths are also added in the
+[00:09:25] coverage.
+[00:09:27] And also the USP that BRF had, which is
+[00:09:31] the BPF being able to uh the ability to
+[00:09:34] fuzz BPF.
+[00:09:36] So, that also we leverage. We added the
+[00:09:38] MPTCP uh struct tops, which is the MPTCP
+[00:09:41] shed ops.
+[00:09:42] And now we are able to generate BPF
+[00:09:44] programs for MPTCP and also fuzz them
+[00:09:47] further.
+[00:09:50] Yeah, so like I mentioned that we are
+[00:09:53] owning both the connections and we are
+[00:09:55] doing a genuine handshake. We are not
+[00:09:57] trying to you know, force the crypto
+[00:09:59] tokens in order to
+[00:10:01] forcefully gain some flows or access to
+[00:10:03] the code flow.
+[00:10:05] Um
+[00:10:07] Yeah, so there are two modes that we
+[00:10:09] cover. One is the normal mode which
+[00:10:11] establishes the MP join connection and
+[00:10:13] then fuzzes the flow further once the MP
+[00:10:16] join handshake has been done. And one is
+[00:10:18] the mutation mode which
+[00:10:20] does the mutation on the wire like
+[00:10:22] flipping a bit on the packet in order to
+[00:10:25] reach the certain code flows that are
+[00:10:27] not available otherwise.
+[00:10:30] So, yeah, some part of it is scripted
+[00:10:32] because we have to own the connections.
+[00:10:35] Otherwise, we won't be able to reach
+[00:10:36] those flows.
+[00:10:37] But there is further fuzzing being done.
+[00:10:40] So, we have added multiple mutations on
+[00:10:42] the wire. The join authentication is
+[00:10:44] already there
+[00:10:45] like I mentioned over here.
+[00:10:48] Like these are the
+[00:10:50] join handshakes which we are able to
+[00:10:52] mutate.
+[00:10:53] But apart from that, we also added a
+[00:10:56] couple more things.
+[00:10:58] Yeah, the DSS and path management
+[00:11:00] teardown. Those parts are also like we
+[00:11:02] added more mutations over there. So, we
+[00:11:04] are able to find a few more bugs that
+[00:11:07] stocks is color cannot. But there is
+[00:11:10] some more work being done over there and
+[00:11:12] maybe we'll get more data on how much
+[00:11:14] better coverage can we have on data
+[00:11:16] plane as compared to the stocks is
+[00:11:17] color.
+[00:11:19] So, these are the numbers that we got. I
+[00:11:22] used MIB counters as one of the
+[00:11:24] mechanisms to validate our flow as well
+[00:11:27] as the sys color dashboard which shows
+[00:11:30] the coverage and which code paths are
+[00:11:32] being hit.
+[00:11:33] So, as you can see the MP join requests
+[00:11:36] stock was able to send only 2,300 and
+[00:11:39] ours was like much much higher than
+[00:11:41] that.
+[00:11:42] And the valid joins
+[00:11:44] stock was able to do, but again the
+[00:11:46] numbers were very low. One thing here is
+[00:11:48] that I've like we missed to use the
+[00:11:53] TUN
+[00:11:54] feature in cis caller which enables it
+[00:11:56] to do packet injection. So, we'll be
+[00:11:58] trying that out as well to see if there
+[00:12:00] is any improvement in the stock cis
+[00:12:02] caller's handshake successful handshake.
+[00:12:06] But anyway, I mean it is still hard for
+[00:12:07] it because it is mainly dependent on
+[00:12:10] randomized fuzzing. It doesn't know that
+[00:12:12] there are certain states which need to
+[00:12:14] be maintained. So, we are ensuring that
+[00:12:16] we do that and we are able to reach the
+[00:12:19] MP join handshake very easily.
+[00:12:21] And looking at the rejection paths,
+[00:12:23] stock is not able to cover any of those.
+[00:12:26] While we can tune this further to even
+[00:12:29] break more like have more paths more
+[00:12:33] flows into the rejection paths.
+[00:12:38] Yeah.
+[00:12:39] So,
+[00:12:40] on the dashboard, when we see the code
+[00:12:43] flow on the dashboard, these are some
+[00:12:46] There's a code snippet which shows the
+[00:12:48] the red blocks are the stock which it is
+[00:12:50] not able to cover while we are
+[00:12:52] consistently consistently able to cover
+[00:12:55] the HMAC validation paths.
+[00:12:59] So, we we were able to find So, we wrote
+[00:13:02] this tool in about 3 weeks 3 4 weeks.
+[00:13:05] Mainly the complete pseudo cis call and
+[00:13:08] all the
+[00:13:09] I don't know Go lang. Honestly, I don't
+[00:13:10] know anything about Go lang. It was
+[00:13:12] completely done by Cloud Go. My focus
+[00:13:14] was on being able to find the bugs and
+[00:13:17] reach the code flows which default cis
+[00:13:19] caller is not able to reach. So, from my
+[00:13:21] perspective, it was like I just gave the
+[00:13:24] design of what challenges might be there
+[00:13:28] in MPTCP and similar subsystems.
+[00:13:31] And it was Claude which completely
+[00:13:32] implemented the tool and I drove the
+[00:13:34] validation. So, every single change uh
+[00:13:37] layer of change that it made,
+[00:13:39] we
+[00:13:40] uh verified it against the counter
+[00:13:42] increment or Cisco others code coverage
+[00:13:44] data.
+[00:13:45] So, that was our metric to see how well
+[00:13:48] AI is doing to develop the harness.
+[00:13:52] So, we found a couple of bugs. We have
+[00:13:55] uh
+[00:13:55] created the patches and sh- they are
+[00:13:58] currently in review in the MPTCP list.
+[00:14:01] So, yeah. I mean, we are not just trying
+[00:14:03] to bombard with bugs, but we are trying
+[00:14:05] to create fixes and upstream them as
+[00:14:07] well. And we are focusing on the MPTCP
+[00:14:09] branch rather than the upstream branch
+[00:14:11] so that the quality of code would
+[00:14:14] improve before it gets to upstream.
+[00:14:19] Right. So, as I mentioned, the harness
+[00:14:20] is completely AI generated. What we
+[00:14:22] drove is the validation around it so
+[00:14:24] that we know that it works as expected.
+[00:14:27] So, there were a lot of things where So,
+[00:14:29] this slide is basically I don't know
+[00:14:31] much about the issues that came because
+[00:14:34] it was just AI who
+[00:14:36] uh
+[00:14:37] who created those issues, who reported
+[00:14:39] the issues, and then I just had a lot of
+[00:14:41] discussions with it and it figured out
+[00:14:42] how to fix these. For me, the metric was
+[00:14:45] whether the coverage is increasing and
+[00:14:46] the counters are getting incremented as
+[00:14:48] expected.
+[00:14:51] So, the verification method is the one
+[00:14:54] that we own and these were the factors
+[00:14:56] that we checked for MPTCP.
+[00:14:58] And I think I mean, I would like to see
+[00:15:01] this extended to other uh subsystems as
+[00:15:04] well. So, I had a discussion with the
+[00:15:06] quick guy who uh presented 2 days ago on
+[00:15:09] the second day. So, he too mentioned
+[00:15:11] that that this is a challenge for him.
+[00:15:13] He was not able to first beyond the
+[00:15:15] points where handshake is needed.
+[00:15:17] So, for that, maybe the metrics would
+[00:15:19] differ, but even that has a lot of
+[00:15:22] counters. So, here we used coverage MIB
+[00:15:24] counters, kernel message to see if
+[00:15:27] something is breaking.
+[00:15:29] And some AI-generated self-test to
+[00:15:32] ensure that each like for example, if we
+[00:15:34] have an MP join handshake, if it is
+[00:15:36] happening or not is just um a
+[00:15:38] factor of the increment and counter.
+[00:15:41] So, those were the things that we
+[00:15:42] validated and as long as these things
+[00:15:44] are working, I didn't really care what
+[00:15:46] AI was doing in the harness extensions.
+[00:15:51] So, yeah, I had to do a lot of prompt
+[00:15:54] engineering. I created a lot of context
+[00:15:57] and
+[00:15:58] made some principles that
+[00:16:00] the cloud code could take in so that it
+[00:16:03] doesn't make redundant mistakes.
+[00:16:05] So, like it was a continuous
+[00:16:06] conversation with it and like we added
+[00:16:09] different context for different
+[00:16:10] spectrums of the domain that it would
+[00:16:13] work in.
+[00:16:16] So, yeah, it is like the the data on
+[00:16:18] this is still small. I I ran the fuzzing
+[00:16:22] on stock and the comparison for roughly
+[00:16:24] 3 days 72 hours or something.
+[00:16:27] Uh but yeah, I would like to spend more
+[00:16:29] time to get more data on how good the
+[00:16:31] coverage is.
+[00:16:33] Okay.
+[00:16:35] Yeah, pretty much done.
+[00:16:40] >> So, I think the way you're going to work
+[00:16:41] this is because there's a lot of
+[00:16:43] speakers, you can ask one question maybe
+[00:16:45] and
+[00:16:47] and then we can we can have a more Q&A
+[00:16:49] at the end.
+[00:16:51] >> So,
+[00:16:52] if you don't have any other takers, um
+[00:16:54] you mentioned syscaller a lot. Have you
+[00:16:56] looked at KUnit fuzz test for like
+[00:16:57] hitting deeper into the code in in the
+[00:16:59] start to to start with
+[00:17:02] to like do more more of a unit
+[00:17:04] test style fuzzing?
+[00:17:06] >> Sorry, can you repeat again?
+[00:17:08] >> Oh, there's this um new framework I
+[00:17:10] think Google pushing it um KUnit fuzz
+[00:17:12] test. So, it's more inside the kernel of
+[00:17:15] the fuzzing rather than like syscaller
+[00:17:17] from sort of the outside. So I was
+[00:17:19] wondering if you've looked into that.
+[00:17:21] >> I'll I'll I'll check that out. I haven't
+[00:17:22] checked that out yet.
+[00:17:24] >> I I I really don't know if it's
+[00:17:25] applicable. I was just wondering really
+[00:17:27] because we're we're I'm also looking at
+[00:17:29] like should we be using this um and so
+[00:17:31] just sort of asking for your experience.
+[00:17:34] >> No, I haven't checked that out. I did
+[00:17:35] try to search
+[00:17:37] um if there are any solutions available
+[00:17:39] which can you know pass through such uh
+[00:17:41] state-aware flows, but I didn't find
+[00:17:43] any, but I'll check out the K Fuzz that
+[00:17:45] you mentioned, right?
+[00:17:47] K Fuzz Test.
+[00:17:48] >> K Fuzz Test.
+[00:17:48] >> Yeah, I'll check that out.
+[00:17:49] >> So what's your plan on this tool? Is it
+[00:17:51] open source? What what
+[00:17:52] >> It is open source.
+[00:17:53] >> Okay, and you you didn't publish the
+[00:17:55] URL. Maybe we can come back at Okay.
+[00:17:57] >> I think uh
+[00:17:58] >> All right.
+[00:17:59] Uh we'll we may bring you back if uh
+[00:18:01] Okay, go ahead. Go ahead, show it. Uh
+[00:18:03] next to you just
+[00:18:05] >> Yeah, this is our GitHub link. You can
+[00:18:07] maybe just check
+[00:18:08] >> Yeah, that's why you need to put like a
+[00:18:11] >> Maybe I'll share.
+[00:18:12] >> Yeah, okay.
+[00:18:13] Or you can post it to the um mailing
+[00:18:15] list.
+[00:18:16] Okay, thanks.
+[00:18:17] You you may come back after if someone
+[00:18:19] wants to
+[00:18:21] Okay, next is Rajat.
+[00:18:33] And so if Rajat is setting up, if
+[00:18:35] anybody has another question, this we we
+[00:18:37] don't want to use this leave this as an
+[00:18:38] empty s-
+[00:18:40] >> Silent.
+[00:18:41] Or he's going to come He's he's going to
+[00:18:42] come.
+[00:18:46] >> Uh yeah, I I I just have a kind of a
+[00:18:48] extension comment to the previous one
+[00:18:50] about K Fuzz Test. Uh I think that could
+[00:18:53] be particularly useful for fuzzing the
+[00:18:55] BPF
+[00:18:56] uh surface area because you wouldn't
+[00:18:58] have to generate BPF programs and then
+[00:19:01] go through that whole
+[00:19:02] uh pipeline of validation that they
+[00:19:04] encounter and rather use K Fuzz Test to
+[00:19:07] just uh specifically fuzz the helpers uh
+[00:19:10] that one would invoke via the structure
+[00:19:12] of programs.
+[00:19:17] >> All right, take it.
+[00:19:18] >> Okay, hello everyone.
+[00:19:21] Finally made it to the last day. Nice
+[00:19:23] job.
+[00:19:24] So, I want to talk about
+[00:19:26] the common issue that everyone is
+[00:19:28] facing, which is patching for us
+[00:19:30] specifically for the AI era.
+[00:19:33] Now, I'm coming from the other side,
+[00:19:35] right? The people who are finding bugs
+[00:19:36] and reporting bugs. So, I want to share
+[00:19:38] some of the insights on what things we
+[00:19:41] are using to cut down the AI slope from
+[00:19:44] the genuine results. Maybe some of those
+[00:19:47] things can be useful for the maintainer
+[00:19:49] side as well
+[00:19:50] to figure out or basically just
+[00:19:52] prioritize the issues which are real,
+[00:19:54] the bugs which are real, the patches
+[00:19:56] which are real instead of some of the
+[00:19:58] submissions in which you have to spend
+[00:20:00] human time before you figure out if the
+[00:20:02] submission is real or not.
+[00:20:05] A quick who am I? I'm Rajat Gupta. I
+[00:20:09] work in offensive security at Qualcomm.
+[00:20:12] Previously, I reported multiple local
+[00:20:13] privilege escalation exploits in Windows
+[00:20:16] and recently in Linux as well.
+[00:20:18] I used to play CTFs back in the day and
+[00:20:21] now I am work on AI for vulnerability
+[00:20:24] research specifically focusing on
+[00:20:26] deterministic verification of AI results
+[00:20:30] and find good bugs.
+[00:20:32] Yes, so same thing.
+[00:20:34] The goal is to basically figure out,
+[00:20:37] let's say you have 100 submissions on
+[00:20:39] the mailing list. How can these
+[00:20:41] submissions verify themselves before any
+[00:20:44] human reviewer time is spent?
+[00:20:48] So, I this is a basic framework that I
+[00:20:51] propose
+[00:20:52] which is like four verification. This
+[00:20:54] each verification is for each artifact
+[00:20:57] which is a part of
+[00:20:59] like a submission packet. For example,
+[00:21:01] any bug that you receive, there is a
+[00:21:03] usually a POC. Sometimes not, especially
+[00:21:06] with the AI reports, it's just the AI
+[00:21:08] output. And then there is a root cause,
+[00:21:11] then there is a patch. So, let's see how
+[00:21:13] you can deterministically verify each of
+[00:21:16] these things.
+[00:21:18] Uh first is the trigger.
+[00:21:20] Um there are multiple levels to this
+[00:21:22] trigger. Basically, the bare minimum is
+[00:21:25] the sanitizer. Like, if you say that you
+[00:21:28] have found a use-after-free, then show
+[00:21:30] me a case and trace.
+[00:21:32] Until and unless you have a case and
+[00:21:34] trigger for that use-after-free, there
+[00:21:36] is no way that you can determine if that
+[00:21:39] use-after-free is real or uh in what
+[00:21:42] conditions though that can actually be
+[00:21:44] triggered. Now, if you say that that
+[00:21:46] use-after-free is exploitable or is user
+[00:21:49] controllable, then what you need you
+[00:21:52] need to show me that that use-after-free
+[00:21:55] case and trace can be triggered from a
+[00:21:56] user name space. Similarly, obviously,
+[00:21:59] we cannot ask for full exploits from
+[00:22:01] each and every uh submission, but uh
+[00:22:04] there are things uh which we can ask uh
+[00:22:06] and these things can I mean, maybe
+[00:22:09] before AI, these were too big of an ask,
+[00:22:11] right? Uh
+[00:22:12] where people say, "Oh, this is too much
+[00:22:14] work." Maybe for casual contributors,
+[00:22:16] but now I I can tell you for sure that
+[00:22:18] this is essentially free. And as soon as
+[00:22:21] you have a use-after-free, you can prove
+[00:22:23] that that use-after-free is exploitable
+[00:22:25] or not deterministically uh with very,
+[00:22:27] very little effort.
+[00:22:29] The the main effort goes into finding
+[00:22:31] that use-after-free. From there onwards,
+[00:22:34] it's mostly documented
+[00:22:36] uh that AI can already knows or already
+[00:22:39] trained on.
+[00:22:41] Some quick examples. So, this is one um
+[00:22:44] hypothetical patch. The patch says that
+[00:22:46] there is a use-after-free in function
+[00:22:48] foo,
+[00:22:48] um
+[00:22:49] and then the patch basically increments
+[00:22:52] the ref count so that the early free
+[00:22:54] doesn't trigger, but it doesn't mention
+[00:22:56] in what conditions that can be there.
+[00:22:58] There is no case and trace, uh there is
+[00:23:00] no reproducer,
+[00:23:01] um
+[00:23:02] until and you read the subsystem code
+[00:23:04] and figure out yourself, there's no way
+[00:23:06] to figure out if this is AI slop or um,
+[00:23:10] real.
+[00:23:11] But, what I propose asking for
+[00:23:13] deterministic verification. I will say
+[00:23:15] [clears throat] deterministic so many
+[00:23:16] times, so please bear with me because
+[00:23:18] from my experience of finding real
+[00:23:20] privilege escalation exploits using AI,
+[00:23:22] I can tell you that the very is your
+[00:23:25] verification should be deterministic,
+[00:23:27] right? Because AI is non-deterministic
+[00:23:29] by the by design. No matter how good
+[00:23:32] your models are, how good their training
+[00:23:35] data is, they will always be
+[00:23:36] probabilistic. And if your verification
+[00:23:38] is also probabilistic, then the result
+[00:23:40] will also be probabilistic. In one or
+[00:23:42] two hits, you will get that golden
+[00:23:43] chunk, right? And then you'll see, "Oh,
+[00:23:46] the world is ending soon." But then 99%
+[00:23:48] of the time, yeah, it's it's it's
+[00:23:50] hallucinating.
+[00:23:51] So,
+[00:23:53] yeah, same thing. If if a bug is real,
+[00:23:55] show me the sanitized trace trace.
+[00:23:58] And then, similarly, so on and so forth.
+[00:24:01] Also, one thing, sorry I'm if I'm going
+[00:24:03] too fast, I only have so little time.
+[00:24:05] Um,
+[00:24:07] for example, if you want to ask if a bug
+[00:24:09] is exploitable, you don't need to ask
+[00:24:11] the full exploit. They are
+[00:24:13] actually from getting a use-after-free
+[00:24:16] to
+[00:24:17] going to a full privilege escalation
+[00:24:19] exploit, there are multiple steps that
+[00:24:20] we do which are intermediate that can be
+[00:24:23] treated as some sort of a proof.
+[00:24:27] Second thing is root cause analysis.
+[00:24:30] Obviously, AI can generate, you know,
+[00:24:31] huge paragraphs of root cause which
+[00:24:34] sounds just about right. And then you
+[00:24:36] will have
+[00:24:37] functions which look real. It will also
+[00:24:39] mention previous CVEs
+[00:24:41] which has the same pattern. But then in
+[00:24:43] the end, when you actually spend your
+[00:24:45] time on, you will see that that CVE
+[00:24:46] doesn't exist.
+[00:24:48] So, what is a deterministic verification
+[00:24:50] for root cause?
+[00:24:52] Actually, it's very hard to
+[00:24:54] deterministically verify from the
+[00:24:57] research side as well. We are also
+[00:24:59] struggling on how to verify this. But
+[00:25:01] for majority of the bugs that are
+[00:25:03] established like memory safety bugs,
+[00:25:05] race condition bugs, integer overflow,
+[00:25:07] those you can verify very very easily.
+[00:25:10] For example, if you want to verify an
+[00:25:12] integer overflow, just use Kprobe
+[00:25:14] instrumentation and you will see the
+[00:25:16] exact overflow site where the value you
+[00:25:18] know wraps around and the future if
+[00:25:21] checks are being bypassed. It's I mean
+[00:25:23] it's magic to me. Maybe to you it's not.
+[00:25:26] But
+[00:25:27] we can ask for some of these evidence as
+[00:25:30] a submission packet
+[00:25:32] so that when human or any reviewer opens
+[00:25:35] that bug, you have hardcore evidence of
+[00:25:39] of where the bug is. The bug is real
+[00:25:41] because you have a working trigger. The
+[00:25:42] root cause is also real. So that will
+[00:25:44] save a lot of human time and all
+[00:25:46] and then we can just work on the patch.
+[00:25:49] So yeah.
+[00:25:51] Quick example here. Same thing. There is
+[00:25:54] a null pointer dereference in foo. The
+[00:25:56] patch patch fixes it by adding just a
+[00:25:58] null check. But again, who made that
+[00:26:01] pointer null?
+[00:26:03] In what conditions? Blah blah blah.
+[00:26:05] Nothing is there.
+[00:26:07] For example, but if you use something
+[00:26:08] like Kprobe, you can see that oh, the
+[00:26:11] bar is another function which set the
+[00:26:13] pointer to null but foo still holds a
+[00:26:15] reference and then later on dereferences
+[00:26:18] dereferences that pointer.
+[00:26:20] So and then the patch actually belongs
+[00:26:22] belongs to bar instead of foo. So this
+[00:26:26] can also show us where to where to patch
+[00:26:29] as well.
+[00:26:31] Now
+[00:26:32] verifying the patch. You have a very
+[00:26:35] beautiful patch, maybe more beautiful
+[00:26:37] than any human could ever write.
+[00:26:39] But then how do you verify that that
+[00:26:42] patch is valid and that actually patches
+[00:26:44] the bug which is there in the root
+[00:26:46] cause?
+[00:26:48] People say just like oh, I think I
+[00:26:50] tested this on my machine. Please trust
+[00:26:51] it. But, that doesn't work for for
+[00:26:54] especially for the scale that we that we
+[00:26:56] are seeing.
+[00:26:57] So, something like this is very very
+[00:26:59] simple. You already have a POC that
+[00:27:01] triggers that case and right. So, please
+[00:27:04] before patch trigger that case and apply
+[00:27:07] your patch and then again run this the
+[00:27:09] kernel build and the the same trigger
+[00:27:11] should go away. That is the most basic
+[00:27:14] patch verification that you can have.
+[00:27:16] I'm not saying that this will cover
+[00:27:18] majority of the cases
+[00:27:20] or like every edge edge case that you
+[00:27:22] see, but this can actually show us okay
+[00:27:25] which reports are AI and which need more
+[00:27:28] human time than some of the reports
+[00:27:31] which which are valid.
+[00:27:34] So, yeah.
+[00:27:36] Then, this thing is actually very very
+[00:27:38] important.
+[00:27:39] I know from from our bug finding side we
+[00:27:42] we never do this. We never run test. We
+[00:27:45] never ever ever check that if our patch
+[00:27:47] introduces reintroduces old bugs or
+[00:27:50] introduces more bugs. So, doing
+[00:27:53] regression testing should be absolutely
+[00:27:55] mandatory if even if you are not
+[00:27:58] like writing new tests, you should
+[00:28:00] definitely ask for stuff like please we
+[00:28:03] can do this on our side as well, but
+[00:28:05] getting this as part of the submission
+[00:28:08] reduces a lot of work lot of work.
+[00:28:11] So, yes. Three out of these stages can
+[00:28:14] be a CI job. Like literally automated
+[00:28:17] 100% end to end from a POC,
+[00:28:20] from patch, from the self test.
+[00:28:23] Only the root cause evidence thing is
+[00:28:25] not sometimes it it misses things. I'll
+[00:28:27] show you the exact case where it might
+[00:28:29] miss, but these three things if you I
+[00:28:32] mean these things are optional now,
+[00:28:33] right? Some submission do send all of
+[00:28:36] this, some don't.
+[00:28:38] The it's only a matter that we should
+[00:28:40] enforce this thing.
+[00:28:44] So, yeah.
+[00:28:45] Um, hope by doing these things we can
+[00:28:47] cut down on on the AI slob results. At
+[00:28:49] least these things will uh reveal that a
+[00:28:52] submission is verified or not. And those
+[00:28:54] submissions can be, you know,
+[00:28:56] prioritized uh where we want to spend
+[00:28:58] human review time.
+[00:29:01] The HKs that I was talking about the is
+[00:29:02] the same thing, right? Uh foo
+[00:29:04] dereferences that pointer, which is
+[00:29:06] null. So, the patch stupidly just adds a
+[00:29:09] null check in foo, right? But the actual
+[00:29:11] fix belongs to bar. Uh
+[00:29:13] that function should check oh if there
+[00:29:15] are any callbacks which are still
+[00:29:16] waiting for this pointer.
+[00:29:18] Uh that is the original fix. But I think
+[00:29:21] this This question is much easier to
+[00:29:23] answer, and we should spend our human
+[00:29:25] time actually on these things
+[00:29:27] uh rather than spending our time on
+[00:29:28] whether this submission is actually
+[00:29:30] valid or not.
+[00:29:33] Uh thank you.
+[00:29:36] Questions.
+[00:29:38] >> Actually, he I can take two questions on
+[00:29:40] this. He's ahead of time a little bit.
+[00:29:43] >> Sorry, I went too fast, I think.
+[00:29:44] >> No, no, it's good. Um,
+[00:29:46] can you go back to your previous slide?
+[00:29:47] Anybody with a question for Aji?
+[00:29:49] >> Yes.
+[00:29:51] Any comments?
+[00:30:01] >> Uh maybe I was not able to follow fast
+[00:30:03] enough, but the thing with the Kazan, of
+[00:30:05] course, it's very nice if you get in the
+[00:30:08] report, the Kazan report, that's
+[00:30:10] absolutely helpful even before AI times.
+[00:30:12] >> Right.
+[00:30:12] >> Uh but typically uh bug found by AI, by
+[00:30:16] code analysis, won't have a Kazan
+[00:30:18] report. So, is that
+[00:30:21] That is the first question. Well, if AI
+[00:30:23] says, "I think there can be a use after
+[00:30:26] free." It will not have a Kazan report.
+[00:30:28] And the second question is
+[00:30:30] uh are you sure the Kazan reports are
+[00:30:32] real? If I ask an AI, "Please give me a
+[00:30:35] Kazan report." Won't it just give me
+[00:30:37] something that looks like a Kazan
+[00:30:38] report?
+[00:30:39] >> Yeah, so good questions, actually. Very
+[00:30:42] good questions. So, the case and reports
+[00:30:43] should be coming from the actual kernel
+[00:30:46] run,
+[00:30:47] not through AI. It's basically like a
+[00:30:49] compiler, right? If you compile a C
+[00:30:51] program and ask AI to compile it using
+[00:30:54] your C compiler, until and unless the
+[00:30:56] code is syntactically correct, compiler
+[00:30:58] will keep throwing that same errors.
+[00:31:00] And AI will have no way to bypass that
+[00:31:03] compiler. Like a calculator. It's It's
+[00:31:05] very, very simple. Like if you do a math
+[00:31:08] and you have to verify it through a
+[00:31:10] calculator. AI cannot like fool fool its
+[00:31:13] way through a calculator. So, this is
+[00:31:14] similar.
+[00:31:16] These are robust deterministic steps. I
+[00:31:18] mean, the people who are sending bugs,
+[00:31:20] they will have the same results. We will
+[00:31:22] see the same results. And anyone
+[00:31:23] reviewing the patch will have the same
+[00:31:24] results.
+[00:31:27] >> Satisfactory answer?
+[00:31:29] >> It works. Thanks.
+[00:31:33] >> Um so, clearly you're using this to
+[00:31:35] defend on the
+[00:31:38] the side against the the good to try and
+[00:31:41] use AI to speed things up, right? Um
+[00:31:45] I've been at the assumption that AI
+[00:31:48] helps the
+[00:31:49] bad people more than it helps the good
+[00:31:51] people. So, although this is a
+[00:31:54] thing that helps improve the inbound
+[00:31:57] side, do you still agree that the bad
+[00:32:00] guys have got
+[00:32:01] more leverage on this? Or do you
+[00:32:03] actually think this is helping you get
+[00:32:05] ahead of that curve?
+[00:32:07] >> Good Yeah, another good question. So, I
+[00:32:09] mean, the bad guys, which is which is
+[00:32:11] me,
+[00:32:12] we are doing the same thing already. We
+[00:32:14] are all I mean, we don't trust any AI.
+[00:32:17] It shows us use after free like 2,000
+[00:32:20] use after frees every day. I see that.
+[00:32:22] But maybe 99.9% of them are are trash.
+[00:32:27] So, these things we are already doing.
+[00:32:30] And I don't see why we should not do the
+[00:32:32] same things on the maintainer side as
+[00:32:34] well.
+[00:32:38] >> agree that should be doing that, right?
+[00:32:40] The question is, does it give you the
+[00:32:43] Does it give you the equivalent scaling
+[00:32:45] thing to take things back to neutral, or
+[00:32:48] do they still have an advantage on the
+[00:32:50] bad side?
+[00:32:51] >> No, I think this will give some leverage
+[00:32:54] to the maintainers for sure, for sure.
+[00:32:56] >> It does, but it it does I'm asking the
+[00:32:59] question of the relative leverage,
+[00:33:01] right? So, the folks on the bad side
+[00:33:03] have gotten a huge leverage.
+[00:33:05] Right? Are you saying that this lever
+[00:33:08] neutralizes that completely, or it only
+[00:33:10] takes the edge off? Where's your slide
+[00:33:13] Where's your evaluation of the slider on
+[00:33:15] that?
+[00:33:16] >> I I think
+[00:33:19] this will give even reviewers more edge
+[00:33:21] than the bad actors. Because on the on
+[00:33:24] the bad actor side, we
+[00:33:26] this is just an initial filter. On the
+[00:33:28] bad actor side, we are looking for the
+[00:33:30] full exploits. Right? Whereas on the
+[00:33:33] maintainer side, I'm only looking for a
+[00:33:34] case entries, which one is simple. So,
+[00:33:37] case and finding a case entries for
+[00:33:39] every submission is much easier than
+[00:33:41] writing a full chain exploit for each
+[00:33:43] submission.
+[00:33:44] So, I think reviewers will have a better
+[00:33:46] edge on this.
+[00:33:50] >> Okay. Any Anybody downstairs with a
+[00:33:52] question?
+[00:33:54] I keep offering.
+[00:33:57] No takers yet.
+[00:33:58] >> So,
+[00:33:59] uh if I understood that correctly,
+[00:34:01] uh
+[00:34:02] what we need to really automate most of
+[00:34:05] these steps is a reproducer
+[00:34:10] uh from a possibly untrusted party
+[00:34:13] >> Right.
+[00:34:13] >> that that we need to run.
+[00:34:15] >> Right.
+[00:34:15] >> Uh and that I think it's a little bit
+[00:34:18] problematic. I mean,
+[00:34:20] uh
+[00:34:21] >> I mean, we can run it in a sandbox.
+[00:34:23] >> Yeah, but if it needs uh internet
+[00:34:26] connectivity, uh
+[00:34:30] I mean, it's it's your point. It's not I
+[00:34:32] think it's not completely trivial
+[00:34:34] >> Mhm.
+[00:34:36] to do it in a completely safe way.
+[00:34:41] >> Yeah, I mean, I think for for
+[00:34:46] Okay, from your experience of seeing
+[00:34:49] let's say last 6 months of security
+[00:34:51] submissions, how many submission had
+[00:34:54] actual exploits?
+[00:34:58] It's hard to think.
+[00:35:00] >> I would say 50% roughly.
+[00:35:03] >> 60%?
+[00:35:03] >> 50. 50.
+[00:35:05] >> I mean, like they had full exploits like
+[00:35:07] from
+[00:35:08] root till root. From a bug till root.
+[00:35:11] >> No, till root, no.
+[00:35:15] Some something that you run in C Splot.
+[00:35:18] >> Correct. Correct. Yes, so that I mean,
+[00:35:20] it's it's not very easy to convert a
+[00:35:23] use-after-free to a full chain exploit.
+[00:35:26] It's And if if we do it, the the value
+[00:35:30] is tremendous. The value of that exploit
+[00:35:32] is very very high. And if someone has a
+[00:35:35] full chain exploit, most likely will not
+[00:35:37] submit to the Linux kernel directly. He
+[00:35:39] will find a third party to to get the
+[00:35:41] money
+[00:35:42] for for the exploit. The most of the
+[00:35:44] bugs that people
+[00:35:46] give to Linux kernel, they are worthless
+[00:35:48] to them. I mean, there is no monetary
+[00:35:50] value that can be extracted from those
+[00:35:51] exploits or they have already tried
+[00:35:54] submitting somewhere elsewhere and they
+[00:35:56] have rejected those submissions. Until
+[00:35:58] and unless that submission is dead, then
+[00:36:00] only people will submit here. But
+[00:36:03] with AI, now anyone can find those
+[00:36:05] exploits.
+[00:36:06] So, we can also I think improve on that.
+[00:36:10] I don't know if that answers your
+[00:36:11] question.
+[00:36:12] I know it's hard to run on the
+[00:36:14] maintainer side like automatize running
+[00:36:17] untrusted code.
+[00:36:19] That I think that is a different
+[00:36:20] question. But
+[00:36:22] what what I wanted to say is like
+[00:36:24] instead of spending human time on each
+[00:36:27] and every mailing
+[00:36:29] list submission. That is I don't think
+[00:36:31] that will scale and that will burn out
+[00:36:34] majority of the people very very soon
+[00:36:35] because we don't know this is the new
+[00:36:37] normal and we don't know how long will
+[00:36:39] it last.
+[00:36:39] >> Yeah. By the way, the numbers that you
+[00:36:41] guys have been
+[00:36:43] beginning of the slides are actually a
+[00:36:45] very
+[00:36:46] large underestimate of the delta. I
+[00:36:49] think there is at least one
+[00:36:51] order more of magnitude from before to
+[00:36:54] now.
+[00:36:54] >> Ah, okay. Okay.
+[00:36:56] This one?
+[00:36:58] Okay.
+[00:37:02] >> Sorry, we're going to kick out Rajat out
+[00:37:04] there. He can come back after.
+[00:37:05] >> Thank you.
+[00:37:06] >> Downstairs, you'll get the first
+[00:37:07] priority in the next question.
+[00:37:35] >> Oh, hi everyone. Uh, I'm Yuan Tan from
+[00:37:37] the University of California and uh I
+[00:37:40] just recently founded my company in
+[00:37:42] Nebula Security. Today, I'm going to
+[00:37:45] show you how my team finds bugs in our
+[00:37:48] Linux kernel and how to way cut down the
+[00:37:51] false negative false positive to zero.
+[00:37:55] Uh, Rajeev's talk has some have a lot of
+[00:37:57] in common with mine, but I hope I can
+[00:37:59] still share something more to to you
+[00:38:02] guys.
+[00:38:05] Uh,
+[00:38:06] uh this is my team. We are the fuzzers
+[00:38:08] and uh fuzz patches have four reported
+[00:38:11] bad tags. Um, that's not that's that's
+[00:38:14] not
+[00:38:15] that's not good and uh in the future uh
+[00:38:18] as our agent finally has a name right
+[00:38:20] now, so we will to the agent we will
+[00:38:24] switch to the
+[00:38:25] reporting under the tools name instead
+[00:38:27] of
+[00:38:28] our name. Okay.
+[00:38:29] So, you if you you may you may heard of
+[00:38:31] us in the security world, we landed the
+[00:38:34] board code as
+[00:38:36] execution on on the device that can root
+[00:38:38] your phone while uh
+[00:38:41] simple URL.
+[00:38:45] Um
+[00:38:46] since March, we got has found more than
+[00:38:49] 600 valid bugs with a POC in the
+[00:38:52] industry.
+[00:38:53] And then we just we and uh I actually
+[00:38:55] just hit the BO with around more than
+[00:38:59] $100,000
+[00:39:00] in token to do this.
+[00:39:03] Uh and we are not only reporting them.
+[00:39:05] Actually, we are trying to
+[00:39:07] uh
+[00:39:08] every bug report has a human uh prepared
+[00:39:11] patch to fix the bug. And then we have
+[00:39:14] we have fixed and up streamed more than
+[00:39:16] 100 patches.
+[00:39:18] Uh and most of them are being merged.
+[00:39:21] Uh and the 18 18 sets of them are in the
+[00:39:24] data system.
+[00:39:26] And we found that over over 10 of this
+[00:39:29] can be exploited
+[00:39:31] to for you to get get a root.
+[00:39:38] Uh there were simply too many bugs to
+[00:39:41] fixed, so we couldn't dump all of them
+[00:39:44] to the mailing list and then to hope
+[00:39:46] someone else can fix them. So, actually,
+[00:39:49] we put together a lot of volunteers from
+[00:39:52] all around the world to help. Most of
+[00:39:55] them
+[00:39:56] are undergraduate students. They never
+[00:39:59] submit a patch before,
+[00:40:01] but they have passion, they have time.
+[00:40:03] So, uh what what we do is I I teach them
+[00:40:08] how to fix the bug, how to write a
+[00:40:10] patch. Then
+[00:40:12] we have a guy to review the patch
+[00:40:16] before sending out.
+[00:40:18] Uh you you may say your mail list is
+[00:40:19] full of patch sent by them way. Uh
+[00:40:22] actually actually that that that's a guy
+[00:40:25] who review their patch and the send and
+[00:40:28] the
+[00:40:29] and the sending out together.
+[00:40:32] Uh
+[00:40:33] we have more than 20 volunteers. That's
+[00:40:36] a lot.
+[00:40:37] And uh what that's that's how we got 100
+[00:40:39] plus uh
+[00:40:41] patch get them merged into the kernel.
+[00:40:44] And also thanks for everything that I
+[00:40:46] ever review are to review our patch. We
+[00:40:48] really really
+[00:40:50] uh thank you.
+[00:40:54] Uh okay.
+[00:40:55] About the Wega.
+[00:40:57] Wega is designed to work on large scale
+[00:40:59] code base while minimize the risk of
+[00:41:03] missing bugs.
+[00:41:05] Uh but the one single advantage of our
+[00:41:08] tool is that
+[00:41:10] uh
+[00:41:11] the the bugs reported by Wega there's no
+[00:41:14] false positive, no hallucination.
+[00:41:18] They're all valid bugs.
+[00:41:22] It comes down to three questions.
+[00:41:24] Uh okay.
+[00:41:27] So,
+[00:41:29] uh as we
+[00:41:30] uh
+[00:41:34] I want to watch to why bug fighting with
+[00:41:37] LLM is is
+[00:41:40] pretty hard in fact. It's not that
+[00:41:41] simple. It's not that simple as you
+[00:41:43] telling agent to to say go find a bug.
+[00:41:46] It's not that way.
+[00:41:48] There are a lot of reasons that LLM find
+[00:41:50] bug
+[00:41:51] report turns out to be a false positive.
+[00:41:54] And the some turns out to be trash.
+[00:41:57] Uh so I'm going to break it down one by
+[00:41:59] one.
+[00:42:02] Um agent will happily to tell you they
+[00:42:06] found a lot of bugs, but some of them
+[00:42:08] most of them cannot be reached at all.
+[00:42:12] Because the agent may find a piece of
+[00:42:14] code that looks buggy
+[00:42:17] and the locally it's written maybe
+[00:42:18] correct.
+[00:42:20] The but the problem is the agent doesn't
+[00:42:23] always understand the full path to reach
+[00:42:25] the code. The path may be already been
+[00:42:29] blocked by some earlier check or the
+[00:42:31] code might never run in a in a real
+[00:42:34] system.
+[00:42:35] So the So even though the port sounds
+[00:42:38] convincing, but no one can have a real
+[00:42:40] POC to figure it.
+[00:42:43] So the the key question is even just uh
+[00:42:46] is this bug is this code buggy? Instead,
+[00:42:49] it it's um can can running kernel
+[00:42:52] actually reach this code and and trigger
+[00:42:54] the bug?
+[00:42:57] Uh so this here is my our solution is
+[00:43:01] it's kind of similar to that that is. So
+[00:43:04] we we we just we don't trust the output
+[00:43:07] of the model.
+[00:43:08] We trust the crash log. We we ask we run
+[00:43:11] kernel with the sanitizer turned on
+[00:43:14] inside the kernel and we ask agent to
+[00:43:17] try to trigger that trigger that bug and
+[00:43:19] the crash the kernel.
+[00:43:21] So So if there are no crash
+[00:43:24] uh so uh
+[00:43:25] no crash means the bug doesn't exist.
+[00:43:29] But you may you may you may ask what if
+[00:43:31] agent fails to reproduce a bug that's
+[00:43:35] actually is real?
+[00:43:37] Maybe we'll miss it.
+[00:43:39] Uh let me show you all the data.
+[00:43:43] So
+[00:43:44] half a year ago the the honest answer
+[00:43:46] was yes. The agent might fail to
+[00:43:48] reproduce a bug reproduce a real bug.
+[00:43:51] But now with with much stronger model
+[00:43:54] and uh some hardness
+[00:43:56] the number jumps.
+[00:44:00] So you can say uh in Vega we can really
+[00:44:03] produce more than 90%
+[00:44:06] 95% of the of the bug of the real bug.
+[00:44:14] So,
+[00:44:16] the agent is very is very clever and
+[00:44:18] trying to trigger a bug, but it it still
+[00:44:20] needs some constraints. For example, we
+[00:44:22] forbid it from loading a kernel module.
+[00:44:25] That's cheating.
+[00:44:27] You know, with a kernel module you can
+[00:44:28] you can almost trigger any bug.
+[00:44:31] So,
+[00:44:32] so we forbid we forbid that.
+[00:44:34] And
+[00:44:35] but however, there's some bugs there's
+[00:44:37] some special bugs actually cannot crash
+[00:44:39] the kernel. For example, the famous copy
+[00:44:42] fail bug.
+[00:44:44] It it it it doesn't have any memory
+[00:44:46] corruption. So, actually case it won't
+[00:44:48] work.
+[00:44:49] So, in this case uh it's not performing
+[00:44:51] that well, but this kind of bug is is
+[00:44:53] really a small set.
+[00:44:56] So, maybe we can just ignore them.
+[00:45:00] Uh so, here's a take take away.
+[00:45:02] So, whether the agent produce a POC can
+[00:45:05] tell us whether a bug is real. I think
+[00:45:07] it's it's quite useful because with with
+[00:45:10] this we can no longer have to spend time
+[00:45:13] on figuring out whether this bug is real
+[00:45:15] or not.
+[00:45:16] Yeah, I have to I have been thinking
+[00:45:18] about maybe this this uh this this stuff
+[00:45:20] can be integrated into syzkaller's
+[00:45:23] finding because I have find some
+[00:45:25] syzkaller's finding is is is not real.
+[00:45:28] So, maybe if we can integrate this stuff
+[00:45:29] to syzkaller and the
+[00:45:31] trying to reduce the false positive,
+[00:45:34] then it will actually helps.
+[00:45:36] And it will help save a lot of save a
+[00:45:38] lot of
+[00:45:39] save a lot of time actually.
+[00:45:41] Uh however, a crash cannot tell you if
+[00:45:44] this bug is a
+[00:45:46] security bug.
+[00:45:47] So, we have a second challenge.
+[00:45:51] Uh the second challenge is a threat
+[00:45:52] model. Uh Greg has already mentioned
+[00:45:54] this before because the agent doesn't
+[00:45:57] know what kind of bug is a security bug
+[00:46:00] or a normal bug.
+[00:46:02] Uh our team once made a very
+[00:46:03] embarrassing mistake. We reported a bug
+[00:46:06] to the security team, which which
+[00:46:09] triggers needs uh
+[00:46:10] changing the kernel boot parameters.
+[00:46:13] But, if you can already modify the uh
+[00:46:16] boot parameters, you can already control
+[00:46:18] the full system. So, that that that's
+[00:46:21] that's insane, I think. So, that's a
+[00:46:23] pretty embarrassing experience. We have
+[00:46:26] since uh improved our process, and now
+[00:46:28] we handle this case um much better.
+[00:46:34] So, now we have a
+[00:46:36] two bug lists, but it's it's it's still
+[00:46:39] too many.
+[00:46:41] Um which one is worth fixing, and which
+[00:46:43] one we can
+[00:46:44] which one is dangerous enough to fix
+[00:46:46] them immediately, and uh which one we
+[00:46:48] can wait and uh ignore maybe for a
+[00:46:50] while.
+[00:46:51] So,
+[00:46:52] actually, we when we reproduce a bug, we
+[00:46:55] ask the agent to uh find out the minimal
+[00:46:58] privilege to trigger the bug.
+[00:47:01] It it uh it will get a root POC first,
+[00:47:03] and then it will try to trigger it while
+[00:47:05] in space, while
+[00:47:07] while uh
+[00:47:09] uh operating users.
+[00:47:11] Level by level. It
+[00:47:13] if a bug can still trigger by a normal
+[00:47:15] user, it's very dangerous.
+[00:47:19] Uh we can and we also graded the bug
+[00:47:23] while the primitive as uh
+[00:47:25] like you also mentioned before.
+[00:47:28] Yeah.
+[00:47:30] Yeah. And uh even with all of this, even
+[00:47:33] with all of this, sometimes it's not
+[00:47:35] enough. Here's an example.
+[00:47:37] Uh here's here's the one bug that we
+[00:47:39] found. This bug only triggered when the
+[00:47:41] clock is 1970.
+[00:47:44] But, it's it's a data mess bridge, and
+[00:47:46] uh
+[00:47:47] there's a bad there's a bad shift crash
+[00:47:49] the kernel.
+[00:47:50] Is it Is it a real bug? Yes, it crashed.
+[00:47:53] But, is it Is it a real problem?
+[00:47:56] Almost never, because we are not living
+[00:47:58] in the 1970s.
+[00:48:00] >> [gasps]
+[00:48:04] >> So, this is a gray area. Um the the tool
+[00:48:07] can tell you it crashed.
+[00:48:09] But it it cannot tell you it's not it's
+[00:48:11] it's worth fixing or not.
+[00:48:13] So, we we will still keep human in the
+[00:48:16] loop to figure out this kind of this
+[00:48:18] kind of case.
+[00:48:22] Uh so far I've talked about how do we
+[00:48:23] find bugs and fix bugs. And we I can
+[00:48:26] also share how we how we propose a fix
+[00:48:28] using using using AI.
+[00:48:32] So, we have we are some experimenting
+[00:48:34] some some new stuff. Okay. POC doesn't
+[00:48:37] just help verify bug.
+[00:48:39] It can It can also helps to fix them.
+[00:48:43] So, if if the same POC that that proves
+[00:48:45] the bug is real can also propose a fix
+[00:48:48] works. Right? The agent can propose a
+[00:48:51] draft patch.
+[00:48:53] The And the draft patch draft only only
+[00:48:56] only pass when the crash no longer
+[00:48:59] triggered.
+[00:49:01] However, the draft patch also
+[00:49:04] the draft patch usually doesn't
+[00:49:06] clean enough to merge into kernel. So,
+[00:49:08] it still requires a lot of human work to
+[00:49:11] do this. But
+[00:49:13] it may helps uh
+[00:49:14] help us to propose a
+[00:49:16] a a better version of patch. It's just a
+[00:49:19] draft.
+[00:49:23] So,
+[00:49:24] if there's one thing to take away is
+[00:49:27] um
+[00:49:29] we have to verify the AI's output using
+[00:49:33] some
+[00:49:34] um some reality some real real real
+[00:49:37] evidence.
+[00:49:38] For example, some crash.
+[00:49:45] So, imagine and the model getting
+[00:49:48] getting better and we have two system
+[00:49:51] terminating bugs from both sides.
+[00:49:53] Sasikala will guide the new new code
+[00:49:55] from the from the beginning from the
+[00:49:56] beginning. The new commits
+[00:49:59] will stop adding bugs.
+[00:50:01] And the Aurelia will find bugs and fix
+[00:50:04] the bugs already exist in the kernel.
+[00:50:07] So the new code stays clean and all the
+[00:50:10] code gets clean until there's no there's
+[00:50:12] one day maybe there's no bugs in in the
+[00:50:15] kernel.
+[00:50:18] It just imagine maybe.
+[00:50:24] >> [laughter]
+[00:50:25] >> Now I'm trying to build a dashboard to
+[00:50:28] connecting all the bugs fighting by AI.
+[00:50:31] Not only Vega but also Sasikala, also
+[00:50:33] other reported report in the
+[00:50:37] in the mailing list.
+[00:50:39] So the the maintainer can build can
+[00:50:41] review the list and trying to maybe can
+[00:50:44] say there are any bugs already fixed or
+[00:50:48] which one is already reported or not.
+[00:50:50] And we will we will we are also trying
+[00:50:52] to
+[00:50:53] produce a POC for bugs
+[00:50:56] that are reported by Sasikala.
+[00:50:58] As I I believe this will
+[00:51:00] save us some time and some efforts.
+[00:51:04] I can maybe
+[00:51:07] show you the
+[00:51:12] Here is a
+[00:51:13] Here is a demo of the
+[00:51:15] of the dashboard I'm building. We can
+[00:51:17] say we can
+[00:51:20] we can say the POC, we can say the crash
+[00:51:22] log.
+[00:51:26] Yeah, in the future there will will will
+[00:51:28] will be a
+[00:51:29] agent proposed patch
+[00:51:32] for reference.
+[00:51:35] Yeah, if anyone trying want to join us
+[00:51:37] to to fix the kernel to make the
+[00:51:41] kernel better, please let me know. We
+[00:51:43] can do it do it together that
+[00:51:46] you don't need to fight back.
+[00:51:47] You don't need to burn your token. We
+[00:51:49] already burned that token. We already
+[00:51:51] burned 1000 this. So, you can just join
+[00:51:53] us and fix the bug.
+[00:51:55] Thanks.
+[00:51:58] >> Thank you.
+[00:52:01] Questions?
+[00:52:03] Yeah, okay. Um
+[00:52:05] so, you um the
+[00:52:08] dream of having a bug-free kernel
+[00:52:11] nice idea, right? It's probably going to
+[00:52:13] follow an S-curve. We're we're probably
+[00:52:16] at the the knee up at the bottom and
+[00:52:18] we're not anywhere near the point of
+[00:52:20] inflection and the roll off at the end.
+[00:52:21] Have you got any sense of how how far
+[00:52:24] you think we're up the beginning of the
+[00:52:26] process at the moment?
+[00:52:28] >> Well, actually uh
+[00:52:30] I have one experiment with whether the
+[00:52:32] agent can replace father.
+[00:52:35] We I have I have one experiment and it
+[00:52:37] shows that the agent can already find
+[00:52:39] 70% of the
+[00:52:41] bugs that found by fa- father. So, the
+[00:52:44] agent is still is still not strong
+[00:52:46] enough, but I believe maybe
+[00:52:49] tomorrow AGI is coming. I don't know.
+[00:52:51] But but the model will will be better.
+[00:52:55] And the way we will have better bug
+[00:52:57] fighting tool.
+[00:52:59] And we are patching them faster. And as
+[00:53:01] you maybe we are we are already on on
+[00:53:04] the road to that.
+[00:53:06] >> I agree with all those statements. That
+[00:53:08] doesn't set a timeline that's
+[00:53:09] monotonically increasingly better, but
+[00:53:12] there's no timeline in there. Do you
+[00:53:13] have any sense of a timeline? Think this
+[00:53:16] year, 5 years, 50 years? Will I be still
+[00:53:19] alive? Make a
+[00:53:21] >> I don't know, but I think we we already
+[00:53:23] fixed the most dangerous bug.
+[00:53:25] Already.
+[00:53:26] >> [laughter]
+[00:53:27] >> Okay. Bold statement.
+[00:53:31] >> Hey, Yuan.
+[00:53:33] I have one question. So, how do you
+[00:53:35] verify the primitives
+[00:53:39] that the model says? Like if you have a
+[00:53:42] use after free, and then the model says,
+[00:53:44] "Okay, this you can convert it into
+[00:53:46] arbitrary read and write." Do you ask it
+[00:53:48] to write a POC for those primitives, or
+[00:53:51] you just trust the AI analysis?
+[00:53:54] >> We just trust the AI analysis.
+[00:53:56] But in most of the time, it works.
+[00:53:58] >> Okay, so the bugs that it says, "Okay,
+[00:54:00] this is a this can be converted into
+[00:54:02] arbitrary read right." Okay, without
+[00:54:04] POC.
+[00:54:05] >> We don't
+[00:54:06] We don't have any others. Hardest we
+[00:54:09] just ask ask AI.
+[00:54:10] >> Okay. And and for, let's say, for
+[00:54:13] every hit that the model gets, do you
+[00:54:16] ask it to write a POC for every hit? Or
+[00:54:19] how do you How do you reduce the false
+[00:54:21] positives?
+[00:54:22] >> What What do you mean every hit? You
+[00:54:23] mean every finding?
+[00:54:24] >> Every finding.
+[00:54:25] >> Yeah, yeah. Ask it for every finding we
+[00:54:27] found.
+[00:54:27] >> Okay, without POC, no finding goes
+[00:54:29] further.
+[00:54:29] >> Yeah, without POC, we we we see this bug
+[00:54:32] and the first first positive.
+[00:54:34] >> Great, great. Thanks.
+[00:54:36] >> Uh so, you mentioned Sashiko.
+[00:54:39] Um Here. So, so you mentioned Sashiko,
+[00:54:42] but I think there's a question of scale
+[00:54:43] there, right? Because, you know, the the
+[00:54:45] man in the middle is an infinite amount
+[00:54:47] of things to look at, and the kernel
+[00:54:49] itself is finite. I mean, it's big, but
+[00:54:51] it's still finite. So,
+[00:54:53] so do you think it will scale to that
+[00:54:54] extent that you can really run like try
+[00:54:57] to get a finding for everything that
+[00:54:59] something like Sashiko flags in a new
+[00:55:00] patch? Because, you know, by the time
+[00:55:02] you're done with that, you've got like
+[00:55:03] 100 new patches waiting.
+[00:55:05] So, I
+[00:55:06] I feel that scale is difficult. So, how
+[00:55:08] What do you What do you think about
+[00:55:09] that?
+[00:55:10] >> And And the first we guys design design
+[00:55:13] for scale actually. So,
+[00:55:16] actually, a lot of bugs found by
+[00:55:18] Sashiko, you also found by found by us.
+[00:55:21] We can actually do a
+[00:55:23] simple search to say, "Oh, if this bug
+[00:55:25] already been reported?" If yes, we can
+[00:55:27] say, "Oh, if we have a POC already, if
+[00:55:30] not, we can just say, 'Okay, this is a
+[00:55:32] first negative first first positive
+[00:55:34] first first positive.'" You right?
+[00:55:39] >> Possibility.
+[00:55:40] >> Before someone upstairs, can we give a
+[00:55:42] chance to the people downstairs?
+[00:55:45] >> I've been waving the microphone around
+[00:55:47] >> Okay, if there's
+[00:55:49] All right, good. Uh, we have a lot here.
+[00:55:51] But,
+[00:55:51] two more questions and then we have to
+[00:55:53] let the next speaker, okay?
+[00:55:54] >> Here.
+[00:55:55] I have a question
+[00:55:56] based on what Rajat said. What was the
+[00:55:58] ratio of false positive versus the
+[00:56:00] legitimate bugs that you found?
+[00:56:03] >> I beg your pardon?
+[00:56:04] >> What was the ratio of the false
+[00:56:05] positives?
+[00:56:06] >> Okay, we have answered We have found
+[00:56:09] more than 2,000 bugs in the kernel.
+[00:56:12] There's only 600 is real.
+[00:56:14] >> Yeah.
+[00:56:16] >> Or maybe 3,000, I don't know.
+[00:56:20] >> Hey.
+[00:56:20] Um, here. Uh, I have a question about
+[00:56:23] whether you have any ideas how you can
+[00:56:26] solve the problem of race conditions
+[00:56:27] when creating these POCs, which is a
+[00:56:29] similar problem to what we have in
+[00:56:30] syzkaller.
+[00:56:31] >> Yeah, actually, uh,
+[00:56:34] agent The agent can use KUnit or
+[00:56:36] something something like this to try to
+[00:56:39] um, mix
+[00:56:41] some race condition was I
+[00:56:44] Yeah. Yeah, we have some race condition
+[00:56:46] bug.
+[00:56:47] The
+[00:56:48] The agent will write a POC and running
+[00:56:51] maybe a thousand times trying to prove
+[00:56:54] it prove prove prove it self is is is
+[00:56:56] true.
+[00:56:57] >> Okay, so the agent hypothesizes whether
+[00:56:59] there's a race condition and then tries
+[00:57:01] to come up with some way to trigger it,
+[00:57:02] okay.
+[00:57:03] >> actually, it will try any means to make
+[00:57:06] it work.
+[00:57:06] >> Okay, awesome.
+[00:57:09] >> Quick one. I wanted to say or ask
+[00:57:12] similar question. So, like, you could
+[00:57:14] maybe
+[00:57:16] allow or add to the kernel just function
+[00:57:19] to slow down certain functions for your
+[00:57:21] model.
+[00:57:22] >> I beg your pardon?
+[00:57:23] >> Like
+[00:57:25] have you considered slowing down some
+[00:57:27] functions to like in
+[00:57:30] uh, inject a timing issue with your
+[00:57:33] model?
+[00:57:34] Yeah. you please repeat that?
+[00:57:36] I'm sorry I didn't catch that.
+[00:57:38] Could you please repeat that? I'm sorry
+[00:57:39] I didn't catch that. Could you please
+[00:57:40] repeat that?
+[00:57:41] I'm sorry I didn't catch that. Could you
+[00:57:42] please repeat that? I'm sorry I didn't
+[00:57:43] catch that. Could you please repeat
+[00:57:45] that?
+[00:57:45] I'm sorry I didn't catch that. Could you
+[00:57:46] please repeat that? I'm sorry I didn't
+[00:57:48] catch that. Could you please repeat
+[00:57:49] that? I'm sorry I didn't catch that.
+[00:57:50] Could you please repeat that? I'm sorry
+[00:57:52] I didn't catch that. Could you please
+[00:57:53] repeat that? I'm sorry I didn't catch
+[00:57:54] that. Could you please repeat that? I'm
+[00:57:56] sorry I didn't catch that. Could you
+[00:57:57] please repeat that? I'm sorry I didn't
+[00:57:58] catch that. Could you please repeat
+[00:57:59] that? I'm sorry I didn't catch that.
+[00:58:00] Could you please repeat that? I'm sorry
+[00:58:02] I didn't catch that. Could you please
+[00:58:03] repeat that? I'm sorry I didn't catch
+[00:58:04] that. Could you please repeat that? I'm
+[00:58:06] sorry I didn't catch that. Could you
+[00:58:07] please repeat that? I'm sorry I didn't
+[00:58:09] catch that. Could you please repeat
+[00:58:10] that? I'm sorry I didn't catch that.
+[00:58:11] Could you please repeat that? I'm sorry
+[00:58:12] I didn't catch that. Could you please
+[00:58:14] repeat that? I'm sorry I didn't catch
+[00:58:15] that. Could you please repeat that? I'm
+[00:58:17] sorry I didn't catch that. Could you
+[00:58:18] please repeat that? I'm sorry I didn't
+[00:58:19] catch that. Could you please repeat
+[00:58:21] that? I'm sorry I didn't catch that.
+[00:58:22] Could you please repeat that? I'm sorry
+[00:58:23] I didn't catch that. Could you please
+[00:58:25] repeat that? I'm sorry I didn't catch
+[00:58:26] that. Could you please repeat that? I'm
+[00:58:27] sorry I didn't catch that. Could you
+[00:58:28] please repeat that? I'm sorry I didn't
+[00:58:30] catch that. Could you please repeat
+[00:58:31] that? I'm sorry I didn't catch that.
+[00:58:33] Could you please repeat that? I'm sorry
+[00:58:34] I didn't catch that. Could you please
+[00:58:35] repeat that? I'm sorry I didn't catch
+[00:58:37] that. Could you please repeat that? I'm
+[00:58:38] sorry I didn't catch that. Could you
+[00:58:39] please repeat that? I'm sorry I didn't
+[00:58:41] catch that. Could you please repeat
+[00:58:43] that? I'm sorry I didn't catch that.
+[00:58:44] Could you please repeat that? I'm sorry
+[00:58:45] I didn't catch that. Could you please
+[00:58:47] repeat that? I'm sorry I didn't catch
+[00:58:48] that. Could you please repeat that? I'm
+[00:58:50] sorry I didn't catch that. Could you
+[00:58:51] please repeat that? I'm sorry I didn't
+[00:58:52] catch that. Could you please repeat
+[00:58:54] that? I'm sorry I didn't catch that.
+[00:58:55] Could you please repeat that? I'm sorry
+[00:58:57] I didn't catch that. Could you please
+[00:58:58] repeat that? I'm sorry I didn't catch
+[00:58:59] that. Could you please repeat that? I'm
+[00:59:01] sorry I didn't catch that. Could you
+[00:59:02] please repeat that? I'm sorry I didn't
+[00:59:03] catch that. Could you please repeat
+[00:59:05] that? I'm sorry I didn't catch that.
+[00:59:06] Could you please repeat that? I'm sorry
+[00:59:08] I didn't catch that. Could you please
+[00:59:09] repeat that? I'm sorry I didn't catch
+[00:59:11] that. Could you please repeat that? I'm
+[00:59:12] sorry I didn't catch that. Could you
+[00:59:13] please repeat that? I'm sorry I didn't
+[00:59:15] catch that. Could you please repeat
+[00:59:17] that? I'm sorry I didn't catch that.
+[00:59:18] Could you please repeat that? I'm sorry
+[00:59:19] I didn't catch that. Could you please
+[00:59:21] repeat that? I'm sorry I didn't catch
+[00:59:22] that. Could you please repeat that? I'm
+[00:59:24] sorry I didn't catch that. Could you
+[00:59:25] please repeat that? I'm sorry I didn't
+[00:59:27] catch that. Could you please repeat
+[00:59:28] that?
+[00:59:34] >> Okay. So, thanks Jamal.
+[00:59:37] Sorry, I just arrived at the biking from
+[00:59:39] those opposite part part of Rome. So, I
+[00:59:41] missed the first part of this of this
+[00:59:43] presentation. So, I
+[00:59:44] I I hope that I will not say anything
+[00:59:48] against what was already said. But, I
+[00:59:49] mean in any case it will be
+[00:59:51] useful to discuss.
+[00:59:53] Uh so, I'm looking from this
+[00:59:56] perspective. I mean, the cost asymmetry
+[00:59:58] of AI generated code
+[01:00:01] basically the comparison between how it
+[01:00:04] can be easy to generate code versus the
+[01:00:07] difficulty to review the code that is
+[01:00:10] generated. And so, that this this puts
+[01:00:13] can put a lot of burden for example on
+[01:00:16] top onto the the maintainers that needs
+[01:00:19] to check this potential
+[01:00:23] AI generated code.
+[01:00:26] Uh
+[01:00:27] disclaimer, of course, we are not here
+[01:00:28] to to blame anyone. It's just a case
+[01:00:31] study to learn from. And also,
+[01:00:34] especially because there are really no
+[01:00:37] already agreed
+[01:00:39] best practice or rules, let's say. So,
+[01:00:42] in this case I think that everybody is
+[01:00:44] now experimenting what we can do with
+[01:00:46] with AI. So, it's not
+[01:00:48] the purpose of this presentation to
+[01:00:50] blame
+[01:00:51] anyone. So, I do believe AI is is very
+[01:00:54] useful. So, this is not a case against
+[01:00:57] uh against AI. It's just
+[01:00:59] in the spirit of learning and trying to
+[01:01:01] to discuss how best we can use it. Okay?
+[01:01:05] And
+[01:01:06] I'm not the maintainer of of any part of
+[01:01:09] the kernel. Basically, here I'm just
+[01:01:11] observing something from kind of
+[01:01:14] external point of view.
+[01:01:15] I have
+[01:01:17] So, I'm just observing a patch that has
+[01:01:19] been submitted and a review that has
+[01:01:22] been made by the the maintainer.
+[01:01:24] The only the only disclaimer that I
+[01:01:27] I work uh
+[01:01:29] >> [clears throat]
+[01:01:29] >> closely with the maintainer, so I can
+[01:01:30] get some feedback, but uh basically,
+[01:01:33] everything is done from an external
+[01:01:35] point of view. It's not the opinion of
+[01:01:36] the maintainer, so it's not something
+[01:01:39] specific to the to to the patch. It's
+[01:01:41] just uh I repeat try to put on a
+[01:01:43] high-level uh perspective. So, there was
+[01:01:47] a uh
+[01:01:48] one one patch set that uh arrived at
+[01:01:51] uh
+[01:01:52] actually, it's it's a seven seven
+[01:01:54] different patches, uh
+[01:01:57] and it's around five five thousand lines
+[01:02:00] of of code, okay? So, the
+[01:02:04] um
+[01:02:05] in one day from version one to version
+[01:02:08] two, all uh findings were were
+[01:02:11] addressed, so it appeared as as a uh
+[01:02:17] potential good patch to be uh to be to
+[01:02:20] be reviewed. So, what I mean, every
+[01:02:21] cheap quality signal looked good. Uh but
+[01:02:25] of course, none of them uh uh measured
+[01:02:29] the correctness the real correctness
+[01:02:31] about this.
+[01:02:32] Okay, and the patch included 2,000 lines
+[01:02:36] of self-tests, and of course, the
+[01:02:38] self-tests were passing. Everything was
+[01:02:40] was fine, of course.
+[01:02:43] Uh
+[01:02:44] so, we basically I mean, this is of
+[01:02:46] course our uh our rough estimate I mean,
+[01:02:50] that you can take one day to generate
+[01:02:52] such a patch, and then I really had a
+[01:02:55] look
+[01:02:57] Pronto?
+[01:02:59] Pronto?
+[01:03:01] Sorry. So, um
+[01:03:04] and I
+[01:03:05] I I had experience that the review took
+[01:03:07] a one month.
+[01:03:09] And then it took
+[01:03:10] uh eight my eight emails, 40 different
+[01:03:14] findings uh uh uh over this
+[01:03:16] uh uh this patch that covering only five
+[01:03:19] of the seven patches. So, after five
+[01:03:21] patches so it stopped at the reviewing
+[01:03:23] uh uh
+[01:03:24] not covering the two. And of course, the
+[01:03:27] outcome was just a start over. So,
+[01:03:29] basically the the the initial patch did
+[01:03:32] not contribute a lot and
+[01:03:36] if you want to actually go on, also the
+[01:03:38] maintainer has a some additional task
+[01:03:41] because in order to try to to to fix
+[01:03:45] then maybe other preparation uh
+[01:03:48] patch needs to be
+[01:03:50] to be to be done.
+[01:03:52] Uh
+[01:03:52] so, we believe that this is a 5 to 10
+[01:03:55] generation to review cost.
+[01:03:57] So, the the generation is
+[01:04:00] 10 times easier than than the review in
+[01:04:03] our in our opinion. This is what we
+[01:04:04] measured out of this of this trend.
+[01:04:08] Uh
+[01:04:10] So, this was the
+[01:04:12] the 40 review findings over the first
+[01:04:15] five five patches.
+[01:04:18] So, there were
+[01:04:19] something uh
+[01:04:21] really I would say uh
+[01:04:23] wrong in terms of conformance to the
+[01:04:25] specification. I mean, the patch was uh
+[01:04:28] the intent of the patch was to implement
+[01:04:31] an IETF
+[01:04:33] RFC about mobile SRv6 plane uh but
+[01:04:39] going into the details
+[01:04:41] the the the
+[01:04:42] the implementation was really not uh uh
+[01:04:45] conformant to to the to the RFC.
+[01:04:49] Uh
+[01:04:50] then there were some uh
+[01:04:53] problems for example in uh uh
+[01:04:56] malformed SRH that were accepted
+[01:05:00] HMAC that is checking
+[01:05:02] the the segment list was was bypassed.
+[01:05:07] Uh
+[01:05:07] a very critical thing is the how you the
+[01:05:10] the the the design of the user API, uh
+[01:05:14] so the IP route, let's say part,
+[01:05:18] basically it really reassigns the
+[01:05:21] semantic in a kind of random way to
+[01:05:24] existing
+[01:05:26] to existing
+[01:05:29] attributes. So, you have some attributes
+[01:05:31] of of the to to give commands, and uh
+[01:05:35] the the patch chooses some attributes
+[01:05:37] and give a new
+[01:05:39] semantic meaning in the context of the
+[01:05:41] of the new
+[01:05:43] requirement. So, of course, this
+[01:05:47] syntactically works, but it was clearly
+[01:05:50] a
+[01:05:51] semantic nightmare, basically. Yeah.
+[01:05:54] Uh
+[01:05:56] then, there were
+[01:05:58] very very strange strange things.
+[01:06:02] I don't know if if there is this um
+[01:06:04] very Uh this is this is a for example uh
+[01:06:08] a very very particular peculiar thing,
+[01:06:10] because it took 1 week to the maintainer
+[01:06:14] to understand what was the problem. So,
+[01:06:17] basically,
+[01:06:18] when you when you
+[01:06:21] rewrite, of course, IPv6 address,
+[01:06:24] basically, you have to um
+[01:06:28] to recalculate the
+[01:06:30] some checksum.
+[01:06:32] And uh
+[01:06:33] basically, the system did not
+[01:06:36] calculate the checksum, but
+[01:06:39] the self-test passed because
+[01:06:42] specifically crafted IPv6 addresses were
+[01:06:46] added so that the replacing them made
+[01:06:49] the checksum okay, even if of course, if
+[01:06:53] you just change one bit in in the in the
+[01:06:56] in the IPv6 in one of these IPv6
+[01:06:59] addresses, the checksum does not check
+[01:07:01] anymore. So, clearly, that that was an
+[01:07:04] artifact of the
+[01:07:07] generation of the code that they're
+[01:07:09] trying to
+[01:07:11] to fulfill, let's say to to to to to
+[01:07:13] pass the test, was crafting a PV6
+[01:07:17] address
+[01:07:18] especially to to make to let the test
+[01:07:20] pass. So, this is a clearly something
+[01:07:22] that
+[01:07:23] a human mind will never ever have
+[01:07:25] arrived at to such
+[01:07:28] such idea, no?
+[01:07:31] So, I mean, that was a one
+[01:07:34] one week because it's something that you
+[01:07:35] will never think about to to to to to
+[01:07:38] look for for a thing like this. You
+[01:07:39] think that for some reason the checksum
+[01:07:42] was not triggered by by other reasons.
+[01:07:44] In the end, that was that was that was
+[01:07:46] the reason, no?
+[01:07:49] And so, there are there are let's say a
+[01:07:52] lot of things that are
+[01:07:55] plausible but but
+[01:07:58] but
+[01:07:59] wrong, basically.
+[01:08:02] So, the takeaway here is that some
+[01:08:05] surface signals of quality are decoupled
+[01:08:08] for for
+[01:08:10] correctness.
+[01:08:11] And instead
+[01:08:13] the the the semantic aspect of checking
+[01:08:16] the code against the intent, so what
+[01:08:18] really you want to do, is mostly and
+[01:08:21] still human
+[01:08:23] human work.
+[01:08:25] It's also interesting in this case, I
+[01:08:27] would say that AI review were not good.
+[01:08:31] So, I do believe that I think this is
+[01:08:34] maybe a
+[01:08:36] a step in the process. So, I
+[01:08:38] really think that AI review is good, but
+[01:08:41] in this case it proved it not.
+[01:08:45] So, basically the
+[01:08:48] AI in a few hours
+[01:08:51] and
+[01:08:52] we estimated
+[01:08:54] $34 in tokens for for for two days. That
+[01:08:58] that was our rough estimation.
+[01:09:02] So, basically
+[01:09:03] the the
+[01:09:04] did not check
+[01:09:06] of course any of the real semantic
+[01:09:09] problem of the this so that
+[01:09:11] the implementation was not conformant to
+[01:09:13] the specification or that of course the
+[01:09:18] user API semantic was completely
+[01:09:20] overridden. Of course, none of these
+[01:09:22] were catched by the AI.
+[01:09:24] Out of the 40 findings that
+[01:09:28] the maintainer
+[01:09:29] was able to catch, nine of them were
+[01:09:32] actually reproduced by by the AI.
+[01:09:35] Then, you see that there are 31 unique
+[01:09:38] finding by the human and
+[01:09:42] five unique finding by the AI.
+[01:09:46] Of these five unique finding by the AI,
+[01:09:49] so this is let's say
+[01:09:51] which is the contribution. In this case,
+[01:09:53] two were real catches, but I will say
+[01:09:58] very very minor, not not really blocker.
+[01:10:01] And in addition, unfortunately, three
+[01:10:03] false positive. So, also this
+[01:10:06] added a kind of a burden to the
+[01:10:08] maintainer because
+[01:10:10] we had to
+[01:10:12] because the maintainer had to
+[01:10:15] understand the false positive and the
+[01:10:17] reject let's say this this this
+[01:10:19] indication. Okay? And in particular,
+[01:10:22] this
+[01:10:24] this false positive were basically based
+[01:10:28] on some weird invented kernel mechanism.
+[01:10:32] So, he finded that
+[01:10:34] the system was not the the code was not
+[01:10:36] good against some mechanism that was not
+[01:10:39] actually existing in the in the in the
+[01:10:41] real
+[01:10:42] for that specific
+[01:10:45] spec that specific. And in particular,
+[01:10:47] the the the one that the AI review
+[01:10:50] flagged as critical was one of these
+[01:10:52] let's say self self-invented.
+[01:10:56] So, in this case, but I repeat, I do
+[01:10:59] believe that this is a matter of
+[01:11:01] maturity of the AI review tool. In this
+[01:11:03] case, the
+[01:11:05] AI review actually exacerbated the
+[01:11:08] problem of the burden on the on the
+[01:11:11] reviewer rather than
+[01:11:14] releasing it.
+[01:11:17] So, this is what I tried to to
+[01:11:20] put on the discussion. Uh, first, I do
+[01:11:23] believe that we should disclose AI use
+[01:11:26] just as an honesty normal. This
+[01:11:29] completely orthogonal to to acceptance.
+[01:11:32] I don't think that there is a problem in
+[01:11:34] submitting
+[01:11:35] AI generated code if it is good code.
+[01:11:38] The problem for me is in general
+[01:11:41] submitting
+[01:11:42] submitting bad code. So,
+[01:11:44] we should not
+[01:11:46] focus on it is
+[01:11:48] AI generated or not. Is it good or or
+[01:11:51] not?
+[01:11:52] And of course,
+[01:11:54] there are some things that are really
+[01:11:56] difficult to check for an AI system like
+[01:11:59] the problem with the semantic of
+[01:12:01] parameters. And of course, the fact that
+[01:12:03] when you do change on the on these
+[01:12:06] semantic of parameters, you really
+[01:12:07] create a problem forever because of
+[01:12:10] course, you tend not to
+[01:12:14] to change it for for backward
+[01:12:16] compatibility
+[01:12:17] reasons.
+[01:12:19] Uh,
+[01:12:20] then of course, the human
+[01:12:23] needs to keep the merge decision. And
+[01:12:25] here I I repeat that the takeaway is the
+[01:12:27] scarce that the scarce resources is the
+[01:12:30] expert maintainer attention, which we
+[01:12:32] should try to
+[01:12:34] to safeguard it.
+[01:12:35] And we which we how can we safeguard it?
+[01:12:40] So, of course,
+[01:12:42] improve AI review and we do believe that
+[01:12:45] we we can we can we can understand what
+[01:12:47] was wrong with the AI
+[01:12:50] uh, review. Uh,
+[01:12:52] so, for example, I do believe that each
+[01:12:55] maintainer could try to
+[01:12:58] customize the AI review system with a
+[01:13:01] set of specific prompts of things that
+[01:13:04] he knows that should be checked. So this
+[01:13:06] this can help
+[01:13:09] improving
+[01:13:11] this.
+[01:13:12] And also uh,
+[01:13:14] try to start a feedback loop. So
+[01:13:18] we should feed into the
+[01:13:21] AI review system some feedback on what
+[01:13:24] was really wrong with the review, hoping
+[01:13:26] that then this will
+[01:13:28] will improve. And I think there is This
+[01:13:31] is how typically AI system evolve and
+[01:13:35] and and improve.
+[01:13:37] And then I I do think this is I mean the
+[01:13:40] most provocative part. We should in some
+[01:13:43] case do a kind of desk rejection.
+[01:13:46] So when we see that the code is
+[01:13:50] so
+[01:13:51] I would say that the quality overall of
+[01:13:53] the code is not good,
+[01:13:55] we should avoid wasting
+[01:13:57] maintainer resources. So now the problem
+[01:14:00] is
+[01:14:00] how we do of course this.
+[01:14:03] Uh,
+[01:14:04] in general, I don't think that we need
+[01:14:06] to do it because it is AI generated
+[01:14:08] because it is badly written. So in in
+[01:14:12] in in the submitted patch, there were
+[01:14:15] lot of patterns that a human being would
+[01:14:20] never have written because then they are
+[01:14:22] very difficult to understand and to
+[01:14:24] maintain. So these are signals actually
+[01:14:27] that
+[01:14:28] there is no good is not a good code.
+[01:14:31] Okay? So when when you start adding some
+[01:14:35] custom some some cast here and and and
+[01:14:38] where to make
+[01:14:40] of course a different function accept
+[01:14:43] the parameters, but they have no
+[01:14:45] uh
+[01:14:46] no reason to to to to do this this cast
+[01:14:49] from one type to another. I mean, you
+[01:14:51] can start understanding that something
+[01:14:53] that a human
+[01:14:54] will not will not do.
+[01:14:56] And and so, we'll see that
+[01:14:59] we should have a something that when we
+[01:15:02] have some
+[01:15:03] a gates that are not reached,
+[01:15:06] we we we reject it. Oh, another another
+[01:15:09] sign was for example
+[01:15:11] the quantity of replicated code.
+[01:15:13] There were some
+[01:15:15] five or six uh
+[01:15:18] portions of code that were just
+[01:15:20] replicated by here and there in these
+[01:15:23] 5,000 lines of code. And this is also
+[01:15:26] typical pattern that
+[01:15:28] a normal programmer
+[01:15:30] hates to replicate code here and there.
+[01:15:32] So, so this is
+[01:15:33] another another
+[01:15:35] sign.
+[01:15:36] Now, of course, the discussion is who
+[01:15:38] defined is
+[01:15:40] the bar. Continuous integration patch or
+[01:15:43] the maintainer self? Uh
+[01:15:45] I don't know. I mean, I'm just starting
+[01:15:47] to to put this to to the discussion.
+[01:15:51] And that's that's all. Thank you for
+[01:15:53] your attention.
+[01:16:00] >> [applause]
+[01:16:02] >> Hey, Stefano.
+[01:16:05] Yes, uh good point on the semantic side.
+[01:16:07] Uh
+[01:16:08] do you What do you recommend? How should
+[01:16:11] we verify the AI output for semantics?
+[01:16:14] >> Yeah, I think that the only possibility
+[01:16:16] is in this case some maintainer owned
+[01:16:20] prompts.
+[01:16:21] So, I think that of course extracting
+[01:16:24] the semantic from some uh
+[01:16:26] modules of some part subsystem of the
+[01:16:28] code is something that currently a
+[01:16:30] maintainer can do. And so, he can just
+[01:16:33] put some rules
+[01:16:35] for example, about the overriding of
+[01:16:37] existing
+[01:16:39] attributes in the UAPI. I think this is
+[01:16:41] this is that
+[01:16:43] actually at least you should trigger an
+[01:16:45] alarm is is a patch is using an
+[01:16:48] attribute. Is it using in a correct way?
+[01:16:51] It is using in a new way? And
+[01:16:54] >> Doing this for the entire subsystems on
+[01:16:57] the Linux kernel would be huge.
+[01:16:59] >> I would say that ideally, I mean each
+[01:17:01] each each subsystem should start
+[01:17:03] defining a set of invariants or a set of
+[01:17:06] things that they want to to be checked
+[01:17:09] on a semantic level when such patches
+[01:17:11] are submitted. I think this this could
+[01:17:13] be a proposal, but of course this is
+[01:17:14] just a
+[01:17:15] >> Thanks.
+[01:17:16] >> It It requires of course the effort.
+[01:17:18] >> [laughter]
+[01:17:18] >> So, the effort that I want to save from
+[01:17:20] the maintainers of course in this case
+[01:17:22] it required to start building these
+[01:17:25] safeguards, I would say.
+[01:17:31] >> Okay, I want to comment on that. I think
+[01:17:33] that a human submitter should be the
+[01:17:35] first person to verify the semantics.
+[01:17:38] >> Yeah.
+[01:17:39] >> Otherwise, it's like totally broken the
+[01:17:41] process.
+[01:17:42] >> Yeah.
+[01:17:43] >> And if someone does like the wrong thing
+[01:17:46] multiple times, it will be like
+[01:17:49] maybe not excommunicated, but like
+[01:17:52] mostly ignored.
+[01:17:54] >> Yeah. Yeah. Yeah.
+[01:17:56] >> Thank you.
+[01:17:56] >> This is a of course a good point. Yeah.
+[01:17:58] Yeah.
+[01:17:59] This is a
+[01:18:00] could be a part of what we call desk
+[01:18:02] rejection. So, that that
+[01:18:04] in a polite way we can I think that
+[01:18:07] I think this is a little bit different
+[01:18:08] because I mean 10 years ago, if you
+[01:18:11] receive a 5,000 lines of code, you
+[01:18:13] always think that someone has put at
+[01:18:15] least some effort in in in doing this.
+[01:18:17] And so, the typical approach maybe is
+[01:18:20] of the maintainers guy, let's look what
+[01:18:23] he has done, what the
+[01:18:24] In this case, maybe we can let's say
+[01:18:26] have a
+[01:18:28] a lower bar for for getting back
+[01:18:31] for for giving back the patch and say,
+[01:18:33] "Please
+[01:18:34] uh
+[01:18:36] drastically revise it before trying to
+[01:18:38] resubmit. I think that that that that
+[01:18:40] could be the
+[01:18:40] >> For sure. We We will give some people
+[01:18:42] downstairs if they
+[01:18:44] so they don't feel left out. Anybody got
+[01:18:46] a question down there?
+[01:18:49] No, still no questions. Okay.
+[01:18:51] It must be really nice down there.
+[01:18:53] Temperature's good?
+[01:18:55] Okay. Um
+[01:18:58] Oh, yeah. They Look at them. All right.
+[01:19:01] >> [laughter]
+[01:19:04] >> Um
+[01:19:06] Okay, I'll I'll let you ask. Can I just
+[01:19:08] crack a joke?
+[01:19:09] What What What $34 to
+[01:19:12] >> Sorry?
+[01:19:13] >> You paid $34, I think I see.
+[01:19:15] >> I [laughter] I think that the way we
+[01:19:16] don't You don't pay. I think we estimate
+[01:19:18] roughly the number of tokens that
+[01:19:21] a I review would have taken and that
+[01:19:23] that's that's the estimate, I think.
+[01:19:25] >> [laughter]
+[01:19:27] >> Uh sorry, and what's the destiny of this
+[01:19:29] uh
+[01:19:31] BR for the first slide?
+[01:19:33] >> First slide?
+[01:19:36] >> Yeah, I mean
+[01:19:37] uh
+[01:19:38] what happened to it like in the end?
+[01:19:41] >> This slide one, too?
+[01:19:43] >> No, no. Uh your first example with
+[01:19:45] uh 5,000 of lines of code. Yeah, this
+[01:19:48] one.
+[01:19:49] >> This one?
+[01:19:51] >> So, uh what happened to it like uh did
+[01:19:54] you merge it?
+[01:19:55] >> I think currently there is there is a
+[01:19:59] a version two another RFC version two
+[01:20:01] that we
+[01:20:03] that the maintainer has not yet started
+[01:20:05] to to to review. So, but
+[01:20:06] after our set of 40 comments, oh, this
+[01:20:10] is another sign that all 40 comments
+[01:20:13] they we received a yes yes yes yes okay
+[01:20:16] okay okay yes yes yes yes okay okay okay
+[01:20:18] okay okay. So, so all all all the
+[01:20:19] comments that were given to the
+[01:20:22] submitter, they were accepted and now
+[01:20:25] the submitter is trying to to resubmit a
+[01:20:27] a new version. That that's the current
+[01:20:29] state.
+[01:20:30] >> Angeli
+[01:20:30] >> Angeli.
+[01:20:31] >> Angeli, you're holding the mic.
+[01:20:34] You'll the speaker on that. Okay, so
+[01:20:37] our next speaker is not available, so we
+[01:20:39] could make this a free form including
+[01:20:41] the previous speakers. Okay?
+[01:20:44] Uh
+[01:20:46] I I don't We don't hear? All right.
+[01:20:53] >> Okay. Um do we do any photo form of
+[01:20:56] attestation like when we people are
+[01:20:59] submitting thing bugs?
+[01:21:02] Do we actually verify that they are
+[01:21:04] people and that they're
+[01:21:07] that we can relocate them?
+[01:21:15] >> Uh yeah, I don't know that if it is
+[01:21:18] a common procedure, but in this case
+[01:21:23] I know that this is this is
+[01:21:25] a people that it was not not a bot.
+[01:21:27] In this specific case, yes.
+[01:21:33] >> Um
+[01:21:34] so um the you talked about the property
+[01:21:39] So we're we're living at the moment
+[01:21:42] in this time where
+[01:21:44] the the original belief about open
+[01:21:46] source was all bugs will be shallow and
+[01:21:48] people would find them. The reality is
+[01:21:50] that humans are lazy, they like to just
+[01:21:52] push buttons and say they looked at
+[01:21:53] something. And so we're all fallible. We
+[01:21:57] didn't
+[01:21:58] do as much reviewing as we all thought
+[01:22:01] we were going to go do and there's a
+[01:22:02] bunch of landmines out there for the
+[01:22:04] last 40 years, which is perfectly okay
+[01:22:06] as far as I'm concerned.
+[01:22:08] >> Definitely.
+[01:22:08] >> The AIs happen to be a lot more
+[01:22:11] diligent. They're also hallucinatory and
+[01:22:14] they do a whole bunch of other types of
+[01:22:15] things, but if we have the resources, we
+[01:22:17] can throw them at these things for a lot
+[01:22:19] longer.
+[01:22:20] >> Absolutely.
+[01:22:20] >> So we're really dealing with this change
+[01:22:24] in model of things where we need to be
+[01:22:26] hyper-diligent about stuff because the
+[01:22:29] the bad guys can be hyper-diligent about
+[01:22:32] stuff and if they find one
+[01:22:33] vulnerability, they can exploit the hell
+[01:22:35] out of it. But we're dealing with this
+[01:22:37] mixed model where humans
+[01:22:40] they're not going to work any extra
+[01:22:41] hours. They're already overworked
+[01:22:43] anyway. It takes that amount of time for
+[01:22:46] humans to go through the process and
+[01:22:48] they've got their own pipelines and
+[01:22:50] you're not really going to fix that.
+[01:22:52] And then simultaneously you're trying to
+[01:22:54] inject these AIs into the system which
+[01:22:57] at the moment last year they were
+[01:22:59] terrible. This year they're sort of
+[01:23:01] maybe whatever it is. At some point they
+[01:23:04] may become omnipotent and then we can
+[01:23:06] just all go and retire, but
+[01:23:08] you're talking about a very interesting
+[01:23:11] problem in time.
+[01:23:13] So, how do we deal with that, right?
+[01:23:15] Because to
+[01:23:17] Yeah, well
+[01:23:18] >> We do it without doing anything.
+[01:23:20] >> So, right. That would be a good idea.
+[01:23:22] Wait for 2 years might be the right
+[01:23:24] answer, right?
+[01:23:24] >> No, no, no. 2 years is too long. So,
+[01:23:28] what you do is they are good AI is good
+[01:23:30] at pattern matching. You are good at
+[01:23:32] joining the dots. So, you do your part,
+[01:23:35] it'll do its part.
+[01:23:36] >> Okay. So, we have to pay these people
+[01:23:39] who are getting not getting paid enough
+[01:23:40] anyway to fix all this stuff. Who's
+[01:23:43] paying that? Who's making sure they
+[01:23:45] don't burn out? Okay.
+[01:23:47] >> I I think yeah.
+[01:23:50] So, you
+[01:23:52] So, you mentioned that the submitter
+[01:23:55] reply to every change request with yes,
+[01:23:57] yes, yes, yes. And that is kind of
+[01:24:00] expected for a newcomer. I mean, when
+[01:24:03] someone is a new line the project,
+[01:24:04] usually well,
+[01:24:07] maintainers are very intimidating and
+[01:24:09] yes, yes, yes. But the problem that I
+[01:24:11] see here is that if they are not doing
+[01:24:13] their work they
+[01:24:15] themselves
+[01:24:16] they are not going to reach a point
+[01:24:18] where they are able to challenge the
+[01:24:20] comments because the learning pipeline
+[01:24:23] is broken. They are just hitting enter
+[01:24:26] enter enter enter enter.
+[01:24:28] >> Yeah.
+[01:24:28] >> And therefore saying yes yes yes yes.
+[01:24:31] And at some point, I don't know who
+[01:24:33] who's the maintainer, but that
+[01:24:35] maintainer is going to retire. Um who's
+[01:24:37] going to be the next maintainer because
+[01:24:39] the young guy
+[01:24:40] >> Yes.
+[01:24:43] >> Yeah.
+[01:24:43] >> Yeah, right.
+[01:24:44] >> [laughter]
+[01:24:45] >> The models will be much better by then,
+[01:24:47] so we don't need maintenance.
+[01:24:48] >> I I I don't think that that was wrong. I
+[01:24:50] mean I
+[01:24:50] I mean that was I mean a generally
+[01:24:54] good intent that there is a an RFC. I
+[01:24:57] mean this RFC needs to be implemented
+[01:24:59] the sooner or later. They wanted to do
+[01:25:01] and they tried to do the best using the
+[01:25:03] tools. So it's it's a new things and so
+[01:25:05] that's that's the point. The the tools
+[01:25:07] are are
+[01:25:08] started to get used, but now we should
+[01:25:11] in this case
+[01:25:13] make some rules that uh
+[01:25:15] My my opinion is that it
+[01:25:17] it's even
+[01:25:19] faster for the maintainer to implement
+[01:25:21] the specification than to review this
+[01:25:23] code
+[01:25:24] generated in that way. So
+[01:25:26] we should
+[01:25:27] I think that the only point is that
+[01:25:30] at the current in time there can be a
+[01:25:32] really an efficient way
+[01:25:35] if we do not stop this type of of
+[01:25:38] submissions.
+[01:25:39] >> Okay. Can Can I I'm going to change the
+[01:25:41] format a little bit since we're waiting
+[01:25:42] for Roman. The Sashiko guy is not
+[01:25:45] 4:00 a.m. where he is.
+[01:25:47] Do you want to all the speakers maybe
+[01:25:49] can go up there and
+[01:25:52] You want to go up there?
+[01:25:53] All of them and then we can we can do
+[01:25:55] like
+[01:25:56] you you stay there, yeah.
+[01:25:57] >> And everybody else
+[01:25:58] >> Can I make a comment?
+[01:25:59] >> Yeah.
+[01:26:00] >> If you ever take out the human out of
+[01:26:02] the loop, the tool is no good for human.
+[01:26:07] >> So you I'll give the mics and then we'll
+[01:26:09] just have one mic floating around for
+[01:26:11] questions and
+[01:26:13] free form.
+[01:26:14] You can rap. You can do whatever you
+[01:26:16] can dance.
+[01:26:20] >> We do have one down here.
+[01:26:22] >> Oh, there's a question downstairs
+[01:26:24] finally.
+[01:26:28] >> Yeah.
+[01:26:29] >> So,
+[01:26:30] one of the things I'm wondering about
+[01:26:31] with some of this is if we couldn't
+[01:26:33] start pushing back on some of these
+[01:26:34] patches that are coming in. They're like
+[01:26:36] a thousand lines per patch and start
+[01:26:38] looking at especially for these AI ones
+[01:26:41] trying to force them to break things up
+[01:26:42] more just so it's more easily read by
+[01:26:45] humans cuz that's the thing is for an AI
+[01:26:47] it's sucking down a thousand line patch
+[01:26:49] and it's oh yeah this all makes sense is
+[01:26:51] all laid out correctly. You know, it
+[01:26:53] does what it's supposed to do is pretty
+[01:26:54] quick but for a human we don't really
+[01:26:55] have the mental context to hold you
+[01:26:57] know, a 17 patch set that's a thousand
+[01:27:00] lines per each one in our heads.
+[01:27:02] And so I really wonder for these if we
+[01:27:04] shouldn't have be
+[01:27:06] pushing back to like you know, maybe a
+[01:27:08] hundred to two hundred line limit
+[01:27:10] ideally for a lot of these big AI sets
+[01:27:13] just so it becomes something that's
+[01:27:14] easier for the mental model for us to
+[01:27:17] digest mentally when we're having to go
+[01:27:19] through and review them.
+[01:27:21] >> Uh
+[01:27:22] what if AI sends a hundred patches of
+[01:27:26] hundreds line each?
+[01:27:28] >> Well, then the AI's doing things wrong.
+[01:27:30] So, that's the thing it's much easier
+[01:27:31] for us to
+[01:27:31] >> if it it passes your criteria of hundred
+[01:27:34] line patch limit.
+[01:27:36] >> Well, that's the thing though. So,
+[01:27:37] historically speaking like if we push a
+[01:27:39] new driver
+[01:27:40] we don't push the entire functionality
+[01:27:42] all at once. We don't push a ten you
+[01:27:44] know, a ten thousand usually like line
+[01:27:46] patch
+[01:27:48] all in one patch or and we you know,
+[01:27:50] even to then we have limits on the
+[01:27:51] number of patches we usually send. So,
+[01:27:53] like for example with the FB Nick when
+[01:27:55] we pushed it initially all we pushed was
+[01:27:57] the basic L2
+[01:27:59] transmit receive. The rest all had to
+[01:28:01] come later and so it becomes breaking
+[01:28:03] things up into incremental pieces then
+[01:28:04] at that point. And so that's what you'd
+[01:28:06] have to force on the AI model to go
+[01:28:08] okay, this needs to be digestible. You
+[01:28:10] can't send thousands upon thousands of
+[01:28:13] lines for the human to have to try to
+[01:28:15] review over a month's time. It needs to
+[01:28:17] be something that Pete, you know, can be
+[01:28:19] reasonably broken up to where it's like
+[01:28:20] a single person can review in like 1 or
+[01:28:22] 2 hours, not,
+[01:28:24] you know, 1 or 2 months.
+[01:28:26] >> Okay, you you on I'm going to have I'm
+[01:28:28] sorry, Roman is now here.
+[01:28:31] So, I'm going to give Well, we'll come
+[01:28:32] back after this, right? Unless you got
+[01:28:34] you you have a quick response, you on or
+[01:28:36] >> I just have a response for Alex. 6 to 7
+[01:28:39] lines in one patch and 6 to 7 patch in a
+[01:28:42] series, cut it off.
+[01:28:50] Comments are free.
+[01:28:51] >> Yeah, he says
+[01:28:52] so, Maciejko was asking if they
+[01:28:55] six lines include the headers.
+[01:28:58] >> [laughter]
+[01:28:59] >> Sorry, okay, so we'll we'll bring Roman
+[01:29:01] in.
+[01:29:03] Is he
+[01:29:04] He's not ready?
+[01:29:06] Okay, let's just continue then.
+[01:29:09] Okay, you on? Do you have something to
+[01:29:11] say?
+[01:29:11] >> Yeah, I want to mention about how how do
+[01:29:13] we find the 600 bucks? Actually, we are
+[01:29:16] scanning every file.
+[01:29:18] So, that's how we burn our token. Every
+[01:29:21] file we will sometimes we will split
+[01:29:22] some files into smaller parts to make
+[01:29:25] the model
+[01:29:27] have have some
+[01:29:29] have some focus. Sometimes we will merge
+[01:29:31] some file in together to see if there
+[01:29:33] are some relevant
+[01:29:35] error.
+[01:29:37] May may may may be may may require some
+[01:29:39] maybe some
+[01:29:40] >> Two functions Two functions together.
+[01:29:43] >> So, we can find the final bug.
+[01:29:47] >> I have a general question for all of you
+[01:29:49] guys. Do you think, actually, you and
+[01:29:52] Rajat probably and maybe you,
+[01:29:55] do you think at some point we ever Can
+[01:29:58] we get rid of maintainers as well
+[01:30:00] with these subsystems?
+[01:30:03] Do we need them or do we need less
+[01:30:05] maintainers or what's your view?
+[01:30:07] >> So,
+[01:30:08] in my experience,
+[01:30:11] one thing that AI models lack is
+[01:30:12] context. They don't know what we are
+[01:30:15] doing and why we are doing. So, I mean,
+[01:30:17] from that perspective, we do need humans
+[01:30:19] to tell what we need from them, right?
+[01:30:22] >> But that's today. I mean, the models are
+[01:30:23] still not the best. Okay, Alex wants to
+[01:30:25] say something. Go ahead.
+[01:30:26] >> I was just saying, in terms of the using
+[01:30:28] the the AI-defined bugs, one of the
+[01:30:30] things I found useful is actually having
+[01:30:31] the AI put together a proof of concept
+[01:30:33] and proving the bug.
+[01:30:36] So, like especially for the drivers,
+[01:30:37] like one of my go-tos is I have a a dual
+[01:30:39] QEMU model set up with packet generators
+[01:30:41] on both ends that it can control. And
+[01:30:43] then it's just like, "Okay,
+[01:30:45] uh go ahead and search for the bugs and
+[01:30:47] put together a test case that proves
+[01:30:48] that this is a bug."
+[01:30:50] And if you can prove it, then we're
+[01:30:51] going to go ahead and fix it.
+[01:30:52] And so, that's one thing we could look
+[01:30:54] at for a lot of this in terms of
+[01:30:55] especially with QEMU models, usually
+[01:30:57] they're pretty cheap to set up. And a
+[01:30:59] lot We've got a lot of devices out there
+[01:31:00] like FB Nick, for instance, that's
+[01:31:02] already in QEMU. So, it becomes
+[01:31:03] something where if we want to try to
+[01:31:05] prove something is a bug, it'd be very
+[01:31:07] easy as for us to put up together a
+[01:31:08] quick test in something like a QEMU
+[01:31:10] environment to go ahead and force it
+[01:31:12] through.
+[01:31:13] >> Yeah, I think that's kind of enforced
+[01:31:14] now. You know, they always have to
+[01:31:16] produce a POC. Sometimes it's a C file,
+[01:31:18] sometimes it's a script.
+[01:31:20] That's enforced today. I I don't Have
+[01:31:22] you submitted You have to
+[01:31:24] put a test case in your
+[01:31:26] bug report, right?
+[01:31:27] >> Yeah, reproducible.
+[01:31:28] >> So, to your point, Jamal,
+[01:31:31] like when AI gets better at the semantic
+[01:31:33] thing, um like in connecting the dots,
+[01:31:36] basically. So, when AI gets better at
+[01:31:39] understanding semantics
+[01:31:41] better than the maintainers, I think at
+[01:31:43] that point,
+[01:31:44] um we can see what the actual effects
+[01:31:47] are. Currently, it's just syntactic
+[01:31:49] search. But
+[01:31:51] getting verified semantics is far away.
+[01:31:54] >> you think that time is coming?
+[01:31:56] >> I mean, I mean, if I know I I'll be a
+[01:31:58] millionaire, maybe.
+[01:31:59] >> Okay.
+[01:32:03] >> Yeah, yeah, for me also I have a
+[01:32:05] question about the POCs because we said
+[01:32:07] that it's good to have POCs to refute
+[01:32:09] those bugs, but what do we do with them?
+[01:32:12] I mean, do
+[01:32:13] Usually when I get POCs generated by AI,
+[01:32:16] it's something really huge. I mean,
+[01:32:19] sometimes I don't even try to understand
+[01:32:21] it.
+[01:32:21] But also I would like to have something
+[01:32:24] that would cover this specific use case
+[01:32:26] not to have a the issue later, but I
+[01:32:28] cannot integrate that in the self test.
+[01:32:31] So, if the POCs could be integrated
+[01:32:34] something that exists, like only adding
+[01:32:36] a small bunch of code would be good.
+[01:32:38] Like if you can generate by cat drill,
+[01:32:40] for example, and integrate that in the
+[01:32:42] test suit, that would be great.
+[01:32:45] Otherwise, we have a lot a bunch of POCs
+[01:32:47] and
+[01:32:48] maybe with the bugs would happen again
+[01:32:50] later and
+[01:32:52] >> Yeah, actually we we trying to
+[01:32:55] minimalize the POCs, but sometimes the
+[01:32:58] POC is that big we cannot minimalize
+[01:33:00] anymore. And the some a lot of bugs are
+[01:33:03] total cases.
+[01:33:04] Um
+[01:33:05] we have submitted some self tests to the
+[01:33:07] mail list and uh sometimes
+[01:33:10] sometimes we didn't say that oh, you you
+[01:33:11] don't we don't need this. We just get
+[01:33:14] get rid of it. So, we so we
+[01:33:16] so we so we so so then we didn't submit
+[01:33:20] a self test anymore, but I I don't know
+[01:33:23] how maintainers feels about
+[01:33:25] uh the self test, but I think
+[01:33:27] for some of them we still need it, but
+[01:33:29] but some of the bugs reported by AI we
+[01:33:32] we still don't need don't need them.
+[01:33:34] That's just some very
+[01:33:37] very very extreme uh corner case. It's
+[01:33:40] just yeah.
+[01:33:43] >> So, I want to
+[01:33:45] come back a little bit to to the
+[01:33:47] semantic to the semantic area. So, I
+[01:33:49] really think that already now
+[01:33:53] you with the help of the AI you can
+[01:33:55] extract some semantic models of of of a
+[01:33:58] single subsystem of things like this. I
+[01:34:00] mean
+[01:34:01] then you can
+[01:34:03] really have this one to to check also
+[01:34:07] not only the syntax. Of course there is
+[01:34:09] the
+[01:34:10] system that now they are proposing they
+[01:34:11] are very generic. Of course they start
+[01:34:14] looking
+[01:34:15] syntactic aspects and common patterns
+[01:34:18] that are of course common to to C code
+[01:34:21] or even to to kernel
+[01:34:23] mechanism. But of course
+[01:34:26] I think that
+[01:34:28] current models if we ask them to extract
+[01:34:32] semantic from subsystems they are
+[01:34:35] good at doing this. And then on top of
+[01:34:38] this you can really create some some
+[01:34:41] systems. So I I think that that's that's
+[01:34:43] a really an interesting direction that
+[01:34:45] that every maintainer could could could
+[01:34:48] start start thinking, yeah.
+[01:34:51] >> Hello.
+[01:34:52] >> Yeah.
+[01:34:53] >> To to your point actually, so this is my
+[01:34:55] current research
+[01:34:57] on automatically like deterministically
+[01:34:59] verify the semantics of AI output. Uh
+[01:35:03] but like you said like
+[01:35:05] in until unless we verify that the
+[01:35:07] semantics extracted by the AI are
+[01:35:10] correct without human verifying those.
+[01:35:14] >> I I I
+[01:35:15] I think that at the current time
+[01:35:18] you need
+[01:35:19] the cooperation of a human and of of of
+[01:35:22] of the AI. And so based on this you can
+[01:35:25] build some some models some skill. I
+[01:35:28] mean if you if you if you talk in in an
+[01:35:30] tropic way you you can build the skills
+[01:35:32] for for doing something by cooperating
+[01:35:35] with with your generalistic model and
+[01:35:38] then you you easily I mean easily one
+[01:35:41] week of work you can really do
+[01:35:44] a huge huge semantic model of of a
+[01:35:46] subsystem, yeah.
+[01:35:49] >> Yeah, so I I I have a comment though
+[01:35:51] still. I mean, I agree with with those
+[01:35:53] things, but
+[01:35:55] without having, you know, getting back
+[01:35:57] to the context of what
+[01:35:59] um what a subsystem actually can do or
+[01:36:01] what its intent is, your model, I think
+[01:36:04] you're going to have to have some kind
+[01:36:05] of generational leap again from where we
+[01:36:07] are
+[01:36:08] to have that kind of intuition.
+[01:36:10] You're always going to have to have
+[01:36:11] someone then before that intuition is
+[01:36:14] built into the models, you're going to
+[01:36:15] have to have someone verify what exactly
+[01:36:17] is the intent, and that is the
+[01:36:19] maintainer. So, someone who has the
+[01:36:21] experience, someone who understands how
+[01:36:22] all of the pieces fit together,
+[01:36:24] and maybe the models make them way more
+[01:36:27] effective to say, "Okay, did this crap
+[01:36:29] code that I just got, is it okay?" Or
+[01:36:31] help me generate something that I know
+[01:36:34] how to do, but it would take me a week
+[01:36:36] of work, I can get it done in an hour.
+[01:36:38] Um but until you have that leap, I don't
+[01:36:41] I don't see how the human maintainer is
+[01:36:43] replaced. I feel feel like they are
+[01:36:45] armed better to spend their time better
+[01:36:47] elsewhere.
+[01:36:53] >> Uh anybody?
+[01:36:57] Yeah.
+[01:36:58] >> Uh maybe one question to us
+[01:37:01] We have time for one more?
+[01:37:02] >> Oh, yeah, yeah. We were waiting for
+[01:37:04] Roman to join.
+[01:37:05] >> Oh, okay.
+[01:37:05] >> If he doesn't join, we have plenty of
+[01:37:06] time.
+[01:37:07] >> Okay. Yeah.
+[01:37:08] For for Stefano, there was a
+[01:37:11] >> Uh there's a comment online?
+[01:37:13] Okay. Let's give the online guy
+[01:37:15] the deprived of opportunities to speak.
+[01:37:21] Could you want to put it on the screen?
+[01:37:23] >> Yes.
+[01:37:23] >> Okay.
+[01:37:27] We don't see anything.
+[01:37:29] Okay.
+[01:37:38] Okay.
+[01:37:39] Uh who wants to respond to that or
+[01:37:43] Oh, okay. Is this a comment or a
+[01:37:44] question?
+[01:37:46] Okay.
+[01:37:48] Okay.
+[01:37:50] We're using code review as a gate
+[01:37:52] for merging because it is cost-effective
+[01:37:54] method.
+[01:37:56] Verify patch status as I've done the
+[01:37:57] method will disappear eventually as I
+[01:37:58] said as the code generation is way
+[01:38:00] faster than code review.
+[01:38:06] >> So, uh uh
+[01:38:08] either this means that the code review
+[01:38:11] will be overwhelmed by this code
+[01:38:13] generation, but if you use it as a gate,
+[01:38:16] I mean it's a problem of the code
+[01:38:18] generation.
+[01:38:19] Or uh
+[01:38:21] another
+[01:38:22] way to to to see it is that of course we
+[01:38:25] can directly generate good code if we
+[01:38:28] give good prompts to the code
+[01:38:30] generation. This This is another way to
+[01:38:32] see it that maybe if you are if you are
+[01:38:35] doing uh
+[01:38:37] if you're building skills that are
+[01:38:39] helping the AI to generate good code,
+[01:38:43] maybe we we we will not need
+[01:38:46] such so much review. This is another
+[01:38:48] dream. Let's say that
+[01:38:52] currently as we have experienced the
+[01:38:56] giving, for example, an RFC to an AI
+[01:39:00] generation system does produce what we
+[01:39:03] see, 40 bucks in in
+[01:39:05] in 5,000 lines of code. So, maybe in the
+[01:39:08] future this this will
+[01:39:10] become better.
+[01:39:12] >> I'm going to just say that no home no
+[01:39:14] human review, no merge.
+[01:39:16] I mean, the code is going to be crap if
+[01:39:18] you take the human out of the system.
+[01:39:26] >> Yeah, I did.
+[01:39:29] Hear me? Okay.
+[01:39:31] Yeah, the the online questions as
+[01:39:33] touched what I wanted to ask. So, the
+[01:39:35] the cost problem if it's
+[01:39:37] even in in in theory in principle it can
+[01:39:40] be
+[01:39:41] how much more it cost to verify uh for
+[01:39:45] the same model to generate
+[01:39:47] to
+[01:39:48] if a patch generated with one model and
+[01:39:51] the same model verify it uh
+[01:39:54] for a human it makes more time to create
+[01:39:57] a patch and
+[01:39:59] or the same ballpark than generate and
+[01:40:02] for review, but for AI I don't know I I
+[01:40:05] feel like there's it's always be more
+[01:40:07] money to
+[01:40:09] to review the patch with the same
+[01:40:10] confidence or we was as I or it was as
+[01:40:13] said
+[01:40:14] we have to wait a year or 2 year to have
+[01:40:18] the same confidence for the same price
+[01:40:20] to
+[01:40:21] so I don't know if it's uh
+[01:40:24] be- because your estimation from $30 it
+[01:40:28] was I I guess it was a very
+[01:40:31] very minimum let's say.
+[01:40:37] >> So
+[01:40:38] one of the things I'm finding in common
+[01:40:40] over here is that we are trying to
+[01:40:42] contend patch quality versus the speed
+[01:40:44] of patch generation.
+[01:40:46] So I mean something that I have done in
+[01:40:48] my
+[01:40:50] the way I'm using prompts is
+[01:40:52] based on the Linux kernel documentation
+[01:40:54] where we had added recently that you can
+[01:40:57] use the assisted by AI tag. But you
+[01:40:59] should be able to stand behind your own
+[01:41:01] patches at the end. You should be able
+[01:41:02] to defend them. So the way I've I'm
+[01:41:05] using context into my cloud code is that
+[01:41:07] it does not generate the final patch for
+[01:41:09] me ever. It does not give me the end
+[01:41:11] answers, but it excavates the code for
+[01:41:14] me and wherever I'll be taking more
+[01:41:16] time, wherever human would take more
+[01:41:18] time, it does that for me, but I have to
+[01:41:20] come up with the final answer. So it's
+[01:41:23] sort of like maintaining the balance
+[01:41:24] between patch quality and the speed. So
+[01:41:30] >> Let's have someone downstairs if they
+[01:41:32] have questions.
+[01:41:32] >> Yeah, so one thing I was just kind of
+[01:41:34] wondering about is if we're going to
+[01:41:35] basically So what essentially what we're
+[01:41:37] talking about is needing to feed more
+[01:41:38] metadata into the AI agents that are
+[01:41:41] doing the review. Uh I'm just wondering
+[01:41:43] if we're going to do things like maybe
+[01:41:44] look at having the AI agent scan the
+[01:41:47] entire mailing list for the last end
+[01:41:49] number of years and put that into a
+[01:41:50] metadata context for it to use cuz I'm
+[01:41:52] assuming somebody must have done
+[01:41:53] something like that at Meta at some
+[01:41:55] point because I know I've worked I've
+[01:41:57] had it one of my agents go to work on a
+[01:41:59] uh
+[01:42:00] an SFP uh QSFP project that I was
+[01:42:04] putting into SFP.c
+[01:42:06] that all of a sudden it went and told
+[01:42:07] me, "Russell King's not going to agree
+[01:42:08] with this because" and it started
+[01:42:10] quoting this chunk of uh
+[01:42:12] message from I'm guessing some previous
+[01:42:13] patch set.
+[01:42:15] And so I'm wondering if we should be
+[01:42:17] looking at doing something like that in
+[01:42:18] order to help take some of the workload
+[01:42:20] off where since it is a pattern matching
+[01:42:22] tool essentially, just feed it the
+[01:42:25] entire mailing list and then when it
+[01:42:26] sees a patch that looks like something
+[01:42:27] that's been rejected in the past, it
+[01:42:28] could just grab it and go, "Okay, be
+[01:42:30] warned, you know, so-and-so didn't like
+[01:42:32] this, so you're likely to get X
+[01:42:34] response."
+[01:42:36] >> Yeah, exactly. It is a kind of dangerous
+[01:42:38] because on the mailing list there are a
+[01:42:40] lot of patches that are that were not
+[01:42:42] finally merged. So we would need to
+[01:42:44] probably filter them out by the ones
+[01:42:46] that were merged to get the correct
+[01:42:47] answer or at least correct error
+[01:42:50] answers.
+[01:42:51] >> Well, right, but still if it's been
+[01:42:52] rejected before or something like it was
+[01:42:54] rejected before, it becomes a data point
+[01:42:56] that you can point to then and say,
+[01:42:57] "Okay, these you know, these are the
+[01:42:59] possible warning points." Cuz if nothing
+[01:43:00] else, it'd be nice to have a like when I
+[01:43:03] use an agent, you know, normally I'm
+[01:43:04] using it to do the first pass of, "Okay,
+[01:43:06] do a sanity check to see if I'm even
+[01:43:08] going to bother to take a look at it
+[01:43:09] before I go ahead and invest my time to
+[01:43:12] look at it." And then I also have it
+[01:43:13] give me any areas where it's, you know,
+[01:43:15] thinking there might be issues even if
+[01:43:17] it's like not certain that there's a
+[01:43:19] problem so that I can go in and then
+[01:43:20] identify if there's something there or
+[01:43:22] not.
+[01:43:23] >> So Alex, it's a really good idea. The
+[01:43:26] only thing I don't know how to deal with
+[01:43:28] it is
+[01:43:29] we will inherit human biases along. So
+[01:43:32] how do you deal with that?
+[01:43:34] >> the thing is it doesn't end up making
+[01:43:35] the final decision. It's just a first
+[01:43:37] pass to say, "Okay, a patch like this
+[01:43:39] was rejected for, you know, X."
+[01:43:41] Basically, it becomes a these are the
+[01:43:43] possible issues. Now, it's up to a human
+[01:43:44] to decide if these are actually issues
+[01:43:46] or not.
+[01:43:46] >> Okay, sounds good.
+[01:43:47] >> Yeah, I think Sashiko is a much better
+[01:43:50] candidate to put this thing in
+[01:43:52] because Sashiko is reviewing patches for
+[01:43:55] every subsystem. And if we have
+[01:43:57] something like a list of violated
+[01:43:59] invariants, and Sashiko learns from all
+[01:44:02] of that,
+[01:44:03] that can be a common place which every
+[01:44:05] subsystem can use, I think.
+[01:44:12] >> I'll give it to you, but I have a
+[01:44:14] question. Do you guys name your AIs? Do
+[01:44:16] you give them names?
+[01:44:18] >> Yes.
+[01:44:18] >> Do you have a name What's your What's
+[01:44:19] your AI's name?
+[01:44:20] >> My AI's name is Aiva, A I V E A.
+[01:44:23] >> Yours?
+[01:44:25] What do you call your AI?
+[01:44:26] >> Vega.
+[01:44:27] >> Vega.
+[01:44:28] >> Abrega.
+[01:44:29] >> So, do you talk to it and say, "Abrega,
+[01:44:31] do this for me" or
+[01:44:32] >> Yeah.
+[01:44:32] >> Mine is called Angie.
+[01:44:34] >> Angie.
+[01:44:35] >> I'm going to call mine Booba.
+[01:44:40] >> I kind of have a broad question, maybe
+[01:44:42] for the entire room.
+[01:44:44] So, Sashiko has been working for some
+[01:44:46] time now. Have we noticed improvements
+[01:44:49] as it analyzes more and more patches and
+[01:44:51] gets more and more feedback? And is it
+[01:44:54] noticeable and consistent, or is it
+[01:44:56] still
+[01:44:57] a hit or miss?
+[01:44:59] >> Where is Roman?
+[01:45:06] >> Yeah, I was really looking forward to
+[01:45:08] talk from Roman about Sashiko.
+[01:45:12] He can answer your question the best.
+[01:45:30] >> All right, we let's continue
+[01:45:33] >> Yeah. So
+[01:45:34] >> you were asking
+[01:45:43] >> If nobody has a question, I have. Which
+[01:45:45] is your favorite AI?
+[01:45:52] >> Uh he was just asking a clarifying
+[01:45:53] question about whether uh I meant has
+[01:45:55] the kernel gotten better has Sashiko
+[01:45:57] gotten better? And I was asking about
+[01:45:59] whether Sashiko has gotten better the
+[01:46:00] more reviews.
+[01:46:05] >> My observation is got a little bit more
+[01:46:06] polite.
+[01:46:07] >> So there's two Sashikos by the way. Uh I
+[01:46:09] should I don't know if I should call Do
+[01:46:10] you guys know there's two of them? Uh
+[01:46:12] one is using Claude, the other one is
+[01:46:13] using Gemini.
+[01:46:15] >> Oh. And the
+[01:46:18] one of them is very polite. It doesn't
+[01:46:20] point to you to This is my observation,
+[01:46:22] okay? It doesn't point you to
+[01:46:23] pre-existing bugs.
+[01:46:25] Just it will pass your patch if
+[01:46:28] even if there is a pre-existing bugs
+[01:46:29] that you did not cause by your patch.
+[01:46:32] The other one will just goes on and on
+[01:46:34] and on.
+[01:46:35] So
+[01:46:36] uh
+[01:46:38] Someone help me out. Which one is it?
+[01:46:39] The Claude one or the Gemini?
+[01:46:43] Claude is nice. Okay. Claude is the one
+[01:46:44] who is okay, yeah, I didn't cause this.
+[01:46:47] But I honestly like the other one
+[01:46:49] because
+[01:46:50] I think I can do follow-up patches after
+[01:46:52] that.
+[01:46:57] All right, sorry.
+[01:47:00] >> Yeah, uh I'd like to mention one of the
+[01:47:01] things that Claude Code is doing for me.
+[01:47:04] So it actively also reviews me as an
+[01:47:06] engineer
+[01:47:07] and it
+[01:47:09] takes notes of what I'm telling it to
+[01:47:11] do, where I where it thinks I'm lazy,
+[01:47:13] where I am slacking off, and where I
+[01:47:15] need to work on. So it create It is
+[01:47:17] creating actively creating a profile of
+[01:47:19] me
+[01:47:20] and engaging how to work with me more
+[01:47:22] effectively. Uh so, it is auto loaded in
+[01:47:24] the context and that's what helps me.
+[01:47:32] >> So, I guess uh we have winners, right?
+[01:47:34] Claude and uh Gemini.
+[01:47:40] For AI or
+[01:47:43] No, there are more. Come on. What
+[01:47:46] happened to
+[01:47:48] I know, but in the there is Microsoft
+[01:47:50] Copilot.
+[01:47:52] There is
+[01:47:53] uh OpenAI ChatGPT.
+[01:47:56] There are others. Grok?
+[01:47:59] Anybody played with Grok?
+[01:48:03] >> Yeah, I I use it I use Grok while I'm
+[01:48:06] driving the Tesla. It's very fun.
+[01:48:08] >> Yeah. I never argue with my car. The car
+[01:48:10] is always right except while parking.
+[01:48:13] It's wrong.
+[01:48:16] >> I think the cool people all use Opus.
+[01:48:19] >> Okay. Uh we got lots of excited people
+[01:48:22] downstairs. Let's give them a chance.
+[01:48:30] >> [laughter]
+[01:48:41] >> All right.
+[01:48:42] Um
+[01:48:43] Okay, so we we're waiting for Roman
+[01:48:45] still.
+[01:48:48] >> Uh since I have the
+[01:48:50] >> mic, may I I can ask another question?
+[01:48:51] >> Yes, go ahead.
+[01:48:52] >> I want for Yuan. Uh
+[01:48:54] it's regarding the dashboard that you
+[01:48:56] were showing.
+[01:48:59] Um so, I have a question for Yuan about
+[01:49:01] the dashboard that you were showing. Um
+[01:49:04] I was wondering whether you could make a
+[01:49:06] system where you have the AI just uh
+[01:49:10] pick different bugs that were found
+[01:49:12] uh and try to create full chain exploits
+[01:49:15] with the goal of seeing if it can
+[01:49:17] discover new exploit methodologies. And
+[01:49:20] so that can be then fed into the kernel
+[01:49:23] as mitigation. So for example, what
+[01:49:25] we've done with the the slab allocator
+[01:49:27] with obfuscated pointers and things like
+[01:49:29] that. So kind of use uh cuz the bug
+[01:49:32] fixes are localized, uh but what if
+[01:49:36] uh you could take each of the bugs to
+[01:49:37] come up with new exploit generation
+[01:49:40] techniques and then feed that back in as
+[01:49:42] exploit mitigation. So you eliminate
+[01:49:44] classes of bugs all together.
+[01:49:46] >> Uh
+[01:49:47] you you you're not talking about
+[01:49:48] generating exploits from this bug.
+[01:49:51] >> Yeah, so like use the dashboard that you
+[01:49:52] have uh as a source of bugs and then
+[01:49:56] chaining them together to see what kind
+[01:49:58] of uh exploits full chain exploits that
+[01:50:00] can build.
+[01:50:01] >> Oh, actually uh
+[01:50:03] we haven't tried to uh merge
+[01:50:06] put put put put together a lot of bugs
+[01:50:08] to generate one exploit. All of the
+[01:50:10] exploits we discovered is is only from
+[01:50:13] one bug.
+[01:50:14] So
+[01:50:15] uh I'm not sure how it works.
+[01:50:18] May- maybe my teammate can tell you. I'm
+[01:50:21] not an exploit guy, so.
+[01:50:22] >> I I have a I have an example of the case
+[01:50:26] that you are saying. So the same bug
+[01:50:27] class, copy fail bug class. This that's
+[01:50:30] it's not new actually. The copy fail bug
+[01:50:33] class started in 2016 and we have I
+[01:50:35] think now eight to 10 different
+[01:50:37] exploits.
+[01:50:38] The the unique thing about that exploit
+[01:50:40] is it's not traditional. It's not memory
+[01:50:42] corruption, it's not race condition,
+[01:50:44] nothing. It's a it's a logic bug. But
+[01:50:46] still it it is a bug class.
+[01:50:48] So the to your point, it's very very
+[01:50:50] hard to chain because what when you
+[01:50:53] chain bugs like this,
+[01:50:55] it's actually you're chaining Wi-Fi or
+[01:50:57] networking subsystem to let's say
+[01:50:59] something another bug in io_uring.
+[01:51:02] So keeping the context of that far
+[01:51:04] subsystem is very hard, but whoever does
+[01:51:07] that gets another copy fail.
+[01:51:10] >> Yeah, I I believe I've never seen chain
+[01:51:11] bug except for the copperfield, right?
+[01:51:14] You know, kernel.
+[01:51:16] Is there any more bug like like
+[01:51:18] copperfield?
+[01:51:19] >> Yeah, the copperfield is a bug class.
+[01:51:21] Like the yeah, dirty pipe, then dirty
+[01:51:23] frag, then fragnesia, then copperfield,
+[01:51:25] then copperfield two.
+[01:51:27] >> Yeah, I mean copperfield we in
+[01:51:29] copperfield we need to chain. We combine
+[01:51:31] two bug. But in in most of the case we
+[01:51:34] we don't need that. Only one bug.
+[01:51:36] >> Most of the cases we don't, correct.
+[01:51:38] Correct.
+[01:51:38] >> Really? Don't you need some information
+[01:51:40] disclosure with some read primitive then
+[01:51:43] escalate that into a write primitive
+[01:51:44] which generally chain?
+[01:51:46] >> Wait, but those are usually in the same
+[01:51:48] subsystem.
+[01:51:49] Chaining is when you chain a different
+[01:51:51] subsystem to a different bug in another
+[01:51:53] subsystem. That I I I also think rarely
+[01:51:57] happens.
+[01:51:59] Most of the time all of the the entire
+[01:52:01] chain lies in the same
+[01:52:03] periphery.
+[01:52:05] >> Okay.
+[01:52:06] >> Yeah.
+[01:52:09] >> That that's sort of goes against what um
+[01:52:12] you said though in in your like one of
+[01:52:14] the slides you had to mention of one
+[01:52:15] full chain exploit going from the
+[01:52:17] browser into the kernel all the way. So
+[01:52:19] so that's by necessity a whole bunch of
+[01:52:21] different systems, right?
+[01:52:23] Um
+[01:52:24] So I mean it seems like it's possible,
+[01:52:26] but maybe it's just cost prohibitive.
+[01:52:30] >> Yeah.
+[01:52:31] >> Yeah, that that's the bug we are used to
+[01:52:32] chain the to to exploit Android is using
+[01:52:35] a Firefox bug and a kernel bug. So we
+[01:52:38] chain them together.
+[01:52:40] To so we can we can we can achieve the
+[01:52:43] UI
+[01:52:44] attack.
+[01:52:46] >> New startup idea.
+[01:52:48] >> [laughter]
+[01:52:52] >> Uh is there a preferred model or
+[01:52:54] provider that for any of you guys?
+[01:52:58] Is there one that you always go for or
+[01:53:00] do you always have a smart one that you
+[01:53:03] pay more for and then go for? What's
+[01:53:04] your How How you approach this?
+[01:53:06] >> You mean the follow-up?
+[01:53:08] >> Actually, and and first of our pipeline,
+[01:53:11] our radar is based on Claude X. So,
+[01:53:14] but in the future, we may use our own
+[01:53:16] model. We may train our our own model, I
+[01:53:19] think.
+[01:53:21] >> Uh but but your workflow or your
+[01:53:22] pipeline, do you go by some model
+[01:53:26] initially and then keep improving on it
+[01:53:28] or
+[01:53:29] >> So, it's a
+[01:53:30] >> Do you use a specific model that you
+[01:53:32] prefer or a specific provider?
+[01:53:35] >> Claude X is all GPT.
+[01:53:36] >> All all chat GPT, okay.
+[01:53:38] >> For me, it's all Opus series.
+[01:53:40] >> Opus?
+[01:53:41] >> Yeah.
+[01:53:42] >> And
+[01:53:42] >> Opus for me and Fable 5.
+[01:53:44] >> Okay.
+[01:53:47] And did you found made any research
+[01:53:49] around the context size?
+[01:53:52] >> What what what you said?
+[01:53:53] >> Uh context size.
+[01:53:54] >> Context management?
+[01:53:55] >> Yeah.
+[01:53:56] >> Uh yeah, we I haven't tried. We we
+[01:53:59] Actually, we are trying to split the
+[01:54:01] files into smaller part and trying to uh
+[01:54:05] connect the
+[01:54:06] um some
+[01:54:08] some some connected functions using some
+[01:54:10] code graph or something, yeah.
+[01:54:12] >> Do you use Claude code?
+[01:54:15] >> Me?
+[01:54:15] >> Yeah.
+[01:54:16] >> Uh
+[01:54:17] not much.
+[01:54:17] >> Because Claude code has very very good
+[01:54:20] extensions
+[01:54:22] and they do basically the same thing
+[01:54:23] that you will have to do like offloading
+[01:54:25] context from the context window.
+[01:54:28] There's one called context mode. That
+[01:54:31] extension is amazing. Like one like if
+[01:54:34] you have a 1 million context window, it
+[01:54:36] last at least 10 times more with that
+[01:54:38] extension.
+[01:54:39] >> Okay, thanks.
+[01:54:42] >> That I personally use, so.
+[01:54:43] >> And Claude also has this Claude.md and
+[01:54:46] dot Claude directory where from where it
+[01:54:47] loads the context. So, I maintain an
+[01:54:49] index. So, based on the task that I'm
+[01:54:51] working on, it loads specific files
+[01:54:53] which are relevant for the context. So,
+[01:54:55] that helps you manage.
+[01:55:00] >> Uh we
+[01:55:01] apparently Roman has been found?
+[01:55:04] Don't lose all hopes. So, we'll we'll
+[01:55:06] just get him for a very brief moment. Do
+[01:55:08] people want have questions for Sashiko?
+[01:55:10] We won't let him present. He'll just
+[01:55:11] answer questions or make statements.
+[01:55:14] What do do people prefer?
+[01:55:15] >> Questions.
+[01:55:16] >> Questions? Okay.
+[01:55:18] All right. As soon as he joins, let me
+[01:55:19] know. So, we're extending the break a
+[01:55:21] little bit just so that he can join.
+[01:55:25] Is he on?
+[01:55:27] He just joined. Okay, can you put him on
+[01:55:30] the screen, I guess?
+[01:55:35] >> Yeah, hi. Yeah, thank you for having me
+[01:55:37] and sorry I
+[01:55:38] I was caught off guard. I was expecting
+[01:55:41] that like my talk will be like in 2
+[01:55:43] hours. So, I was preparing to drive to
+[01:55:45] be here and present from there.
+[01:55:48] >> Yeah, it's okay. So, Roman, we kind of
+[01:55:51] run out of time here. So, we are not
+[01:55:53] going to
+[01:55:54] I know you're going to present, but
+[01:55:55] we're going to do it slightly different
+[01:55:56] format. There's questions for you and
+[01:55:58] maybe you can answer those questions,
+[01:56:00] yeah?
+[01:56:01] Sure, sounds good. Okay, all right. Who
+[01:56:02] wants to go first?
+[01:56:05] All right, go.
+[01:56:10] >> Yes, so one question is Sashiko, like
+[01:56:13] how do you verify the output of Sashiko?
+[01:56:16] That's the first question.
+[01:56:17] Like
+[01:56:18] Sashiko proposes a fix
+[01:56:21] before
+[01:56:23] sending that fix to the maintainer, are
+[01:56:25] there any verification mechanisms?
+[01:56:28] >> Okay, so like kind of
+[01:56:30] >> [clears throat]
+[01:56:31] >> There are two questions in one, right?
+[01:56:32] Like first Sashiko is not providing
+[01:56:34] fixes, right? Like it just performs a
+[01:56:36] code review and actually mostly asks
+[01:56:39] questions or points at some issues,
+[01:56:41] right?
+[01:56:42] Does not provide fixes even though some
+[01:56:44] people asked about
+[01:56:46] putting in some functionality to which I
+[01:56:48] this functionality but I have uneasy
+[01:56:51] feelings about it at least at this
+[01:56:53] moment.
+[01:56:54] So, regarding verification of code
+[01:56:57] review I
+[01:56:59] always relied first on the kind of
+[01:57:01] benchmark [clears throat] built very
+[01:57:02] early on which is based on
+[01:57:05] the set of upstream fixes and
+[01:57:07] corresponding bugs. So I just took like
+[01:57:10] last at that moment like several months
+[01:57:12] ago it's last 1000 completely unfiltered
+[01:57:17] fixes in upstream with
+[01:57:20] patches with the fixes tags and
+[01:57:23] using here I built the list of
+[01:57:26] corresponding bugs their descriptions
+[01:57:28] like initial comments which introduces
+[01:57:31] bugs and I asked Sashiko to review this
+[01:57:34] original patches and verify whether it
+[01:57:38] can spot this this exact same issue.
+[01:57:41] So and I have
+[01:57:42] various
+[01:57:44] like benchmarks of various size. My main
+[01:57:46] benchmark is like has around thousands
+[01:57:49] bugs in it and I use it systematically
+[01:57:52] to develop Sashiko and like the current
+[01:57:54] reading was two minutes we went right
+[01:57:56] around like 54%.
+[01:57:58] >> And Sashiko
+[01:57:59] >> right.
+[01:58:00] >> Oh and Sashiko keeps track of all this
+[01:58:02] context like you have you feed this
+[01:58:04] context every time
+[01:58:06] like how Sashiko learns from all all
+[01:58:09] these things.
+[01:58:11] >> I mean there is no continuous learning
+[01:58:13] yet so it's something I'm kind of
+[01:58:15] thinking about
+[01:58:17] right now there there is a set of
+[01:58:19] prompts which many people like which
+[01:58:22] initially was created by Chris Mason and
+[01:58:24] then developed by many of folks
+[01:58:26] including networking folks I think
+[01:58:28] Jacob made significant contributions. So
+[01:58:31] basically it's a set of prompts which is
+[01:58:34] developed by people right now directly
+[01:58:37] but
+[01:58:39] what I'm increasingly thinking about and
+[01:58:41] what I was about to present this is like
+[01:58:44] I'm thinking about trying to build like
+[01:58:47] an agentic pipeline to
+[01:58:49] to analyze the feedback from humans on
+[01:58:52] individual patches and findings when
+[01:58:54] like sushiks sending reviews over email
+[01:58:57] and people reply and say hey this
+[01:58:58] analysis is like false positive or like
+[01:59:00] oh yeah confirms that this is an issue.
+[01:59:03] And we can hopefully analyze this
+[01:59:06] genetically and kind of improve prompts
+[01:59:09] uh
+[01:59:09] this sort of
+[01:59:11] automatic mode.
+[01:59:14] >> Thanks.
+[01:59:16] Uh anybody?
+[01:59:18] >> We had another question about
+[01:59:20] sushiko improving.
+[01:59:24] >> What?
+[01:59:25] >> Turn it on.
+[01:59:28] >> Hey.
+[01:59:29] Um I have a question about whether
+[01:59:31] you've noticed sushiko
+[01:59:33] uh review quality improve the more it
+[01:59:35] reviews.
+[01:59:39] >> Um
+[01:59:40] I mean the quality is kind of it's it's
+[01:59:43] it's
+[01:59:44] a hard thing, right? Like it at least
+[01:59:46] for me it it has at least two main
+[01:59:48] parts, right? Like first is like
+[01:59:50] how good it is at discovering bugs.
+[01:59:53] Uh this part is
+[01:59:55] relatively stable for last several
+[01:59:57] months and I honestly expect next big
+[02:00:00] jump uh will happen when it will just
+[02:00:02] get a better model.
+[02:00:04] Um
+[02:00:06] but I
+[02:00:07] like and the second part is like false
+[02:00:09] positives rate, which is way harder to
+[02:00:12] measure. There is no kind of direct way
+[02:00:14] to measure it. So I only rely on human
+[02:00:16] feedback and some sort of statistics,
+[02:00:18] right?
+[02:00:20] Regarding false positives, I think
+[02:00:23] sushika got better over last I don't
+[02:00:26] know couple of months and just overall
+[02:00:28] like sushika is 4 months old right now,
+[02:00:30] which is I think pretty young, but
+[02:00:34] I think it's easy to miss this.
+[02:00:36] So
+[02:00:37] there were some significant improvements
+[02:00:39] in like sushika works.
+[02:00:42] So I hope it minimized the false
+[02:00:44] positives. There were some specific
+[02:00:45] bugs, but also now Sashika um records on
+[02:00:50] each stage dismissed concerns and also
+[02:00:53] it records specific places in the code
+[02:00:55] and specific codes needed which back up
+[02:00:58] their theory.
+[02:01:00] And it uses it all in later stages.
+[02:01:03] Um and I mean there are some other ideas
+[02:01:05] how to improve it like there are some
+[02:01:07] limits of those like kind of it's
+[02:01:09] through its models, there is hardness,
+[02:01:10] and there is prompts, and they all three
+[02:01:12] all three parts can be built a lot. So,
+[02:01:15] each part has its limits.
+[02:01:19] >> Thank you.
+[02:01:20] Any other downstairs any questions?
+[02:01:25] >> None yet.
+[02:01:26] >> So, Roman, yeah, another good point that
+[02:01:29] was discussed before you joined. So, it
+[02:01:31] was basically improving the semantics of
+[02:01:35] AI-generated analysis. AI is good at,
+[02:01:38] you know, mostly syntactic type
+[02:01:40] analysis,
+[02:01:42] which is really
+[02:01:43] like if you are analyzing a bug in one
+[02:01:45] subsystem, it will try to grab for other
+[02:01:47] similar stuff for in in in that
+[02:01:49] subsystem itself. But like how about it
+[02:01:52] can learn from each subsystem and apply
+[02:01:55] that logic in some totally different
+[02:01:57] subsystem. So, one one of the points
+[02:01:59] which was discussed like keeping a kind
+[02:02:01] of a knowledge base of semantics of each
+[02:02:03] subsystem that maintainers can help
+[02:02:05] generate. Uh and that we can feed into
+[02:02:08] Sashiko so that the next time Sashiko
+[02:02:12] finds
+[02:02:13] like reviews some bug in other system,
+[02:02:15] it already knows like the subsystem,
+[02:02:17] what type of intent the sub
+[02:02:20] subsystem has,
+[02:02:22] the code style, and all of the
+[02:02:25] repetitive type stuff.
+[02:02:27] >> Maybe, yeah, it's kind of it's
+[02:02:30] Um as I said like I always was relying
+[02:02:33] on this benchmark or eval. The problem
+[02:02:36] is like there are many ideas which look
+[02:02:38] like I'm not saying this idea won't
+[02:02:40] work, but like I just as
+[02:02:42] like at some point I I decided I I know
+[02:02:45] I'm using Sashika is kind of less good
+[02:02:47] with locking issues. And I said, "Hey,
+[02:02:50] what if Sashika could before jumping
+[02:02:53] into reviewing a specific code actually
+[02:02:55] study the locking scheme in the
+[02:02:57] particular file or like subsystem and
+[02:03:00] build like a mental map of like how
+[02:03:02] locking works in bigger picture and use
+[02:03:05] this information
+[02:03:07] uh
+[02:03:07] later in review." And I built it and it
+[02:03:10] looked great, like
+[02:03:12] but it did not improve the discover rate
+[02:03:15] at all.
+[02:03:17] Uh
+[02:03:17] and I also tried to kind of build a sort
+[02:03:21] of continuous learning system that
+[02:03:22] Sashika kind of records
+[02:03:25] non-trivial uh
+[02:03:27] things it discovers uh
+[02:03:29] kind of as a byproduct of reading and
+[02:03:32] reviewing code. And I was saying, "Hey,
+[02:03:34] again, like it will accumulate this
+[02:03:35] knowledge and we can can feed this
+[02:03:37] knowledge into context and like
+[02:03:41] hopefully Sashika will better understand
+[02:03:43] the kernel.
+[02:03:46] >> Okay, so I'm going to try and wrap it up
+[02:03:47] here because the other session starts in
+[02:03:49] 10 minutes.
+[02:03:51] Uh any last words of wisdom? What's your
+[02:03:54] plan? What's uh tips for optimizations?
+[02:04:00] >> Um
+[02:04:01] No, I I I I think for me the main point
+[02:04:03] is like uh
+[02:04:05] this CI tools they made a
+[02:04:08] Sashika, but not all only Sashika like
+[02:04:10] made a great pass in last
+[02:04:12] really few months, like 6 months ago it
+[02:04:15] was
+[02:04:16] I wasn't convinced that it's possible at
+[02:04:19] all, but now it's kind of
+[02:04:21] it's a fairly big thing. Uh
+[02:04:23] and
+[02:04:25] they rely on your feedback to be
+[02:04:27] improved. Like so, like if if nobody is
+[02:04:30] using them or nobody is reporting
+[02:04:32] results, like they can't be improved. At
+[02:04:34] least provide your feedback.
+[02:04:36] And that's most valuable thing for us to
+[02:04:39] improve it.
+[02:04:42] And thank you.
+[02:04:43] >> Yeah, thanks Roman. I'm sorry we didn't
+[02:04:46] give you enough time, but we run out of
+[02:04:48] time. Okay, everybody
+[02:04:49] >> Thank you.
+[02:04:50] >> Thanks everybody, all the speakers,
+[02:04:52] Roman and everybody else.

@@ -1,0 +1,560 @@
+Source: https://youtu.be/BCI6itT8_Hc
+Language: en
+Captions: auto-generated
+
+[00:00:00] Hi everyone. Hope you're all having a
+[00:00:01] great time in Rome. I'm very saddened
+[00:00:04] that I can't join you in person. So
+[00:00:07] today I will unfortunately be virtually
+[00:00:09] presenting my proposal.
+[00:00:12] So what I want to propose is adding a
+[00:00:14] new AFenix shared memory transport to
+[00:00:17] the kernel.
+[00:00:20] Let's start with the goal. I have two
+[00:00:23] processes running on the same host. How
+[00:00:26] do I move bulk data between them?
+[00:00:30] The kernel provides two socket-based
+[00:00:32] methods. TCP loop back or Unix domain
+[00:00:36] sockets. Being sockets, they have the
+[00:00:39] same API as network sockets to remote
+[00:00:41] hosts, making it easy to adapt existing
+[00:00:44] code.
+[00:00:47] But there is one big drawback. Both
+[00:00:50] involve making two copies of the data.
+[00:00:53] one on the sender side into the kernel
+[00:00:56] and one on the receiver side out of the
+[00:00:58] kernel. This consumes both CPU cycles
+[00:01:02] and memory bandwidth.
+[00:01:04] Now for small messages, this overhead is
+[00:01:07] absolutely acceptable. But for bulk
+[00:01:11] data, let's say I'm transferring
+[00:01:13] hundreds of gigabytes, then this becomes
+[00:01:16] a real bottleneck.
+[00:01:19] As the zerocopy person having added
+[00:01:22] Iring zero copy receive to the kernel
+[00:01:25] the obvious solution is to avoid copies.
+[00:01:28] But how?
+[00:01:31] I'll start with what doesn't work. DMA
+[00:01:33] based methods. There are two main ones.
+[00:01:37] The first is message zero copy for zero
+[00:01:40] copy send and page pool memory providers
+[00:01:43] for zero copy receive.
+[00:01:47] They work by pinning and DMA mapping
+[00:01:51] user pages and then using them for DMA
+[00:01:54] transfers. Now that only works if
+[00:01:58] transferring data between the host and
+[00:02:01] the device, but it's not going to work
+[00:02:03] for IPC between two processes running on
+[00:02:07] the same host.
+[00:02:10] Another way to do it is to use splice
+[00:02:13] with its related sys calls splice 2 send
+[00:02:17] file and VM splice. They all use the
+[00:02:20] same underlying splice mechanism to fill
+[00:02:23] a pipe with page references without
+[00:02:26] copying the data.
+[00:02:29] Now this does work to avoid copying on
+[00:02:32] the send side and it's fairly flexible
+[00:02:35] supporting both anonymous memory via VM
+[00:02:39] splice or shared memory using send file
+[00:02:44] but the receiver side is not necessarily
+[00:02:47] zero copy. It depends on what the
+[00:02:50] destination is. Splice avoids copying by
+[00:02:54] operating on page refs which only works
+[00:02:57] for pipes and sockets.
+[00:02:59] In the case of IPC, the destination is
+[00:03:03] the receivers's VMA. So, a copy is still
+[00:03:06] needed.
+[00:03:08] Therefore, Splice can only really
+[00:03:10] eliminate one of the two copies for IPC.
+[00:03:17] The canonical way to do zero copy IPC is
+[00:03:20] to use shared memory.
+[00:03:22] Create a shared memory region via one of
+[00:03:25] the many ways the kernel provides. MFDs
+[00:03:28] toxic shared memory and so on. Then have
+[00:03:31] both processes get a handle to the same
+[00:03:34] shared memory and m map the whole thing.
+[00:03:37] Any data transfer is simply passing the
+[00:03:40] offset and length to the shared memory
+[00:03:42] region containing the data.
+[00:03:46] But shared memory on its own is not
+[00:03:48] quite enough. User space libraries add
+[00:03:51] surrounding infrastructure,
+[00:03:53] serialization, synchronization,
+[00:03:56] allocators, a message channel, and a
+[00:03:59] notification mechanism between the
+[00:04:01] sender and the receiver.
+[00:04:05] The advantages are that it is truly zero
+[00:04:08] copy.
+[00:04:10] Any data transfer is simply passing an
+[00:04:12] offset and length into the shared memory
+[00:04:14] region, which is at most a few bytes of
+[00:04:16] metadata. And it is obviously going to
+[00:04:19] be very very fast compared to UDS.
+[00:04:24] But there are two main downsides. The
+[00:04:27] first one is no isolation. The receiver
+[00:04:30] fully maps the entire shared memory
+[00:04:32] region and nothing really stops it from
+[00:04:35] reading all of the data.
+[00:04:38] The second and the bigger one for why I
+[00:04:41] want to add an incernel transport is
+[00:04:43] that the sender and the receiver must
+[00:04:46] agree to use the same library.
+[00:04:49] The API is library implementation
+[00:04:52] specific.
+[00:04:54] Therefore, senders and receivers cannot
+[00:04:56] independently add shared memory as a
+[00:04:58] transport. It falls on an end user to
+[00:05:01] pick a particular library and integrate
+[00:05:04] it into both processes.
+[00:05:07] This is especially problematic for open-
+[00:05:10] source code. Any code integrating one
+[00:05:13] particular shared memory library cannot
+[00:05:15] reasonably be upstreamed.
+[00:05:18] So any internal changes to the open
+[00:05:20] source library must be carried forward
+[00:05:22] indefinitely which adds a continual
+[00:05:25] maintenance burden.
+[00:05:28] So my proposal is this add an in kernel
+[00:05:31] AFUX shared memory transport.
+[00:05:36] But before we get to the details I would
+[00:05:39] like you to consider this. If splice
+[00:05:41] eliminates a copy on the send side, what
+[00:05:44] about using TCP zero copy receive on the
+[00:05:47] receiver side?
+[00:05:49] It works by inserting pages into the
+[00:05:52] receivers's VMA, which should eliminate
+[00:05:55] the receiver side copy, right?
+[00:05:59] Well, unfortunately, TCP zero copy
+[00:06:02] receive uses VM insert pages, which only
+[00:06:06] works for clean kernel allocated pages.
+[00:06:10] It also requires the use of TCP, which
+[00:06:13] is unnecessary overhead for IPC.
+[00:06:16] But still the page insertion mechanism
+[00:06:19] is almost what we want. If only it would
+[00:06:22] work for anonymous and shared memory
+[00:06:24] pages.
+[00:06:28] So here is my approach. I want to use
+[00:06:31] shared memory which is the most optimal
+[00:06:34] way of doing zero copy. But I borrow the
+[00:06:37] page insertion technique used by TCP
+[00:06:40] zero copy receive.
+[00:06:43] Instead, I will use VMF insert pfn to
+[00:06:47] make it work for arbitrary pages.
+[00:06:50] This is so that the receiver does not
+[00:06:52] need to end mapap the entire shared
+[00:06:54] memory region.
+[00:06:56] And with this incernel transport, the
+[00:06:59] sender and the receiver can
+[00:07:00] independently use it. It will work as
+[00:07:04] long as they're running Linux.
+[00:07:08] I'll start with the numbers. I compared
+[00:07:11] my AFUX shared memory with UDS as a
+[00:07:14] baseline and then against two
+[00:07:16] open-source user space libraries, Flow
+[00:07:19] IPC and ICE Orex 2.
+[00:07:23] Flow IPC uses UDS for protocol messages
+[00:07:27] and supports arbitrary message sizes.
+[00:07:31] ICE orx 2 uses lock free shared cues
+[00:07:34] with fixed size messages and only does
+[00:07:36] busy polling.
+[00:07:39] The experiments are run on an Intel Xeon
+[00:07:42] Kooper Lake CPU.
+[00:07:45] Both the sender and the receiver have
+[00:07:47] eight threads with four connections per
+[00:07:49] thread, an IOQ depth of 8 per thread,
+[00:07:53] and the payload sizes are 4 megabytes.
+[00:07:57] As you can see from the table, all
+[00:07:59] shared memory IPC methods are multiple
+[00:08:03] times faster than UDS. As expected,
+[00:08:06] AFUX shared memory is competitive with
+[00:08:09] flow IPC being only slower by 11%.
+[00:08:14] Isorx 2, however, is much faster with
+[00:08:18] AFX shared memory trading by 28%.
+[00:08:23] This is due to ice or X2 having fixed
+[00:08:25] size messages and does PC polling with
+[00:08:28] no kernel involvement to wake up the
+[00:08:30] threads.
+[00:08:34] On the latency side, the experiments are
+[00:08:37] run with just one thread and with a Q
+[00:08:40] depth of one.
+[00:08:42] At smaller message sizes, less than 4K,
+[00:08:45] shared memory is in fact worse than UDS.
+[00:08:49] That makes sense. The overhead of the
+[00:08:51] copy scales with the message size,
+[00:08:53] whereas shared memory swaps that for a
+[00:08:56] per message overhead.
+[00:08:59] For AF Unix shared memory, the break
+[00:09:01] even point is at 4K and for flow IPC,
+[00:09:05] the break even point is at 32K.
+[00:09:09] Note that the implementation of AF Unix
+[00:09:12] shared memory is faster than flow IPC
+[00:09:16] for latency.
+[00:09:18] ICE orx 2 again with its busy polling
+[00:09:21] design is significantly faster than
+[00:09:23] everything else.
+[00:09:27] Now, with the numbers out of the way,
+[00:09:30] I'll walk through the U API and show how
+[00:09:33] the feature is used. In this example,
+[00:09:36] the server is the sender and the client
+[00:09:38] is the receiver.
+[00:09:40] The first step is to prep the sender by
+[00:09:43] creating a MEFD and then registering it
+[00:09:46] with ION.
+[00:09:49] First, create a MEFD and air map it as
+[00:09:53] normal. then register it with io ring
+[00:09:57] via a new register opio
+[00:10:00] ring register shared memory send pool.
+[00:10:04] This reuses io's registered buffers
+[00:10:07] infrastructure and pins the pages to
+[00:10:10] keep their mapping to the frames stable.
+[00:10:16] Next, the sender creates sockets and
+[00:10:18] listens for incoming connections. This
+[00:10:21] is very very similar to UDS.
+[00:10:27] Note that an AFUX shared memory socket
+[00:10:29] can only be created via an ION register
+[00:10:33] op. This is to ensure that only IOing
+[00:10:36] can be used to issue requests to it.
+[00:10:41] After creating the socket, it can be
+[00:10:43] used with bind and listen and accept as
+[00:10:46] before.
+[00:10:50] Next on the receiver side, it must
+[00:10:52] create a VMA with IOU ring. This is
+[00:10:56] where pages from the sender
+[00:10:59] me FD are inserted into.
+[00:11:02] There is no upfront memory commitment
+[00:11:05] and the receiver does not map the entire
+[00:11:08] MEFD.
+[00:11:13] The receiver also issues a new IOU ring
+[00:11:16] register op to allocate a VMA and hand
+[00:11:19] it back to the receiver.
+[00:11:25] Next, the receiver creates sockets and
+[00:11:28] connects to the sender.
+[00:11:32] Just like the sender, Iring is used to
+[00:11:35] create AFUX shared memory sockets.
+[00:11:38] Connect then works as normal.
+[00:11:44] Now that the receiver is connected to
+[00:11:46] the sender, it's time for the sender to
+[00:11:48] issue a send request.
+[00:11:54] Preparing the send request and issuing
+[00:11:56] it is just like any other IO ring
+[00:11:58] request. The first step is to get an SQE
+[00:12:03] and prep it with the new shared memory
+[00:12:06] send op code
+[00:12:09] and then submit the request and wait for
+[00:12:12] a completion.
+[00:12:18] On the receiver side, issue a parallel
+[00:12:21] receive request.
+[00:12:26] Again, this is like any other IOU
+[00:12:29] request.
+[00:12:31] Note that the address passed in has to
+[00:12:34] be within the registered VMA from the
+[00:12:37] earlier step.
+[00:12:41] After the receiver submits the receive
+[00:12:43] request, wait and reap completions.
+[00:12:50] Again, this is standard IO ring code.
+[00:12:53] Once submit and wait returns, there are
+[00:12:56] now completions in the completion queue.
+[00:13:00] Process the completions using peak CQE
+[00:13:04] and mark the completions as seen.
+[00:13:08] The tracker ID is important and will be
+[00:13:11] used later to release the released the
+[00:13:14] received data back to the sender.
+[00:13:20] After processing the completion, the
+[00:13:22] receiver can do stuff with the data
+[00:13:26] and once done, it must be released to
+[00:13:29] free the VMA and to signal to the sender
+[00:13:32] that it is done with the data. The
+[00:13:34] sender then can reuse that memory for
+[00:13:37] other operations.
+[00:13:41] This is done via a release request using
+[00:13:44] the tracker ID from the receive
+[00:13:46] completion earlier.
+[00:13:48] This again is submitted as like with any
+[00:13:52] other IOU ring request.
+[00:13:58] And now finally to complete the loop the
+[00:14:00] sender waits and reaps its own send
+[00:14:03] completions. There will be two of them
+[00:14:05] per send.
+[00:14:07] The first one will be issued after the
+[00:14:09] initial send indicating that the send
+[00:14:13] was either successful or a failure.
+[00:14:16] The second completion is after the
+[00:14:19] receiver has released.
+[00:14:21] This is quite similar to how message
+[00:14:23] zero copy or Iring zero copy send works.
+[00:14:27] That second notification is telling the
+[00:14:29] sender that is it's now safe to reuse
+[00:14:32] the memory
+[00:14:37] in code. This is just like processing
+[00:14:39] completions from IU zero copy send.
+[00:14:43] Each shared memory send request will
+[00:14:45] generate two completions. Wait for them,
+[00:14:49] process them, and mark them as seen.
+[00:14:52] The first completion has the completion
+[00:14:55] flag f more set
+[00:14:58] and the final completion has the flag f
+[00:15:01] notif set. That's how the sender can
+[00:15:04] distinguish the two.
+[00:15:09] With the U API done, I will wrap up with
+[00:15:12] design choices and outcomes.
+[00:15:15] I'm sure one question on people's minds
+[00:15:18] are why I ring.
+[00:15:21] There are two main reasons. One, I
+[00:15:24] wanted to reuse existing ION
+[00:15:27] infrastructure such as received
+[00:15:30] registered buffers.
+[00:15:32] Uh, this lets me register the memory FD,
+[00:15:36] keep it pinned in memory and lets me use
+[00:15:39] it with requests.
+[00:15:41] IU Ring's U API is also highly
+[00:15:44] extensible, letting me add register and
+[00:15:47] requests very easily.
+[00:15:51] The completion infrastructure also fits
+[00:15:53] neatly with the two-stage message zero
+[00:15:56] copy like completions.
+[00:16:00] The second reason is having a consistent
+[00:16:04] new API surface using IU ring and its
+[00:16:08] own primitives
+[00:16:09] rather than having things be split
+[00:16:12] inevitably across IoT control messages,
+[00:16:16] sock opts and net link.
+[00:16:20] The usual benefits of IOuring such as
+[00:16:23] request batching still stands
+[00:16:28] in terms of security and isolation. This
+[00:16:31] design guarantees that the receiver do
+[00:16:34] not map the entire shared memory region.
+[00:16:37] The receivers's VMA are read only and
+[00:16:40] are created via IO ring making it
+[00:16:43] impossible to do anything else.
+[00:16:46] Any writes will immediately sec. This
+[00:16:49] ensures that receivers are isolated.
+[00:16:54] However, the sender can still mangle and
+[00:16:57] corrupt the data that are technically
+[00:16:59] sent and mapped into receivers. The
+[00:17:02] sender has to be trusted not to do this
+[00:17:05] since it is the owner of the MEFD.
+[00:17:09] AFenix shared memory sockets cannot mix
+[00:17:12] shared memory and non-shared memory
+[00:17:14] memory operations.
+[00:17:16] These sockets are created using ION and
+[00:17:19] only IO urine can be used to issue
+[00:17:20] shared memory ops.
+[00:17:23] Any attempt to do a normal send message
+[00:17:26] will fail.
+[00:17:31] Since I'm inserting page frame number
+[00:17:33] PTEES which do not take any refs on the
+[00:17:36] pages, the sender must keep the pages
+[00:17:39] associated with a physical frame.
+[00:17:42] The ME FD pool in the sender keeps the
+[00:17:45] pages stably pinned and the pool itself
+[00:17:48] is refounted to guarantee that it will
+[00:17:50] outlive everything else.
+[00:17:53] Any exit ordering is therefore safe. No
+[00:17:56] matter whether the sender goes away
+[00:17:58] first or any of the receivers goes away,
+[00:18:01] whether the pages are sent but not
+[00:18:03] received or received but not released.
+[00:18:08] This guarantees that there are no
+[00:18:10] faults.
+[00:18:13] The biggest problem that likely needs
+[00:18:15] addressing in the current iteration is
+[00:18:18] that a behaving receiver can absolutely
+[00:18:22] prevent the MFD pool created by the
+[00:18:25] sender from being properly freed.
+[00:18:28] This means that any receiver with a
+[00:18:30] message received but not yet released,
+[00:18:32] even if it's only a few bytes, will
+[00:18:35] prevent the entire MEFD region from
+[00:18:37] being freed.
+[00:18:41] So to summarize what AFI shared memory
+[00:18:44] transport brings,
+[00:18:46] it ensures per message isolation.
+[00:18:49] It has low overhead and is competitive
+[00:18:52] with user space libraries.
+[00:18:55] It has a familiar socket-based API.
+[00:18:59] It offers ordered RPC message-el like
+[00:19:02] semantics
+[00:19:04] and it has a secondary completion like a
+[00:19:07] message zero copy delivered inband to
+[00:19:09] tell the sender when it is safe to reuse
+[00:19:12] the memory.
+[00:19:16] All right, thank you for listening and
+[00:19:18] we'll move on to questions.
+[00:19:21] >> Okay.
+[00:19:22] >> All right. Proceed with the questions
+[00:19:23] please.
+[00:19:24] >> Okay.
+[00:19:26] >> Okay. Uh so my question is um did you
+[00:19:30] have a look at uh this whole thing looks
+[00:19:32] kind of similar to SMC sockets shared
+[00:19:36] memory communication especially to SMC
+[00:19:38] direct with a local loop back uh device.
+[00:19:43] So my question is have you had a look at
+[00:19:45] that and do you see any room for synergy
+[00:19:48] or merging the two?
+[00:19:52] >> Uh no I'm not aware of um SMC sockets. I
+[00:19:56] haven't seen that before.
+[00:19:58] >> Okay, you may want to have a look at
+[00:19:59] that. It's not exactly the same what you
+[00:20:02] described and maybe another problem, but
+[00:20:04] maybe there's room for synergies.
+[00:20:07] Uh, and one thing that SMC solved
+[00:20:11] because SMC tries to hides itself as a
+[00:20:14] normal TCP socket is um the addressing.
+[00:20:19] How do you match the sender and
+[00:20:20] receiver? If I understood you correctly,
+[00:20:23] that involves manual setup. So, if you
+[00:20:26] have more than one sender and one
+[00:20:28] receiver, how do you pair them up?
+[00:20:31] Is there some kind of addressing
+[00:20:33] involved?
+[00:20:36] >> Um, no, there's no Well, yeah, there is
+[00:20:39] some kind of It's the same addressing as
+[00:20:40] uh UDS sockets.
+[00:20:44] >> Okay.
+[00:20:44] >> So, that part doesn't change.
+[00:20:49] >> Uh I'm not familiar with UDS sockets,
+[00:20:52] but
+[00:20:53] >> Okay. So, so normally there is like a
+[00:20:54] path that you would use that both the
+[00:20:56] server and the client, both the sender
+[00:20:58] and the receiver would know what that
+[00:20:59] is.
+[00:21:01] >> A path
+[00:21:02] >> they would use that. Yeah. And then they
+[00:21:03] will use that to communicate.
+[00:21:05] >> Mhm. Okay. Thank you.
+[00:21:07] >> Yeah. Mhm.
+[00:21:11] Other questions?
+[00:21:15] >> Got one up here.
+[00:21:20] So, uh have you think about how to like
+[00:21:24] resolve the broadcast or multiccast
+[00:21:27] problems?
+[00:21:33] >> Um
+[00:21:35] I mean how how does it work for UDS and
+[00:21:38] other sockets?
+[00:21:40] >> It could be done with shared memory. So
+[00:21:42] why not with your library?
+[00:21:45] >> I see. I see. know that um that is not a
+[00:21:48] problem I've thought about yet at least
+[00:21:49] not for the uh first iteration. Um but
+[00:21:53] it sounds like it would be a good
+[00:21:54] follow-up to not need to sort of send
+[00:21:56] one to end times. We can just do it
+[00:21:58] once.
+[00:22:00] >> Yeah.
+[00:22:00] >> Um but I do wonder how
+[00:22:04] yeah I would have to discuss and think
+[00:22:06] about how that could be done. Um because
+[00:22:08] for the end receivers you have to sort
+[00:22:10] of map the memory into each one's own
+[00:22:12] VMA.
+[00:22:13] So to me, I'm not sure if there is a um
+[00:22:16] there's a way to sort of not duplicate
+[00:22:18] that work end times
+[00:22:20] because what each receiver Yeah. what
+[00:22:22] each receiver would want to receive uh
+[00:22:24] into like the address range inside of of
+[00:22:27] its VMA um it has to specify that.
+[00:22:31] >> Okay.
+[00:22:32] >> Right. So unless we did some kind of
+[00:22:33] like I don't know data placement sort of
+[00:22:35] thing where um
+[00:22:37] >> yeah the sender gets to decide
+[00:22:42] >> question downstairs. Go ahead.
+[00:22:46] >> Uh yes I have more
+[00:22:48] >> downstairs.
+[00:22:49] >> Sorry
+[00:22:52] can I go? Yeah. Uh a small question. I
+[00:22:55] I'm I'm still not understanding the the
+[00:22:57] difference in use case with regards to
+[00:23:00] pure user space solution. So you you
+[00:23:03] have two motivation in your slide. The
+[00:23:05] first one of them is the same library.
+[00:23:09] So you basically both processes need to
+[00:23:12] use the same library. I don't I mean
+[00:23:14] they don't need to use the same library.
+[00:23:16] they need to use the same negotiation
+[00:23:18] protocol right over the over the Unix
+[00:23:21] socket to negotiate the FD and to
+[00:23:24] establish the shared memory region. So
+[00:23:27] it's not really the same library but
+[00:23:28] they need to agree on how they
+[00:23:30] communicate. So
+[00:23:33] >> yeah I'm not completely convinced by by
+[00:23:35] this argument and the other one is
+[00:23:37] >> yeah I Uhhuh. Okay. Yeah, please finish
+[00:23:40] first. Yeah.
+[00:23:40] >> Yeah. The the other one is uh this um
+[00:23:44] basically you need to share the whole
+[00:23:46] memory region
+[00:23:48] and uh
+[00:23:50] why wouldn't you want to like create a
+[00:23:53] memory so you the the the sender would
+[00:23:56] create a memory agent dedicated to the
+[00:23:58] communication with this client right and
+[00:24:00] just share this one. So why is it a
+[00:24:02] problem basically?
+[00:24:05] Mhm. So onto your first question. Um yes
+[00:24:08] the process of exchanging the memory
+[00:24:11] shared memory FD whatever that
+[00:24:13] representation is that part is the same
+[00:24:15] across the board right um but what what
+[00:24:18] I'm what I'm saying is you that alone is
+[00:24:20] not enough because you need all the
+[00:24:22] other supporting parts to actually make
+[00:24:24] it usable.
+[00:24:26] So these libraries add things like how
+[00:24:29] do you send messages between the sender
+[00:24:31] and the receiver, right? Because you
+[00:24:33] have to communicate your data is here at
+[00:24:35] this offset with this length. How do you
+[00:24:38] send that?
+[00:24:40] The sender and the receiver have to
+[00:24:42] agree and for that generally they have
+[00:24:44] to use the same like user space library
+[00:24:47] to do that.
+[00:24:48] >> Right?
+[00:24:49] >> And then there is the process of the
+[00:24:50] receiver has to communicate back to the
+[00:24:52] sender. Um I'm done with the data. you
+[00:24:55] can now do you can now free it you can
+[00:24:56] now reuse it whatever um so there is a
+[00:24:59] protocol on on top of the raw shared
+[00:25:02] memory um abstractions that the kernel
+[00:25:05] provides right so that's the part that
+[00:25:08] the kernel doesn't provide today and you
+[00:25:10] need a user space library to provide it
+[00:25:13] which then you need both the sender and
+[00:25:15] the receiver to use essentially the same
+[00:25:16] one because each one there's so many
+[00:25:18] ways of doing it um there's no yeah
+[00:25:21] there's no singular way and they have to
+[00:25:22] agree so I I I would encourage you to go
+[00:25:25] go and try to to build something like
+[00:25:27] this and sort of see if you can just do
+[00:25:30] it with raw shed memory. But I I think
+[00:25:32] the answer is um the answer is that you
+[00:25:34] can't.
+[00:25:34] >> So it it already exists actually. It's
+[00:25:36] called MEF for memory interface. So I
+[00:25:40] encourage you to take a look at it. It's
+[00:25:42] implemented by DP by DPDK and by other
+[00:25:45] applications and it provides exactly
+[00:25:47] that. So establish a unique socket then
+[00:25:50] exchange memory regions over this unique
+[00:25:53] socket then create rings in this memory
+[00:25:56] region and then you know push packets
+[00:25:59] right and left or packets or whatever
+[00:26:02] descriptor. So just look for it on the
+[00:26:05] internet meming.
+[00:26:07] Yeah.
+[00:26:08] >> Yeah. So it there's something like that
+[00:26:11] just out of just for for for the
+[00:26:14] information. Thanks.
+[00:26:17] Okay, thank you.
+[00:26:20] >> Any other questions?
+[00:26:29] >> Okay. Well, David, thank you for joining
+[00:26:31] and uh fielding questions. Um, yeah,
+[00:26:35] thank you, David.
+[00:26:37] >> All right. Thank you,

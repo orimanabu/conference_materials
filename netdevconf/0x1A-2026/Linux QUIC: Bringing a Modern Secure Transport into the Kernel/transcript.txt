@@ -1,0 +1,852 @@
+Source: https://youtu.be/0opE9rssasw
+Language: en
+Captions: auto-generated
+
+[00:00:00] Hello everyone. I'm Sinlong from Red Hat
+[00:00:03] and I'm glad to have this opportunity to
+[00:00:05] talk about Linux Quick.
+[00:00:08] When people think about Quick, they
+[00:00:10] usually think of user space libraries
+[00:00:12] like Quiche, MSQUIC, or TCP2.
+[00:00:16] Quick was designed that way for good
+[00:00:19] reasons. So, a natural question is, why
+[00:00:22] put Quick into the kernel at all?
+[00:00:24] That's exactly the question we asked
+[00:00:26] when we started the Linux Quick.
+[00:00:29] Today, I will walk through why we built
+[00:00:31] it, what problems we are trying to
+[00:00:33] solve, and the challenges of bringing a
+[00:00:36] modern encrypted transport protocol into
+[00:00:39] the Linux kernel.
+[00:00:45] I'll start by explaining why we believe
+[00:00:48] Quick also belongs in the kernel
+[00:00:51] and briefly review Quick um key
+[00:00:54] properties.
+[00:00:55] Then, we will delve into the
+[00:00:57] architecture and socket API. Look at the
+[00:01:00] real integrations with Samba and curl
+[00:01:03] and finish with testing results and
+[00:01:05] what's next for the project.
+[00:01:11] Motivation.
+[00:01:14] Before getting into the Linux Quick,
+[00:01:16] here is a brief refresh on Quick itself
+[00:01:19] with its key features. First one, also
+[00:01:22] the most important one, Quick combines
+[00:01:24] transport and TLS handshakes,
+[00:01:27] making connection setup faster.
+[00:01:30] Meanwhile, with TCP and the TLS, you
+[00:01:33] first complete the TCP handshake
+[00:01:36] and only then proceed with the TLS
+[00:01:39] handshake.
+[00:01:40] Second one, it supports multiple
+[00:01:42] streams, so packet loss in one stream
+[00:01:46] doesn't block progress in others.
+[00:01:49] Third one, it identifies connections by
+[00:01:52] connection IDs rather than IP and port,
+[00:01:56] which is enables connection migration
+[00:01:58] without interruption.
+[00:02:01] Also, because it runs over UDP, we avoid
+[00:02:05] some middlebox issues that affect
+[00:02:08] protocols like SCTP.
+[00:02:14] The first question people ask is why
+[00:02:16] quick in kernel. There are four main
+[00:02:19] reasons. First, kernel consumers like
+[00:02:22] SMB and AFS can use quick with minimal
+[00:02:25] changes. Second, standard socket API
+[00:02:29] already work well for applications.
+[00:02:32] Developers understand the function like
+[00:02:35] listen, accept, connect, send a message,
+[00:02:39] and receive message, etc.
+[00:02:41] Third,
+[00:02:42] ALPN-based dispatch allows the kernel to
+[00:02:45] route incoming quick connections to
+[00:02:48] different services or processes.
+[00:02:52] Finally, performance.
+[00:02:55] Kernel integration reduces core overhead
+[00:02:58] by keeping most processing in the
+[00:03:01] kernel.
+[00:03:03] Minimize data movement using APIs like
+[00:03:05] sendfile.
+[00:03:07] And enable NIC crypto offload similar to
+[00:03:10] TLS hardware offload.
+[00:03:16] In this implementation, we aim to
+[00:03:18] support the core quick RFCs including
+[00:03:22] the transport, TLS integration, and the
+[00:03:26] loss recovery, as well as all released
+[00:03:29] quick extensions including datagram and
+[00:03:32] the quick version two.
+[00:03:34] We are also tracking active IETF drafts
+[00:03:38] like multipath and ack frequency.
+[00:03:42] But they are not implemented yet.
+[00:03:45] So, the goal is not just a minimal
+[00:03:47] quick, but a production-grade extensible
+[00:03:51] stack.
+[00:03:54] Implementations.
+[00:04:00] Our design splits responsibilities
+[00:04:02] between user space and kernel. TLS
+[00:04:05] handshake message generation and
+[00:04:08] processing remains in user space using
+[00:04:11] libraries like GNU TLS. Why?
+[00:04:15] Because TLS libraries already handle
+[00:04:17] certificate validation and crypto policy
+[00:04:20] very well.
+[00:04:22] And we don't want to re-implement that
+[00:04:25] in the kernel.
+[00:04:27] Everything else, including packet
+[00:04:29] processing, congestion control,
+[00:04:32] retransmission, streams, flow control
+[00:04:35] stays in the kernel.
+[00:04:37] Based on that,
+[00:04:39] in user space, TLS messages are
+[00:04:41] exchanged using send message and receive
+[00:04:44] message with crypto level carried in the
+[00:04:47] control message.
+[00:04:49] In kernel, we implement a quick type
+[00:04:52] socket, similar to how MPTP extended the
+[00:04:56] socket model. And we don't need to
+[00:04:59] allocate a new
+[00:05:00] IP protocol number.
+[00:05:03] Also, instead of making it a UDP upper
+[00:05:07] layer protocol,
+[00:05:09] we build it over UDP tunnels.
+[00:05:12] This is because a quick connection may
+[00:05:14] need to migrate across multiple UDP
+[00:05:17] sockets during [snorts] its lifetime.
+[00:05:21] Therefore, kernel consumers, we use the
+[00:05:24] existing net handshake infrastructure to
+[00:05:27] communicate with user space services,
+[00:05:29] such as
+[00:05:31] TLS SHD, which I'll cover later.
+[00:05:38] This diagram shows handshake
+[00:05:40] architecture.
+[00:05:42] Applications create a quick socket
+[00:05:45] during a
+[00:05:46] in
+[00:05:47] the quick handshake function.
+[00:05:49] Raw TLS messages move between kernel and
+[00:05:52] user space using send and receive
+[00:05:54] message
+[00:05:55] with the handshake info control message.
+[00:05:58] Those messages are generated and
+[00:06:01] processed through the user space TLS
+[00:06:04] library.
+[00:06:06] Once TLS generates the secrets,
+[00:06:09] we push them back into the kernel
+[00:06:11] through socket options.
+[00:06:13] And from there, quick transport runs
+[00:06:16] fully in the kernel.
+[00:06:18] For kernel consumers like SMB or AFS,
+[00:06:22] we create a quick tap socket and pass
+[00:06:25] the socket FD to a user space service
+[00:06:29] such as TLS HD via the net handshake
+[00:06:33] API.
+[00:06:35] The demand completes the handshake in
+[00:06:38] the same way as the quick handshake
+[00:06:40] function.
+[00:06:41] And notify the kernel when it's done.
+[00:06:45] Note that this user space upcall is only
+[00:06:48] needed for kernel subsystem, not for
+[00:06:51] user space applications.
+[00:06:58] After handshake, the data path becomes
+[00:07:01] much simpler. Application use standard
+[00:07:03] send message and receive message to
+[00:07:05] transmit and retrieve stream data with
+[00:07:09] quick specific metadata carried in the
+[00:07:12] control message.
+[00:07:14] Connection and stream management is
+[00:07:17] handled via socket options, where events
+[00:07:21] such as stream or connection updates are
+[00:07:24] delivered via receive message if the
+[00:07:27] application subscripts to them.
+[00:07:31] Kernel consumers has a consistent API
+[00:07:34] service
+[00:07:35] like
+[00:07:36] kernel send and receive message and
+[00:07:39] kernel set get sock opt.
+[00:07:47] Those are some of core data structures
+[00:07:50] in the kernel.
+[00:07:52] The quick sock represent a quick
+[00:07:54] connection. It is hashed into either the
+[00:07:57] listening sock hash table or the regular
+[00:08:00] socket hash table via the standard sock
+[00:08:03] hash and also into a
+[00:08:05] connection ID hash table using the
+[00:08:08] connection ID it manages.
+[00:08:10] On top of that, it manages multiple
+[00:08:13] streams to pass separated packet number
+[00:08:17] spaces and crypto contexts.
+[00:08:19] >> [snorts]
+[00:08:20] >> This is a good starting point to look
+[00:08:23] into the implementation details.
+[00:08:30] Interfaces.
+[00:08:34] For user space applications,
+[00:08:36] the workflow feels familiar.
+[00:08:39] You create a socket, then call bind,
+[00:08:41] listen, or connect,
+[00:08:44] perform a quick handshake, and listen to
+[00:08:47] I receive data.
+[00:08:50] The main difference is that connect
+[00:08:52] doesn't
+[00:08:53] establish the connection. It only
+[00:08:56] performs local initial setup.
+[00:08:59] The actual handshake is handled in the
+[00:09:02] quick handshake function.
+[00:09:05] The client initiate by sending a
+[00:09:07] handshake message, and the server
+[00:09:09] receives it and it retains a new socket
+[00:09:12] of via accept.
+[00:09:15] And the handshake continues on that
+[00:09:17] socket until it's finished.
+[00:09:21] This quick handshake function will be
+[00:09:23] integrated into the TLS library. So,
+[00:09:27] from the application's perspective, it
+[00:09:30] looks just like a normal TLS API. I will
+[00:09:33] show that in more details later.
+[00:09:40] Kernel consumers use a very similar API
+[00:09:43] in the kernel.
+[00:09:45] The difference is that the handshake is
+[00:09:47] performed using net handshake helpers
+[00:09:52] such as TLS client hello and TLS server
+[00:09:57] hello.
+[00:09:58] Just note that TLS HD service from K TLS
+[00:10:02] utils must be running in user space.
+[00:10:11] Now, let's take a closer look at the
+[00:10:13] socket APIs. First, control message or C
+[00:10:17] message. There are two type of C
+[00:10:19] message, handshake info and stream info.
+[00:10:22] Handshake info C message carries the
+[00:10:25] crypto level like initial handshake
+[00:10:27] application used for sending and
+[00:10:30] receiving TLS handshake messages.
+[00:10:35] Stream info C message is used for
+[00:10:37] sending and receiving stream data. It
+[00:10:40] includes a stream ID to identify the
+[00:10:43] stream and flags for stream operations
+[00:10:46] like open or close. This is very similar
+[00:10:50] to SCTP streams API.
+[00:10:57] Next socket API, socket options.
+[00:11:00] They expose quick control options
+[00:11:04] including
+[00:11:05] during handshake to set up TLS secrets
+[00:11:09] and TLS transport parameter extensions.
+[00:11:14] Before handshake to configure ALPN and
+[00:11:18] transport parameters.
+[00:11:20] After handshake to do stream management,
+[00:11:23] connections migration, key updates.
+[00:11:27] Altogether, those cover most control
+[00:11:30] operations needed for a quick
+[00:11:33] connection.
+[00:11:38] There's another socket option I
+[00:11:40] especially like is
+[00:11:42] stream peel off. It allows a specific
+[00:11:45] quick stream to be detached into its own
+[00:11:49] socket.
+[00:11:50] After peel off,
+[00:11:51] applications can use normal send and
+[00:11:53] receive socket API without specifying
+[00:11:57] stream metadata each time.
+[00:11:59] And here is an example. You open a
+[00:12:01] stream, peel it off, and get a new
+[00:12:04] socket FD.
+[00:12:06] Then from there, you can send and
+[00:12:08] receive directly on that stream socket.
+[00:12:11] This is useful when integrating quick
+[00:12:14] into existing applications.
+[00:12:17] Since the send and receive model can be
+[00:12:19] shared with TCP or UDP code.
+[00:12:27] The last socket API is notifications or
+[00:12:30] events.
+[00:12:31] >> [snorts]
+[00:12:31] >> Stream can open, close, or reset. Path
+[00:12:35] can migrate.
+[00:12:37] Key can update. New session tickets and
+[00:12:40] regular 2K can arrive anytime.
+[00:12:43] Notifications provide asynchronous
+[00:12:47] delivery of those events to application.
+[00:12:51] For multi-streams, notifications can
+[00:12:54] also indicate when a stream gets more
+[00:12:57] send capacity. This is important for
+[00:13:01] users to do stream scheduling for data
+[00:13:03] transmission.
+[00:13:09] We also proposed a new API in GnuTLS.
+[00:13:12] This API allows a standard TLS session
+[00:13:16] to operate over a quick socket.
+[00:13:21] From the application's perspective, it
+[00:13:23] feels very natural if you already use
+[00:13:26] GnuTLS for program.
+[00:13:28] Here's the example. You set up the
+[00:13:31] session as Euro
+[00:13:33] and set into this quick socket FD and
+[00:13:35] then call this function to
+[00:13:38] complete the
+[00:13:39] quick handshake.
+[00:13:45] Use cases.
+[00:13:48] Linux quick is already integrated with
+[00:13:51] Samba on both server and client sites.
+[00:13:55] And this stand fits light about it.
+[00:13:58] This use case validates the socket API
+[00:14:00] design using a real production workload.
+[00:14:07] For kernel consumers,
+[00:14:09] TLS HD has supported quick handshake for
+[00:14:12] about 1 year
+[00:14:14] as part of KTLS utils.
+[00:14:18] SMB is actively progressing and should
+[00:14:21] be ready after quick is merged upstream.
+[00:14:25] This is covered in Steve's slides.
+[00:14:28] AFS over quick is also being explored
+[00:14:32] through an ATF draft.
+[00:14:38] Mads has been working on integrating
+[00:14:41] quick into curl for AT V3 support. This
+[00:14:45] is covered in his presentation.
+[00:14:48] He has also developed
+[00:14:50] an AT V3 server based on Linux quick.
+[00:14:58] Testing.
+[00:15:01] For interoperability testing, we used
+[00:15:04] the quick interrupt runner to test
+[00:15:07] against major implementations.
+[00:15:10] It focus on functional testing covering
+[00:15:13] core features from the release
+[00:15:17] RFCs.
+[00:15:19] This shows that Linux quick is in a very
+[00:15:21] good state in term of feature
+[00:15:23] compliance.
+[00:15:28] The interrupt rate also has a simple
+[00:15:31] performance measurement. It measure the
+[00:15:34] quick connection good put over a 10 Mbps
+[00:15:37] link.
+[00:15:39] The first result in each box is quick
+[00:15:41] only. The second is cross
+[00:15:44] traffic.
+[00:15:45] Means a TCP flow is also competing on
+[00:15:48] the link.
+[00:15:50] Compared to other implementations,
+[00:15:52] Link's quick perform very well overall
+[00:15:54] in this measurement.
+[00:15:59] We also run fast testing using
+[00:16:02] syscaller. This shows new syscaller test
+[00:16:05] cases for quick and how they can be
+[00:16:07] added to
+[00:16:09] the syscaller repo and run locally.
+[00:16:13] This testing has been running since the
+[00:16:15] beginning of the project and has helped
+[00:16:18] us find many important bugs.
+[00:16:24] Next, performance.
+[00:16:26] We first compared against KTS using
+[00:16:30] modified iPerf2s.
+[00:16:32] Links are available here.
+[00:16:34] The test was run on two hosts with 100
+[00:16:38] gigabits links directly connected using
+[00:16:41] different MTUs and the various packet
+[00:16:44] sizes.
+[00:16:46] In the result, the left side is MTU 1500
+[00:16:50] and the right side is MTU 9000.
+[00:16:53] The bars in each group from left to
+[00:16:55] right represent Link's quick,
+[00:16:58] KTS with TCP GSO, and KTS without TCP
+[00:17:02] GSO.
+[00:17:04] Overall,
+[00:17:05] uh Link's quick performs below KTS.
+[00:17:09] >> [snorts]
+[00:17:12] >> The performance gap is expected. There
+[00:17:15] are a few reasons. First, TCP GSO
+[00:17:18] provides a significant benefit for KTLS,
+[00:17:22] especially at default MTU 500.
+[00:17:26] When GSO is disabled or with larger MTU
+[00:17:31] like 9,000 in the test, the gap becomes
+[00:17:34] much smaller.
+[00:17:37] Second, there is additional copy we
+[00:17:40] build the streams framed in quick for
+[00:17:43] user data on the send path.
+[00:17:46] Third,
+[00:17:48] quick includes a extra header
+[00:17:51] protection.
+[00:17:55] We also compared against the other quick
+[00:17:59] implementations in a study done by
+[00:18:02] Sebastian. We will publish a paper on
+[00:18:05] this. Comparing performance across
+[00:18:07] different quick implementations was
+[00:18:10] difficult
+[00:18:11] as each one exposes very different
+[00:18:14] programming interfaces.
+[00:18:16] Fortunately, Samba supports both Links
+[00:18:19] quick and TCP2 on Links and SMB over
+[00:18:23] quick is also supported on Windows.
+[00:18:27] This allows testing different OS
+[00:18:30] combinations for client and server over
+[00:18:33] 10 gigabit NICs with various payload
+[00:18:36] sizes.
+[00:18:40] This is a test results. On the left
+[00:18:43] side, Links quick is used as the server.
+[00:18:46] And on the right side, Windows MS quick
+[00:18:48] is a server.
+[00:18:50] Ignoring the black TCP baseline,
+[00:18:53] the yellow line represents Links quick.
+[00:18:57] Blue is TCP2 and the purple is MS quick.
+[00:19:03] Links quick performed better than TCP2
+[00:19:06] overall and is close to MS quick when
+[00:19:10] Links quick is the server.
+[00:19:13] However, it performs worse than MS Quick
+[00:19:16] when the server is Windows MS Quick.
+[00:19:20] One thing to note, Linux Quick didn't
+[00:19:22] perform well with small packets in the
+[00:19:25] this test
+[00:19:26] as it was using a large
+[00:19:29] act delay setup.
+[00:19:33] Future work.
+[00:19:37] The first thing is up streaming, which
+[00:19:39] is ongoing. We maintain
+[00:19:42] a GitHub repo and a mail list for
+[00:19:44] development discussions.
+[00:19:46] The source code is split into three
+[00:19:49] patch set and targeting the net next
+[00:19:52] kernel tree.
+[00:19:54] The first is a a quick infrastructure
+[00:19:56] and core subcomponents, which is already
+[00:19:59] on upstream for review.
+[00:20:02] The second is quick did pass socket APIs
+[00:20:05] and the
+[00:20:06] documentation.
+[00:20:08] The last one is sample tests and self
+[00:20:10] tests.
+[00:20:13] We're also evolving the TLS EPS port in
+[00:20:16] GNU TLS and the plan to submit it after
+[00:20:19] quick in kernel is merged upstream.
+[00:20:24] Once everything is in place, Linux Quick
+[00:20:26] can be used easily without requiring any
+[00:20:30] new library.
+[00:20:36] NIC crypto offload is one of the most
+[00:20:39] exciting future direction. We have
+[00:20:42] drafted code around struct uh quick dev
+[00:20:46] ops, which is similar to TLS and IPsec
+[00:20:49] offload frameworks.
+[00:20:52] Mark is working on an implementation on
+[00:20:56] AMD FPGA based NIC,
+[00:20:58] which should be available for testing in
+[00:21:01] 2 months.
+[00:21:02] Broadcom has a NIC supporting this
+[00:21:04] offload for sending,
+[00:21:07] but they expose only a dev IO control
+[00:21:10] interface to user space. So, we have not
+[00:21:12] yet had the chance to test them
+[00:21:15] properly.
+[00:21:17] Intel also has a NIC supporting this
+[00:21:19] offload.
+[00:21:20] But it is not fully compatible with a
+[00:21:23] standard quick stack.
+[00:21:28] Socket API are still evolving. We have
+[00:21:31] proposed an IETF draft for socket API
+[00:21:34] extensions
+[00:21:35] to support in-kernel quick across
+[00:21:37] different operating systems with a
+[00:21:40] consistent API.
+[00:21:43] We're also actively looking for feedback
+[00:21:45] and more real-world use cases. If your
+[00:21:48] applications has additional quick
+[00:21:50] requirements, I'd be very happy to
+[00:21:53] discuss that.
+[00:21:58] Thanks for listening. Any questions and
+[00:22:00] comments?
+[00:22:12] >> Uh thanks, Shin. So, the question is um
+[00:22:17] I know you're standardizing the API, but
+[00:22:20] have you looked at
+[00:22:21] the different implementations of how
+[00:22:24] quick is supported in different NICs?
+[00:22:26] Because unless the device behavior is
+[00:22:28] kind of normalized,
+[00:22:30] there will be always problems. I think a
+[00:22:32] good example is
+[00:22:34] uh Alax had done like a generic
+[00:22:36] segmentation offload. It worked uh
+[00:22:39] partial generic segmentation offload. It
+[00:22:41] worked because it was like a lowest
+[00:22:43] common denominator.
+[00:22:44] Right? So, um
+[00:22:46] you know, you want to look into
+[00:22:47] something like that.
+[00:22:49] Uh I think
+[00:22:51] with quick, there are some small
+[00:22:52] challenges with the fragmentation all
+[00:22:54] that stuff, UDP fragmentation.
+[00:22:56] But I think those are all solvable as
+[00:22:59] long as
+[00:23:01] something like OCP NIC
+[00:23:04] can define what is expected from the
+[00:23:08] device.
+[00:23:13] Uh
+[00:23:14] Uh does that make sense or I mean um
+[00:23:17] would you want to add something?
+[00:23:18] >> Uh I think
+[00:23:20] Yes, but uh
+[00:23:22] but crazily we we haven't uh
+[00:23:24] down the
+[00:23:26] um
+[00:23:26] the GSO, the the the fragmentation
+[00:23:29] offload.
+[00:23:31] So, yes, you are you are right about
+[00:23:33] that, but I I haven't looked looked into
+[00:23:36] that. For the UDP GSO
+[00:23:39] because we are using
+[00:23:41] uh
+[00:23:42] UDP tunnel and uh
+[00:23:44] and I
+[00:23:46] I don't I I I
+[00:23:49] um crazily the quick stack um there's no
+[00:23:53] way to configure it. Yes.
+[00:23:56] And
+[00:23:58] And also we are not targeting the the
+[00:24:01] GSO the the the the fragmentation
+[00:24:04] offload
+[00:24:05] at the time.
+[00:24:07] And for the NIC offload, we are more
+[00:24:09] looking for the
+[00:24:11] crypto offload.
+[00:24:13] >> Right.
+[00:24:14] >> Yeah, that that will boost more
+[00:24:16] performance.
+[00:24:18] So, for the for the GSO thing, yeah, we
+[00:24:20] we may do it later.
+[00:24:22] After the
+[00:24:23] >> [clears throat]
+[00:24:23] >> crypto offload, yeah.
+[00:24:25] >> Yeah, so I I believe Microsoft had
+[00:24:27] defined a few three different
+[00:24:29] acceleration points for quick. One is
+[00:24:32] with crypto, one is with the
+[00:24:33] segmentation, the third was I think
+[00:24:36] related to
+[00:24:37] um
+[00:24:39] uh pacing
+[00:24:40] of packets. So, I mean something like
+[00:24:42] that, but you need to
+[00:24:45] uh think about devices
+[00:24:47] end-to-end and then I think that would
+[00:24:49] work out better because we've had this
+[00:24:51] pain uh with other offloads and Linux
+[00:24:55] having 10 different variations because
+[00:24:57] the offload was not standardized from
+[00:25:00] the device level.
+[00:25:02] Device interface level, right? So,
+[00:25:05] that might be something you want to look
+[00:25:06] into. Thanks.
+[00:25:07] >> Yeah. Yeah, sure.
+[00:25:09] Thanks for your comments and uh
+[00:25:11] Yeah, that's right.
+[00:25:16] >> All right. My question is regarding the
+[00:25:18] fuzzing work that you've been doing.
+[00:25:20] Uh how well is the coverage and are you
+[00:25:23] able to pass the handshake and fuzz
+[00:25:25] beyond the points of the handshake?
+[00:25:29] >> Uh that's a good question. Uh
+[00:25:31] before the handshake, uh it you know the
+[00:25:34] the file it has to be only
+[00:25:37] only fuzzes syscall.
+[00:25:39] Like send a message, receive message,
+[00:25:42] uh socket, connect,
+[00:25:44] connect, accept, those things.
+[00:25:47] So, you are talking about the the
+[00:25:48] handshake. Yes, it could be because the
+[00:25:51] the data in the send message is in
+[00:25:53] randomly, right? So,
+[00:25:55] so in in theory, if you run it as long
+[00:25:58] as
+[00:25:59] as possible, you will get some
+[00:26:02] uh TLS handshake.
+[00:26:04] >> Uh if you have any coverage data
+[00:26:06] regarding that, uh if you could share,
+[00:26:07] that would be helpful.
+[00:26:10] >> Yes, and and that's also something we
+[00:26:12] are actually trying to you know
+[00:26:16] uh make some data uh to
+[00:26:20] to make it uh more similar to the real
+[00:26:22] TLS handshake.
+[00:26:24] But but you know the TLS handshake is in
+[00:26:26] the user space, right? The the data we
+[00:26:28] are using
+[00:26:29] actually
+[00:26:31] the kernel doesn't process the TLS
+[00:26:33] handshake. It just
+[00:26:35] get read read the data from
+[00:26:38] from the stack and then deliver to the
+[00:26:41] uh to the user space.
+[00:26:42] But but the the syscall of file testing
+[00:26:45] only
+[00:26:47] fuzzes syscall in kernel.
+[00:26:49] So,
+[00:26:50] I I I said actually not testing the TLS
+[00:26:53] handshake processing because it's fully
+[00:26:55] in the user space.
+[00:26:58] >> Yeah, but but but you are right with
+[00:27:00] with we should be doing some
+[00:27:03] some construction of the data so that we
+[00:27:06] can pass more.
+[00:27:09] >> Yeah, I think there's some tool called
+[00:27:11] BPF runtime fuzzer which is based on
+[00:27:13] syscaller.
+[00:27:14] So, they have developed some pseudo
+[00:27:16] syscalls wherein you can bring up the
+[00:27:18] entire connection in the user space and
+[00:27:19] then fuzz the kernel after the
+[00:27:22] handshake.
+[00:27:23] >> Okay.
+[00:27:24] Yeah, nice long guys.
+[00:27:26] Thank you.
+[00:27:30] >> Yeah, one of the advantages of the user
+[00:27:32] space quick was that
+[00:27:34] we could do updates to the protocol and
+[00:27:37] features without affecting the kernel.
+[00:27:41] Um, how
+[00:27:43] would this lock you into having to
+[00:27:46] synchronize versions with the different
+[00:27:48] endpoints you're communicating with?
+[00:27:50] And will it be
+[00:27:52] will we have the case where some
+[00:27:54] endpoints can't communicate with some
+[00:27:56] versions of the kernel?
+[00:28:05] >> So, your question is uh
+[00:28:07] if there's some problem with kernel
+[00:28:08] quick cannot connect with a user space
+[00:28:11] one.
+[00:28:11] Right?
+[00:28:12] >> No, no, other other implementations of
+[00:28:15] kernel quick those versions
+[00:28:17] incompatibilities over time.
+[00:28:19] Right?
+[00:28:20] >> Yes.
+[00:28:20] >> Because you're building it into the
+[00:28:22] kernel.
+[00:28:24] >> Yes.
+[00:28:28] But I sorry, I didn't get your your
+[00:28:30] question. Your question is how how to
+[00:28:34] how to test the
+[00:28:36] >> No, no, the one of the original
+[00:28:39] benefits of quick was that it was all in
+[00:28:41] user space.
+[00:28:43] And to do upgrades and changes to the
+[00:28:46] protocol, we could do that without
+[00:28:48] doing a kernel upgrade.
+[00:28:50] >> Yes.
+[00:28:51] >> When you lock it into the kernel, will
+[00:28:54] we have cases where different kernel
+[00:28:57] versions will not be able to communicate
+[00:29:00] or use specific features
+[00:29:02] of quick?
+[00:29:05] >> Yeah, yeah, that yeah, that is
+[00:29:08] the bad side of the the the kernel quick
+[00:29:11] because it's in kernel, you have to
+[00:29:12] replace the kernel.
+[00:29:14] Because you really
+[00:29:16] you really the distro don't release
+[00:29:19] kernel modules, right? It's just a
+[00:29:22] Uh well, it's possible, but it's it's
+[00:29:24] it's not so common. So, if you are you
+[00:29:27] want to upgrade the the
+[00:29:30] uh the kernel kernel quick, you have to
+[00:29:33] change the kernel. Yes, I I have to
+[00:29:35] admit that. I think that's also the
+[00:29:37] reason why
+[00:29:39] um
+[00:29:40] uh most of the kernel are in the user
+[00:29:42] space. But for some features,
+[00:29:45] you cannot
+[00:29:47] doing it with you user land feature.
+[00:29:50] That's why we are doing
+[00:29:52] uh the kernel quicks.
+[00:29:53] Right? For that Yeah, like that Yeah,
+[00:29:55] you you're right. I agree with you.
+[00:29:58] >> I want to add something to what Martin
+[00:30:00] said, and yes, I mean, putting anything
+[00:30:02] in kernel, you have to think twice for
+[00:30:04] the reason that, you know,
+[00:30:06] interoperability uh and and, you know,
+[00:30:08] kernel changes and everything. But
+[00:30:11] if the protocol itself evolves in a way
+[00:30:15] which is forward and backward
+[00:30:16] compatible,
+[00:30:17] then
+[00:30:18] you can actually
+[00:30:20] put it in the kernel, and there may not
+[00:30:22] be a problem. But yes, I mean, those are
+[00:30:25] the things to keep in mind.
+[00:30:29] >> Uh sorry, let let's question, okay? We
+[00:30:31] are running late.
+[00:30:33] >> Uh thank you for for the presentation. I
+[00:30:35] have one question. So,
+[00:30:37] uh
+[00:30:37] while we we deploy in quick protocol in
+[00:30:40] the wild, I we see like constantly the
+[00:30:43] problem of
+[00:30:44] uh having multiple virtual servers on
+[00:30:47] the same machine. So, it's like not not
+[00:30:50] one server that you are serving, but
+[00:30:52] it's like multiple V hosts. So, it's
+[00:30:55] like can be thousands of them. So,
+[00:30:57] easily 10,000 different. And so,
+[00:31:00] currently the one of the biggest problem
+[00:31:03] with all the quick and user space is you
+[00:31:06] have to attach the BPF program to
+[00:31:09] uh to the stack to actually steer the
+[00:31:12] quick connections between the
+[00:31:13] applications. Especially when you have
+[00:31:16] to reload the application and migrate
+[00:31:19] only the new connections to the new
+[00:31:21] to the new instance and leave
+[00:31:23] uh the old one on on the old ones. So, I
+[00:31:26] see that it is very good like
+[00:31:28] implemented here because we have accept
+[00:31:31] sockets and so, we like get
+[00:31:35] file descriptor assigned to the
+[00:31:37] connection. Uh but
+[00:31:39] one of the things I would like to see in
+[00:31:41] the future like an ability to assign a
+[00:31:44] filters uh to to the accept. So, like to
+[00:31:48] to decide
+[00:31:49] or to assign some code that I
+[00:31:52] more easily to write than a fully BPF
+[00:31:55] program
+[00:31:56] passing the whole
+[00:31:57] uh quick reference of the whole the
+[00:31:59] whole quick
+[00:32:01] um headers to define like what is the
+[00:32:04] program is want to be serving this
+[00:32:07] connection.
+[00:32:09] >> Yes, you are definitely correct that
+[00:32:10] because uh one of them advantage is uh
+[00:32:14] you kernel is
+[00:32:16] the the kernel space can
+[00:32:18] can route those those directly to
+[00:32:21] different
+[00:32:22] um services or pro or processes, right?
+[00:32:26] But the great uh greatly we are doing is
+[00:32:28] using the ALPA doing that. It's already
+[00:32:31] implemented. And as long as you'll
+[00:32:33] you'll can
+[00:32:36] configure it into the kernel with the
+[00:32:39] ALPN you want to
+[00:32:41] mean you want to accept. That's very
+[00:32:45] easy, but uh
+[00:32:46] I will what I'm curious what kind of
+[00:32:49] future you want.
+[00:32:50] You you actually want. It's a kind of a
+[00:32:52] generous thing or you are
+[00:32:55] application you already have some
+[00:32:59] some something like ALPN in the in the
+[00:33:02] handshake or some stream thing.
+[00:33:07] Do you have like some
+[00:33:09] >> Yeah, sorry. Uh I think it's quite a
+[00:33:11] general thing because like it's
+[00:33:12] implemented in every project in every
+[00:33:15] big project that implements quick
+[00:33:16] because when you speak on the local host
+[00:33:18] you just like, "Okay, I'm restarting the
+[00:33:20] service." And it's okay to
+[00:33:22] uh catch our
+[00:33:23] catch the all the new traffic and lost
+[00:33:25] the previous one. But you when you do
+[00:33:27] this in enterprise level, you like you
+[00:33:30] have responsibility to not drop the
+[00:33:32] traffic. So and
+[00:33:34] every project based on the quick is
+[00:33:36] actually doing this eBPF
+[00:33:39] like scheduling or
+[00:33:41] like
+[00:33:43] routing all the quick connections
+[00:33:45] between the programs.
+[00:33:47] >> Oh, I understand you. So I think to put
+[00:33:50] a
+[00:33:51] eBPF
+[00:33:52] hook in there should be Do you do you
+[00:33:55] think it's enough for you or you want
+[00:33:57] something more convenient?
+[00:34:00] >> I think it can be generalized on some
+[00:34:03] at least like
+[00:34:04] some
+[00:34:06] good API to do to to set that like
+[00:34:08] filters what what I want expect to see
+[00:34:11] on here. So same as like we could set up
+[00:34:14] a
+[00:34:15] uh socket filters. So just to to to
+[00:34:18] filter something. But here is we need to
+[00:34:21] to apply this only on accept path.
+[00:34:25] >> I got you. It's a It's a
+[00:34:27] For the For the data it's not only for
+[00:34:29] the handshake. Could it
+[00:34:31] the
+[00:34:32] the user data
+[00:34:34] forward the word
+[00:34:36] or Roger, right?
+[00:34:38] >> Mostly handshake part. Okay.
+[00:34:40] >> Okay, yes.
+[00:34:41] >> It's the time for for for
+[00:34:43] the discussions here. Thank you.
+[00:34:45] >> Yeah, okay. Sure.
+[00:34:47] >> Uh just to wrap it up,
+[00:34:49] uh there is a remote question. I don't
+[00:34:51] know if has been already answered. Uh
+[00:34:54] the question says, "Did you compare the
+[00:34:56] current implementation against mature
+[00:34:58] user space quick stacks such as Quish or
+[00:35:01] MS Quick? If so, where do you see the
+[00:35:04] largest performance gains?"
+[00:35:08] >> Uh
+[00:35:12] >> Are you able to
+[00:35:13] >> Yes. Yes.
+[00:35:15] Uh it's already mentioned in the in the
+[00:35:18] slides and we compared the
+[00:35:20] uh two years uh two year space uh
+[00:35:23] implementations, TCP2 and MS Quick,
+[00:35:26] right?
+[00:35:27] And the four
+[00:35:29] uh
+[00:35:31] And the for the MS Quick, uh because
+[00:35:33] very difficult to compare the to compare
+[00:35:37] against the user line because the
+[00:35:39] uh
+[00:35:40] the the interface, the programming
+[00:35:42] interfaces are very different and you
+[00:35:44] you got to have a tool
+[00:35:48] to support both, right? And the Samba is
+[00:35:51] is uh is already integrated um
+[00:35:55] uh
+[00:35:56] integrated TCP2 and the kernel quick.
+[00:35:59] And and but the for for the for the MS
+[00:36:02] Quick, uh
+[00:36:04] >> Yeah.
+[00:36:04] >> uh we are using the CIFS on the on the
+[00:36:08] Windows. So, that's kind of not strictly
+[00:36:11] the uh the same benchmark because the MS
+[00:36:15] Quick has had to run on Windows.
+[00:36:18] But the we we we we got some conclusion.
+[00:36:20] Uh
+[00:36:21] briefly, the
+[00:36:24] uh
+[00:36:25] But, the quick is uh is better than TCP
+[00:36:28] too.
+[00:36:30] Uh
+[00:36:31] in the Samba test. But, but maybe there
+[00:36:33] is something I cannot see that it's it's
+[00:36:35] definitely the true because because
+[00:36:39] there there could be some
+[00:36:41] some problem with with the
+[00:36:43] uh developer uh writing the code into uh
+[00:36:46] when when integrating quick into the
+[00:36:49] uh uh Samba. But, but generally we we
+[00:36:53] assume it's it's it's it's good because
+[00:36:55] uh it's a it's a kind of
+[00:36:58] uh production. And uh
+[00:37:01] uh and uh but the for the
+[00:37:04] for the kernel quick and the MS quick
+[00:37:07] it's it's not as good as MS quick I got
+[00:37:10] to say. But, the difference is uh MS
+[00:37:12] quick was running on the
+[00:37:15] on the on the Windows server.
+[00:37:17] That would be different. So, when we are
+[00:37:20] using uh
+[00:37:21] Linux
+[00:37:23] Linux server
+[00:37:25] basically they are similar. The kernel
+[00:37:27] quick and the MS quick the performance
+[00:37:29] is
+[00:37:30] similar.
+[00:37:33] >> Okay, thank you.
+[00:37:35] >> Yeah.
+[00:37:36] Thank you.

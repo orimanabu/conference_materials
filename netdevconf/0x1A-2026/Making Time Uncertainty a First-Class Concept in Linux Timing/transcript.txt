@@ -1,0 +1,1111 @@
+Source: https://youtu.be/FXxOGZ87KTU
+Language: en
+Captions: auto-generated
+
+[00:00:00] Okay, so let's go then. Welcome to the
+[00:00:04] first and only tutorial of this net
+[00:00:06] defe. Uh this talk is called making time
+[00:00:11] uncertainty a first class concept in
+[00:00:13] Linux in Linux timing and I actually
+[00:00:16] wanted to start admitting something like
+[00:00:19] many people treat time as done thing you
+[00:00:22] know nothing else to invent there. uh
+[00:00:24] you call CL clock get time you get the
+[00:00:27] number you use it you're happy and
+[00:00:29] everything is great but unfortunately it
+[00:00:33] doesn't really work this way and I will
+[00:00:35] prove it over next 40 or maybe an hour
+[00:00:41] we shall see uh
+[00:00:46] so here is the decision that we
+[00:00:48] constantly make uh events
+[00:00:52] uh happen like Event A happens at time
+[00:00:55] t1. Event b happens at the time t2. If
+[00:00:59] t1 is less than t2, we assume that a
+[00:01:02] happened before b.
+[00:01:04] Uh and we make this decisions basically
+[00:01:07] all the time. We do this in ordering in
+[00:01:11] casualty casuality
+[00:01:13] uh what caused our issue what uh which
+[00:01:17] right should win in the database and
+[00:01:20] everything like that and everything
+[00:01:23] rests on a hidden assumptions that our
+[00:01:26] time stamps are points in time
+[00:01:29] and those points are really exact. But
+[00:01:32] unfortunately in real life clocks
+[00:01:33] disagree. Uh time stamps can be captured
+[00:01:37] on different on different layers and
+[00:01:40] synchronization
+[00:01:42] mechanism goes stale over time.
+[00:01:46] And how many of you debuged some uh
+[00:01:50] debugged some distributed traces and
+[00:01:53] actually tried to figure out something
+[00:01:55] from a lot of time stamps.
+[00:02:02] Okay,
+[00:02:05] so some of you may have seen uh my last
+[00:02:08] talk uh from the prior year where I
+[00:02:12] introduced fast access to the PHC. Uh
+[00:02:15] the pro that proof of of concept uh
+[00:02:18] approximated the clock in user space
+[00:02:21] from the CPU uh counter. So you didn't
+[00:02:24] have to pay the Cisco and PCIe uh cost
+[00:02:28] on every read of the time that you when
+[00:02:30] you whenever you needed it. Uh so you
+[00:02:35] know this uh the that talk tried to make
+[00:02:38] the clock accesses fast
+[00:02:41] and now this talk asks uh what actually
+[00:02:45] how much can you trust those time stamps
+[00:02:48] and tries to p put the error bar on
+[00:02:51] those timestamps so that you can
+[00:02:52] actually understand whether the the
+[00:02:56] ordering that you got out of those
+[00:02:58] timestamps can be uh is correct and and
+[00:03:01] can be actually decisive and and
+[00:03:04] precise.
+[00:03:07] So precise is not the same as correct
+[00:03:10] and that's an important part that we
+[00:03:12] want to actually tackle here. We spent
+[00:03:15] roughly two decades on making the
+[00:03:18] precision better and we mostly won that
+[00:03:21] battle. We now have nanocond PTP and
+[00:03:25] it's pretty much normal across our data
+[00:03:28] centers across our devices.
+[00:03:32] Uh we got the hardware timestamping
+[00:03:35] mechanisms in pretty much all the
+[00:03:38] devices that we deploy at least on the
+[00:03:40] network side. Uh we routinely capture uh
+[00:03:45] time stamps from our GPU traces spanning
+[00:03:48] across thousands of ranks in the AI
+[00:03:50] clusters and the clocks basically get
+[00:03:53] dramatically better. And here's the
+[00:03:56] catch. The better our clocks got, the
+[00:03:58] more we trusted them implicitly.
+[00:04:02] And that's maybe not the best idea
+[00:04:06] because unfortunately precision like
+[00:04:08] raised our confidence faster than it
+[00:04:11] raised our correctness.
+[00:04:13] So we started treating the clock is very
+[00:04:16] precise as meaning that the time stamp
+[00:04:18] is exactly right exactly at the point
+[00:04:20] that it's shown but those are not the
+[00:04:22] same statements.
+[00:04:26] So here's the like long long list of of
+[00:04:31] things that that actually uh where where
+[00:04:35] the this this assumption can can mislead
+[00:04:38] us. So the gap shows uh like at the top
+[00:04:43] of the stack uh we have like the
+[00:04:45] ordering we claim a happened before b.
+[00:04:50] But if those intervals overlap the true
+[00:04:53] order is unknown.
+[00:04:54] More on that a bit later. Uh casuality
+[00:04:58] uh where we claim A caused B. But if
+[00:05:02] there was a a difference uh between
+[00:05:05] those then you may basically assume
+[00:05:09] something that never happened and uh
+[00:05:12] make a cause that never existed.
+[00:05:15] And compliance, we claim a log is
+[00:05:17] correctly ordered. But if our time stamp
+[00:05:20] bars are too big, then it's actually a
+[00:05:22] wrong claim.
+[00:05:26] So uh let's make it more concrete and
+[00:05:30] let's draw it.
+[00:05:32] So we have two events.
+[00:05:35] Let's see
+[00:05:38] what's going on. Okay.
+[00:05:43] So we have events
+[00:05:46] A
+[00:05:49] and we have event B which happened 200
+[00:05:52] nconds apart from each other. Now we
+[00:05:55] need to add our error bars. Those are
+[00:05:57] very conservative. Let's assume they
+[00:06:00] happened like we have only an error bar
+[00:06:02] of 150 nconds plus minus. Uh so we draw
+[00:06:07] the bar on both sides of event A and
+[00:06:10] event B. and you probably start seeing
+[00:06:13] what's the little problem in this in
+[00:06:15] this case.
+[00:06:18] Uh so basically those bars overlap the
+[00:06:21] amber part is the region uh where you
+[00:06:25] really can't say what which event come
+[00:06:27] first.
+[00:06:29] So you know the main problem of this is
+[00:06:34] if you have this scenario you can't
+[00:06:36] really reason about what happened first
+[00:06:39] what happened second and what was the
+[00:06:42] order of A and B
+[00:06:45] and basically that's the problem we are
+[00:06:47] trying to tackle here and and solve
+[00:06:50] maybe
+[00:06:54] so the main correction we need to make
+[00:06:56] in our how we think about time stamps is
+[00:06:59] Time stamps are intervals not just
+[00:07:01] points in time.
+[00:07:06] So the whole shift is pretty small.
+[00:07:08] Instead instead of saying the event
+[00:07:10] happened at t we should say event
+[00:07:14] happened at t plus or minus uncertainty
+[00:07:17] which is u and u is the time uncertainty
+[00:07:20] bound at the moment when we observed the
+[00:07:23] the event.
+[00:07:27] And so we can really read those two
+[00:07:29] things as either t plus minus u or as
+[00:07:33] the earliest and latest per which are in
+[00:07:37] the which are really the same things but
+[00:07:40] two different ways of looking at it.
+[00:07:43] So if you got those uh now your
+[00:07:47] application can ask more explicit
+[00:07:49] questions. So whether the uh ordering
+[00:07:53] between event A or and B is defined
+[00:07:56] definitive or is it ambiguous. So if
+[00:07:59] those bars overlap or are they separate
+[00:08:05] and you know basically that's that's
+[00:08:07] what we are trying to tackle here.
+[00:08:10] So here's the rule that falls out of it.
+[00:08:13] Uh on the left side we have the point
+[00:08:16] model. So we have a tick on a line and
+[00:08:19] that's the old way we were thinking
+[00:08:22] about it. And on the right hand side we
+[00:08:25] have the interval model. So we have a
+[00:08:27] bound between t minus u and t plus u or
+[00:08:31] between earliest and latest at which
+[00:08:34] event could have happened.
+[00:08:36] So the rule coming out of it is a is
+[00:08:40] before b if t plus a uh ta is plus
+[00:08:44] uncertainty of a is less or uh than tb
+[00:08:48] uh minus uncertainty b or in other words
+[00:08:52] the latest from event a is smaller than
+[00:08:55] the earliest of event b and otherwise uh
+[00:09:00] the answer is ambiguous or unknown but
+[00:09:03] not wrong. It doesn't mean that
+[00:09:05] something wrong happened. It only means
+[00:09:07] that we can't definitively say which
+[00:09:10] event came first.
+[00:09:13] And that distinction is the most the the
+[00:09:16] most important idea in in this talk.
+[00:09:23] Okay. So
+[00:09:25] let's just talk about what uncertainty
+[00:09:28] is and what it isn't.
+[00:09:31] uh at least for the sake of this talk
+[00:09:33] because you can modify you can define
+[00:09:35] your own approach to this uncertainty
+[00:09:39] but you always need to define it before
+[00:09:41] you start using it because under
+[00:09:43] otherwise it won't be defendable claim.
+[00:09:47] So for the sake of this talk uh U is a
+[00:09:50] computed uncertainty envelope right now
+[00:09:53] and it's derived from the
+[00:09:54] synchronization state uh plus few
+[00:09:57] explicitly stated assumptions
+[00:10:01] uh and it's an explicit input to your
+[00:10:03] application logic
+[00:10:05] and what it's not it's not a statistical
+[00:10:08] confidence interval unless obviously you
+[00:10:10] want it that way and then you can change
+[00:10:13] the definition and use it that way but
+[00:10:16] then you need to define more boundaries
+[00:10:19] for it because the statistics
+[00:10:22] are not like certain
+[00:10:29] uh and definitely it's the the
+[00:10:32] uncertainty is not zero because just our
+[00:10:34] PTP uh reported that it's in the slave
+[00:10:38] mode to to our master clock because
+[00:10:42] that's not really how it works and I
+[00:10:44] will prove that prove that a bit later.
+[00:10:54] Okay. So, uh now let's talk where does
+[00:10:57] it come from and what are the main uh
+[00:11:01] layers of it. So, let's talk it from the
+[00:11:04] bottom to the top. At the bottom layer,
+[00:11:07] we have an oscillator. Oscillators
+[00:11:10] drift. uh they change uh their frequency
+[00:11:14] based on the temperature on the
+[00:11:16] vibrations and on the external
+[00:11:18] environment.
+[00:11:20] Then we have our PHC clocks which are
+[00:11:22] our hardware counters. Uh they always
+[00:11:25] have some some resolution. They usually
+[00:11:28] are not nancond level but obviously you
+[00:11:31] can do it that way. Uh they obviously
+[00:11:35] have some offsets to to the clock that
+[00:11:37] they try to synchronize to. uh mainly
+[00:11:40] because of the unstabilities of the
+[00:11:42] oscillator. Uh then we have our network.
+[00:11:46] Uh so we have our queueing, our routing,
+[00:11:49] our hop counts. Hop count is the number
+[00:11:51] of uh time our elements that the packet
+[00:11:54] crossed uh between our source and our uh
+[00:11:58] and our clock.
+[00:12:01] Uh then we have the uncertainty coming
+[00:12:03] from the time stamp capture point. So
+[00:12:05] obviously we can time stamp in hardware
+[00:12:08] and in software. If you do it in
+[00:12:11] software then you obviously will have a
+[00:12:13] lot like more uncertainty attached to
+[00:12:16] those time stamps. Doesn't mean it's
+[00:12:18] incorrect but you have to be aware that
+[00:12:20] it's much less precise.
+[00:12:23] Uh then you have the kernel to user
+[00:12:26] space transfer transfers. So you have
+[00:12:29] all your IRQs softqs uh copy of the data
+[00:12:34] uh and then you have our user space
+[00:12:36] observation delay. So you have your sys
+[00:12:39] calls that takes some time uh actually
+[00:12:42] more on that was in our previous talk
+[00:12:45] and it this sometime can be a lot of
+[00:12:49] time.
+[00:12:51] Uh so each layer adds errors or delays
+[00:12:56] and only some of them only some of them
+[00:12:59] expose metrics for it.
+[00:13:03] Uh so before we zoom into the layers one
+[00:13:06] by one here's every source of error that
+[00:13:09] can widen your interval
+[00:13:11] uh grouped in four ways. So two come
+[00:13:14] from our source clock itself. So does
+[00:13:17] the grandmaster class and offset from
+[00:13:19] grandmaster. Uh then uh we have the
+[00:13:25] uh then we have the uh ones that come
+[00:13:28] from the oscillator. So that's the
+[00:13:30] residual oscillator drift which it
+[00:13:33] always changes. And we have the holdover
+[00:13:35] which is where we lose track of our
+[00:13:37] source and then try to only uh continue
+[00:13:41] based on our oscillator. Um then we have
+[00:13:44] the clock resolution uh which is the
+[00:13:47] granularity of our tico in the clock and
+[00:13:50] we have the path element delays link
+[00:13:53] asymmetry uh which are coming from the
+[00:13:56] PTP itself. So we try to estimate the uh
+[00:14:00] mean error and compensate for it in the
+[00:14:02] PTP protocol. But unfortunately there
+[00:14:05] are some things that we can't correct
+[00:14:07] for which are for example link
+[00:14:09] asymmetry. If the packet came to us in a
+[00:14:13] different path that it came uh to the to
+[00:14:16] our source then there may be some
+[00:14:19] asymmetry coming out of it which is
+[00:14:22] unfortunately not really detectable nor
+[00:14:25] correctable
+[00:14:27] and we have our uh source that is the
+[00:14:31] event capture point. So uh this is where
+[00:14:34] we uh capture
+[00:14:37] our time in the app and try to reason
+[00:14:40] based on that and that has its own
+[00:14:42] delays.
+[00:14:45] So the first layer uh is the
+[00:14:47] oscillators. So its stability is
+[00:14:50] measured in usually in part per billion.
+[00:14:53] Um and it's sensitive to the temperature
+[00:14:56] and left free run uh it will start the
+[00:14:59] drifting
+[00:15:01] and the layer two is the PHC clock which
+[00:15:05] is fed by the oscillator. The hardware
+[00:15:08] clock we read uh actually uh and there
+[00:15:12] are a couple things that live in here.
+[00:15:14] First is the offset from master which is
+[00:15:17] calculated but by our PTP stack. Uh then
+[00:15:21] we have the clock resolution as I
+[00:15:23] mentioned before. It's it's basically
+[00:15:25] the tick of the clock that that limits
+[00:15:27] our lowest bar that we can measure uh
+[00:15:30] anything with it. And then we have the
+[00:15:33] PHC read latency which I talked more
+[00:15:36] about uh in the previous talk.
+[00:15:42] Uh now we will jump we will jump to the
+[00:15:45] layer four
+[00:15:47] uh which is our uh capture point. I
+[00:15:52] really talked about it couple times but
+[00:15:54] I will just do a quick quick refresher.
+[00:15:56] We can either capture our time stamps in
+[00:15:59] the PHC hardware on the RX or TX time
+[00:16:02] stamps. So basically those are hardware
+[00:16:04] timestamps. they have the smallest
+[00:16:06] uncertainty of the capture uh because
+[00:16:09] because it's based on the hardware and
+[00:16:11] we heavily try to optimize that to to be
+[00:16:15] as precise and as close to the wire as
+[00:16:17] possible. Uh then we have so
+[00:16:21] timestamping which are the software
+[00:16:23] timestamps inside the kernel inside our
+[00:16:25] stack. uh they have larger uncertainty
+[00:16:29] because of uh pieces that are involved
+[00:16:32] in the in the stack that can actually
+[00:16:34] delay the processing of the time stamp.
+[00:16:38] And then in the end we can also uh run
+[00:16:41] the clock get time inside our
+[00:16:43] application which is the slowest and can
+[00:16:45] actually be uh have the biggest gap
+[00:16:49] because it our thread can be descheduled
+[00:16:52] can be kicked off and
+[00:16:55] this may happen between we start
+[00:16:57] receiving packet and end doing it. So
+[00:17:00] there are some problems with that as
+[00:17:02] well which which can create quite a big
+[00:17:04] delays there.
+[00:17:07] Okay. Okay. Then layer three and five.
+[00:17:10] So the network uh and the kernel path
+[00:17:14] uh in the network path uh each hop adds
+[00:17:19] queuing error and routing delays. Uh if
+[00:17:23] we deploy the time our elements we can
+[00:17:27] compensate for some of those because we
+[00:17:29] can get the time uh at which the packet
+[00:17:32] was inside the switch.
+[00:17:34] uh but we still have the asymmetry which
+[00:17:37] can grow as well because we basically uh
+[00:17:41] may route the packets differently based
+[00:17:44] on the direction
+[00:17:46] and then we have the kernel path. Uh so
+[00:17:49] this is how we read the clock. We can
+[00:17:52] get the offset to the system clock by
+[00:17:55] those first two calls. Then we have the
+[00:17:57] so timestamping which gives us all the
+[00:17:59] time stamps we need and uh we have the
+[00:18:02] well well it's not really a kernel path
+[00:18:04] but it's the PTP 4L management API which
+[00:18:08] can give us the information about the
+[00:18:10] offset to the source uh the delay that
+[00:18:14] was uh that was coming from the network
+[00:18:17] and our ingress time inside the user
+[00:18:20] space and those are things that are
+[00:18:22] unfortunately now missing in the kernel
+[00:18:24] but more on that later.
+[00:18:27] So now the layer that everyone really
+[00:18:29] forgets about and that's the staleness.
+[00:18:34] Uh so between the syncs the clock
+[00:18:36] frequency isn't perfectly known. Uh so
+[00:18:39] our bounce on the error grows. Uh the
+[00:18:42] PHC is frequency disciplined between the
+[00:18:45] syncs. So PTP4L tries to match the
+[00:18:48] frequency of our clock to the frequency
+[00:18:50] of the source clock. Uh but
+[00:18:52] unfortunately our clock our c physical
+[00:18:55] crystal will start floating its
+[00:18:58] frequency. Uh so if we let it free it
+[00:19:02] will just drift away in time
+[00:19:06] quite fast obviously depending on the
+[00:19:09] quality of it but but the default ones
+[00:19:11] will actually drift drift quite a lot.
+[00:19:15] Uh so this isn't really the oscillator
+[00:19:18] drifts 100 uh microsconds in 1 second
+[00:19:22] but we need some boundaries there that
+[00:19:25] will bound the uh the quality of the
+[00:19:28] oscillator and this 100 ppm uh number is
+[00:19:31] not really random. It comes from the
+[00:19:34] internet specification which requires
+[00:19:36] all our elements to use the crystals not
+[00:19:39] worse than 100 ppms. So if you try to
+[00:19:43] create the uh cheapest Ethernet card
+[00:19:47] that's spec compliant, this will be your
+[00:19:50] error that will that can come out of the
+[00:19:53] drift uh of the staleness of the of the
+[00:19:56] crystal and the staleness of your
+[00:19:58] corrections. So if you correct the clock
+[00:20:02] every 1 second, you basically can your
+[00:20:05] error can error bounce can grow up to
+[00:20:07] 100 microsconds in that time. And they
+[00:20:10] actually can grow even higher because uh
+[00:20:13] the one correction per per second
+[00:20:16] doesn't mean that it will happen exactly
+[00:20:18] every 1 second. It may actually happen
+[00:20:20] every a bit more than 1 second because
+[00:20:23] it's only the average 1 second uh one
+[00:20:26] per second.
+[00:20:29] Uh so basically the staleness turns a
+[00:20:32] point estimated into a growing envelope
+[00:20:35] a growing bar and I will try to
+[00:20:37] visualize that a bit later.
+[00:20:43] So now let's try to turn the PTP state
+[00:20:46] the state of our uh servo into a
+[00:20:49] boundary.
+[00:20:52] Uh
+[00:20:53] so I maybe skip this slide for now
+[00:20:57] because it's repeated later from the
+[00:20:59] other side. But what I'm trying to point
+[00:21:02] out here there are a couple different uh
+[00:21:04] PMC messages. So the uh protocol
+[00:21:08] management uh messages that you can uh
+[00:21:12] send to the PTP4L to uh pull out the
+[00:21:15] data about its current state. Uh in this
+[00:21:18] way you can get in the in the other
+[00:21:21] application can get the state of the of
+[00:21:23] of the servo and of your
+[00:21:24] synchronization.
+[00:21:28] Uh so the most important part is in the
+[00:21:32] time status and P is the ingress time
+[00:21:35] and that tells us when the last sync
+[00:21:38] event or sync message actually arrived
+[00:21:40] in the PHC time. So it's a snapshot of
+[00:21:44] the PHC at which uh the the sync message
+[00:21:48] came in.
+[00:21:50] Uh and then the drift term is pretty
+[00:21:53] simple. take that time subtract the time
+[00:21:55] at the ingress anchor and multiply it by
+[00:21:59] the configured drift bound DMAX.
+[00:22:02] Uh that gives us attributed bound on
+[00:22:05] residual frequency error since the last
+[00:22:08] an last anchor. Uh so this is obviously
+[00:22:13] not a perfect model of of the error but
+[00:22:17] that's a very conservative way of of
+[00:22:19] defining it. And if you want to put more
+[00:22:22] statistics into it, you can definitely
+[00:22:25] uh basically try to figure it out from
+[00:22:28] the history
+[00:22:29] uh of the corrections and put a lower
+[00:22:33] estimate there to get the uh error
+[00:22:36] bounds that will be smaller. But then it
+[00:22:38] will be statistic based and assuming
+[00:22:40] that that you are within what your
+[00:22:44] statistics uh predicted.
+[00:22:50] Uh so here's the whole model on one
+[00:22:53] slide. Uh I've written it in the way I'd
+[00:22:55] like to defend it. Uh it may not be the
+[00:22:58] cleanest way but that's you know you
+[00:23:00] need to make a set of of assumptions and
+[00:23:04] then work from it because that's the
+[00:23:07] only part you can defend. Uh so at the
+[00:23:10] top the event uncertainty splits into
+[00:23:12] two owners. You have the U clock uh
+[00:23:16] which is the uh demon and library that I
+[00:23:19] provided and basically which is the
+[00:23:21] uncertainty of your clock and then you
+[00:23:24] have the capture which provides the
+[00:23:27] which should be provided by the
+[00:23:28] applications that tries to consume this
+[00:23:30] clock.
+[00:23:32] uh and the total uncertainty uh that
+[00:23:36] should be uh associated to the event
+[00:23:38] should be a sum of those two uh of those
+[00:23:41] two uncertainties.
+[00:23:48] So for the U clock uh the U clock has
+[00:23:51] the uh offset estimation that is the uh
+[00:23:56] one that we that we got from the servo.
+[00:24:01] uh then we have the uncertainty of that
+[00:24:03] estimation which is which should be also
+[00:24:06] somehow accounted for because those uh
+[00:24:08] estimations are the best guesses that
+[00:24:11] the servo makes. Uh then you have the h
+[00:24:15] times the dmax which is our attributed
+[00:24:18] drift since our last anchor and then you
+[00:24:22] have obviously the uh quantization of
+[00:24:24] the clock.
+[00:24:26] uh so you have the uh that that is the
+[00:24:29] parameter of your physical clock that
+[00:24:31] you run on your on your device.
+[00:24:35] So the model implementation
+[00:24:38] uh to actually verify those assumptions
+[00:24:41] to actually try to make sure that they
+[00:24:44] are correct and they are enough to to
+[00:24:47] estimate the uncertainty. I created a
+[00:24:50] small uh PTP uncertainty project which
+[00:24:55] consists of the
+[00:24:59] demon that tries to communicate to the
+[00:25:01] PTP4L over the management socket
+[00:25:05] uh to get all the data about the
+[00:25:07] synchronization state about the anchor
+[00:25:10] about the uh
+[00:25:12] parameters that that the servo beliefs.
+[00:25:16] Uh then this feeds over the POSIX shared
+[00:25:19] memory into the library uh that tries to
+[00:25:23] get this data from the from the shared
+[00:25:26] memory and expose it to the applications
+[00:25:29] in a in a reasonably in a reasonable
+[00:25:32] manner so that our applications don't
+[00:25:35] need to connect to the PTP servo but
+[00:25:37] they can just uh connect to the demon.
+[00:25:42] Uh so now what's the demon collects
+[00:25:44] that's basically the uh the slide that
+[00:25:47] I've been talking about uh that repeats
+[00:25:49] the the data. So I'll explain it a bit
+[00:25:52] more here. Uh so for now I collect the
+[00:25:56] offset which is basically
+[00:25:58] go
+[00:26:01] uh the offset which is which is the uh
+[00:26:03] offset from the master reported by the
+[00:26:06] PTP4L.
+[00:26:07] uh the delay which is the uh network
+[00:26:10] path delay uh and steps removed which is
+[00:26:14] the number of of time our elements that
+[00:26:16] the packet crossed uh on the way to us.
+[00:26:20] Then I get the port state from a
+[00:26:23] different uh source different data set
+[00:26:25] and the sync interval. The port state is
+[00:26:28] needed to know whether our uh PTP4L
+[00:26:32] demon is actually tracking the clock or
+[00:26:34] it's not or it's trying or or it started
+[00:26:37] to track or it's in the state that
+[00:26:39] actually allows us to uh to to assume
+[00:26:43] that the clock uh tracks the the the
+[00:26:47] source clock.
+[00:26:49] And then we have the ingress time
+[00:26:53] uh which is basically our anchor for for
+[00:26:55] the drawing uncertainty.
+[00:26:58] And we have the grandmaster ID which is
+[00:27:00] required to say that we were tracking a
+[00:27:03] certain clock sorry the certain clock
+[00:27:06] not not a clock somewhere in the network
+[00:27:09] because if you try to synchronize events
+[00:27:12] it's good to know that both of the of
+[00:27:15] the events uh event track event
+[00:27:18] timestamps were synchronized to the same
+[00:27:20] clock. If they are not then there may be
+[00:27:22] some additional measures that you may
+[00:27:24] need to take to actually synchronize
+[00:27:26] them.
+[00:27:28] And the last one is PHC index which is
+[00:27:31] just captured for
+[00:27:33] uh ease of use because we you need to
+[00:27:36] know which which uh PHC get to get your
+[00:27:39] time stamps from in the applications and
+[00:27:42] that's something that we also want to
+[00:27:44] expose
+[00:27:45] and the only problem with that port HW
+[00:27:50] clock MP is that it's a custom to PTP
+[00:27:53] for it's not a standardized PMC message.
+[00:27:58] Okay, so the client API is pretty simple
+[00:28:01] and straightforward. Uh basically we
+[00:28:04] have to open our our uh shared memory
+[00:28:08] and then we can just uh call the PHC PTP
+[00:28:13] UNCC get which will give us the
+[00:28:16] uncertainty at at the current time
+[00:28:20] and uh basically that's the the very
+[00:28:24] simple API that that I came came up with
+[00:28:26] to to implement the the the simplest
+[00:28:31] clients that will that can report the
+[00:28:33] time and the and the uncertainty of
+[00:28:34] events.
+[00:28:38] Uh
+[00:28:40] so this is the important slide
+[00:28:45] uh because basically if your PTP4L
+[00:28:47] restarts or drops uh the demon will
+[00:28:50] still preserve the last valid anchor
+[00:28:53] uh it will set the state to reflect
+[00:28:57] to reflect that PTB4L disappeared or is
+[00:29:01] not uh synchronized to to any clock that
+[00:29:04] it should track.
+[00:29:06] uh and then it lets the drift keep
+[00:29:10] growing and growing and growing from
+[00:29:12] that anchor. Uh it does not pretend that
+[00:29:15] nothing happened. So it gives you the
+[00:29:18] information that something wrong is
+[00:29:20] going on. Uh but it also doesn't blank
+[00:29:24] out. So it's on the application to to
+[00:29:27] reason on the data it gets and it can
+[00:29:31] either decide that this is too much for
+[00:29:34] it and that uncertainty is not uh no
+[00:29:36] longer working and we need to stop
+[00:29:40] tracking something or basically we can
+[00:29:43] report that the error was very long but
+[00:29:46] you still is very big but you still
+[00:29:48] reported some some uh traces
+[00:29:54] Uh so basically this is uh this slide
+[00:29:57] shows that this is not a completely out
+[00:30:00] of whack and and unreasonable approach
+[00:30:03] uh because Meta deployed something
+[00:30:06] similar back in 2022. The project
+[00:30:09] changed from that a bit. Uh but that's
+[00:30:13] what uh that's basically what they
+[00:30:16] deployed. Um
+[00:30:21] so they they API is clock is called FB
+[00:30:25] clock uh and it does not return a time
+[00:30:27] stamp but rather the window of
+[00:30:29] uncertainty defined as the earliest and
+[00:30:31] latest
+[00:30:33] uh and that basically a very similar
+[00:30:37] concept. I just use the t minus u and t
+[00:30:40] plus u which can be the same thing
+[00:30:43] basically. The main difference is that
+[00:30:45] they were doing much more statistics uh
+[00:30:48] because they were trying to shrink the
+[00:30:52] uncertainty windows. So they made those
+[00:30:55] uh
+[00:30:57] those those parameters much smaller but
+[00:31:00] with a statistic approach. So, so they
+[00:31:03] assumed that
+[00:31:05] your clock not always will meet this but
+[00:31:07] the but they assumed that it should only
+[00:31:10] meet a 69 certainty
+[00:31:13] and in my approach I got the
+[00:31:15] conservative worst case bound.
+[00:31:19] Uh
+[00:31:21] and basically this the holdover is very
+[00:31:24] similar in both ways. We grow it as the
+[00:31:29] uh as the drift from last anchor but
+[00:31:33] they just got the frequency history
+[00:31:35] frequency adjustment history and reason
+[00:31:37] on based on that. So they came out they
+[00:31:40] got the smaller uh window of uncertainty
+[00:31:42] and I assume the that that the draw the
+[00:31:45] drift grows at the maximum drift of the
+[00:31:48] of your oscillator.
+[00:31:52] Okay. So uh there is something that I
+[00:31:57] need to tell about the results I have
+[00:31:59] because unfortunately uh my dog ate my
+[00:32:02] homework and my NVME drive which had the
+[00:32:07] some of the results. So I had to
+[00:32:09] recreate them based on the simulated
+[00:32:11] environment. Uh so in this case I did
+[00:32:15] not really run it the the uh whole uh
+[00:32:19] demon on on four different types of
+[00:32:22] hardware but I emulated that by changing
+[00:32:25] the configuration of it. Uh but the data
+[00:32:28] is actually pretty accurate to what I
+[00:32:30] had from from those six four different
+[00:32:33] hardware uh pieces that I used in the
+[00:32:36] past. Uh
+[00:32:39] so this is basically showing uh how the
+[00:32:42] uncertainty
+[00:32:43] uh grows between the sync messages.
+[00:32:47] Uh so you should watch the
+[00:32:54] circle.
+[00:32:56] Yeah. So you should watch the blue line
+[00:32:58] here. Uh it basically grows up uh from
+[00:33:01] the anchor point. So we receive a sync
+[00:33:04] message at the moments where it drops
+[00:33:07] and then it linearly grows uh by the
+[00:33:11] factor of h times dmax and then again it
+[00:33:15] will drop when the sync message arrives
+[00:33:17] and this also shows you that those sync
+[00:33:19] messages are not really uh happening
+[00:33:22] every 1 second but they are just
+[00:33:24] statistically happening once per second
+[00:33:27] but not every 1 second and that's why
+[00:33:31] this this so pattern is not really
+[00:33:33] regular but it has higher peaks and
+[00:33:36] lower peaks there.
+[00:33:39] Uh
+[00:33:42] so this is the same run uh based on four
+[00:33:46] different oscillator types. Those are
+[00:33:49] obviously emulated numbers
+[00:33:52] uh like I mentioned before. So if we get
+[00:33:55] the basic uh oscillator
+[00:33:57] you can see that the error will actually
+[00:33:59] grow to more than 100 microsconds there.
+[00:34:04] If you use a qu higher quality
+[00:34:08] oscillator or or a lower quality TCXO
+[00:34:12] oscillator, your error between one sec
+[00:34:15] in in if you assume one second uh sync
+[00:34:20] messages appearing once per second, your
+[00:34:23] error will will only grow to tenth of
+[00:34:25] microsconds.
+[00:34:27] And then if you get a good oscillator,
+[00:34:30] good TCXO, uh your error will be bounded
+[00:34:33] at around couple microsconds.
+[00:34:36] And if you need more it will basically
+[00:34:39] you will need the OCXO and then it will
+[00:34:42] be at 10 and hundreds of nanconds.
+[00:34:47] So here's the same
+[00:34:50] uh graph but the trying to show the
+[00:34:54] maximums of for for each of the
+[00:34:56] oscillator. Uh note that this is a log
+[00:35:00] scale.
+[00:35:01] Uh because if you switch to non-log
+[00:35:04] scale
+[00:35:06] then your base error is basically
+[00:35:08] invisible.
+[00:35:10] So that's why it's important to actually
+[00:35:13] optimize your whole system. uh and you
+[00:35:16] really need to think of every components
+[00:35:19] inside your system to keep this uh keep
+[00:35:22] the uncertainty windows pretty small.
+[00:35:30] Okay, so the full story is really my
+[00:35:33] previous talk and this one. Uh so here's
+[00:35:36] the bridge.
+[00:35:38] Uh
+[00:35:41] last year I made a talk about how to get
+[00:35:43] the time fast. So the demon that
+[00:35:47] approximated
+[00:35:48] uh your time in tenths of nanoseconds
+[00:35:51] instead of pulling it in microsconds
+[00:35:54] from the uh hardware
+[00:35:57] and this stock is trying to add the
+[00:35:59] other half. So it tries to put
+[00:36:02] additional error bars on the time that
+[00:36:05] you got from from your clock.
+[00:36:11] So let's make it concrete. Uh uh fast
+[00:36:14] read alone gives you a low overhead
+[00:36:16] timestamping. That is the first row and
+[00:36:19] it's very valuable. But on its own it's
+[00:36:22] still just a point.
+[00:36:24] uh and you still compare two events
+[00:36:26] point to point and you can't tell
+[00:36:28] whether the order is ambiguous or not
+[00:36:32] and you can't really get any decisions
+[00:36:34] on how trustworthy the time is and
+[00:36:38] events as mentioned before 200 nconds
+[00:36:41] apart each known uh with with about 150
+[00:36:45] nanoconds
+[00:36:47] uh uncertainty
+[00:36:49] uh and then you basically cannot tell
+[00:36:51] which one happened first and as You have
+[00:36:54] seen the 150 nconds was very very very
+[00:36:58] conservative and if you try to deploy it
+[00:37:01] you will rather talk about microsconds
+[00:37:03] not nanconds.
+[00:37:07] Okay. So now let's talk about Linux APIs
+[00:37:12] and try to see what we have and what we
+[00:37:15] actually
+[00:37:17] uh can reasonably use and what are the
+[00:37:19] misses that we should all together try
+[00:37:23] to work out and and hopefully
+[00:37:26] uh try to to get together and and start
+[00:37:29] implementing them.
+[00:37:32] Uh so the kernel gives us ingredients on
+[00:37:35] the left side you have uh so
+[00:37:37] timestamping for the hardware and
+[00:37:39] software timestamps. You have PTPC
+[00:37:42] offset to cross reference the PHC
+[00:37:44] against the system clock. Uh and you get
+[00:37:47] obviously the control over your hardware
+[00:37:50] clock. Uh but you know notice that the
+[00:37:54] PTP4L lives in user space. So it does
+[00:37:58] not it cannot provide uh the data to
+[00:38:01] everyone that tries to reach it.
+[00:38:05] Uh so the gap I want to close uh is that
+[00:38:10] you know some things leave in user space
+[00:38:13] and we should really push couple of
+[00:38:15] those informations into the kernel so
+[00:38:18] that we can either offload the
+[00:38:20] synchronization to the device or or do
+[00:38:23] something uh that will basically prevent
+[00:38:26] our applications from all hitting the
+[00:38:28] synchronization application and try to
+[00:38:31] get the data from it.
+[00:38:41] Okay. So, uh
+[00:38:44] what we miss in the PTP4L is one atomic
+[00:38:48] read to uh to get all the data we have.
+[00:38:52] As I shown before, the data is spread
+[00:38:54] across different PMC messages and you
+[00:38:56] need to call them uh sequentially to get
+[00:38:59] all the information that you need to
+[00:39:01] reason on your clock. But actually if
+[00:39:03] you want to uh get it correct we should
+[00:39:06] have a single call that will give us all
+[00:39:08] the data. Uh so then we should
+[00:39:11] definitely add an anchor for the uh
+[00:39:15] drift uncertainty. So we need the we
+[00:39:19] need some way of reporting the ingress
+[00:39:21] time in nanconds or in the clock
+[00:39:24] resolution of the PHC because that
+[00:39:27] allows us to to reason on the
+[00:39:29] uncertainty that comes from the drift of
+[00:39:31] the clock itself. Then we need some kind
+[00:39:34] of uh way to pull the maximum drift uh
+[00:39:39] in PPP. So the assumed frequency error
+[00:39:42] bound of our clock
+[00:39:44] which we can add more APIs to actually
+[00:39:47] also for example give something more
+[00:39:50] statistically correct that will be
+[00:39:52] calculated by some other demons.
+[00:39:55] And then it would be good to also add
+[00:39:57] the grandmaster ID and steps removed to
+[00:40:00] it so that we can tie the clock to to a
+[00:40:04] certain source. uh because otherwise we
+[00:40:08] can say that our clock is synchronized
+[00:40:11] but we don't really know what's
+[00:40:13] synchronized to and that as I mentioned
+[00:40:16] before may be a challenge if you have a
+[00:40:20] lot of uh grandmaster clocks for example
+[00:40:23] that that's are in your network and
+[00:40:26] especially if you don't use the UTC time
+[00:40:28] but some some uh local time inside your
+[00:40:31] data center which you actually can do as
+[00:40:38] Okay. So there are the six things that I
+[00:40:41] want you to take away from this
+[00:40:43] presentation.
+[00:40:45] Uh number one time stamps are interval.
+[00:40:47] Design your systems around t plus minus
+[00:40:51] u.
+[00:40:52] Uh number two uncertainty is uh computed
+[00:40:58] envelope under stated assumptions. It's
+[00:41:00] not a proven upper bound but name the
+[00:41:03] assumptions and you can defend them.
+[00:41:06] Uh number three is uh separate to
+[00:41:11] owners. So uh you have the uncertainty
+[00:41:14] of the clock which the in my talk the
+[00:41:18] the the demon tries to bound and you
+[00:41:22] have the uncertainty of the capture
+[00:41:24] which applications should know and uh
+[00:41:27] basically the event uncertainty should
+[00:41:29] be the sum of those two.
+[00:41:32] Uh then you have the stalness and it's
+[00:41:35] attributed drift bound. Uh age times a
+[00:41:39] configured frequency error limit not a
+[00:41:42] measured oscillator drift.
+[00:41:45] Uh this is the term that most tools
+[00:41:49] ignore and don't do that.
+[00:41:53] Number four is the uh
+[00:41:57] oh number four is the staleness uh is an
+[00:42:02] attribute that's drift bound.
+[00:42:05] I've covered that one. Sorry. Uh and
+[00:42:08] number five is the missing kernel APIs.
+[00:42:11] uh we should really work on on defining
+[00:42:14] the the API that will actually allow us
+[00:42:17] to read that from the user space and
+[00:42:20] allow our applications to reason about
+[00:42:23] the quality of our uh synchronization
+[00:42:28] and the number six uh is the one that
+[00:42:32] ties those two talks together.
+[00:42:34] So to get the the best uh of two words,
+[00:42:39] you should get the demon that will allow
+[00:42:42] you to do the fast access plus allow you
+[00:42:44] to read the boundaries of that uh of
+[00:42:47] that time stamps or the uncertainty of
+[00:42:50] it preferably in a single call so that
+[00:42:52] the all the data is the freshest and and
+[00:42:56] can be closely tied together.
+[00:43:00] And that sums up my talk. Uh, so I'm
+[00:43:04] open for the questions
+[00:43:23] uh the first access to PHC. Um I know
+[00:43:27] from my experience that uh it is not
+[00:43:30] always the case in many architectures
+[00:43:35] it is rather opposite like you have
+[00:43:37] access to PHC only over SPI or uh MDO
+[00:43:42] interfaces.
+[00:43:43] >> Yeah. Um, do we have any kind of uh user
+[00:43:47] space API
+[00:43:49] telling the user space that we are slow
+[00:43:53] and the access will be really expensive
+[00:43:55] and
+[00:43:55] >> yes actually currently I mean it's not
+[00:43:59] tied that's a good one actually because
+[00:44:01] with this this is not bound to the clock
+[00:44:03] get time uh but if you call the IO call
+[00:44:06] that gives you the uh system clock to
+[00:44:11] the PHC clock uh difference basically
+[00:44:14] tries to capture both of them. This is a
+[00:44:17] PTP pieces offset or offset precise
+[00:44:20] extended and so on. This one gives you
+[00:44:22] the time which takes the system to read
+[00:44:25] the uh clock from your device. Uh but
+[00:44:29] the the whole idea that I introduced on
+[00:44:32] like last year on the previous talk was
+[00:44:35] to create a demon that will do this for
+[00:44:37] you and try to reason on those numbers
+[00:44:40] and then try to uh basically create kind
+[00:44:45] of a emulated clock inside the system
+[00:44:49] that will respond quickly with the time
+[00:44:52] that is tightly bound and constantly
+[00:44:54] corrected to the clock of your device.
+[00:44:59] And uh other point uh you mentioned uh
+[00:45:02] that uh PTP asymmetry depends on the
+[00:45:07] road path of takes and uh
+[00:45:11] >> yes asymmetry is unfortunately something
+[00:45:14] we can't measure. It's just like with
+[00:45:16] the speed of light you can't measure it
+[00:45:18] one way you always need to measure it
+[00:45:21] two ways. Uh so basically you in the
+[00:45:24] data centers you can't really guarantee
+[00:45:28] at least well maybe there are some ways
+[00:45:30] but but it's the problem that that we
+[00:45:32] are hitting constantly that the packets
+[00:45:36] uh like the basically load balancing of
+[00:45:39] the routers on the way may route your
+[00:45:41] packets one way to the source and take
+[00:45:45] completely different way through the
+[00:45:47] network to reach you back with with the
+[00:45:49] messages that comes from the source to
+[00:45:53] Um in my tests uh I have seen that uh it
+[00:45:57] is not only the multiple links as
+[00:46:00] symmetry but it is within same link
+[00:46:04] because the files are asymmetric in
+[00:46:07] different directions.
+[00:46:09] >> Yes, that is correct. However, this is
+[00:46:11] usually not that big of a difference.
+[00:46:14] It's mostly couple nanoseconds as far I
+[00:46:16] recall.
+[00:46:17] >> No, no, no. It depends on the link
+[00:46:20] speed. So it varies between like 500
+[00:46:23] milliseconds
+[00:46:24] uh 400 bit uh like 50 or 100
+[00:46:29] milliseconds 4,000 bit.
+[00:46:31] >> Yes, you are right. However, if I recall
+[00:46:34] correctly, we were doing some
+[00:46:36] corrections of that inside the the
+[00:46:38] network cards. So network cards in many
+[00:46:42] cases will account for that and try to
+[00:46:44] cover that from you. So modify the time
+[00:46:46] stamp so that they are corrected by that
+[00:46:49] asymmetries.
+[00:46:52] That's one way of of solving it. But
+[00:46:54] because like this this thing exists but
+[00:46:57] this thing is mostly static and you once
+[00:47:00] you synthesize the the core you con you
+[00:47:05] usually know those delays right?
+[00:47:06] >> No no no there is not static it is they
+[00:47:09] limp up uh cycle. M
+[00:47:14] >> it is it is different on every link up.
+[00:47:17] >> So you have uh uncertaintity
+[00:47:21] per link up cycle
+[00:47:23] >> and at the same time uh some uh more or
+[00:47:27] less uh defined uh uncertainty or uh
+[00:47:33] asymmetry and at the same time you have
+[00:47:35] different hardware. If you you have more
+[00:47:39] or less predictable asymmetry in one fi
+[00:47:43] and you have same kind of fi on a
+[00:47:46] different side it will become kind of
+[00:47:48] compensated
+[00:47:49] >> and if you have different fi with
+[00:47:51] different asymmetry then you'll just not
+[00:47:55] be able to measure it by software you
+[00:47:57] need to
+[00:47:59] >> some hardware measurements.
+[00:48:00] >> Yeah. Yeah. But that that's a big like
+[00:48:04] challenge in the PTP because it's
+[00:48:06] unfortunately very hard to to
+[00:48:10] detect that from from the from the
+[00:48:13] running applications. You basically just
+[00:48:15] send the packet it gets timestamps
+[00:48:17] somewhere and as you mentioned there may
+[00:48:19] be some asymmetries inside your system
+[00:48:22] even and unfortunately we can't really
+[00:48:25] detect that. So that's that's one of the
+[00:48:28] uh uncertainties that we should account
+[00:48:31] for on our own based on the knowledge of
+[00:48:33] our systems.
+[00:48:35] >> So the main point is then uncertaintity
+[00:48:38] specification. So how do we get actual
+[00:48:42] specification data? How do we find out
+[00:48:45] how uncertain is our clock?
+[00:48:49] uh like I mentioned like you need to
+[00:48:51] make certain decisions certain
+[00:48:53] architecture that you can defend and
+[00:48:56] then based on that because as you
+[00:48:58] mentioned there are many things that we
+[00:49:00] can't really account for reliably so we
+[00:49:03] need to put a certain static for example
+[00:49:07] bound that comes out of it so if you
+[00:49:10] know that your five may be 500 nconds of
+[00:49:14] each way you should account for that in
+[00:49:17] in the asymmetric in the uncertainty
+[00:49:20] that you that you put on a time stamp.
+[00:49:23] >> So in my experience only some domain
+[00:49:26] specific uh developers which know what
+[00:49:31] they are doing will be able to get the
+[00:49:32] specification out of hardware probably
+[00:49:35] but most of users will not be able to
+[00:49:37] get it. Yes, because like I mentioned uh
+[00:49:40] I am aware that uh some of the
+[00:49:44] like manufacturers correct that
+[00:49:47] internally
+[00:49:49] so that it can be hidden partially from
+[00:49:51] you and but can be corrected internally
+[00:49:54] in the hardware.
+[00:49:57] In my experience, I don't trust Windows
+[00:49:59] anymore.
+[00:50:02] Anyway,
+[00:50:04] >> uh very good talk. Thank you. Maybe
+[00:50:07] could you tell what is the typical
+[00:50:10] uncertainty for applications?
+[00:50:13] >> Uh like I mentioned in the talk like the
+[00:50:16] biggest factor comes from the
+[00:50:18] uncertainty of your clock drift.
+[00:50:21] uh and basic like you know this is this
+[00:50:26] is a tough question because there is no
+[00:50:28] such thing as typically it's rather you
+[00:50:30] design your system to meet a certain
+[00:50:32] uncertainty goals is the opposite way
+[00:50:35] and then you need to make certain
+[00:50:37] assumptions to bring it down or certain
+[00:50:40] uh tunings to your to your whole
+[00:50:42] deployment to bring the uncertainty
+[00:50:45] window down. For example, if you Let's
+[00:50:47] get back to the slide.
+[00:50:52] Yeah. For example, if you want to
+[00:50:54] counteract the fact that you have bad
+[00:50:57] oscillators and in the in in the uh
+[00:51:00] window of 1 second, it will grow to like
+[00:51:04] 120 microsconds.
+[00:51:06] uh then you can counteract it by sending
+[00:51:08] the sync packets more often and this
+[00:51:10] will bring you down the uncertainty
+[00:51:12] significantly because you will basically
+[00:51:14] get the anchors much more often and this
+[00:51:17] way you can bring it down to to
+[00:51:19] basically what you need from your system
+[00:51:21] to to to meet.
+[00:51:24] >> Okay, thanks. And one more thing, could
+[00:51:25] you go one slide back?
+[00:51:28] >> Yep. Why it's sometimes at zero like
+[00:51:31] >> it's not really zero but at the
+[00:51:33] microscond
+[00:51:35] scale the nanconds that are like the
+[00:51:38] bottom line are basically invisible.
+[00:51:40] >> Cool.
+[00:51:41] >> It's basically what's the difference
+[00:51:42] between this one and this one.
+[00:51:45] >> I see
+[00:51:50] >> any other questions for Mach.
+[00:51:56] Um I wondered what your opinion was on
+[00:51:58] the recent Amazon patch that had to add
+[00:52:00] quality attributes to the um
+[00:52:03] um clock APIs.
+[00:52:06] >> Did you see that?
+[00:52:07] >> Have you haven't seen them?
+[00:52:09] >> So um in this case a lot of the
+[00:52:12] information PTP is in the PTP for Linux
+[00:52:14] demon and there are environments where
+[00:52:16] you
+[00:52:18] um synchronize the system in some other
+[00:52:21] way. So either um it just uses a
+[00:52:24] different protocol or the Amazon example
+[00:52:27] is where they use PPS signal.
+[00:52:29] >> What's that?
+[00:52:30] >> They use PPS signals, right?
+[00:52:31] >> Um but also like in the their guest is
+[00:52:34] not involved in any of the negotiation.
+[00:52:36] So they don't see the PTP messages which
+[00:52:38] require um explicitly passing along with
+[00:52:41] the time stamp
+[00:52:42] >> certain attributes whether the clock is
+[00:52:44] in a certain state like old.
+[00:52:46] >> Yes, that's exactly.
+[00:52:47] >> Yeah. So I was wondering what you
+[00:52:48] thought of that uh API.
+[00:52:50] >> Yeah. Haven't seen it. That's a good
+[00:52:51] catch. I will need definitely need to
+[00:52:53] review it then. Okay, great. We'll talk
+[00:52:55] offline. Thank you. Thank you.
+[00:53:02] >> Have time for Yeah. more questions.
+[00:53:06] >> Hi, you mentioned that application
+[00:53:07] should be based on taking advantage of
+[00:53:10] the uncertainties in the time. Can you
+[00:53:12] give an example about how they do that
+[00:53:13] and and how that you know affects
+[00:53:16] applications compared to what they would
+[00:53:18] do without that? Yeah, for example, your
+[00:53:20] application may uh assume that it may
+[00:53:22] work only until the uncertainty window
+[00:53:25] is this big. For example, uh let's
+[00:53:29] assume you have a you have a uh AI
+[00:53:32] cluster. You need uh perfect like
+[00:53:35] ordering of the events. Then you may for
+[00:53:38] example uh if you see that your
+[00:53:40] uncertainty window starts to grow beyond
+[00:53:42] certain limits, you may want to slow
+[00:53:44] down your processes so that you know
+[00:53:46] that uh the next event happens uh in a
+[00:53:50] define it definitive way like you can
+[00:53:52] order those events definitively and they
+[00:53:55] are not ambiguous. The other application
+[00:53:57] is databases where you can have the wait
+[00:54:00] for commit where you send the message
+[00:54:03] and only make sure that that you don't
+[00:54:06] send them for for the whole uh period of
+[00:54:09] uncertainty so that your other site may
+[00:54:12] may reason on that and may uh commit
+[00:54:16] only when whenever the message came uh
+[00:54:19] and and it was able to order all those
+[00:54:22] commits in a in an unambiguous
+[00:54:27] So you'd be willing to assume it that
+[00:54:29] you can use that clock information to
+[00:54:31] make decisions about the order in which
+[00:54:33] things committed. Seems like that's
+[00:54:34] seems like that's assuming
+[00:54:37] that risks the safety of those commits
+[00:54:39] unless you know your uncertainty with
+[00:54:41] 100% yes accuracy though, right?
+[00:54:43] >> Yes. But this is something that is
+[00:54:45] already deployed in I believe Google,
+[00:54:48] right?
+[00:54:57] Okay. Any other questions for Machek
+[00:55:00] before we wrap up?
+[00:55:03] Going once, going twice. Yep. So, all
+[00:55:06] right. Well, thank you magic if you're
+[00:55:08] six minutes back.

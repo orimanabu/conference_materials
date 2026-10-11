@@ -1,0 +1,871 @@
+Source: https://youtu.be/lL02fwnIYvk
+Language: en
+Captions: auto-generated
+
+[00:00:00] Um, all right, so this is them ask a
+[00:00:02] maintainer question my maintainer
+[00:00:05] session.
+[00:00:06] We are the maintainers.
+[00:00:08] You will provide the questions. Um, I
+[00:00:10] have two slides to kick off and then
+[00:00:12] we'll open the
+[00:00:14] the to the questions from the group. Um,
+[00:00:17] so this is a
+[00:00:19] the graph of how many patches and
+[00:00:22] how many emails we get. You can
+[00:00:24] probably tell from this graph that
+[00:00:27] LLMs became popular in December 2025.
+[00:00:31] Um,
+[00:00:33] the blue line is the number of emails. I
+[00:00:35] can you can probably tell that this is a
+[00:00:37] 20% 25% up from our previous average.
+[00:00:40] The number of commits also went up by
+[00:00:42] 25%.
+[00:00:44] And number of developers similarly. So,
+[00:00:47] we are basically dealing with 25% more
+[00:00:49] work in the same number of resources and
+[00:00:51] I think
+[00:00:53] it's even more than 25% right because
+[00:00:55] the newcomers need more attention and
+[00:00:57] help than um,
+[00:00:59] the people that we already worked with.
+[00:01:02] Um,
+[00:01:03] so we have been trying to kind of
+[00:01:06] prioritize the queue so that the patch
+[00:01:08] queue so that um,
+[00:01:10] existing developers and maintainers
+[00:01:12] don't
+[00:01:13] experience as much of an additional lag
+[00:01:15] as like a newcomer would. Um, so we have
+[00:01:19] a bit of a scoring system.
+[00:01:21] Um, and
+[00:01:23] uh,
+[00:01:23] I'm just showing this primary to
+[00:01:25] highlight basically that um,
+[00:01:28] we are actively using the reviewer
+[00:01:30] score. So, if you are posting patches
+[00:01:32] and to not reviewing anything and not
+[00:01:34] participating other than just throwing
+[00:01:36] code, this
+[00:01:38] um, will probably mean you get a single
+[00:01:40] review a week at this point. Uh, yes.
+[00:01:43] And there's also like some heuristics
+[00:01:45] now to basically prioritize patches from
+[00:01:47] long-term contributors versus people who
+[00:01:49] have posted their first patch.
+[00:01:51] Um,
+[00:01:53] because yeah, the people who post their
+[00:01:55] first patch 50% of the time, the patch
+[00:01:58] is completely useless. So,
+[00:02:01] yeah. So, um with that
+[00:02:04] Jamal,
+[00:02:05] we open up?
+[00:02:07] >> You open up the floor for questions?
+[00:02:21] >> This is a follow-up.
+[00:02:33] My question was what is the formula?
+[00:02:35] >> Um the formula is um
+[00:02:38] I mean, they change it. Honestly, the
+[00:02:40] things are changing so fast. We update
+[00:02:42] the formula to make sure that the list
+[00:02:44] looks the way we would expect it to
+[00:02:45] look. Um but if you there's like a UI
+[00:02:48] somewhere, I think s u i e.html file
+[00:02:52] under netdev. And then if you click on
+[00:02:54] the patch, there's like a list of
+[00:02:57] basically penalties.
+[00:03:01] Anybody else on the
+[00:03:04] side?
+[00:03:06] Wow.
+[00:03:11] All right, I'm going to start calling
+[00:03:12] names.
+[00:03:15] All right, can I ask a question?
+[00:03:19] Um
+[00:03:20] No, no, I'm asking what is an
+[00:03:22] outstanding comments?
+[00:03:25] Just explain, maybe. What is an
+[00:03:27] outstanding comments?
+[00:03:31] So, if someone asks a question or
+[00:03:33] provides a comment to a patch, then it
+[00:03:36] gets down ranked.
+[00:03:37] So, that if there's a still a
+[00:03:39] conversation going and there's not no
+[00:03:41] review tag or act act by tag provided by
+[00:03:44] someone who's asking questions,
+[00:03:46] the the patch is kind of hidden, so that
+[00:03:48] we only look at it once people have
+[00:04:00] So, what do you mean by a low revision
+[00:04:02] count? If the patch had uh
+[00:04:05] less rounds, is it better or
+[00:04:07] worse?
+[00:04:09] >> So, basically, you have to review a
+[00:04:12] bunch of patches for every
+[00:04:15] new one that you submit.
+[00:04:17] The authors that
+[00:04:19] uh
+[00:04:20] have the the submitted that have
+[00:04:23] provided fewer reviews to the um
+[00:04:27] netdev mailing list get downvoted.
+[00:04:33] >> So, oh
+[00:04:36] if I want to get my patches upstream, I
+[00:04:38] should
+[00:04:40] pre-review it with Sashiko and make as
+[00:04:43] much as effort and test it as possible
+[00:04:45] to get
+[00:04:46] low revision count to heads have high
+[00:04:51] probability to get it upstream, yes?
+[00:04:55] >> So, you have to
+[00:04:57] uh go through AI driven review before
+[00:05:00] posting upstream,
+[00:05:02] no matter what. That is, it always help.
+[00:05:05] Uh
+[00:05:07] Also, uh
+[00:05:09] we have a
+[00:05:11] quite largeish set of automated tests on
+[00:05:14] each patch that comprises a review,
+[00:05:18] self-test, uh
+[00:05:20] format checks about the patch layout by
+[00:05:23] checkpatch,
+[00:05:25] uh linters for shell code or Python
+[00:05:28] code, etc. And all that test adopts. Uh
+[00:05:33] when you have green line on
+[00:05:36] that test,
+[00:05:37] your patch get upvoted. If you have
+[00:05:40] failure, you get downvoted. So, a
+[00:05:44] failure in AI review will download your
+[00:05:48] patch.
+[00:05:49] If you have
+[00:05:51] uh
+[00:05:51] review it with the AI tool before
+[00:05:54] submission, there is a
+[00:05:56] higher chance that you
+[00:05:59] do will not get any comments from
+[00:06:01] Sashiko when you post. So, it in the
+[00:06:04] end, it will help.
+[00:06:09] >> So, with all the talk about needing to
+[00:06:11] screen it with Sashiko beforehand,
+[00:06:13] uh would you be penalized if you were to
+[00:06:15] just go ahead and submit your patch set
+[00:06:17] as RFC the first round just to have it
+[00:06:19] get thrown at Sashiko to get it
+[00:06:21] reviewed?
+[00:06:23] >> Oh.
+[00:06:24] So.
+[00:06:27] Uh
+[00:06:28] >> Drake, you need to slow down with your
+[00:06:31] >> Well,
+[00:06:32] so
+[00:06:33] I personally will not encourage that. Uh
+[00:06:38] RFC patches usually don't draw many
+[00:06:42] attention unless the meaning is
+[00:06:46] is in a very, let's say,
+[00:06:48] low-volume period,
+[00:06:50] which means very, very infrequently.
+[00:06:54] >> Plus, the thing with Sashiko and
+[00:06:55] Sashiko's attention, I think at least
+[00:06:57] hand by hand
+[00:06:58] >> Yeah, yeah, but so what's the point?
+[00:07:02] >> Yeah, I guess it's not a human, so it
+[00:07:04] used to be expensive because it's a
+[00:07:06] human that has to review, right? Now,
+[00:07:07] it's just some bot.
+[00:07:11] >> Yeah, I'm just wondering if maybe we
+[00:07:12] should have a new
+[00:07:15] Uh
+[00:07:16] >> First of all, the mic
+[00:07:18] >> Oh, there. So, yeah, I'm just wondering
+[00:07:19] if maybe we should have a new RFC tag to
+[00:07:22] put on patches to say, "Okay, I'm just
+[00:07:24] putting it out here to get an initial
+[00:07:25] screening for like cuz I know basically
+[00:07:28] all the tests we have at this point in
+[00:07:29] net dev
+[00:07:30] there's a pretty long list of them at
+[00:07:32] this point that get all thrown in that
+[00:07:34] require certain setups in terms of like
+[00:07:36] the case self tests and all that to get
+[00:07:38] all of that in there.
+[00:07:39] I know myself personally that was always
+[00:07:41] kind of my go-to is I'd submit a patch
+[00:07:42] to RFC just the first round just get
+[00:07:44] initial feedback anyway. And when we got
+[00:07:46] all these extra hurdles now with all the
+[00:07:48] extra testing, Shishiko, etc. It seems
+[00:07:50] like that might make sense in order to
+[00:07:51] just have a automated RFC review for the
+[00:07:54] first round of patches just to see if it
+[00:07:57] can get through all of that.
+[00:07:58] >> So,
+[00:07:59] I think that with this kind of strategy
+[00:08:02] uh
+[00:08:03] we could end up encouraging people to
+[00:08:06] avoiding
+[00:08:07] uh doing
+[00:08:10] a I driven review by themselves. And we
+[00:08:13] want that clearly to encourage people to
+[00:08:15] do to do that.
+[00:08:17] Uh
+[00:08:18] because if we save just only a iteration
+[00:08:23] only the mailing list
+[00:08:25] we save quite a bit of time from
+[00:08:28] everyone.
+[00:08:28] >> Well, right. But in a lot of cases, it
+[00:08:30] doesn't really save us because it just
+[00:08:31] becomes instead of an RFC they submit it
+[00:08:33] as their V1. And then you're incurring
+[00:08:35] the human extra V preview because they
+[00:08:37] didn't do the Shishiko and all that
+[00:08:40] beforehand anyway. So, no, no, it's just
+[00:08:42] kind of a trade-off.
+[00:08:44] >> Yeah, yeah.
+[00:08:46] I understand your point of view. I
+[00:08:49] personally will not encourage that.
+[00:08:51] >> Yeah, I'm not saying that.
+[00:08:52] >> have different opinions.
+[00:08:57] >> Maybe I can
+[00:08:57] >> Yeah, I guess someone has to pay for
+[00:08:58] those tokens, right?
+[00:09:00] >> Maybe I can add something to the
+[00:09:02] multiple iteration. Shishiko review have
+[00:09:05] a cost. They cost something, right?
+[00:09:07] >> I know.
+[00:09:07] >> And so maybe we want to
+[00:09:11] make better use of our tokens to get
+[00:09:14] better Shishiko, more deeper analysis.
+[00:09:18] But we only can get that if you already
+[00:09:22] go to the point where the patch quality
+[00:09:24] is good enough. If not, then we are
+[00:09:27] stick to using our tokens with like low
+[00:09:30] quality patch.
+[00:09:32] >> Right. It's just, you know, usually
+[00:09:34] that's the thing is the RFC is more
+[00:09:35] about usually getting the conversation
+[00:09:37] started in a lot of cases with the patch
+[00:09:39] set cuz the RFC isn't getting
+[00:09:40] necessarily When you're submitting an
+[00:09:41] RFC, it isn't necessarily guaranteed to
+[00:09:43] be fully working code anyway at that
+[00:09:45] point. And so that was kind of the
+[00:09:46] thought behind some of it. So I just
+[00:09:49] know like historically the way I've
+[00:09:50] always done things like the first
+[00:09:51] iteration for a driver I'd submitted as
+[00:09:52] RFC to kickstart things and then you
+[00:09:55] know, get things like the Nvidia guys
+[00:09:57] saying, "Why are you even submitting
+[00:09:58] this driver for upstream?" So
+[00:10:01] uh
+[00:10:01] it's one of those things where normally
+[00:10:04] at that point it's there's the light
+[00:10:05] technical review being done by the
+[00:10:06] humans. It's mostly about the
+[00:10:08] uh logistics of it. And then like if we
+[00:10:11] happen to get the extra Sashiko reviews
+[00:10:13] and all that out of the way early on,
+[00:10:15] it's just a thought. But yeah, anyway.
+[00:10:26] >> Do you hear me? Yeah. Um so that's maybe
+[00:10:28] a comment on what was said in the
+[00:10:30] previous session
+[00:10:31] about the LLM topic. Um that is there is
+[00:10:35] an expectation now that you won't
+[00:10:36] necessarily get any review for the first
+[00:10:39] iterations by a human.
+[00:10:41] I would say
+[00:10:42] can we
+[00:10:44] do the opposite and like uh
+[00:10:47] have a human do a review for the very
+[00:10:49] first version because what I am seeing
+[00:10:51] when doing reviews is that
+[00:10:53] um
+[00:10:54] when people are sending some some
+[00:10:56] series, then the entire loop of trying
+[00:10:58] to please Sashiko, especially if they
+[00:11:00] don't get any human review. And then you
+[00:11:02] end up with a series that is in V4 5 and
+[00:11:05] no human took a look at that and then
+[00:11:07] the the submitter went into a path
+[00:11:09] trying to please Sashiko like adding new
+[00:11:12] taxes everywhere and so on. And then you
+[00:11:14] have to tell them in V5, "Okay, your
+[00:11:16] approach is completely wrong." Um I
+[00:11:18] would say it's important to get human
+[00:11:20] feedback on the the first iterations and
+[00:11:22] then maybe come back a bit later after
+[00:11:25] they have dealt with Sashiko.
+[00:11:26] >> I think it's a question for the room.
+[00:11:29] It's a question for a room.
+[00:11:30] >> Yeah, well, you have to ask your peers
+[00:11:33] for giving reviews.
+[00:11:36] >> Yeah, I actually had a very
+[00:11:38] >> Right, can you give reviews?
+[00:11:40] >> [laughter]
+[00:11:41] >> Yeah, they had a
+[00:11:42] The maintainers are not the only people
+[00:11:43] who should be reviewing code, right? I
+[00:11:45] think Eric is saying that. Yeah.
+[00:11:49] Yeah, but one thing Sorry, one thing to
+[00:11:51] add on the on top of that is I think
+[00:11:54] it definitely is
+[00:11:56] more important now to write a good cover
+[00:11:58] letter.
+[00:12:00] Because we may not have the time or the
+[00:12:02] focus to read through every line of
+[00:12:03] code, but it is much easier to provide
+[00:12:06] high-level feedback if the cover letter
+[00:12:07] is high quality, right? Um we used to
+[00:12:11] discourage people from
+[00:12:13] writing design docs and posting them
+[00:12:14] without any code, you know, and you
+[00:12:16] know, the code speaks and whatnot, but I
+[00:12:18] think now you just feed the design doc
+[00:12:20] into an LLM, so really what's the
+[00:12:21] difference? I think we might as a Linux
+[00:12:24] community
+[00:12:25] start to
+[00:12:27] befriend design docs a little bit more
+[00:12:29] and code a little bit less.
+[00:12:35] >> Yeah, I I also had the same like
+[00:12:37] question around that, like how to
+[00:12:40] encourage or like
+[00:12:42] you know, even if if we get negative
+[00:12:44] reviews from Sashiko, make someone
+[00:12:47] review whether our approach is even
+[00:12:49] correct because sometimes yeah, like I
+[00:12:51] like
+[00:12:52] the it was already mentioned, we we may
+[00:12:55] get stuck in fixing LLM report that
+[00:12:58] issues while the whole approach is
+[00:13:00] incorrect, basically.
+[00:13:03] >> So, uh it's a matter of volume.
+[00:13:07] Volume on the mailing list as portrayed
+[00:13:09] by Jacob just a few moments ago has
+[00:13:12] increased. Uh number of maintainers
+[00:13:16] isn't increased in the past few months.
+[00:13:18] Uh
+[00:13:19] so, it's
+[00:13:21] time-wise difficult to
+[00:13:26] be able
+[00:13:27] to provide an
+[00:13:30] a complete review from architectural
+[00:13:32] point of view to every
+[00:13:35] uh citizen on the mailing list. Uh
+[00:13:39] from a maintainer point of view,
+[00:13:42] let's say the Sashco screening helps
+[00:13:46] because
+[00:13:48] uh if we can focus
+[00:13:50] on the contents that passes Sashco
+[00:13:54] screening, we somehow trim the volume of
+[00:13:59] code that we have to review or the
+[00:14:03] volume of patches that we have to
+[00:14:05] process.
+[00:14:06] And that's help us. Uh I understand the
+[00:14:10] problem.
+[00:14:11] Uh
+[00:14:14] I don't have a
+[00:14:16] uh
+[00:14:17] let's say
+[00:14:18] clean solution proposal
+[00:14:22] to
+[00:14:23] uh address the concern. I I think
+[00:14:26] discussion on the mailing list
+[00:14:29] uh helps.
+[00:14:30] That is
+[00:14:32] uh
+[00:14:34] you can explicitly note
+[00:14:38] uh the architectural question
+[00:14:42] in the cover letter
+[00:14:45] in a clean
+[00:14:47] short
+[00:14:49] message.
+[00:14:50] Uh
+[00:14:51] Y- you can
+[00:14:53] iterate the question in the
+[00:14:55] conversation.
+[00:14:57] And
+[00:14:59] obviously,
+[00:15:00] uh I think it's important to reiterate
+[00:15:03] the concept.
+[00:15:04] We are
+[00:15:06] uh very welcoming reviewing for the
+[00:15:09] community. And it's important for
+[00:15:13] everyone to understand that
+[00:15:16] to get code merged,
+[00:15:19] code has to be reviewed.
+[00:15:23] Um
+[00:15:24] we can't increase the amount of code
+[00:15:26] merged just only by submitting code.
+[00:15:31] We have
+[00:15:32] to
+[00:15:33] see much more contribution on the
+[00:15:36] reviewer side.
+[00:15:39] Um
+[00:15:41] >> So so I think there's there's multiple
+[00:15:44] problems at work here.
+[00:15:45] Um like in one in one sense, I mean
+[00:15:47] we've always left people out of the room
+[00:15:49] who post code that doesn't build.
+[00:15:51] So I'm I'm you know I think in some ways
+[00:15:54] Sashiko is just raising the bar for
+[00:15:56] this. Like you know you you post
+[00:15:57] something that doesn't build. It's an
+[00:15:59] RFC or it's not an RFC. Like I don't
+[00:16:02] care. Like it's it's dead at that point.
+[00:16:04] Um and Sashiko kind of raises that bar a
+[00:16:06] little bit because now it tells you like
+[00:16:08] your error pods are broken and you need
+[00:16:10] to fix those and
+[00:16:11] your your your things are broken. Um you
+[00:16:14] need to fix these other things. But
+[00:16:16] that just raises the bar. I don't think
+[00:16:18] that's a really fundamental um
+[00:16:21] difference. Like yes, you know there's a
+[00:16:23] a a bigger cost to that, but you've in
+[00:16:25] some way every maintainer we uh sorry
+[00:16:27] every submitter has been paying a cost
+[00:16:29] at that level. It is increasing to some
+[00:16:31] extent, but I don't think it's
+[00:16:33] a fundamental difference. So I think in
+[00:16:36] that case in that sense I disagree with
+[00:16:39] Alex and the whole RFC posting because
+[00:16:41] it's like um you know you you could do
+[00:16:44] that and
+[00:16:45] you you would you wouldn't post
+[00:16:47] something that doesn't build, right? So
+[00:16:50] >> Right, but the problem is if I'm running
+[00:16:52] Sashiko on Cloud and they're running it
+[00:16:54] on Gemini
+[00:16:56] and I get my review it says it's clean,
+[00:16:58] it goes runs on theirs and says oh
+[00:17:00] there's these other bugs I saw. And it's
+[00:17:01] like okay well that's great, but now
+[00:17:03] I've got to go run their setup and then
+[00:17:05] 2 weeks later they've gone and moved on
+[00:17:06] to some other model that I don't have.
+[00:17:09] You know, that's kind of where the the
+[00:17:11] maybe we should just could do an RFC
+[00:17:12] stage comes in just so it's a sanity
+[00:17:14] check of is my model up to date with
+[00:17:16] theirs so that when I run my test, I've
+[00:17:19] caught what theirs might catch.
+[00:17:20] >> I I think that's a very temporal
+[00:17:22] temporary problem. Yeah, I think this
+[00:17:24] will top out at some point, but you
+[00:17:26] know, we'll see.
+[00:17:27] >> Right. Once the AI race stops, but
+[00:17:28] that's the thing is that's it like at
+[00:17:30] least 18 months out, so.
+[00:17:32] >> I don't know. I don't know if that's
+[00:17:33] really 18 months out, but we'll see. Um
+[00:17:35] and the other thing is like like I
+[00:17:37] think, you know, we're we're starting to
+[00:17:39] get to a point where we need to
+[00:17:40] disentangle this whole thing of we're
+[00:17:42] posting a patch for the architecture
+[00:17:44] review, which Paulo, you were you were
+[00:17:45] starting to get at, right? Like you want
+[00:17:47] to have that question raised in sort of
+[00:17:49] a more
+[00:17:51] um
+[00:17:52] documentation format rather than code
+[00:17:54] format. I think, you know, at at least
+[00:17:56] to me, that's something that we've been
+[00:17:57] seeing more and more.
+[00:17:59] And like for wireless, um people have
+[00:18:01] been posting like, you know, here's my
+[00:18:02] architecture diagram of how I think, you
+[00:18:05] know, these data structures should work
+[00:18:07] and how all these things are integrated.
+[00:18:08] And I think that's a much easier first
+[00:18:11] step to review than, you know, actually
+[00:18:13] starting with like, here's my actual C
+[00:18:16] definition of these data structures and
+[00:18:17] I have to sort of reverse engineer the
+[00:18:19] dependencies out of the code. So, you
+[00:18:23] know, I think to some extent, once you
+[00:18:24] get to these architectural questions,
+[00:18:27] it would be valuable to not really start
+[00:18:29] with code that needs to compile and pass
+[00:18:32] all these bars, but start with like,
+[00:18:33] here's my three proposals for how, you
+[00:18:36] know, I think the architecture might
+[00:18:37] work.
+[00:18:38] Um and you know, I wonder if we should
+[00:18:40] be encouraging that more.
+[00:18:44] >> Any questions for upstairs? It's been
+[00:18:46] quite up there. Is the heat okay?
+[00:18:49] >> Yeah, everyone's passed out up here. I'm
+[00:18:52] I'm I'm trying to get someone to take
+[00:18:53] the mic.
+[00:18:55] >> You have more Jacob or
+[00:18:57] You have more This is it. Okay, there's
+[00:18:59] no AI
+[00:19:00] stuff. Okay.
+[00:19:02] Uh what is it? Oh, yeah. Okay, here you
+[00:19:04] go. Here you go. Go.
+[00:19:05] >> Um hi. Um I have a question about
+[00:19:07] reviewing. So, now it's a shiko alive
+[00:19:10] and reviewing a lot. Do you guys have
+[00:19:12] any recommendations for reviewers on how
+[00:19:15] to review differently? Uh should should
+[00:19:18] they change? Because Sashiko already
+[00:19:20] reviews, also reviews.
+[00:19:22] Um should should reviewers look at it
+[00:19:24] from a different perspective?
+[00:19:26] Uh
+[00:19:27] >> So,
+[00:19:29] Sashiko is good uh
+[00:19:33] uh some specific items.
+[00:19:36] Uh
+[00:19:39] For example,
+[00:19:40] good at checking error condition, error
+[00:19:43] paths.
+[00:19:45] Locking. Uh
+[00:19:47] it has some problem with RCU and RCU
+[00:19:51] bottom half.
+[00:19:52] Uh
+[00:19:53] it has an audible taste.
+[00:19:57] Uh
+[00:19:59] and
+[00:20:00] generally speaking, does not take in
+[00:20:02] account
+[00:20:04] any
+[00:20:05] uh let's say
+[00:20:07] soft quality metrics. Let me use that
+[00:20:10] sentence. That is
+[00:20:12] uh
+[00:20:12] most people if look at code can say this
+[00:20:15] is ugly or this is good.
+[00:20:18] And
+[00:20:19] if it it's a 20-lines
+[00:20:23] patch,
+[00:20:24] it's an easy task and we probably could
+[00:20:26] get uh over that
+[00:20:29] uh quite rapidly. But if it's
+[00:20:31] a larger series,
+[00:20:34] that could fall along the crack. So,
+[00:20:38] there are a lot of things still to look
+[00:20:41] at.
+[00:20:42] Uh
+[00:20:43] even domain-specific
+[00:20:46] uh competences, I mean uh
+[00:20:50] there are several sub-pieces of the
+[00:20:53] networking sub-list that I admit I do
+[00:20:56] not know well.
+[00:20:58] And
+[00:20:59] even uh Sashiko
+[00:21:01] uh
+[00:21:02] hallucinate on that.
+[00:21:04] And
+[00:21:06] domain-specific uh
+[00:21:08] competences would and domain specific
+[00:21:11] reviews would help a lot.
+[00:21:16] >> Um I'll I'll add to the review question.
+[00:21:19] Um we're encouraging people to review
+[00:21:21] for obvious reasons. But I wonder if
+[00:21:25] um
+[00:21:26] I work with people who are uncomfortable
+[00:21:29] talking publicly on like a archive
+[00:21:31] mailing list and like the initial couple
+[00:21:33] of reviews they don't really know
+[00:21:35] whether their comments are valid. Like
+[00:21:37] if you spot a bug, yes, that's pretty
+[00:21:40] easy. But if it's like there there there
+[00:21:42] you know, different levels of is this a
+[00:21:44] useful feedback. So I talk offline with
+[00:21:47] people like yeah, this you know, report
+[00:21:49] this or like you know, this is not that
+[00:21:51] valuable. I wonder if uh if we really
+[00:21:52] want people to review more, we need to
+[00:21:55] offer a little bit more of an on-ramp.
+[00:21:56] And it's easy to do within your company,
+[00:21:58] within your team. But I think it might
+[00:22:00] be harder, so it's more of a question
+[00:22:01] for the room, for people who don't have
+[00:22:03] such a team. Um if uh you want for
+[00:22:06] instance, clear instructions of the kind
+[00:22:08] of review feedback that is appreciated.
+[00:22:11] Um
+[00:22:12] um
+[00:22:13] uh and also, you know, be able to reach
+[00:22:15] out if there people willing to like sort
+[00:22:17] of mentor outside of their team.
+[00:22:24] >> Just can I can I maybe answer? The the
+[00:22:27] the this
+[00:22:29] um
+[00:22:29] even if you don't have a team in your
+[00:22:32] company, you can still build a team
+[00:22:34] cross company.
+[00:22:35] Right?
+[00:22:36] Uh I recall my interaction with Kunyuki
+[00:22:39] while he was working on Amazon.
+[00:22:41] And we had uh like ping-pong reviews. We
+[00:22:44] were reviewing the work done by each
+[00:22:46] other and that's how we built a team.
+[00:22:50] Cross cross company team.
+[00:22:54] >> I mean, the other another way to say
+[00:22:56] that is
+[00:22:57] uh I think reviewing is one thing, but
+[00:22:58] also like you have to read the mailing
+[00:23:00] list, you know, at some point.
+[00:23:02] I think a lot of people do that and uh
+[00:23:04] the examples are right there, I think.
+[00:23:07] Right?
+[00:23:10] >> If I may
+[00:23:12] >> I would like to second what Will said.
+[00:23:14] That if you
+[00:23:16] No.
+[00:23:17] >> Uh
+[00:23:17] >> No.
+[00:23:18] Have you people on the team?
+[00:23:20] I don't know.
+[00:23:24] >> Okay.
+[00:23:25] Uh I see that this button does it does
+[00:23:27] nothing.
+[00:23:28] Um if you have new people on the team
+[00:23:30] and I'm not that experienced either and
+[00:23:33] you're wondering, okay, I have maybe
+[00:23:35] some comments, but maybe this is just my
+[00:23:37] personal taste and what will Sashiko say
+[00:23:39] later and if I say it's okay and then
+[00:23:41] Sashiko says, "Oh, there's a bug that
+[00:23:43] you didn't see." And things like that.
+[00:23:45] And what helps me is um the
+[00:23:48] documentation,
+[00:23:50] the how-tos and in the kernel
+[00:23:52] documentation. So, if I can point this
+[00:23:55] has been mentioned there.
+[00:23:57] You should not do this or this style has
+[00:23:59] been mentioned there. So, whenever
+[00:24:03] experienced people or so can improve the
+[00:24:06] process documentation
+[00:24:08] because if you can spot
+[00:24:12] and and point it or or even point to
+[00:24:14] existing mailing list previous things to
+[00:24:17] say, "Okay, that was criticized before
+[00:24:19] on the mailing list for this and that
+[00:24:20] reason."
+[00:24:22] Yeah, that sometimes helps to encourage
+[00:24:26] people to
+[00:24:27] speak up that are not that experienced.
+[00:24:33] >> Sorry.
+[00:24:35] If I may add a few words still on the
+[00:24:37] topic of encouraging people to give
+[00:24:41] review and
+[00:24:42] go beyond, let's say, the initial
+[00:24:44] barrier of the first review. Uh if you
+[00:24:47] have submitted a patch
+[00:24:50] uh hopefully you have some knowledge
+[00:24:53] on the specific area that you touch it,
+[00:24:56] I hope.
+[00:24:57] So,
+[00:24:59] uh if you really
+[00:25:01] people could or should start reviewing
+[00:25:05] code that touches the same or patches
+[00:25:08] that touches the same area
+[00:25:11] but they have reasonable
+[00:25:14] uh technical knowledge and
+[00:25:17] um
+[00:25:19] deep uh understanding of the code to
+[00:25:21] provide
+[00:25:23] technical feedback.
+[00:25:27] >> Yeah, even just reviewing a random patch
+[00:25:31] and doing it wrong, you will get a
+[00:25:32] feedback on your review, like
+[00:25:35] a reply from the author, for example.
+[00:25:38] And you learn that way.
+[00:25:40] Uh
+[00:25:41] I have also uh like question, maybe. So,
+[00:25:45] doing review is one thing and we ask
+[00:25:47] everyone to do that.
+[00:25:49] And
+[00:25:50] uh with the Sashiko thing, it's like a
+[00:25:53] split and I think the split uh like it's
+[00:25:56] it's good or we should that or not. And
+[00:25:59] uh
+[00:26:00] I think that big companies should run
+[00:26:02] their own instances.
+[00:26:04] And like single person doing it for
+[00:26:07] free,
+[00:26:09] the not being paid, doing it like for
+[00:26:11] fun, they should use the
+[00:26:14] public or native resources for that.
+[00:26:16] That would be good.
+[00:26:18] And
+[00:26:19] uh yeah, that's that's the one thing and
+[00:26:23] for RFC,
+[00:26:25] I have
+[00:26:27] like good impressions of that that the
+[00:26:30] less you put in the RFC, the question of
+[00:26:33] your design doc, don't generate that.
+[00:26:35] Just write it
+[00:26:36] how you would like to implement the
+[00:26:38] feature
+[00:26:40] and make like three or five, whatever,
+[00:26:43] options and that that's good. And to end
+[00:26:46] with question,
+[00:26:47] have anybody
+[00:26:49] set up Sashikoto or run with effort low,
+[00:26:52] for example, or medium instead of high
+[00:26:55] or hard like uh
+[00:26:57] to spend less money, maybe?
+[00:26:59] For the first version revision?
+[00:27:03] >> And the cloud one that we have for
+[00:27:04] NetDev initially run with high effort
+[00:27:07] and now it runs with extra high.
+[00:27:09] I didn't really see huge difference and
+[00:27:12] either in the cost or in the depth of
+[00:27:14] the review, to be honest.
+[00:27:16] But I haven't tried low. All right. I
+[00:27:18] think the different way so the NetDev
+[00:27:20] version has um
+[00:27:22] it like starts telling the bot to that
+[00:27:25] it's running out of tokens. So one thing
+[00:27:27] is to do the depth of the review and the
+[00:27:29] other one is you can just set like how
+[00:27:30] much money you want to spend if you have
+[00:27:32] an LLM API access.
+[00:27:33] And once you are over like $1
+[00:27:36] you can just telling it tell it like you
+[00:27:38] are out of tokens. Give me a review
+[00:27:40] right now. We you can't use the tool
+[00:27:42] anymore. So I mean there's
+[00:27:45] different ways to do it. The cost is
+[00:27:47] just a problem because of the volume, to
+[00:27:49] be honest. I I don't know whether a
+[00:27:51] single developer or a single company
+[00:27:52] would run into significant cost from
+[00:27:54] just the reviews.
+[00:27:56] I mean we get
+[00:27:57] around 150 patches a day, so it starts
+[00:28:00] adding up pretty quickly, but
+[00:28:03] I don't know how that would work for a
+[00:28:04] company. And I think the problem is
+[00:28:06] slightly exaggerated like everybody has
+[00:28:08] LLM access like maybe I live in like in
+[00:28:11] California everybody has an LLM access,
+[00:28:14] but um
+[00:28:15] we shouldn't probably assume make it
+[00:28:16] take a huge deal that like individuals
+[00:28:19] don't have LLM access and we have to
+[00:28:20] give them stuff
+[00:28:22] because I don't think that's like
+[00:28:25] realistic, you know, 2026 developer kind
+[00:28:28] of expectation.
+[00:28:35] >> Uh I just had a question on the graph.
+[00:28:37] Uh what really happened on February 8th
+[00:28:40] for the email
+[00:28:41] uh graph to go down that way?
+[00:28:47] >> Yeah, yeah, I don't know. I mean
+[00:28:50] They might read I don't I assume let me
+[00:28:54] keep my opinions
+[00:28:56] into the private, but
+[00:28:57] um it fluctuates quite a bit and yeah, I
+[00:29:01] mean the the the only read you can make
+[00:29:03] from this is that the line goes up. The
+[00:29:06] commits went down. They always go down
+[00:29:08] before Christmas.
+[00:29:09] It's
+[00:29:10] >> That's that I can see.
+[00:29:11] >> Right.
+[00:29:12] >> What did you guys do that
+[00:29:13] what really prompted humans to write
+[00:29:16] less email and write more code?
+[00:29:19] >> So
+[00:29:19] >> is the question.
+[00:29:20] >> I think that we are intrinsically
+[00:29:22] depending on the patch prioritization.
+[00:29:24] So like Eric sends a single patch and it
+[00:29:27] gets merged. So that's like one-to-one
+[00:29:28] email to commit. And if someone submits
+[00:29:31] a 20 patch driver, we don't look at it
+[00:29:33] for a week and then they're they're not
+[00:29:35] going to get counted multiple times,
+[00:29:37] right? So the prioritization of the
+[00:29:38] experienced developers and getting those
+[00:29:41] patches in is actually working to kind
+[00:29:43] of make this look less bad.
+[00:29:45] But yeah.
+[00:29:46] >> There was also a comment upstairs
+[00:29:49] that it could have also been Chinese New
+[00:29:51] Year.
+[00:29:52] >> Oh, that's true as well.
+[00:29:53] >> It was also the Super Bowl week.
+[00:29:55] >> Oh, yeah.
+[00:29:56] Or we ran out of tokens.
+[00:30:00] >> Okay, we'll we'll just allow one more
+[00:30:02] question.
+[00:30:03] >> Uh it is not really
+[00:30:05] question. It is more of a call
+[00:30:07] feedback on my own experience. I run on
+[00:30:11] Sashi can stands and I get a lot of uh
+[00:30:15] uh review experience of this and what
+[00:30:18] can see that's
+[00:30:20] the blind spot of Sashi can see usually
+[00:30:22] everything what is out of court. I mean,
+[00:30:26] it can
+[00:30:27] grab and see what you already
+[00:30:29] implemented in the kernel
+[00:30:32] and what is existing and what is
+[00:30:33] documented, but everything what is like
+[00:30:36] physical reality and so on it is blind
+[00:30:38] spot of Sashi can see and if you deal
+[00:30:40] with networking, then
+[00:30:43] anything like waves or whatever power
+[00:30:47] and so on.
+[00:30:48] It it won't be able to see it and not
+[00:30:51] existing
+[00:30:53] your APIs and how much make a sense to
+[00:30:57] implement it in one or different way. It
+[00:30:59] is this
+[00:31:00] blind spot of such a course well. So, if
+[00:31:03] you
+[00:31:04] inventing something new, such a course
+[00:31:06] probably not be able to evaluate it.
+[00:31:08] Anyhow.
+[00:31:09] >> No, today. I think so I've been
+[00:31:12] experimenting with like doing
+[00:31:14] pre-existing stages. So, like the first
+[00:31:15] stage of review would be do some
+[00:31:18] research whether this has already been
+[00:31:19] implemented.
+[00:31:20] And it works about 25% of the time. But
+[00:31:23] I think we will get there at some point.
+[00:31:24] Especially more documentation research.
+[00:31:27] I think the existing LLMs are really
+[00:31:30] focused on finding bugs. That's why we
+[00:31:31] mostly finding bugs. But the design
+[00:31:35] aspect may also improve over time. I
+[00:31:37] wouldn't discount it.
+[00:31:39] All right.
+[00:31:40] >> All right. Okay, I'm going to ask a
+[00:31:42] question.
+[00:31:43] The humans that just started showing up
+[00:31:45] in December. Did you explain? Maybe I
+[00:31:47] missed it. The
+[00:31:49] There's a lot of people that started
+[00:31:50] showing up after December 1st.
+[00:31:54] The yellow.
+[00:31:56] >> What are the what?
+[00:31:57] >> The yellow lines is persons.
+[00:31:58] >> It's rooted.
+[00:32:00] Um there's more people posting patches.
+[00:32:02] Those are new developers. Um
+[00:32:04] >> Okay, this is the
+[00:32:05] >> And they don't type developers or Sorry?
+[00:32:08] >> Are these people posting AI patches?
+[00:32:11] >> They are AI supported. I see most of
+[00:32:13] them definitely. So, they they get help
+[00:32:15] and they post. There's a I don't know
+[00:32:16] how much they use LLMs, but there's
+[00:32:18] definitely also been a spike people from
+[00:32:20] OpenWRT upstreaming their stuff. So,
+[00:32:22] that's definitely good, right? But I I
+[00:32:25] guess they must be There's a bunch of
+[00:32:26] them. So, there's a increase.
+[00:32:30] >> All right. I think we'll wrap it up
+[00:32:31] here.
+[00:32:33] >> Well, I mean
+[00:32:35] Well, on the internet, what's the
+[00:32:37] difference?
+[00:32:38] >> [laughter]
+[00:32:39] >> Okay, we'll wrap it up here. Let's just
+[00:32:41] give him a hand of applause, please.

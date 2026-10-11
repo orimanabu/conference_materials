@@ -1,0 +1,240 @@
+Source: https://youtu.be/1Aadgip33HU
+Language: en
+Captions: local speech recognition (mlx-community/whisper-small-mlx); unreviewed
+
+[00:00:00] Good morning everyone. I'm glad many of us here and thanks for everyone who joined early
+[00:00:11] in the morning. My name is Ferenc Feijers. I'm presenting this work behalf of my colleague
+[00:00:17] Ferenc Orochi. Essentially this will be about a QBANETS CNI plugin. My research area at
+[00:00:33] Ericsson Research is time-sensitive networking. It's not the usual data center or hyperscaler
+[00:00:41] AI networks mostly talked about here. These are very specialized networks where robustness and
+[00:00:53] low jitter are the most important thing. Also power efficiency, time sink is required,
+[00:01:04] and they are used at the field or inside the automotive and aerospace
+[00:01:18] applications like planes and helicopters. Also they are used to control plants and
+[00:01:29] industrial machines, welding machines and stuff like that. Just to give a bit of a context
+[00:01:36] for my talk. Also some additional context that of course the main direction of application
+[00:01:46] deployment nowadays is microservices or microservices. This trend is emerged in the
+[00:01:55] industrial applications as well. People from manufacturing companies come and
+[00:02:05] said they need the same flexibility and observability what anyone used to have in a
+[00:02:17] QBANETS caster, but they want to use that on the field with robots and controlling robots and
+[00:02:23] virtual programmable logic applications. However there are some challenges.
+[00:02:32] And now back to the kernel, some familiar topic. Here's the simplified version of the SKB
+[00:02:44] structure. Lots of fields omitted. What's important for us here for the time-sensitive
+[00:02:51] networking is the priority and the time stamp. Because these are the fields used by
+[00:03:00] time-sensitive QD, Q-indicipals like M-Q-PRIO, time-over priority, ETF. And also
+[00:03:09] for real-time priority tagging, the SKB priority used as a primary source to set the
+[00:03:17] priority tag. So these are important fields for us.
+[00:03:24] And the user space application can set these fields for UDP packets or Rav Ethernet Rav packets
+[00:03:35] with these APIs, with Setsocopt API. So for example the SKB time stamp set by the SOTX
+[00:03:45] time control message or ancillary message. This is available since 4.19. And SKB priority can
+[00:03:56] be set by SO priority Setsocopt for socket-wide. So you define UDP socket, set it with the Setsocopt.
+[00:04:08] This is here since forever, since 0.98. And it's released more than 30 years ago. And you can
+[00:04:24] also set it per packet, but that's a more recent addition to the kernel.
+[00:04:31] And when it comes to network namespaces, which is used heavily to isolate microservices
+[00:04:42] for microservice network isolation, the two important functions here is the
+[00:04:52] DevForward SKB and SKB Strap packet. And the dashed line here represents the boundary of the
+[00:05:00] namespace, two network namespaces. So here's two VETH interface, and here's the network
+[00:05:09] namespace boundary. In the DevForward SKB, again it's a simplified version, but
+[00:05:20] if there's a network namespace crossing during the forwarding, we call the scrap packet
+[00:05:29] metadata, which removes the metadata from the SKB. Originally this function introduced for
+[00:05:37] tunneling. So when a packet got tunneling, it's called the SKB scrap packet to remove the every
+[00:05:44] metadata which might belong to a header processing before the tunnel. And also this removes the
+[00:05:56] priority as well. So this is not happening in the scrap packet. For some reason this is happening
+[00:06:05] here in the DevForward SKB. Just to show you the simplified version of the scrap packet,
+[00:06:14] if there's no namespace crossing, it can leave the mark as is. But if there's namespace
+[00:06:21] crossing, so the packet going through from one network namespace to the other,
+[00:06:30] it also reset the SKB mark as well. So we cannot get away saving the timestamp or the priority
+[00:06:38] into the SKB mark, because that will be cleared as well. And the timestamps, we have easier job
+[00:06:50] with the timestamps since they are only cleared conditionally. By the way, the SKB mark discussed
+[00:06:56] heavily in two days ago at the RichPacket metadata talk. So I recommend that. Okay, so
+[00:07:09] in this BPF data pass extension for Kubernetes workloads, LPC talk, there are in part two,
+[00:07:17] there was the reason or it was presented why we cannot just remove the timestamp in every
+[00:07:27] condition. There are cases when we need this timestamp. So we have easier job with the timestamp
+[00:07:32] since if the timestamp type is not real time, I guess this is the first in the SKBT timestamp
+[00:07:43] type INUM. So if it's monotonic or TAI, that indicates the network stack we want to keep the
+[00:07:52] timestamp no matter what. Okay, just a brief quick recap what we know so far. We need timestamp and
+[00:08:03] priority for TSN networking. They cleared by the namespace isolation, unfortunately. If we use
+[00:08:12] different clocks than the clock real time, the wall clock, these are preserved. And so in top
+[00:08:21] real when we TF Q disk, we can use that dose, but we still lost the priority. And now let's continue
+[00:08:32] with Kubernetes networking. Kubernetes offload the network configuration for CNI plug-in.
+[00:08:42] Like Colico, Cilium, Flunnel, Veeve and similar plugins. These plugins do the heavy lifting.
+[00:08:55] They configure the virtual interfaces, the routing between them, switching between them,
+[00:09:01] firewall rules and every these kinds of stuff. And most of these plugins are not every,
+[00:09:12] not every plugin because some of them rely on DP, DK or other kernel, BAPE,
+[00:09:19] past technologies. But most of these plugins, especially what listed here,
+[00:09:26] these plugins using the GNU Linux tools and APIs to build the network to implement the cluster
+[00:09:34] networking. Okay. And why this is important is important because the pods isolated with unique
+[00:09:46] network namespaces from each other and from the host network or the root network namespace
+[00:09:52] or the node network namespace. So if we deploy an application as a microservice in a pod,
+[00:09:58] metadata's get removed. So the CNI plugins network, we lost the metadata even before it reaches the
+[00:10:11] CNI plugins network. And when it comes to the physical interface, if the packet leaves the node,
+[00:10:20] we don't have the timestamp and priority anymore.
+[00:10:28] So for a time sensitive application, there are some challenges. There are lots of different CNI
+[00:10:34] plugins. We cannot tell, we can say to the developers that please use your vendor tailored
+[00:10:45] API just to preserve scheduling metadata. We have to rely on Linux APIs. And there are no option to
+[00:10:56] keep the metadata, keep the necessary metadata from the isolation process. And here's a small,
+[00:11:05] I will come back to this later in the presentation. So this is not entirely true.
+[00:11:12] Now I just talking about VTH. Okay. So we propose a CNI plugin. It's called TSN Proxy,
+[00:11:22] which intend to equip the primary CNI plugin listed before like Calico,
+[00:11:32] Cilium and such plugins to the TSN metadata preservation.
+[00:11:40] So and we want to do this without the modification of the application, without
+[00:11:51] can add a pass or custom compact can add, of course. So as you might guess, we want, we might use
+[00:11:59] IBPF for this. So our intention is a similar setup where there are the time sensitive application
+[00:12:10] pods. And there's the cluster network and all the heavy lifting does by the industry
+[00:12:18] strengths, popular CNI plugins with every feature they support. And here's our secondary CNI plugin
+[00:12:29] which do some fine tunes on the network, what they configured by these plugins
+[00:12:38] in order to preserve the time TSN metadata. So this is a simplified, of course, this is a simplified
+[00:12:49] diagram from the pod in your initialization process. It's not entirely looking like that. But
+[00:12:56] when the API server or the Kubernetes scheduler instruct the Kubelet to schedule a pod on a node,
+[00:13:06] the pod request, the Kubelet network, the Kubelet request from the CNI interface of Kubernetes
+[00:13:15] a network, which allocate the namespace. And of course, there's an IP address allocation. But
+[00:13:23] we have it allocated the IP address as well. And the CNI instruct the first plugin to please
+[00:13:32] use this network namespace and IP and configure the network.
+[00:13:37] And this primary plugin get back to the CNI with the VETH and some other data. It returns some
+[00:13:47] other data. And then if is there any other plugin in the CNI plugin list that gives the CNI framework
+[00:14:03] give the things returned by the primary plugin to the other plugins and so forth. So you can
+[00:14:10] chain multiple plugins. So now in our TSN proxy, we have the network namespace, the VETH. So we
+[00:14:19] can do whatever we wish with those things. For example, attaching custom EBPF prox into that one.
+[00:14:27] And we do that. So it's right now, I would like to call it something like a poor man's
+[00:14:38] packet trades or a very simplified version and not industry strengths packet trades.
+[00:14:46] Because we attach a BPF program, which is a TC egress BPF program lies on the ETH0 VETH of the pod.
+[00:15:01] And when the pod application sends some data, we check the SKB timestamp and SKB priority
+[00:15:10] and put into a preallocated hash map. And here's the address of the SKB and the metadata.
+[00:15:19] And then it continues the pass in the CNI network, the cluster network. It comes to a bridge,
+[00:15:26] maybe forwarded, it may be reach a virtual routing and forwarding tunnel or tunneled elsewhere,
+[00:15:34] a VXLAN tunnel, a GiniV tunnel, and then reaches the NIC or not if it's robbed by some rules or
+[00:15:43] egress policy. But what we can do here is we also hook into the TC egress on this NIC and we can
+[00:15:55] restore the metadata from the hash map based on the address of the SKB. But of course, the address
+[00:16:04] of the SKB can change as it traverse the network stack. Therefore, we introduce some maintenance
+[00:16:14] and these are we hook into the SKB clone, SKB copy, PSKB clone, and I think that's all what we use
+[00:16:23] right now. And of course, we do a garbage collection since if a packet dropped before it reaches the
+[00:16:30] physical NIC, it would remain forever in the hash map and we can't let the hash map growing
+[00:16:41] indefinitely. So here's just a brief example what might the packet tracking looks like. It's a very
+[00:16:54] simplified packet tracking. So here's the original SKB. It has prior one and T-stamp one. It has the
+[00:17:02] address. It has an address. And of course, first it comes to the SKB scrub. So it removes everything
+[00:17:09] from it. And then we call the network stack called SKB clone if it's going through a bridge or other
+[00:17:16] places. And of course, this allocated as a different address without the metadata. But since we are
+[00:17:26] with the fax sheet SKB clone, we see the original address and the newly allocated address. So we
+[00:17:35] can create a new entry in the BPFS hash map with these prior metadata. And this tracking what's
+[00:17:46] inspired by the Peru tool from Cilium, they use I think exactly such kind of packet tracking.
+[00:17:57] And we also do garbage collection. Our CNI plugin cannot have a user space counterpart. Everything
+[00:18:06] is just internal EBPF codes, EBPF programs, because there are not much state to maintain. So a best script
+[00:18:17] plus a few BPF programs. And what we do? Periodically going through the BPF hash map. And since we have
+[00:18:28] timestamps, we can check whether the timestamp is old enough like more than five seconds or so. So
+[00:18:35] that would be that would be a unrealistically high delay. So we can remove those from the BPF hash
+[00:18:44] map. We implemented this with BPF timer. And so the loading of the garbage collection is like
+[00:18:54] we can load it as or the CNI plugin load that program once. And the best script, the CNI
+[00:19:05] plugins, bash script also initialize the timer. And that's happening once. And then so we use the
+[00:19:15] BPF program. It's a very good feature of BPF tool. It's used for testing BPF programs with
+[00:19:25] specified data. Right now we didn't use this data. We just want to execute a kernel BPF function one
+[00:19:33] time. And the callback, there's a callback. The BPF timer callback will rearm itself indefinitely.
+[00:19:41] So every five or two seconds, it will recall itself indefinitely. So no user space part needed for
+[00:19:50] garbage collection. And I would like to show you a simple scenario where we have two talker pod.
+[00:20:00] That's how the TSN networks work. They're usually a talker and listeners. No, no bi-directional
+[00:20:08] streams. So it's unlike regular communication where there's a session and two peers, they are
+[00:20:16] communicating with each other. Here we have only talkers and listeners, unidirectional streams.
+[00:20:22] No, it has no concept of bi-directional streams. If you want bi-directional communication or some
+[00:20:28] sort of feedback, you can treat them as two separate one-idirectional streams. They have
+[00:20:37] different config. Okay, so one pod sending with priority one. One pod sending with priority two.
+[00:20:45] Of course, there's the CNI network going to the NIC. Then going through the time-sensitive network,
+[00:20:51] there are bridges with enforced time slots for priority one and priority two. Then they reach
+[00:20:57] the listener one or listener two depending on their priority. Very simple. And on the NIC zero,
+[00:21:07] we define the time-sensitive QDisk time-over priority. If you're familiar with it, it looks like
+[00:21:15] this. It's basically you can define traffic classes and open or close a gate for such traffic
+[00:21:26] class. If a gate closed and pocket classified for the closed gate traffic class, it will remain in
+[00:21:34] a queue. When the gate opens, it will send it out as a burst. The gates are defined with bitmask.
+[00:21:44] So these are bitmask values. Think about these as a bitmask values.
+[00:21:52] By the way, there were two talks from TSN networks here years before. If you can search for
+[00:22:03] net dev conference, TSN talks, you can find one of them was mine and there was another
+[00:22:10] a little bit before. And there I explained this QDisk in details.
+[00:22:20] So we have three slots here for priority one, 10 microsec for priority two, 10 microsecond for
+[00:22:27] best effort and the other traffic class 20 microsec. And without the TSN proxy, this looks at
+[00:22:36] and we take a look into the listeners, it looks like this. So there are the cycles. So these
+[00:22:45] cycles are looping infinitely. So 10 microsec, 10 microsec, 20, 10, 10, 20, 10, 20, it's a loop.
+[00:22:55] And these are the cycles, the cycle number. And here are the time slots.
+[00:23:05] And as you can see, even though the pods are sending with predefined priority, the QDICs
+[00:23:12] see them as priority zero and they all classified as the best effort traffic. So the listeners cannot,
+[00:23:19] so at the listeners, they arrived at the best effort slot, which is not according to their
+[00:23:27] priorities. And if you install the Qubesity, just a regular Qubesity LAPLI TSM proxy, it can
+[00:23:38] configure anything for you. And then that was the hard part. I mean, for static config,
+[00:23:47] the BPF testing of the BPF program, it took a week maybe, but packaging this as a reusable
+[00:23:56] CNI plugin, it took months or two months, maybe three or four testing out every single,
+[00:24:03] because we tested it with multiple operating system, kind, mini-Qube, we tested out on
+[00:24:12] with different CNI plugins, primary plugins, and to be incompatible with everything, it takes so much
+[00:24:19] time. But at the end, we rendered this into a small container image, which has the BPF progs,
+[00:24:29] a static compiled BPF tool, since we are relying on that heavily, and we needed the latest version,
+[00:24:36] because it only the latest version supported the TC egress program at touch at the time of writing.
+[00:24:45] And the CNI plugin is just a best script. And we don't use any user space part, everything
+[00:24:53] what we do can be done with BPF tool. And as you can see, when it's installed, the priorities are
+[00:25:06] the package scheduled according their priority in their correct time slots.
+[00:25:12] These time slots are important. These are the alpha and omega of DSN networking. There's a network
+[00:25:19] wide time sync. Everyone can, everyone defined the same time slots. And so the bandwidth are
+[00:25:31] allocated for each traffic class. And if everyone is in sync, everyone know when the
+[00:25:38] packet can be scheduled or not. Okay, and the good thing presenting at the last day that you,
+[00:25:48] there are many experts and you can talk with them and they tell you a lot of things like,
+[00:25:55] and the bad thing is your work might be absoluted by the information told by experts here. So
+[00:26:05] I briefly mentioned that there's no option to exclude some metadata from the scrubbing process,
+[00:26:13] but that's actually not true for netkit. Since it's like, if someone don't know netkit is a
+[00:26:19] VTH alternative and it's a transmit callback is a eBPF program. And with the tool, you can set some
+[00:26:30] flags. For example, you don't want to exclude, you don't want to scrub the priority or the
+[00:26:38] timestamp. You can do that. And of course, there are the proper solution, the packet traits,
+[00:26:46] which can be, I think can be preserved across namespaces. I'm pretty sure. And then you can,
+[00:26:55] you don't need the tracking since those are preserved even if the packets encapsulated,
+[00:27:03] I guess. And there are other alternatives that's mostly used by the academia nowadays,
+[00:27:11] because there are some research around this topic and I see it's a popular solution to use MULTUS.
+[00:27:18] So, have multiple CNI networks, but I don't want to talk about this. But the TSM proxy has some
+[00:27:31] limitations. We tested it with many CNI plugins, but we cannot, we just tried out Cilium. It looked
+[00:27:38] like it works, but it maybe not works if we use enable netkit instead of VTH, because
+[00:27:46] Cilium also heavily rely on EBPF, so there might be conflicts. We cannot track XDP, cannot track
+[00:27:56] the packets across XDP procession, but it's possible since Peru can do that. We cannot do
+[00:28:04] throat performance analysis. It looks okay in our tests, but maybe not looks good if there are
+[00:28:14] hundreds of applications and it can introduce high delay spikes since there's a HashMap lookup
+[00:28:21] and it's not free and the HashMap can be different CPU than your packet and stuff like that.
+[00:28:29] And of course, unlike in packet, with packet rates, tracking through user-paced proxies
+[00:28:35] is not possible because they lost the SKB, a new SKB allocated and you need some kind of
+[00:28:41] tracking across. Okay. And thank you for the attention. I a little bit late with the time,
+[00:28:49] so I exceeded my time slot here and the code is open source, this CNI plugin. If anyone needs such
+[00:29:00] thing, it's possible to try out. Also, I have to mention that this work is partially supported
+[00:29:10] by the European grant data and Ministic 6G. It has a page with similar works. And I just want to
+[00:29:22] quickly show there's a paper. I wrote it with my colleague and there are some additional context
+[00:29:32] and references, of course. It's important. Thank you very much for the attention.
+[00:29:48] Questions?
+[00:29:48] Yeah, about the bus, you mentioned one product was about to have a tool to
+[00:30:02] select what part of the packet was scrubbed or not. Is it for NetKit?
+[00:30:10] So NetKit is what, a series of patch on top of Linux? I don't understand this part.
+[00:30:16] Yeah, no, NetKit is mainline since 6.7. It's a new network device type like VTH,
+[00:30:25] but more lightweight. And there's the XMIT callback, which is a BPF program.
+[00:30:33] Oh, so this part doesn't call the bug scrub, the native function in the comma?
+[00:30:37] Yes, yes, it doesn't. So you can, in the XMIT call, you can encode some redirection or
+[00:30:45] packet mangling entirely and you don't need allocations. Understood, thanks.
+[00:30:50] So if that's such a useful feature, why doesn't exist for VETH?
+[00:30:57] There are historical reasons. VTH introduced almost 20 years ago, a little bit less. And
+[00:31:05] there might be some compatibility issues if we can just...
+[00:31:10] Well, it's an option, right? Oh, the options from the NetKit options.
+[00:31:14] Yeah, why can't you just add to that VETH? It seems VETH is a much more fit for you.
+[00:31:20] Yes, maybe just no one made it.
+[00:31:24] It differs you off and then if someone wants it, they can't...
+[00:31:27] Yeah, that can be doable.
+[00:31:28] Yeah, the other question I had for you is, it seems like you're doing a lot of hacks to just
+[00:31:32] make sure you carry the state around. I guess if you turn this feature on, you don't need any of
+[00:31:36] those hacks, right? So you can pass the priority in the SKB marks.
+[00:31:40] Another option you could probably look at is an act IFE where you can actually get to
+[00:31:48] put the metadata on the packet. So it has an ether type. So before you send it to the next,
+[00:31:56] you stash your marks, whatever, and then when you receive it on the other side, you
+[00:32:02] run your parson, it puts back your...
+[00:32:04] It's a DC action. It's a mainline DC action.
+[00:32:07] Yes, it's been there forever. It also works across the wire so you can go to another machine
+[00:32:11] and it will carry your metadata for you.
+[00:32:13] That's new for me. Thank you. Maybe I would save lots of time if I didn't do that.
+[00:32:20] All right. Thanks, we're running out of time a little bit. Joe, you're next.
+[00:32:25] Thank you.
+[00:32:26] The limitations use... Your tracking mechanism currently doesn't work for XDP.
+[00:32:31] Somebody.
+[00:32:32] But that's not really a problem for your use case, right?
+[00:32:34] Yeah, it's not a problem since most of the CNI plugins, what we tested, doesn't use XDP in
+[00:32:41] their data pass. So we can recover the addresses of the packets at the end of the... But if some
+[00:32:48] plugin or proxy or like Sidecar uses XDP, we can lose the packet if that's happening.
+[00:32:57] So, but it's possible to track through XDP as well since there are conversion from
+[00:33:03] SKB to XDP and back and forth. So you can track that as well. And Peru, I think, can do that.
+[00:33:10] So it's definitely possible. We just don't implement it yet.
+[00:33:15] Yeah, sorry, we have to cut it out here.
+[00:33:16] Thank you.

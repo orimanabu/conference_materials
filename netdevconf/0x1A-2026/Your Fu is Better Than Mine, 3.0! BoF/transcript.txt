@@ -1,0 +1,731 @@
+Source: https://youtu.be/feDfRT_FtKg
+Language: en
+Captions: auto-generated
+
+[00:00:00] Okay, so, um, for those of you who don't
+[00:00:03] know me, my name's PJ.
+[00:00:05] Um, might have seen me running around,
+[00:00:07] like my hair has been on fire the last
+[00:00:09] couple days.
+[00:00:10] Um, but this talk, uh, this little BOF
+[00:00:14] is really meant to be
+[00:00:16] kind of a good like
+[00:00:19] pressure relief of sitting around
+[00:00:21] listening to like pretty dense talks and
+[00:00:24] it's meant to be, um, a collaborative
+[00:00:26] thing. So, Jamal had this idea a few
+[00:00:28] years ago at NetDev and pitched it to me
+[00:00:31] and said, "Hey,
+[00:00:33] we have a whole bunch of smart people
+[00:00:34] that do various things in their workflow
+[00:00:37] day-to-day. And how I solve a problem is
+[00:00:40] probably different from how you solve a
+[00:00:42] problem, but we both solve the same
+[00:00:43] problem or similar problems. So, why
+[00:00:46] don't you go and share what you do to
+[00:00:49] solve that problem?"
+[00:00:50] Um, and I thought that was a great idea.
+[00:00:52] So, um,
+[00:00:55] we went ahead and came up with this
+[00:00:57] little idea of this
+[00:01:00] my foo is better than yours or your foo
+[00:01:02] is better than mine and we've been doing
+[00:01:04] this now for the last, uh, four years.
+[00:01:07] Um, this is really
+[00:01:10] open format,
+[00:01:12] uh,
+[00:01:14] think, uh, Lori Wall is going to come
+[00:01:15] up, uh, Angeli is going to come up at
+[00:01:17] some point. I've got a couple things to
+[00:01:18] kick it off. If you feel like the spur
+[00:01:21] of the moment and you have something
+[00:01:23] super cool that you've got to share, you
+[00:01:26] are more than welcome to come up and
+[00:01:27] and, uh, hop on here and um, do
+[00:01:29] something. There's no judgement, no one
+[00:01:31] will laugh at you. If they do, I'll send
+[00:01:33] them out of the building, um, into the
+[00:01:35] heat and that's like the worst
+[00:01:36] punishment. It's like kind of sending
+[00:01:37] them to hell right now, so,
+[00:01:39] um,
+[00:01:40] and then at the end of this, uh, we'll
+[00:01:42] wrap it up and then we'll have our pizza
+[00:01:44] party. Our, uh, it's meant to be, you
+[00:01:47] know, very again, collaborative. Um, we
+[00:01:49] have tables set up downstairs,
+[00:01:52] um, that will have sponsor swag. So, if
+[00:01:55] you want another t-shirt because you
+[00:01:56] sweated through this one, there will be
+[00:01:58] more t-shirts from one of our sponsors
+[00:02:00] HAProxy downstairs and then some other
+[00:02:01] stuff from Jump. Help yourself to the to
+[00:02:04] the swag. Um, and just have a good time,
+[00:02:06] okay?
+[00:02:08] So, uh, to kick this off, to kind of
+[00:02:10] give you the spirit of of what this
+[00:02:13] could be, um,
+[00:02:19] I stole this from my slides last year
+[00:02:21] and I thought this is a pretty good one,
+[00:02:23] so.
+[00:02:24] Um,
+[00:02:26] So, something really stupid, right?
+[00:02:27] Something that I I found is actually
+[00:02:29] very effective or something that I enjoy
+[00:02:32] has nothing to do with Linux kernel
+[00:02:34] development, has nothing to do with
+[00:02:36] networking, um, but
+[00:02:40] I do a lot of uh, CAD modeling on the
+[00:02:42] side for myself and like personal
+[00:02:43] projects to do 3D printing and I was One
+[00:02:47] day I was like I made this knitting loom
+[00:02:49] for my wife and she loved it and there's
+[00:02:51] these anchor pins that I made and then
+[00:02:53] they're like little tiny things that get
+[00:02:55] lost all the time and I have to reprint
+[00:02:56] them and I'm like, I don't want to keep
+[00:02:58] reprinting these. Let's build a box.
+[00:03:00] And then I'm starting to think of volume
+[00:03:03] and how much volume does a box need and
+[00:03:05] I'm like, this is all math that is
+[00:03:07] rolling somewhere around in cold storage
+[00:03:08] and I can't get it swapped in fast
+[00:03:10] enough. So, I said, I'll just ask
+[00:03:11] Claude. Let Claude do the math. Um,
+[00:03:15] and uh, it And it worked out really
+[00:03:17] well.
+[00:03:18] Um, I actually had a prompt up there
+[00:03:20] somewhere, but I think it's gone. Um,
+[00:03:24] Oh, actually, I know what it is.
+[00:03:27] See, this is what happens when you do
+[00:03:28] something like on the fly.
+[00:03:31] Nope, that's not it.
+[00:03:34] Where did it go?
+[00:03:39] Ah, there it is. All right.
+[00:03:41] Here it is.
+[00:03:44] Make this smaller here.
+[00:03:47] I can't see everything here.
+[00:03:51] Okay.
+[00:03:54] So, prompt, you know, actually can't see
+[00:03:56] that on my screen.
+[00:03:58] So, all I did was I have a model. I've
+[00:04:00] used Onshape.
+[00:04:02] Um I have anchor pins. They're this
+[00:04:04] size, and I need to hold about this
+[00:04:06] many.
+[00:04:08] What would I do? And then, you know,
+[00:04:10] went through, you know, obviously it it
+[00:04:12] it was like, um yeah, what a great idea.
+[00:04:15] Uh thanks, Claude. Um
+[00:04:18] And, you know, went through a whole
+[00:04:19] bunch of back and forth, but then I, you
+[00:04:22] know, get to the point of okay, in
+[00:04:24] Onshape, I don't want to think anymore
+[00:04:25] today. What features should I be using,
+[00:04:28] and how should I do it? How do I make a
+[00:04:29] little locking lip? And you know,
+[00:04:31] basically the uh long story short, and
+[00:04:34] and I said, "Oh, and I want to make it
+[00:04:35] configurable. So, I also want to say
+[00:04:37] like make it bigger." And I don't want
+[00:04:39] to go redo all of the um parameters in
+[00:04:41] in in the CAD.
+[00:04:43] Um
+[00:04:46] And so,
+[00:04:49] it said, "Sure, here you go."
+[00:04:52] Um
+[00:04:58] Yeah, here's your parameter table, build
+[00:04:59] it this way, make your configurations
+[00:05:02] this way, bind them to that this way,
+[00:05:05] and then um your actual feature list.
+[00:05:11] That's not it.
+[00:05:15] Now, I'm having internet issues, so um
+[00:05:21] This is why you don't do live demos.
+[00:05:28] Yeah, and then it it, you know, give
+[00:05:30] gave me a step-by-step. Do this, do
+[00:05:32] this, plug this variable in, and it was
+[00:05:34] a really really dumb session for me to
+[00:05:35] do CAD instead of like sitting there and
+[00:05:38] and and thinking through it and like
+[00:05:40] scribbling things down, and it worked.
+[00:05:42] So,
+[00:05:43] okay.
+[00:05:45] Oh, thank you.
+[00:05:46] My uh
+[00:05:47] vertically challenged I can't see over
+[00:05:49] my screen.
+[00:05:53] Okay, so, again,
+[00:05:56] completely irrelevant to anything that
+[00:05:58] we do here, but thought it was
+[00:06:01] interesting.
+[00:06:02] So,
+[00:06:05] oh, that didn't share on the right
+[00:06:07] screen.
+[00:06:10] Let's try this out. Show.
+[00:06:12] There you go. Okay.
+[00:06:16] Now, I can't see it there, but that's
+[00:06:17] all right.
+[00:06:19] So, something a little bit more
+[00:06:20] interesting.
+[00:06:21] So,
+[00:06:23] I changed the names of the repositories
+[00:06:25] to protect the, uh, innocent. These are
+[00:06:27] things that I have at work, so I can't
+[00:06:28] really, like, put them up there cuz
+[00:06:30] they're more internal things.
+[00:06:32] But, this is, uh,
+[00:06:33] a scenario that I would normally do by
+[00:06:35] hand, um, and I found that that that
+[00:06:37] cloud actually did this really, really
+[00:06:38] well.
+[00:06:39] Um, so,
+[00:06:41] say you have a repository, we'll call it
+[00:06:43] A, that repository B depends on. So,
+[00:06:45] maybe there's some APIs or some, like,
+[00:06:48] core kernel modules in one, and, um, so
+[00:06:51] one needs to pull in the other one.
+[00:06:52] They're both independent. They can both
+[00:06:54] have, like, sets of, uh, commits and
+[00:06:57] different releases on their own. Um, and
+[00:06:59] then I have a repo C, which is the thing
+[00:07:03] that's going to actually build both
+[00:07:04] modules with the kernel next to it, and
+[00:07:07] all three are able to independently
+[00:07:09] change.
+[00:07:10] Um, but then you roll them all together
+[00:07:12] at some point to then make a release.
+[00:07:14] Well, check in somewhere, break
+[00:07:15] something. Break something, kernel
+[00:07:17] panic, um,
+[00:07:19] that's usually really bad, but, um, or
+[00:07:22] something else. Like, like something,
+[00:07:23] like, some feature broke, and so you
+[00:07:26] want to start bisecting. And this is,
+[00:07:28] um, you know, commits can be coming in
+[00:07:30] from, like, the hardware engineers, the
+[00:07:31] software engineers. So, there's a whole
+[00:07:33] bunch of stuff that could go wrong, and
+[00:07:35] it's really tough to sift through this.
+[00:07:38] And I got so frustrated because this
+[00:07:40] kept happening to me that I was like,
+[00:07:42] "Damn it, I'm just going to throw it at
+[00:07:43] the LLM and let it try." And so, I gave
+[00:07:46] a, you know, kind of a pseudo
+[00:07:48] um prompt here
+[00:07:50] to like tell it, "What are the
+[00:07:52] repositories? How do I build each one?
+[00:07:55] How do I tag them?
+[00:07:57] And what does success look like? What
+[00:07:59] does failure look like? And how to test
+[00:08:01] it?
+[00:08:01] Ready, set, go."
+[00:08:04] And bisect each one in like a three-way
+[00:08:06] different way. So, like, you know,
+[00:08:07] bisect this one, bisect this one, move
+[00:08:08] them all around. And like 6 hours later,
+[00:08:12] 4 hours later, depending on how deep it
+[00:08:13] had to go, it finds the problem.
+[00:08:16] And this has actually been bulletproof
+[00:08:18] for me.
+[00:08:19] Um which normally, you know, a Git
+[00:08:22] bisect is pretty straightforward, but if
+[00:08:24] you have two repositories, it gets a
+[00:08:26] little bit more complicated. You have
+[00:08:27] three repositories, it gets really
+[00:08:29] complicated. Um so, just let the agents
+[00:08:31] like fire off all the little nanny
+[00:08:33] agents to just go run and do it.
+[00:08:35] Um and then you go do something more
+[00:08:37] productive. So, just something to think
+[00:08:40] about um
+[00:08:41] that this is pretty easy to set up um
+[00:08:44] with your prompt, and then you can like
+[00:08:45] save that off to
+[00:08:47] you know, a skill and just fire it up
+[00:08:50] whenever you need it.
+[00:08:53] All right.
+[00:08:55] Where are you, Evan? Do you want to
+[00:08:57] come on up?
+[00:09:10] Gave up.
+[00:09:43] >> Okay.
+[00:09:44] So, my name is Lorival
+[00:09:47] working with
+[00:09:49] kernel scripting pretty much.
+[00:09:51] The crazy Lua guy.
+[00:09:55] I have this project that's called
+[00:09:56] Lunatic for scripting the kernel with
+[00:09:59] Lua.
+[00:10:01] And
+[00:10:03] on this as the the team of this both
+[00:10:06] somehow is about
+[00:10:09] using LLM, right? I vibrate code this
+[00:10:12] morning. Um
+[00:10:16] a solution for inspect the SKB receive
+[00:10:22] drops.
+[00:10:23] So, last time in NetDev, I tried to
+[00:10:27] attend to this both, right? My computer
+[00:10:29] didn't work well with the
+[00:10:32] Java I remember, but my HDMI port was
+[00:10:35] not working at all. And my plan was to
+[00:10:37] demonstrate the
+[00:10:40] my Kprobe probes um
+[00:10:43] binding for Lunatic. So, you can
+[00:10:46] develop
+[00:10:49] hooks for Kprobe using Lua scripts.
+[00:10:54] And this morning I decided to extend
+[00:10:56] this with Claude
+[00:10:58] for this both with the ability to
+[00:11:01] inspect the arguments of the function
+[00:11:05] that is being probed, right?
+[00:11:08] So,
+[00:11:10] first off, oh, this is the script.
+[00:11:13] I'm not sure it's going to work
+[00:11:15] properly, right? It's vibrate coded. The
+[00:11:17] intention was this, right? Let
+[00:11:20] Claude do the job and see what happens
+[00:11:22] in stage.
+[00:11:24] I didn't change
+[00:11:25] uh touch it
+[00:11:27] anything on the edge tool at all. I just
+[00:11:31] prompted uh iterated a bit over prompt,
+[00:11:35] but didn't edit the script by myself.
+[00:11:40] So, first of all, this is our
+[00:11:45] KProbe interface, right? We have here on
+[00:11:48] the bottle one call that's probe new
+[00:11:52] that
+[00:11:53] is specified the function you want to
+[00:11:55] probe, that is K free SKB reason
+[00:11:59] for
+[00:12:01] the reason of the dropped packets.
+[00:12:04] And
+[00:12:05] we specify also a handler straight table
+[00:12:08] that contains our callback. In this
+[00:12:10] case, only one callback for a
+[00:12:13] pre-calling, but you can define a
+[00:12:15] callback for post as well.
+[00:12:19] And we have on top, if you take a look,
+[00:12:22] our CAU table that will be useful
+[00:12:26] to store the state. Then, after running
+[00:12:30] this script, we will try to use the
+[00:12:32] lunatic repo that you can insert
+[00:12:35] Lua
+[00:12:37] scripts like a common line of Lua
+[00:12:41] directly into the kernel.
+[00:12:43] And we try to
+[00:12:46] to see the results that is stored on
+[00:12:48] this table.
+[00:12:51] And if you see our callback, it's just
+[00:12:55] uh
+[00:12:56] grabbing the first argument of the the
+[00:12:59] function that will be the
+[00:13:03] the reason.
+[00:13:05] And if we have a mode that we can enable
+[00:13:10] on top for
+[00:13:13] watch some reason that we care about.
+[00:13:16] And if it's the reason it's triggered,
+[00:13:21] we can dump the stack on dmesg, right?
+[00:13:26] So,
+[00:13:28] uh
+[00:13:29] let's see if we are lucky. Uh
+[00:13:31] I follow the steps the
+[00:13:33] uh cloud has provided.
+[00:13:48] I'm compiling install um
+[00:13:51] lunatic modules and now I'm going to run
+[00:13:54] the script.
+[00:14:02] The script was just
+[00:14:05] uh loaded into the kernel.
+[00:14:12] You see you we can list it.
+[00:14:15] It's running.
+[00:14:18] And now we prompt
+[00:14:25] lunatic.
+[00:14:31] Now I have like a shell for Lua.
+[00:14:39] We have created a
+[00:14:41] um
+[00:14:41] a small script just to tap into that RCU
+[00:14:45] table for
+[00:14:46] observability, right? These
+[00:14:49] drop reasons reason report. That script
+[00:14:52] here.
+[00:14:54] It just has this function and then you
+[00:14:56] can
+[00:14:57] um
+[00:15:02] call it.
+[00:15:04] Sorry.
+[00:15:14] Let's see.
+[00:15:18] So, nothing there, right? We are
+[00:15:20] printing new on the counter.
+[00:15:23] Anything
+[00:15:24] nothing was dropped.
+[00:15:27] If you see on the the left side is this
+[00:15:29] mask.
+[00:15:32] Now you're going to drop a packet.
+[00:15:38] Let me
+[00:15:42] Are you reach out the counter again?
+[00:15:46] You see one.
+[00:15:49] That's not that cool, but
+[00:15:52] kind of is, right? It's
+[00:15:54] happening uh it's
+[00:15:56] Let me show the
+[00:16:01] It's grabbing this for the RCU uh table,
+[00:16:05] right?
+[00:16:07] And that is
+[00:16:09] We have two uh
+[00:16:12] run times at the same time running Lua.
+[00:16:14] One on the hard
+[00:16:15] hard RCU
+[00:16:17] uh
+[00:16:18] with the Kprobe
+[00:16:20] um
+[00:16:21] hook, right? And one on process context
+[00:16:25] here
+[00:16:26] where we have this prompt.
+[00:16:29] And we share state through RCU table.
+[00:16:33] And when we
+[00:16:35] Sorry.
+[00:16:38] When we drop a packet
+[00:16:40] this packet uh the the the kernel will
+[00:16:45] call Kfree
+[00:16:47] um
+[00:16:49] Sorry, forgot it.
+[00:16:50] Kfree
+[00:16:52] SKB
+[00:16:55] receive.
+[00:16:59] Let me sh-
+[00:17:01] check the
+[00:17:04] reason. Sorry. Kfree SKB reason. Yeah.
+[00:17:07] It will call this function
+[00:17:09] and then
+[00:17:12] Kprobe will call our callback here.
+[00:17:17] And this
+[00:17:19] will this go back will increment that
+[00:17:22] track that is actually
+[00:17:24] is stored in the RCU.
+[00:17:27] And then when we print here
+[00:17:30] you print two because two packets were
+[00:17:33] dropped.
+[00:17:36] And
+[00:17:38] if you want to
+[00:17:43] to dump the stack
+[00:17:48] we need to reload the the this example,
+[00:17:51] right?
+[00:18:08] I'm running this script again.
+[00:18:14] Okay.
+[00:18:16] And I drop a packet.
+[00:18:20] So two minutes.
+[00:18:29] Not sure it worked.
+[00:18:32] Ah, yeah, yeah, yeah. Sorry.
+[00:18:34] That that's a
+[00:18:36] my mistake not load.
+[00:18:39] I I have a change the local
+[00:18:43] version of the file. I need to reinstall
+[00:18:46] the file.
+[00:18:48] Just a second.
+[00:18:55] Let me type. Ah, it's here.
+[00:19:00] I need to
+[00:19:09] Okay, now
+[00:19:11] it should work.
+[00:19:15] Let's try to drop that packet. Yeah,
+[00:19:18] okay. Now we dumped the stack
+[00:19:23] and we can see who called that
+[00:19:28] Kfree SKB reason for a no socket reason.
+[00:19:33] You can use any reason
+[00:19:36] you like, right? Modify the the script.
+[00:19:40] This
+[00:19:41] just a
+[00:19:43] very
+[00:19:46] silly example, but you could extend this
+[00:19:49] to do
+[00:19:50] any sort of tracking on this function.
+[00:19:53] And
+[00:19:55] another
+[00:19:56] Any questions so far?
+[00:20:01] >> Yeah, did you Did you show your live
+[00:20:04] coding this for us?
+[00:20:05] >> Sorry?
+[00:20:06] >> You You generated this code a while
+[00:20:08] back, right? From
+[00:20:09] >> Cloud?
+[00:20:11] >> Uh this morning.
+[00:20:12] >> Oh, this morning. Okay.
+[00:20:14] >> And now this was the script it
+[00:20:17] generated, right? But it also
+[00:20:21] modified our Kprobe binding
+[00:20:24] to make it possible to
+[00:20:28] inspect the arguments of the function
+[00:20:31] you are running Kprobe. Kprobe.
+[00:20:33] So, if you diff to master,
+[00:20:37] we'll see the the whole patch Cloud has
+[00:20:40] done for us, right?
+[00:20:43] Here he extended the
+[00:20:45] specs of Lunatick. We have a kind of
+[00:20:49] auto gen for headers
+[00:20:52] and it created
+[00:20:54] entries for the SKB headers.
+[00:21:01] This is the example the Lua example we
+[00:21:04] went through through.
+[00:21:07] And
+[00:21:08] the report, right? The just utility. And
+[00:21:12] this is the
+[00:21:14] the binding.
+[00:21:16] Code has created it on by by itself.
+[00:21:21] And
+[00:21:22] I I took a
+[00:21:24] look a bit of decent seize mostly
+[00:21:26] correct for me. It creates a
+[00:21:30] a closure
+[00:21:32] uh per
+[00:21:35] uh callback, right? When when you you
+[00:21:37] call your hook, it create a closure
+[00:21:41] where
+[00:21:42] we two can
+[00:21:44] uh call back later to retrieve the
+[00:21:48] the arguments using the hacks get kernel
+[00:21:52] argument.
+[00:21:54] And it did it turn
+[00:21:57] to be honest, a very clever way in Lua.
+[00:22:00] It's very Lua-ish this way to use the
+[00:22:03] API.
+[00:22:05] It really surprised me.
+[00:22:08] >> So, what was the prompt again? You
+[00:22:10] showed Did you show the prompt that you
+[00:22:11] used?
+[00:22:12] >> I can show, but I think you're not going
+[00:22:15] to understand.
+[00:22:16] It's Portuguese.
+[00:22:18] >> Claude understands it, I guess.
+[00:22:19] >> It's Portuguese.
+[00:22:22] >> [laughter]
+[00:22:24] >> So, that that that's the
+[00:22:29] I have iterated over time, right?
+[00:22:31] >> And you you spoke to it in Portuguese.
+[00:22:34] >> Yeah.
+[00:22:35] >> Okay. That's I I won't understand that.
+[00:22:39] >> So, that that's what one thing I was
+[00:22:42] sharing
+[00:22:43] with Arif here earlier today. I found
+[00:22:47] I find it
+[00:22:49] way better to use LLM your own native
+[00:22:52] language.
+[00:22:54] It's like passing I don't
+[00:22:57] write very structured a
+[00:23:01] to it. It's like I'm talking to
+[00:23:04] to my to his outer to myself, yes.
+[00:23:07] >> Yeah, yeah, okay.
+[00:23:08] >> It's like thinking a lot.
+[00:23:11] It it's
+[00:23:13] my way of my coding. I'm not saying
+[00:23:16] that's the
+[00:23:17] >> Yeah, yeah.
+[00:23:18] >> the correct way or or
+[00:23:20] >> Unfortunately, PJ, we are we are running
+[00:23:22] out of time. It's 5:00. We started late
+[00:23:25] because of the power problems.
+[00:23:27] So, I don't know if we should stop here
+[00:23:30] or
+[00:23:32] Any questions? I'm sorry. I just wanted
+[00:23:34] to
+[00:23:35] I wanted us to go to the pizza party.
+[00:23:37] It's more Yeah, I don't
+[00:23:38] >> want to
+[00:23:39] >> But uh we
+[00:23:42] Yeah, I'm starting now because we have
+[00:23:44] to leave the building after.
+[00:23:46] Yeah, so that's why we
+[00:23:51] Oh, this There's still one more speaker?
+[00:23:53] >> Yeah, I have one more comments.
+[00:23:55] >> Okay.
+[00:23:56] Yeah, yeah, go, go.
+[00:23:58] Two?
+[00:23:59] Two, three minutes?
+[00:24:01] Okay. You can
+[00:24:07] I'm going to go I'm going to try not to.
+[00:24:09] I'll ask you at the pizza party.
+[00:24:23] Good.
+[00:24:30] >> Here.
+[00:24:33] It's a sa
+[00:24:36] uh
+[00:24:39] Oh.
+[00:24:39] >> No, that
+[00:24:43] And it
+[00:24:46] Sir?
+[00:24:52] >> Oh, okay.
+[00:24:59] >> Eat.
+[00:25:11] I was taught by by Sal I should pay the
+[00:25:14] 2,000 euro.
+[00:25:15] >> Yeah.
+[00:25:16] >> The 2,000 pay.
+[00:25:19] >> The young kids.
+[00:25:21] >> Are you ready?
+[00:25:22] >> It squeeze.
+[00:25:30] >> All right.
+[00:25:31] >> Somebody's taking a picture. You turn
+[00:25:32] around and then
+[00:25:32] >> Okay, here. Go for it.
+[00:25:34] >> Oh.
+[00:25:36] Okay, so uh
+[00:25:39] Yeah, I'll just take
+[00:25:44] I'll take exactly 3 minutes. Uh I just
+[00:25:46] took some notes during the keynote and I
+[00:25:48] had promised uh CJ that
+[00:25:50] I will have something in this workshop.
+[00:25:52] So, that's what it is.
+[00:25:54] Um
+[00:25:54] Basically,
+[00:25:56] what I'm saying is uh you know,
+[00:25:58] where did that punchline go? It was
+[00:26:00] like, my foo is better than your foo.
+[00:26:03] Remove my, problem solved.
+[00:26:07] Okay? That's really, really the key. And
+[00:26:10] Linux, no better example. When we commit
+[00:26:13] something, there's no
+[00:26:15] whose foo.
+[00:26:16] Everybody's foo, right? And humans write
+[00:26:19] the best foo
+[00:26:20] for sure.
+[00:26:22] So,
+[00:26:23] um
+[00:26:24] but you know, the mindset that we should
+[00:26:26] follow is proactive, not reactive. Don't
+[00:26:29] wait for bugs to show up.
+[00:26:31] If you look for problems, there are
+[00:26:33] problems everywhere. Look for solutions.
+[00:26:36] Right? Um
+[00:26:39] Yeah, there are solutions everywhere. I
+[00:26:40] I'm an architect, I can tell you there
+[00:26:41] are solutions everywhere.
+[00:26:43] You know, workarounds work.
+[00:26:47] Uh
+[00:26:49] Correlation is better in the human
+[00:26:50] brain, pattern matching is better in AI.
+[00:26:53] Because there was something that came up
+[00:26:55] in the
+[00:26:57] keynote and we were talking about, you
+[00:26:59] know, AI is quite dumb and pattern
+[00:27:01] matching and stuff like that. True,
+[00:27:04] it is as intelligent as the human using
+[00:27:06] it.
+[00:27:08] So, correlation definitely is better in
+[00:27:09] the human brain. Um
+[00:27:12] This is something
+[00:27:14] attributed to Jamal. Uh compassionate
+[00:27:17] intelligence is far better than
+[00:27:18] competitive incompetence. You agree?
+[00:27:21] Yes. Okay.
+[00:27:23] Um
+[00:27:24] So,
+[00:27:25] humans come in all kinds of shapes and
+[00:27:27] sizes. Some have four cores.
+[00:27:30] I didn't say this, but most men.
+[00:27:33] >> [laughter]
+[00:27:35] >> And some come in more cores, like 32,
+[00:27:38] 64, 128. Most women.
+[00:27:41] Um
+[00:27:42] Yeah, joining the dots is better in the
+[00:27:44] human brain.
+[00:27:45] Uh
+[00:27:46] Assume our own fallibility and blind
+[00:27:49] spots and hence work with the herd, not
+[00:27:51] alone.
+[00:27:52] This is something that came up when we
+[00:27:54] were talking about reviewing stuff,
+[00:27:56] right? Find somebody outside to review a
+[00:27:59] patch. I mean, there are only so many
+[00:28:00] humans who can maintain Linux kernel,
+[00:28:04] right? So, find your herd.
+[00:28:07] Um
+[00:28:09] Any tool is only as smart or dumb as the
+[00:28:11] human using it. I think that's clear.
+[00:28:14] Here is one thing that I learned from my
+[00:28:16] Indian roots.
+[00:28:17] Uh
+[00:28:19] Time goes in cycles. Humans could do
+[00:28:22] everything with mantras, which are
+[00:28:23] chants, at some point of time.
+[00:28:25] Then came tools, yantras, that's the
+[00:28:27] industrial age. Now is tantra, which is
+[00:28:30] AI and mind games. So, we are in the age
+[00:28:32] of tantra.
+[00:28:34] Women do this better than men.
+[00:28:37] Uh humility and compassion. A tool is
+[00:28:40] always a double-edged sword and a
+[00:28:42] double-sided mirror.
+[00:28:44] AI helps you reflect on your own self
+[00:28:46] and do soul searching. So, do that.
+[00:28:51] Um
+[00:28:52] Uh finally, we shall overcome this too
+[00:28:55] and then we will hit singularity pretty
+[00:28:57] soon. That's my prediction.
+[00:29:00] And I think it's between 2035 and 2042.
+[00:29:03] So, we will have quantum computers
+[00:29:06] between 2035 and 2042. We are hitting
+[00:29:09] singularity.
+[00:29:10] Um
+[00:29:12] Don't stop wondering, wondering and
+[00:29:15] coding.
+[00:29:16] Coding is still a human skill and good
+[00:29:20] code will come with human in the loop,
+[00:29:23] not without it.
+[00:29:26] Um
+[00:29:28] But, always pick a domain to call your
+[00:29:29] own.
+[00:29:30] Then, life cycle. I feel like life
+[00:29:33] cycle, we all go through this and I
+[00:29:34] don't know. Uh we are cleaners, so we
+[00:29:37] clean code, find bugs,
+[00:29:39] uh uh do as directed, uh then we learn,
+[00:29:42] so we are learners then, then we fight
+[00:29:45] saying my foo is better than your foo,
+[00:29:47] then we become creators.
+[00:29:49] And then,
+[00:29:51] at the end, we become Buddha, Yoda,
+[00:29:52] thinker, whatever.
+[00:29:54] I'm hoping I get there someday. Uh
+[00:29:57] but, always a communicator. Humans love
+[00:29:59] to communicate.
+[00:30:01] We were born to communicate.
+[00:30:03] Um
+[00:30:06] So, AI is as much an energy sink as its
+[00:30:09] chips. Something uh somebody said about
+[00:30:11] like uh energy uh footprint. But, yeah,
+[00:30:15] it is
+[00:30:16] attributed to bad chip designs. Then, it
+[00:30:18] is an energy sink.
+[00:30:20] Uh it's a system architecture problem.
+[00:30:23] GPUs to TPUs to XPUs. So,
+[00:30:26] that was designed for graphics. We
+[00:30:28] overused it, right? There's a better PU
+[00:30:32] called TPU
+[00:30:33] and hopefully we'll design another one.
+[00:30:35] So.
+[00:30:37] Uh and yeah, it's just a tool, but
+[00:30:39] surely of the caliber of a nuclear bomb.
+[00:30:43] I I believe that.
+[00:30:44] Do you?
+[00:30:49] Okay.
+[00:30:50] Uh
+[00:30:52] So,
+[00:30:53] last uh few thoughts that I wrote down.
+[00:30:55] Words have power to change how we think
+[00:30:57] or the outcome itself. Use them wisely,
+[00:31:00] and that's why I say we are solution
+[00:31:02] providers. We are not problem solvers.
+[00:31:05] We are solutions providers.
+[00:31:07] So, look for solutions, not for
+[00:31:09] problems.
+[00:31:12] My phone. Okay.
+[00:31:16] Uh
+[00:31:17] You know, uh my daughter taught me this.
+[00:31:19] Um
+[00:31:20] in uh And these teenagers come up with
+[00:31:23] beautiful terms. They don't use the word
+[00:31:25] screwed anymore. They say, "We got
+[00:31:27] cooked."
+[00:31:28] We cooked. They cooked. We cooked today.
+[00:31:31] So, use the right words.
+[00:31:34] Um
+[00:31:36] Instead of get blame, I think we should
+[00:31:37] call it get credits to.
+[00:31:41] Credits to. Give the human credit, not
+[00:31:44] blame the human.
+[00:31:47] That's all.
+[00:31:52] >> Questions? Comments?

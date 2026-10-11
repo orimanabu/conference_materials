@@ -1,0 +1,643 @@
+Source: https://youtu.be/buZifwSNREM
+Language: en
+Captions: auto-generated
+
+[00:00:00] So I will just get started. Um so my
+[00:00:05] name is Rey and I am a last year PhD
+[00:00:08] student from EPFL in Switzerland and
+[00:00:12] this is like uh we submitted to ODI but
+[00:00:16] I think it's very related to the Linux
+[00:00:18] kernel implementation. So I would like
+[00:00:21] to get some advice or like feedback from
+[00:00:23] the kernel people here and today I would
+[00:00:27] like to present our framework called
+[00:00:29] Rakaya which is to scalably in kernel
+[00:00:33] scheduling for TCP based RPCs. This is
+[00:00:36] joint work with my colleague
+[00:00:38] Constantinos and my advisor Abuno. So
+[00:00:42] before I dive directly into Rakaya, I
+[00:00:45] like to start with something everyone
+[00:00:47] here knows and perhaps is very familiar
+[00:00:50] about which okay so my didn't work which
+[00:00:54] is gRPC and since its release in 2016
+[00:00:58] gpc has become one of the most popular
+[00:01:00] RPC frameworks in industrial and used a
+[00:01:04] lot in large production systems uh
+[00:01:08] especially in the cloud. that I think
+[00:01:11] there are many reasons contributing to
+[00:01:13] it success but one of them is for sure
+[00:01:16] that it adopts and uses TCP. Uh as we
+[00:01:20] all know TCP is used everywhere and
+[00:01:23] everything understand TCP uh from middle
+[00:01:26] boxes to proxies to um load balancers.
+[00:01:31] So by layering itself on top of HTTP2
+[00:01:35] which is again laid a top TCP JRC gets
+[00:01:38] the deployability for free and second it
+[00:01:42] also supports a lot of languages from
+[00:01:44] the protobuff steps which is make it a
+[00:01:47] great candidate for heterogeneous
+[00:01:49] systems.
+[00:01:51] So despite its popularity, we kind of
+[00:01:55] also know it's kind of bit slow, right?
+[00:01:58] GRRPC is not really famous for being the
+[00:02:01] most efficient RPC would like to use. Uh
+[00:02:05] and some of the overhead is expected
+[00:02:08] including the serialization and
+[00:02:10] derization overhead and also the
+[00:02:13] transport overhead. It uses kernel TCP
+[00:02:16] IP and TLS which is uh quite uh heavy
+[00:02:20] and also HTTP2 is not free launch. It
+[00:02:23] use a lot of framing and flow control
+[00:02:26] mechanism.
+[00:02:27] But the story is just more than that. Uh
+[00:02:31] there's another big hidden cost of JBC
+[00:02:34] is also architecture design and what I
+[00:02:38] mean here is that by using TCP uh JRBC
+[00:02:42] is forced to use a polyics API for TCP
+[00:02:45] which only provides a stream abstraction
+[00:02:49] that for any RPC framework in the user
+[00:02:52] spaces it require a message abstraction
+[00:02:56] and this mismatch requires uh we any RPC
+[00:03:00] framework work here to parse um uh TCP
+[00:03:04] streams into HTTP2 frames and then HTTP
+[00:03:07] frames into discrete RPC messages and
+[00:03:10] then process it according to the user
+[00:03:12] specified logic. So quite uh heavy chain
+[00:03:16] here and
+[00:03:19] but it's also just more complicated than
+[00:03:22] parsing right um by hiding TCP uh hiding
+[00:03:26] RPC messages in a TCP streams we have a
+[00:03:29] issue here which is that we have two
+[00:03:32] kind of headline blocking if we just
+[00:03:34] naively assign TCP streams to specific
+[00:03:39] uh threats in the user space and the
+[00:03:41] first one is the intraconnection
+[00:03:42] headline blocking which is like one RBC
+[00:03:45] if it take too long to process it can
+[00:03:47] easily block another subsequent RPC
+[00:03:50] behind it.
+[00:03:53] Right. And we also have the other one
+[00:03:55] which is the interconnection headline
+[00:03:57] blocking which is uh if we assign some
+[00:04:01] uh TCP stream to one thread and they
+[00:04:03] happen to have a lot of traffic. This
+[00:04:05] thread can be uh kept 100% utilization
+[00:04:09] all the time but then some other TCP
+[00:04:11] streams they may not have that many
+[00:04:13] traffic and other threats are kept idle.
+[00:04:15] So we have a work conservation problem
+[00:04:17] here. So how does
+[00:04:20] uh gRPC fixes it? If we come back to it,
+[00:04:24] it actually is a very classical design
+[00:04:26] which is to your thread pool. It has two
+[00:04:28] kinds of threads here. The first one is
+[00:04:31] IO threads which is dedicated for
+[00:04:34] parsing RPC messages uh from the TCP
+[00:04:38] streams and then it will hand over this
+[00:04:41] RPC messages to the worker threads.
+[00:04:44] Since the worker threads they can uh
+[00:04:46] process n messages from any connections
+[00:04:49] including the ones even from the same
+[00:04:51] connections. So we do not have this
+[00:04:53] headline blocking issue anymore. But of
+[00:04:56] course it comes with a big overhead with
+[00:04:59] this threaded model. We need to have a
+[00:05:00] lot of context switching scheduling uh
+[00:05:03] threading hand over to each other and
+[00:05:06] locking everything.
+[00:05:08] So here is really a question we like to
+[00:05:11] ask. Can we keep the kernel TCP IP
+[00:05:14] compatibility
+[00:05:15] with headline blocking free scheduling
+[00:05:17] while we still get good performance RPCs
+[00:05:20] and I don't know how many people here
+[00:05:23] knows about KCM
+[00:05:25] like okay cool we have one uh so so and
+[00:05:30] no worries I have quite some slides to
+[00:05:32] explain it here so KM is a
+[00:05:36] module introduced in the kernel 2015 and
+[00:05:40] it has really great idea of parsing
+[00:05:43] messages directly in the kernel. So if
+[00:05:46] you look at the figure on the right when
+[00:05:49] the TCP streams it can we have a EVP
+[00:05:52] program and to parse the RBC messages
+[00:05:55] direct in the kernel and then is sent to
+[00:05:57] the user space by doing that eliminates
+[00:06:00] the user space IO threading so it's
+[00:06:03] quite reduce some of the overhead make
+[00:06:04] the path shorter here and then how does
+[00:06:07] it do the scheduling is that every me
+[00:06:11] every work thread now opens a KCM socket
+[00:06:14] per connection And then the KCM module
+[00:06:17] can schedule this messages to different
+[00:06:20] threads. This allows the threads to
+[00:06:22] process the same uh sorry the RVC
+[00:06:25] messages from the same connections at
+[00:06:27] the same time which also eliminates the
+[00:06:29] headline block you were talking about.
+[00:06:32] Um but it's not free launch again. So
+[00:06:35] there are quite some uh efficiency
+[00:06:37] issues we will say which exists in KCM.
+[00:06:41] The first is the socket scalability. As
+[00:06:43] we mentioned in the previous slides,
+[00:06:46] every worker thread not need to open a
+[00:06:48] KCM socket for each TCP connections. And
+[00:06:51] in reality, a web server or any RPC
+[00:06:54] server can accept hundred of thousands
+[00:06:57] even millions of connection at the same
+[00:06:59] time. And now we are talking about the
+[00:07:00] number of KCM socket in a scale of uh
+[00:07:03] the number of worker threads times the
+[00:07:06] number of TCB connections. So it's
+[00:07:08] actually quadratic growth in number of
+[00:07:09] sockets. And the second uh issue is
+[00:07:13] actually a little bit more subtle. Uh
+[00:07:17] it's because KCM still exposes a
+[00:07:20] connection abstraction to their user
+[00:07:22] space. And what do I mean by that?
+[00:07:24] Because here uh we have a simple
+[00:07:26] scenario when we have only one TCP
+[00:07:28] connection and then every worker stress
+[00:07:31] still has one KSM socket per connection.
+[00:07:34] So every KM socket is bounded to the
+[00:07:36] connection and will only process
+[00:07:38] messages from and to this connection in
+[00:07:41] both RX and TX pass. So I mean KM does
+[00:07:45] load a well scheduling here. It will
+[00:07:47] only send a messages to a KCM socket
+[00:07:50] which is not uh receiving a message or
+[00:07:54] has not been finishing uh sending a
+[00:07:57] message. So I mean when we have one TCV
+[00:07:59] connection it's actually not too bad
+[00:08:01] because every worker thread owns one KCM
+[00:08:04] socket and now when we have a idle
+[00:08:07] socket means we have a idle worker
+[00:08:09] thread so it means KCM in this case will
+[00:08:12] only send messages to idle worker so
+[00:08:15] which is actually worth conserving but
+[00:08:17] apparently gets a bit more complicated
+[00:08:20] when we have multiple connections. So
+[00:08:22] still the same scenario here. Imagine we
+[00:08:25] have the green connection first and then
+[00:08:28] it comes and then the left and the
+[00:08:31] middle worker threads
+[00:08:33] that um that sorry the left one is busy
+[00:08:37] and then the middle one and the right
+[00:08:39] one that both idle. So the green
+[00:08:42] connection chooses to send the message
+[00:08:45] to the middle one which makes the middle
+[00:08:46] one count currently busy now. But now a
+[00:08:49] second connection comes which is the red
+[00:08:52] connection and every worker thread also
+[00:08:54] opens the KCM socket for this
+[00:08:57] connection. In that case uh since you
+[00:09:00] know the red KM socket they have not
+[00:09:03] start processing anything they're also
+[00:09:05] marked ready by the KCM module and now
+[00:09:09] whenever a message comes the red
+[00:09:12] connection can actually send them to any
+[00:09:13] worker thread. Imagine by chance it send
+[00:09:17] the message to the middle KSM socket
+[00:09:19] which own which is owned by the middle
+[00:09:22] worker and then we have the red message
+[00:09:25] ceued after the gray message if the
+[00:09:28] middle thread has not finished
+[00:09:29] processing the previous one and here we
+[00:09:33] sorry I keep doing that okay here
+[00:09:35] actually the right thread is always idle
+[00:09:38] throughout the time but we cannot use it
+[00:09:41] and the result is just is not worth
+[00:09:44] conserving ing which is apparently
+[00:09:46] something we don't really desire.
+[00:09:49] So to fix this problem we proposed
+[00:09:53] rakaya and raka is really inspired by
+[00:09:56] KCM in terms of internal parsing. So we
+[00:10:00] also have believe like message parsing
+[00:10:02] should be done as early as possible in
+[00:10:04] the same context we should stop to a
+[00:10:07] interrupt context here to process the
+[00:10:09] TCP message. uh so we can kick IO out of
+[00:10:13] the picture. But what we argue also more
+[00:10:16] is that we should not expose any
+[00:10:19] connection abstraction to their user
+[00:10:21] space because since we already pass the
+[00:10:24] RVC messages in the kernel then we only
+[00:10:27] need to expose a message oriented API to
+[00:10:29] the user space which means if you have a
+[00:10:32] socket uh which is communicating between
+[00:10:34] the kernel and user space they should
+[00:10:36] only inform the user space uh we have a
+[00:10:39] message and process it and after it's
+[00:10:42] done send it back to me. So it doesn't
+[00:10:44] really matter which the TCP connection
+[00:10:46] is from because the TCP uh semantic
+[00:10:49] should be hidden in the kernel and then
+[00:10:52] the colonel should take care of that. In
+[00:10:54] that case we can we can schedule
+[00:10:57] messages on any TCP connections to any
+[00:11:00] uh worker thread within one single uh uh
+[00:11:04] socket and then in that case we can do
+[00:11:07] what kind of scheduling as you want
+[00:11:09] across the connections and the course to
+[00:11:11] achieve work conserving. So I would like
+[00:11:14] to mention a few uh implementation
+[00:11:17] details for Rakaya and uh of course if
+[00:11:20] you want to learn more you can always
+[00:11:21] refer to our OSI paper or just drop me
+[00:11:24] an email uh and also it's open source of
+[00:11:27] course. So the first one is we extended
+[00:11:30] stream parser which is a module in the
+[00:11:33] kernel which is not only used by KCM but
+[00:11:36] it's also adopted to use by uh KTLS and
+[00:11:39] is on EPF or hooks. So the stream parser
+[00:11:44] is the component which is responsible
+[00:11:46] for parsing uh message uh messages from
+[00:11:49] the TCP streams here and origin of
+[00:11:52] stream parser supports a me cache like
+[00:11:55] plan TCP um based RPC which is we have
+[00:12:00] uh messages in the TCP stream but error
+[00:12:02] message is continuous and in a header it
+[00:12:05] has a field to indicate the length. So
+[00:12:08] it makes parsing quite straightforward
+[00:12:11] but uh we would like to support it uh
+[00:12:14] extended support HTTP2 for applications
+[00:12:17] like gRPC
+[00:12:19] and it's a bit more complicated because
+[00:12:21] in HTTP2 every message can be parsed
+[00:12:25] into different uh frames and these
+[00:12:27] frames themselves are uh continuous but
+[00:12:30] they can be uh interled by other frames
+[00:12:33] from different RPCs. So here we extended
+[00:12:38] a stream parser to be able to parse
+[00:12:40] HTTP2 messages. We have a hashmap. So
+[00:12:44] whenever we get a ID for a new RBC, we
+[00:12:46] put a new frame there and we chain them
+[00:12:48] together using uh the control block
+[00:12:50] metadata from the SKB uh header.
+[00:12:55] And then again so for Rakaya since we
+[00:12:58] like to do work conserving scheduling
+[00:13:01] the instant idea is that we should have
+[00:13:03] a centralized global queue shared by all
+[00:13:06] the TCP connections which allows us to
+[00:13:09] do FIFO like uh scheduling to achieve
+[00:13:11] work conserving but as we all know it
+[00:13:13] can be really expensive uh and it
+[00:13:15] doesn't really scale with increase in
+[00:13:17] number of connections or cars. So here
+[00:13:20] we do a logically centralized queue uh
+[00:13:23] to reduce the overhead and we have one
+[00:13:26] single logical message Q that is
+[00:13:29] implemented as one FIFOQ per worker
+[00:13:32] thread of which is per worker socket and
+[00:13:36] then when new message comes it will do
+[00:13:38] best of two placement which means it
+[00:13:40] samples to cues and picks the shortest
+[00:13:43] one and queue the messages there. So
+[00:13:46] this is from the message view and of
+[00:13:48] course they can still be uh you know not
+[00:13:52] perfectly balanced. So what we do is
+[00:13:54] that we do uh work stealing if any
+[00:13:57] worker thread uh is finished with all it
+[00:13:59] work and there's no message is ceued as
+[00:14:01] it's a local queue we'll try to have it
+[00:14:04] steal from other cues and it's also best
+[00:14:07] of two to stealing
+[00:14:10] and another problem here is since we
+[00:14:13] have uh hided all the TCP abstraction in
+[00:14:16] the kernel when we send messages from
+[00:14:19] the user space to the kernel they can
+[00:14:21] belong to the same TCP socket And we
+[00:14:24] cannot naively call send message in the
+[00:14:27] kernel because that will easily trigger
+[00:14:29] the TCP uh log from the process context
+[00:14:32] which is a mutex abstraction and of
+[00:14:35] course we don't want the scheduleuler to
+[00:14:37] kick in and it hurts the performance
+[00:14:39] especially the tail latency a lot. So
+[00:14:42] what we do is we have a TX delegation
+[00:14:45] mechanism.
+[00:14:46] Basically for every TCP connection we
+[00:14:49] have a temporary queue to hold all this
+[00:14:53] uh messages from the worker threads and
+[00:14:55] whenever a message comes it cue itself
+[00:14:58] on it temporary queue and will try to
+[00:15:00] see if the TCP log is held. If it is, it
+[00:15:03] will just uh finish uh the send message
+[00:15:06] C this call and returns and any worker
+[00:15:10] who is uh responsible for sending the
+[00:15:13] message now which means who is holding
+[00:15:16] the current TCP log it will try to um
+[00:15:20] loop through all uh the existing cues
+[00:15:22] and to make sure there is no leftover
+[00:15:24] messages and it will not return until
+[00:15:27] it's done. So this uh is the idea of the
+[00:15:30] delegation can we have any current uh
+[00:15:34] sender who is active to uh be
+[00:15:37] responsible for all the delegated work
+[00:15:39] from other workers
+[00:15:42] and then we also talk about the KTL
+[00:15:44] integration. So when KCM was introduced,
+[00:15:47] KTLS was also uh integratable with uh
+[00:15:52] KCM so that they can do decryption
+[00:15:54] direct in the kernel. that nowadays the
+[00:15:57] official KTOS implementation it does not
+[00:16:00] perform the decryption in the software
+[00:16:02] interact but it chose it to perform in
+[00:16:04] the receive this call which is process
+[00:16:07] context and then it's not really desired
+[00:16:11] for Rakaya's perspective and to be
+[00:16:13] honest also not uh we did easy fix here
+[00:16:17] because we just dump the RAIA RX pass
+[00:16:20] into a work cute for um to do KTLS
+[00:16:25] decryption of course is not optimal.
+[00:16:27] Ideal way is to have a second pass to
+[00:16:29] have the decryption done in a require
+[00:16:31] and this is work in progress in the lab.
+[00:16:34] Uh the drawback is like of course it
+[00:16:36] introduces performance degradation if we
+[00:16:39] dump the RX pass in the work cube but
+[00:16:42] here we serve it as a proof of context
+[00:16:45] just to show uh you know nowadays
+[00:16:47] everything is encrypted and the require
+[00:16:49] can be used for encryption and
+[00:16:51] decryption on top of TLS for TCP
+[00:16:53] traffic. So we implemented as a kernel
+[00:16:57] module with around 3,000 lines of code
+[00:16:59] on top of uh 6.8
+[00:17:02] and then we extended the stream parser
+[00:17:05] for HTTP2 as I mentioned before and it's
+[00:17:08] compatible with a default CCP IP stack
+[00:17:10] and KTLS. So we uh implemented on top of
+[00:17:15] plan TCP RBC's also for JRPC and we
+[00:17:20] chose the two popular gRPC
+[00:17:22] implementations which is go and C++.
+[00:17:27] So first is a uh implementation for the
+[00:17:31] plant CPRPC. We chose the M cach like
+[00:17:34] protocols but we run only synthetic uh
+[00:17:37] workloads which is 100 microscond
+[00:17:40] service time. uh by model distribution
+[00:17:43] and 20 connections. Uh the reason we do
+[00:17:45] synthetic uh service time is that we
+[00:17:48] want to see the scheduling uh results uh
+[00:17:52] to see if the headon blocking was a real
+[00:17:54] issue here and then we compare raio with
+[00:17:57] of course KCM and then two other uh
+[00:18:01] implementations which does uh connection
+[00:18:03] level scheduling. So we can see the ora
+[00:18:07] actually performs much better than KCM
+[00:18:09] because it is able to track the
+[00:18:12] centralized uh FIFO scheduling principle
+[00:18:16] compared to the rest which are subject
+[00:18:18] to connection oriented scheduling
+[00:18:22] and then we proceed to the JRPC
+[00:18:24] implementation here. So a quick recap
+[00:18:28] about the gRPC go implementation. Uh
+[00:18:31] from the official benchmark of gRPC's
+[00:18:34] team actually Golan is the most
+[00:18:36] performant one at least for uh the
+[00:18:41] simple RPC workload and the reason is
+[00:18:43] because it's managed to exploit the go
+[00:18:47] routine abstraction of Golan. So it's
+[00:18:50] lightweight and the scheduling overhead
+[00:18:52] is much smaller for IO threading and
+[00:18:54] worker threading here.
+[00:18:57] So but it's also not free because for
+[00:19:00] every TCP connection JVC go actually
+[00:19:02] spot three go routines and then as soon
+[00:19:05] as the number of connection increases uh
+[00:19:08] the number of growing also explodes. So
+[00:19:12] here we evaluate rack higher and the
+[00:19:15] default gRPC for 80,000 uh sorry 80
+[00:19:19] connections and 5,000 connections and
+[00:19:21] for 80 connections we get 1.4 times
+[00:19:24] acceleration and for 5,000 connections
+[00:19:27] we get 1.6k 6K. And it's worth noting
+[00:19:30] that with 5,000 connections, Rakaya only
+[00:19:34] needs 33 Gins
+[00:19:36] uh while JRPC go is 17,000 Gins, which
+[00:19:41] is uh orders of magnitude compared to
+[00:19:45] Rakaya. And then we also come to the C++
+[00:19:48] comparison.
+[00:19:50] uh the C++ is not as performant as Golan
+[00:19:54] because you really need to use the
+[00:19:56] normal user space threading for um all
+[00:19:59] the JRPC messages. So here we get bigger
+[00:20:02] gain here and for 80 connections we get
+[00:20:04] 2.3 times and for 5K connections we
+[00:20:08] actually get uh 2.7 times.
+[00:20:12] Just note that if you compare uh raaya
+[00:20:16] performance for gRPC C++ and gRPC go we
+[00:20:19] actually get very comparable throughput
+[00:20:22] uh which shows you know it's scheduling
+[00:20:25] benefit and since we hide all the TCP
+[00:20:29] abstraction in the user space we only
+[00:20:31] need very simple user space logic uh in
+[00:20:35] the kernel. So we only need very simple
+[00:20:37] user space logic and so to wrap it up
+[00:20:42] the problems of TCP based RPCs is really
+[00:20:45] it has a mismatch between stream orient
+[00:20:48] TCP and message oriented RPCs and Rakaya
+[00:20:52] is inspired by KCM to parse messages in
+[00:20:55] the kernel but it uh does innovatively
+[00:21:00] to schedule them direct from kernel from
+[00:21:02] a connection agnostic way to achieve
+[00:21:06] uh centralized FIFO like scheduling
+[00:21:09] benefits and we accelerate both plan TCP
+[00:21:12] based RPCs and also gRPC and we have the
+[00:21:16] code artifact open sourced so feel free
+[00:21:19] to check it out.
+[00:21:28] >> Perfect.
+[00:21:30] >> Hi uh great talk. Thanks. Have you tried
+[00:21:34] to implement uh this 3,000 line of code
+[00:21:38] uh in eBPF instead of uh additional C
+[00:21:42] code in the kernel?
+[00:21:44] >> No, I have not like uh so ideally I mean
+[00:21:49] we do what um the KCM did because the
+[00:21:53] parsing logic for the TCP is implemented
+[00:21:56] in the EBPL hook. So that's one of our
+[00:21:59] implementation
+[00:22:01] and but for the rest we didn't try to do
+[00:22:04] it in EVPF.
+[00:22:06] >> I would highly suggest um that you try
+[00:22:10] uh to implement that to ease the
+[00:22:14] acceptance of of this uh layer in the
+[00:22:19] >> community. Yeah, makes sense. Thanks.
+[00:22:24] >> Right. Uh thank you for the talk. Uh I
+[00:22:27] have a couple questions. Uh
+[00:22:29] >> so first one when you mentioned that um
+[00:22:32] a system that has like these two TCP
+[00:22:34] connections that I guess transport is
+[00:22:37] not worth conserving.
+[00:22:39] >> I was wondering uh is there any reason
+[00:22:42] that you couldn't have uh like a single
+[00:22:45] shirt in instance under which you
+[00:22:49] register all KCM socks uh to
+[00:22:54] solve that uh problem? You mean like uh
+[00:22:57] so we kind of every TCV connections open
+[00:23:01] like one KM socket and have e port
+[00:23:03] register to all the user space threads.
+[00:23:06] Do I understand it correctly?
+[00:23:07] >> Yeah. Yeah. You would you would register
+[00:23:08] all KCM sockets under a single EO
+[00:23:11] instance and then all the worker threads
+[00:23:14] would wait on that EO instance. So
+[00:23:17] whenever worker becomes free, it grabs
+[00:23:20] another uh ready to read KCM socket. Was
+[00:23:24] that something you considered?
+[00:23:27] >> Uh, we didn't really consider it because
+[00:23:30] I think um, correct me if I'm wrong. So
+[00:23:33] I think if like all those threads share
+[00:23:35] a eo instance, there could also be, you
+[00:23:38] know, some extra overhead or like the
+[00:23:41] eo, you know, shared by other threads.
+[00:23:45] >> I mean, you're worried about contention.
+[00:23:47] Uh,
+[00:23:47] >> yes.
+[00:23:48] >> Uh, I know they have something to solve
+[00:23:51] the thundering problems and
+[00:23:53] >> Okay. Yeah, I was wondering if if you uh
+[00:23:56] yeah, if you're concerned. So, another
+[00:23:57] question I have. So, KCM is known for
+[00:24:01] its lack of back pressure.
+[00:24:04] >> Uh I was wondering if Rakaya addresses
+[00:24:07] that problem. So, the problem with this
+[00:24:10] intermediate
+[00:24:12] Q where you store parsed messages is
+[00:24:15] that it's unbound. It can grow unbound
+[00:24:18] because you're not propagating the
+[00:24:20] signal back to the TCP connection. So
+[00:24:23] you know you can close your window and
+[00:24:25] the pier can stop sending gRPC requests
+[00:24:28] if you can handle that load. Does Rakaya
+[00:24:30] address this? Uh
+[00:24:31] >> yeah it's thanks it's a very good
+[00:24:33] question. So it's actually twofolded
+[00:24:35] because for HTTP2 we don't really need
+[00:24:38] to address it because for HTTP2 you know
+[00:24:41] it has this framing. So the idea of that
+[00:24:44] is flow control to exactly to avoid this
+[00:24:47] kind of problem since when we implement
+[00:24:49] the HTTP2 parsing we also preserve it
+[00:24:52] flow control. So for HTB2 we don't
+[00:24:55] really have this uh back pressure
+[00:24:57] problem but FL plan TCP um we have a
+[00:25:03] simple back pressure you know bonded at
+[00:25:05] some number but we didn't really try to
+[00:25:07] tw
+[00:25:09] okay thank you no worry.
+[00:25:13] take the question downstairs.
+[00:25:15] >> Yeah. Uh out of curiosity, I was
+[00:25:18] wondering why the stream parser was uh
+[00:25:22] extended precisely since you said that
+[00:25:25] uh you developed this as a kernel uh
+[00:25:28] yeah as a kernel model and uh stream
+[00:25:30] parser basically um gives you an
+[00:25:33] interface to extract some some like
+[00:25:37] discrete packets out of the stream. So
+[00:25:40] yeah, I was wondering if you can talk a
+[00:25:41] little bit more about that.
+[00:25:43] >> Okay, thank you. So uh it's also uh kind
+[00:25:47] of twofolded because uh the reason we
+[00:25:51] need to extend stream parser is stream
+[00:25:53] parser allows this abstraction. You can
+[00:25:56] parse a single uh messages from the skys
+[00:26:02] list to channel first one and then the
+[00:26:04] sk next to the response. So that gives
+[00:26:07] the abstraction of a single message. But
+[00:26:09] for HTTP2 the reason is like every RBC
+[00:26:12] message is uh how do you say not
+[00:26:16] continuous
+[00:26:18] uh messages can be parsed by stream
+[00:26:20] parser. So it's actually twofolded. We
+[00:26:24] need to parse have the message which is
+[00:26:26] capable to be parsed by stream parser.
+[00:26:29] Then we need to ch them together and
+[00:26:30] this messages are not continuous. So
+[00:26:34] that's why we use a control block to
+[00:26:36] chain them together and has snap to map
+[00:26:38] because whenever we get a new frame out
+[00:26:40] of the scene, we need to check the
+[00:26:41] stream ID to map it into the RPC
+[00:26:44] message.
+[00:26:45] >> That makes sense. Thanks.
+[00:26:46] >> Thank you.
+[00:26:50] >> Any other question? Oh, yep. One more
+[00:26:51] question.
+[00:26:53] >> Yeah, I related. Uh, I'd recommend you
+[00:26:57] C++ routines. Just make sure it's way
+[00:27:00] faster than Go routines. Just make sure
+[00:27:02] you pick a good library. I can suggest
+[00:27:04] you a couple because I use them actively
+[00:27:08] maybe offline.
+[00:27:11] >> Uh sorry I don't understand correctly.
+[00:27:14] You mean like we should use
+[00:27:15] >> you mentioned go routines right?
+[00:27:17] >> Uh we also implement sorry we also
+[00:27:20] implement against C++.
+[00:27:22] >> Yeah but you mentioned that you use
+[00:27:24] regular like uh symmetric C++ code.
+[00:27:28] uh we use two different uh
+[00:27:32] configurations for C++. One is async,
+[00:27:35] another is callback. So which I both
+[00:27:38] recommended by C++. Uh it also has
+[00:27:42] another configuration which is
+[00:27:44] synchronized which is basically just
+[00:27:45] spot a new thread per RPC and it
+[00:27:48] performs the worst. So we neglect it for
+[00:27:51] the comparison. We want to compare with
+[00:27:53] more performant implementation.
+[00:27:56] >> Okay. Thanks. Yeah, don't worry.
+[00:28:00] >> Okay, I have also one question. Uh maybe
+[00:28:05] if you go like two slides back should be
+[00:28:08] on the like in the image. But um
+[00:28:12] >> uh which one exactly
+[00:28:14] >> about the HTTP2 uh stream that uh
+[00:28:19] >> uh here?
+[00:28:19] >> Oh, here. Yeah.
+[00:28:20] >> Okay. Awesome.
+[00:28:21] >> Uh so the messages could go out of
+[00:28:24] order. Uh have you measured how much it
+[00:28:28] like affects you or like thanks to the
+[00:28:31] hashmap of the streams you are like
+[00:28:33] still have work to do? I don't know if
+[00:28:35] it's like could basically could be
+[00:28:38] similar or they're very headline
+[00:28:41] blocking here also. Yeah.
+[00:28:43] >> Yeah. So it really depends the
+[00:28:45] configuration for gRPC. So for JRPC you
+[00:28:48] can configure the number of concurrent
+[00:28:50] RPC streams and of course the upper
+[00:28:52] bound for the uh hashmap here is the
+[00:28:55] maximal streams HTTP can allow we set it
+[00:28:59] to a really big number to avoid being
+[00:29:02] the blocker but uh we didn't really
+[00:29:05] mention it for different configurations
+[00:29:08] for the maximal concurrent streams
+[00:29:10] number. Okay, thanks. And maybe could
+[00:29:14] you expand why you don't wanted to try
+[00:29:17] with
+[00:29:17] >> HM?
+[00:29:20] >> H O M. Yeah. Yeah.
+[00:29:22] >> Yeah.
+[00:29:22] >> The protocol
+[00:29:24] >> like
+[00:29:25] yet another few slides back you you
+[00:29:28] mentioned
+[00:29:29] >> protocol. But
+[00:29:30] >> exactly.
+[00:29:32] >> So why not Homa?
+[00:29:34] >> Uh I think I mean of course um I missed
+[00:29:38] the talk yesterday. So of course there
+[00:29:40] is u it's a very big topic now but I I
+[00:29:44] think the question is not why Rakaya but
+[00:29:47] home but more why TCP but not home. So
+[00:29:51] the idea raaya and also KCM to have TCP
+[00:29:54] compatibility
+[00:29:56] and which is still important nowadays
+[00:29:59] and you know JPC and other TCP based
+[00:30:02] protocol that exists and widely used.
+[00:30:05] >> Yeah for now for sure. Yeah.
+[00:30:07] >> Okay. Thank you. Any
+[00:30:15] other questions?
+[00:30:19] >> All right. Thank you.
+[00:30:20] >> Thank you.

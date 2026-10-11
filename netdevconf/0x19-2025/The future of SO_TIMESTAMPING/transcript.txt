@@ -1,0 +1,248 @@
+Source: https://youtu.be/PyFioDifIVk
+Language: en
+Captions: local speech recognition (mlx-community/whisper-small-mlx); unreviewed
+
+[00:00:00] Hello everyone, I'm Jason Xin, I'm working at Tencent,
+[00:00:05] responsible for the troubleshooting in the networking area.
+[00:00:10] So welcome everyone to join my presentation.
+[00:00:14] Honestly, I'm getting a code fade to address it in public.
+[00:00:18] It's my first time.
+[00:00:21] Okay.
+[00:00:24] This topic will be chopped into five parts.
+[00:00:30] The first part is a brief introduction.
+[00:00:33] I will show the user case might be and how you use it.
+[00:00:38] And the second and third are the parts and the present of the socket time stamping.
+[00:00:45] And the fourth one is I'm going to introduce the BPF time stamping,
+[00:00:51] which I'm recently working on it.
+[00:00:54] And the fifth is how to extend more of the BPF time stamping feature.
+[00:01:03] I would like to shift our focus more on the stack and the kernel itself.
+[00:01:10] Okay, this is the brief introduction.
+[00:01:14] As William said, I did not dive off a few years ago,
+[00:01:21] and the time stamping is the key to debugging network stack latency.
+[00:01:27] So I've attached a figure to demonstrate how it works in the real workload.
+[00:01:35] It's just an example.
+[00:01:37] The user case of database goes like this figure.
+[00:01:42] As you can see, it is evident I only deployed the feature in the server side.
+[00:01:48] I would highly recommend that you deploy the feature on both sides.
+[00:01:53] Okay.
+[00:01:59] With this feature enabled, you will record the time-separated consecutively.
+[00:02:05] The first time stamp you recorded is the X software.
+[00:02:11] It is a time stamp when the server side received the request from the client,
+[00:02:17] and it will record the current time stamp.
+[00:02:21] It is near the same as the TCP dump works.
+[00:02:25] And then we will ask the application to record the time stamp before recording send a message.
+[00:02:32] Send a message to the call, and you can calculate the data between each of them.
+[00:02:37] And you will see if the latency issue occurs,
+[00:02:42] and you can see, okay, it's the application's problem.
+[00:02:47] It's not mine.
+[00:02:50] The reason why I drew this figure is that we've encountered numerous issues,
+[00:03:00] and there are reports that are reported from our customers.
+[00:03:05] And this is the application engineer who cares about the latency
+[00:03:13] comes to us or comes to the network operator and says,
+[00:03:18] hey, we've got a problem in history.
+[00:03:21] Can you take a look at what happened at 2 a.m. o'clock?
+[00:03:27] And we sometimes will come to the network operator and say,
+[00:03:33] can you take a look at this?
+[00:03:35] But in normal cases, the answer is no.
+[00:03:39] So we have to deal with this latency problem.
+[00:03:47] Okay, the past and the present of socket time stamping.
+[00:03:52] Back to 2009, Patrick O'odd, who was working at Intel,
+[00:03:58] finished the first edition of socket time stamping,
+[00:04:01] and he completed the basic framework of communication between the kernel and the user space.
+[00:04:11] In this first community, I listed here is to explicitly distinguish the use of a data path and control path.
+[00:04:26] The generation flags are used in data paths to tell the kernel,
+[00:04:32] can we generate a time stamp when the attribute is transferred to a certain measure point?
+[00:04:41] And how about the report flag?
+[00:04:45] If without a report flag, application cannot receive this time stamp,
+[00:04:50] I will talk more about it later.
+[00:04:52] Okay, and I drew a picture that demonstrates how it works.
+[00:04:59] The first step is you need to set the socket up to the socket,
+[00:05:05] and then when the application tries to send a large amount of data,
+[00:05:10] that will be passed to the UDP layer and the WQXMID and the ZOTA XMID and to the hardware.
+[00:05:16] In this first edition, he only implements the software and the hardware time stamp.
+[00:05:23] These two measure points, the current time stamp will be generated and allocated a new SKB,
+[00:05:36] and this new SKB will carry the time stamp and will be put into the tail of the AeroQ.
+[00:05:42] And then we will ask the application to call the actual receive messenger to receive these two SKBs from the AeroQ.
+[00:05:53] It is how it works basically.
+[00:05:56] Let's go into more details about the socket time stamp in 2014.
+[00:06:04] William completed and enhanced the whole future for the TCP for UDP,
+[00:06:11] and we can see this figure is much more complicated than before.
+[00:06:16] We have more hooked points like the WQXMID.
+[00:06:22] It records the time stamp when the SKB is going to be in queue into the QDisk.
+[00:06:32] We will record that time stamp.
+[00:06:35] And the second important thing is the TSK.
+[00:06:39] TSK is used to correlate the sender message with the SKB.
+[00:06:47] If TCP sender amount of data, that will be split into multiple smaller size SKB.
+[00:06:55] When the SKB goes into the QDisk, we don't know this SKB belongs to which sender message.
+[00:07:01] So we need to use the TSK to identify the current status.
+[00:07:09] Current status are like Google.
+[00:07:13] They developed the FATO, which is implemented based on the diaper of many, many years ago.
+[00:07:20] And the more and more hardware supports the time stamping.
+[00:07:25] And I don't remember the name.
+[00:07:30] The new usage of TSK for UDP was merged last year.
+[00:07:36] And I hope the TS completion feature is coming soon to support those hardware
+[00:07:42] that cannot generate the PTP hardware time stamp.
+[00:07:47] And the last one is PPI of time stamping, which I'm currently working on.
+[00:07:53] It's halfway down.
+[00:07:56] Okay, let's talk a little bit about PPI of time stamping.
+[00:08:02] The reasoning behind the PPI of time stamping is we truly encountered several problems
+[00:08:09] when we tried to deploy this feature in production.
+[00:08:13] The first one is we have to require the application to change their code.
+[00:08:20] It is obviously not acceptable for our clients.
+[00:08:25] So we have to resort to other ways to use this feature by writing a kernel module, for example.
+[00:08:35] And that's what we've done in recent months.
+[00:08:41] And the second one is introduce the system overhead.
+[00:08:45] So we can see this figure, the red boxes.
+[00:08:50] If you use this feature, we have to ask our clients to modify their codes
+[00:08:57] to add more extra receive message.
+[00:09:02] If you have three generations flag, such as the WQSMID, SATA, XMID, or hardware time stamps,
+[00:09:13] we will add three extra received messages,
+[00:09:20] respected to receive the SQP from the RQ, number one.
+[00:09:24] So it will cause the performance degradation, it was mentioned in the earlier DATA DevConf.
+[00:09:32] And the third one is the UAPI compatibility.
+[00:09:36] I'm excited to say we still don't fix this because of the nature of BPF.
+[00:09:42] I've proposed a question the day before yesterday when Alexi gave a presentation.
+[00:09:50] Sorry.
+[00:09:51] And the little flexibility, little flexibility means if we want to know more about the stack,
+[00:09:58] such as those fields in the structured TCP info,
+[00:10:02] we have to change our code and upgrade the kernel.
+[00:10:05] It means we have to wait at least a few months or years to let our customers enjoy this new feature.
+[00:10:13] So it's not really acceptable.
+[00:10:18] Okay, the background of BPF time semi-feature.
+[00:10:22] Actually, I've talked a little bit about the reason behind this.
+[00:10:29] I'm encountered by numerous reports internally, so we have to deal with it.
+[00:10:38] Then I resorted to this feature and tried to deploy it rapidly and tried to transparently equip the application.
+[00:10:48] So we wrote a kernel module.
+[00:10:51] And then last year, I proposed this idea and just discussed it at another conference.
+[00:10:58] And I received a few brilliant feedbacks from John and Willem.
+[00:11:06] And we then finally just reckon BPF is the best way to go.
+[00:11:12] So here we are.
+[00:11:16] Many thanks to Martin and Willem and John and Jacob and the Vadim and everyone who reviewed this patch.
+[00:11:25] It took us almost five months to get merged in the kernel finally.
+[00:11:31] And many thanks to my colleagues for helping me wrote those kernel modules and deploy it in production.
+[00:11:38] Okay.
+[00:11:39] Let me quickly go through the details of implementation of BPF time sampling.
+[00:11:45] The first step is BPF sort of stack update, which works very similarly to how the socket time sampling,
+[00:11:54] you have to call this BPF sort of stock update in BPF program in the initial phase like the TCP initial transfer.
+[00:12:01] There are two BPF callbacks there.
+[00:12:06] And isolation.
+[00:12:08] And isolation means we support those two modes of time sampling work in parallel.
+[00:12:15] It means if application enables the socket time sampling by set the socket output,
+[00:12:21] that does not mean we cannot use the BPF program to enable the BPF extension.
+[00:12:28] And the correlation.
+[00:12:31] Let's revisit a little bit about how the socket time sampling works.
+[00:12:38] If you want to use the socket time sampling, we will require the application to add the, to add, to record the time stamp before calling the sender message.
+[00:12:50] So in BPF time sampling, we don't want to, we don't want to our application changing their code.
+[00:12:57] So we have to do it on our own.
+[00:13:00] We use the FN tree to hook a TCP sender message logged, for example, and record the record the time stamp.
+[00:13:07] And then we will call this, this new callback in this figure to do the correlation,
+[00:13:15] to correlate the TSK with the SKB.
+[00:13:21] We will go into more details if someone wants to propose questions on this.
+[00:13:26] I'm afraid I'm running out of time.
+[00:13:30] And we introduced one generation flag.
+[00:13:35] For the socket time sampling, we have, we have multiple generation flags versus one or two reported flags.
+[00:13:43] And here we, we use one or two generation flags versus multiple reported flags.
+[00:13:50] Reported flags here are the same as the socket ops callback.
+[00:13:58] We also, we also support the selective sampling feature, which was proposed by GCARB.
+[00:14:06] And it works similarly to the CMAS instead in socket time sampling.
+[00:14:14] We will allow the application to, to start, measure those flaws and stop and start over again, something like that.
+[00:14:24] And the tutorial, I believe I'm already seated very clearly.
+[00:14:30] And let me rephrase a little bit.
+[00:14:32] The first step is you, the police use the BPF set of socket to enable the feature.
+[00:14:37] And then we will, we will finish the correlation, correlation.
+[00:14:43] And the 30 years we will record each time something and calculate the data between them and we will find the, where the high latency occurs.
+[00:14:52] And more details can be seen in this self-test.
+[00:14:57] And then there, there are one, two, three, four, four, four noteworthy points.
+[00:15:04] The first one we are running of TX flags in SKB.
+[00:15:07] William just has a recommended one to prepare for the upcoming TX completion feature.
+[00:15:15] But I'm going to, to ensure, I'm going to implement the remaining, remaining part of the BPF time sampling like receive part, on the receive part.
+[00:15:24] So I have to introduce another one.
+[00:15:26] That means I have to reclaim one more time.
+[00:15:30] And no log production.
+[00:15:32] If I remember correctly, Eric, when I mentioned this, everything, where the, those fields are we extracted from the struggle of socks, so I got another project.
+[00:15:44] And I got a project on the socket protection.
+[00:15:47] So that, that information might not be that incorrect.
+[00:15:52] And what I left to complete the BPF time sampling, UDP support or the receive part support support, I believe I will finish, finish, finish in the first half of the year.
+[00:16:06] And the last one is UAPI compatibility.
+[00:16:09] So your, your remains.
+[00:16:11] I'm sorry.
+[00:16:13] And how to, how to solve the interference impact issue.
+[00:16:20] Well, okay, what is the interference impact?
+[00:16:23] Let me see this, see this figure supposing there are 10,000 flows.
+[00:16:30] We are only one of them.
+[00:16:36] By writing a normal BPF tours.
+[00:16:40] It means we, it means the rest of the rest of those flows will face the same situation as the one way we are going to chase.
+[00:16:53] All, all the, the 10,000 flows, we are in kind of the same problem, namely the performance degradation.
+[00:17:01] It, it causes, it causes a little bit impact.
+[00:17:06] So what, what can I do to solve the interference impact?
+[00:17:12] So, so I prefer the BPF time sampling.
+[00:17:16] It's like advertisements.
+[00:17:18] Okay.
+[00:17:20] And we can see in this green box here.
+[00:17:24] That is what we wrote a BPF.
+[00:17:26] This is the place where we wrote a BPF program here.
+[00:17:31] It means the, the rest of the, I mean the normal flows were not going to the green box.
+[00:17:38] So it will not be impacted because of the BPF program, but there remains one place in the TCP send a message.
+[00:17:47] So the function, which I truly use, use the FNG to hook this.
+[00:17:53] So I'm going to fix that.
+[00:17:56] Revis a little bit of how we use the FNG.
+[00:17:59] And let's take a look at this black, black picture picture.
+[00:18:03] The code snippets shows that we use the FNG to hook this point.
+[00:18:09] And I like the FNG feature.
+[00:18:13] It is a very lightweighted and it only replace our few byte codes of the certain function.
+[00:18:24] But lightweighted doesn't mean that it's zero cost.
+[00:18:28] The FNG impact, if you, if you do nothing in the TCP send a message like this figure illustrates,
+[00:18:38] and the running and the running net per for by default on the loop back,
+[00:18:43] you will see the 4.6% decrease in performance.
+[00:18:50] So, so it cannot be negligible in production.
+[00:18:57] And, and if you try to compare the four top or something like that,
+[00:19:02] you load the socket address or socket port, it will increase this number to 7.1%.
+[00:19:14] And how we can avoid this FNG impact.
+[00:19:18] And we, of course, we can use, we can insert a new time stamping callback here.
+[00:19:24] And then it, you know, it will look like this.
+[00:19:28] So the normal flows, I mean the unmatched flows, we are not going to those green boxes and they were working normally as before.
+[00:19:40] I don't have how much time I have, but I have.
+[00:19:44] So I will quickly work you through the next feature I'm going to add and the tracing average as a KB for BPF time stamping.
+[00:19:54] The current flow of the TCP.
+[00:19:58] It was like this.
+[00:20:00] If you send a one send a message, you will attack the this single as a KB and and we'll have corresponding times the bad stamps when it enters into the different major point.
+[00:20:12] But if you if application tries to send a large amount of data that will be distributed into a smaller size, the SKB only the last one will be tagged.
+[00:20:21] So that means only the last one as a KB goes into the different points, different points.
+[00:20:29] And then we will have a corresponding time stamp for it only the last one only the last one and for you to be it'll only record the first one.
+[00:20:40] So the this is how it looks like in the future we will record the every SKB of this feature.
+[00:20:48] I will I think I will skip this details if you will have questions about how we can implement this.
+[00:21:02] Let's talk about a bit.
+[00:21:04] Let's talk about more about the merits and demerits.
+[00:21:08] In the production or in real workload, I had to recommend another not using another not to use the tracing every SKB because it because no one can afford to pay in so much storage to store the so many items like in like at Google.
+[00:21:31] So we do the selective sampling to avoid too many to many storage costs.
+[00:21:38] And but but can we can we can we shift the can we use it for the one time one of deployment or we can use it at a debugger tool like the redies.
+[00:21:54] We can search it in the GitHub and we will find out there are some some some existing rapport and like the net cap or net trace we can use it for the basic analysis locally not in production.
+[00:22:11] So with that with this feature enabled we can clearly see the data between the each stages.
+[00:22:20] So it would be super useful for if you want to test something you want to reproduce it locally and then you will see how it works in in the kernel and then you can observe the behavior of the stack.
+[00:22:33] Okay, now it's time to talk about the future people times it's time being.
+[00:22:38] It's a little bit late but I proposed a few questions here.
+[00:22:44] The first question is what is the end. I mean, I mean, can someone tell me okay or we can stop here and we don't want to add more features because it is totally enough for the current troubleshooting area or at least one or one explicit question.
+[00:23:05] And we add more hooks in the TCP right next to me because we can see some sqp get stuck in the TCP layer because of various policy of flow control like the TSQ or TSUQ or Neck or everything.
+[00:23:23] I don't know but I would like to try this.
+[00:23:27] And the second one is is it possible to replace TCP dump in the future because we have a much more valuable information than TCP dump has TCP only only recalls the time sample when the sqp just send just as keep it about to send to the driver.
+[00:23:49] And that the time sample as well and we have more time sample than the TCP dump so can we do it. I don't know. And a few days ago, Brighton sent me a paper that describes exactly what I'm been doing.
+[00:24:06] I can show the title of the paper is how to diagnose it.
+[00:24:14] And it says once the lifetimes of messages are constructed, they can be compared to identify anomalous processing that led to the additional deviation.
+[00:24:27] So that's exactly what we do in production. We compare the different kernels. We compare the same kernel in different virtual machines or something like that to compare between them and to see if there is room for optimization or if there is something not right, can we fix it.
+[00:24:51] And after that, with the tracing average kb feature enabled and can we explore to leverage the numerous real data.
+[00:25:01] I still made it will be super useful but I don't know how to use this massive amount of data such as by AI. I don't know. It's a no open questions.
+[00:25:16] Thank you everyone.
+[00:25:23] Questions.
+[00:25:28] It could be it could be a tough question.
+[00:25:48] Is it better? Yes, it's better. Yeah, about the question about can we add more hooks. There is a hidden feature about hooks.
+[00:25:57] It's not. Yes, but the compiler is forced to keep around whatever variable you your hook is entered into use like trace point.
+[00:26:09] So it has it has some side effect on the generated code, even if the trace point is not taken. That's something that most people ignore, but it is real.
+[00:26:21] Something very simple. There is a IQ trace, which generates an event whenever we mask the hard interrupt right. And so if you just look at the code, which is generated.
+[00:26:37] Stupid like we do a push flag and then we pop the flag in the stack and then we read the stack into a register just in case the hook is going to be called and this right followed by the read is a huge store point on many, many CPU.
+[00:26:54] So that's that has an effect. So just to answer.
+[00:26:58] I totally agree with you. We're actually we are writing a kind of model to implement to try to implement or implement some something like that. I did more points, but we see the performance degradation.
+[00:27:10] Which was beyond our imagination. So, yeah.
+[00:27:19] Any question.
+[00:27:29] Well, if there are no more questions. Thanks, Jason. Your first presentation.
+[00:27:35] This is the first time we have to present anywhere like my first.
+[00:27:39] Well, congratulations. He did well. Thank you. Thank you.

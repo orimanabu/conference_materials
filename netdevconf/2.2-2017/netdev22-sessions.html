@@ -1,0 +1,587 @@
+<!doctype html>
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Netdev 2.2 全セッション</title><style>body{font:16px/1.7 system-ui,sans-serif;margin:auto;max-width:1080px;padding:32px;color:#172a3b;background:#f3f6f8}header{background:#12344a;color:white;padding:28px;border-radius:12px}header a{color:#bde7ff}input{box-sizing:border-box;width:100%;font:inherit;padding:14px;margin:20px 0;border:1px solid #99aab7;border-radius:8px}article{background:white;padding:24px;margin:18px 0;border:1px solid #d8e1e8;border-radius:10px}h2{font-size:23px;line-height:1.4}h3{font-size:17px;border-top:1px solid #e2e7eb;padding-top:14px}a{color:#075b98;overflow-wrap:anywhere}.meta,small{color:#526777}pre{white-space:pre-wrap;overflow-wrap:anywhere}.description{overflow-wrap:anywhere}article[hidden]{display:none}</style><header><h1>Netdev 2.2 全セッション</h1><p>34セッション / 資料あり 34セッション / 資料 97項目（ファイル 63、外部リンク 34）</p><p>Accepted Sessionsの全34個別URLを収録し、Scheduleの全34個別URLと照合。JavaScriptで読み込むloadsessionsのHTML断片からTitle・Description原文を抽出。相対リンクは表示ページを基準に絶対URL化。全34件にDescription掲載あり。Contentsのスライド・論文・動画URLを抽出し、slides・papersディレクトリの全セッション資料と照合。全体ダウンロード用アーカイブ・動画プレイリストは共通資料として保持。個別ページのないOpening（原文Openning）・Closing・Wireless Workshop Status Update・Lightning Talks・Good Morning・TBDの計7枠は、スケジュール原文と掲載資料を補足に収録。Wireless WorkshopとStatus Updateの同じ資料は両方に保持。添付本体の取得・リンク有効性検査は未実施。</p><a href="https://netdevconf.info/2.2/accepted-sessions.html">公式タイムテーブル</a></header><label for="q">タイトル・Track・Description・資料名で検索</label><input id="q" type="search" placeholder="例: networking / Rust / scheduler"></head><body><p id="count"></p><main><article><h2>1. Linux Networking Dietary Restrictions</h2><p class="meta">Keynote · 2017-11-10 9:15 - 10:00, Keynote Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?miller-datastructurebloat-keynote">https://netdevconf.info/2.2/session.html?miller-datastructurebloat-keynote</a></p><h3>Description</h3><div><p>The longest and most difficult battle, still being fought even to this
+  day, is that of data structure bloat.  Nowhere more is this felt than
+  in the core networking datastructures exercised in the primary data
+  path of the stack.  This includes sk_buff, routes, sockets, etc..</p>
+
+<p>It is easy to just throw together the most straightforward mechanism
+  by which to manage a new piece of state, and bloat up our
+  datastructures as a result.  Whereas it takes a real hero to do the
+  work necessary to minimize the impact of this new state..</p>
+
+<p>Human beings can execute a task efficiently when they have a pattern
+  to operate upon.  And such patterns exist for compressing, reducing,
+  or even completely eliminating state.  With these tools in hand,
+  anyone can hunt around for ways to make our core datastructures smaller.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/miller-datastructurebloat-keynote.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/GgTwx1399Dc">video</a> <small>link</small></li></ul></article><article><h2>2. netf‌ilter archeology: 18 years from Linux 2.3 to 4.x</h2><p class="meta">Keynote · 2017-11-08 9:30 - 10:15, Keynote Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?welte-netfilterhistory-keynote">https://netdevconf.info/2.2/session.html?welte-netfilterhistory-keynote</a></p><h3>Description</h3><div><p>netfilter was first introduced
+  (together with iptables) during the 2.3.x development kernel series.  Before
+  that, every stable kernel series came with a new, different packet filter
+  implementation: ipfwadm (2.0.x), ipchains (2.2.x) and iptables (2.4.x)</p>
+
+<p>We must have done something right with netfilter at the time, as it's
+  sticking with us since 1999.  It's classic companion iptables has lasted more
+  than 15 years before its eventual successor (nftables) came about in 2014.</p>
+
+<p>Let's review the netfilter project history, it's major milestones and
+  achievements.  Let's review the key people behind it, as well as [unfiltered!]
+  anecdotes and fairy tales from the mailing list and commit log archives.</p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/welte-netfilterhistory-keynote.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/D1eMqKyn09Y">video</a> <small>link</small></li></ul></article><article><h2>3. Whatever Happens in Netconf behind the Closed Door?</h2><p class="meta">Roundtable · 2017-11-09 9:15 - 10:00, Roundtable Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?panelists-roundtable">https://netdevconf.info/2.2/session.html?panelists-roundtable</a></p><h3>Description</h3><div><p>Panelists chosen for the Roundtable are multi-year veterans of the Netconf, a Linux community conference by-invitation-only,
+  running since 2004.  As the main maintainers and developers of the Linux networking subsystem,  they've been hashing out new
+  features and stubborn bugs of linux networking modules at the Netconf 2-day sessions for years.</p>
+
+<p>The Roundtable offers an open Q&amp;A session for the audiences to ask what they wanted to know about the Netconf.
+
+</p><p> Audiences are encouraged to ask questions on, but not limited to, following topics:
+  </p><ul>
+    <li> How netconf discussion topics are chosen </li>
+    <li> How conflicts in discussions are resolved  </li>
+    <li> What, in your opinion, generated most lively discussion </li>
+    <li> How much of discussions happen in session vs in hallway talk?</li>
+    <li> What gets discussed more at the Netconf, bugs or new features?</li>
+</ul>
+
+<p>To process early questions/comments, in addition to in-session participation, there will be a comment box setup at the
+   registration station. </p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://youtu.be/EcdNpyqS5b4">video</a> <small>link</small></li></ul></article><article><h2>4. Automating auto-scaled load balancer based on linux and vm orchestraton</h2><p class="meta">Talk · 2017-11-08 13:30 - 14:15, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?kong-loadbalancingautomation-talk">https://netdevconf.info/2.2/session.html?kong-loadbalancingautomation-talk</a></p><h3>Description</h3><div><p>In micro-service architectures, where horizontal scaling of services is
+  a requirement, there is huge need for a load balancing system that scales.
+  Typically, reverse proxy servers are adopted to meet this requirement. A
+  reverse proxy server has an upper bound of how many requests it can serve.
+  It is a challenge dealing with situations where the available proxy server
+  processing capacity is exceeded.</p>
+
+<p>We have created a design we call CBL(Cloud Based Loadbalancer) which addresses
+  the proxy server overload.
+  CBL has been deployed on top of Kakao's /32 bit based networking (presented in
+  netdev 1.2). CBL is an auto-scalable load balancer which utilizes the linux
+  kernel, iptables and quagga.</p>
+
+<p>In this talk we will share the design and implementation details of CBL.
+  The talk will cover:
+  </p><ul>
+    <li> The model’s details</li>
+    <li> Clustering and Health checking of the loadbalancer cluster</li>
+    <li> Mechanisms for announcing VIPs through the router and Iptables</li>
+    <li> Mechanisms for detecting the autoscaling threshold point to trigger scale-in/out</li>
+    <li> Illustrating scale-in/out of the loadbalancer instance</li></ul>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://youtu.be/C6nKSkuDD_0">video</a> <small>link</small></li></ul></article><article><h2>5. Comprehensive XDP off‌load-handling the edge cases</h2><p class="meta">Talk · 2017-11-10 15:00 - 15:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?viljoen-xdpoffload-talk">https://netdevconf.info/2.2/session.html?viljoen-xdpoffload-talk</a></p><h3>Description</h3><div><p>While XDP is less complex to offload than other forms of kernel
+  functionality due to the fact that it sits at the bottom of the stack, there are a
+  number of items that lead to complexity when dealing with XDP offload.</p>
+
+<ol>
+  <li> Map offload
+    <br>Architecture-kernel
+    <br>Architecture-FW overview
+    <br>Limitations
+  </li>
+  <li> Tooling and debuggability
+    <br>bpftool-how to inspect offloaded programs
+    <br>Challenges and future work
+  </li>
+  <li> Implementation on 32 bit embedded architectures
+    <br>LLVM and its relevance
+    <br>Performance improvements
+  </li>
+  <li> Handling tail calls and multiple programs
+
+  </li><li> Partial offload-determining when to offload
+    <br>One of the greatest challenges is determining which
+    <br>programs to offload in a transparent and efficient way
+  </li>
+</ol>
+
+<p>This talk will explore some of the ideas around how to implement these concepts
+  as well as share some of the results we have seen while implementing offload
+  on a 32 bit architecture.</p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/viljoen-xdpoffload-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/viljoen-xdpoffload-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/mDSMbyb_xlg">video</a> <small>link</small></li></ul></article><article><h2>6. Resource Management for Hardware Accelerated Linux Kernel Network Functions</h2><p class="meta">Talk · 2017-11-09 10:00 - 10:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?roulin-hardwareresourcesmgmt-talk">https://netdevconf.info/2.2/session.html?roulin-hardwareresourcesmgmt-talk</a></p><h3>Description</h3><div><p>The Linux kernel supports offloading of networking functions such as bridging
+  and routing to switches (and NICs), but it lacks a way to represent and manage
+  the hardware resources of these devices. Furthermore, while the resource limits
+  and their current usage can be queried through a vendor's SDK or to a more
+  limited extent from a kernel driver, the data are not in a form that can be
+  directly used by the kernel: i.e., there is currently no way to associate
+  networking resources to the hardware resources they will occupy and hence know a
+  priori that a networking resource can be offloaded. Thus, there is a need for a
+  generic model and resource manager that can map networking objects used in an
+  offload to the corresponding hardware resources. This model will allow the
+  kernel to compute how much of a given resource an offload takes and to get a
+  high degree of confidence that an offload will succeed.</p>
+
+<p>This talk describes a generic model for resource accounting and management in
+  the kernel. The model can be driven by user-specified policies to manage
+  hardware resources with reliable feedback to the user on overload.</p>
+
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/roulin-hardwareresourcesmgmt-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/roulin-hardwareresourcesmgmt-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/FhmhY48hsI4">video</a> <small>link</small></li></ul></article><article><h2>7. TC f‌ilters (rules) insertion rate</h2><p class="meta">Talk · 2017-11-09 13:00 - 13:30, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?efraim-tcfiltersinsertionrate-talk">https://netdevconf.info/2.2/session.html?efraim-tcfiltersinsertionrate-talk</a></p><h3>Description</h3><div><p>Recent industry movement towards the use of virtual machines in general and
+  SR-IOV in particular has led to a new requirements which did not exist recently:
+  the necessity for rapid update of steering rules. Until recently - the existing
+  TC code allowed for a poor rate of merely 100 rules-updates/sec per priority. A
+  work done recently has improved the insertion rate to 50K/sec. However - this
+  rate still does not satisfy the users who yearn for quantum leap, A rate of
+  1M/sec or better. In this session we will discuss the existing situation, work
+  done so far and ideas on adding batching operation to TC and more future
+  architecture enhancements towards achieving this goal.</p>
+
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/efraim-tcfiltersinsertionrate-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/efraim-tcfiltersinsertionrate-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/mAmEwm21e9Q">video</a> <small>link</small></li></ul></article><article><h2>8. Extend TC to support conntrack (CT)</h2><p class="meta">Talk · 2017-11-08 16:15 - 17:00, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?efraim-extendtctoct-talk">https://netdevconf.info/2.2/session.html?efraim-extendtctoct-talk</a></p><h3>Description</h3><div><p>Recent industry movement towards the use of TC as well as openVswitch (OVS) has created
+  new requirements, one of which is supporting connection tracking (CT).  OVS datapath already
+  uses rules to deliver the packet to CT and rules to act according to CT State.  TC should also be
+  extended to support rules according to CT state.  In this talk, we'd like to present how TC API should
+  be extended in order to use CT as an action and the ability to classify on connection state.</p>
+
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/efraim-extendtctoct-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/efraim-extendtctoct-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/2CcKzGOdyP0">video</a> <small>link</small></li></ul></article><article><h2>9. TC Flower Off‌load</h2><p class="meta">Talk · 2017-11-08 15:00 - 15:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?horman-tcflower-talk">https://netdevconf.info/2.2/session.html?horman-tcflower-talk</a></p><h3>Description</h3><div><p>The TC Flower Classifier allows control of packets based on flows
+  determined by matching of well-known packet fields and metadata. This is
+  inspired by similar flow classification described by OpenFlow and
+  implemented by Open vSwitch. Offload of the TC Flower classifier and
+  related modules provides a powerful mechanism to both increase throughput
+  and reduce CPU utilisation for users of such flow-based systems. This
+  presentation will give an overview of the evolution of offload of the TC
+  Flower classifier: where it came from, the current status and possible
+  future directions.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/horman-tcflower-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/horman-tcflower-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/vCmpSLL-O8Y">video</a> <small>link</small></li></ul></article><article><h2>10. Multi-PCI socket network device</h2><p class="meta">Talk · 2017-11-08 16:15 - 17:00, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?shochat-devicemgmt-talk">https://netdevconf.info/2.2/session.html?shochat-devicemgmt-talk</a></p><h3>Description</h3><div><p>Connecting a network port to the host via multiple PCIe sockets might be desired in these cases:
+
+  </p><dd>1) Systems where the network port speed is higher than that of any available PCIe socket</dd>
+  <dd>2) NUMA (Non Uniform Memory Access) systems</dd>
+
+<p>The first case gets more frequent as network device vendors now introduce 200g ports while most server vendors do not yet provide PCIe sockets with that speed.</p>
+
+<p>In the second case (NUMA systems) a PCIe socket is usually deployed per memory instance.
+  But as long as a network device is connected to just one socket network applications running on remote CPU cores (not local to this socket memory) cannot benefit the NUMA architecture and overload the memories interconnect bus (e.g Intel’s QPI).
+  This may even cause performance degradation of network applications running on local CPU cores.</p>
+
+<p>So far in the kernel, one (or more) network device is created per PCIe network function, upon PCI device probe.
+  This is perfectly fine as long as each PCIe function represents one (or more) network port.
+  Applying this approach to a multi-PCI socket device port is problematic however.
+  One could suggest to apply a Linux bond/team device on top of the per-socket kernel netdevs.
+  But this is not optimal as it (1) does not allow to affine network traffic to the application’s local memory, e.g by using aRFS (2) requires a non-standard method for load-balancing ingress traffic over the PCIe sockets (3) requires a non-standard method to instantiate a single TX/RX queue per CPU core as desired and (4) imposes a cumbersome OS view of multiple netdevs representing a single network port.</p>
+
+<p>In this talk I would like to show a solution that resolves all those issues by representing each multi-PCI socket network device port as a single kernel network device, thus encapsulating and hiding the PCI topology details inside the device driver and relieving the kernel networking stack and the OS from them.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/shochat-devicemgmt-talk.pptx">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/shochat-devicemgmt-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/nYGl1o4Vn_U">video</a> <small>link</small></li></ul></article><article><h2>11. Highly-Scalable Transparent Performance Enhancing Proxy</h2><p class="meta">Talk · 2017-11-10 10:00 - 10:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?chung-highscalablepep-talk">https://netdevconf.info/2.2/session.html?chung-highscalablepep-talk</a></p><h3>Description</h3><div><p>Performance Enhancing Proxies (PEPs) often employed to improve degraded TCP
+  performance caused by characteristics of specific link environments, for
+  example, in satellite, wireless WAN, and wireless LAN environments.  A classical
+  PEP use case is to bridge two different TCP congestion avoidance algorithms; one
+  suitable for wireless and another for wired network.  By terminating an
+  end-to-end TCP flow at the boundary of the networks, PEP allows to use TCP
+  congestion avoidance algorithms designed/tuned for the environment irrespective
+  of TCP versions used by the end-systems.  One of the important traits of such
+  PEP includes IP address transparency to avoid masking the clients from the
+  Internet content servers.  In this talk, we introduce a simple but effective way
+  to build a highly scalable transparent PEP on Linux using HAProxy, an
+  open-source TCP proxy, tc, containers and tproxy module.  This configuration
+  does not require tproxy netfilter hooks to NAT and plumb TCP traffic to the
+  proxy.  The transparent PEP achieved closed to 100K TCP proxy transactions per
+  second with 8KB object download per connection on a single server with 14 core
+  Sandy Bridge CPUs and a RSS enabled NIC.   This is a significant milestone in
+  transparent PEP tuning.  This talk presents performance analysis of the chosen
+  and alternative design options we considered.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/chung-highscalablepep-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/chung-highscalablepep-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/w2hmr6ndj2k">video</a> <small>link</small></li></ul></article><article><h2>12. Performance improvements of Virtual Machine Networking</h2><p class="meta">Talk · 2017-11-09 16:30 - 17:00, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?wang-vmperformance-talk">https://netdevconf.info/2.2/session.html?wang-vmperformance-talk</a></p><h3>Description</h3><div><p>As the high performance userspace networking VM backend
+  becomes popular, it would be more and more interesting to optimize
+  kernel networking data-path. In this talk, the design, implementation,
+  performance and of traditional kernel networking data-path for VM will
+  be first analyzed and discussed. Then various technologies that can
+  improve kernel data-path performance will be proposed and
+  discussed. To explore best parallelism, several new vhost threading
+  models and their prons/cons will be analyzed and discussed. To reduce
+  the latency, busy polling and the possible integration with host
+  networking stack will be talked. To get better cache utilization,
+  batching in various layers from virtio ring to host networking stack
+  will be described and discussed. To get extreme performance, XDP
+  support for virtio-net driver and tap will be analyzed and
+  discussed. At the end of the talk, performance numbers, testing
+  methodology future work will be presented. The audience should be
+  who is interested in kernel networking stack, performance optimization
+  or NFV.</p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/wang-vmperformance-talk.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/OsEaSEUySP8">video</a> <small>link</small></li></ul></article><article><h2>13. WireGuard: Next-generation Secure Kernel Network Tunnel</h2><p class="meta">Talk · 2017-11-09 15:00 - 15:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?donenfeld-wireguard-talk">https://netdevconf.info/2.2/session.html?donenfeld-wireguard-talk</a></p><h3>Description</h3><div><p>WireGuard is a new network tunneling mechanism written for
+  Linux, which, after two years of development, is eyeing upstream
+  inclusion soon. It uses a formally proven cryptographic protocol and
+  has already seen very widespread deployment. WireGuard uses a novel
+  timer mechanism to hide state from userspace, and in general presents
+  userspace with a "stateless" and "declarative" system of establishing
+  secure tunnels. The codebase is also remarkably small and has been
+  written to maintain a secure and compact TCB. This talk will focus on
+  WireGuard's integration into the netdev subsystem, its integration
+  with namespaces, how it differs from xfrm and what that means, why
+  doing this in the kernel is necessary, and the various hurdles that
+  have gone into designing a cryptographic protocol specifically with
+  kernel concerns in mind. This talk is intended to spur discussions
+  with the upstream netdev community.</p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/donenfeld-wireguard-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/donenfeld-wireguard-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/54orFwtQ1XY">video</a> <small>link</small></li></ul></article><article><h2>14. Analysis and Evaluation of TCP Congestion Algorithms</h2><p class="meta">Talk · 2017-11-10 11:00 - 12:00, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?brakmo-tcpcongestionanalysis-talk">https://netdevconf.info/2.2/session.html?brakmo-tcpcongestionanalysis-talk</a></p><h3>Description</h3><div><p>As the number of TCP congestion control algorithms continues to
+  increase, it is important that we have a good understanding of their
+  strengths and limitations. For example, while BBR has demonstrated
+  its ability to control buffer bloat and increase throughput under
+  many scenarios, there have been reports of massive retransmissions
+  (10-30%) under other scenarios.</p>
+
+<p>In this talk I will describe the basic problems facing any congestion
+  control algorithm followed by an evaluation and comparison of a
+  subset of them including New Reno, Cubic, DCTCP and BBR under many
+  different scenarios. Examples of these scenarios are 1, 2, 3, 4, 8,
+  16 and 32 flows at various RTTs and bottleneck bandwidths, Cubic vs.
+  other to see how they interact and how new CAs affect legacy traffic,
+  large vs. small transfers, large vs. small RTTs, etc.</p>
+
+<p>Netesto, a Network Testing Toolkit, is used to run the different
+  scenarios and to collect performance data and to create various
+  graphs. I will make these Netesto scenarios available so others can
+  use them to reproduce the results, regression testing or to evaluate
+   other congestion algorithms.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/brakmo-tcpcongestionanalysis-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/brakmo-tcpcongestionanalysis-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/5iC7j7G8wsw">video</a> <small>link</small></li></ul></article><article><h2>15. TCP-BPF: Programmatically tuning TCP behavior through BPF</h2><p class="meta">Talk · 2017-11-09 14:15 - 14:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?brakmo-tcpbpf-talk">https://netdevconf.info/2.2/session.html?brakmo-tcpbpf-talk</a></p><h3>Description</h3><div><p>Linux provides global and per-connection parameters to fine tune TCP's
+  behavior. Examples of these parameters are buffer sizes, congestion control, and
+  window clamp. Global parameters are useful for setting default parameters, but
+  cannot be tuned for each connection's characteristics. For example, large RTT
+  connections require more buffer space than short RTT connections. There are two
+  mechanisms for setting per-connection TCP parameters: setsockopt and ip route.
+  Setsockopt requires changes in the application and ip route sets the parameters
+  based on route prefixes.</p>
+
+<p>In this talk I will describe TCP-BPF, also known as BPF sockops, as a new
+  mechanism for setting TCP parameters through BPF programs. In addition to the
+  flexibility of using BPF programs to determine the optimal parameters for a TCP
+  connection, TCP-BPF also adds support for new parameters such as SYN RTO and
+  SYN-ACK RTO. A TCP-BPF program can use socket information, such as IP addresses
+  and port numbers, for determining optimal values for TCP parameters. For
+  example, setting buffer sizes to 80KB, SYN and SYN-ACK RTOs to 10ms and TCP's
+  congestion control to DCTCP when both hosts reside within the same ECN
+  supporting datacenter.</p>
+
+<p>In addition to describing the parameter tuning capabilities of TCP-BPF, I will
+  also describe upcoming features such as conditional calling the TCP-BPF program
+  when a packet is retransmitted, when an RTO occurs, when a packet is sent or
+  received, etc. In order to decrease overheads, a per-connection decision can be
+  made at connection establishment regarding which callbacks should be enabled for
+  the connection. Possible uses of this feature are: changing connection
+  parameters when there are too many retransmits (such as flowlabels), statistical
+  data collection and analysis, etc.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/brakmo-tcpbpf-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/brakmo-tcpbpf-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/bPw440ybp-c">video</a> <small>link</small></li></ul></article><article><h2>16. TTCN-3 and Eclipse TITAN for testing protocol stacks</h2><p class="meta">Talk · 2017-11-09 13:30 - 14:15, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?welte-ttcn3-talk">https://netdevconf.info/2.2/session.html?welte-ttcn3-talk</a></p><h3>Description</h3><div><p>TTCN-3 is a domain specific language developed specifically for testing
+  protocol stacks.  It originates in ITU and is now maintained in ETSI.
+  Since the open source release of the Ericsson TTCN-3 compiler as Eclipse
+  TITAN, we can use a Free Software toolchain to develop test suites in
+  this language.  While used for decades in the ITU/ETSI telecom world,
+  TTCN-3 has recently seen adoption in other areas.  Comprehensive test
+  suites are published in source form for IPv6, SIP, WiMax, DIAMETER as
+  well as ePassports.</p>
+
+<p>This talk introduces key aspects of the TTCN-3 language and what it
+  makes particularly well-suited for protocol testing.  It also introduces
+  the Eclipse TITAN compiler and toolchain, as well as some real-world
+  examples on how TTCN-3 can be used to test protocol stacks, together
+  with integration into continuous integration via Jenkins.</p>
+
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/welte-ttcn3-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/welte-ttcn3-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/GSosAKreMBI">video</a> <small>link</small></li></ul></article><article><h2>17. Accelerating XDP programs using HW-based hints</h2><p class="meta">Talk · 2017-11-09 15:45 - 16:30, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?waskiewicz-xdpacceleration-talk">https://netdevconf.info/2.2/session.html?waskiewicz-xdpacceleration-talk</a></p><h3>Description</h3><div><p>As XDP workloads continue to evolve, they are becoming more complex.
+  They can parse deeper into a packet to make more complex decisions, plus
+  they may compute more complex hashing or other CPU-intensive operations
+  to make flow-based decisions.</p>
+
+<p>This talk will focus on immediate efforts to extend the XDP framework to
+  pass HW-based hints that have been computed by the underlying network
+  device.  The intent is to build a framework that is vendor agnostic, so
+  XDP programs don't need to comprehend the underlying device they're
+  running against.  We also intend to share any performance increases on
+  these certain workloads, showing the benefit of using HW hints.</p>
+
+<p>To wrap up, the talk would like to generate discussion on a common
+  interface between eBPF programs and underlying drivers to program what
+  HW hints to actually compute and send to XDP and the eBPF core.  This
+  would include programmability, along with defining a standardized list
+  of protocol id’s, so HW and eBPF programs are fully aligned with data
+  being shared between them.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/waskiewicz-xdpacceleration-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/waskiewicz-xdpacceleration-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/uD1_oAHpUmU">video</a> <small>link</small></li></ul></article><article><h2>18. AF_PACKET V4 and PACKET_ZEROCOPY</h2><p class="meta">Talk · 2017-11-09 11:00 - 12:00, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?karlsson-afpacket-talk">https://netdevconf.info/2.2/session.html?karlsson-afpacket-talk</a></p><h3>Description</h3><div><p>In this talk, the RFC of AF_PACKET V4 and PACKET_ZEROCOPY is presented
+  and discussed. AF_PACKET V4 is a proposed new interface optimized for
+  high performance packet processing. The interface supports zero-copy
+  semantics, to remove expensive memcpy operations, as well as optimized
+  memcpy semantics to support cases where hardware cannot support
+  zero-copy. When a V4 socket is created without the PACKET_ZEROCOPY
+  option, each packet is sent to the Linux stack and a copy of it is
+  sent to user space, so V4 behaves in the same way as V2 and V3.</p>
+
+<p>We then introduce a new optional setsockopt called PACKET_ZEROCOPY,
+  enabling zero-copy and zero syscall semantics on the socket, while
+  still maintaining Linux security and isolation properties. This is
+  achieved by mapping the NIC packet buffers into the user space process
+  memory space, but the HW descriptors are only mapped to kernel
+  space. User space only sees HW-agnostic virtual descriptors and it is
+  the kernel's responsibility to translate between the virtual user
+  space descriptors and HW descriptors. By default in this mode, a
+  packet destined for this socket goes only to user space. Any packet
+  destined for the kernel stack is copied out of the packet buffer (not
+  zero-copy anymore) or filtered out by the NIC (still zero-copy) to
+  another ring even before it gets to the user space packet buffer. This
+  way user space cannot manipulate or see kernel data. The packet
+  destination is determined by programming flow director with tc or RSS
+  with ethtool. With some possible future extensions, XDP is also a
+  great, flexible candidate for determining destination.</p>
+
+<p>The approach provides a performance increase of one to two orders of
+  magnitude for some microbenchmarks compared to previous AF_PACKET
+  versions. We will also have some initial case studies from commercial
+  application vendors. To illustrate the approach, we have implemented
+  support on i40e NICs and veth, but it should hopefully be easy to port
+  to other NICs and virtual devices too. The approach plugs into the
+  existing XDP infrastructure even when PACKET_ZEROCOPY is enabled. XDP
+  programs will be executed on a supplied page from the V4 packet buffer
+  and XDP_PASS passes a packet to the V4 user-space packet buffer
+  without any copies, when a packet is destined for a V4 process with
+  PACKET_ZEROCOPY enabled.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/karlsson-afpacket-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/karlsson-afpacket-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/RSFX7z1qF2g">video</a> <small>link</small></li></ul></article><article><h2>19. State of ECN and improving congestion feedback with AccECN in Linux</h2><p class="meta">Talk · 2017-11-10 15:45 - 16:15, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?kuhlewind-accecn-talk">https://netdevconf.info/2.2/session.html?kuhlewind-accecn-talk</a></p><h3>Description</h3><div><p>Explicit Congestion Notification (ECN) is a TCP extension that allows networks to mark packets when congested instead of dropping them. While ECN provides a clear benefit by avoiding packet loss and subsequent retransmission delays, ECN was never widely deployed due to initial problems with network notes/home routers that would react incorrectly to ECN markings due to implementation errors. These initial problems were overcome and Apple announced in June 2016 that iOS and macOS devices would begin probabilistic attempts to negotiate ECN by default on the client side [1]. While they actually detected some additional deployment problems, leading to reordering or limited throughput with a small number of operators during their beta testing, these operators fixed their networks and no further problems were reported from Apple since.</p>
+
+<p>In addition to the benefits provided by the ECN base extension, there is currently the More Accurate ECN (AccECN) extension under development in the IETF [2], providing more fine grained congestion feedback to the sender. AccECN introduces a new negotiation scheme that both endpoints have to support and changes the feedback format of the receiver to provide the exact number of markings observed to the sender, rather than just providing one indication of congestion per RTT. The sender can use this information as input for advanced and more scalable congestion control that reacts more gradually to the congestion level on the path. One example of such an congestion control, for data center environments, is Data Center TCP (DCTCP) [3]. One of the reasons that DCTCP can only be used in data centers is that there is no negotiation phase in DCTCP that ensures that both ends support the needed ECN feedback format. AccECN addresses this problem and can be easily integrated with DCTCP. Further, there are other current efforts in the IETF [4] that target deployment of more scalable congestion control in the Internet and would also require the more accurate feedback information provided by AccECN.</p>
+
+<p>The AccECN development is basically completed in the IETF, facing the last processing steps before publication, and a proof-of-concept Linux implementation exists [5]. This talk presents AccECN as a proposal for integration in the Linux kernel and aims to foster a discussion on activating ECN by default on the client side, similar as already deployed by Apple, enabling ECN for a proportion of all connections together with careful monitoring and potentially error detection/fallback.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/kuhlewind-accecn-talk.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/CVvKWSGx3fc">video</a> <small>link</small></li></ul></article><article><h2>20. Network stack personality in Android phone</h2><p class="meta">Talk · 2017-11-08 10:15 - 10:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?tazaki-mptcp-talk">https://netdevconf.info/2.2/session.html?tazaki-mptcp-talk</a></p><h3>Description</h3><div><p>Operating systems for mobile devices have always tried to find a
+  trade-off between performance, security and power consumption. Android
+  is actively the most popular smartphone OS, running more than 2
+  billion devices, but while the Linux kernel used by Android benefits
+  from the wide range of hardware devices it supports, its monolithic
+  architectural design inserts some key limitations in resource
+  efficiency, updates delivery (patches - even critical security -
+  inconsistently reaching end devices) and fragmentation.</p>
+
+<p>Linux Kernel Library (LKL) is an open source project that allows us to
+  reuse kernel code in userspace in a modular approach. While running
+  networking operations in userspace is an old concept, its benefits on
+  mobile devices could be major, taking in consideration the OS's fast
+  development cycle. Using LKL, we are able to introduce kernel
+  extensions easier, independently of the hardware platform we run onto,
+  which is of a significant importance for networking and protocol
+  extensions.</p>
+
+<p>A good example is the adoption of Multipath TCP (MPTCP), which runs as
+  a TCP extension and has shown important throughput increase by using
+  multiple paths, especially on smartphones, where we benefit from both
+  cellular and WiFi connections. Vendors have started deploying it, but
+  the process is very heavy since they need to change the kernel of the
+  host in order to use the new features. Another example is represented
+  by congestion control algorithms, where legacy control mechanisms fail
+  to apply due to the limited resources found on smartphones.</p>
+
+<p>We present our efforts to extending LKL on Android. We run MPTCP over
+  LKL in order to demonstrate that it is easy to add kernel extensions
+  by taking advantage of the networking stack personality feature
+  imposed by the library.  We plan to present our experimental results
+  on achieved goodput and processor utilization in both native kernel
+  and LKL under various environment conditions, and hopefully have a
+  demonstration.</p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/tazaki-mptcp-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/tazaki-mptcp-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/oxgoKKjM5c0">video</a> <small>link</small></li></ul></article><article><h2>21. Bufferbloat mitigation in the WiFi stack - status and next steps</h2><p class="meta">Talk · 2017-11-10 13:00 - 13:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?jorgensen-wifistack-talk">https://netdevconf.info/2.2/session.html?jorgensen-wifistack-talk</a></p><h3>Description</h3><div><p>Over the last year, patches for bufferbloat mitigation and airtime
+  fairness have landed in the WiFi stack. The bufferbloat patches improve
+  performance across the board, and airtime fairness further improves
+  performance in the presence of slow stations. In this talk I will go
+  over these improvements and explain the rationale behind them (such as
+  why it was necessary to replace the qdisc with a new internal queueing
+  structure in the WiFi stack), as well as the current status of the
+  implementation.</p>
+
+<p>Following this overview, I will talk about some of the proposed next
+  steps in this line of work. This includes a proposal for a mechanism to
+  set different policies for the airtime usage of stations, as well as a
+  revamped queueing mechanism for smarter QoS priority scheduling.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/jorgensen-wifistack-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/jorgensen-wifistack-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/sZ-l_nBX1VQ">video</a> <small>link</small></li></ul></article><article><h2>22. Arachne: Large Scale Data Centre SDN Testing</h2><p class="meta">Talk · 2017-11-08 13:30 - 14:15, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?aring-arachne-talk">https://netdevconf.info/2.2/session.html?aring-arachne-talk</a></p><h3>Description</h3><div><p>Current state of the art in modern Data Centre structure makes
+  use of multi-stage switching known as a Clos Network. One advantage
+  of a Clos network is it allows for modularity in scaling upgrades.
+  A properly designed Clos network can be upgraded by adding more
+  racks or PODs(Point of Delivery) level without any need for
+  re-arranging the existing connections.</p>
+
+<p>Control of the datapath and other resources in a Clos Network is
+  typically constructed using SDN. A classical SDN setup includes one
+  or more software daemons/agents that run on the control and
+  resource path.</p>
+
+<p>To test scale and robustness of a large SDN deployment
+  requires a large investment in a lot of real switch and
+  server equipment.  Alternatively, one could reduce the amount of
+  equipment needed by using a VM based setup such as [1].
+  For a scale where we need to test 10s of thousands of nodes, using
+  VMs is still a very expensive proposition. Naturally our
+  struggle led us to look at containers.
+  We looked at alternative container-based approaches and concluded
+  the complexity in adjusting them for our needs would be more work
+  and larger maintenance effort.</p>
+
+<p>In this talk we will describe Arachne, a basic SDN test tool, which
+  uses basic linux namespaces.
+  A Linux bridge is created within a Linux net namespace container
+  to emulate either of spine and leaf switches; and basic net namespaces
+  are created to emulate end hosts residing within a data centre rack.</p>
+
+<p>Our focus is to test the scaling of the control-to-resource path
+  domain and not necessarily the scale of datapath traffic.</p>
+
+<p>Arachne takes as its input a Clos Network description. A dot file is generated
+  by Arachne to describe the topology. The dot file is then consumed
+  to construct a Data Centre POD using basic tools such as iproute2.</p>
+
+<p>We will describe Arachne, the challenges we faced during its creation
+  from a networking perspective as well as kernel level issues
+  we had to overcome.</p>
+
+<p>We plan to open source this tool at netdev 2.2</p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/aring-arachne-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/aring-arachne-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/JJbnCrqtp8M">video</a> <small>link</small></li></ul></article><article><h2>23. TLS Receive Side Crypto Oﬄoad</h2><p class="meta">Talk · 2017-11-08 13:00 - 13:30, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?pismenny-tlscrypto-talk">https://netdevconf.info/2.2/session.html?pismenny-tlscrypto-talk</a></p><h3>Description</h3><div><p>Internet encryption is becoming ubiquitous, spearheaded by the Transport Layer
+  Socket (TLS) protocol. TLS provides the advantages of data confidentiality and
+  integrity. However, it increases CPU utilization significantly.</p>
+
+<p>In the past, we have presented crypto offload for TLS transmission on network
+  devices, which allows systems to offload the data-path encryption and
+  authentication of TLS to hardware without modifying TCP.</p>
+
+<p>In this talk we present the challenges of TLS receive side crypto offload, such
+  as reordering and packet loss. Similarly to transmission, our goal is to assist
+  the kernel with offloading the compute-intensive cypto tasks while leaving TCP
+  processing unmodified. We present a design and implementation of a solution that
+  addresses these problems. We evaluate the performance of full TLS offload from
+  several aspects. </p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/pismenny-tlscrypto-talk.pptx">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/pismenny-tlscrypto-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/ZsBrNsKrAag">video</a> <small>link</small></li></ul></article><article><h2>24. RTNL mutex, the network stack big kernel lock</h2><p class="meta">Talk · 2017-11-08 14:15 - 14:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?westphal-rtnlmutex-talk">https://netdevconf.info/2.2/session.html?westphal-rtnlmutex-talk</a></p><h3>Description</h3><div><p>The so-called RTNL mutex is used to serialize rtnetlink requests.
+  rtnetlink is a netlink subsystem used to inspect or change networking
+  related configuration.</p>
+
+<p>Types of rtnetlink requests range from changing link state,
+  adding/removing ipv4 or ipv6 addresses and routes to qdiscs and
+  traffic classifiers.</p>
+
+<p>The widespread use of the RTNL mutex in all major network configuration
+  paths is a growing pain point, f.e. a task adding an ip address prevents
+  another from from seemingly unrelated tasks such as dumping tc classifiers.
+  Furthermore, some code paths can hold the rtnl mutex for very long times
+  (in the order of several hundreds of milliseconds in some cases).</p>
+
+<p>Since 4.14 kernel there is basic infrastructure in place to elide the rtnl
+  mutex for some operations.</p>
+
+<p>This talk dives into the history of the rtnl mutex, explains why its widely
+  used, and discusses needed steps to further reduce rtnl mutex usage in the
+  kernel with the goal to improve concurreny and reduce latencies.</p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/westphal-rtnlmutex-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/westphal-rtnlmutex-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/M6RiQGNz4HE">video</a> <small>link</small></li></ul></article><article><h2>25. XDP + Netem = XNetem</h2><p class="meta">Talk · 2017-11-08 11:00 - 12:00, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?hemminger-XNetem-talk">https://netdevconf.info/2.2/session.html?hemminger-XNetem-talk</a></p><h3>Description</h3><div><p>One of the network testing tools in Linux is netem which provides
+  ability to simulate network impairments such as delay, loss, and
+  corruption. XNetem is a new version which used the Linux kernel XDP
+  facility to implement network impairments using eBPF. Original netem
+  performance was limited by Linux kernel. By evolving to use XDP, netem
+  is able to scale to higher bandwidths such as 10Gbit.
+  Implementing XNetem stretches the limits of what is possible
+  with current XDP infrastructure. This talk will also talk about
+  tradeoff's and potential upstream problems. </p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/hemminger-XNetem-talk.pdf">slides</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/papers/hemminger-XNetem-talk.pdf">paper</a> <small>file</small></li><li><a href="https://youtu.be/RY6mzwHUKCA">video</a> <small>link</small></li></ul></article><article><h2>26. Extending Linux network stack for persistent memory</h2><p class="meta">Talk · 2017-11-10 16:15 - 16:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?honda-extendlinuxstack-talk">https://netdevconf.info/2.2/session.html?honda-extendlinuxstack-talk</a></p><h3>Description</h3><div><p> The socket API was designed to be analogous to disk I/O API, implementing
+  read(), write() and splice() and so on. It is now evolving towards being more
+  optimized for message-oriented workloads, which we have seen in recent patches
+  like KCM, MSG_ZEROCOPY, etc.</p>
+
+<p>Persistent Memory (PM) devices, also known as NVDIMM as well as storage-class
+  memory (SCM), are becoming more common; the interaction of such storage I/O to
+  networking presents new challenges and opportunities for new abstractions on the
+  network stack. With existing APIs, for example, when a server receives data to
+  be durably stored from a client over the network, it must 1.) read data from the
+  network stack, 2.) copy it to a file, then 3.) fsync(), msync() or clflush to
+  physically flush the data, often before acknowledging to the client. There was
+  nothing else someone could do with networking side because the latency of
+  disks/SSDs totally dominated the end-to-end latency. The game changes when PMs
+  are used in place of SSDs/disks: The overhead of the latency is now dominated by
+  end-to-end networking latency.</p>
+
+<p>To address this problem, we introduce PASTE, a network stack design for
+  persistent memory which replace buffer management and APIs. PASTE directly
+  DMA-writes receiving data into a PM region which is organized by DAX-enabled
+  file system, has TCP/IP process the packets, and lets applications read and
+  flush data without data copy. We show its performance improvements as well as
+  implementation details. </p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/honda-extendlinuxstack-talk.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/mAmEwm21e9Q">video</a> <small>link</small></li></ul></article><article><h2>27. Netf‌ilter mini-workshop</h2><p class="meta">Workshop · 2017-11-08 15:00 - 16:15, Workshop Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?ayuso-netfilter-workshop">https://netdevconf.info/2.2/session.html?ayuso-netfilter-workshop</a></p><h3>Description</h3><div><p>Netfilter is the community-driven FOSS software project,
+  launched in 1998, that provides firewalling tools for the Linux
+  kernel. This mini-workshop will make summary of our annual meeting
+  that took place in Faro, Portugal in July 2017. This spot will also
+  leave room to discuss recent Netfilter updates and to detail ongoing
+  development efforts, with specific focus on nf_tables.</p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/ayuso-netfilter-workshop.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/iCj10vEKPrw">video</a> <small>link</small></li></ul></article><article><h2>28. Wireless Workshop</h2><p class="meta">Workshop · 2017-11-09 10:00 - 17:00, Workshop Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?berg-wireless-workshop">https://netdevconf.info/2.2/session.html?berg-wireless-workshop</a></p><h3>Description</h3><div><p>The wireless workshop will bring together the core wireless maintainers, developers and other
+  interested people to discuss current topics in Linuxwireless.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/berg-wireless-workshop.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/WHnvkdf8TOs">video</a> <small>link</small></li></ul></article><article><h2>29. IPsec Workshop</h2><p class="meta">Workshop · 2017-11-08 10:15 - 12:00, Workshop Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?klassert-ipsec-workshop">https://netdevconf.info/2.2/session.html?klassert-ipsec-workshop</a></p><h3>Description</h3><div><p>We have the following (tentative) speakers and topics:
+  </p><ul>
+    <li>Steffen Klassert:
+      <br>Presentation: The IPsec status update.
+      <br>Discussion: Redesigning the IPsec VTI interfaces.</li>
+
+    <li>Donald Skidmore:
+      <br>Presentation: The intel implementation of the IPsec offload support.
+      <br>Discussion: Virtualization with IPsec offload, IPsec offload with OVS</li>
+
+    <li>Boris Pismenny:
+      <br>Presentation: Describe trailer removal, Describe ESN, show performance numbers.
+      <br>Discussion: Full device terminated IPsec offload, software fallback problems common
+      to TLS and IPsec, auth failure using decrypted packet vs. plaintext packet</li>
+
+    <li>Sowmini Varadhan:
+      <br>Presentation: IPsec offload status update for Intel Niantic</li>
+</ul>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/klassert_ipsec_workshop01.pdf">slides 1</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/klassert_ipsec_workshop02.pdf">slides 2</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/klassert_ipsec_workshop03.pdf">slides 3</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/klassert_ipsec_workshop04.pptx">slides 4</a> <small>file</small></li><li><a href="https://youtu.be/AOEpCRsBTIo">video</a> <small>link</small></li></ul></article><article><h2>30. TC Workshop</h2><p class="meta">Workshop · 2017-11-10 13:00 - 16:15, Workshop Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?salim-tc-workshop">https://netdevconf.info/2.2/session.html?salim-tc-workshop</a></p><h3>Description</h3><div><p>Face to Face discussions on different Traffic Control
+  topics. Current WAG agenda (subject to update):
+  </p><ul>
+    <li> New tc feature offloads since netdev 2.1 </li>
+    <li> New features requests/improvements </li>
+    <li> Performance </li>
+</ul>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop01.pdf">slides 1</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop02.pdf">slides 2</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop03.pdf">slides 3</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop04.pdf">slides 4</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop05.pdf">slides 5</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop06.pdf">slides 6</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop07.pdf">slides 7</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop08.pdf">slides 8</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop09.pdf">slides 9</a> <small>file</small></li><li><a href="https://netdevconf.info/2.2/slides/salim-tc-workshop10.pdf">slides 10</a> <small>file</small></li><li><a href="https://youtu.be/1ZskZfIjEUs">video</a> <small>link</small></li></ul></article><article><h2>31. XDP for the Rest of Us</h2><p class="meta">Workshop · 2017-11-08 15:45 - 16:15, Workshop Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?gospodarek-xdp-workshop">https://netdevconf.info/2.2/session.html?gospodarek-xdp-workshop</a></p><h3>Description</h3><div><p>
+  XDP (eXpress Data Path) has been one of the most widely discussed
+  topics for the last few netdev conferences.  XDP is the Linux
+  kernels answer to operating at the same speeds as kernel bypass
+  solutions like DPDK.  The typical use-case discussed for XDP is a
+  large datacenter or clustered environment, but XDP is obviously not
+  limited to those workloads.  Since support for XDP now appears in
+  multiple network drivers (with more patches landing between the time
+  of this writing and the conference date) and is available on x86 and
+  arm64 architectures, there now exists the possibility to allow a
+  greater number of systems to benefit from this technology.
+</p>
+<p>
+  This workshop will reprise NetDev 2.1's Tutorial with the same topic by same speakers.
+</p>
+<p>
+  Learning to use XDP can feel like a fairly steep learning curve, but
+  the goal of this workshop is to make this process clear to kernel
+  developers, sysadmins, or anyone with DevOps responsibilities.
+</p>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/gospodarek-xdp-workshop.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/mGjz3lPgt8I">video</a> <small>link</small></li></ul></article><article><h2>32. Linux networking on network switch</h2><p class="meta">Talk · 2017-11-10 10:00 - 10:45, Talk Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?kim-devicemgmt-tutorial">https://netdevconf.info/2.2/session.html?kim-devicemgmt-tutorial</a></p><h3>Description</h3><div><p>Currently linux networking technolgy is widely used on network device such as Network switches &amp; routers.
+  In this tutorial, I'll cover the examples how to use linux networking features on network devices and install &amp; configure
+  opensource 3rd party linux software packages to leverage vendor's network devices's functionality.
+  And I'll give an exmaples how to use NETCONF &amp; RESTCONF for network device management. </p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/kim-devicemgmt-tutorial.pptx">slides</a> <small>file</small></li><li><a href="https://youtu.be/AJN2uLmQ_hI">video</a> <small>link</small></li></ul></article><article><h2>33. Linux bridge, Layer-2 gateways and Ethernet VPN’s!</h2><p class="meta">Talk · 2017-11-10 13:45 - 14:45, Tutorial Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?prabhu-linuxbridge-tutorial">https://netdevconf.info/2.2/session.html?prabhu-linuxbridge-tutorial</a></p><h3>Description</h3><div><p>The Linux kernel bridge is being deployed at the center of many L2
+  technologies in the data center today. It is complete in its feature
+  set with forwarding, learning and snooping functions. It can extend L2
+  Vlan based switched network on top of a L3 routed network and
+  participate in L2 VPN’s. With recent standardization of EVPN (ethernet
+  VPN), we now have a standard way to learn and distribute mac addresses
+  across overlays via BGP as the control plane. In this tutorial we will
+  look at deploying these L2 gateways and ethernet VPN technologies with
+  Linux bridge and various tunneling technologies in the Linux kernel.
+  We will look at deployment scenarios, troubleshooting such networks
+  and also hardware accelerating such deployments.</p>
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/prabhu-linuxbridge-tutorial.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/OXqJnqH7ZTU">video</a> <small>link</small></li></ul></article><article><h2>34. Status, Open Issues and Extensions for switchdev SR-IOV mode</h2><p class="meta">BoF · 2017-11-08 14:15 - 14:45, BoF Scheduleの表示時刻（ソウル開催）</p><p><a href="https://netdevconf.info/2.2/session.html?gerlitz-sriov-bof">https://netdevconf.info/2.2/session.html?gerlitz-sriov-bof</a></p><h3>Description</h3><div><p>When using the switchdev SR-IOV mode for Ethernet drivers, NIC hardware
+  e-switch programming is done as an offload for the kernel software
+  data-path. The concept uses VF port representor netdevs which allow for
+  standard slow path TX and RX, and an NDO to facilitate offload of TC
+  match/action flows to hardware.</p>
+
+<p>The switchDev SR-IOV mode was introduced in v4.8 of the kernel for the mlx5
+  driver and since then support for it has been added to the nfp and bnxtdrivers.</p>
+
+<p>In this BoF we will review what use-cases are currently supported upstream
+  for flow offloading. We will discuss where better alignment between the
+  different implementations can take place including:
+  </p><dd>- The port model for CPU and physical ports</dd>
+  <dd>- Representor netdev naming conventions</dd>
+
+<p>We will also discuss possible extensions to cover more use cases, among them:
+  </p><dd>- e-switch HA/LAG model challenges</dd>
+  <dd>- L2 FDB virtual switch offload</dd>
+  <dd>- L3 FIB virtual router offload</dd>
+  <dd>- Scalability/applicability for switching container networking</dd>
+
+</div><h3>添付資料URL</h3><ul><li><a href="https://netdevconf.info/2.2/slides/gerlitz-sriov-bof.pdf">slides</a> <small>file</small></li><li><a href="https://youtu.be/Thx31C-V-CU">video</a> <small>link</small></li></ul></article></main><script>const q=document.querySelector('#q'),cards=[...document.querySelectorAll('article')];function filter(){let words=q.value.toLowerCase().split(/\s+/).filter(Boolean),n=0;cards.forEach(c=>{let t=c.textContent.toLowerCase();c.hidden=!words.every(w=>t.includes(w));if(!c.hidden)n++});document.querySelector('#count').textContent=n+' / '+cards.length+' セッション';}q.addEventListener('input',filter);filter();</script><section><h2>個別ページのない補足枠</h2><h3>Openning Session (video)</h3><p>個別URL: 掲載なし / 2017-11-08 9:00 - 9:30 / LOCATION: 14F</p><p>Description: 掲載なし</p><p><a href="https://www.youtube.com/watch?v=76tNho043DI">video</a></p><h3>TBD</h3><p>個別URL: 掲載なし / 2017-11-08 13:00 - 13:30, Talk / LOCATION: 5F</p><p>Description: 掲載なし</p><p>添付資料: 掲載なし</p><h3>Good Morning</h3><p>個別URL: 掲載なし / 2017-11-09 9:00 - 9:15 / LOCATION: 14F</p><p>Description: 掲載なし</p><p>添付資料: 掲載なし</p><h3>Good Morning</h3><p>個別URL: 掲載なし / 2017-11-10 9:00 - 9:15 / LOCATION: 14F</p><p>Description: 掲載なし</p><p>添付資料: 掲載なし</p><h3>Closing</h3><p>個別URL: 掲載なし / 2017-11-10 16:45 - 17:15 / LOCATION: 14F</p><p>Description: 掲載なし</p><p><a href="https://netdevconf.info/2.2/slides/netdev22-closing.pdf">Closing</a></p><h3>Wireless Workshop Status Update (video)</h3><p>個別URL: 掲載なし / 2017-11-10 11:00 - 12:00, Talk / LOCATION: 5F</p><p>Description: 掲載なし</p><p><a href="https://netdevconf.info/2.2/slides/berg-wireless-workshop.pdf">Wireless Workshop Status Update</a></p><p><a href="https://www.youtube.com/watch?v=WHnvkdf8TOs">video</a></p><h3>Lightning Talks (video)</h3><p>個別URL: 掲載なし / 2017-11-10 16:15 - 16:45, Talk / LOCATION: 5F</p><p>Description: 掲載なし</p><p><a href="https://www.youtube.com/watch?v=NE9j74M0P7w">video</a></p><h2>共通資料</h2><p><a href="https://netdevconf.info/2.2/slides/netdev22slides.tgz">slides</a></p><p><a href="https://netdevconf.info/2.2/papers/netdev22papers.tgz">papers</a></p><p><a href="https://www.youtube.com/playlist?list=PLrninrcyMo3K-lAKSMzbjD2P5u2dDzUxI">NetDev 2.2 videos playlist</a></p></section></body></html>

@@ -1,0 +1,724 @@
+Source: https://youtu.be/aTq9v_9CYVM
+Language: en
+Captions: auto-generated
+
+[00:00:00] Hi everyone, I'm Alexander from Tempesta
+[00:00:04] and we're doing uh full stack opensource
+[00:00:08] uh protection against zos attacks and
+[00:00:11] web attacks. Uh this layered um
+[00:00:14] structure the first layer is tempest xfw
+[00:00:19] ebpf model for xgp andc programs uh
+[00:00:24] responsible for volutric dos protection.
+[00:00:27] Next level is Tempest FW. It's for
+[00:00:32] application level HTTP processing uh
+[00:00:35] application layer DOS attacks, web
+[00:00:37] attacks. And the last layer on the top
+[00:00:40] is web shield. It's advanced uh data
+[00:00:43] analytics platform which uh discovers
+[00:00:46] advanced bots. It could be uh scrappers
+[00:00:49] or advanced dos at application level. Um
+[00:00:54] let's have a look on basic architectures
+[00:00:57] for DOS volutric DOS protection. Uh the
+[00:01:00] first one is host basic one example
+[00:01:03] could be CDN age. Uh typically in such
+[00:01:07] deployments we have hundreds or
+[00:01:09] thousands nodes with any cast and um the
+[00:01:13] main point about this uh architecture is
+[00:01:16] that the host uh is TP connection
+[00:01:19] endpoint and works with application
+[00:01:22] level. It could be HTTP server like
+[00:01:25] engine X and Y or DNS server. Uh for
+[00:01:29] this um architecture it's usually
+[00:01:32] um that application level also performs
+[00:01:35] some uh fation on 87 and XTP works
+[00:01:40] perfectly in this scenario because it's
+[00:01:42] integrated natively with Linux
+[00:01:43] networking and application level
+[00:01:45] processing. Next one is a basic uh
+[00:01:48] router like Linux router with uh DOS
+[00:01:52] protection. We just pass all the packet
+[00:01:54] through the device. And the last
+[00:01:57] architecture is the most tricky one for
+[00:02:00] implementation. It's a redirection or
+[00:02:02] asymmetric architecture. In this uh H we
+[00:02:05] have a H uh router probably border
+[00:02:08] router and it uh sends uh traffic to uh
+[00:02:12] next level routers like uh data center
+[00:02:15] routers. Uh the H router sends um
+[00:02:20] separate flows uh telemetry to do uh
+[00:02:25] sensor and do sensor. Once it detects a
+[00:02:29] DOS attack, it uh sends notification to
+[00:02:33] uh DOS mitigation controller and
+[00:02:35] controller issue fation policies for the
+[00:02:39] age router and uh age router redirects
+[00:02:44] the uh particular prefixes uh for DOS
+[00:02:48] scuba. Uh the important thing about this
+[00:02:51] architecture is that rest of the
+[00:02:54] prefixes not affected by the DOS attacks
+[00:02:56] continue to be routed through uh
+[00:03:00] directed to the DCM router. Um if uh
+[00:03:04] scrubber at some point fails, we still
+[00:03:07] have a working data plane. No DOS
+[00:03:10] protection, but the data plane uh still
+[00:03:12] works. It's also possible to use the
+[00:03:16] same uh futation archite fation
+[00:03:19] infrastructure for several age routers.
+[00:03:22] So resource ush usage is more optimized.
+[00:03:26] Uh and um uh this hard for
+[00:03:31] uh for the cover to implement. Um this
+[00:03:36] um problem for for this architecture is
+[00:03:39] that usually takes some time to
+[00:03:43] uh analyze send uh telemetry analyze it
+[00:03:46] and issues the filtration policies. It
+[00:03:48] may take uh several seconds or up to one
+[00:03:52] minute. And the recent uh DOTS attacks
+[00:03:55] usually uh well sometimes uh use hit and
+[00:03:59] run uh pattern when um attack lasts only
+[00:04:03] for several seconds maybe 20 seconds and
+[00:04:06] that's it. Uh you're not in time to
+[00:04:08] apply the filration policies the whole
+[00:04:11] attack pass through the protected
+[00:04:13] infrastructure. So uh to cope with this
+[00:04:16] problem uh usually uh hybrid
+[00:04:19] architectures are deployed when uh the
+[00:04:22] age goer um uh employs uh simple
+[00:04:26] filration logic which is uh fast and
+[00:04:29] also provides the lowest false positive.
+[00:04:32] This could be uh weight limits uh white
+[00:04:34] and black listing and so on and more
+[00:04:37] advanced tools comes to two redirection
+[00:04:41] um redirections architecture. Uh two
+[00:04:45] important things about this architecture
+[00:04:47] why it's hard for the scriber to
+[00:04:50] implement. Uh the first one is that
+[00:04:52] scabber sees only uh traffic containing
+[00:04:55] the attack. it doesn't see uh clean
+[00:04:58] client traffic and cannot learn from the
+[00:05:01] normal traffic profile. And the second
+[00:05:03] one is that direct server return is
+[00:05:06] usually employed. So scarab doesn't see
+[00:05:10] uh traffic only client one. Uh usually
+[00:05:14] did protection built on with lay
+[00:05:17] architecture. The first layer is the
+[00:05:19] faster logic uh with less um false
+[00:05:23] positive for example SMP limit black and
+[00:05:26] white list by source IP or ports uh very
+[00:05:30] simple logic which usually comes first
+[00:05:33] it's um makes sense to pro provide black
+[00:05:38] and white lists for s ports for example
+[00:05:40] to mitigate um DNS reflection attack so
+[00:05:44] if large volume of DNS responses comes
+[00:05:48] to to your site, you can reload the
+[00:05:50] attack simply by filtering the source
+[00:05:53] port 53. Uh next filters uh like CP and
+[00:05:58] DB are nomali filters may uh expose uh
+[00:06:02] high false positives because normal is
+[00:06:05] not necessarily attacking traffic and uh
+[00:06:08] fters like TCP flow authentication are
+[00:06:11] more expensive involving several BPF
+[00:06:13] maps comes next. Uh s cookies more
+[00:06:17] advanced active protection comes the
+[00:06:20] last but the very last layer is
+[00:06:23] destination protection. Destination
+[00:06:25] protection is actually last result
+[00:06:27] filter. If um mitigation device fails to
+[00:06:32] filter the DOS attacks uh the as the
+[00:06:35] last result we just rate limit uh
+[00:06:38] destination endpoint. We not allowed to
+[00:06:41] send more traffic than specified rate
+[00:06:43] limit for the destination. For example
+[00:06:46] in Voy HP proxy uh implements very
+[00:06:49] similar rate limit to protect web
+[00:06:51] endpoints.
+[00:06:56] In our
+[00:06:58] um in tempx FW the most of the logic
+[00:07:01] happens on LCP program and we use also
+[00:07:05] TC uh hooks for only for agress traffic
+[00:07:10] but for address we typically have two
+[00:07:12] interfaces um uh downstream uh with the
+[00:07:15] client and upstream for the servers and
+[00:07:18] we put TC hook on both the address for
+[00:07:20] downstream and address for upstream uh
+[00:07:24] mainly it's used for three things. The
+[00:07:26] first one is for DNS filtration. We
+[00:07:30] monitor DNS queries uh redirect uh
+[00:07:34] forwarded or generated by local uh
+[00:07:36] server and allow responses only for uh
+[00:07:40] the queries which we have seen. Uh
+[00:07:43] another one is destination filter. It's
+[00:07:46] last resort. So obviously sorry
+[00:07:48] obviously it stays on um uh TC address
+[00:07:52] and TCP flows authentication.
+[00:07:56] uh probably we need a better name for
+[00:07:58] this filteration but the main idea of
+[00:08:01] the filter is to block uh and RST floods
+[00:08:07] and uh the idea is simple just to block
+[00:08:11] um such TCP segments for the flow which
+[00:08:15] we didn't see uh if we see TCP handshake
+[00:08:18] uh for particular flow then we allow uh
+[00:08:22] Taka request or RST if we didn't then we
+[00:08:25] don't allow uh appropriate uh packets.
+[00:08:29] Uh the interesting thing is that if we
+[00:08:32] have a uh host which is proxying traffic
+[00:08:36] in gate mode or http proxy and at some
+[00:08:39] point we decide to switch the protection
+[00:08:41] on authentication. It means that um at
+[00:08:45] this point of time the system didn't see
+[00:08:47] any flows because it protection was
+[00:08:50] inactive and starts to block all the car
+[00:08:52] packets and all the CP sessions
+[00:08:55] immediately hang to avoid such uh
+[00:08:58] problem we uh always even if uh this
+[00:09:01] protector is switched off we always
+[00:09:04] collect the flows. So once the protected
+[00:09:06] is activated we have the flow stable and
+[00:09:09] can uh find all the uh required faults.
+[00:09:15] We uh clear state uh flow states on
+[00:09:19] aggressive packets which we sent or
+[00:09:21] forwarded or after 1 minute if we sent a
+[00:09:25] fin packet. Um at this point uh we
+[00:09:30] observed three uh deployment
+[00:09:32] architectures and uh this is exactly the
+[00:09:36] point where they different. So the most
+[00:09:39] of the logic is applicable for all the
+[00:09:42] three deployment scenarios. However for
+[00:09:46] protection uh requires different
+[00:09:48] solution for each of the architecture.
+[00:09:50] For host protection it's basic uh sin
+[00:09:53] cookies. we can implement them on XGP
+[00:09:56] side. There was a paper also on NDF. Uh
+[00:10:00] the next one for gateway is typically
+[00:10:02] synchry. There's implementation in Linux
+[00:10:05] kernel. We didn't uh port it yet but uh
+[00:10:08] we'll do this soon. And the lastly is um
+[00:10:13] uh scriber mode and this not much we can
+[00:10:16] do in this uh federation. Uh the first
+[00:10:20] thing is that the most of shin flat
+[00:10:22] attacks are spoofed. So there's no sense
+[00:10:24] to wait limit part every IP address by
+[00:10:27] the weight limit of number of sin
+[00:10:30] packets. Uh we can only limit the total
+[00:10:34] number of English sin packets. It means
+[00:10:37] that uh new connections cannot be
+[00:10:39] established at the DOS attack but
+[00:10:42] existing TP connections won't be
+[00:10:44] affected. And another technique we still
+[00:10:47] didn't implement it but it's in our
+[00:10:50] to-do is to drop the first shin packet.
+[00:10:54] drop the first scene packet. Uh make a
+[00:10:58] flow record in a map that particular IP
+[00:11:00] address has sent uh seen at particular
+[00:11:03] time stamp and if the second uh scene uh
+[00:11:07] comes we check the time stamp uh how
+[00:11:10] recently it was uh we saw the previous
+[00:11:13] scene and if the timeout is uh fine it's
+[00:11:16] not too too long and not too short then
+[00:11:18] we can pass the second scene. Um in this
+[00:11:22] case attacker can still send uh two
+[00:11:24] scenes with appropriate timeouts but the
+[00:11:27] attack becomes much more expensive.
+[00:11:31] Uh the next thing is about uh weight
+[00:11:33] limiting. Uh we have um uh in our case
+[00:11:37] we have weight limits on application
+[00:11:39] level and network level and they quite
+[00:11:43] different uh on both the layers. On
+[00:11:46] application level, for example, we might
+[00:11:48] have uh 300 requests immediately for
+[00:11:52] WordPress index page for very simple and
+[00:11:55] low visited uh website. So however, if
+[00:11:59] we uh write a weight limit for 300
+[00:12:02] requests per second for such it could be
+[00:12:06] uh too much because such can have only
+[00:12:09] 300 views per day. So 300 requests could
+[00:12:13] be even like a small uh DOS attacks. Uh
+[00:12:17] so in this case we need a limit for a
+[00:12:20] longer period of time like 20 seconds.
+[00:12:23] We make some provision to thousand
+[00:12:27] requests per second. But uh with 20
+[00:12:31] seconds we now there's a good uh time
+[00:12:35] frame to launch uh hit and run attack
+[00:12:38] exactly like for 10 or 20 seconds. So we
+[00:12:41] also need a bust limit to limit exactly
+[00:12:45] and cap the
+[00:12:48] bust request to index page. Uh from the
+[00:12:51] other hand on network layer we operate
+[00:12:54] with bytes per second uh packets per
+[00:12:57] second and uh 1 second uh time frame is
+[00:13:01] too short for uh complete do stack. So
+[00:13:04] we can uh use different approach without
+[00:13:07] explicit uh bugs.
+[00:13:10] Uh token buckets and ricky buckets are
+[00:13:12] popular uh algorithms. Uh they are
+[00:13:16] essentially the same in case of ricky
+[00:13:18] buckets using the counter. The
+[00:13:20] difference just between the algorithm is
+[00:13:22] that whether you use subtraction or
+[00:13:24] addition. Um this very efficient
+[00:13:27] algorithm requiring only a couple of
+[00:13:30] counters. uh it provides actually some
+[00:13:33] bashing but busted essentially is
+[00:13:35] limited by the current uh token numbers
+[00:13:38] and um it means that it's vary depending
+[00:13:41] on the current state. Uh another
+[00:13:44] approach is stranging windows. Uh the
+[00:13:46] first approach is naive just to split
+[00:13:49] the additional interval for several sub
+[00:13:52] intervals and uh use them as a histogram
+[00:13:56] to put uh counters in each of the uh sub
+[00:13:59] interval and uh now we can uh limit the
+[00:14:03] bust with for each of the sub interval.
+[00:14:07] Uh the drawback of this approach is that
+[00:14:11] uh depending on implementation you still
+[00:14:13] need to uh loop over all the intervals.
+[00:14:16] So it's not so efficient as um leaky
+[00:14:19] buckets or token buckets. uh in
+[00:14:22] quadflare uh post there was
+[00:14:24] approximation. We can consider that all
+[00:14:28] the requests are uniformly distributed
+[00:14:30] in a small uh time frame uh time frame
+[00:14:33] for limit in this case for 1 second.
+[00:14:37] This uh working assumption for a short
+[00:14:40] uh period of time like 1 second but
+[00:14:43] doesn't work for longer period of time.
+[00:14:45] So on um network layer uh the weight
+[00:14:49] limiting works on application layer
+[00:14:51] doesn't
+[00:14:53] uh about the dos uh DNS protection for
+[00:14:58] DNS protection at the moment we do only
+[00:15:00] two simple things the first one we pass
+[00:15:03] uh queries and responses it means that
+[00:15:06] random uh UDP flat will be filtered as m
+[00:15:10] for requests on responses and the second
+[00:15:13] one is um uh we uh using uh TC program
+[00:15:18] we filter all the responses filter out
+[00:15:21] all the responses which didn't see
+[00:15:24] queries form uh in future work we can
+[00:15:27] implement to compute DNS uh cookies
+[00:15:30] modern DNS servers all support uh DNS
+[00:15:34] cookies mechanism u somewhat similar to
+[00:15:38] TCP sync cookies and we can accelerate
+[00:15:41] queries uh for non-existent domains and
+[00:15:45] existing responses. So protection will
+[00:15:48] be not only uh protect against DOS
+[00:15:51] attack but also activates the DNS
+[00:15:53] application.
+[00:15:55] Um monitoring and this logging is very
+[00:15:59] uh important stuff for DOS protection uh
+[00:16:02] and we use uh TFW logger uh user space
+[00:16:06] demon to collect uh statistic and send
+[00:16:10] it. Uh we use uh BPF maps to collect the
+[00:16:14] incidents in the Canon BPF. Uh incidents
+[00:16:18] means a blocked pike packets for one
+[00:16:21] reason or another. And uh the user space
+[00:16:26] uh demon spawns uh per CPU threads and
+[00:16:30] um fetches the data from the maps and
+[00:16:33] packs it uh the the data into optimized
+[00:16:37] buffers to ingest to click house.
+[00:16:41] We use uh hash uh maps for events
+[00:16:45] aggregation. We didn't use uh PF events
+[00:16:48] because we need aggregation like um XGP
+[00:16:52] can work with uh hundreds mega mega
+[00:16:55] packets per second and we cannot um
+[00:16:58] launch so large amount of data to user
+[00:17:01] space. So we uh aggregate flows by
+[00:17:05] source IP address and uh export only
+[00:17:08] unique IP address. Uh this why we need a
+[00:17:11] hash with key by IP address. We also use
+[00:17:15] uh two maps uh active and inactive maps.
+[00:17:19] Active map is the current map used by
+[00:17:21] EBPF to store events and an active map
+[00:17:24] is used by TF W logger to write events
+[00:17:29] to click house. Uh by timeout or filling
+[00:17:34] um 80% of active map the maps are
+[00:17:38] switched. Uh also we didn't use uh per
+[00:17:42] CPU uh hash maps because the hashmap uh
+[00:17:46] shares uh key space among uh CPUs. Uh
+[00:17:49] this uh bucket lock and the one of the
+[00:17:53] problem with the hashmap is that uh
+[00:17:57] usually um network adapters distribute
+[00:18:01] English traffic and usually the same IP
+[00:18:04] address s IP address isn't presented to
+[00:18:07] know the CPU course. So it doesn't make
+[00:18:10] sense to use the same key space on all
+[00:18:12] the CPUs. And uh another thing about
+[00:18:16] separate key spaces is that if we run
+[00:18:19] out of key space then uh only one CPU
+[00:18:24] will stack and swap the maps. So we use
+[00:18:27] just a array of maps uh indexed with CPU
+[00:18:31] ID.
+[00:18:33] Uh evaluation mode is another important
+[00:18:35] stuff for production deployment as uh
+[00:18:38] incident logging. It's just a dry run.
+[00:18:41] We uh return um XP pass and react
+[00:18:47] O instead of uh dropping the packet and
+[00:18:50] only uh protection which is not suitable
+[00:18:52] for this mode is um active response
+[00:18:56] filtering like single keys.
+[00:18:59] um performance stuff. Um this couple of
+[00:19:03] links the first one is uh performance
+[00:19:05] results which I will show in the slides
+[00:19:07] and another one is engineering documents
+[00:19:10] which we use internally to run the uh
+[00:19:12] performance benchmarks set up the test
+[00:19:15] beds and so on. We use uh more or less
+[00:19:18] similar uh hardware for traffic
+[00:19:21] generator and system under test. uh for
+[00:19:24] system under test we have a network
+[00:19:25] adapter connected to the first CPU
+[00:19:27] package and in all the benchmark we use
+[00:19:30] only the first uh CPU package. So
+[00:19:33] essentially all the numbers for single
+[00:19:35] uh zone gold we use TX 28 C is now for
+[00:19:40] saturate 200 gigs and we have a connect
+[00:19:43] six adapters uh draw port by 100s.
+[00:19:48] Um ICMP flat is the most uh simple that
+[00:19:52] it uh situates um almost 200 uh megabyte
+[00:19:58] mega packets per second. And in this
+[00:20:01] benchmark, we use it configuration with
+[00:20:04] 150,000
+[00:20:07] white twisted uh prefixes and addresses
+[00:20:11] just to check that we can run the
+[00:20:14] uh the benchmark with more or less uh
+[00:20:18] reasonable practical configuration.
+[00:20:20] Another benchmark is mixed uh very short
+[00:20:24] uh TCP uh segments with um large UDP. So
+[00:20:29] uh traffic uh is almost 200 gigs much
+[00:20:33] lower uh packets per second. Uh s rate
+[00:20:36] limit uh is a simple rate limit for
+[00:20:39] scrubbing um like 100 gigs. Not so bad,
+[00:20:43] not so good. Uh we also measured uh
+[00:20:45] latency. Um it's TX measured latency. We
+[00:20:50] compared uh a simple server without XFW
+[00:20:55] and without a DOS attack and um XFW
+[00:20:59] filtering dissipation food uh just a
+[00:21:02] small foot of 10 million packets per
+[00:21:04] second and 17 average uh 17% of latency
+[00:21:09] and maximum uh 39 and uh shinookies is
+[00:21:13] the most interesting on this slide is uh
+[00:21:16] we use uh uh kernel uh CIS CTA one. So
+[00:21:21] kernel switches between passive and uh
+[00:21:24] flat mode and inside the XGP solution we
+[00:21:27] use passive and flat timer as 1 second.
+[00:21:30] Uh TX reported
+[00:21:32] 149 mega packets per second. However on
+[00:21:37] receive side we observe it three times
+[00:21:40] lower um bytes per second counter. So it
+[00:21:44] seems that we receive three times less
+[00:21:47] number of shin etaka packets. It was
+[00:21:51] expected due to configuration that some
+[00:21:53] of CN will be not uh generated because
+[00:21:58] some of the traffic is passes to the
+[00:22:01] kernel but um not not so high rate and
+[00:22:05] we found that uh this high uh values of
+[00:22:09] packet drops on network receive buffer
+[00:22:13] uh network adapters.
+[00:22:15] uh we digged into uh the problem and uh
+[00:22:19] we uh struggle on uh socket lookup and
+[00:22:23] actually we do two socket uh lookups one
+[00:22:26] on sin packet another for packet uh for
+[00:22:30] sin we need socket for uh to generate uh
+[00:22:34] sin cookie and on on we need to validate
+[00:22:37] that this comes for leing socket if it's
+[00:22:41] for establish socket we just pass it to
+[00:22:43] the kernel if It's for listener. We try
+[00:22:46] to compute cooking and validate it. Um
+[00:22:50] unfortunately BPF look up TCP falls to a
+[00:22:53] net lookup which lookups not only
+[00:22:56] listening sockets but also for
+[00:22:58] established sockets. In our benchmark we
+[00:23:00] didn't have many established connections
+[00:23:03] but on a real server with uh like one
+[00:23:06] million established TP connection uh
+[00:23:09] look up establish it becomes expensive
+[00:23:11] and we will spend time in this uh
+[00:23:14] lookups in uh our measurements we all
+[00:23:17] the related uh cost for lookup we took
+[00:23:20] about 8 to 9% of uh CPU time uh so we
+[00:23:26] when uh can go with low versions of the
+[00:23:31] functions. Uh it has several advantages.
+[00:23:34] It doesn't run several checks so it will
+[00:23:37] be bit uh more cheaper. However,
+[00:23:40] original BPFTP gin cookie takes less
+[00:23:42] than one second. So it's not uh so
+[00:23:45] expensive and uh the main point is that
+[00:23:48] row calls don't need uh socket uh so we
+[00:23:52] don't need socket look up but
+[00:23:54] unfortunately for cookies we need to
+[00:23:57] interact with the kernel and we need to
+[00:23:59] work with the kernel state of uh
+[00:24:03] listening sockets whether the socket is
+[00:24:05] in flat mode or
+[00:24:08] u passive mode and uh this means that
+[00:24:11] periodically we still need to for BPF,
+[00:24:14] TCP, Gen Suki, but you can do this much
+[00:24:18] uh verely and significantly decrease
+[00:24:20] number of uh lookups. Uh the next thing
+[00:24:24] is about processing is um uh checking
+[00:24:28] cookie. We started with the BPFTCP check
+[00:24:32] and found that the API of the function
+[00:24:35] is quite inconsistent. Uh it returns the
+[00:24:38] same return values for quite different
+[00:24:40] events. for example involve for bad TCP
+[00:24:44] header uh bad TCP header and also
+[00:24:47] disabled syn cookies in end for long u
+[00:24:52] TCP flags or for no recent flow event.
+[00:24:56] So in inside the feature it's quite hard
+[00:24:58] to manage the return values for the call
+[00:25:03] and um we don't know whether to drop
+[00:25:05] packets or to pass it and uh there was a
+[00:25:09] patch in mainstream which uh tried to
+[00:25:13] adjust the mess in return codes.
+[00:25:15] Unfortunately, it wasn't accepted, but
+[00:25:18] there is a low uh versions of the call
+[00:25:22] uh which um uh don't run the uh check
+[00:25:27] and also avoid the uh socket to look up.
+[00:25:30] The problem with um with uh the code
+[00:25:34] that they don't call TPC nor recent
+[00:25:37] which checks again the uh state of
+[00:25:40] listener socket and uh seems impacts uh
+[00:25:44] performance for inflat mode. It's not
+[00:25:46] good but what what we have the last
+[00:25:49] topic is uh about ebpf verifier.
+[00:25:54] Uh basically when a new developer just
+[00:25:56] starts um XTP programming it's easy to
+[00:26:00] start to fit just uh verify
+[00:26:04] um logs into some LLM and ask to analyze
+[00:26:09] uh the trace and in some easy uh cases
+[00:26:13] LLM can even fix the problem on its own.
+[00:26:17] uh however it starts with more
+[00:26:18] sophisticated cases for like TCP options
+[00:26:21] passes this quite hard problem and in
+[00:26:24] our case for TP cookies we need to pass
+[00:26:27] six uh five uh options plus one default
+[00:26:31] options and what we had uh we started
+[00:26:34] from TP power swaps function it's a
+[00:26:37] static no inline function so this no um
+[00:26:43] this no this unique context for BPF uh
+[00:26:48] pass only for this uh function. We
+[00:26:50] iterated for 40 TP options and this a
+[00:26:55] regular C uh switch uh four six options
+[00:26:59] with some small code. Everything worked
+[00:27:03] well until we found uh actually um
+[00:27:08] external contributor found the problem
+[00:27:10] in this uh function proposed that fix.
+[00:27:14] Um simple bug, simple fix. Uh very min
+[00:27:17] changes in the pass but verify stopped
+[00:27:21] to accept the code and a lot of time was
+[00:27:23] spent to adjust the patch to pass the
+[00:27:26] verify with no luck.
+[00:27:29] Um some articles talks help with general
+[00:27:36] um points about verify friend code like
+[00:27:39] replace uh basic for C loops like for a
+[00:27:44] while with BPF 4 BPF loop um it helped a
+[00:27:49] little bit um
+[00:27:53] fails but it still can explain what's
+[00:27:55] the problem it can analyze the trace
+[00:27:58] from the verifier and uh link with the C
+[00:28:02] program and provide the states of
+[00:28:04] registry. So it's really helpful for
+[00:28:07] analyzing but um after that uh we tried
+[00:28:11] to just reduce the complexity of the
+[00:28:13] passing function reduce to only three
+[00:28:16] options um loop to three iterations and
+[00:28:20] to pass to the only the most simple
+[00:28:24] options and one generic and still have
+[00:28:26] the same problem with uh verifier.
+[00:28:29] Another problem is uh interoperability
+[00:28:32] between EVPF verifier and AVM compiler.
+[00:28:36] On this slide we have four assertions
+[00:28:40] and uh the last assertion was required
+[00:28:43] by EBPF because on the second assertion
+[00:28:48] we proved that the first bite access is
+[00:28:51] okay. This require for to read the kind
+[00:28:54] of the option. But when we come to the
+[00:28:58] actual uh options this case uh window
+[00:29:02] scale we need to assume the first that
+[00:29:05] the length read length for the options
+[00:29:08] is three bytes and the next that we can
+[00:29:10] access the third bite with the value of
+[00:29:14] the option. So we need to prove that all
+[00:29:16] plus three uh with scale size is less
+[00:29:20] than data end. Um that's okay. We made
+[00:29:24] the code and EBPF rejected the code
+[00:29:27] because LVM actually optimized out the
+[00:29:30] last chair because it sees that uh opt
+[00:29:34] is proofed that it's TP op scale from
+[00:29:37] the previous assession and the second
+[00:29:40] assertion states that O plus scale less
+[00:29:44] than data end. Uh again this uh LM was
+[00:29:49] very helpful to quickly analyze this uh
+[00:29:51] case but still uh this this painful
+[00:29:55] uh this work with TP options is still
+[00:29:58] ongoing. This reference to open source
+[00:30:00] pull request. We tried to apply uh TP
+[00:30:05] options passing from XP proxy kernel. Um
+[00:30:11] basically that approach used uh six
+[00:30:14] batches with BPF loop we uh for function
+[00:30:18] call iterating seven times over uh TP
+[00:30:23] options. So 42 iterations in total.
+[00:30:25] However when we applied it to our code
+[00:30:28] EBPF verifier allowed us to run only two
+[00:30:32] batches. So we have a limit for 14
+[00:30:35] options. this working uh solution
+[00:30:38] probably for most of the scene packets
+[00:30:41] 14 options is enough but we care about
+[00:30:44] corona cases to not to block um um valid
+[00:30:50] traffic we still have more than 14
+[00:30:51] options. So we try to play with
+[00:30:55] vectorzed processing TP options are
+[00:30:57] always for uh four bytes. So we have a
+[00:31:01] loop over 10 batches. We read TP options
+[00:31:04] with integer for byte integer and we
+[00:31:07] need an another integer large integer
+[00:31:10] for buffer. Everything went uh well
+[00:31:15] until time stamp option. Time stamp
+[00:31:17] option is long enough and we f
+[00:31:22] out of four four bytes buffer. we need a
+[00:31:26] five byte buffer and uh uh the resulting
+[00:31:29] code becomes very quickly and very
+[00:31:32] sophisticated and still rejected by the
+[00:31:34] verifier.
+[00:31:36] So that's all from my side. It's uh time
+[00:31:38] for lunch. Uh the source code is
+[00:31:41] available on GitHub and the project
+[00:31:43] documentation how to configure how to
+[00:31:45] play it on our website. So that's all I
+[00:31:48] see a lot of hands. That's good.
+[00:31:56] Uh sorry
+[00:31:58] >> the button is hit. Okay. Did you try BPF
+[00:32:01] loop the helper for force for the for
+[00:32:04] loops?
+[00:32:04] >> Yeah. Yeah. Um in variz processing we
+[00:32:08] have a BPF loop and also the ex also
+[00:32:13] uses this uh BPF loop exactly the
+[00:32:16] batches six or two batches in BPF loop.
+[00:32:20] Okay. Ah
+[00:32:20] >> sorry.
+[00:32:22] I'm just surprised to see that you have
+[00:32:24] this problem.
+[00:32:25] >> Yes, I'm too. And uh because I've done
+[00:32:28] the same thing and yeah with VPS loop
+[00:32:31] loop it was trivial.
+[00:32:32] >> Yeah. Do you have a open source code for
+[00:32:35] some switch statement?
+[00:32:39] >> Um so I also have a comment regarding
+[00:32:41] the same code. Um generally when uh you
+[00:32:44] have really high complexity with the
+[00:32:46] verifier it's because the verifier
+[00:32:47] cannot uh prune the state base
+[00:32:49] appropriately. Um and that generally
+[00:32:52] happens when uh during a loop iteration
+[00:32:56] um the uh registers are changing and
+[00:33:00] after a certain point of uh kernel
+[00:33:02] version uh the st some slots in the
+[00:33:05] stack are changing as well. So it cannot
+[00:33:07] um reach the conclusion that the uh
+[00:33:10] state across loop to loop is something
+[00:33:13] it can prune. So one trick that you can
+[00:33:15] try with this is offloading the state
+[00:33:18] variables uh in the loop to a per CPU
+[00:33:22] map or something because the verifier
+[00:33:24] does not track the uh bounds of the
+[00:33:27] values in per CPU map. So in that case
+[00:33:29] it may be more effective in uh pruning
+[00:33:31] the state space which may reduce the
+[00:33:34] complexity. So move the move the uh
+[00:33:37] state variables out of registers and
+[00:33:39] after certain kernel version out of the
+[00:33:40] stack and into like a per CPU variable
+[00:33:44] uh like scratch space.
+[00:33:45] >> Okay. Yeah, thank you for like I will
+[00:33:47] try this. Thank you.
+[00:33:50] >> Yeah, thank you very much for
+[00:33:51] presentation. Yeah, I agree the scratch
+[00:33:54] buffer is like the must have in XP
+[00:33:56] program. You cannot live without it. Uh
+[00:33:58] but I also wanted to add like when
+[00:34:00] you're building the uh DOS protection
+[00:34:03] suit. So it's actually the
+[00:34:06] uh this uh steaming machine because like
+[00:34:10] it's just build the steam while you're
+[00:34:12] working with the u
+[00:34:16] with the packets. So the the packet rate
+[00:34:18] is very high and you have to like build
+[00:34:20] all those like steam release valves all
+[00:34:23] across the program. So you already said
+[00:34:25] that you have problems with uh using uh
+[00:34:30] P some PCPU maps because they have
+[00:34:32] shared the key space and like insertions
+[00:34:36] like very bad there. Uh so we also have
+[00:34:39] to do this and like use array for uh for
+[00:34:43] allocating like distinct map for each
+[00:34:46] CPU. uh it helps with the performance
+[00:34:50] but this problem cannot be taken like uh
+[00:34:54] as a its own problem. So it's not
+[00:34:56] problem with the performance of the
+[00:34:58] dodos application it's also performance
+[00:35:00] with the protected application because
+[00:35:02] if you like
+[00:35:05] uh solve your problem on like adding
+[00:35:07] into the maps very quickly and you have
+[00:35:11] like much more clean traffic to forward
+[00:35:14] to the protected application. it doesn't
+[00:35:16] really means up that the protected
+[00:35:18] applications really can keep up with it
+[00:35:21] and uh the the example that you give
+[00:35:24] that there is like some WordPress
+[00:35:26] websites with a very small traffic and
+[00:35:29] uh so should we like pass more traffic
+[00:35:32] to this or not and it's happens very
+[00:35:34] often when you have a like a protected
+[00:35:37] application but it's so dumb written
+[00:35:39] that it's not like uh processing traffic
+[00:35:42] very much and so you have to like
+[00:35:44] moderate the amount amount of created
+[00:35:47] states just because like anyway nothing
+[00:35:50] is going to survive behind you on this
+[00:35:53] state. So you have to like take the
+[00:35:55] whole system in whole like not only your
+[00:35:59] DOS protection system but also like the
+[00:36:01] protected systems itself. So can they
+[00:36:04] keep up cannot? And uh like a last I
+[00:36:08] think comment is like you uh time to
+[00:36:11] time you tend to generate some traffic
+[00:36:13] outbound. So like uh for like for
+[00:36:16] cookies processing and all that stuff.
+[00:36:18] This is also like another like steam
+[00:36:21] pressure that you have to release
+[00:36:23] because if you generate a lot of traffic
+[00:36:25] to verify that incoming spoof traffic.
+[00:36:29] So now you are problem because you you
+[00:36:32] you may have like a lot of capacity
+[00:36:34] maybe more than capacity of attackers
+[00:36:37] and now you starting to like hurt some
+[00:36:39] ISP providers by by creating too much
+[00:36:42] like uh challenges and they kind of like
+[00:36:46] black hole you for a little while while
+[00:36:48] so this is all that that that is really
+[00:36:51] happening in the wild.
+[00:36:52] >> Okay. Yeah. Thank you for the comment. I
+[00:36:55] I have just uh uh regarding protection
+[00:36:59] of uh protected endpoint. This why we
+[00:37:02] have a destination filter. So we can
+[00:37:04] specify that if we have a upstream
+[00:37:07] service or just a different endpoint for
+[00:37:10] web application, we can specify how much
+[00:37:13] traffic we can send to the application.
+[00:37:15] So if we fail with all the filtration,
+[00:37:17] we can just rate limit how much we send
+[00:37:19] to this application with there will be a
+[00:37:21] lot of mess a lot of attacking traffic.
+[00:37:24] But the application will still survive
+[00:37:26] because of not so large volume of
+[00:37:29] traffic under it.
+[00:37:30] >> Yeah. Yeah. So the only question is like
+[00:37:32] every application has their own
+[00:37:34] reasonable like amount of traffic they
+[00:37:36] can.
+[00:37:36] >> Yeah. And I also mentioned that u or I
+[00:37:39] didn't that it's very hard to choose the
+[00:37:41] right rate limits for any of
+[00:37:43] applications like it's it's tough.
+[00:37:47] >> Thank you. All right. Well, thank you
+[00:37:49] for the talk.
+[00:37:51] >> Okay. Okay. Thank you.

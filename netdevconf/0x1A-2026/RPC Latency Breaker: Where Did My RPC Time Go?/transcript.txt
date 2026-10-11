@@ -1,0 +1,664 @@
+Source: https://youtu.be/DHvogOQ8S-g
+Language: en
+Captions: auto-generated
+
+[00:00:01] Hello everyone, my name is Satish Kumar
+[00:00:04] and I'm from Bytedance.
+[00:00:06] Um
+[00:00:09] Today,
+[00:00:10] um I'm presenting RPC Latency Breaker.
+[00:00:13] Uh we use this work in Bytedance to
+[00:00:17] frequently profile and analyze uh
+[00:00:20] issues related to RPCs.
+[00:00:23] Uh
+[00:00:24] So, basically it
+[00:00:26] break down the latency for every RPC and
+[00:00:29] provide uh details like uh
+[00:00:32] latency of RPC at the system level,
+[00:00:35] kernel
+[00:00:37] RX latency at the requester and the
+[00:00:39] responder side, how much RPC logic
+[00:00:42] itself takes at the server,
+[00:00:45] and how much time it took on the
+[00:00:46] physical network.
+[00:00:49] Apart from uh providing this breakdown,
+[00:00:52] uh that this latency breakdown, it also
+[00:00:54] provide TCP related stats.
+[00:00:57] Um
+[00:00:58] the stats uh the time at which the RPC
+[00:01:01] was taking place.
+[00:01:07] Yeah, so why do we care about the
+[00:01:11] uh the RPC?
+[00:01:12] Uh basically, they are the fundamental
+[00:01:15] communication in data centers.
+[00:01:17] Um single RPC traverses multiple
+[00:01:20] servers,
+[00:01:22] um multiple subsystems.
+[00:01:24] Um when I say multiple subsystems, it's
+[00:01:26] traversing the network stack, scheduler,
+[00:01:29] uh goes through the NIC, physical
+[00:01:31] network, and obviously the application
+[00:01:34] is also involved at the server side.
+[00:01:36] So, all these things influences the
+[00:01:38] performance of the RPC.
+[00:01:41] So, uh when there is a problem with the
+[00:01:44] RPC, so diagnosing the issue becomes
+[00:01:47] very hard. Uh mainly because as we can
+[00:01:51] see there are multiple components
+[00:01:53] involved. And also in the production
+[00:01:55] environment, um the the sheer the amount
+[00:01:59] of RPC traffic on those servers are
+[00:02:02] are also like the
+[00:02:04] um
+[00:02:05] the sheer amount of the RPC traffic
+[00:02:07] traffic is also huge. So, identifying
+[00:02:09] where exactly the problem is, which RPC
+[00:02:12] is
+[00:02:13] having the problem, it becomes
+[00:02:15] difficult to pinpoint the issue.
+[00:02:23] Yeah, so for the RPC latencies the key
+[00:02:27] metric. Ideally, in the production um
+[00:02:31] um
+[00:02:32] we would like to see the best average
+[00:02:34] performance without long latency.
+[00:02:38] So, if if there is any problem, let's
+[00:02:41] say the average time is high or there
+[00:02:43] are frequents frequent latency peaks,
+[00:02:47] then it is hard to identify where
+[00:02:49] exactly the problem is.
+[00:02:52] Um as and as I mentioned in the previous
+[00:02:55] slide that there are multiple components
+[00:02:58] involved in RPC.
+[00:03:00] So, the first and the most important
+[00:03:03] thing is to isolate the source of the
+[00:03:05] issue.
+[00:03:06] Uh
+[00:03:07] that is where the latency breakdown
+[00:03:09] helps and also that is where that TCP
+[00:03:12] stats helps to identify where exactly
+[00:03:15] the issue
+[00:03:16] uh with RPCs is.
+[00:03:22] So,
+[00:03:24] the kernel already has the
+[00:03:25] infrastructure
+[00:03:26] which basically provide what we need.
+[00:03:29] That is to break down the network
+[00:03:31] latency and collect TCP stats.
+[00:03:35] So,
+[00:03:37] and this infrastructure is called socket
+[00:03:39] timestamping. So, when socket
+[00:03:41] timestamping is enabled, the application
+[00:03:44] can
+[00:03:47] can collect various RX and the TX
+[00:03:49] timestamps. And after collecting, the
+[00:03:53] infrastructure also provide after
+[00:03:55] collecting those timestamps, you can how
+[00:03:57] to correlate these timestamps to a given
+[00:04:00] send message and the system message
+[00:04:03] send message and the receive message
+[00:04:04] system call.
+[00:04:06] So,
+[00:04:07] after application has correlated the
+[00:04:10] timestamps to system calls,
+[00:04:12] it can then the application can further
+[00:04:14] use this information to correlate these
+[00:04:18] events at the level of the RPC to the
+[00:04:20] RPC requester or to the RPC
+[00:04:23] responder to create the entire
+[00:04:26] breakdown
+[00:04:28] at the level of the RPC.
+[00:04:31] And also
+[00:04:33] recently
+[00:04:35] there is work
+[00:04:38] towards the BPF side also
+[00:04:41] which allows us to collecting these
+[00:04:44] timestamp and correlating
+[00:04:47] these timestamp at the system level
+[00:04:50] system call
+[00:04:51] without application changes. So, in the
+[00:04:54] in the normal SO timestamping the
+[00:04:56] application needs changes but with the
+[00:04:58] BPF based SO timestamping collection
+[00:05:01] there is no need for
+[00:05:03] the application to there is no need for
+[00:05:07] changes at the application level.
+[00:05:08] Basically, we can collect those
+[00:05:10] timestamp at the inside the BPF program
+[00:05:13] and also we can correlate those
+[00:05:14] timestamp with the given system calls.
+[00:05:19] But in the case of the BPF SO
+[00:05:22] timestamping also
+[00:05:24] the correlation is just at the level of
+[00:05:26] the system call. Correlating to the RPC
+[00:05:29] event like the requester and the
+[00:05:31] responder is still cannot be done. It is
+[00:05:33] still required the application level
+[00:05:35] changes.
+[00:05:44] So, uh
+[00:05:46] the
+[00:05:48] So, the there are different uh problem
+[00:05:50] with uh both the solution as I was also
+[00:05:53] explaining in the previous slide.
+[00:05:55] The SO_TIMESTAMPING is uh is uh
+[00:05:58] considered slow due to mainly because of
+[00:06:01] the TX timestamp collection
+[00:06:03] overhead. And uh and it requires uh
+[00:06:07] and it requires application level
+[00:06:09] changes.
+[00:06:10] Uh BPF-based SO_TIMESTAMPING is
+[00:06:14] is fast, but cannot uh it cannot
+[00:06:17] correlate with the RPC
+[00:06:19] uh level. Um uh it is to correlate at
+[00:06:23] the RPC level uh
+[00:06:26] we may have to additionally pass the
+[00:06:28] payload uh which will then again become
+[00:06:32] slower. It will not then remain as fast
+[00:06:34] as what it is.
+[00:06:38] So, um
+[00:06:41] So, uh in this work uh we have uh
+[00:06:44] tried to achieve RPC level correlation
+[00:06:47] with the following goals in mind.
+[00:06:49] Uh we wanted to
+[00:06:52] uh
+[00:06:53] to achieve RPC level correlation without
+[00:06:56] application modification.
+[00:06:58] Um
+[00:07:00] uh and we also wanted minimum minimum
+[00:07:03] overhead in production uh while we are
+[00:07:06] collecting those uh
+[00:07:07] uh those events. And we wanted to uh
+[00:07:13] to
+[00:07:14] uh cover all RPC. So, we we
+[00:07:17] uh we wanted a solution which works and
+[00:07:19] profile each and every RPC. We did not
+[00:07:22] want uh
+[00:07:24] sampling because many of the issues uh
+[00:07:27] uh are not captured when we are sampling
+[00:07:30] some events. We wanted to capture the
+[00:07:32] events for each and every RPC.
+[00:07:35] And uh and finally we tried to achieve
+[00:07:38] these goals in most scenarios
+[00:07:41] uh for all the RPC types.
+[00:07:44] In some scenario it still
+[00:07:46] it was not possible for us to achieve
+[00:07:49] all these goals, which I which I will
+[00:07:51] highlight later. But in most of the
+[00:07:54] generic scenarios in our production
+[00:07:56] environment, we can still achieve these
+[00:07:57] goals.
+[00:08:04] So,
+[00:08:05] now coming into the design of our work.
+[00:08:09] So, basically we have a BPF program
+[00:08:11] which we attach
+[00:08:14] uh send message and the receive message
+[00:08:17] system call level.
+[00:08:19] Uh at this level we collect timestamps
+[00:08:22] when system calls were issued.
+[00:08:26] And in the additionally in the receive
+[00:08:28] message system call,
+[00:08:30] uh we also collect RX software or
+[00:08:34] hardware as a timestamp,
+[00:08:36] uh which is present inside
+[00:08:39] inside the SKBs.
+[00:08:41] Now the Now uh
+[00:08:44] the receive message can process multiple
+[00:08:47] SKBs. So, we just note the maximum RX
+[00:08:50] timestamp
+[00:08:52] uh
+[00:08:52] that we observed during inside the BPF
+[00:08:55] program just to signify the the last
+[00:08:59] time when the network data was received
+[00:09:01] on the server.
+[00:09:10] Yeah, uh so so
+[00:09:12] now considering those that BPF program,
+[00:09:15] so for a given RPC there will be uh
+[00:09:18] total six such timestamps.
+[00:09:21] Uh three timestamps towards the
+[00:09:23] requester side and three timestamps
+[00:09:25] towards the
+[00:09:27] the responder side.
+[00:09:36] So, uh now uh so these six timestamps
+[00:09:40] out of these six timestamps, the uh
+[00:09:43] there are four independent event which
+[00:09:46] requires correlation, and that is the
+[00:09:48] main
+[00:09:49] uh heart of the problem.
+[00:09:51] Uh the two the two timestamps that we
+[00:09:53] collected inside the receive message
+[00:09:55] system calls require no correlation as
+[00:09:58] they are
+[00:09:59] uh collected at the same timestamp
+[00:10:01] inside the BPF program.
+[00:10:03] Um but uh apart from that, we still have
+[00:10:06] four events that we would want to
+[00:10:09] correlate to create the RPC level.
+[00:10:11] Uh
+[00:10:12] and
+[00:10:13] RPC RPC level picture of the latency.
+[00:10:16] So, the main question is how to how do
+[00:10:18] we correlate these uh these uh the
+[00:10:21] remaining four
+[00:10:23] uh events.
+[00:10:30] So, at the heart
+[00:10:32] uh of our design, uh we use a ping-pong
+[00:10:35] pattern of RPC to achieve the required
+[00:10:38] correlation.
+[00:10:40] So, uh what basically is a ping-pong
+[00:10:43] pattern uh in the RPC?
+[00:10:45] Uh ping is basically when RPC makes a
+[00:10:48] request, and pong is basically when
+[00:10:51] response is uh received.
+[00:10:54] So, as you can see, it's not a stream of
+[00:10:57] messages towards one direction.
+[00:10:59] Both side basically alternate between
+[00:11:02] request and the response.
+[00:11:04] Uh
+[00:11:05] and that's how in the diagram it looks
+[00:11:07] like. Uh both side one side is
+[00:11:10] requesting, then it receives the
+[00:11:12] response, then it does a request again,
+[00:11:14] then receives a response back again.
+[00:11:18] Now,
+[00:11:19] let's see how how we use this pattern to
+[00:11:21] correlate those four independent events
+[00:11:24] that I
+[00:11:25] uh highlighted in the last slide.
+[00:11:30] Um
+[00:11:32] So, given the ping pong pattern ping
+[00:11:34] pong behavior, one method that we use is
+[00:11:37] based on socket sequence numbers.
+[00:11:40] Uh so, uh
+[00:11:42] inside the Linux uh kernel, there are
+[00:11:45] two types of socket sequence number. One
+[00:11:48] is uh
+[00:11:49] uh right sequence, which is incremented
+[00:11:51] when application sends data. And other
+[00:11:54] is copied sequence, which is incremented
+[00:11:57] when application reads uh
+[00:11:59] uh reads the data.
+[00:12:02] Uh and this these sequence numbers are
+[00:12:05] maintained both at the client and as
+[00:12:07] well as the server side. And these
+[00:12:09] sequence number are initialized during
+[00:12:11] the
+[00:12:12] uh connection establishment phase.
+[00:12:14] And the way these sequence number are
+[00:12:17] initialized not randomly, um they are
+[00:12:19] they are and they are synchronized
+[00:12:21] during the connection establishment
+[00:12:23] phase. And the way they are synchronized
+[00:12:26] uh during the connection establishment
+[00:12:28] phase is that the the client write
+[00:12:31] sequence number will be equal to the
+[00:12:33] server copied sequence number.
+[00:12:35] And the uh vice versa, the server write
+[00:12:38] sequence number will be will be equal to
+[00:12:40] the client uh copy
+[00:12:42] client uh copied sequence uh number.
+[00:12:51] So, uh
+[00:12:53] so that is how um so that's how uh
+[00:12:56] uh uh
+[00:12:57] um the send message on one end uh
+[00:13:01] uh can be correlated with the receive
+[00:13:03] message on the another end. That is
+[00:13:06] because as I mentioned that the RPC
+[00:13:08] request is not a stream of data. It's
+[00:13:11] like a ping, then the the
+[00:13:13] then there's a wait, the send is
+[00:13:15] complete, and the receive is complete on
+[00:13:17] the another side. So, when the receive
+[00:13:20] is complete on the another side, that is
+[00:13:22] when the the send uh write sequence will
+[00:13:25] be equal to the copied sequence of the
+[00:13:27] receiver at the another site server.
+[00:13:31] And that
+[00:13:32] And that is the reason we will be able
+[00:13:34] to then correlate these send message
+[00:13:37] these two events, which are send
+[00:13:39] message, receive message, then again
+[00:13:41] send message, receive message of of the
+[00:13:43] RPC.
+[00:13:45] Now now we are able to correlate uh uh
+[00:13:49] two events
+[00:13:51] like that. Now the out of those four Now
+[00:13:53] the remaining part is How do we
+[00:13:55] correlate correlate the these either
+[00:13:58] this is the request event or the
+[00:14:01] responder event um uh to create the
+[00:14:04] entire picture of the RPC.
+[00:14:12] Now
+[00:14:14] So, to correlate the request and the
+[00:14:16] response messages
+[00:14:18] uh it's uh if we can identify which end
+[00:14:21] is requester, then automatically all
+[00:14:24] events can be categorized either as
+[00:14:26] requester and responder. That's vice
+[00:14:29] versa from the other side.
+[00:14:31] And given the ping pong pattern, we can
+[00:14:34] see which request and respond is uh
+[00:14:37] comprising to make a single RPC uh
+[00:14:41] request. So, on the top picture, if the
+[00:14:43] host A is the requester, then the first
+[00:14:47] request and the responder
+[00:14:49] uh pair will become one RPC request. In
+[00:14:52] the bottom picture, if the host A is the
+[00:14:55] is the is the responder, and but the
+[00:14:57] host B is the requester, then the second
+[00:15:00] request uh
+[00:15:02] starting from the left is the request
+[00:15:05] uh then the second data transfer is the
+[00:15:07] requester the RPC request, and the
+[00:15:10] following that is the responder. And
+[00:15:11] these two events will consist of one RPC
+[00:15:16] one RPC communication.
+[00:15:24] Uh now it's all all that is remaining is
+[00:15:28] now is to identifying which end is
+[00:15:30] requester and responder.
+[00:15:33] And that is something is not very hard.
+[00:15:36] And usually we know up front which end
+[00:15:38] is requester and which end is
+[00:15:41] responder
+[00:15:42] given the application like if this
+[00:15:45] application
+[00:15:46] uh one application may be requesting
+[00:15:48] other application downstream. So we
+[00:15:50] usually in the production environment we
+[00:15:52] know which application is requesting to
+[00:15:55] which other application
+[00:15:58] uh on the down downstream. So
+[00:16:00] categorizing which which is requester
+[00:16:02] and responder is not
+[00:16:04] this is we we know up front
+[00:16:07] what is the case.
+[00:16:10] Even just to mention one more point
+[00:16:12] here. Even though we don't know up front
+[00:16:14] there are others other other
+[00:16:17] we
+[00:16:20] analyzing the time gaps between the
+[00:16:21] different RPCs. We can still categorize
+[00:16:24] uh
+[00:16:25] uh we can still categorize which side is
+[00:16:27] the requester and which side is the
+[00:16:29] responder. But I haven't I haven't
+[00:16:31] mentioned that detail in the slides here
+[00:16:34] because usually in the production
+[00:16:35] environment the the configuration of the
+[00:16:38] application is known up front.
+[00:16:43] So
+[00:16:45] so so that is how after all of this we
+[00:16:47] can correlate all time stamps to achieve
+[00:16:50] the RPC level breakdown.
+[00:16:53] Uh we can get information like
+[00:16:56] system level
+[00:16:59] like system level RPC time.
+[00:17:01] Uh server processing time at the bottom.
+[00:17:05] Uh RX that time stamp at the both the
+[00:17:08] side.
+[00:17:09] All of this is just by subtracting the
+[00:17:12] local clock time stamps.
+[00:17:14] And uh
+[00:17:16] so when we have these local timestamps
+[00:17:19] calculated, now taking out all of these
+[00:17:22] times from the system level RPC time,
+[00:17:24] that's the entire RPC time at the system
+[00:17:27] level, by subtracting all these local RX
+[00:17:31] stack timestamp, we can get the time of
+[00:17:35] how much the physical network took for
+[00:17:37] the for the given uh for for that
+[00:17:40] particular given RPC.
+[00:17:48] Um some other points to mention here. Um
+[00:17:51] there are few other points to mention.
+[00:17:53] So, as I mentioned, the network RTT,
+[00:17:56] which is calculated by uh
+[00:17:58] uh subtracting the local times from the
+[00:18:01] overall system level time of the RPC. Uh
+[00:18:04] when we test that, it also contain the
+[00:18:07] TX stack uh times uh TX stack time as
+[00:18:10] well. As we don't collect TX level
+[00:18:13] timestamp, uh
+[00:18:15] uh but uh but but it's not a restriction
+[00:18:18] of the the the tool. That's by choice.
+[00:18:22] Uh if it's if we we can even collect
+[00:18:25] those time TX timestamps
+[00:18:28] also to achieve fine gran fine
+[00:18:31] granularity information.
+[00:18:33] But we usually try to avoid it uh
+[00:18:36] because of two main reasons. One is that
+[00:18:39] uh collecting TX level timestamps
+[00:18:40] required packet level tracing, which
+[00:18:42] will slow down the performance of the
+[00:18:44] application, create additional overhead
+[00:18:46] in the system.
+[00:18:47] And also in our experience, we usually
+[00:18:50] don't find any problem with the TX stack
+[00:18:52] in the RPC because TX stack is usually a
+[00:18:55] straightforward. All the communication
+[00:18:57] happens in the application context.
+[00:19:00] So, um
+[00:19:02] so so yeah, that's the reason uh we
+[00:19:05] categorize the network RTT and TX stack
+[00:19:07] into one one breakdown.
+[00:19:10] Other than that, second point is that uh
+[00:19:13] RPC message are just not just single
+[00:19:16] send message and receive message. We do
+[00:19:19] intelligent aggregation of those
+[00:19:20] timestamps to create uh
+[00:19:23] uh
+[00:19:23] to create the picture of the ping-pong
+[00:19:25] pattern with a given single send message
+[00:19:27] and the receive message. But just to
+[00:19:30] mention that uh
+[00:19:31] uh a
+[00:19:32] single RPC
+[00:19:34] event is just not a single send message
+[00:19:36] uh or a single receive message. It is
+[00:19:38] multiple multiple of those messages, but
+[00:19:41] we intelligently do aggregation. Uh
+[00:19:45] We intelligently do aggregation to
+[00:19:47] create that picture that I showed
+[00:19:49] in the previous slide.
+[00:19:57] So, uh
+[00:19:58] So, the crux of of this discussion is
+[00:20:01] now the the ping-pong pattern. And the
+[00:20:04] the main question is whether um the
+[00:20:06] ping-pong pattern always exists in the
+[00:20:08] RPC communication or not.
+[00:20:11] Our solution work if um if this is the
+[00:20:14] case, which is highlighted in the top
+[00:20:16] diagram.
+[00:20:17] And but if and it does not work if the
+[00:20:20] RPC requests are sent concurrently on
+[00:20:22] the same flow.
+[00:20:24] Um because then the correlation and the
+[00:20:26] ping-pong pattern is not visible, so the
+[00:20:29] correlation will fail.
+[00:20:32] So, how common is ping-pong pattern?
+[00:20:34] Um just to give you some idea, uh Thrift
+[00:20:37] protocol by default uh
+[00:20:40] um shows the ping-pong pattern. It
+[00:20:42] maintains the connection It maintains
+[00:20:44] the pool of connection, and each RPC
+[00:20:46] request is sent
+[00:20:48] uh means is by default goes on a
+[00:20:51] separate uh
+[00:20:53] on a separate uh uh
+[00:20:55] separate connection flow.
+[00:20:57] And the same is the case with the HTTP
+[00:20:59] 1.1 REST APIs as well,
+[00:21:01] uh which is heavily used inside the data
+[00:21:03] center traffic.
+[00:21:05] But this is not the case with the GRPC
+[00:21:07] and the HTTP 2
+[00:21:09] REST APIs. Um which which are by
+[00:21:12] designed
+[00:21:14] is to send concurrent RPC requests on
+[00:21:16] the same flow.
+[00:21:18] But in in in some of our experience in
+[00:21:21] the production because the production
+[00:21:23] environment consists of scale out
+[00:21:26] container services, we still see due to
+[00:21:29] this scalability we still
+[00:21:31] can see the ping-pong pattern. It is
+[00:21:34] still common but by design it will it
+[00:21:37] will not happen. The
+[00:21:39] if if
+[00:21:41] sometime it also fails. Um
+[00:21:43] um because of the concurrency that's
+[00:21:45] used in the inside the protocol.
+[00:21:49] To end this discussion some case studies
+[00:21:53] like
+[00:21:54] what how we how we use this this work.
+[00:21:58] We basically use this work to narrow
+[00:22:00] down the problem. For example, after
+[00:22:03] looking at the breakdown here in this
+[00:22:06] particular case we find out that there's
+[00:22:08] an increase in the RX latency um at the
+[00:22:12] requested side. So then we know that
+[00:22:14] something is not something is either
+[00:22:16] issue with the software key processing
+[00:22:19] or there's application scheduling
+[00:22:20] delays. Then after we categorize this
+[00:22:23] issue then we run further tool like rank
+[00:22:25] latency the PCC tool or atop that to
+[00:22:28] confirm that there the application was
+[00:22:31] was receiving the scheduling delays.
+[00:22:35] Um
+[00:22:37] in the second case study
+[00:22:40] so we so this is this was a very
+[00:22:42] interesting case like
+[00:22:44] we were seeing the frequent jumps of 200
+[00:22:47] ms in the network RTT.
+[00:22:49] Um so that then signify signified that
+[00:22:52] either there's a problem with the
+[00:22:54] physical network or there's there's a
+[00:22:57] problem in the TX stack or there's that
+[00:23:00] that is how the TCP flows are behaving.
+[00:23:03] Um um
+[00:23:04] then we checked our TCP flow stats that
+[00:23:07] we also collect on each and every RPC.
+[00:23:10] That showed that when we were receiving
+[00:23:13] these uh 200 ms
+[00:23:16] whenever there was a drop of uh packet
+[00:23:18] at the tail end. Um and uh
+[00:23:21] so the inside the TCP uh protocol
+[00:23:24] whenever the tail tail packet is
+[00:23:26] dropped, the fast retransmission does
+[00:23:29] not happen.
+[00:23:31] Um fast retransmission does not happen.
+[00:23:33] It uh
+[00:23:35] um it uh
+[00:23:37] it it then waits for certain amount of
+[00:23:39] the fixed amount of time which we which
+[00:23:41] is then configured as 200 ms. And that's
+[00:23:43] the reason we were seeing this pattern.
+[00:23:45] And that happens because the network was
+[00:23:48] a bit lossy.
+[00:23:51] Um the final case study uh it's uh
+[00:23:55] tracing uh
+[00:23:56] one end. We saw it provided this uh
+[00:24:00] um
+[00:24:02] um
+[00:24:04] So on an average tracing one end
+[00:24:06] provided details on its communication to
+[00:24:08] all.
+[00:24:09] Uh so yeah, like this picture is
+[00:24:11] highlighting we can even use this uh
+[00:24:15] work to not on a
+[00:24:17] uh one end to the another end. We can
+[00:24:20] track all the communication, all the RPC
+[00:24:22] requests going to various uh end points
+[00:24:27] from the single source uh point.
+[00:24:30] And by uh and it gives you further
+[00:24:32] information on uh
+[00:24:34] how um the RPC is behaving across
+[00:24:37] various uh
+[00:24:39] uh various communication downstream to
+[00:24:41] various other containers.
+[00:24:44] Uh with that I will uh end my
+[00:24:48] talk here. Uh thank thank you for
+[00:24:49] listening to this uh work. And please uh
+[00:24:53] let me know if you have more questions.
+[00:24:55] Um
+[00:24:56] And uh if if more information is
+[00:24:58] required on the implementation
+[00:25:00] implementation
+[00:25:01] please feel free to email me also which
+[00:25:04] is at the
+[00:25:05] at the first slide I provided my email
+[00:25:08] address.
+[00:25:09] And with that I say thank you so much
+[00:25:11] for listening. Thank you.
+[00:25:21] >> So Satish is
+[00:25:23] uh
+[00:25:24] five remotely. He can
+[00:25:27] answer some questions if you guys have
+[00:25:29] some.
+[00:25:31] >> Hi guys. Thank you for listening to the
+[00:25:32] talk.
+[00:25:35] >> Yeah. Hi Satish. Really good talk. So
+[00:25:38] couple of things that I noticed like so
+[00:25:40] I'm assuming you guys
+[00:25:42] have
+[00:25:43] the notion of time synchronization for
+[00:25:46] you to do this, right? RPC measurements?
+[00:25:49] >> Uh so so the the way we calculate
+[00:25:52] latency is all based on the
+[00:25:55] the subtraction of the local timestamps.
+[00:25:57] So there is basically no need to
+[00:25:59] synchronize the the time across servers.
+[00:26:02] >> Okay. That's really interesting.
+[00:26:04] >> So if it is local although I would also
+[00:26:07] say
+[00:26:09] even our devices the local devices
+[00:26:12] um
+[00:26:14] we're getting to the point where
+[00:26:17] timestamping may not be ideal.
+[00:26:21] So think about it if you can do
+[00:26:23] transaction IDs rather than
+[00:26:25] timestamping. And the you talked about
+[00:26:27] this 200 ms you see a blip and attribute
+[00:26:30] it to the hardware.
+[00:26:31] I mean think about it like this.
+[00:26:34] It's a wave or a particle thing going on
+[00:26:37] over there, right? And we're making an
+[00:26:38] observation
+[00:26:40] right? Of time and it could be something
+[00:26:43] that it went this way or that way.
+[00:26:45] Right? So we are getting there where an
+[00:26:48] observation itself
+[00:26:51] can affect your
+[00:26:52] your reading.
+[00:26:54] Right? So,
+[00:26:55] I mean, the framework you have is right.
+[00:26:58] Just if you were not using time, you
+[00:27:00] would use maybe transaction ID, and you
+[00:27:03] were talking about the ping-pong, right?
+[00:27:05] That ping-pong problem also goes away.
+[00:27:07] You don't have to rely on ping-pong. You
+[00:27:09] can actually do this in multi-threaded
+[00:27:10] way.
+[00:27:12] >> Right. So, for the transaction ID, we we
+[00:27:14] would still need the transaction ID
+[00:27:16] coming from the user space, right?
+[00:27:18] >> Yes.
+[00:27:19] It will all come from the user. You're
+[00:27:21] right. Yes.
+[00:27:22] >> So, that was the main problem we were
+[00:27:24] finding like how to avoid any kind of
+[00:27:26] synchronization between the user space
+[00:27:28] and the kernel space.
+[00:27:30] So, yes. So, like for every RPC, there's
+[00:27:33] a identifier attached to the RPC. Right?
+[00:27:36] And if there is a somehow there's a way
+[00:27:38] to retrieve that identifier inside the
+[00:27:41] kernel, then the problem becomes very
+[00:27:42] easy for us.
+[00:27:43] >> Yeah. As long as the loop is from the
+[00:27:46] application space to application space,
+[00:27:48] I think you got the right answer.
+[00:27:50] >> Yeah. Thank you. Thank you.
+[00:27:52] Thanks.
+[00:28:17] >> Do we have more questions, maybe?
+[00:28:25] If not, I think that's it.
+[00:28:29] >> All right. Thank you. Thank you for
+[00:28:30] listening. Thank you very much.

@@ -1,0 +1,847 @@
+Source: https://youtu.be/DZCQGfVY7w8
+Language: en
+Captions: auto-generated
+
+[00:00:00] All right. So, I've gotten the thumbs
+[00:00:03] up. So, we'll start the next session.
+[00:00:05] Um, so we're going to switch gears a
+[00:00:07] little bit in terms of uh kind of the
+[00:00:10] topics and that we're going to talk a
+[00:00:11] little bit about uh precision time and a
+[00:00:13] little bit about how we're doing
+[00:00:15] synchronization as well as how we can
+[00:00:17] actually use that to um both observe and
+[00:00:21] control time on the nick. Um, and
+[00:00:23] previously I know some of my colleagues
+[00:00:25] have talked about precision time as well
+[00:00:27] as some of the drivers that go into
+[00:00:28] things like our smart nicks. And so here
+[00:00:30] we're kind of looking at some of the
+[00:00:31] directions that we're taking some of our
+[00:00:33] time sync hardware and software as well
+[00:00:35] as the semantics in order to kind of get
+[00:00:37] feedback as well as are these the right
+[00:00:39] directions. Um, and so the first part
+[00:00:41] will look at synchronization and the
+[00:00:43] second part will ask the question of
+[00:00:44] once we know what time it is, what can
+[00:00:47] we do with it? Can we use SOTX time in
+[00:00:49] some interesting ways and maybe improve
+[00:00:51] it in places where we don't necessarily
+[00:00:53] have the hardware offload? Um so let's
+[00:00:56] start with a look at the synchronization
+[00:00:58] problem and especially when it looks at
+[00:01:00] what happens when we come to multihost
+[00:01:03] and multi-dommain nicks. Um and so you
+[00:01:07] know here I will just kind of use the
+[00:01:08] generalized uh term smart nick but a
+[00:01:10] smart nick you typically maintains a
+[00:01:12] single master time and it distributes
+[00:01:15] time across these to multiple
+[00:01:17] accelerator blocks within the SOC. Um
+[00:01:20] you know this time is consumed by
+[00:01:21] timestamping engines, traffic shapers,
+[00:01:23] latency measurements and all of these
+[00:01:26] are increasingly complicated as we go
+[00:01:29] into newer generations of uh adapters.
+[00:01:32] Um, and it becomes more interesting when
+[00:01:34] you have more than just a single nick.
+[00:01:38] You have a single nick being shared by
+[00:01:40] multiple hosts. So you have a single
+[00:01:42] clock and you have many consumers of
+[00:01:44] that clock that may potentially also
+[00:01:45] want or attempt to influence the
+[00:01:48] synchronization. And so the question
+[00:01:50] becomes, you know, who owns the clock
+[00:01:52] and how do we keep it aligned without uh
+[00:01:54] introducing additional latency?
+[00:01:57] And so, you know, to kind of look at the
+[00:01:59] answer to that question, let's first,
+[00:02:00] you know, just do a quick review of how
+[00:02:03] we normally do time sync. Um, this is
+[00:02:06] probably not a new slide to anybody
+[00:02:09] here, but just in case, you know, this
+[00:02:11] is kind of your traditional P2P time
+[00:02:13] sync architecture in where that you have
+[00:02:16] a P2P event arrives in the network.
+[00:02:18] Software receives a time information.
+[00:02:21] There's a server running there, it
+[00:02:22] computes a correction, it sends this
+[00:02:24] back to the nick. Um, and it's important
+[00:02:26] here to note that the synchronization
+[00:02:28] intelligence is actually living on the
+[00:02:30] host. It's not near the packet
+[00:02:32] processing pathway. Sorry, a little I
+[00:02:35] guess I'm a little close to the mic. Um,
+[00:02:36] and that means that every update must uh
+[00:02:39] transverse layers of software and
+[00:02:41] firmware in order to affect the clock.
+[00:02:43] And this can result in additional
+[00:02:44] latency as well as jitter and just
+[00:02:47] increasing complexity in a multi-host
+[00:02:49] environment. Um, so what happens if the
+[00:02:53] correction decisions never actually have
+[00:02:56] to leave the data path?
+[00:02:59] And that's kind of what we're looking at
+[00:03:00] here. And we're kind of proposing as an
+[00:03:02] idea in order to look at how can we do
+[00:03:04] the clock steering from the data plane
+[00:03:06] itself. You know, how do we have a
+[00:03:09] network IP inside the packet pipeline
+[00:03:11] that actually is able to do the
+[00:03:14] real-time packet bypacket uh uh
+[00:03:16] inspection and update of the clock at
+[00:03:18] the line rate. Um so instead of actually
+[00:03:22] sending the time stamp information to
+[00:03:23] the host and waiting for the software to
+[00:03:25] react, we actually do the steering
+[00:03:27] decision in the hardware and in the
+[00:03:29] packet processing pipeline. And so
+[00:03:31] there's no round trip to the host. Um
+[00:03:33] corrections can be applied immediately
+[00:03:35] and the same correction can be
+[00:03:37] distributed across the actual um primary
+[00:03:40] timer and all secondary timers in the
+[00:03:42] actual smart nick. Um and so you know
+[00:03:44] how do we actually make something like
+[00:03:46] this possible? Um and so you know this
+[00:03:48] is actually um and I'm I'm drawing this
+[00:03:50] here in in in purpose to be uh generic
+[00:03:53] but the at the center this is what you
+[00:03:56] would call a primary timer and
+[00:03:57] synchronization and you'll notice that
+[00:03:59] it needs two paths coming into it. One
+[00:04:01] is it needs a software path through a
+[00:04:03] microcontroller in order to actually
+[00:04:05] bring the system up, be able to actually
+[00:04:07] discipline time. And then the second is
+[00:04:10] where you actually have the networking
+[00:04:12] agent be able to choose a embedded path
+[00:04:15] that stays within the time. And so you
+[00:04:17] can have a multiplexer in order to be
+[00:04:18] able to choose who owns the clock. And
+[00:04:21] this ownership model is important
+[00:04:23] because you still need software in loop
+[00:04:24] at some point, but eventually you want
+[00:04:26] to hand this over to be able to
+[00:04:28] synchronize by hardware. Um, also
+[00:04:32] important to note here that all of the
+[00:04:33] pieces are share a an oscillator so that
+[00:04:36] way they are on a single common uh
+[00:04:38] clocking base and that uh once the
+[00:04:42] corrections are uh made they're applied
+[00:04:44] everywhere simultaneously. Um and so
+[00:04:47] with just kind of this general layout um
+[00:04:50] I will kind of zoom into the timer
+[00:04:51] itself just to kind of give a little bit
+[00:04:53] more idea of what we're thinking here.
+[00:04:55] Um and so you can see you know basically
+[00:04:58] we're looking at inside the timer and
+[00:04:59] it's a 96 free uh 96 bit free running
+[00:05:03] timer. Um you can imagine that the first
+[00:05:06] 32 bits are sub nanoconds the second 32
+[00:05:09] are nanconds and then the last 32 the
+[00:05:12] highest order bits are actually um you
+[00:05:14] know the the seconds and here you know
+[00:05:16] we're having the timer in fixed point
+[00:05:18] representation and so that means that
+[00:05:20] the 32bit if you actually were to toggle
+[00:05:23] that bit that is the nancond bit so that
+[00:05:26] is your nancond granularity there. um we
+[00:05:29] would apply uh add or adjustments to the
+[00:05:33] actual timer through an increment value
+[00:05:35] register and here it would be a 40-bit
+[00:05:37] register. You know this is just one
+[00:05:39] instance of how you could do it. You
+[00:05:41] could actually have larger or smaller
+[00:05:42] registers depending on what you need or
+[00:05:45] on how your pipeline is being created.
+[00:05:48] And then the also what's al important
+[00:05:50] here to note is that the timer itself is
+[00:05:52] also the source of things like a one PPS
+[00:05:54] out signal to be able to do uh export
+[00:05:57] the time as well as do validation and
+[00:06:00] distribute time to other components of
+[00:06:02] the subsystem.
+[00:06:05] Um in order to actually be able to
+[00:06:07] communicate between the primary timer
+[00:06:10] and all the secondary timers that it's
+[00:06:12] actually being able to sync with. It's
+[00:06:15] actually a very simple protocol. You
+[00:06:17] just need two bits to be able to go
+[00:06:18] between any of your timers that are
+[00:06:20] using this synchronization. It would be
+[00:06:23] basically a uh zero or one that says
+[00:06:25] increment or decrement. And then you
+[00:06:27] would have two noops in order to make
+[00:06:29] sure that you you're uh further away
+[00:06:32] from each other in case any bit were to
+[00:06:34] flip. And the reason for this simplicity
+[00:06:37] is just the fact for scalability. Um
+[00:06:40] these signals tend to be inexpensive.
+[00:06:42] they tend to also be rep reproducible in
+[00:06:45] other programmable hardware, you know,
+[00:06:46] like FPJs and that type of thing. Um,
+[00:06:49] and because the correction is occurring
+[00:06:52] at all the time in consumers, you know,
+[00:06:54] it keeps the primary and secondary
+[00:06:56] timers aligned. And by that I mean here,
+[00:06:58] if you uh go back to this diagram here,
+[00:07:01] you can see there there's the primary
+[00:07:03] timer and then the secondary timers that
+[00:07:04] are part of the actual Ethernet files.
+[00:07:10] And so, you know, the goal here is not
+[00:07:12] to have an overly sophisticated
+[00:07:14] protocol. It's to actually be able to be
+[00:07:17] deterministic and move the protocol away
+[00:07:19] from having to go to the host or be
+[00:07:22] dependent on any single host and
+[00:07:23] actually drive it into the control plane
+[00:07:25] alongside the data path. Um, and so now
+[00:07:28] that we can say okay, which direction do
+[00:07:30] we want to increment or decrement time,
+[00:07:33] you know, how do we, you know, apply
+[00:07:35] that operation? And basically that's
+[00:07:38] where the last value comes in in the
+[00:07:40] fact that you have a you kind of a third
+[00:07:42] register that in order to have the size
+[00:07:45] or the order and the magnitude of your
+[00:07:47] uh of your change of your time. Now
+[00:07:50] typically you would want to do this in
+[00:07:51] very small steps. Um but obviously if
+[00:07:54] you're at the beginning of your system
+[00:07:55] or you're doing initial synchronization
+[00:07:57] your time between your network time and
+[00:07:58] local time may be far off and so you
+[00:08:01] would need a coarse granularity kind of
+[00:08:03] uh adjustment in order to get time to
+[00:08:05] where you want to be and then change to
+[00:08:08] fine granularity adjustments. So on the
+[00:08:09] order of you know second or nanconds to
+[00:08:12] sub nanoseconds in order to make sure
+[00:08:14] that you don't have time jumps or skips
+[00:08:17] or any of that type of thing because
+[00:08:18] those can be very detrimental to
+[00:08:20] applications once time is synchronized.
+[00:08:24] Um and so this allows us to do a
+[00:08:26] trade-off between uh convergence speed
+[00:08:29] and uh stability in order that if you
+[00:08:32] have obviously large steps you can
+[00:08:34] converge quickly but you don't have a
+[00:08:36] stable uh time as seen by applications
+[00:08:39] and small steps allow us to main the
+[00:08:41] nancond level lock once synchronization
+[00:08:44] has been achieved. Um and you know I
+[00:08:46] should like I said a note that we don't
+[00:08:48] expect course to be used very often.
+[00:08:53] Um you know it's important as I
+[00:08:55] mentioned before is that we order to
+[00:08:57] actually be able to synchronize the time
+[00:09:00] we need to be able to hand this off
+[00:09:02] between software that's owned outside of
+[00:09:05] the actual smart nick as well as on the
+[00:09:07] actual microcontrollers on the nick
+[00:09:09] itself in order to be able to
+[00:09:11] synchronize the time. And so the goal
+[00:09:14] here is just to achieve a simple handoff
+[00:09:16] between software and hardware. Um and so
+[00:09:18] here the software owns a synchronization
+[00:09:21] typically during initialization. Um and
+[00:09:23] so this would be where you set the time
+[00:09:25] get time of day from the local host set
+[00:09:26] it to the nick or get it from the
+[00:09:28] network and then once the device is
+[00:09:30] operational you're able to use the
+[00:09:32] actual firmware to flip the multiplexor
+[00:09:35] and transfer ownership between the uh
+[00:09:38] control plane to the data plane path.
+[00:09:40] And so the software establishes the
+[00:09:41] initial conditions and I'll show this a
+[00:09:43] little bit more in the next slide and
+[00:09:45] hardware can maintain the
+[00:09:46] synchronization.
+[00:09:50] Um the synchronization would consist of
+[00:09:53] three phases. You as I kind of mentioned
+[00:09:55] here you have initialization you have
+[00:09:58] the handoff and then you have the
+[00:09:59] typical runtime. Um and so the
+[00:10:01] initialization is you basically your
+[00:10:04] local host would bring the nick out of
+[00:10:07] reset and set the pts or the primary
+[00:10:10] timer and synchronization subsystem. You
+[00:10:12] would do get time of day and set the
+[00:10:14] clock. uh you would program the initial
+[00:10:16] timer value as well as the step values
+[00:10:18] to be able to use the timer and then you
+[00:10:20] would use the you would nudge the timer
+[00:10:22] to the soft to basically you around now
+[00:10:26] and then you would switch to actually
+[00:10:28] being handled by the actual uh data
+[00:10:31] plane itself by using the timing stamp
+[00:10:33] packets that are coming in. And so you
+[00:10:35] can the ownership is where the ownership
+[00:10:38] moves from the software to the hardware.
+[00:10:41] And then runtime we expect that the hard
+[00:10:43] will manage and run the actual
+[00:10:46] synchronization and compensation loop.
+[00:10:48] And so you know the network agent now
+[00:10:50] corrects the timer on every time stamp
+[00:10:53] packet. So you decides whether to
+[00:10:55] increment or decrement uh based on what
+[00:10:57] it's receiving in the data path. And
+[00:10:59] this is then applied to all the primary
+[00:11:01] and secondary timers.
+[00:11:04] Um so what does that look like in a
+[00:11:06] higher level loop? Um so you know as I
+[00:11:08] kind of said once the packet is arrives
+[00:11:11] from the network it receives a time
+[00:11:13] stamp uh that's based from the the
+[00:11:15] network and then it receives on the port
+[00:11:17] that receives it it does a local time
+[00:11:20] stamp and so now we actually have the
+[00:11:22] network time and the local time. The
+[00:11:24] network agent now has the notion of
+[00:11:27] those two times. So it is able to
+[00:11:28] actually extract those, compare those,
+[00:11:31] identify the difference. Then based on
+[00:11:34] the difference, the uh data path here is
+[00:11:37] able to decide whether or not time needs
+[00:11:39] to be incremented or decremented and
+[00:11:41] whether or not a course or fine update
+[00:11:43] should be used. And in this case, it
+[00:11:46] basically can use that two bit signal to
+[00:11:48] be able to say yes, the time was I'm
+[00:11:51] running fast, I need to decrement, or
+[00:11:53] I'm running slow, I need to increment.
+[00:11:56] And then that's passed to both the
+[00:11:57] primary timer and all of the secondaries
+[00:11:59] at the same time. And so this is
+[00:12:01] distributed to the whole timing
+[00:12:02] infrastructure there. And so here we
+[00:12:05] don't have to go back to a driver. We
+[00:12:07] don't actually have um you know the host
+[00:12:09] software in the loop. And this continues
+[00:12:11] to run continuously in the data path.
+[00:12:16] Um, so what does this kind of look like
+[00:12:18] in terms of um, if I want to put this in
+[00:12:22] a smart nick or and then actually how do
+[00:12:24] I expose some of these features to the
+[00:12:27] actual operating system in those cases.
+[00:12:30] So here are kind of the five pieces that
+[00:12:31] we see that a smart nick would need to
+[00:12:34] be able to uh expose in the fact that um
+[00:12:38] the first is programmable logic in order
+[00:12:41] to basically capture the packet and
+[00:12:43] compare timing at line rate. Um you this
+[00:12:46] could be achieved through something like
+[00:12:49] uh P4 or or AFX EVPF or XTP. Um so
+[00:12:54] basically you need to be able to have a
+[00:12:56] programmable pipeline. um that pipeline
+[00:12:59] needs to be able to capture hardware
+[00:13:01] timestamps. It needs to be able to steer
+[00:13:04] the uh timer with low latency. Um so
+[00:13:07] this is probably the hardest one in the
+[00:13:09] fact that you need to have some type of
+[00:13:12] way to signal between your primary and
+[00:13:15] your secondary timers. Although we found
+[00:13:16] that most uh smart nicks already have
+[00:13:19] this type of functionality in terms of
+[00:13:22] some of the control wires going across.
+[00:13:24] And then you need to share a way to
+[00:13:26] distribute the time and you finally be
+[00:13:29] able to tell the card as well as the
+[00:13:32] operating system, you know, here's when
+[00:13:34] I want to hand off from my host OS to
+[00:13:37] the actual data plane and let the card
+[00:13:38] self-synchronize. Um, and so that kind
+[00:13:41] of says, okay, what do we need to expose
+[00:13:43] at the operating system level? One is
+[00:13:46] one of the things that we can identify,
+[00:13:48] but is not necessarily easy to get at
+[00:13:50] right now. And I know um some of the
+[00:13:52] folks in the room were actually were
+[00:13:53] looking at this earlier is you know how
+[00:13:55] to identify a PHC that's device
+[00:13:58] controlled as opposed to something
+[00:13:59] that's not being steered from the host.
+[00:14:01] Um also one of the pieces here that once
+[00:14:04] you start to steer it from the data
+[00:14:06] plane you need to be able to understand
+[00:14:08] the lock uh and sync quality. Um I know
+[00:14:13] uh that there was work earlier on Monday
+[00:14:15] that talked about the timing uncertainty
+[00:14:17] making timing uncertainty the first
+[00:14:19] class citizen as well as I think there
+[00:14:21] was a discussion that there's a whole
+[00:14:22] bunch of uh patches from Amazon and
+[00:14:25] others that are looking at how do you
+[00:14:27] expose PHC time stamp quality and this
+[00:14:29] would be exactly some of the features
+[00:14:31] that would need to be exposed in order
+[00:14:33] to have a hardware controlled uh time
+[00:14:36] sync into and pushed into data plane and
+[00:14:38] then finally the last thing is you know
+[00:14:40] what is the input policy who gets to
+[00:14:42] actually drive the time sync now that
+[00:14:44] we're basing it just on the packets
+[00:14:46] coming in. So we have to trust the flows
+[00:14:48] that show that the flows are not being
+[00:14:51] uh being changed or being uh change or
+[00:14:54] maliciously you know delayed or other
+[00:14:57] things because the uh security model
+[00:15:00] starts to change when you're just using
+[00:15:02] the packets coming out of the data plane
+[00:15:04] as opposed to having something like the
+[00:15:06] P2P forall on the host being able to
+[00:15:08] discipline the time. Um
+[00:15:12] so what do we get when you know all of
+[00:15:14] these things are met? Well, we can
+[00:15:16] reduce the synchronization loop latency
+[00:15:19] because it stays in the data path. Um it
+[00:15:21] simplifies the uh multi-nick operation.
+[00:15:25] You don't have to have a single host
+[00:15:27] that has to control the time sync. um
+[00:15:30] you know obviously you need a host that
+[00:15:32] helps to bring this up and in order to
+[00:15:33] start the system but after that you
+[00:15:36] don't need a dedicated host or a single
+[00:15:38] host that is the one that has to control
+[00:15:40] what's going on um and we can naturally
+[00:15:43] scale across multiple time consumers and
+[00:15:46] so this kind of is a shift from some of
+[00:15:48] the host mediated synchronization to a
+[00:15:52] time aware uh data path um and so with
+[00:15:56] that I'm kind of going to shift a little
+[00:15:59] bit in terms terms of you know how once
+[00:16:01] we have kind of that observation once we
+[00:16:04] have the time sync done and we've been
+[00:16:06] discussing the notion of you know how do
+[00:16:08] we create disciplined time you know this
+[00:16:10] is a a kind of maybe a little bit of a
+[00:16:13] extension of how do we actually start to
+[00:16:15] use that time to control when we send
+[00:16:18] packets um so you know right now we have
+[00:16:20] sotx time which lets us express a launch
+[00:16:23] time in the packet um but we also found
+[00:16:25] that often times software scheduling
+[00:16:27] alone isn't necessarily what is needed
+[00:16:30] to hold those deadlines and not all
+[00:16:32] hardware actually supports offload for
+[00:16:34] being able to offload launch time and be
+[00:16:37] able to support that. So you know what
+[00:16:39] happens when that's the case that we
+[00:16:41] have this nice synchronized time we
+[00:16:43] don't necessarily have all the pieces
+[00:16:45] that we need to take advantage of it. So
+[00:16:46] how do we do a better job of doing a
+[00:16:50] control of when the packet actually is
+[00:16:52] sent? Um so
+[00:16:55] uh you know as as I mentioned you know
+[00:16:57] SOTX time is the primitive for that
+[00:17:00] Linux Linux gives us to actually expose
+[00:17:02] this type of capability. Um and so with
+[00:17:05] SOTX time you know application puts a
+[00:17:08] timestamp into a packet you know the SKB
+[00:17:12] time stamp is chosen on the clock and
+[00:17:14] then you use something like ETF in order
+[00:17:16] to hold that packet and release it when
+[00:17:18] that deadline hits. Um and so as opposed
+[00:17:22] to just observing packets, you know,
+[00:17:24] this is actually starting to actively
+[00:17:26] control the transmit time and then we
+[00:17:29] control when they leave. And so this is
+[00:17:30] actually a really powerful tool that is
+[00:17:32] becoming more and more interesting. Um
+[00:17:34] the you're starting to see usages in
+[00:17:37] order to spread uh data flows out.
+[00:17:40] There's some interest in AI and other
+[00:17:42] domains in order to be able to control
+[00:17:44] the sending of the time or at least the
+[00:17:46] start of flows in order to make sure
+[00:17:49] that you are able to bandwidth and keep
+[00:17:53] uh all of your data from actually
+[00:17:55] overflowing your pipe. Um but being able
+[00:17:59] to express a deadline and being able to
+[00:18:01] hit that deadline um you know as we all
+[00:18:04] know from life as well as from
+[00:18:05] networking are two different things. Um
+[00:18:08] and so you know let's look at what
+[00:18:09] actually starts to happen when we look
+[00:18:11] at this in practice. Um you know so
+[00:18:14] typically ETF uh leans on HR timer um
+[00:18:18] and so this basically has a lot of uh
+[00:18:23] variability in the path of being able to
+[00:18:25] actually launch time a packet. You have
+[00:18:26] a schedule latency, you have IRQ
+[00:18:28] delivery latency, you have device
+[00:18:30] services, you have things going on in
+[00:18:32] your operating system and eventually you
+[00:18:34] have your MMIO right to your FI. And so
+[00:18:36] all of these can actually cause jitter
+[00:18:39] and uh inaccuracy in when you ask a
+[00:18:42] packet to actually be sent versus when
+[00:18:44] the packet itself is actually sent. Um
+[00:18:46] and so you can look on the right hand
+[00:18:48] side here. So we did some tests on an
+[00:18:51] exgbe device. So this is a actually a 10
+[00:18:54] gig device. But here we were able to
+[00:18:57] basically show that just on a normal
+[00:19:00] system without much going on, you can
+[00:19:02] have around 150 micros secondsonds of
+[00:19:05] jitter from when you ask to send a
+[00:19:07] packet to when it is actually sent. And
+[00:19:09] this can actually be before or after,
+[00:19:11] typically after, but this is the amount
+[00:19:14] of jitter it is. And so we ran this over
+[00:19:15] a few million cycles of of sending
+[00:19:18] packets to see what kind of jitter do we
+[00:19:20] get. Um, and this is typically uh most
+[00:19:23] fall in a good range, but you have a
+[00:19:25] long tail that's dominated here by the
+[00:19:28] OS and the scheduling. So, you can see
+[00:19:30] here that even though we have this nice
+[00:19:33] synchronized time, we've worked really
+[00:19:34] hard to get it. We can observe it really
+[00:19:37] well, but now we're actually starting to
+[00:19:39] say, okay, how do we make this better?
+[00:19:42] We have a gap and the application knows
+[00:19:44] when it wants to transmit, but we're not
+[00:19:46] reliably hitting that. Um, so one of the
+[00:19:50] ways that we looked at actually doing
+[00:19:51] this in order to augment what we have
+[00:19:54] there is hardware time pause
+[00:19:56] instructions. And so we actually used uh
+[00:19:58] the tpaw instruction. Um, it's an
+[00:20:01] instruction that actually suspends the
+[00:20:02] core until a time stamp counter is
+[00:20:05] reached. So here it's the time stamp
+[00:20:06] counter or tsc if you're familiar with
+[00:20:08] that. Um, there are analogous uh
+[00:20:11] operations on both um AMD and ARM. And
+[00:20:15] basically what that that they all
+[00:20:17] provide is a deterministic low jitter
+[00:20:19] wakeup that doesn't rely on the OSuler.
+[00:20:22] And so instead of sleeping in software,
+[00:20:26] the core idles until the exact tick and
+[00:20:29] then comes back to the instruction right
+[00:20:32] after the t pause. Um and so what was
+[00:20:35] interesting is we did uh kind of some
+[00:20:37] basic testing of t pause versus the hr
+[00:20:40] timer. And you can kind of see here on
+[00:20:42] the top of the slide you see around you
+[00:20:45] know tens of microsconds of of
+[00:20:47] uncertainty when you're using HR timer
+[00:20:50] and the OS sleep and wake up type of uh
+[00:20:52] paradigm and we saw around h about 200
+[00:20:57] 100 to 200 nanose of variability when
+[00:21:00] using taw based on TSC and so kind of
+[00:21:04] given those numbers the idea here is to
+[00:21:07] align the sending using taws and So,
+[00:21:12] you know, what does this look like? And
+[00:21:13] so, we modified the uh exgbe XTP driver
+[00:21:18] um in order to basically I mean this is
+[00:21:20] this is the main uh crux of there's more
+[00:21:22] updates than this but uh basically we
+[00:21:25] looked at updating the driver to be able
+[00:21:27] to get a cross time stamp of the uh
+[00:21:31] network time and the device time to be
+[00:21:34] able to convert the packet send. Um, and
+[00:21:36] then we entered a small protected region
+[00:21:39] in which we did a uh t-paw and we
+[00:21:42] tapaused until the time to send the
+[00:21:45] packet. And so we woke up just before
+[00:21:46] the time we uh kicked the send and then
+[00:21:50] we sent the packet. And so you know
+[00:21:52] basically we're able to minimize the
+[00:21:54] jitter, minimize the uncertainty in the
+[00:21:57] system and yes we do have to use CPU in
+[00:22:01] order to do it. Um but we were able to
+[00:22:03] actually improve the latency and you
+[00:22:05] know by how much you might ask. Um so
+[00:22:07] one of the things that was actually
+[00:22:09] really fascinating here is that we could
+[00:22:10] import improve it by about two orders of
+[00:22:13] magnitude in that we went from jitter
+[00:22:16] around 150 microsconds to just around
+[00:22:19] under a microscond when we were using
+[00:22:22] tpaw. Um and like I said previously taw
+[00:22:25] by itself you get around 200 nconds of
+[00:22:28] scheduling error. uh multiple papers
+[00:22:30] online actually show that type of
+[00:22:32] scheduling error as well if you want to
+[00:22:34] go look at those. And one of the awesome
+[00:22:36] things is we found that even when
+[00:22:38] running running this type of thing for m
+[00:22:39] for a month we we actually we
+[00:22:41] accidentally left it running on one of
+[00:22:43] our test systems came back it was still
+[00:22:45] running after a month no instability and
+[00:22:48] we also found that there wasn't drift in
+[00:22:50] taw depending on the length you paused
+[00:22:52] within limits. Now obviously if you
+[00:22:55] start to pause for hundreds of micros
+[00:22:57] secondsonds you're going to start to see
+[00:22:59] some jitter because you're actually
+[00:23:00] causing other things to wait and delay.
+[00:23:05] Um, so I know I hit you with some in
+[00:23:08] some uh two interesting but somewhat
+[00:23:11] separate topics and you know how do we
+[00:23:12] kind of mesh those together and you know
+[00:23:14] what's next and so you know I showed we
+[00:23:16] how do we discipline the data path or
+[00:23:19] how do we discipline time on the data
+[00:23:21] path and then how do we use time once we
+[00:23:23] have it um and so the natural questions
+[00:23:25] kind of go you know how do we generalize
+[00:23:28] taw and some of these things are more of
+[00:23:31] questions or hopefully prods for
+[00:23:34] feedback or comment in the fact that you
+[00:23:37] know some of this taw is really
+[00:23:39] interesting. You might say oh just use
+[00:23:42] hardware offload. Well not everything
+[00:23:43] has hardware offload as well as you
+[00:23:46] might you know we might say hey do we
+[00:23:48] want to have um a reusable type of
+[00:23:51] helper to be able to do this type of
+[00:23:53] hardwarebased transmit? Do we want to
+[00:23:55] fold it into ETF or something like that?
+[00:23:58] Um and we see that this pattern is is is
+[00:24:00] pretty portable across implementations
+[00:24:03] across drivers and across platforms.
+[00:24:07] Um the other piece here is
+[00:24:10] um you know how do does t pause versus
+[00:24:13] device side scheduling work? Um so you
+[00:24:16] know one of the things that we've seen
+[00:24:17] is yes we have um the hardware
+[00:24:21] offloading on some of the newer hardware
+[00:24:24] but there is also times where we think
+[00:24:26] that there is a potential of being able
+[00:24:28] to do things like hybrid solutions where
+[00:24:31] you have hardware offload and then just
+[00:24:34] before you can use taw in order to
+[00:24:35] actually make sure it comes out in
+[00:24:37] exactly the order you want or exactly
+[00:24:39] the timing you need. And so, you know,
+[00:24:42] maybe we can use t pause to gate the
+[00:24:44] tail right when a deadline is imminent
+[00:24:46] as opposed to having to do the hardware
+[00:24:48] offload.
+[00:24:57] Um, and then the f the final kind of
+[00:24:58] piece here of of food for thought is,
+[00:25:02] you know, so taw gives us that
+[00:25:03] deterministic wakeup behavior, but you
+[00:25:05] know, ours was implementation specific.
+[00:25:08] It was for the exgbe driver. it was
+[00:25:10] based on XTP. Um, but we and we did
+[00:25:13] things like, you know, who disables the
+[00:25:15] interrupts, who disables preeemption,
+[00:25:17] those type of things. Um, and it's also
+[00:25:19] important to note that while we use
+[00:25:21] Tpaw, and I had mentioned earlier, the
+[00:25:23] equivalent timed weight primitives also
+[00:25:25] exist, um, WFE and WFIT on ARM and MWM
+[00:25:30] weight on AMD. Um and so the idea here
+[00:25:34] is you know how do we expose those
+[00:25:37] pieces of hardware and integrate those
+[00:25:39] into the actual sending of the packets.
+[00:25:42] Um you know do we want or need a common
+[00:25:45] interface for that hardware timed TX and
+[00:25:48] if so where should it live? Um and you
+[00:25:51] know should we bound the driver logic to
+[00:25:53] the time wave primitive if if the
+[00:25:55] platform exists.
+[00:25:58] Um so the kind of the final takeaways is
+[00:26:01] um you know we want to discipline the
+[00:26:03] clock in the data plane. We think that
+[00:26:05] you know that's where if you're having a
+[00:26:07] a data a nick that is capable of that
+[00:26:10] you know we think that's where it should
+[00:26:12] live in the fact that you minimize host
+[00:26:17] latency. You minimize your dependence on
+[00:26:19] the host. You also don't have to answer
+[00:26:21] that question of which host gets to
+[00:26:23] discipline my nick. um we want to say
+[00:26:26] you know move from observing time to you
+[00:26:28] know enforcing it with SOTX time and
+[00:26:30] here we showed that even if you don't
+[00:26:33] have SOTTX time or an ETF offload you
+[00:26:37] can actually do um a really good job of
+[00:26:40] still enforcing that time and having a
+[00:26:42] much better time of knowing this is my
+[00:26:44] deadline this is when I want to send the
+[00:26:46] packet and this is when I actually can
+[00:26:48] send the packet um and so yes and from
+[00:26:52] there I'll just take questions
+[00:26:54] And
+[00:27:00] >> thanks for the talk. Um about the 105 50
+[00:27:03] microcond latency. Have you tried to use
+[00:27:06] busy pore? Because normally if we keep
+[00:27:08] trying Mhm.
+[00:27:10] >> uh to pull uh the Q disk, we should be
+[00:27:13] able to send a packet uh
+[00:27:18] right after the delay has expired
+[00:27:20] instead of having to wait for an
+[00:27:22] interrupt to wake up from the high
+[00:27:25] resolution timer uh subsystem.
+[00:27:28] >> We we did and um the results were I
+[00:27:32] think if I remember correctly they were
+[00:27:34] in the middle. They were kind of between
+[00:27:36] they're around 15 if I remember
+[00:27:37] correctly. I'd have to go back and look.
+[00:27:40] >> Thanks.
+[00:27:43] >> Uh I have a small question. I have a few
+[00:27:46] questions but uh the most important one
+[00:27:49] is about this one microcond that you
+[00:27:51] observed for over multiple months.
+[00:27:54] >> So is this is this the maximum jitter
+[00:27:57] that you observed or
+[00:28:00] uh like what what
+[00:28:02] >> it was the maximum jitter. Yes.
+[00:28:03] >> Okay. I'm I'm a bit surprised. So you
+[00:28:06] never experienced um so when I did this
+[00:28:09] kind it's on an x86 regular server,
+[00:28:12] right? It's not specific.
+[00:28:14] >> Yes.
+[00:28:14] >> Okay. When I did some experiments like
+[00:28:17] that, I saw that sometimes I
+[00:28:21] lost time due to um smis system
+[00:28:25] management interrupts which basically
+[00:28:27] makes you know time disappear for 20
+[00:28:30] microsconds on the platform I used. So
+[00:28:32] I'm a bit surprised that you managed to
+[00:28:34] not have that.
+[00:28:35] >> Yeah.
+[00:28:36] >> So I I I will be honest in that we did a
+[00:28:39] little bit of tuning and and disabled
+[00:28:40] Smi.
+[00:28:41] >> Okay. You Oh, you found a way to disable
+[00:28:43] it on your platform. Okay, that's one.
+[00:28:45] >> Yes.
+[00:28:45] >> So this is one thing.
+[00:28:46] >> Yeah, I have the the some of the system
+[00:28:48] details configs in the back backup. I'm
+[00:28:50] happy to share.
+[00:28:51] >> Okay. Okay. This is one thing. And the
+[00:28:53] other question I had is what um what
+[00:28:58] time do you have between the moment you
+[00:29:00] send uh your between the moment the
+[00:29:03] application makes the packet ready and
+[00:29:06] the moment the driver you know busy post
+[00:29:08] because it's easier if you have a one
+[00:29:09] millisecond or like 10 milliseconds
+[00:29:12] between the between the moment the
+[00:29:13] application sends the packet and the
+[00:29:14] moment you need to send it the deadline
+[00:29:16] and if you have a 50 microcond it's a
+[00:29:19] bit more complic I mean it's a bit less
+[00:29:21] reliable. So, so what's the what's your
+[00:29:22] leeway here? Basically, in your
+[00:29:24] experiment,
+[00:29:25] >> we were we were doing uh continuous one
+[00:29:29] one millisecond cycles and and um we
+[00:29:33] were doing uh 10 packets per per each of
+[00:29:36] those cycles. And so we I guess I guess
+[00:29:39] the leeway would have been 100
+[00:29:40] microsconds.
+[00:29:41] >> 100 mic. Okay. So, it's still pretty
+[00:29:42] pretty pretty good. Okay. Thanks. Um
+[00:29:45] thanks a lot.
+[00:29:46] >> Thank you.
+[00:29:47] >> All right. Um right so uh first I have a
+[00:29:50] question on the two bit synchronization
+[00:29:51] protocol thing. Um to make sure I I
+[00:29:53] understand this correctly this is for
+[00:29:55] when you have the same physical clock
+[00:29:57] quartz whatever and you need to
+[00:29:59] synchronize the absolute value with some
+[00:30:01] other hardware entity. Is that right?
+[00:30:04] No. So the the two bit value here is you
+[00:30:08] have the
+[00:30:10] sorry to go all the way. There we go.
+[00:30:17] Yeah. So, so you have the same clock
+[00:30:18] here in the bottom you the same
+[00:30:20] oscillator and so that all of them are
+[00:30:21] being driven from the same crystal
+[00:30:22] clock. The the two-bit value is to make
+[00:30:25] sure that when we update update the
+[00:30:28] actual timer as well as the secondary
+[00:30:31] timers that they happen at the same time
+[00:30:34] and that they're doing the same
+[00:30:36] operation in that you know they are
+[00:30:38] either an increment or a decrement and
+[00:30:40] then the actual increment value buffer
+[00:30:43] is by how much they should increment or
+[00:30:45] decrement. Okay. Are you intending to
+[00:30:48] expose this as a hardware interface to
+[00:30:50] other entities in the system or well the
+[00:30:55] exposure would be more of the fact that
+[00:30:57] we need to expose the um you know access
+[00:31:01] to the actual networking agent as well
+[00:31:04] as you know that will take care of the
+[00:31:05] registers. But we do need to expose the
+[00:31:07] ability to set the um the coarse and
+[00:31:11] fine grain increment value as well as
+[00:31:14] know let the system know that that has
+[00:31:17] the option to actually do this time
+[00:31:19] synchronization on the hardware. So the
+[00:31:21] the bit values themselves wouldn't be
+[00:31:23] exposed outside of the nick but we need
+[00:31:25] to expose that and says yes this nick is
+[00:31:27] being data plane driven or not.
+[00:31:31] >> Okay. Okay. Um cool break. Um then on I
+[00:31:36] think the next slide or like 10 or nine
+[00:31:38] or something we have the control loop.
+[00:31:41] Uh can you go forward? Yeah. One more.
+[00:31:44] One more.
+[00:31:46] Uh this one. Yeah. Um in my world these
+[00:31:50] are two different feedback loops. um
+[00:31:53] because so you have the network packets
+[00:31:56] coming in with PTP with the timestamps
+[00:31:57] in them and the PHD is conditioned
+[00:31:59] against that first as a separate control
+[00:32:02] loop and then what I'm seeing here is a
+[00:32:04] local TS that's the CPU time stamp right
+[00:32:09] it's it's the yeah it's the well the
+[00:32:11] local no the sorry the the time stamp
+[00:32:14] that you're seeing here is the time
+[00:32:16] stamp that is on the uh on the on the
+[00:32:19] primary timer and then the actual um the
+[00:32:24] actual network packet is the other
+[00:32:25] piece. So it has the local and the and
+[00:32:27] the the network time and so then the
+[00:32:29] difference is between those two.
+[00:32:32] >> This is raising a flag for me that this
+[00:32:34] is not how how at least we actually run
+[00:32:36] this but I'll I'll talk to you after
+[00:32:38] this. Yeah, please.
+[00:32:42] >> Well,
+[00:32:43] a question from the other room. Um so I
+[00:32:46] think your use case is primarily for
+[00:32:48] congestion control. Is that correct for
+[00:32:51] the scheduling?
+[00:32:52] >> For the for the scheduling, I think it's
+[00:32:54] it's two pieces. One is, you know, um we
+[00:32:57] do work with um a lot of places in
+[00:32:59] industrial where you have um you know,
+[00:33:02] cyclic type of traffic where you need um
+[00:33:06] consistent timing of like say your first
+[00:33:08] packet in a flow. Um and then the other
+[00:33:10] piece would be something like congestion
+[00:33:11] control where you want to make sure your
+[00:33:13] flows are spread out and you're not
+[00:33:14] having multiple large flows start at the
+[00:33:17] same time.
+[00:33:20] I see. I was wondering basically what um
+[00:33:22] accuracy is sufficient. What's the
+[00:33:24] translation between the accuracy that
+[00:33:26] you achieve and the improvement in the
+[00:33:28] congestion, right? Like there's probably
+[00:33:30] some point of diminishing returns. Um I
+[00:33:33] don't know if you have any comment on
+[00:33:34] that.
+[00:33:35] >> Uh besides yes, I agree and that would
+[00:33:38] be a great thing for us to look at.
+[00:33:40] >> All right. Thank you.
+[00:33:41] >> Thank you.
+[00:33:43] >> Okay, I think we're at time. So say
+[00:33:46] thank you David. His wonderful talk.

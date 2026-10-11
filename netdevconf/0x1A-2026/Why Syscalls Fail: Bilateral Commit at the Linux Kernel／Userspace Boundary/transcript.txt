@@ -1,0 +1,645 @@
+Source: https://youtu.be/JtbfJen0zeg
+Language: en
+Captions: auto-generated
+
+[00:00:05] Good afternoon everyone. I'm Manor Singh
+[00:00:07] and this is joint work with
+[00:00:09] Paul Borrill at Datadog.
+[00:00:11] Call wise is call fail.
+[00:00:13] Bilateral commit at Linux kernel slash
+[00:00:16] user space boundary.
+[00:00:18] Paul could not be here today, so I'll be
+[00:00:20] presenting the whole talk.
+[00:00:22] Both the framework Paul built and the
+[00:00:25] empirical work I did on top of it.
+[00:00:29] Here is one line version of this talk
+[00:00:31] before we dive in.
+[00:00:33] The interface between your application
+[00:00:35] and the Linux kernel make promises it
+[00:00:38] simply cannot keep.
+[00:00:40] And I have got the numbers to back that
+[00:00:42] up.
+[00:00:45] The talk has three parts. First,
+[00:00:48] the argument.
+[00:00:49] Why the syscall interface is
+[00:00:51] structurally fire and forget. And the
+[00:00:54] framework we used to classify that.
+[00:00:56] Second, the evidence. A Linux 6.8 test
+[00:01:00] harness I built to see if this actually
+[00:01:03] shows up in practice. And what it found.
+[00:01:07] Third would be where we think the kernel
+[00:01:10] could go.
+[00:01:12] Which is a concrete proposal for a
+[00:01:14] bi-lateral commit.
+[00:01:16] And we will be taking questions at the
+[00:01:18] end of the talk.
+[00:01:21] Let's start with the simplest case. A
+[00:01:23] process called write. The kernel copies
+[00:01:26] the data into the page cache and returns
+[00:01:29] success.
+[00:01:30] That's not durability.
+[00:01:32] It's volatile memory.
+[00:01:33] The caller assumes forward progress, but
+[00:01:36] the kernel makes no commitment.
+[00:01:39] This isn't hypothetical. It's exactly
+[00:01:42] what happened to PostgreSQL on EXT4 in
+[00:01:45] 2018.
+[00:01:47] A disk IO error clears fsync error flag
+[00:01:50] after it's reported once.
+[00:01:52] On retry, fsync returns success.
+[00:01:55] But the data is gone.
+[00:01:57] And PostgreSQL believes it's right ahead
+[00:02:00] log is durable.
+[00:02:02] So written ends up describing an
+[00:02:04] operation that wrote nothing durable.
+[00:02:07] The interface lies and the programmer
+[00:02:09] believes the lie because the API gives
+[00:02:11] them
+[00:02:12] no way to know.
+[00:02:14] This is the pattern we're going to see
+[00:02:16] over and over today.
+[00:02:18] The kernel isn't buggy in any one call.
+[00:02:21] It's structurally optimistic about the
+[00:02:23] future.
+[00:02:26] And this isn't unique to syscalls.
+[00:02:29] We see the same structural hole in
+[00:02:32] email, messaging, and ethernet.
+[00:02:34] SMTP relays
+[00:02:36] confirms transport not that anyone read
+[00:02:40] the message. Delivered on your phone
+[00:02:43] confirms the byte reached the silicon,
+[00:02:45] not the mind.
+[00:02:47] A transmitted ethernet frame isn't the
+[00:02:49] same as a delivered one.
+[00:02:52] And the syscall boundary kernel receipt
+[00:02:54] is not kernel commitment.
+[00:02:57] We call the underlying assumption FIFO,
+[00:03:00] which stands for forward in time only.
+[00:03:03] Every one of the systems assume that
+[00:03:05] once you initiate an operation, time
+[00:03:07] will carry it forward to completion.
+[00:03:10] It simply doesn't. And when it fails
+[00:03:12] silently,
+[00:03:14] there's no crash, no error, just quiet
+[00:03:16] divergence between what the sender
+[00:03:18] believes happened and what actually
+[00:03:20] happened.
+[00:03:22] What makes this interesting to us isn't
+[00:03:25] any single failure.
+[00:03:27] It's that four unrelated systems built
+[00:03:30] decades apart by different engineers
+[00:03:33] all converged on the shape of mistake.
+[00:03:37] So, we built a framework for this, the
+[00:03:39] kernel acknowledgement spectrum.
+[00:03:42] It has five levels based on the highest
+[00:03:45] level of bilateral confirmation a
+[00:03:47] syscall interface actually provides.
+[00:03:50] Level zero is fire and forget. Try it
+[00:03:53] without fsync.
+[00:03:55] Level one is kernel receipt, the
+[00:03:58] standard case, where you get uh byte
+[00:04:01] count back with no durability guarantee.
+[00:04:04] Level two is completion notification,
+[00:04:06] which covers fsync and io_uring's
+[00:04:09] completion queue entries.
+[00:04:11] Level three is application consumption,
+[00:04:14] where the app tells the kernel it
+[00:04:16] consumed the result using something like
+[00:04:19] io_uring CQ seen or user faultfd.
+[00:04:23] And level four is the bilateral semantic
+[00:04:26] commit,
+[00:04:27] where both sides confirm proposal
+[00:04:29] execution and verified consumption.
+[00:04:32] No general-purpose syscall in current
+[00:04:35] use reaches that level.
+[00:04:38] It gives us something we can actually go
+[00:04:41] test
+[00:04:42] against a real kernel. It is exactly
+[00:04:44] what the second half of the talk does.
+[00:04:49] Formally, for standard syscall families,
+[00:04:53] that's write, read, send, fork, and
+[00:04:56] break, the maximum acknowledgement level
+[00:04:59] any of them guarantees without bolt-on
+[00:05:01] mechanism is level one.
+[00:05:04] That follows directly from their return
+[00:05:07] semantics.
+[00:05:08] There are bolt-ons that elevate specific
+[00:05:11] operations. fsync gets you to level two,
+[00:05:15] io_uring gets you to level three,
+[00:05:18] but no bolt-on mechanism ever reaches
+[00:05:21] level four. The kernel never learns
+[00:05:24] whether the application actually
+[00:05:25] verified the result. Four real-world
+[00:05:28] families show this pattern.
+[00:05:30] Write and fsync. That's the PostgreSQL
+[00:05:33] story. io_uring where completion queue
+[00:05:37] entries can be silently overwritten
+[00:05:39] before user space ever reads them.
+[00:05:42] Fork, where OOM killer can end a child
+[00:05:46] process before the parent's PID is even
+[00:05:49] schedulable.
+[00:05:50] And sig
+[00:05:51] And signals where like sig child
+[00:05:53] coalesces, so three children can exit
+[00:05:56] and the parent gets exactly one
+[00:05:58] notification.
+[00:06:00] That's the argument end to end.
+[00:06:02] So, the natural next question is does
+[00:06:05] any of this actually show up if you go
+[00:06:07] run it on real kernel? Let's find out.
+[00:06:12] This is where I have put the spectrum to
+[00:06:14] the test. I built four reproducers and
+[00:06:17] one remedy
+[00:06:19] and run all of them on Linux 6.8
+[00:06:22] 10 arm 64.
+[00:06:24] Let's look what the kernel actually
+[00:06:26] does.
+[00:06:29] Everything here ran on Ubuntu
+[00:06:31] 24.04
+[00:06:33] Linux 6.8 arm 64
+[00:06:36] using Lima and VZ virtualization on
+[00:06:39] Apple M2.
+[00:06:41] With io_uring feat non-drop active.
+[00:06:45] >> [snorts]
+[00:06:45] >> I built five pieces. E1 hits fsync error
+[00:06:49] clear behavior with dm-integrity fault
+[00:06:52] injection.
+[00:06:53] E2 overruns the io_uring completion
+[00:06:56] queue from 16 up to 1024 submissions.
+[00:07:01] E3 forks up to
+[00:07:03] 256 children that exit simultaneously to
+[00:07:07] see how many sig childs actually arrive.
+[00:07:10] E4 races fork against the OOM killer in
+[00:07:14] a constrained group.
+[00:07:16] Is a shim I wrote to fix E2.
+[00:07:19] A bilateral commit queue.
+[00:07:21] Each one logs JSON lines aggregated with
+[00:07:24] a small Python script.
+[00:07:26] So, every number in the next few lights
+[00:07:29] slides come straight out of raw trial
+[00:07:31] data, not intuition.
+[00:07:33] Let's go through them one by one.
+[00:07:37] Does fsync actually tells you the truth?
+[00:07:41] I ran 50 trials. 25 were rights or
+[00:07:44] dropped, and 25 were the error out
+[00:07:48] over an EXT4 volume with fault
+[00:07:50] injection.
+[00:07:52] In every single trial,
+[00:07:54] both at 100% the retry call to fsync
+[00:07:57] returned zero while the block was
+[00:08:00] actually missing from disk.
+[00:08:03] I used O_DIRECT
+[00:08:05] after dropped caches specifically so the
+[00:08:08] page cache couldn't hide the loss and
+[00:08:10] give me falsely reassuring result.
+[00:08:14] This is the exact failure that hit
+[00:08:16] PostgreSQL in 2018. And there's still no
+[00:08:19] mitigation for it in 6.8.
+[00:08:21] The kernel reports the error once,
+[00:08:23] clears the flag, and then lies cleanly
+[00:08:26] on the next call.
+[00:08:28] It's level one interface wearing a level
+[00:08:31] two costume.
+[00:08:34] Second one is the io_uring completion
+[00:08:36] queue.
+[00:08:37] I submitted between 16 and 1,024
+[00:08:41] no-op operations without ever calling
+[00:08:44] io_uring CQ sync.
+[00:08:46] In 16 out of 20 test cells, the
+[00:08:49] applications are strictly fewer
+[00:08:51] completion than it's submitting.
+[00:08:54] The worst case was a completion queue
+[00:08:56] size of 16 with 1,024 operations
+[00:09:00] submitted.
+[00:09:01] Only 16 completions were visible
+[00:09:04] and 1,008 were sitting invisibly in
+[00:09:07] kernel's overflow list.
+[00:09:10] Weak no drop
+[00:09:11] means they're not silently discarded,
+[00:09:14] but the application still has no syscall
+[00:09:16] level signal that this is happening.
+[00:09:19] It would have no idea unless it went
+[00:09:21] specifically looking for this.
+[00:09:25] Third is the signal delivery. I forked
+[00:09:28] two to 256 children and had them exit
+[00:09:31] all at once. Then watched with a naive
+[00:09:34] handler
+[00:09:36] actually received. At 256 simultaneous
+[00:09:39] exits, the kernel delivered somewhere
+[00:09:41] between 36 and 153 sig chills.
+[00:09:46] With a median of 130 for 256 actual
+[00:09:49] exits.
+[00:09:51] That's a coalesced lost friction between
+[00:09:53] 0.5 and 0.8 at that concurrency.
+[00:09:59] Our a correct W no hang loop reaps
+[00:10:02] everyone eventually, but the kernel knew
+[00:10:05] exactly how many children exited and it
+[00:10:08] chose to deliver one signal anywhere.
+[00:10:12] Fourth is the fork itself.
+[00:10:15] I put a child process in a 64 MVC group
+[00:10:18] V2 leaf and had it touch more than 256
+[00:10:22] MB of memory.
+[00:10:24] In 50 out of 50 trials, that's that's
+[00:10:26] 100% the OM killers sig kill the child.
+[00:10:31] The median time from fork to termination
+[00:10:34] was 7.7 milliseconds.
+[00:10:37] That child never executed a single
+[00:10:39] instruction of useful work.
+[00:10:41] But fork still handed back a valid PID.
+[00:10:45] A forward time projection of viability
+[00:10:47] that kernel has no protocol to retract.
+[00:10:51] Your problem received a promise that
+[00:10:53] kernel already knew statistically was
+[00:10:56] very likely to break.
+[00:10:59] So, four ways the kernel lies. Here is
+[00:11:02] the one I actually fixed.
+[00:11:04] I wrote about 100 line user space shim
+[00:11:07] down library
+[00:11:08] that adds a per process commit queue.
+[00:11:11] It refuses any submission that would
+[00:11:14] overcome it and completion
+[00:11:17] overcommit the completion queue.
+[00:11:19] And it only advances the kernel visible
+[00:11:21] head once the application calls
+[00:11:24] con queue commit.
+[00:11:26] I re-ran the E2 sweep through three
+[00:11:29] parts. Naked, meaning no CQ calls seen.
+[00:11:33] That resulted in loss of 21,280
+[00:11:37] completions across 80% of the test
+[00:11:39] cells.
+[00:11:41] Doing it correctly drops that to zero,
+[00:11:44] which was the expected baseline in our
+[00:11:45] case.
+[00:11:46] The CQ shim also gets to zero silent
+[00:11:50] loss for about 39% overhead.
+[00:11:53] So, here's the headline number. Can
+[00:11:55] close this gap in user space today on an
+[00:11:58] unmodified kernel for well under half of
+[00:12:01] your throughput.
+[00:12:05] Here's everything side side by side, the
+[00:12:08] same four charts from the paper.
+[00:12:10] The first is like IOUring growing
+[00:12:12] invisible backlog. Second is sig chill
+[00:12:15] coalescing that gets worse with
+[00:12:17] concurrency.
+[00:12:19] Then is the CQ shim flattening silent
+[00:12:22] loss to zero.
+[00:12:24] And the fsync and the OOM
+[00:12:27] event rates on the right.
+[00:12:29] So, four numbers to take away from the
+[00:12:31] measurements. 100% false fsync
+[00:12:34] durability across 50 trials.
+[00:12:37] 1,008 silently buffered IOUring
+[00:12:40] completions in a single ring.
+[00:12:43] 80% sig chill loss at modest
+[00:12:46] concurrency.
+[00:12:47] 100% doomed PID forks into a constrained
+[00:12:51] C group.
+[00:12:52] None of this is exotic. It's stock Linux
+[00:12:55] 6.8 standard workloads, standard
+[00:12:57] virtualized hardware.
+[00:12:59] That's the
+[00:13:01] evidence.
+[00:13:02] Let's close by talking about what we
+[00:13:04] think the kernel community should
+[00:13:07] actually do about it.
+[00:13:11] Back to the framework for a moment.
+[00:13:13] The taxonomy shares an invariant.
+[00:13:18] R of zero is the kernel's delivery of a
+[00:13:21] result. Whether that's value in a
+[00:13:23] register, bytes in a buffer, or
+[00:13:26] completion queue entry.
+[00:13:28] A of zero is the application's
+[00:13:29] consumption and validation of it.
+[00:13:32] R does not imply A
+[00:13:34] and no kernel mechanism below
+[00:13:37] the application layer can close that
+[00:13:39] gap. Because A is outside of kernel
+[00:13:41] system boundary.
+[00:13:43] It's the same cognition gap we see in
+[00:13:45] messaging.
+[00:13:47] Deliver confirmed the data reaches
+[00:13:49] silicon, not a mind.
+[00:13:51] A syscall return confirms data reached a
+[00:13:53] register, not application logic.
+[00:13:57] So, who has actually tried to close the
+[00:13:59] gap?
+[00:14:01] A silly force synchronous IPC blocks the
+[00:14:04] sender until the receiver explicitly
+[00:14:06] calls receive.
+[00:14:08] And that's genuine level three.
+[00:14:11] POSIX fsync is a bolt-on and its error
+[00:14:14] reporting is unilateral.
+[00:14:17] UNIX Linux userfaultfd is a real
+[00:14:22] bilateral handshake
+[00:14:25] for page faults, which is also level
+[00:14:27] three.
+[00:14:28] And Windows transactional NTFS actually
+[00:14:31] tried for level four parado, level four
+[00:14:34] kernel enforced transactions
+[00:14:37] and it was deprecated in Windows 8.
+[00:14:40] The lesson here is we call it the TXF
+[00:14:43] paradox.
+[00:14:45] Which is the highest safety mechanism
+[00:14:48] that was too complex for developers to
+[00:14:50] use correctly.
+[00:14:52] Bilateral semantics aren't just a commit
+[00:14:54] protocol. The API has to be simple
+[00:14:57] enough to use correctly
+[00:15:00] or it becomes a dead code.
+[00:15:02] That's a real constraint on anything we
+[00:15:04] propose next.
+[00:15:07] So, here's what we are proposing.
+[00:15:10] A full phase bilateral protocol to
+[00:15:12] replace the simple call and return
+[00:15:15] model.
+[00:15:18] Propose where user space submits and
+[00:15:21] kernel returns a transaction handle.
+[00:15:24] Execute, where the kernel performs the
+[00:15:26] operation and reports failure through
+[00:15:28] the handle.
+[00:15:30] Offer, where the result is placed in a
+[00:15:32] buffer which stays uncommitted.
+[00:15:35] And commit or rollback, where the
+[00:15:37] application validates it
+[00:15:39] and signals, and the kernel finalizes or
+[00:15:42] reclaims.
+[00:15:44] Importantly,
+[00:15:45] this doesn't double your round trips.
+[00:15:47] The commit for operation N bundles with
+[00:15:50] the prop
+[00:15:52] with the
+[00:15:53] propose for operation N plus one. So,
+[00:15:56] it's one extra kernel crossing per
+[00:15:58] sequence, not per system call.
+[00:16:01] That's the difference between something
+[00:16:03] theoretically clean and something
+[00:16:05] practically deployable.
+[00:16:09] There are three ways to actually get
+[00:16:11] there
+[00:16:12] in an increasing order of ambition. So,
+[00:16:14] first one would be an O bilateral sock,
+[00:16:18] which gives opt-in bilateral semantics
+[00:16:20] on a given file descriptor.
+[00:16:23] The same shape as whole sync with zero
+[00:16:25] impact on
+[00:16:26] application that don't opt in.
+[00:16:29] Second, bilateral IO ring, a commit
+[00:16:32] queue alongside an existing SQ and CQ,
+[00:16:36] which is essentially what my R1 ship
+[00:16:39] shim already approximates in user space
+[00:16:41] today.
+[00:16:42] And third, the most ambitious option,
+[00:16:45] adopting SLE4's
+[00:16:48] synchronous IPC model for critical
+[00:16:51] kernel interactions
+[00:16:53] with pipeline commits to the late to
+[00:16:55] keep the latency down.
+[00:16:57] SLE4 synchronous IPCs cost about 0.2
+[00:17:01] microseconds per round trip for ARM64.
+[00:17:04] So, the cost here is bounded.
+[00:17:09] So, to bring it together, treating
+[00:17:11] kernel receipt as kernel commitment is
+[00:17:14] mistake underlying PostgreSQL
+[00:17:17] PostgreSQL's
+[00:17:19] lost transactions.
+[00:17:21] IO Uring overwritten completions and
+[00:17:24] doomed folks into AM C group.
+[00:17:27] It's one category error showing up in at
+[00:17:30] least four different subsystems.
+[00:17:33] And the cost of
+[00:17:35] fixing it is
+[00:17:36] is bounded.
+[00:17:38] My conclusion reaches zero silent loss
+[00:17:41] at about 39% overhead, which is a lower
+[00:17:44] bound on what an in-kernel
+[00:17:46] implementation could do.
+[00:17:49] So, the real question we want to leave
+[00:17:51] the NetDev community with this.
+[00:17:54] Does the kernel community uh
+[00:17:57] recognize this as a category mistake
+[00:17:59] before the next PostgreSQL incident or
+[00:18:02] after?
+[00:18:05] Everything you just saw in the
+[00:18:08] measurement section is public. That's
+[00:18:10] the E1 through E4 reproducers.
+[00:18:13] The R1 commit cushion, the aggregation
+[00:18:16] script, and the raw JSON logs behind
+[00:18:19] every number I gave you. It's all at my
+[00:18:22] GitHub. And also, you can scan the QR
+[00:18:24] code
+[00:18:26] or grab a link of the slides afterward.
+[00:18:29] Clone it, run it for yourself, and tell
+[00:18:31] me if you get different numbers on your
+[00:18:33] kernel. That's the argument, the
+[00:18:36] evidence, and where we think this goes.
+[00:18:39] Thank you for listening to the talk. Me
+[00:18:41] and Paul will be there to answer any
+[00:18:44] questions you have. Thank you.
+[00:18:51] >> Hi, this is Paul Barow. Can everyone
+[00:18:52] hear us?
+[00:18:53] >> [clears throat]
+[00:18:56] >> Hello, everyone. I'm Madhav.
+[00:19:00] >> Yeah, we can hear you.
+[00:19:03] >> Excellent. Thank you.
+[00:19:08] Are there any questions?
+[00:19:12] >> Yes.
+[00:19:25] >> Well, since I already first mentioned,
+[00:19:27] let me
+[00:19:28] try to push back a little bit.
+[00:19:32] >> It doesn't override CQE's. It never has.
+[00:19:36] If it is for you, please file a bug.
+[00:19:39] It shouldn't never happen.
+[00:19:42] It doesn't silently
+[00:19:46] It doesn't silently treat the overflow
+[00:19:48] CQE's. You can always check it.
+[00:19:51] And you should.
+[00:19:53] And
+[00:19:55] it's always expected that the user
+[00:19:57] should always
+[00:19:59] uh
+[00:20:00] reap all the CQE's from the ring before
+[00:20:03] proceeding.
+[00:20:05] And
+[00:20:07] What was the last point? You mentioned
+[00:20:09] the mechanism and how it can be
+[00:20:11] mitigated, which is don't allow any new
+[00:20:15] submissions before you
+[00:20:17] reaped all the completions.
+[00:20:20] That's what it actually has been
+[00:20:23] at
+[00:20:24] when it first launched, which became a
+[00:20:27] problem with uh
+[00:20:29] with a lot of apps who are not try
+[00:20:33] the
+[00:20:36] This kind of
+[00:20:37] mechanism was preventing a lot of apps
+[00:20:40] from doing the right thing using the
+[00:20:43] overflow mechanism. And they were all
+[00:20:46] confused because
+[00:20:48] uh Iouring was rejecting any new
+[00:20:51] submissions. Even worse, it was
+[00:20:54] uh rejected when in the middle of a
+[00:20:57] link, Iouring link, if you know the
+[00:20:59] feature. And it was breaking links. And
+[00:21:01] it was uh a lot of bug because
+[00:21:04] because of that. So, at the current
+[00:21:06] point in
+[00:21:07] it's the user space
+[00:21:10] responsibility
+[00:21:11] to check the flag,
+[00:21:13] to reap all the completions, and to
+[00:21:16] process them.
+[00:21:21] >> Manav, you want to go try and take that
+[00:21:23] first, or would you like me to take
+[00:21:25] that?
+[00:21:26] >> Uh,
+[00:21:27] you can take it. Like, after that, I can
+[00:21:29] add on to your answer.
+[00:21:32] >> So, thank you for the question. I think
+[00:21:34] I got I got three of them, um, not fully
+[00:21:37] noted yet, but, um, I'll follow up after
+[00:21:39] the recording with detailed responses.
+[00:21:42] One of the challenges is I've been
+[00:21:44] dealing with this kind of, um, what we
+[00:21:47] call category error, um, for almost
+[00:21:50] three decades right now. And what we've
+[00:21:52] realized is this isn't a bug.
+[00:21:55] This isn't
+[00:21:57] something where we can actually go and
+[00:21:59] check the code. This is a fundamental
+[00:22:02] problem, a misunderstanding
+[00:22:05] in the way that fault, uh, handling and
+[00:22:08] the way the disaster recovery systems
+[00:22:10] work.
+[00:22:11] Um, as one of the people responsible for
+[00:22:14] helping the emergency data recovery at
+[00:22:17] 9/11, and trying to figure out for more
+[00:22:20] than a decade, you know, why there was
+[00:22:22] so much corrupted data, it finally,
+[00:22:25] um, I was able to articulate what this
+[00:22:28] issue is. And it's it's this, uh, notion
+[00:22:31] that when you think about an algorithm,
+[00:22:34] you think about it only forward in time.
+[00:22:37] Unfortunately, that what that means both
+[00:22:40] on the network, um, in Ethernet, and the
+[00:22:43] reason why I'm here
+[00:22:44] in, um, in Montreal right now at the
+[00:22:47] IEEE 802 meeting is because we're trying
+[00:22:51] to build a bilateral interface, um, from
+[00:22:54] the top, uh, from the API down to the
+[00:22:58] bits on the wire.
+[00:22:59] So, let me Let me if I can I can go
+[00:23:00] back. What I'm
+[00:23:02] hearing you say is that the usage users
+[00:23:04] should check the flags.
+[00:23:06] The when
+[00:23:09] they check the flags, they get lied to.
+[00:23:12] We've known for years that um
+[00:23:15] that these interfaces in particular
+[00:23:18] um the interfaces to the to the disk um
+[00:23:22] have just have got holes in them. And
+[00:23:24] the under the right circumstances, those
+[00:23:26] holes will always appear. So, I'm trying
+[00:23:29] to encourage the Linux community
+[00:23:33] to think in terms of a much more robust
+[00:23:35] interface instead of um dumping
+[00:23:37] responsibility back on the user. I don't
+[00:23:40] mean that to sound harsh. It just uh but
+[00:23:43] it's is a a real interface question here
+[00:23:47] um between the experts in the Linux
+[00:23:49] community and the users who are um
+[00:23:53] valiantly trying to use that interface
+[00:23:56] to build reliable systems. So, bottom
+[00:24:00] line for me is I'm not here to debug
+[00:24:03] your code. I'm here to debug your
+[00:24:05] assumptions.
+[00:24:08] Did I answer the question?
+[00:24:10] >> Um not at all.
+[00:24:12] Uh
+[00:24:13] I think that instead of dumping on the
+[00:24:15] kernel, we should be moving the
+[00:24:17] direction of making it simpler
+[00:24:19] interfaces and
+[00:24:21] moving part of it
+[00:24:24] into the user space.
+[00:24:26] When it belongs.
+[00:24:28] >> [snorts]
+[00:24:28] >> Uh this is a solution proposed. I think
+[00:24:30] it's only complicated and I not really
+[00:24:34] agree with the approach in general.
+[00:24:39] I am.
+[00:24:42] >> Um thank you. Well, I I I can't help but
+[00:24:45] agree with you. I mean
+[00:24:46] >> I appreciate though the point about the
+[00:24:49] full stack
+[00:24:52] thinking about all the stack and
+[00:24:55] reversibility of all the
+[00:24:57] operations in the middle because
+[00:24:58] Ethereum was you more more or less on
+[00:25:01] top of the existing infrastructure and
+[00:25:03] doesn't think at all about as I think
+[00:25:06] failed with some transient
+[00:25:08] uh error or what not and
+[00:25:11] a lot of it goes for other opcodes,
+[00:25:15] syscalls as well.
+[00:25:19] >> Well, I couldn't agree with you more
+[00:25:20] actually. The
+[00:25:22] we're we're fans of simplicity and we
+[00:25:25] don't believe anything can be made
+[00:25:27] reliable unless it's first made simple.
+[00:25:30] Um we're already assuming that there is
+[00:25:33] a
+[00:25:34] there's a kernel bypass and any
+[00:25:36] high-performance implementation um but
+[00:25:39] that kernel bypass has to start with a
+[00:25:41] working implementation that can be
+[00:25:44] proven and tested through the kernel
+[00:25:46] and used in normal instantiation
+[00:25:49] examples
+[00:25:50] um without having to have extremely
+[00:25:52] specialized NIC hardware.
+[00:25:54] Um
+[00:25:55] we're completely in line with what
+[00:25:57] you're suggesting. Make it simpler
+[00:25:59] and um we're once we've got it all
+[00:26:01] working and it's tested and everyone now
+[00:26:04] understands the new reversibility rules
+[00:26:07] and which quite frankly this is just
+[00:26:09] two-phase commit with the kernel. I mean
+[00:26:11] if you want to think of it simple, it's
+[00:26:13] just two-phase commit with the kernel.
+[00:26:15] Once we've got that, we can then bypass
+[00:26:17] the kernel and go directly from user
+[00:26:19] space
+[00:26:20] uh through to um the NIC and the bits on
+[00:26:23] the wire and have a mathematically
+[00:26:26] uh consistent um API to bits on the wire
+[00:26:30] which guarantees this whole stack um and
+[00:26:33] the reason why I'm here at uh Montreal
+[00:26:36] right now at the IEEE 802 meeting
+[00:26:39] uh is because we're proposing these
+[00:26:41] bilateral lateral um interfaces in the
+[00:26:46] Ethernet protocol itself. So that it's
+[00:26:49] uh not only me what it
+[00:26:52] it's not only is it um
+[00:26:54] you know, a full implementation, it's
+[00:26:56] also non-proprietary.
+[00:26:58] This is why it's called Open Atomic
+[00:27:00] Ethernet. So, this is the two ends of
+[00:27:02] the um of the uh of the of the stack
+[00:27:05] we're trying to deal with. You're go You
+[00:27:07] guys are working at one end. Uh the
+[00:27:09] hardware guys are working at the other
+[00:27:10] end. And what we'd need is in the middle
+[00:27:13] is we need it to be simple.
+[00:27:14] We need it to be uh moved into user
+[00:27:17] space. Um and we need to be able to
+[00:27:20] um have a much better understanding of
+[00:27:22] what it takes for bilateral uh
+[00:27:25] guarantees to exist um throughout the
+[00:27:29] stack. Did I answer your question?
+[00:27:33] >> Yes. Thank you.
+[00:27:35] >> Thank you for a great question, by the
+[00:27:36] way. That was good.
+[00:27:37] >> Thank you.

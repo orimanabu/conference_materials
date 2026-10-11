@@ -1,0 +1,585 @@
+Source: https://youtu.be/5S1WDdxl06s
+Language: en
+Captions: auto-generated
+
+[00:00:00] Okay. Uh so my name is Hajime from
+[00:00:03] Japan. So I'm going to give you about uh
+[00:00:06] my talk uh which is my recent project
+[00:00:09] working on working on the the the
+[00:00:13] improving the debugability of the non
+[00:00:15] MMU functionality in the Linux kernel
+[00:00:17] with an extension of the user Linux.
+[00:00:21] So let me give you the context of my
+[00:00:24] talk. So here is the table listing the
+[00:00:28] number of the open source project and
+[00:00:30] implementing the users network stack in
+[00:00:32] user space. So the LWIP is probably the
+[00:00:37] most popular one since it's available in
+[00:00:41] the early 2000 2001
+[00:00:44] and I have used this table in the past
+[00:00:47] net conference talk and I have also keep
+[00:00:50] updating the list of the stacks. So I I
+[00:00:53] did the several recent projects in this
+[00:00:55] table.
+[00:00:58] So network stack is you uh network in
+[00:01:02] this case and the the correction of the
+[00:01:05] network protocol implementation is
+[00:01:07] usually implemented in the kernel space
+[00:01:09] as you can see since the multics era and
+[00:01:12] early Unix generation but the recently
+[00:01:17] specifically the the the
+[00:01:20] middle of the the last decades uh there
+[00:01:23] were so many new new project
+[00:01:25] implementing the network stuck in the
+[00:01:27] user space. It might be related to the
+[00:01:29] app the appearance of the DPDK but uh
+[00:01:33] people is trying to use the specialized
+[00:01:35] virtualization
+[00:01:38] instead instead of the conventional
+[00:01:40] conventional virtual machine.
+[00:01:42] Why they are using user space network
+[00:01:44] stack because it is fast. Uh people
+[00:01:49] might be might think about this
+[00:01:51] characteristics of the fast execution
+[00:01:54] packet processing is because of the
+[00:01:55] bypassing the kernel. But even though we
+[00:01:58] are using the same network stack
+[00:01:59] implement implementation with the k
+[00:02:02] Linux kernel and the user space barge of
+[00:02:05] the Linux kernel network stack it will
+[00:02:07] see the faster execution than the the
+[00:02:10] conventional
+[00:02:12] kernel space network implementation and
+[00:02:15] also it is also compared to lightweight
+[00:02:18] compared to the conventional virtual
+[00:02:20] machine. The ber m uh bachel image size
+[00:02:23] is very specific to only a single binary
+[00:02:28] file of the the user space program. It
+[00:02:31] can be also link time link type
+[00:02:33] optimizable.
+[00:02:35] So the size of the image is also smaller
+[00:02:38] than the typical one.
+[00:02:41] And why this first characteristics is
+[00:02:44] achieved with the user space network
+[00:02:46] stack. So there are number of reason and
+[00:02:49] the the the techniques that is applied
+[00:02:52] to the user space network but the
+[00:02:55] reducing the number of system call
+[00:02:57] contributed a lot to reduce the crossing
+[00:03:03] the boundary between the user space and
+[00:03:04] the kernel spaces costly and if you
+[00:03:07] implement user space network stack yeah
+[00:03:10] network stack in user space and the
+[00:03:12] application still run in the user space
+[00:03:14] you don't have to switch between this
+[00:03:15] com uh cross domain boundary
+[00:03:19] and if you use only single host process
+[00:03:22] for the user space network stack uh you
+[00:03:25] don't have to switch between the
+[00:03:27] multiple host processes which is also
+[00:03:30] costly this contribute a lot to achieve
+[00:03:33] the speed up. So how implement how to
+[00:03:36] implement this efficiency of the packet
+[00:03:40] processing in the user space. So we
+[00:03:43] applied the simplified version of the
+[00:03:46] memory management which I will talk
+[00:03:48] about later and also efficient device IO
+[00:03:52] like AFXTP to expose the direct memory
+[00:03:56] operation from the user space of the
+[00:03:58] kernel memory region. It which uh is
+[00:04:02] also contributing the the the first
+[00:04:06] execution of the packet processing.
+[00:04:11] So I would like to explain a little bit
+[00:04:14] uh
+[00:04:15] uh some basic operation the how system
+[00:04:18] call works in the Linux kernel. There
+[00:04:21] are three figures on top. Uh left one is
+[00:04:24] the typical parameter sequence of the
+[00:04:27] system how system call works and the
+[00:04:29] middle one is the how the user model
+[00:04:31] Linux one of the user space
+[00:04:34] implementation of the Linux kernel
+[00:04:36] handle the sequence of the system call
+[00:04:38] request from the user space and the
+[00:04:41] right side is the the possible way to in
+[00:04:44] improve this system call sequences. So
+[00:04:47] in the Linux kernel there is this entry
+[00:04:50] point in the kernel side which can be
+[00:04:52] accessive accessible from the user space
+[00:04:54] by Cisco call instruction in the intel
+[00:04:57] uh platform case and once the request is
+[00:05:02] uh received from the user space can try
+[00:05:04] to compute the request and the and give
+[00:05:08] give the result back to the user space
+[00:05:10] by another conting
+[00:05:13] boundary
+[00:05:15] to eminate this behavior. Yeah, user
+[00:05:18] model Linux uses the P system code in
+[00:05:22] the historical manner and recently they
+[00:05:25] introduced a sec filter to to improve
+[00:05:29] this P space emulation
+[00:05:32] and both of them are using the signal to
+[00:05:34] f the system call. So signal implement
+[00:05:38] emulated version of the system code in
+[00:05:40] the user space. So in the UML case uh we
+[00:05:46] have a UML and two multiple user space
+[00:05:50] host processes. So one of them is the
+[00:05:52] UML kernel and the other is the UML user
+[00:05:57] space process which is corresponding to
+[00:05:59] the each of the user space program
+[00:06:02] running on the UML level.
+[00:06:05] So by using multiple processes in the um
+[00:06:08] uh UML case it can be transparently
+[00:06:13] execute the existing binary file of the
+[00:06:17] user space program without any
+[00:06:18] modification.
+[00:06:20] So the implementation of the ker itself
+[00:06:22] is very transparent or a straight word
+[00:06:26] but it cost a lot. So in the UML case
+[00:06:30] you need to have a crossing boundary
+[00:06:32] between the host kernel and the user
+[00:06:35] space uh user space kernel and also
+[00:06:38] there are multiple user space program in
+[00:06:40] the UML case. You need also switching
+[00:06:43] the context between the multiple user
+[00:06:45] space programs
+[00:06:48] and as you can see the simple benchmark
+[00:06:50] using the get p. So UML cost roughly 26
+[00:06:56] microscond for the each of the get pad
+[00:06:59] while the bameter one and also possible
+[00:07:02] no MMA extension of the EML cost only
+[00:07:05] the 100 mic 100 ncond.
+[00:07:11] So there are various alternate option in
+[00:07:15] order to speed up your network stack
+[00:07:18] like implementing user space network
+[00:07:21] stack from scratch is one of the option.
+[00:07:24] It might be fast using the DPDK or X axp
+[00:07:29] as a back end of the device IO and it
+[00:07:32] can be implemented as a API compatible
+[00:07:35] way or even ABI composible way. But the
+[00:07:39] feature richness of those full
+[00:07:42] scratchbased network stack is always
+[00:07:44] questionable.
+[00:07:46] So if you use the Linux kernel as a
+[00:07:49] network stack but try to speed up the
+[00:07:52] the the packet process uh network uh
+[00:07:56] packet processing speed. You may need to
+[00:07:59] you can use the dedicated API to like to
+[00:08:04] reduce the the overhead of the system
+[00:08:06] call or overhead of the context switches
+[00:08:09] like a send or receive m
+[00:08:13] message or IO link might be possible to
+[00:08:17] use it. Uh so if you have a new new
+[00:08:20] application to write
+[00:08:22] uh fast execution of the your packet
+[00:08:25] processing function you might you can
+[00:08:28] use this API but if you wish to improve
+[00:08:31] the existing application using socket
+[00:08:34] API for example you need to rewrite the
+[00:08:37] program itself.
+[00:08:41] So let me back to how to implement user
+[00:08:46] space network stack. So basically we
+[00:08:49] need to have a three different materials
+[00:08:51] to implement the network st user space
+[00:08:54] network stack. First one is the
+[00:08:57] collection of the protocol network
+[00:08:58] protocol implementation like a IP4 or V6
+[00:09:03] or neighbor discovery protocol kind of
+[00:09:05] things and the second component is the
+[00:09:08] device IO interface like AFXTP can be
+[00:09:13] used as a virtual device for the user
+[00:09:16] space network stack and also implement a
+[00:09:19] user space program a uh interface or API
+[00:09:24] like a socket or any dedicated created
+[00:09:26] API for the the particular network stack
+[00:09:30] and the first one can be implemented
+[00:09:32] from scratch as I mentioned but it can
+[00:09:35] be ported from the existing
+[00:09:38] and kernel based implementation like as
+[00:09:42] I show in the the list of the network
+[00:09:44] stack
+[00:09:45] uh F stack is based on the freebies
+[00:09:48] based one and the lamp kernel using the
+[00:09:51] netbc based kernel so you can port it to
+[00:09:54] the user space version of the kernel.
+[00:09:59] But if you port those network stack part
+[00:10:04] from the with the no MME version of the
+[00:10:06] kernel, you will benefit again of the
+[00:10:11] simplified memory operation as well as
+[00:10:13] the feature richness of the Linux
+[00:10:15] kernel. That is my motivation of this
+[00:10:18] project.
+[00:10:20] So no MME kernel is available since very
+[00:10:24] early Linux kernel tree since probably
+[00:10:27] 2002
+[00:10:29] and it was originally introduced as a
+[00:10:33] the implementation for the embedded
+[00:10:36] devices which doesn't have a memory
+[00:10:39] management unit
+[00:10:41] and it was it has a configuration kind
+[00:10:44] of configuration option to disable the
+[00:10:47] MMU functionality with config MMU
+[00:10:51] and the feature or characteristics of
+[00:10:55] the no MMU kernel is that there is no B
+[00:10:59] the concept of the virtual memory. So
+[00:11:02] the physical address is always
+[00:11:04] equivalent with the virtual address and
+[00:11:07] the multiple processes has to share the
+[00:11:10] same memory address space. So there's no
+[00:11:13] page table and there's no memory
+[00:11:16] isolation between the processes. So
+[00:11:18] there's no memory protection needed.
+[00:11:23] So but the no MMA kernel is nowadays
+[00:11:26] considered as hard to maintain in the
+[00:11:30] Linux kernel T. So this is a screenshot
+[00:11:33] of the mailing list threat in two mostly
+[00:11:37] two years ago at Linux test project. So
+[00:11:41] they dropped the no MMU support since
+[00:11:44] two years ago and there are nobody who
+[00:11:47] is trying to rebart it to support again
+[00:11:50] in the Linux test project. The reason
+[00:11:53] this drop
+[00:11:55] of the no mu support is there is a lack
+[00:11:59] it is a lack it is lacking the
+[00:12:00] maintenance and the resources to fix the
+[00:12:04] bugs and fix uh to maintain the kind of
+[00:12:07] code bases and also recently there are
+[00:12:11] many increasing number of the bug report
+[00:12:14] m which is machinery generated and uh it
+[00:12:18] is also hard to address each of them by
+[00:12:21] unmaintained with the unmaintained codes
+[00:12:25] and the no MMU kernel in the in the
+[00:12:28] Linux kernel tree is also facing a
+[00:12:30] similar situation recently. Last year
+[00:12:33] there was a both at the plasma
+[00:12:37] conference which tried to
+[00:12:40] get together of the no mu related people
+[00:12:44] and the arc maintenance and they
+[00:12:46] discussed what is the possibility to the
+[00:12:48] no mu feature in the Linux kernel 3. The
+[00:12:52] current situation is the existing the
+[00:12:54] mainten the existing architecture are
+[00:12:56] not agreeing to drop the no mu kernel.
+[00:13:00] So this is I think this is not good and
+[00:13:03] this no kernel which was originally for
+[00:13:08] the embedded devices is still useful uh
+[00:13:11] even the small devices using the latest
+[00:13:13] version of the Linux kernel and also
+[00:13:16] FPGA guys is also trying to run the
+[00:13:19] Linux on their devices but we they also
+[00:13:22] don't have a MMU on the on their board
+[00:13:27] and also as I show in the user space
+[00:13:29] network use cases is the B no MMU is no
+[00:13:32] MMU is also useful for the
+[00:13:34] virtualization if a guest doesn't
+[00:13:36] require the complete identical view of
+[00:13:40] the what we the host operating system
+[00:13:43] see like if you only run the single
+[00:13:46] process in a guest you don't have to
+[00:13:48] have a full-fledged memory management
+[00:13:51] feature of the Linux kernel
+[00:13:54] but again it lacks the the testing
+[00:13:58] infrastructure And there are nobody who
+[00:14:01] wish to maintain the code of the testing
+[00:14:04] and code of the memory management itself
+[00:14:07] which I have I am trying to solve this
+[00:14:09] situation with my project.
+[00:14:14] Okay. So this here is a proposal and
+[00:14:17] which I am working on. So the name of
+[00:14:20] the project is no MMU um which is an
+[00:14:24] extension to the user mode Linux to
+[00:14:26] support the disabling the MMU
+[00:14:28] functionality in the code base and the
+[00:14:31] architecture itself is mostly the use in
+[00:14:34] the existing UML but we added the
+[00:14:38] different system code entering point to
+[00:14:40] benefit the single address space nature
+[00:14:42] of the no me kernel. So we share the pro
+[00:14:46] we share the memory address space
+[00:14:47] between the processes and the kernel and
+[00:14:50] it run within the single host process
+[00:14:53] process which is different from the
+[00:14:56] existing UML architecture and the part
+[00:14:59] state is proposed since two years ago I
+[00:15:02] guess and still it it is still in the
+[00:15:04] version 14 at this moment.
+[00:15:07] I have been working on the different act
+[00:15:10] of kernel project which is called the
+[00:15:12] Linux kernel library or LKL but no MMUL
+[00:15:18] is slightly different from this LK
+[00:15:20] implementation
+[00:15:22] while LKL has a complete view of the
+[00:15:25] Linux scan. It is not fully AI
+[00:15:28] compatible to the user space program.
+[00:15:30] You need to have a deco compile your
+[00:15:33] user space program or need to trick use
+[00:15:36] the trick to replace the the Cisco inter
+[00:15:40] Cisco symbols like LD one
+[00:15:45] and there is no MUML. It also has a
+[00:15:48] decent multiple process support. uh so
+[00:15:51] you can use a shell while LK cannot use
+[00:15:55] it for at this current implementation
+[00:15:59] and the architecture dependent part of
+[00:16:01] you know MMUML is still slightly larger
+[00:16:05] than Linux kernel library. So you know
+[00:16:08] MMU only can run on top of the Intel 64
+[00:16:12] best machine.
+[00:16:15] And as for the user space, we used the
+[00:16:18] Alpine Linux distribution, a stock
+[00:16:22] version of the Alpine Linux uh
+[00:16:24] distribution with two additional NOMU
+[00:16:28] specific packages.
+[00:16:31] And also we extended the kernel address
+[00:16:35] sanitizer support because the current
+[00:16:38] version doesn't have a noia support in
+[00:16:41] constant implementation
+[00:16:44] and also we have experimentally
+[00:16:46] trying to integrate the bar memory error
+[00:16:49] detector
+[00:16:51] where with a slight modification to the
+[00:16:53] upstream bar implementation.
+[00:16:58] So but there are swipe reasonably
+[00:17:01] reasonable amount of the limitation for
+[00:17:04] this uh one which is which are mostly
+[00:17:07] generic limitation the no mu candle. The
+[00:17:11] most notable one is that we cannot use
+[00:17:13] the whole fork system call because there
+[00:17:16] is no copy copy on feature in the
+[00:17:19] kernels in the in the down side. Instead
+[00:17:24] we need to use the bu fork uh which has
+[00:17:27] a mostly similar interface but the
+[00:17:30] behavior is totally different like a
+[00:17:33] parent process has to block until the
+[00:17:36] child children release the memory
+[00:17:38] resource like calling exit system call
+[00:17:41] or exec base system call
+[00:17:45] and also we need is the position
+[00:17:47] independent binaries for the user space
+[00:17:50] and also mm system call as a subset of
+[00:17:55] the functionality like you cannot use
+[00:17:57] the map fixed flag as well as the map
+[00:18:01] support shared flag is partially only
+[00:18:05] partially supported.
+[00:18:08] So you can run the docker command to
+[00:18:13] easily test it.
+[00:18:17] So I I'm going to give you some of the
+[00:18:19] showcases uh including the benchmark
+[00:18:22] result and al also use cases that I have
+[00:18:25] experienced.
+[00:18:27] So first benchmark is using get p system
+[00:18:30] code in five different environment. So
+[00:18:34] we used the bameter Linux and also UML
+[00:18:37] with the P2 system called Fuk and also
+[00:18:40] UML with secur
+[00:18:44] and we also tested no MM UML with same
+[00:18:49] sec system coruk as well as the
+[00:18:53] experimental version the binary
+[00:18:55] translation based binary delighting
+[00:18:58] based system called fuk.
+[00:19:01] So as you can see so since we don't as I
+[00:19:05] shown before since we don't have a less
+[00:19:08] number of the context switches in the no
+[00:19:10] MMA version then the benchmarks shows
+[00:19:13] less nicer number than the original
+[00:19:18] conventional UML implementation
+[00:19:22] and we have also tested the defined
+[00:19:26] system called scenario with the event
+[00:19:29] ping base one and also IO system core
+[00:19:34] and also process P system core with the
+[00:19:37] ARM B seat. Now also we have tested the
+[00:19:41] TCP goodput measurement with IPF3
+[00:19:46] and the findings of this conducting me
+[00:19:48] and this benchmark is the and the trend
+[00:19:52] of the the nice latency measurement is
+[00:19:56] almost same as the previous result and
+[00:19:59] the goodut measurement shows almost same
+[00:20:01] trend between them but uh as you can see
+[00:20:05] the barometer result and the UML based
+[00:20:08] goodput measurement is far different
+[00:20:11] from the what we have been we have
+[00:20:14] obtained from the typical user space
+[00:20:17] network ST because uh I didn't actually
+[00:20:21] get into detail why this is happening
+[00:20:24] but the TSO doesn't work well at this
+[00:20:27] moment uh actually it is aggregating the
+[00:20:30] number of the packet to the single chunk
+[00:20:32] of the packet via T host host top
+[00:20:35] devices but this number is not maximum
+[00:20:39] number like a 60 not six not 64 but the
+[00:20:44] less number of the aggregated bucket
+[00:20:45] contribute a less number of the good at
+[00:20:49] this moment I'm going to investigate
+[00:20:52] more but I don't have any clear answer
+[00:20:54] at this moment
+[00:20:56] and also there are several debucking use
+[00:20:59] cases which I have experienced so first
+[00:21:02] one is the detection of the the no mm
+[00:21:07] you code direct regression bug which I
+[00:21:10] was f I found during my exercise my code
+[00:21:14] with the no mia kernel when when the
+[00:21:18] user space program try to exit and try
+[00:21:21] to release the memory resource to the
+[00:21:24] managed by the no kernel it is having
+[00:21:28] some invalid access giving the panic
+[00:21:31] message showing this
+[00:21:42] showing this panic messages. It was due
+[00:21:45] to some regression during the
+[00:21:48] refactoring the map adaptation in the in
+[00:21:52] the BM struct management and I proposed
+[00:21:55] the patch patches to address this issues
+[00:21:59] and there was also deadro bug when the
+[00:22:02] out of memory happened in from the user
+[00:22:05] space request. So left side shows to
+[00:22:08] demonstrate to
+[00:22:11] uh typically uh generate out of memory
+[00:22:15] situation and the deadlock is happening
+[00:22:18] without any user space uh user input uh
+[00:22:21] interrupt
+[00:22:23] with the fix applied to the nomu kernel.
+[00:22:26] It is prop properly showing the auto
+[00:22:29] message error with the no mm kernel.
+[00:22:41] And since our project is extending a
+[00:22:44] user mode of Linux, the KU unit test
+[00:22:47] framework is also usable without any
+[00:22:50] additional modification.
+[00:22:52] Like uh when you execute the kunit uh
+[00:22:57] test program with additional command
+[00:23:00] line parameter with config uh can
+[00:23:03] configuration. you will see the same
+[00:23:07] exercise for testing with the
+[00:23:11] with the uh with disabling the MME
+[00:23:15] functionality from the kernel [snorts]
+[00:23:18] and also I was trying to rebart the uh
+[00:23:21] unsupported feature of the Linux test
+[00:23:24] project with the no MME option and uh
+[00:23:27] during this rebarting I found the
+[00:23:30] another bug of the no MME kernel which
+[00:23:32] also generated panic messages this when
+[00:23:35] the user specific request map system
+[00:23:38] code with particular conditions and I
+[00:23:41] also propose the fix to the MM3 and then
+[00:23:46] now it's in the MM new branch at this
+[00:23:48] moment and also whole of the system
+[00:23:51] called test suite of the LTP is also
+[00:23:53] runnable learnable
+[00:23:56] is generating the report like this so I
+[00:24:00] still have a bunch of to-dos for this
+[00:24:02] project like
+[00:24:05] testing initial attempt of the testing
+[00:24:08] integration is almost done. But uh the
+[00:24:11] result obtained from a test is always
+[00:24:14] always unstable like
+[00:24:17] every execution the test gives me a
+[00:24:20] different result and it sometimes passed
+[00:24:23] but uh it sometimes doesn't it sometimes
+[00:24:26] doesn't so I need to investigate more
+[00:24:29] what's going on inside the no me kernel
+[00:24:33] and also address sanitizer is also at
+[00:24:36] the moment only the stage of the
+[00:24:38] integration we didn't actually use it.
+[00:24:41] But I want to uh try to exercise more to
+[00:24:48] to give a feedback to the NOM kernel or
+[00:24:51] no MMA architecture.
+[00:24:54] So I think that's almost it. So I was
+[00:24:59] motivating to use the NOM kernel in this
+[00:25:03] use case of the user space network. But
+[00:25:06] uh I also try to help the no m situation
+[00:25:10] in the Linux kernel and the Linux test
+[00:25:13] project with this extension of the user
+[00:25:16] model Linux. The part is also available
+[00:25:20] here again.
+[00:25:22] So thank you so much for your attention
+[00:25:24] and I would like to take any questions
+[00:25:26] if you have. Thank you.
+[00:25:31] Uh, we have an online wish, but I can't
+[00:25:34] really you need to come to us.
+[00:25:47] >> So, the question I I know those words.
+[00:25:51] Okay. From the chat, the question is a
+[00:25:54] question
+[00:25:56] now that no MMU can run on UML. Do you
+[00:26:01] have plans to integrate no mu specific
+[00:26:05] kunit or LTP test into the upstream
+[00:26:09] kernel CA to prevent future regression?
+[00:26:12] Yes, definitely
+[00:26:14] that is exactly what I wish to do in the
+[00:26:16] next step.
+[00:26:29] I I don't want to steal your time here,
+[00:26:30] but um I wanted to ask the audience a
+[00:26:33] question too. maybe do you actually see
+[00:26:34] a use case for the networking stuff from
+[00:26:37] a sort of a networking angle? Because to
+[00:26:39] me, a lot of the interest in this work
+[00:26:42] comes from, you know, really being able
+[00:26:44] to test no MMU and if we're not testing
+[00:26:47] no MMU, if we're not really um you to
+[00:26:50] me, if I'm doing networking and I do
+[00:26:52] Wi-Fi in in addition to the UML stuff,
+[00:26:54] but or really the other way around, but
+[00:26:56] um so for me, when I'm testing Wi-Fi,
+[00:26:59] I'm not really interested in doing that
+[00:27:00] on no MMU. It's not useful. like it's
+[00:27:03] not an actual use case that I will ever
+[00:27:05] run into. So I you know for the audience
+[00:27:09] you guys see any use case for running
+[00:27:11] your networking stuff on no MMU um
+[00:27:14] because I think that informs my
+[00:27:17] view of how we should integrate this
+[00:27:19] into the UML kernel and you know this
+[00:27:21] has been going on a long-standing debate
+[00:27:24] between us um how this should be done.
+[00:27:27] So so I think you know that would be one
+[00:27:29] useful data point here like
+[00:27:36] Hi, I might to have to come back to you
+[00:27:39] because I'm trying to check but I'm not
+[00:27:41] finding the answer online. But I think
+[00:27:45] um that on IBM mainframes in the KVM
+[00:27:49] guests, we currently have the
+[00:27:50] recommendation to run the KVM guests
+[00:27:53] with no MMU um for performance reasons
+[00:27:57] because we're doing double MMU per
+[00:27:59] translation. And if you have the memory
+[00:28:01] available, it gives you a performance
+[00:28:03] boost if you run your KVM guests with no
+[00:28:05] MMU. And I think no MMU was the kernel
+[00:28:09] parameter, but I'll have to double
+[00:28:11] check. But does it make sense to you?
+[00:28:14] >> Not as
+[00:28:17] >> Okay.
+[00:28:17] >> If you don't have to rebuild the entire
+[00:28:19] software stack, then it's not
+[00:28:22] >> okay. Then it's not a program. Then I
+[00:28:24] was wrong. Yeah. you'd
+[00:28:26] have to rebuild your entire software
+[00:28:28] stack to do no MMU in in a VM or
+[00:28:30] something. So,
+[00:28:32] >> so maybe it's something with MMU pass
+[00:28:34] through something like that, but um it's
+[00:28:37] not that wouldn't be no MMU.
+[00:28:40] >> Okay. Okay. No, but it's a good comment.
+[00:28:42] Thank you. [clears throat] So, yeah, I I
+[00:28:45] think you know I think there's a kind of
+[00:28:46] a fourdimensional thing here, right?
+[00:28:48] Like we're looking at no MMU for
+[00:28:51] testing, no MMU, which is great. We're
+[00:28:53] looking at like what can we do in
+[00:28:55] networking? Um we're looking for
+[00:28:57] testing, but in testing we don't really
+[00:28:59] care that much about performance. And
+[00:29:01] then you know we have this whole
+[00:29:02] performance angle. So it's like this
+[00:29:04] four
+[00:29:05] um four dimensions that are sort of to
+[00:29:08] me they're sort of at odds because a lot
+[00:29:10] of the performance stuff um pushes it
+[00:29:13] into a specific corner where you have to
+[00:29:15] do certain things and it's much more
+[00:29:18] complicated than it would be if you
+[00:29:20] wanted to be in just in one of the other
+[00:29:21] corners. So I think we need to discuss
+[00:29:23] this more um because it's you know I
+[00:29:26] know it's been a long debate about how
+[00:29:28] this should be done but thanks thanks
+[00:29:31] for uh coming back and talking about it.
+[00:29:34] >> Thank you for discussion again.
+[00:29:38] Thank you. Thank you for your time.
+[00:29:40] [applause]

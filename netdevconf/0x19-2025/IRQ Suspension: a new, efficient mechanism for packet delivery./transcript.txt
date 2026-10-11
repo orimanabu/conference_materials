@@ -1,0 +1,358 @@
+Source: https://youtu.be/o6wQYz3ycak
+Language: en
+Captions: local speech recognition (mlx-community/whisper-small-mlx); unreviewed
+
+[00:00:00] Alright, hi.
+[00:00:03] Welcome to my talk. This is called IRQ suspension, a new efficient mechanism for packet delivery.
+[00:00:10] So before we get started, hi, my name is Joe. I work at Fastly and
+[00:00:16] I want to let you know that my opinions are my own.
+[00:00:20] So now that the legal team is happy, I can start with the talk.
+[00:00:24] This talk is actually a follow-up from
+[00:00:27] last year's NetDev talk that I gave.
+[00:00:30] And that was called real-world tips, tricks, and notes of using ePoll-based busy polling to reduce latency.
+[00:00:35] So if there's some context that
+[00:00:39] you feel like you're not following in this talk, I would suggest
+[00:00:43] checking out the talk from last year that gives a lot more background information on what I'm talking about in the setup and everything.
+[00:00:50] And these slides, I'm going to upload these to the NetDev.com website later.
+[00:00:54] And so, you'll be able to click the links and follow stuff along.
+[00:00:57] So just to make sure we're starting at the right spot,
+[00:01:05] assume that this is one CPU on your system. You have user land, you have the kernel.
+[00:01:11] The way that traditional NAPI network processing works is you have your app.
+[00:01:18] You have a bunch of follow descriptors.
+[00:01:20] You have NAPI. And NAPI runs asynchronously, like interrupts come in as data arrives.
+[00:01:26] The network stack does its softfire queue thing, softfire queue runs and does a network stack thing and then attaches data to follow descriptors.
+[00:01:34] And then you have your app and your app occasionally calls ePollWate and asks, hey, which follow descriptors are ready?
+[00:01:39] ePollWate does its thing and figures out which follow descriptors are ready.
+[00:01:42] And it tells the app, hey, these are the follow descriptors that are ready.
+[00:01:46] And that's generally what people would consider, I suppose, regular NAPI busy polling, sorry, regular NAPI processing.
+[00:01:55] And, you know, this is just triggered by interrupts coming in, causing softfire queue to run.
+[00:02:00] And those interrupts can come in at any time, you know, potentially while your app is running, interfering with your app, actually trying to do the processing it wants to do.
+[00:02:11] There's another method that I talked about last year where you can actually use ePollWate to try to synchronously run NAPI.
+[00:02:19] If you're using ePoll with a so incoming NAPI ID and a bunch of other options that I talked about last year.
+[00:02:25] You can actually, your calls from user land, when you call ePollWate, will actually drive NAPI processing directly.
+[00:02:32] And so that's really interesting because then in user land, you can decide when you want to get network data and when you want to do user land processing, right?
+[00:02:42] And so the way that that looks is it, you know, changes the picture a little bit, you have your app, you have your follow descriptors, your app calls ePollWate and says, hey, which follow descriptors are ready?
+[00:02:51] ePollWate then does its thing, but this time ePollWate triggers NAPI to run synchronously and then NAPI does its thing, runs the network stack,
+[00:03:01] attaches data to follow descriptors and then ePollWate returns that set of follow descriptors back to the app.
+[00:03:08] And that's like the general plan, right? Like that's like what you think you're going to do when you try to use ePoll and so incoming NAPI ID and like set up all the busy polling stuff.
+[00:03:18] The problem with plans, it kind of reminds me of something that the famous computer scientist Mike Tyson once said, which is that everybody has a plan until they get punched in the mouth.
+[00:03:32] And in this case, getting punched in the mouth is actually interrupts are still generated when you're trying to do your busy polling thing.
+[00:03:40] Like you had your plan to let the user land app do its processing. That was your plan, but that plan is not going to happen because interrupts are still going to happen.
+[00:03:48] So what the picture really ends up looking like is you have a user land app. It says, hey, ePoll, calls ePollWate, asks which follow descriptors are ready.
+[00:03:58] ePoll is about to do its synchronous, you know, NAPI thing and then suddenly like an interrupt comes in and messes up your flow.
+[00:04:06] Or maybe the interrupt comes in when you're in user land doing processing, like doing TLS or something like that in user land and that is harmful for cash efficiency.
+[00:04:16] And I know that this happens because I built a prototype that uses ePoll based busy polling with S O incoming NAPI ID.
+[00:04:22] This is just a flame graph that I captured on a machine that was running it. And you can see interrupts are still coming in, even though I'm trying to do busy polling.
+[00:04:31] So I'm trying to avoid this from happening because I want to save these CPU cycles because I'm building my user land application to do processing appropriately.
+[00:04:42] And so you can end up in this worst case scenario, which is really annoying to be in, where you're burning 100% CPU when there's no work,
+[00:04:50] right? Because no interrupts are coming in. So your user land app is just calling ePoll and then that's triggering NAPI to run and NAPI is not finding anything and you're just sitting there spinning,
+[00:04:59] doing nothing because there's no data to process. And so you're burning 100% CPU when there's nothing to do.
+[00:05:05] And then when there is work to do, interrupts are interfering with processing in user land. So your cash efficiency goes down.
+[00:05:12] And that's like the worst case scenario you can end up in. And it kind of sucks overall.
+[00:05:17] And that's why this new mechanism, IRQ suspension exists. It's to try to help solve this specific problem. And I'm going to explain to you a little bit more about how that actually works and how you can use it in your apps.
+[00:05:32] So I think it's worth like taking a little bit of a step back before we go into the details on how like IRQ suspension works and try to think about like what is this problem that we're trying to address at like a higher level, right?
+[00:05:46] It's a three part problem in my opinion. Maybe you all will disagree, but the three parts of the problem are part one is there's this inherent trade off between CPU usage and network processing latency.
+[00:05:59] Right. And so what I mean is like on one hand, you can spend more CPU cycles and reduce latency. And then on the other hand, you can increase latency and save CPU cycles. So these are like the two things you're trying to balance, right? CPU cycles and latency.
+[00:06:14] And the second part of the problem is that device interrupts can interfere with network processing leading to efficiency loss due to suboptimal CPU cache usage.
+[00:06:25] And the third part of the problem is that there are some existing mechanisms in the kernel. And in my opinion, it's good that they exist, but there are a couple of issues with them. So one issue is that some of the mechanisms are device specific like hardware interrupt coalescing.
+[00:06:42] You know, there's one driver in particular that I'm thinking of. It doesn't work this way anymore, but it used to work this way where if you changed the interrupt coalescing rate, the driver would tear down all the cues and rebuild them. And that would break any client connections that you had.
+[00:06:56] It doesn't, the driver that I'm thinking of doesn't work that way anymore, but it's possible that there are other drivers that do do that still. I don't know.
+[00:07:03] And a lot of the existing mechanisms for this are just too coarse grained. They're like interface-wide. So you can't enable it for a specific queue. You can't just say like, I want to do, you know, whatever, hardware. I want to do like, you know, interrupt coalescing for like one receive queue.
+[00:07:20] Again, that's not true of all drivers, but that's true for some drivers, in particular a driver that I was using for a while.
+[00:07:26] And picking the right value is really hard with dynamic traffic load, right? So traffic load for us at Fastly varies throughout the day. Like there are certain times where we have more traffic and there are other times where we have less traffic.
+[00:07:42] And choosing the right value is really difficult to do when traffic can shift really rapidly. And like I said before, if you're using a driver that destroys all the Rx queues, then rebuilds them when you change your interrupt coalescing settings.
+[00:07:55] Then that would break client connections and make your customers really unhappy. So it might not even be possible to pick the right value, even if you knew what it was.
+[00:08:05] The two existing nick-wide mechanisms I stumbled upon when I was like researching all this are deferred hard IRQs and grow flush time out.
+[00:08:15] These are like interface-wide options that exist that you can play within the kernel.
+[00:08:21] So if you download the slides and you click on this link, this will actually bring you to the commit message about deferred hard IRQs, which Eric wrote.
+[00:08:30] And there is some really interesting and useful information in the commit message.
+[00:08:38] So deferred hard IRQs was added back in 2020. And as explained in the commit message, it says this feature can be used to work around some non-optimal nick IRQ coalescing.
+[00:08:51] And the commit message goes on to say that having the ability to insert a delay can increase cache efficiency by increasing batch sizes.
+[00:08:59] And so when I read this commit message, I was like, this is really interesting. This is exactly what I'm trying to do.
+[00:09:06] I'm trying to defer my hardware-generated interrupts.
+[00:09:11] And then I stumbled upon the grow flush time out. Again, if you download the slides and you click this link, this will bring you to the commit message.
+[00:09:18] This was also introduced by Eric, but this was introduced a long time ago in 2014.
+[00:09:22] And I really like this commit message because at the bottom it says tuning coalesce parameters on nick can be really hard.
+[00:09:30] So when I saw this line, I was like, this was me. I was like, wow.
+[00:09:36] If Eric thinks it's hard, then it's okay that I think it's hard too.
+[00:09:40] It kind of gives me cover. If he says it's hard, then I agree it's pretty fucking hard.
+[00:09:47] Anyway, the grow flush time out commit message has a lot of really useful information in it. So thanks, Eric, for being verbose in your commit message.
+[00:09:55] I think the most interesting part about this is at the bottom where the commit message mentions that reducing the number of wakeups increases CPU efficiency,
+[00:10:05] but can decrease queries per second as applications won't have the chance to warm up CPU caches.
+[00:10:12] And so this sort of goes back to what I was saying before about this inherent tradeoff between latency and CPU usage and adjusting these values.
+[00:10:20] And so picking the right value is hard, like Eric said in his commit message, and it can feel really difficult to figure out what number do I use and how do I adjust it and when do I adjust it and how do I predict what the value should be based on traffic load and stuff.
+[00:10:35] And, you know, like I tried running this on a production system just to see what would happen basically and it's kind of hard to see, but there is this orange bar at the top of this graph here,
+[00:10:47] and that is the CPU time spent in busy IRQ and changing defer hard IRQs and the grow time, the grow flush timer to be like really large values does pretty much exactly what you expected drops CPU usage for,
+[00:11:04] IRQ handling like significantly, and that was the thing that I thought was really interesting, right? Like I wanted to get these CPU cycles back, especially when the machine is under high load, like there's no reason for us to be generating interrupts if we have a huge amount of network traffic coming in.
+[00:11:20] But like I said, it's extremely difficult to choose the right value, especially in environments with dynamic network traffic load.
+[00:11:28] And Nick wide settings affect all apps that are using the Nick so, you know, for us at Fastly a computer at Fastly looks like this.
+[00:11:38] It's a bunch of dotted lines and there's lots of apps that run on it right like we have our reverse proxy that does like TLS termination but we also have like HP caching we have Golang name is we have lots of different things that are running and not all of them necessarily need to have these settings set for them.
+[00:11:58] We only want the setting set for maybe certain apps at certain times.
+[00:12:02] So before I can tell you more about our Q suspension, I need to talk to you about something that I mentioned last year.
+[00:12:08] So from last year, I had this slide in my presentation which said, I'm hoping to work on nappy defer hard hard IQs and grow flush time out and make those configurable per nappy via netlink which you know I personally think that netlink is amazing.
+[00:12:25] I just wanted to throw that out there.
+[00:12:27] So, you know, well, well, well, what have I been up to since last year.
+[00:12:36] I added support for per nappy configuration settings.
+[00:12:39] This is the link to the cover letter for the series that was merged so you can click this link and read about the cover read the cover letter and per nappy configuration settings allows you to set defer hard IQ and grow flush time out per nappy via netlink, which is the greatest way to set your
+[00:12:54] protocol ever.
+[00:12:56] And it also allows other settings to be configured per nappy like IRQ suspension, which I'm going to get to in a minute.
+[00:13:04] And this actually solves the interface why config problem, right, because now you can set these settings for a particular nappy for particular receive queue, and you know you can use that receive queue for a particular app.
+[00:13:18] And now you're not, you know, interfering with other apps that are maybe not latency sensitive or don't need these settings set right.
+[00:13:26] And I added support for this per nappy config to a lot of drivers.
+[00:13:29] So a bunch of drivers support this right now.
+[00:13:31] Here's the list of the ones that I know about.
+[00:13:33] There could be others that I'm missing.
+[00:13:37] But these are the ones that I am aware of right now.
+[00:13:39] So there's pretty good coverage for the support for per nappy configuration.
+[00:13:44] But there is one thing that I wanted to mention about this, which is that, however, even though a lot of drivers support the per nappy configuration settings right now, the per nappy configuration settings on those devices do not necessarily persist between nappy teardown and creation.
+[00:14:02] So for example, if you were to set a bunch of settings on some nappies that are associated with a queue and then you did a queue resize, you might lose those settings.
+[00:14:11] Or maybe the driver decides that there's a timeout or something on a on a TX queue and tears down that queue and then rebuilds it or something.
+[00:14:19] You would lose any settings that you set.
+[00:14:22] And that's where something called the nappy config persistence comes into play and only a subset of the driver that was set on the previous slide support persistent nappy configuration values.
+[00:14:35] These are the ones that support persistent values.
+[00:14:39] You can read the current documentation that explains how to add support for persistent nappy config value nappy config to your driver.
+[00:14:47] So if you're a driver maintainer and you're here, you should consider adding support.
+[00:14:51] It's pretty easy.
+[00:14:52] Just make one API call.
+[00:14:53] There's current documentation and there's a couple examples you can look at that said persistent per nappy configuration is not required for setting defer hard RQs or RQs to spend time out.
+[00:15:05] But it is really helpful to have persistent configuration.
+[00:15:11] And I hope to add persistent nappy configuration support to more drivers as I have time.
+[00:15:18] So I'm going to give you an example of how you might use this today.
+[00:15:21] Like say you are like, okay, cool.
+[00:15:22] I want to set defer hard RQs on, you know, some cues that my app is going to use.
+[00:15:28] I'm going to provide an example because a lot of times I see like really interesting talks and they don't show examples on how to actually do the thing.
+[00:15:34] And then I leave the talk and I'm like, that was really cool, but I'm have no fucking idea how to do that.
+[00:15:39] So this is going to hopefully show you like how you might do that.
+[00:15:43] So I'm going to explain with words that I'm going to show you with actual code.
+[00:15:47] So I mean, you know, you could do whatever you want, but this is how I would do it, which is I would create a custom RSEX context, which maybe distributes flows through a certain number of cues.
+[00:15:58] In this example, we'll say it's q zero three seven.
+[00:16:02] I'm going to attach a filtering rule to steer incoming TCP for flows on port 80 to this custom context that I created for q zero three seven.
+[00:16:10] And then I'm going to use net link to configure the nappies for q zero three seven to defer hardware RQs.
+[00:16:16] So these are the three things I'm trying to do.
+[00:16:18] So how do you actually do that?
+[00:16:20] Well, steps one and two, you can just do with a tool, right?
+[00:16:24] You can create a custom context with a tool and then you can set up a flow rule again using a tool to just like steer flows that are coming into port 80 to this custom context.
+[00:16:36] And then for step three to set the defer hardware cues per per q, you can do it two different ways.
+[00:16:43] You can either do it on the command line with Python, or you can use a C library, live Y and L, which I get to in a second.
+[00:16:49] But if you're doing it on the command line, you would run a command like this and you would get the nappy ID associated with q zero.
+[00:16:54] You can see in red at the bottom here that the nappy ID is 8392.
+[00:16:58] So you would get the nappy ID.
+[00:17:00] And then you would, you know, this is just an example of how you would retrieve the existing settings.
+[00:17:05] So you can see that for nappy ID, 8392, the existing settings are just zero default values.
+[00:17:11] And then you can run this Python thing and you can say, you know, set defer hardware cues and grow flush time out to whatever values.
+[00:17:18] So this example, I set it to 10 and 20,000.
+[00:17:22] And then you repeat that with the Python seal seal I for, you know, cues one through seven.
+[00:17:27] If you don't want to use a Python seal I to set that you can do this programmatically with live Y and L which now has a make target so big shout out to the folks, I think from redhead who are working on that.
+[00:17:37] If you again click on this link, it'll bring you to the commit into the kernel that adds support for make target for live Y and L.
+[00:17:47] And just noting that persistent per nappy configuration also persists nappy IDs, which is really helpful for applications using so incoming nappy ID for the reasons I talked about before.
+[00:17:58] Right. So like you have your user land app. It has a set of nappy IDs that it knows about and it's expecting connections that, you know, to come in on.
+[00:18:06] And if the driver were to for some reason tear down a queue and rebuild it, and that nappy ID got regenerated the user land app might get kind of confused.
+[00:18:15] And this is like really, really helpful to avoid this confusion.
+[00:18:20] So anyway, now that it's possible to configure things on a per nappy basis, it's possible to add new features on a per nappy basis like interrupt suspension.
+[00:18:30] So what is interrupt suspension. If you click this link, this will bring you to an academic paper written by Peter Kai and Martin Carson from the University of Waterloo.
+[00:18:40] In this paper, they describe with extreme detail several different methods for controlling interrupts on machines.
+[00:18:49] They talk about hardware IRQ coalescing. They talk about some software settings.
+[00:18:53] They even talk about user land networking stacks and they compare and contrast all these different mechanisms against each other and present data measurement framework.
+[00:19:01] It's a really interesting and useful paper.
+[00:19:03] Then they introduced this idea of interrupt suspension in the paper.
+[00:19:08] And they use it so interrupt suspension is a mechanism that allows user land apps to drive network processing by ePoll without interruption from devices from device IRQs until one of two things happen.
+[00:19:20] Either number one, polling for network data on an app he finds no data.
+[00:19:26] So interrupts will be suspended until you come up with no data or the suspension timeout is triggered.
+[00:19:33] The suspension timeout just serves as sort of like a backstop so that user land doesn't stall too long, causing you to drop data.
+[00:19:41] And I'm going to talk a little bit more about the suspension timeout in a second.
+[00:19:44] But that's sort of basically how it works.
+[00:19:48] Like interrupts are suspended and they will automatically be re-enabled when either there's no data or the timeout is triggered.
+[00:19:57] And so you can think of IRQ suspension as a way to balance CPU consumption with network processing latency.
+[00:20:03] So when network traffic is really high, interrupts are suspended so the user land app can run without interruption.
+[00:20:09] And when network traffic is low, interrupts are automatically re-enabled, which allows user land apps to sleep so you can get your CPU cycles back.
+[00:20:19] The cover letter of the series that was merged into kernel 613 has a lot of information in it.
+[00:20:28] So if you're interested in interrupt suspension, I'm going to talk about like some of the data that's in the cover letter, but the cover letter is very, very long.
+[00:20:34] It has a lot of information, a lot of data, a lot of different test cases.
+[00:20:38] It would be too difficult to summarize all of that in a talk and it would probably put you all to sleep.
+[00:20:43] But you can read it by just clicking on this link.
+[00:20:47] And you should definitely read the paper as well. The paper is what motivated the work.
+[00:20:52] Like I said, it was written by Peter Kye and Martin Carson from University of Waterloo. They're the ones that invented this idea of interrupt suspension.
+[00:20:59] And the paper provides the sort of the background, the measurement methodology and as I said earlier, comparison with existing mechanisms in the kernel and device driver support.
+[00:21:11] So how and when can interrupt suspension be used?
+[00:21:17] So first I was going to say, check the kernel documentation.
+[00:21:20] In the series that I got merged, I tried to update the kernel documentation to explain in detail.
+[00:21:26] You know, how to use it, when to use it, what settings to set and so on.
+[00:21:31] So there should be a lot of useful information for you in the kernel docs.
+[00:21:34] I'm also going to show you how to do it now during the talk, but their current documentation is there.
+[00:21:40] There are a few minimum requirements if you want to use interrupt suspension.
+[00:21:43] So the first is that your userland app is a network dominant application that uses E-Poll.
+[00:21:51] The other requirement is that the Nick driver that you're, for the Nick that you're using supports per NAPI configuration.
+[00:21:56] That's configurable with Netlink.
+[00:21:58] Persistence is not necessary, but it's very nice to have.
+[00:22:02] And you're using a kernel that actually has this feature in it.
+[00:22:05] So kernel 613 or higher. That's the minimum requirement.
+[00:22:08] So if you have these three things, then you can use interrupt suspension to get better efficiency.
+[00:22:12] And I'm going to show you performance data soon. So don't worry.
+[00:22:16] Optional, these are, this is not required to use interrupt suspension,
+[00:22:19] but it definitely helps a lot. So the first is that if your userland app already uses SO incoming NAPI ID to distribute connections to worker threads,
+[00:22:29] that's really helpful because it reduces the amount of work you need to do.
+[00:22:32] Because if you don't already use this in your userland app,
+[00:22:35] well, the bad news is, is that you're going to need to modify your userland app to do this.
+[00:22:40] And somebody asked a question a couple of days ago, like how many apps are already using this.
+[00:22:45] One popular one that I know of that's already using SO incoming NAPI ID is memcached.
+[00:22:50] So there are like apps out there that are already using this that you can look at for examples on how to set this up.
+[00:22:56] And I'm going to point you at other examples at the end of the talk.
+[00:22:59] But, you know, if your app already uses it, it'll make your life a lot easier for implementing this.
+[00:23:04] If it doesn't, you're going to have to do some work to, you know, to add support for this.
+[00:23:09] The second thing that's optional but really, really useful is if your NIC hardware supports like custom RSX context
+[00:23:15] and Ntuple filters to steer flows to those contexts.
+[00:23:19] Again, that's not required, but it's really useful because you might not want to do interrupt suspension for the entire machine.
+[00:23:26] You might only want to do it for certain receive queues.
+[00:23:29] And so having support for that would be really, really helpful.
+[00:23:33] For us, it's really useful because we run lots of different things and not everything that we run needs interrupt suspension.
+[00:23:39] So, okay, so how do you actually implement this in your app?
+[00:23:43] I'm going to show you with words and sort of walk you through how you would implement this.
+[00:23:47] And then I'm going to point you at some examples you can look at.
+[00:23:50] So to implement this, the first thing, again, this is optional, but you probably want to do it is set up some Ntuple filters to direct flows to specific queues on your machine.
+[00:24:02] Then you modify your userland app and you make sure that it uses E-Pull Wait.
+[00:24:08] And you note that a couple things.
+[00:24:11] One is that, and this is kind of important, and this is explained in the kernel documentation as well, but I'm going to mention it here a little bit more verbosely,
+[00:24:19] which is that E-Pull Wait takes an argument called MaxEvents, and that controls the maximum number of events that the kernel is going to give back to userland.
+[00:24:28] And that is a way of userland controlling how much time it's going to spend processing data, right?
+[00:24:34] Because you can use a lower MaxEvents to get less events from the kernel, resulting in less userland processing, or you can use a higher MaxEvents and do more processing.
+[00:24:45] And that's really closely connected to the IRQ suspend timeout, right?
+[00:24:49] Because the timeout is going to fire, and you'd want to choose a timeout that's large enough such that at least one iteration through E-Pull Wait,
+[00:24:59] and the userland processing that happens as a result of that does not get interrupted by interrupts. That's the whole point of this, right?
+[00:25:05] So you'd want to choose a suspend timeout that is large enough to allow the app to do one batch or one round of processing.
+[00:25:15] And you can use a timeout to E-Pull Wait of negative one, which would cause your userland app to sleep.
+[00:25:21] And the reason why you can do this is because IRQ suspension will either return events to you if there is data available, and you'll be able to process it.
+[00:25:30] And if there is no data available, then IRQ suspension re-enables interrupts, and then your app can go to sleep and then just get woken up as soon as data arrives again.
+[00:25:39] So you can save your CPU cycles.
+[00:25:43] And so those are the notes about making sure how you're using E-Pull Wait in your app.
+[00:25:48] Obviously, you need to use SO incoming NAPI ID to distribute incoming connections to E-Pull loops.
+[00:25:54] And if you're not really sure what I mean by that or how to do that, this is a link to last year's talk where I explained in detail how you might set that up and how you might do that.
+[00:26:03] And then once you're distributing the connections, you can use the E-Pull I-Octyl to set a couple of parameters.
+[00:26:10] So you would set the busy pull Usecs to zero, which is effectively like a non-blocking run through NAPI loops.
+[00:26:23] So it'll just run NAPI a single time instead of just sitting there calling NAPI pull in a loop in the kernel.
+[00:26:29] So you just set busy pull Usecs to zero.
+[00:26:31] You can set the budget to 64 if you want or less, whatever is appropriate for your app.
+[00:26:35] And you set prefer busy pull to true.
+[00:26:38] So you set these settings.
+[00:26:40] And then you use the Python CLI or libynl for each NAPI associated with every queue where the network flows are landing.
+[00:26:47] And you can set the deferred hard IRQs to a low value, like maybe 10 or something.
+[00:26:53] And the grow flush timeout to a low value, like maybe 20,000 or something.
+[00:26:56] And then you set the IRQ suspend timeout to the maximum time in nanoseconds that interrupts should be suspended for.
+[00:27:03] And that's typically the maximum time the application needs to process events retrieved from ePullWate.
+[00:27:12] So you might be wondering why would you need all three of these things set?
+[00:27:16] Why would you need deferred hard IRQs, a grow flush timeout, and IRQ suspend timeout?
+[00:27:20] And the answer is because if you don't use deferred hard IRQs and you don't use a grow flush timeout and you just use interrupt suspension,
+[00:27:27] you can enter into a case where your system is rapidly switching back and forth between interrupts being suspended and then interrupts being generated again.
+[00:27:36] And so you can think of using deferred hard IRQs and grow flush timeout, like using those with small values to sort of like ease your way back into being interrupt driven again so that you're not constantly flipping back and forth.
+[00:27:49] So that's why you would set all three of these values.
+[00:27:52] This again is explained in the kernel documentation that I linked to earlier.
+[00:27:55] So you can go and read that if you're interested in this.
+[00:28:01] So, you know, this sounds interesting.
+[00:28:05] Like, are there any apps actually doing this?
+[00:28:07] Like, you know, what are some examples that you can look at to, you know, copy and paste code from or to understand how to implement this in your app?
+[00:28:14] There's three examples that I would point you at.
+[00:28:16] So first is there is a self test in the kernel that I wrote.
+[00:28:21] It's just a really simple ePoolWayT busyPool example.
+[00:28:24] It uses the Ioctl and it uses lib.yml to set the IRQ suspend timeout so you can read the code for the self test in the kernel.
+[00:28:33] Another example is memcached, which already uses ePoolWayT and supports SO incoming NAPIIDs.
+[00:28:39] So that already exists.
+[00:28:41] It doesn't use the ePool Ioctl.
+[00:28:44] So Martin, who I worked with on the patch series, has a small patch to memcached that allows you to use the ePool Ioctl.
+[00:28:52] So that patch is here if you want to read, like, how that works.
+[00:28:56] And the IRQ suspend timeout, if you're using memcached, has to be set manually using the Python CLI, like I showed earlier in the slides.
+[00:29:08] If you want an example which does everything,
+[00:29:12] at Fastly we use an open source project called H2O.
+[00:29:16] We're developing this against upstream H2O, so it's open source, so you can click on this PR and you can read it.
+[00:29:23] This is actually a draft still. We're still working on this.
+[00:29:26] There are a couple of, there's an engineer at Fastly that's still working on the implementation.
+[00:29:30] We hope it'll be done soon.
+[00:29:32] But this implementation shows you how to use interrupt suspension with lib.yml and it also supports multiple network interfaces,
+[00:29:39] which introduces a little bit of complexity that I talked about last year.
+[00:29:43] So if you're curious about what that complexity is, go and check out last year's talk.
+[00:29:47] But this pull request is out there, so if you want to add support to your app,
+[00:29:51] maybe you could read this as inspiration or as an example for how you might implement it in your app.
+[00:29:58] So you've done all this work. What is the performance impact of doing this?
+[00:30:03] What do you get as the benefit from doing this?
+[00:30:05] And I think the performance impact is actually really interesting.
+[00:30:09] Before I get into some of the performance results, I wanted to say that the full details about the test environment, the test scenarios,
+[00:30:17] the versions of everything, all the patches that we use to memcache, the patches that we use to lib event, all the scripts we use to configure the machine,
+[00:30:25] all of that stuff is covered in extreme detail in the cover letter for the series.
+[00:30:29] So you should read the cover letter if you want to know how exactly we set this up and how we tested it.
+[00:30:34] There's a tremendous amount of detail in the cover letter and we covered a huge number of cases.
+[00:30:39] We tested a lot of different things and it actually took several days to gather all the test data to prepare it for the cover letter
+[00:30:46] because we ran each of the tests for different traffic levels multiple times.
+[00:30:52] So it took a really, really long time to get all the data, but the high level summary is that what we tested was we tested memcached
+[00:31:00] and we considered a supported ePoll and SO incoming NAPI ID and we used a memcached benchmarking tool called Mutilate from the folks at Facebook
+[00:31:09] and Mutilate simulates a Facebook workload against memcached.
+[00:31:14] And we tested different configurations like I was just mentioning of deferred hard IRQs, of traditional busy polling, of regular NAPI processing,
+[00:31:23] and we tested lots of different scenarios in between and we tested each of these different scenarios with varying traffic levels.
+[00:31:31] So there's a huge amount of data in the cover letter.
+[00:31:35] Here is an example, this is just like an example of like the, of some of the, this is like when the traffic level is low,
+[00:31:42] this shows all the different test cases that we tested.
+[00:31:47] This is the full data, I don't have enough time to go over all like all these data points, but I'm going to pull out three that I think are really interesting for comparison in the data.
+[00:31:56] So the three test cases that I think are interesting are the base case, which is just regular NAPI processing, full busy, which is what you would think of as traditional busy polling and suspend.
+[00:32:09] And this is when network traffic is low.
+[00:32:12] I think what's interesting about this data is if you compare suspend versus full busy, full busy polling and you look over sort of toward the right side, the CPU column, suspend uses much less CPU than full busy polling,
+[00:32:26] which is what you'd expect, right full busy polling is burning your core at 100% CPU suspend only uses 32% CPU.
+[00:32:33] And then if you look to the left at the 99th percentile latency, suspend gets pretty similar latency, not the same, but very comparable 141 microseconds to 133, but you're saving a tremendous amount of CPU.
+[00:32:50] So you're giving up like a tiny bit of latency, but you're saving a huge amount of CPU.
+[00:32:54] And then if you compare suspend versus the base case, which is just regular NAPI processing, it uses slightly more CPU than regular NAPI processing.
+[00:33:03] But at half the average latency.
+[00:33:06] And it's actually a quarter of the 99th percentile latency.
+[00:33:10] So for low network load suspend actually is much better latency wise than regular NAPI processing.
+[00:33:20] And at maximum network load, so you can see in the CPU column for all of these test cases, CPU is at 100%.
+[00:33:27] Again, I'm just going to take the three cases that I think are really interesting.
+[00:33:30] You can read the cover letter if you want to know like what each of these cases is and what we were testing.
+[00:33:34] But this is why it took so long for us to generate the data because we tried many different traffic levels and we tried lots and lots of different test cases.
+[00:33:41] But the three cases that I think are really interesting are regular NAPI processing, busy polling and suspend, which is the thing that we're trying to introduce.
+[00:33:51] And the takeaway from this is that basically suspend has about 14% more application queries per second than regular NAPI processing.
+[00:33:59] And it has better latency. So if you look at the first row, right, you look at QPS, it's about a million.
+[00:34:06] And then you look down at the last row QPS is 1.2 million.
+[00:34:09] So you're getting a lot more QPS application queries per second with suspend.
+[00:34:14] And if you look over to the right on the first row in the bottom row, you can see that the 99th percentile latency is much lower for suspend.
+[00:34:26] If you compare suspend with full busy polling, it uses the same amount of CPU, right?
+[00:34:31] Because this is maximum load. So they both use 100% CPU, which is what you'd expect.
+[00:34:34] And it has comparable latency, not as good, slightly worse, but it's comparable.
+[00:34:40] And so that's what IRQ suspension does.
+[00:34:45] And the high level overview is basically the summary is essentially that at low load IRQ suspension has comparable latency to full busy polling, but with much less CPU usage.
+[00:34:58] So you're not just burning cores, doing nothing, putting carbon in the atmosphere and killing earth.
+[00:35:03] It has slightly higher CPU than NAPI processing, but you get half the latency, half the average latency or a quarter of the 99th percentile latency, which is pretty nice.
+[00:35:12] And at maximum load interrupt suspension has better processing efficiency than regular NAPI processing.
+[00:35:20] So you get higher application queries per second and you get comparable latency to full busy polling.
+[00:35:27] So those are the results of us testing IRQ suspension.
+[00:35:35] So in conclusion, IRQ suspension provides a mechanism for reducing CPU usage at low network load while providing low latency at maximum network load automatically.
+[00:35:48] And so you don't really need to worry too much about choosing the right value at the right time.
+[00:35:52] You set up IRQ suspension, you figure out what your max events is going to be in your app, you set the time out as a safety mechanism and then your app can just run.
+[00:36:01] And it'll automatically switch between interrupts being suspended or interrupts being enabled based on network traffic load automatically.
+[00:36:11] So yeah, that's it. Thanks for listening to me talk about interrupt suspension. I think it's a cool mechanism. I think it's really useful.
+[00:36:18] If you're interested in it, you should check out the talk that I gave last year. You can read the cover letter that has a lot more data about different scenarios we tested.
+[00:36:28] I just showed you the extreme cases like when there's very little load and when there's maximum load. There are other cases in between that you can check out in the cover letter if you're interested.
+[00:36:37] You can see what settings we tested you can see all the patches you can play around and figure out how to set it up for your system. So yeah, that's that's all I got.
+[00:36:46] So if there's time I don't know how much time we have but if there's time I can take questions.
+[00:36:52] One question here. Sorry, no you go. No, I was going to ask at full load. Why do you have a worse latency and lower qps because it seems like at that point it should just be pulling anyway.
+[00:37:07] Yeah, I'm not sure I think like maybe at maximum load we probably need to do a little bit more investigation to see why we're slightly off on qps and our and our test.
+[00:37:17] It could be a driver thing I'm not really sure but yeah, we were sort of like we got to that point we were like okay like it's close enough that we thought that the delta is like not super important but like I agree that they should be maybe exactly the same at 100% CPU.
+[00:37:33] I mean I guess there's going to be some overhead of trying to determine whether you want to do it but it should be minimal. Yeah, yeah, I agree. I agree.
+[00:37:41] Thank you for the question.
+[00:37:50] So I understand you have like a number of safety mechanisms and things like that, but isn't it possible if you turn off IRQs and you get the time out wrong that you'll result in data loss because your user land app is just off processing something for far too long.
+[00:38:05] Yeah, so if you get the if you set the time out value to some like really high number and you don't call and your application just like sits in user land, just processing data and never calls you pull weight and yeah you're going to end up dropping incoming packets right like you're going to run out of descriptors and you know you're going to start dropping packets at the at the
+[00:38:25] Nick but I mean.
+[00:38:27] So basically you do have to like play with this a bit before you get it right and put into production to make sure you don't suffer data loss.
+[00:38:33] Yeah, like that's what I was saying before like you need to make sure that the time out is set to a reasonable value.
+[00:38:40] And you need to make sure that when you call you pull weight that the amount of data you're retrieving from the kernel, it is an amount of data that you can process before the timer fires.
+[00:38:51] As long as like data is coming in the timer just continually gets deferred every time you call you pull weight.
+[00:38:56] And yeah, but yeah, you need to make sure that the time out is set to an appropriate value.
+[00:39:02] I would say that similar to just to follow on to that, you know that like you need to like set the time out to a particular value I would say the same is true for if you're just using like deferred hard-iron cues, right like if you set deferred hard-iron cues to like some huge amount, then you never get interrupts so.
+[00:39:18] Yeah, there's there's some potential for auto tuning this if the only bad thing from too high a time out is that you drop packets you should be able to infer sort of from the number of descriptors you have on the net.
+[00:39:40] What's the highest time out you can have.
+[00:39:43] Yeah, you could probably do math.
+[00:39:45] I agree.
+[00:39:48] Like you could figure out what your, you know, maximum throughput is or something and you could look at how many cues there are and then you could, you know, add some instrumentation and do math and back out like with the perfect value is.
+[00:40:01] I think in our cover letter we suggested values that would probably be appropriate.
+[00:40:07] At least values that works well for memcached mutilate workload.
+[00:40:12] But yeah, you could you could do math and you could like measure and you could figure out what's going on at least like in our apps that we run. We know how much latency there is in user land.
+[00:40:22] So that's how we would compute what our suspend time out should be like, you know, just going back to the previous question.
+[00:40:28] We actually, you know, like we record that data like we export.
+[00:40:31] Like how much time we spend processing in user land and how much time is spent in the network stack, you know, using time stamping and stuff. And so we have a sense for what the time out should be. And I think that probably most folks deploying like heavily used production apps that are like network dominant probably have some metrics they can look at to figure out.
+[00:40:48] Like how long interrupt should be suspended for like how long usually it's going to run for so.
+[00:40:53] Yeah, yeah, I'm afraid we have to end it.
+[00:40:56] All right, so we're going to do the usual break. Thanks a lot. Thank you.

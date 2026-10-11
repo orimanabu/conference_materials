@@ -1,0 +1,363 @@
+Source JSON: lpc2015-sessions.json
+Total sessions: 120
+Sessions with file attachments: 58
+Sessions without file attachments: 62
+Attachment count: 58
+Distinct source-file count: 58
+Saved: 0
+Already present: 54
+Unresolved: 4
+
+Sessions without file attachments have no folder and are not failed downloads.
+
+Session: Done ? Final spurt ? - Compiling the Linux Kernel with clang on x86 [ID 3225]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3225/original/LPC.pdf
+  Local path: Done ? Final spurt ? - Compiling the Linux Kernel with clang on x86/LPC.pdf
+  Status: already present
+
+Session: Beyond traditional compilation [ID 3261]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3261/original/Beyond Traditional Compilation.pdf
+  Local path: Beyond traditional compilation/Beyond Traditional Compilation.pdf
+  Status: already present
+
+Session: BPF in LLVM and kernel [ID 3249]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3249/original/bpf_llvm_2015aug19.pdf
+  Local path: BPF in LLVM and kernel/bpf_llvm_2015aug19.pdf
+  Status: already present
+
+Session: Rethinking the core OS in 2015 [ID 2715]
+  Attachment: slides
+  Source URL: http://www.linuxplumbersconf.org/2015/ocw//system/presentations/2715/original/LPC15 - Rethinking the core OS in 2015.pdf
+  Local path: Rethinking the core OS in 2015/LPC15 - Rethinking the core OS in 2015.pdf
+  Status: already present
+
+Session: Can Linux live without GNU toolchain? [ID 2739]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2739/original/clang-musl.pdf
+  Local path: Can Linux live without GNU toolchain?/clang-musl.pdf
+  Status: already present
+
+Session: Using clang static analyzer with the Linux kernel code [ID 3237]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3237/original/2015-LPC-Clang-static-analyzer-kernel.pdf
+  Local path: Using clang static analyzer with the Linux kernel code [3237]/2015-LPC-Clang-static-analyzer-kernel.pdf
+  Status: already present
+
+Session: Pushing the Limits of Kernel Networking [ID 2799]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2799/original/pushing-kernel-networking.pdf
+  Local path: Pushing the Limits of Kernel Networking/pushing-kernel-networking.pdf
+  Status: already present
+
+Session: Turtles all the way: Running Linux on open hardware [ID 2811]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2811/original/turtlesalltheway.pdf
+  Local path: Turtles all the way: Running Linux on open hardware/turtlesalltheway.pdf
+  Status: already present
+
+Session: ACPI 6 and Linux [ID 2829]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2829/original/ACPI_6_and_Linux.pdf
+  Local path: ACPI 6 and Linux/ACPI_6_and_Linux.pdf
+  Status: already present
+
+Session: Optimizing Application Performance in Large Multi-core Systems [ID 2817]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2817/original/Optimizing Application Performance in Large Multi-core Systems.pdf
+  Local path: Optimizing Application Performance in Large Multi-core Systems/Optimizing Application Performance in Large Multi-core Systems.pdf
+  Status: already present
+
+Session: Solving Device Tree Issues [ID 2823]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2823/original/dt_debugging.pdf
+  Local path: Solving Device Tree Issues/dt_debugging.pdf
+  Status: already present
+
+Session: Linux Kernel Debugging Tools Overview [ID 2643]
+  Attachment: slides
+  Source URL: http://www.linuxplumbersconf.org/2015/ocw//system/presentations/2643/original/kerneldebug_lpc.pdf
+  Local path: Linux Kernel Debugging Tools Overview/kerneldebug_lpc.pdf
+  Status: already present
+
+Session: Coccinelle [ID 2703]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2703/original/plumbers.pdf
+  Local path: Coccinelle/plumbers.pdf
+  Status: already present
+
+Session: Using clang static analyzer with the Linux kernel code [ID 3231]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3231/original/2015-LPC-Clang-static-analyzer-kernel.pdf
+  Local path: Using clang static analyzer with the Linux kernel code [3231]/2015-LPC-Clang-static-analyzer-kernel.pdf
+  Status: already present
+
+Session: Designing Plugin Systems for Container Runtimes [ID 3357]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3357/original/LPC_-_CNI_and_OCI.pdf
+  Local path: Designing Plugin Systems for Container Runtimes/LPC_-_CNI_and_OCI.pdf
+  Status: already present
+
+Session: Open Container Specifications [ID 3315]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3315/original/LPC_-_CNI_and_OCI.pdf
+  Local path: Open Container Specifications/LPC_-_CNI_and_OCI.pdf
+  Status: already present
+
+Session: State of Wayland [ID 3435]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3435/original/wayland_status.pdf
+  Local path: State of Wayland/wayland_status.pdf
+  Status: already present
+
+Session: ION Feature Upstreaming: Issues that remain [ID 3273]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3273/original/Upstreaming ION- issues that remain.pdf
+  Local path: ION Feature Upstreaming: Issues that remain/Upstreaming ION- issues that remain.pdf
+  Status: already present
+
+Session: HWComposer in Weston - need for a pluggable composition accelerator [ID 2967]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2967/original/HWComposer-Weston.pdf
+  Local path: HWComposer in Weston - need for a pluggable composition accelerator/HWComposer-Weston.pdf
+  Status: already present
+
+Session: Thermal subsystem [ID 2613]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2613/original/thermal-framework-status-no-transitioning.pdf
+  Local path: Thermal subsystem/thermal-framework-status-no-transitioning.pdf
+  Status: already present
+
+Session: Sensor API [ID 2931]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2931/original/lpc15_sensor_api_slides.pdf
+  Local path: Sensor API/lpc15_sensor_api_slides.pdf
+  Status: already present
+
+Session: Thermal Behaviour Assertions [ID 2943]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2943/original/LinuxPlumbers.pdf
+  Local path: Thermal Behaviour Assertions/LinuxPlumbers.pdf
+  Status: already present
+
+Session: Propagating thermal constraints to the scheduler [ID 2979]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2979/original/slides.pdf
+  Local path: Propagating thermal constraints to the scheduler/slides.pdf
+  Status: already present
+
+Session: Linux Thermal sysfs enhancement [ID 2787]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2787/original/LPC_2015_ThermalSysfs_using_IIO.pdf
+  Local path: Linux Thermal sysfs enhancement/LPC_2015_ThermalSysfs_using_IIO.pdf
+  Status: already present
+
+Session: USB gadget and ConfigFS - status & future [ID 2961]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/2961/original/Andrzej_Pietrasiewicz-Linux_Plumbers_2015-revised.odp
+  Local path: USB gadget and ConfigFS - status & future/Andrzej_Pietrasiewicz-Linux_Plumbers_2015-revised.odp
+  Status: unresolved
+  Error: original: HTTPError: HTTP Error 301: The HTTP server returned a redirect error that would lead to an infinite loop.; no matching archive capture
+
+Session: Barriers for running mainline kernels on consumer Android devices [ID 2889]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2889/original/(short) Issues w- running mainline on form-factor devices.pdf
+  Local path: Barriers for running mainline kernels on consumer Android devices/(short) Issues w- running mainline on form-factor devices.pdf
+  Status: already present
+
+Session: Android, partitions and customization [ID 3387]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3387/original/Android system, partitions and customization.pdf
+  Local path: Android, partitions and customization/Android system, partitions and customization.pdf
+  Status: already present
+
+Session: Running a single Android binary image on multiple devices [ID 2919]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2919/original/Single Android Image-1.pdf
+  Local path: Running a single Android binary image on multiple devices/Single Android Image-1.pdf
+  Status: already present
+
+Session: Adapting Android for Ara [ID 3405]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3405/original/projectara-150820.pdf
+  Local path: Adapting Android for Ara/projectara-150820.pdf
+  Status: already present
+
+Session: CRIU in HPC [ID 2685]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2685/original/criu-in-hpc.pdf
+  Local path: CRIU in HPC/criu-in-hpc.pdf
+  Status: already present
+
+Session: CRIU on PowerPC [ID 2649]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2649/original/CRIU-On-PowerPC-LinuxPlumbers2015.pdf
+  Local path: CRIU on PowerPC/CRIU-On-PowerPC-LinuxPlumbers2015.pdf
+  Status: already present
+
+Session: CRIU Support in Docker for Native Checkpoint and Restore [ID 2619]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2015/ocw//system/presentations/2619/original/2015-08-20-CRIU_Support_in_Docker_for_Native_Checkpoint_and_Restore.pdf
+  Local path: CRIU Support in Docker for Native Checkpoint and Restore/2015-08-20-CRIU_Support_in_Docker_for_Native_Checkpoint_and_Restore.pdf
+  Status: already present
+
+Session: P.Haul: live migrating with CRIU [ID 3165]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3165/original/plumbers-phaul.odp
+  Local path: P.Haul: live migrating with CRIU/plumbers-phaul.odp
+  Status: unresolved
+  Error: original: HTTPError: HTTP Error 301: The HTTP server returned a redirect error that would lead to an infinite loop.; no matching archive capture
+
+Session: Using CRIU for Computer Architecture and Software Studies [ID 2655]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2655/original/comparch-software-studies.pdf
+  Local path: Using CRIU for Computer Architecture and Software Studies/comparch-software-studies.pdf
+  Status: already present
+
+Session: Using the DLM as a Distributed In-Memory Database [ID 2691]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2691/original/Using the DLM as a Distributed In-Memory Database.pdf
+  Local path: Using the DLM as a Distributed In-Memory Database/Using the DLM as a Distributed In-Memory Database.pdf
+  Status: already present
+
+Session: Dynamic iSCSI at Scale: Remote Paging at Google [ID 3069]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3069/original/Public LPC2015 - Dynamic iSCSI at Scale- Remote paging at Google.pdf
+  Local path: Dynamic iSCSI at Scale: Remote Paging at Google/Public LPC2015 - Dynamic iSCSI at Scale- Remote paging at Google.pdf
+  Status: already present
+
+Session: Improving vendor AOSP repos [ID 2895]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2895/original/Improving AOSP Vendor Trees.pdf
+  Local path: Improving vendor AOSP repos/Improving AOSP Vendor Trees.pdf
+  Status: already present
+
+Session: Integrating KDBus in Android [ID 3417]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3417/original/integrating-kdbus-in-android.pdf
+  Local path: Integrating KDBus in Android/integrating-kdbus-in-android.pdf
+  Status: already present
+
+Session: Providing per-task Quality of Service [ID 3063]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3063/original/lelli_slides.pdf
+  Local path: Providing per-task Quality of Service/lelli_slides.pdf
+  Status: already present
+
+Session: Improving big.LITTLE on Android [ID 3399]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3399/original/LPC-tkjos.pdf
+  Local path: Improving big.LITTLE on Android/LPC-tkjos.pdf
+  Status: already present
+
+Session: New ACPI Specification Changes Related to Power Management [ID 3141]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3141/original/ACPI_6_and_PM.pdf
+  Local path: New ACPI Specification Changes Related to Power Management/ACPI_6_and_PM.pdf
+  Status: already present
+
+Session: DT power domain bindings - idle states [ID 3057]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3057/original/lpc-idle.pdf
+  Local path: DT power domain bindings - idle states/lpc-idle.pdf
+  Status: already present
+
+Session: Unifying DT wake-up sources management [ID 3051]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3051/original/wakeup_config.pdf
+  Local path: Unifying DT wake-up sources management/wakeup_config.pdf
+  Status: already present
+
+Session: PM: Unify idle management for CPUs and IO devices [ID 3075]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3075/original/One idle to rule them all.pdf
+  Local path: PM: Unify idle management for CPUs and IO devices/One idle to rule them all.pdf
+  Status: already present
+
+Session: PXE: Sucks [ID 2721]
+  Attachment: slides
+  Source URL: http://linuxplumbersconf.org/2015/ocw//system/presentations/2721/original/ONIE-LinuxPlumbers-2015.pdf
+  Local path: PXE: Sucks/ONIE-LinuxPlumbers-2015.pdf
+  Status: already present
+
+Session: Research topics in fastboot [ID 3177]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3177/original/ResearchTopics2015_final.odp
+  Local path: Research topics in fastboot/ResearchTopics2015_final.odp
+  Status: unresolved
+  Error: original: HTTPError: HTTP Error 301: The HTTP server returned a redirect error that would lead to an infinite loop.; archive index: TimeoutError: The read operation timed out
+
+Session: Reducing the ARM Linux kernel size without losing your mind [ID 3369]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3369/original/slides.html
+  Local path: Reducing the ARM Linux kernel size without losing your mind/slides.html
+  Status: unresolved
+  Error: original: HTTPError: HTTP Error 301: The HTTP server returned a redirect error that would lead to an infinite loop.; no matching archive capture
+
+Session: Recent Power Management Core Changes in Linux [ID 3129]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3129/original/PM_changes_since_3.14.pdf
+  Local path: Recent Power Management Core Changes in Linux/PM_changes_since_3.14.pdf
+  Status: already present
+
+Session: Scheduler-driven CPU frequency selection [ID 3159]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3159/original/scheduler-driven cpu frequency selection.pdf
+  Local path: Scheduler-driven CPU frequency selection/scheduler-driven cpu frequency selection.pdf
+  Status: already present
+
+Session: Improving Transactional Memory Performance with Queued Locking [ID 2913]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2913/original/mcs_tsx.pdf
+  Local path: Improving Transactional Memory Performance with Queued Locking/mcs_tsx.pdf
+  Status: already present
+
+Session: Unfair Queued Spinlocks and Transactional Locks [ID 3291]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3291/original/Unfair Queued Spinlocks and Transactional Locks.pdf
+  Local path: Unfair Queued Spinlocks and Transactional Locks/Unfair Queued Spinlocks and Transactional Locks.pdf
+  Status: already present
+
+Session: Limitations of various linkers in clang based toolchains [ID 3243]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3243/original/LPC2015.pdf
+  Local path: Limitations of various linkers in clang based toolchains/LPC2015.pdf
+  Status: already present
+
+Session: Device Tree Overlays [ID 3093]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3093/original/merged--DT-plumbers-2015--Devicetree_Overlays_at_Juniper.pdf
+  Local path: Device Tree Overlays/merged--DT-plumbers-2015--Devicetree_Overlays_at_Juniper.pdf
+  Status: already present
+
+Session: Device Tree Documentation [ID 2991]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2991/original/merged--DT_Binding_Documentation--device_tree_doc.pdf
+  Local path: Device Tree Documentation/merged--DT_Binding_Documentation--device_tree_doc.pdf
+  Status: already present
+
+Session: Device Tree Tools [ID 3003]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/3003/original/device_tree_tools.pdf
+  Local path: Device Tree Tools/device_tree_tools.pdf
+  Status: already present
+
+Session: Introduction to nfit, libnvdimm and libndctl [ID 2955]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/2955/original/libnvdimm.pdf
+  Local path: Introduction to nfit, libnvdimm and libndctl/libnvdimm.pdf
+  Status: already present
+
+Session: Persistent Memory Usages In The Coming Decade [ID 3015]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw/system/presentations/3015/original/plumbers_2015.pdf
+  Local path: Persistent Memory Usages In The Coming Decade/plumbers_2015.pdf
+  Status: already present
+
+Session: Providing Atomic Sector Updates in Software for Persistent Memory [ID 2769]
+  Attachment: slides
+  Source URL: https://blog.linuxplumbersconf.org/2015/ocw//system/presentations/2769/original/lpc2015-btt.pdf
+  Local path: Providing Atomic Sector Updates in Software for Persistent Memory/lpc2015-btt.pdf
+  Status: already present

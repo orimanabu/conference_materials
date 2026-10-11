@@ -1,0 +1,65 @@
+Linux Plumbers Conference 2008 資料取得結果
+入力: lpc2008-sessions.json
+確認日: 2026-10-11
+
+全セッション: 53
+資料リンクのあるセッション: 4
+資料リンクのないセッション: 49
+添付資料: 8 件（実資料 5 種類）
+
+取得済み資料
+
+[Video Input Infrastructure]
+- Mauro Carvalho Chehab: Video Input Status Quo
+  結果: 取得済み（保存版）
+  保存先: Video Input Infrastructure/mchehab_v4l_dvb_status_quo.pdf
+  元URL: http://linuxtv.org/downloads/plumbers2008/mchehab_v4l_dvb_status_quo.pdf
+  保存版URL: https://web.archive.org/web/20090131000000id_/http://linuxtv.org:80/downloads/plumbers2008/mchehab_v4l_dvb_status_quo.pdf
+- Hans Verkuil: Extending V4L2 to support complex media streaming devices
+  結果: 取得済み（保存版）
+  保存先: Video Input Infrastructure/hverkuil_v4l2.pdf
+  元URL: http://www.linuxtv.org/downloads/plumbers2008/hverkuil_v4l2.pdf
+  保存版URL: https://web.archive.org/web/20090131000000id_/http://linuxtv.org:80/downloads/plumbers2008/hverkuil_v4l2.pdf
+- Brandon Philips: The video4linux user-space: libv4l2, applications and a server
+  結果: 取得済み（保存版）
+  保存先: Video Input Infrastructure/bphilips_v4luserspace.pdf
+  元URL: http://linuxtv.org/downloads/plumbers2008/bphilips_v4luserspace.pdf
+  保存版URL: https://web.archive.org/web/20090131000000id_/http://linuxtv.org:80/downloads/plumbers2008/bphilips_v4luserspace.pdf
+- Introdution
+  結果: 取得済み（保存版）
+  保存先: Video Input Infrastructure/mchehab_v4l_dvb_round_table_intro.pdf
+  元URL: http://linuxtv.org/downloads/plumbers2008/mchehab_v4l_dvb_round_table_intro.pdf
+  保存版URL: https://web.archive.org/web/20090131000000id_/http://linuxtv.org:80/downloads/plumbers2008/mchehab_v4l_dvb_round_table_intro.pdf
+- New API proposals
+  結果: 取得済み（保存版）
+  保存先: Video Input Infrastructure/stoth_dvb_round_table_new_api.pdf
+  元URL: http://www.linuxtv.org/downloads/plumbers2008/stoth_dvb_round_table_new_api.pdf
+  保存版URL: https://web.archive.org/web/20090106133217id_/http://linuxtv.org:80/downloads/plumbers2008/stoth_dvb_round_table_new_api.pdf
+
+[The video4linux user-space: libv4l2, applications and a server]
+- Brandon Philips: The video4linux user-space: libv4l2, applications and a server
+  結果: 取得済み（保存版）
+  保存先: The video4linux user-space: libv4l2, applications and a server/bphilips_v4luserspace.pdf
+  元URL: http://linuxtv.org/downloads/plumbers2008/bphilips_v4luserspace.pdf
+  保存版URL: https://web.archive.org/web/20090131000000id_/http://linuxtv.org:80/downloads/plumbers2008/bphilips_v4luserspace.pdf
+
+[Extending V4L2 to support complex media streaming devices]
+- Hans Verkuil: Extending V4L2 to support complex media streaming devices
+  結果: 取得済み（保存版）
+  保存先: Extending V4L2 to support complex media streaming devices/hverkuil_v4l2.pdf
+  元URL: http://www.linuxtv.org/downloads/plumbers2008/hverkuil_v4l2.pdf
+  保存版URL: https://web.archive.org/web/20090131000000id_/http://linuxtv.org:80/downloads/plumbers2008/hverkuil_v4l2.pdf
+
+[Video input Status quo]
+- Mauro Carvalho Chehab: Video Input Status Quo
+  結果: 取得済み（保存版）
+  保存先: Video input Status quo/mchehab_v4l_dvb_status_quo.pdf
+  元URL: http://linuxtv.org/downloads/plumbers2008/mchehab_v4l_dvb_status_quo.pdf
+  保存版URL: https://web.archive.org/web/20090131000000id_/http://linuxtv.org:80/downloads/plumbers2008/mchehab_v4l_dvb_status_quo.pdf
+
+集計
+取得済み: 8 件
+未取得: 0 件
+
+未取得資料: なし
+資料リンクのないセッションは未取得件数に含めません。

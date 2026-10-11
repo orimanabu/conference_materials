@@ -1,0 +1,666 @@
+<!doctype html>
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Linux Plumbers Conference 2009 全セッション</title><style>body{font:16px/1.7 system-ui,sans-serif;margin:auto;max-width:1080px;padding:32px;color:#172a3b;background:#f3f6f8}header{background:#12344a;color:white;padding:28px;border-radius:12px}header a{color:#bde7ff}input{box-sizing:border-box;width:100%;font:inherit;padding:14px;margin:20px 0;border:1px solid #99aab7;border-radius:8px}article{background:white;padding:24px;margin:18px 0;border:1px solid #d8e1e8;border-radius:10px}h2{font-size:23px;line-height:1.4}h3{font-size:17px;border-top:1px solid #e2e7eb;padding-top:14px}a{color:#075b98;overflow-wrap:anywhere}.meta,small{color:#526777}pre{white-space:pre-wrap;overflow-wrap:anywhere}.description{overflow-wrap:anywhere}article[hidden]{display:none}</style><header><h1>Linux Plumbers Conference 2009 全セッション</h1><p>69セッション / 資料あり 51セッション / 資料 60項目（ファイル 44、外部リンク 16）</p><p>2009年はプログラムの発表・資料一覧と静的な日別スケジュールを照合。両ページの個別URL69件を重複排除して収録。Descriptionは個別ページのDescription原文、Excerptは別項目。プログラムのみの2件とスケジュールのみの4件も保持しsource_listingで区別。個別ページのTitle、プログラム表記、スケジュール表記は別フィールドに保持。個別URL未掲載の基調講演2件とGitチュートリアルは追加項目として収録。LinuxConとの合同Keynote/Lightning Talksは補足。リンクのない[slides]・[video coming]等からURLは推測しない。スライド・動画のURLを原掲載元から抽出。Waylandのプログラム側リンクは発表者ページを指しているためスケジュールの個別セッションURLに対応付け、original_program_linkを保持。資料URL1件でhttp://が重複しているため原URLと修正URLおよびアーカイブ候補を併記（候補の有効性未確認）。添付本体の取得・リンク有効性検査は未実施。</p><a href="https://blog.linuxplumbersconf.org/2009/program/index.html">公式タイムテーブル</a></header><label for="q">タイトル・Track・Description・資料名で検索</label><input id="q" type="search" placeholder="例: networking / Rust / scheduler"></head><body><p id="count"></p><main><article><h2>1. Origins and Futures for Linux Audio infrastructure</h2><p class="meta">Audio · Wednesday, September 23, 2009 10:00 – 10:45am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/67">https://blog.linuxplumbersconf.org/ocw/proposals/67</a></p><h3>Description</h3><div class="description"><p>Most Linux plumbers will be aware that the audio environment is a mess. But how did it get to be this way? Because you can’t understand the future without understanding the past, this talk will start by examining history of the <span class="caps">OSS</span> kernel drivers, how they were replaced by <span class="caps">ALSA</span>, and the design assumptions and goals that went into <span class="caps">ALSA</span>. I will then talk about early sound servers such as esd and artsd and how these represented an extremely limited conception of what “audio on a computer” meant. Many of the problems faced within the Linux audio environment come from an inadequate understanding of the many different kinds of audio applications that exist, so I will survey the dramatic range of these apps both in terms of use cases and technical requirements, and discuss why solutions like <span class="caps">JACK</span> and PulseAudio are so different. I will then leap into the bigger question that arises from a casual glance at OS X – how did Apple “solve” the problems that appear to exist on Linux for audio applications and users, and what can we learn from their approach? Similar consideration will be given to Windows. Finally, I would like to discuss whether the fundamental problem is technical, or political inasmuch as it reflects the federated nature of Linux rather than the heirarchical model of Apple Inc. and Microsoft.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Paul-Davis-lpc2009.pdf">[slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>The Linux audio environment is a mess. Everybody who develops Linux audio software knows this; anybody who uses anything more than basic desktop playback applications (and maybe even just that) knows this too. How did things get to be this way? Can it be solved? What is required to solve it? This talk will be less of a presentation of novel technical material and will instead focus more on the differences (and similarities) between Linux, OS X and Windows and how this has affected the audio environment on each platform.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>2. State of Linux Audio in 2009</h2><p class="meta">Audio · Wednesday, September 23, 2009 10:45 – 11:30am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/51">https://blog.linuxplumbersconf.org/ocw/proposals/51</a></p><h3>Description</h3><div class="description"><p>Some of the big audio infrastructure issues that were discussed at the audio track at <span class="caps">LPC</span> 2008 have been tackled since then. In this talk I want to give an overview what has been solved, what’s still outstanding and which new problems have become visible.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Lennart-Poettering-audio-lpc2009.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>What happened in the last year in Linux audio?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>3. Linux audio for mobile and consumer devices: challenges and evolutions</h2><p class="meta">Audio · Wednesday, September 23, 2009 11:30am – 12:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/42">https://blog.linuxplumbersconf.org/ocw/proposals/42</a></p><h3>Description</h3><div class="description"><p>We will first present challenges encountered when enabling hardware accelerators to reduce power-consumption or handle <span class="caps">DRM</span>-protected premium content. We show difficulties encountered with gstreamer auto-pluggin, sinks and dynamic re-routing between audio accessories.</p>
+<p>In the next section, we will focus on platform volume control and hierarchical mixing. On most devices, the final output is the result of both digital and analog mixing in a companion chip; we present examples and show the need for PulseAudio to control not only the native streams it processes, but also additional streams that are mixed in hardware, so that the user can control volumes all the way to the speaker. We will suggest several proposals based on <span class="caps">ALSA</span> controls or PulseAudio extensions.</p>
+<p>After we review several existing solutions, we will then show the need for standard communication channels between PulseAudio and audio apps to handle audio policy in a generic manner, and we will present the need to leave the choice of policy rules to the <span class="caps">OEM</span> or distribution maintainers. We believe such standardization would benefit not only the mobile community but improve the audio experience on all Linux devices.</p>
+<p>Last, we will discuss a generic plumbing issue when transmitting audio/video content to a distant renderer. In the case of <span class="caps">HDMI</span> v1.3 for example, the receiver can provide information on the latency of audio and video rendering; this lip-sync delay information is however not channeled from the <span class="caps">ALSA</span> driver back to PulseAudio or gstreamer. Likewise, the receiver capabilities in terms of supported channels, frequencies and formats are not forwarded to PulseAudio. The intent of this last section is to stimulate discussions in the Linux audio community on where lip-sync handling and receiver adaptation make the most sense.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Lennart-Poettering-LPC-plb-20090923-2.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>This presentation aims at sharing lessons learned with the Linux audio stack (gstreamer, PulseAudio, ALSA) on recent consumer and mobile Intel devices.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>4. Practical Experiences from Using PulseAudio in Embedded Handheld Devices</h2><p class="meta">Audio · Wednesday, September 23, 2009 Noon – 12:45pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/105">https://blog.linuxplumbersconf.org/ocw/proposals/105</a></p><h3>Description</h3><div class="description"><p>Nokia announced its first Linux phone couple of weeks ago. This presentation gives a brief look to its audio architecture and Pulseaudio’s role in it. I will give an idea what is unique about the approach we took and the reasoning behind it. I also go through the biggest challenges in the implementation and try to explain some of the not so elegant hacks we needed to make to create the product.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Jyri-Sarha-audio_miniconf_slides.pdf">[slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>This presentation gives an example how to integrate complex audio enhancement algorithms like acoustic echo canceler to Pulseaudio and how to implement really low audio latency applications as PA modules.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>5. Modern Configuration API for Wireless Networking</h2><p class="meta">Networking · Wednesday, September 23, 2009 10:00 – 10:25am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/64">https://blog.linuxplumbersconf.org/ocw/proposals/64</a></p><h3>Description</h3><div class="description"><p>This talk will describe the status of the cfg80211 <span class="caps">API</span> and what is being done to finalize it development and spread its adoption.  It will discuss the features available both inside the kernel and to userland application as part of that <span class="caps">API</span>.  Finally, it will talk about adapting drivers to the cfg80211 <span class="caps">API</span> and discuss what needs to happen to put a stake in the heart of the wireless extensions <span class="caps">API</span> for good.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/John-Linville-lpc2009.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>The wireless extensions API is universally hated by wireless developers on both sides of the user/kernel divide.  Fortunately the cfg80211 API is maturing as a modern alternative.  What is needed is for drivers (both new and old) to adopt cfg80211 as their configuration mechanism so that the long wireless extensions nightmare can finally end.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>6. Why network namespace sucks and how to make it suck faster</h2><p class="meta">Networking · Wednesday, September 23, 2009 10:30 – 10:55am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/81">https://blog.linuxplumbersconf.org/ocw/proposals/81</a></p><h3>Description</h3><div class="description"><p>Each namespace implements its own isolated network stack.<br>
+Network packets comes to a network stack from network device.<br>
+Five different device types that can be used as a packets<br>
+sources for containers are demonstrated. Their properties<br>
+(mostly performance and maintainability) and features are<br>
+compared.</p>
+<p>In addition, one more device type is described — the one that is currently only implemented in the OpenVZ containers. Its pros and cons, and ways it can be implemented in the mainline kernel are discussed.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="http://video.linuxfoundation.org/video/1574">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>The talk outlines various ways of establishing a networking
+
+communication between a network namespace (a container)
+
+and the outer world, compares their performance and features.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>7. Receive Packet Steering: A software solution to scaling the network receive path</h2><p class="meta">Networking · Wednesday, September 23, 2009 11:00 – 11:25am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/52">https://blog.linuxplumbersconf.org/ocw/proposals/52</a></p><h3>Description</h3><div class="description"><p>The networking stack does not scale well with a single queue <span class="caps">NIC</span> on a multi-core system.  The interrupt processing as well as the <span class="caps">NAPI</span> processing for a device, including protocol processing, are essentially single threaded on a <span class="caps">CPU</span>.  In this talk we discuss a design that introduces parallelism in the networking receive path without the need for multi-queue <span class="caps">NIC</span> support.  In essence this will emulate the capablities of hardware multi-queue <span class="caps">NIC</span> in that protocol processing of packets for different flows to be done in parallel.  Applying this solution, we can show up to a 300% increase in the packets-per-second that can be handled with a single queue <span class="caps">NIC</span>.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="http://video.linuxfoundation.org/video/1577">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>The subject of this talk is a software based solution for scaling performance of the networking receive path.  This is particularly useful with a single queue (legacy) NIC on a multi-core computer.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>8. Threaded Network Device Interrupts</h2><p class="meta">Networking · Wednesday, September 23, 2009 11:30am – 12:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/53">https://blog.linuxplumbersconf.org/ocw/proposals/53</a></p><h3>Description</h3><div class="description"><p>Several in the networking community are skeptical on using interrupt threads for the network devices. I will argue that not only does it make the solution more simplex, but also increases network throughput. With the introduction of the threaded interrupt infrastructure into 2.6.30, the path has been paved to allow networking devices to take advantage of this. The threaded interrupt may then do all the work needed to hand off the packet to the thread code without all the complexities needed in locking while using the softirqs.</p>
+<p>I will present my ideas and even a working proof of concept, to convince those that still have doubts that the future of the network and Linux in general, is a kernel free from softirqs.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Steven-Rostedt-network-thread-irqs.pdf">slides</a> <small>file</small></li><li><a href="http://video.linuxfoundation.org/video/1576">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>Increasing networking performance by using threaded interrupts for the network devices.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>9. Threaded interrupt handlers</h2><p class="meta">Real Time · Thursday, September 24, 2009 10:00 – 10:25am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/50">https://blog.linuxplumbersconf.org/ocw/proposals/50</a></p><h3>Description</h3><div class="description"><p>Support for threaded interrupt handlers has been merged into mainline, but there is still work left to convert potential users and explore the full possibilities</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>State of threaded interrupt handlers in mainline. What is there and what needs to be dome.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>10. The state of preempt-rt</h2><p class="meta">Real Time · Thursday, September 24, 2009 10:30 – 10:55am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/49">https://blog.linuxplumbersconf.org/ocw/proposals/49</a></p><h3>Description</h3><div class="description"><p>preempt-rt is a kernel community project to provide deterministic real-time support for the Linux kernel. Parts of preempt-rt have been merged into mainline already, but there are still key components of the patch to be merged. Give an overview about the state and the parts which need to be worked on for mainline acceptance along with general information about the key changes of preempt-rt and some insight about the challenges of providing real-time support for a general purpose OS.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Overview over the state of preempt-rt, the mainline merge status and key changes required.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>11. Running without Systems Management Interrupts</h2><p class="meta">Real Time · Thursday, September 24, 2009 11:10 – 11:35am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/90">https://blog.linuxplumbersconf.org/ocw/proposals/90</a></p><h3>Description</h3><div class="description"><span class="caps">ECC</span> memory errors and implement any services that were provided by SMIs that are needed by the end user.
+Look at recent kernel and user space work as well as what is next.  Address possible standardization and long term implications.
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Keith-Mannthey-SMI-plumers-2009.pdf">[slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Describe the implementation, benefits and trade-offs of running without non-fatal System Management Interrupts in a Real-Time Enterprise level environment.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>12. Real-Time Benchmarking - an Open, Cross-Language Micro-Benchmark Suite</h2><p class="meta">Real Time · Thursday, September 24, 2009 11:50am – 12:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/88">https://blog.linuxplumbersconf.org/ocw/proposals/88</a></p><h3>Description</h3><div class="description"><p>This set of real-time benchmarks was designed with the hopes of becoming an accepted industry standard micro-benchmark suite to compare many of the common metrics of real-time performance across several platforms and several languages (C, C++ and Java).  This allows for a comprehensive look at how these metrics compare across the platform axis and the languages axis.  Most benchmarks, until now, have been throughput oriented, which does not help promote the strengths of real-time Linux.  This benchmark suite introduces many more latency benchmarks which give a better view of how much more deterministic real-time Linux is compared to standard Linux.</p>
+<p>In addition to benchmarking these metrics, the benchmark suite can provide a great way to keep watch on kernel regressions and new bugs.  By exercising the same kernel interfaces in a variety of ways with a variety of timings, we may be able to expose more kernel and glibc bugs.  By adding the benchmark suite to an automated test server, such as test.kernel.org, we can keep an eye on the release-to-release performance of the real-time kernel.</p>
+<p>While the real-time tests in the Linux Test Project (<span class="caps">LTP</span>) do cover some of the same things, one of the major goals of this RT benchmark suite was to have a set of benchmarks that could run in a variety of languages, with a common test harness.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Vernon-Mauery_rtmb_lpc09.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Discussion on a new real-time micro-benchmark suite and how it can help real-time overcome some challenges it faces, such as making apples-to-apples comparisons with other platforms, and how various programming languages compare in the real-time arena.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>13. Status of SELinux in Ubuntu</h2><p class="meta">Security · Thursday, September 24, 2009 10:05 – 10:30am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/79">https://blog.linuxplumbersconf.org/ocw/proposals/79</a></p><h3>Description</h3><div class="description"><p>We’ll cover some of the unique features of SELinux in Ubuntu including the update-selinux tools, policy configuration in /etc/selinux.d, and interaction with AppArmor. We’ll also cover recent improvements such as the additional policy modules available in Jaunty and plans for future improvements.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/caleb-case-ubuntu.2009.3.pdf">slides</a> <small>file</small></li><li><a href="http://video.linuxfoundation.org/video/1563">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>A talk and demo on the current status of SELinux integration in Ubuntu.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>14. Introducing the SELinux Sandbox</h2><p class="meta">Security · Thursday, September 24, 2009 10:35 – 11:00am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/26">https://blog.linuxplumbersconf.org/ocw/proposals/26</a></p><h3>Description</h3><div class="description"><p>Fedora 11 introduced the concept of the General purpose sandbox.  The idea is you can run processes within the sandbox that work on untrusted data or even the tools is untrusted and guarantee that the tools has access to only Stdin and <span class="caps">STDOUT</span> and very little of the system.  We also plan to demonstrate the SELinux Xwindows Sabdbox at this time.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/dan-walsh-selinux-sandbox.pdf">slides</a> <small>file</small></li><li><a href="http://video.linuxfoundation.org/video/1565">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>We have introduced the concept of the general purpose sandbox using SELinux.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>15. Linux Kernel Crypto API</h2><p class="meta">Security · Thursday, September 24, 2009 11:05 – 11:30am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/72">https://blog.linuxplumbersconf.org/ocw/proposals/72</a></p><h3>Description</h3><div class="description"><p>This talk surveys the recent developments in the Crypto <span class="caps">API</span>, and looks at ongoing work and future directions.  Topics covered include hardware support, user-space APIs, and generalisation beyond cryptographic algorithms.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/herbert-xu-crypto-200909.pdf">slides</a> <small>file</small></li><li><a href="http://video.linuxfoundation.org/video/1567">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>The Linux kernel Crypto API has come a long way since it was first added as a part of the IPsec stack.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>16. Using IMA for Integrity Measurement and Attestation</h2><p class="meta">Security · Thursday, September 24, 2009 11:35am – Noon 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/34">https://blog.linuxplumbersconf.org/ocw/proposals/34</a></p><h3>Description</h3><div class="description"><p>This talk will cover configuration and use of 2.6.30’s new Integrity Measurement Architecture (<span class="caps">IMA</span>). It will discuss <span class="caps">IMA</span> measurement policies, use and configuration of a hardware <span class="caps">TPM</span> for report signature and validation, and how to generate and use Trusted Computing Group standard formats and protocols for network admission and health-check. The talk will include demonstration of open source applications and libraries for these capabilities.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/David-Stafford-IMA_LPC.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Linux 2.6.30 includes the Integrity Measurement Architecture (IMA) system, which measures (hashes) files before they are accessed, and which can use a TPM for hardware signed attestation for centralized management of client integrity.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>17. A New SELinux Policy Infrastructure</h2><p class="meta">Security · Thursday, September 24, 2009 12:05 – 12:30pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/56">https://blog.linuxplumbersconf.org/ocw/proposals/56</a></p><h3>Description</h3><div class="description"><p>The SELinux experience has greatly improved since SELinux’s first appearance in distributions.  Many people now run SELinux without even knowing, or even caring, that it exists.  It still, however, has a reputation for being extremely complicated and heavy-weight, and very few people ever attempt to actually customize the SELinux policy to meet their specific security goals.  While part of the perception of complexity is real and a consequence of the complexity of the typical modern system which SELinux is controlling, the policy infrastructure, which has grown organically over time, contributes to the problem by being brittle and inflexible, hampering efforts to add new features and hindering experimentation in such things as higher-level policy languages.  If the SELinux experience is going to continue to improve, the policy infrastructure must be improved.</p>
+<p>A new architecture for the policy infrastructure has been designed and is being implemented.  This architecture will support higher-level languages by providing a better intermediate language that provides more flexible and useful language abstractions to build higher-level language constructs.  It will better support the use of additional tools (such as policy goal verifiers) during a policy build.  It will allow for the separation of the distribution’s policy from the local customizations of that policy.  In general, this new architecture will eliminate the brittleness and inflexibility that is currently hindering improvements to SELinux.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="http://linuxplumbersconf.org/2009/slides/Carter_2009_LPC_talk_final.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>This talk will discuss the requirements and design of a new SELinux policy infrastructure.  It is hoped that this talk will lead to the SELinux community validation of the requirements, acceptance of the new architecture, and a plan to replace the old infrastructure.</p><p>一覧での掲載: program and schedule</p></div><p>原掲載URL（形式誤り）: http://http://linuxplumbersconf.org/2009/slides/Carter_2009_LPC_talk_final.pdf / アーカイブ候補: <a href="https://blog.linuxplumbersconf.org/2009/slides/Carter_2009_LPC_talk_final.pdf">https://blog.linuxplumbersconf.org/2009/slides/Carter_2009_LPC_talk_final.pdf</a></p></article><article><h2>18. Smack and the Application Ecosystem</h2><p class="meta">Security · Thursday, September 24, 2009 1:30 – 1:55pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/28">https://blog.linuxplumbersconf.org/ocw/proposals/28</a></p><h3>Description</h3><div class="description"><p>This talk provides an overview of the requirements, challenges, and progress of bringing the promise of the Simplified Mandatory Access Contorl Kernel (Smack) to user space. The talk uses a well known commercial application as an example of both how using Smack can add value and how it can be done. The talk covers modest changes that make applciations more friendly in a Smack environment. Additionally, the implications of adding Smack support to the Xorg server as a policy enforcing application are covered.</p>
+<p>There is a brief overview of Smack and its design goals to ensure no one gets lost. This includes Mandatory Access Control, Smack interfaces, and the security model. Networking receives special attention due to the importance it plays in application deployment.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Casey-SmackPlumbers2010.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Our sample application is a commercial database server. It provides database services over the network using TCP connections. The security goal we're using Smack to address is the isolation of the database files from the users on the server.
+
+
+
+We'll cover two different ways to provide access to the database, allowing either remote or local users access to the services of the database while protecting the database itself.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>19. SELinux policy within package managers, why policy is special</h2><p class="meta">Security · Thursday, September 24, 2009 2:00 – 2:25pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/58">https://blog.linuxplumbersconf.org/ocw/proposals/58</a></p><h3>Description</h3><div class="description"><p>SELinux policy is currently treated as if it were another application. In most distributions, it is a single package that exists on its own as if it did not relate to the software to which it applies. Consequently, there is no way to ensure that policy matches installed applications. Further, any maintenance of policy must be performed manually via post install scripts, which is both tedious and error-prone. It is also very difficult to ensure that policy and the applications it confines are installed in the proper order, meaning that applications can be labeled improperly for a window of time.</p>
+<p>We propose solving this for package managers to treat policy as metadata rather than an application. This metadata can exist in the package of the application it applies to, or in system packages for more broad policy. This solution alleviates the pain of manually maintaining policy in scripts by giving the package manager enough information to manage policy automatically. By treating policy as metadata, it can be installed at the appropriate time in order to avoid ordering issues. As a side benefit, all policy module installations can be combined during a package manager transaction, reducing the performance hit taken when splitting policy into multiple packages.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/brindle-selinux-distribution-lpc-slides.pdf">slides</a> <small>file</small></li><li><a href="http://video.linuxfoundation.org/video/1569">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>SELinux policy is currently installed from a single or multiple package(s) as an application which breaks the linkage between policy and the software they are constraining. We will talk about a way to treat policy specially without adding downfalls such as a large increase in packages.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>20. XACE Demonstration and Discussion</h2><p class="meta">Security · Thursday, September 24, 2009 2:30 – 2:55pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/87">https://blog.linuxplumbersconf.org/ocw/proposals/87</a></p><h3>Description</h3><div class="description"><p>A brief demonstration of X Access Control Extension (<span class="caps">XACE</span>) functionality using the SELinux extension for Xorg and a few supporting applications, including a compiz plugin for displaying window labels and input manager that supports the new XI2 extension and multiple mouse pointers.</p>
+<p>Afterwards, a discussion about the movement of memory management, command submission, and mode setting interfaces into the kernel, as they relate to fine-grained security controls.  Is <span class="caps">XACE</span> relevant in  environments such as Wayland?  Would instrumentation of the kernel interfaces with <span class="caps">LSM</span> hooks be possible or appropriate?</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="http://video.linuxfoundation.org/video/1566">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>XACE can be used to make a nifty secure desktop on Xorg.  But is XACE relevant with graphics interfaces moving into the kernel?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>21. Making SELinux Easier to Use</h2><p class="meta">Security · Thursday, September 24, 2009 3:00 – 3:25pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/43">https://blog.linuxplumbersconf.org/ocw/proposals/43</a></p><h3>Description</h3><div class="description"><p>Inadequate documentation was recently listed as one of problems related to using SELinux on<br>
+the SELinux mailing list. Although many tools for SELinux have been created, there is still a<br>
+perception that SELinux is too complicated to use. This talk will present a list of possible documentation<br>
+improvements that can help change this perception.</p>
+<p>Note: Co-author Debora Velarde</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Bryan-Jacobson-Debora-Velarde-Plumbers09_SELinux_docs.pdf">slides</a> <small>file</small></li><li><a href="http://video.linuxfoundation.org/video/1562">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>SELinux is often disabled immediately or at the first sign of trouble. How can we make SELinux something users actually want to leave on?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>22. Lazy boot</h2><p class="meta">Boot and Init · Thursday, September 24, 2009 1:30 – 2:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/66">https://blog.linuxplumbersconf.org/ocw/proposals/66</a></p><h3>Description</h3><div class="description"><p>Specialized distros, and stripped down default installs have resulted in impressive boot speeds; but what is a bog-standard distro to do? This talk examines some of the gains made to Fedora (and upstream) by improving what is done during boot, and what can be deferred for later.</p>
+<p>For instance, why do we need to load sound drivers before we have a filesystem mounted read-write? Why do we need cups running without any printers attached? And if you do have a printer, why do you need it before your network is up? When is an appropriate time to start system services?</p>
+<p>This talk seeks to address some of these questions for the general purpose desktop or laptop machine.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>The moral of the story is, we still load too much stuff, and it takes too long to do it. Users (and developers) want time to go down, while things continue to get more complicated. How can we sort that out?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>23. Upstart 1.0</h2><p class="meta">Boot and Init · Thursday, September 24, 2009 2:20 – 3:05pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/71">https://blog.linuxplumbersconf.org/ocw/proposals/71</a></p><h3>Description</h3><div class="description"><p>Upstart is an event-driven replacement init daemon used by Ubuntu, Fedora, Maemo and Palm WebOS.  This talk presents information about Upstart 1.0: what’s new in that release and how far along the roadmap I am to it.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Presenting Upstart 1.0</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>24. Dracut - a generic initramfs infrastructure</h2><p class="meta">Boot and Init · Thursday, September 24, 2009 3:10 – 3:55pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/69">https://blog.linuxplumbersconf.org/ocw/proposals/69</a></p><h3>Description</h3><div class="description"><p>Dracut is a generic, modular initramfs generation tool, that can be used across various distributions.</p>
+<p>Unlike existing initramfs’s, this is an attempt at having as little as possible hard-coded into the initramfs as possible. The initramfs has (basically) one purpose in life — getting the rootfs mounted so that we can transition to the real rootfs. This is all driven off of device availability. Therefore, instead of scripts hard-coded to do various things, we depend on udev to create device nodes for us and then when we have the rootfs’s device node, we mount and carry on. This helps to keep the time required in the initramfs as little as possible so that things like a 5 second boot aren’t made impossible as a result of the very existence of an initramfs.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Harald-Hoyer-dracut.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Introduction of a new initramfs generation tool, which creates a general purpose udev event based initramfs.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>25. Power management: Communicating needs and desires</h2><p class="meta">Kernel/Userspace/User Interfaces · Friday, September 25, 2009 10:00 – 10:45am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/27">https://blog.linuxplumbersconf.org/ocw/proposals/27</a></p><h3>Description</h3><div class="description"><p>Power management is still often thought of as a set of static policies that will be enacted whenever the system becomes idle. However, much of the power savings in a modern system are adaptive and entirely transparent to the user. The aim now is to take this even further. Even greater power savings can be achieved if we can disable certain aspects of hardware functionality. But how can we infer when it’s safe to do so? How can we identify userspace’s needs and make sure that they’re satisfied? How aggressive can we be at entering these lower power states?</p>
+<p>This presentation will discuss some of the existing interfaces (such as pm_qos) that exist for userspace to inform the kernel of requirements. It will also discuss what other sources of information already exist and can be tied into power management, along with cases where we lack any infrastructure to communicate desires and hence sacrifice one of either functionality or power. The aim is to identify our current shortcomings and propose ways to allow userspace to communicate its desires to the kernel.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Implementing power management is the job of the kernel - however, it's userspace's job to let it know what functionality is needed. What interfaces do we need to expose, and how should userspace be making use of them?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>26. USB 3.0 for Linux</h2><p class="meta">Kernel/Userspace/User Interfaces · Friday, September 25, 2009 10:45 – 11:30am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/62">https://blog.linuxplumbersconf.org/ocw/proposals/62</a></p><h3>Description</h3><div class="description"><p><span class="caps">USB</span> 3.0 promises wirespeeds of 5Gbps, and supports new link power management and function power management.  For Linux to take advantage of this new speed and PM features, both the <span class="caps">USB</span> and storage kernel subsystems and the <span class="caps">USB</span> userspace interface will need to be modified.  This talk will provide a brief overview of <span class="caps">USB</span> 3.0 before diving into development issues.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Sarah-A-Sharp-lpc-usb3-pres.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>USB 3.0 promises a faster, more power efficient common device bus.  Is Linux ready for it?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>27. Checkpoint/Restart in Linux mainline</h2><p class="meta">Kernel/Userspace/User Interfaces · Friday, September 25, 2009 11:30am – 12:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/39">https://blog.linuxplumbersconf.org/ocw/proposals/39</a></p><h3>Description</h3><div class="description"><p>Checkpoint/Restart is the ability to save the entire state of a running application and then resume the application either on the same system or a completely different system with a similar operating environment.</p>
+<p>A transparent C/R requires absolutely no changes to an application and does not even require a rebuild of the application.</p>
+<p>C/R provides several benefits to system administrators and users. Critical applications can be checkpointed at regular intervals and restarted from a recent checkpoint after a software/hardware upgrade or an application or system failure.  The checkpointed application may even be restarted on second system with a similar operating environment during extended down times of the original system.</p>
+<p>C/R is especially useful to applications that have a long start-up times or incur significant performance penalty on startup due to parsing configuration information or populating a cache. Such applications can be checkpointed<br>
+when running at optimal speed and can be resumed from the checkpoint when it becomes necessary to restart the application.</p>
+<p>C/R also enables significantly improved load-balancing and consolidation. When the load on a server goes up some applications on the server can be checkpointed and stopped on that server and the application can quickly be resumed on a new server.</p>
+<p>Similarly, when the load on several servers is low, the applications on those could be checkpointed and restarted on fewer servers, improving system utilization.</p>
+<p>For all its benefits, implementation of general purpose and transparent Checkpoint/Restart presents several complex and interesting challenges due to the vast and varied application state that needs to be saved and restored.  The application state includes process memory, <span class="caps">CPU</span> registers, open file state, task relationships, signals state, <span class="caps">SYSV</span> <span class="caps">IPC</span>, sockets, network stack, device state etc.</p>
+<p>We are actively seeking to implement C/R in mainline, based on two existing out-of-tree implementations: Zap and OpenVZ.  We would like to briefly go over our current implementation and present some major requirements, challenges and design decisions for broader review.</p>
+<p>But more importantly, we would like to understand and prioritize the devices, resources and state of <span class="caps">HPC</span>, X, Clusters and other applications that would need to be checkpointed and restarted. To that end, we would like to get input from administrators and users of such applications as well as from administrators and users of other C/R implementations.</p>
+<p>We would also like input from developers of the various subsystems in the Linux kernel on how C/R may impact their subsystems and how we could improve/stage the implementation.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Sukadev-Bhattiprolu-Plumbers.pdf">[slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Requirements and challenges in implementation of Checkpoint/ Restart in Linux mainline.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>28. Evaluating Linux storage APIs for use in QEMU/KVM</h2><p class="meta">Storage · Friday, September 25, 2009 10:00 – 10:45am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/38">https://blog.linuxplumbersconf.org/ocw/proposals/38</a></p><h3>Description</h3><div class="description"><p><span class="caps">KVM</span> is a Linux kernel module that exposes hardware virtualization support to userspace.  <span class="caps">QEMU</span> is a full system simulator that runs as a user space process and emulates/virtualizes many types of machines including a standard PC.  Together, <span class="caps">KVM</span> and <span class="caps">QEMU</span> enable Linux to act as a hypervisor.</p>
+<p>As a hypervisor, I/O performance is a weak area today in Linux.  Since all I/O for guests are generated from <span class="caps">QEMU</span>, we are largely limited by the I/O interfaces provided by the Linux kernel to userspace.  The current set of storage I/O interfaces have proven to not map well to QEMU’s requirements.</p>
+<p>This talk will cover how we are currently using the storage I/O interfaces provided by Linux.  It will focus on the mechanisms to generate multiple asynchonrous, scatter/gather I/O requests to buffered and non-buffered files along with physical devices.  It will also cover topics like request tagging and barriers.</p>
+<p>The goal of the talk will be to generate discussion about proposed future interfaces (syslets, acalls, etc.) and to discuss whether current interfaces like linux-aio are at all salvagable.</p>
+<p>Virtualization is perhaps one of the more demanding userspace I/O workloads available so it serves as a particularly good canary in evaluating future I/O interfaces.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Anthony-Liguori-qemu-block.pdf">slides</a> <small>file</small></li><li><a href="http://video.linuxfoundation.org/video/1561">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>Discussing limitations of current userspace storage APIs for use in QEMU/KVM.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>29. Locking issues on Clustering File Systems</h2><p class="meta">Storage · Friday, September 25, 2009 10:40 – 11:25am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/76">https://blog.linuxplumbersconf.org/ocw/proposals/76</a></p><h3>Description</h3><div class="description"><p>User space clustering stack brings advanced and flexible cluster file systems (e.g. OCFS2), which involved in the usage of unified Distributed Lock Manager code in Linux Kernel (a.k.a fs/dlm).<br>
+This talk intends to invoke the open discussion on (but not limited to) <span class="caps">DLM</span> and clustering file system realted issues. For examples, the lock mastering expense, lock communication cost, dlm compatible issue between fs/dlm and OCFS2, deadlocking detection …</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="http://video.linuxfoundation.org/video/1572">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>open discussion on locking issue on clustering file systems, especially associated with fs/dlm code</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>30. Linux Data de-duplication</h2><p class="meta">Storage · Friday, September 25, 2009 10:50 – 11:35am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/37">https://blog.linuxplumbersconf.org/ocw/proposals/37</a></p><h3>Description</h3><div class="description"><p>By Data de-duplication,only one unique instance of the data is actually retained on storage media, such as disk or tape or a virtual machine image. This not only reduces large storage needs but also  and reduce the corresponding cost of backup, disaster recovery and power consumption. It becomes a hot topic with increasing need for large storage.  Adding support of data de-duplication today makes Linux much stronger in enterprise environment.  Whether support data de-duplication on the air within filesystem or perform delayed user-space de-duplication have different challenges. This talk will discuss about the challenges of both methods, options, describe several ideas discussed in the btrfs community. This talk encourages inputs and ideas from audience about future plans about data deduplication for linux.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Mingming-Cao-lpc-09-dedup.pdf">slides</a> <small>file</small></li><li><a href="http://video.linuxfoundation.org/video/1573">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>Data de-duplication is a effective way to reduce large storage needs by eliminating redundant data, a hot demanded feature for virtualization OS image sharing and efficient data storage backups. It's really valuable  to add data de-duplication support to Linux filesystem, however the feature is quite challenging too. How to get it right? What's the performance impact? Block level or file level? On the fly data de-duplication in filesystem or background userspace de-duplication?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>31. Embedded Linux development: a glance from inside</h2><p class="meta">Embedded Systems · Friday, September 25, 2009 1:30 – 2:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/24">https://blog.linuxplumbersconf.org/ocw/proposals/24</a></p><h3>Description</h3><div class="description"><p>The “Embedded Systems track” title says: “Linux is embedded in everything, but where are the developers?”<br>
+I’d like to try answering this question from point of view of small Linux developer in small embedded company.</p>
+<p>Indeed, there are quite a few companies that “do the right thing” and work hard to make their patches hit the mainline. However, the number of embedded developers involved in open source projects is small relatively to the number of devices that run Linux.</p>
+<p>I’ll cover the process of embedded device development, constraints the embedded developers have and will try to analyze reasons for low number of contributions from the embedded world to open source.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Mike-Rapoport-talk.odp">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>This talk addresses relationship between embedded developers and the Linux community</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>32. Asymmetric Multiprocessing Issues</h2><p class="meta">Embedded Systems · Friday, September 25, 2009 2:15 – 3:00pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/44">https://blog.linuxplumbersconf.org/ocw/proposals/44</a></p><h3>Description</h3><div class="description"><p>Embedded system designers want to use asymmetric multiprocessing to supplement Linux with more specialized capabilities (e.g. tighter real-time bounds or better network throughput). In a nutshell, the idea is “co-operative partitioning”: run multiple kernels, without isolation, on a multicore system.</p>
+<p>There are a number of issues in adapting Linux to <span class="caps">ASMP</span> environments, such as exactly how to get both kernels loaded, how to convince them to leave some hardware resources for each other, how to share hardware devices, and how to communicate. Especially this last point is very similar to issues found in traditional coprocessor (e.g. CompactPCI) or <span class="caps">FPGA</span> systems.</p>
+<p>Using existing solutions, such as Open Firmware-inspired device trees and virtio drivers, can save developer time and make Linux better faster for these applications.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Hollis-Blanchard-LPC-2009-ASMP.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>This talk will discuss problems faced by designers of multicore systems with multiple kernels, with an emphasis on solutions across developer communities.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>33. Flattened Device Tree for all architectures</h2><p class="meta">Embedded Systems · Friday, September 25, 2009 3:00 – 3:45pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/47">https://blog.linuxplumbersconf.org/ocw/proposals/47</a></p><h3>Description</h3><div class="description"><p>One of the compelling features of the OpenFirmware design is that it makes a structured description of the hardware called the “device tree” available to the operating system.  The operating system reads the device tree and uses it to figure out such things like how much memory is available, bus layout, list of devices, and how interrupts are connected.  By encoding the platform layout in hardware, it removes the requirement to hardcode all known board configurations into the kernel itself, a pattern which is common in the embedded Linux world.</p>
+<p>The data structure is useful enough that a decision was made to require all PowerPC platforms to pass a device tree to the Linux kernel at boot time and the Flattened Device Tree (<span class="caps">FDT</span>) data format was developed for providing a device tree on systems without OpenFirmware (ie. almost every embedded PowerPC).  See this paper for a detailed description of the switch to <span class="caps">FDT</span> for embedded PowerPC platforms, and a discussion of the tradeoffs.</p>
+<p><a href="https://ols.fedoraproject.org/OLS/Reprints-2008/likely2-reprint.pdf">http://ols.fedoraproject.org/<span class="caps">OLS</span>/Reprints-2008/likely2-reprint.pdf</a></p>
+<p>Other architectures also make use of the <span class="caps">FDT</span> data format.  The Microblaze arch requires an <span class="caps">FDT</span> to be passed at boot time, and some out-of-mainline <span class="caps">ARM</span> and <span class="caps">MIPS</span> board ports use it too.</p>
+<p>In this session we will discuss the possibility of making the Flattened Device Tree data structure available as a ‘stock’ method for describing hardware for platforms which don’t already have a firmware interface for describing configuration (in particular embedded non-x86).  We will discuss how to manage and standardize data format of for new types of devices, impact (or lack thereof) on firmware, and work needed to make <span class="caps">FDT</span> infrastructure available on all architectures.  Goal of session is to coordinate <span class="caps">FDT</span> development and make decisions about how common <span class="caps">FDT</span> support should be organized in the kernel.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://ols.fedoraproject.org/OLS/Reprints-2008/likely2-reprint.pdf">http://ols.fedoraproject.org/OLS/Reprints-2008/likely2-reprint.pdf</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Session to discuss the work required to make the Flattened Device Tree method of describing hardware available to all architectures.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>34. Lessons Learned Designing an Open Source UMPC</h2><p class="meta">Embedded Systems · Friday, September 25, 2009 3:45 – 4:30pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/61">https://blog.linuxplumbersconf.org/ocw/proposals/61</a></p><h3>Description</h3><div class="description"><p>The <a href="http://beaversource.oregonstate.edu/projects/cspfl/wiki"><span class="caps">OSWALD</span></a> was developed to encourage students to experiment and explore every aspect of computing. The <span class="caps">OSWALD</span> provides a flexible, yet powerful platform that can adapt to meet the needs of a large number of course topics and student interests. The <span class="caps">OSWALD</span> is also open and available to the greater Open Source community.</p>
+<p>The <span class="caps">OSWALD</span> is open from the ground up, from the hardware layer to the application layer. Every bit is<br>
+available for students and enthusiasts to study and modify as needed.</p>
+<p>This talk will give you a quick overview of the architectural design of the <span class="caps">OSWALD</span>, and a discussion of the challenges we faced, and are still facing in getting a stable, complete, and usable software distribution for our Linux-based <span class="caps">UMPC</span>.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Tim-Harder-oswald-linux-plumbers-presentation.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>The Oregon State Wireless Active Learning Device (OSWALD) is an open, fully featured Ultra-Mobile Personal Computer (UMPC) platform designed by and for students. Come learn about the design, the software hacks, and issues in getting Linux to run smoothly on a custom made hand-held platform.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>35. Video API Deathmatch: VDPAU vs. VAAPI</h2><p class="meta">X Window System · Friday, September 25, 2009 1:30 – 2:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/109">https://blog.linuxplumbersconf.org/ocw/proposals/109</a></p><h3>Description</h3><div class="description"><p>This talk is the infamous “Video <span class="caps">API</span> Deathmatch: <span class="caps">VDPAU</span> vs. VAAPI”, where “VDPAU” is NVIDIA’s Video Decode and Presentation <span class="caps">API</span> for Unix, and “VAAPI” is the Video Acceleration <span class="caps">API</span> led by Intel, and (not surprisingly) supported by recent Intel integrated graphics hardware, but also supported by recent S3 Graphics hardware. Stephen Warren will be putting on the gloves for <span class="caps">VDPAU</span> and Jonathan Bian will be defending VAAPI’s honor. Keith will then moderate the Q&amp;A session, with questions taken from any surviving members of the audience.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Bian-Jonathan-VAAPI_LPC2009.pdf">slides</a> <small>file</small></li><li><a href="http://video.linuxfoundation.org/video/1575">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>Video API Deathmatch: VDPAU vs. VAAPI</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>36. Compositing, OpenGL, double-buffering, and dragons</h2><p class="meta">X Window System · Friday, September 25, 2009 2:45 – 3:10pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/70">https://blog.linuxplumbersconf.org/ocw/proposals/70</a></p><h3>Description</h3><div class="description"><p>Currently, OpenGL, compositing window systems, and vertical refresh synchronized buffer swapping combine to make a giant mess.  The current interfaces provided by <span class="caps">GLX</span> to synchronize buffer swaps don’t work well with multi-monitor displays and don’t really provide the functionality that applications want.  Compositing window managers aren’t able to get or provide the necessary information to ensure tear-free buffer swaps to all applications in a performant manner.  At the intersection is disappointed users and frustrated application developers.</p>
+<p>This talk will present a brief overview of where we are and how we got here.  The deficient software interfaces will then be enumerated, and possible enhancements to these interfaces will be presented.  The talk will conclude by soliciting input from the audience.  The problems highlighted by this talk have been growing over the past several years.  It is clear that more input is needed to create a robust solution.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="http://video.linuxfoundation.org/video/1568">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>Overview of the current state of compositor interfaces and their interactions with OpenGL double-buffering.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>37. The Battle for 2D Acceleration</h2><p class="meta">X Window System · Friday, September 25, 2009 3:10 – 3:35pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/29">https://blog.linuxplumbersconf.org/ocw/proposals/29</a></p><h3>Description</h3><div class="description"><p>Today we have several competing technologies with which to build a fully-accelerated cairo backend.</p>
+<p>Over the last year just a single technology has matured that makes 2D client-side rendering palatable, <span class="caps">GEM</span>. By moving the memory management, command scheduling and execution into the kernel, any number of process can co-operate and focus on performing their own rendering via the <span class="caps">GPU</span>. cairo-drm-i915 has demonstrated just how easy it is to take an existing <span class="caps">EXA</span> driver, implement it as a cairo backend and supercharge its performance. Though people may prefer such work be done in a pixman-drm backend…</p>
+<p>Then competing against cairo-drm are the various efforts to write a true cairo-gl backend.  (glitz’s design of implementing XRender on top of OpenGL has proven to be too limiting.)  Here people speculate whether interfacing directly with gallium (i.e. cairo being just another state-tracker) will be our panacea.</p>
+<p>The goal is a fully-accelerated tessellator for high quality 2D interfaces, cairo on the gpu.  The question is how?</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="http://video.linuxfoundation.org/video/1564">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>The initial impetus for cairo-drm came from a desire to experiment with GEM on my i915, and a need to provide an acceleration architecture for the wayland system compositor. (wayland is a minimalistic compositor and input multiplexer that requires client-side rendering.) It proved very easy to incorporate a drm/i915 backend into cairo; first by adapting the existing EXA driver, then to extend it to provide full acceleration for all patterns and to accelerate some of cairo's higher level operations. (The i915 hardware does not seem amenable for offloading tessellation, which has limited just how much we can accelerate in the backend.  On more capable hardware, such as the fully programmable i965, we should be able to achieve much more.)</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>38. Xorg State Tracker: The last Xorg driver</h2><p class="meta">X Window System · Friday, September 25, 2009 3:35 – 4:00pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/60">https://blog.linuxplumbersconf.org/ocw/proposals/60</a></p><h3>Description</h3><div class="description"><p>Gallium is a open source 3D stack has become the standard driver infrastructure for writing new 3D drivers. And one can layer several rendering APIs on top of Gallium. These <span class="caps">API</span> interfaces are called state trackers, several exist: OpenGL, OpenVG, OpenGL ES and a video acceleration interface.</p>
+<p>So why not layer the X rendering on top of Gallium, use kernel side modesetting for bringing up display and write the last Xorg driver. Should we only accelerate parts of the <span class="caps">EXA</span> interface, try to strive for full <span class="caps">EXA</span> implementation or do our own X acceleration architecture and cover as much as possible of what is used by modern applications.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>A talk about Gallium and the Xorg state tracker and where they fit in and where they are going.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>39. Re-plugging the Modern Desktop</h2><p class="meta">General · Friday, September 25, 2009 1:30 – 2:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/41">https://blog.linuxplumbersconf.org/ocw/proposals/41</a></p><h3>Description</h3><div class="description"><p>Showing in detail the flow of actions from the kernel up into the end user applications and back. Major changes happened recently to the entire device handling stack. Abstractions of abstractions which didn’t work out got removed from the system. <span class="caps">HAL</span> is no longer part of the game and replaced by the kernel, udev, DeviceKit and ConsoleKit. The basic idea stays the same, but the cake is cut into different pieces, and this is what will be explained here.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Kay-Sievers-David-Zeuthen-plugging-the-modern-desktop.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>A walk through the pieces of a modern Linux desktop, which manage the hardware that is coming and going and failing.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>40. Unified error reporting -- A worthy goal?</h2><p class="meta">General · Thursday, September 24, 2009 10:45 – 11:30am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/86">https://blog.linuxplumbersconf.org/ocw/proposals/86</a></p><h3>Description</h3><div class="description"><p>Modern hardware platforms have various error sources, including<br>
+chipsets, CPUs, memory, <span class="caps">PCI</span>-<span class="caps">AER</span> and others. Currently all of these (if they are reported) are reported in a ad-hoc fashion <br>
+to various different log files.  This can can make it difficult<br>
+to write error analysis tools and backends and also cause<br>
+various other problems.<br>
+The talk will discuss the pros and cons of a possible unified<br>
+error reporting method for platform errors and how user <br>
+space infrastructure for it could look like.<br>
+This will discuss both existing code, some prototypes<br>
+and also some pie-in-the-sky.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Andi-Kleen-plumbers-error.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Discusses pro and cons of a unified mechanism to report platform
+
+errors.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>41. Merging KGDB, KDB and Kernel Mode Setting</h2><p class="meta">General · Thursday, September 24, 2009 10:00 – 10:45am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/77">https://blog.linuxplumbersconf.org/ocw/proposals/77</a></p><h3>Description</h3><div class="description"><p>For years kdb, kgdb and various other kernel debuggers have lived in different worlds, with different development communities.  The time has come to try and merge these technologies so as to use a common low level <span class="caps">API</span> (the kernel debug core).</p>
+<p>This talk will explain the architectural differences between kgdb and kdb as well as to lay out a plan of how to combine the technologies to create a mostly architecture independent debugger.</p>
+<p>The talk will also explain the challenges that remain for adoption of the remaining pieces of kgdb that live outside the kernel.org tree today.  The goal is to bring about awareness of the need for collaboration to continue to build an easy to use, robust kernel debugger, while not sacrificing kernel performance.</p>
+<p>In the spirit of building something at the conference the Jesse and Jason will collaborate to try and get a prototype working in order to demonstrate kernel mode setting and debugging some portion of the kernel.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/kgdb_kdb_modesetting.ppt">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Explain the current state of kgdb, kdb.  Discuss the future architectural plans for combining kgdb, kdb and kernel mode settings and proposed advanced single stepping APIs.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>42. Scaling the VFS</h2><p class="meta">General · Thursday, September 24, 2009 1:30 – 2:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/17">https://blog.linuxplumbersconf.org/ocw/proposals/17</a></p><h3>Description</h3><div class="description"><p>The Linux <span class="caps">VFS</span> contains a number of complex data structures to represent and manage filesystem and namespace details. This includes “dcache”, which is a cache of the directory entry layout of mounted filesystems, “inode cache” to cache filesystems’ inode metadata, among others. These data structures tend to be protected with global locks which do not scale well as <span class="caps">CPU</span> core count increases. I am working on implementing fine grained locking for some of the important cases. To date I have posted patches to remove the global dcache lock for initial review. These already provide about 50% performance gain on the dbench workload on an 8 core system. I would like to give a presentation on my progress on this project.</p>
+<p>This presentation should describe my designs and give some results, but also implementation problems that I am encountering, with a mind to getting vfs and filesystem developers interested and hopefully helping with ideas.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Nick-Piggin-presentation.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Fine grained locking to improve scalability of the Linux VFS</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>43. video4linux stream sharing with a server daemon</h2><p class="meta">General ·   元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/92">https://blog.linuxplumbersconf.org/ocw/proposals/92</a></p><h3>Description</h3><div class="description"><p>Last year Brandon presented on the need for a video4linux server and some details on how it might be done. This session will build on that initial discussion and will include details and research done by Hans and Brandon about specific approaches over the coming months before the conference.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Brandon-Philips-v4l2-stream-sharing-2009.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Video devices currently can only be open by one process at a time. This makes it impossible to do necessary things like software auto-focus or recording video while using ekiga.</p><p>一覧での掲載: program only</p></div></article><article><h2>44. Out of Memory - Helping applications survive the axe or report the aftermath.</h2><p class="meta">General · Wednesday, September 23, 2009 10:00 – 10:45am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/33">https://blog.linuxplumbersconf.org/ocw/proposals/33</a></p><h3>Description</h3><div class="description"><p><a href="https://blog.linuxplumbersconf.org/2009/slides/Dave-Hansen-oom-v3.pdf">Click Here to View the Slides</a></p>
+<p>The Out of Memory (<span class="caps">OOM</span>) killer has consistently been a hotly debated topic in Linux. Having the wrong application killed as a result of an <span class="caps">OOM</span> condition can be very frustrating, and the root cause often remains elusive. Several knobs and controls have been exported but even these can be unsuitable for some.  Many users dislike the default behavior and will either customize the code or replace it entirely. The <span class="caps">OOM</span> killer’s<br>
+behavior has also changed over time to the point where its appearance no longer indicates a true “out of memory” situation.</p>
+<p>There have been several patches to address these issues: the mem notify interface, per cgroup <span class="caps">OOM</span> controller, and various patches to change the <span class="caps">OOM</span> killer’s log output.  The goal of this session is to gather together<br>
+the kernel developers interested in these features, other core VM<br>
+developers, and the many users affected by <span class="caps">OOM</span> situations.</p>
+<p>Kernel developers know that, despite the hard work, some aspects of the <span class="caps">OOM</span> killer are still in need of improvement.  This session will solicit user feedback to help the kernel developers properly gauge the past work and direct any efforts in the future.</p>
+<p>Kernel developers will come out of this session with an improved idea of how <span class="caps">OOM</span> situations affect users, how to best tailor the kernel’s output for user consumption, and what features to work on next.  Users will<br>
+benefit from the session by learning how to better interpret the <span class="caps">OOM</span> situations to distinguish kernel from application bugs.  They should<br>
+also be much better prepared to use the kernel’s new <span class="caps">OOM</span>-related<br>
+features in their own environments.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Dave-Hansen-oom-v3.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>The Out of Memory (OOM) killer has consistently been a hotly debated topic in Linux.  Why does it kill?  What is being done to improve it?  What do users really need it to do?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>45. Per backing device dirty data writeback</h2><p class="meta">General · Thursday, September 24, 2009 11:30am – 12:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/22">https://blog.linuxplumbersconf.org/ocw/proposals/22</a></p><h3>Description</h3><div class="description"><p>The current 2.6 kernels use a pdflush driven approach to writing out dirty data on. pdflush is a thread pool implementation that by default has anywhere from 2 to 8 threads running in the system. Each pdflush thread can be working a number of devices, however there can only be one pdflush active against a specific device at the time.</p>
+<p>This approach worked well and was a big step up from the 2.4 days where we had a single bdflush working all devices. There are, however, some problems with our current setup. pdflush has to work in non-blocking mode since it handles multiple devices, which can cause request starvation against a particular device since it cannot afford to wait for request allocation. There have also been reports on really fast devices out running pdflush, more than one thread would be needed to keep them running at full speed. This is not possible with the current design.</p>
+<p>I have implemented a new design for flushing dirty data, in which dirty inodes and flushing is tracked on a per-backing device basis. This reduces both locking scope and improves locality by keeping the flushing local to one (or a set) of thread(s). Keeping the dirty inode list local to the device instead of per-superblock also reduces the amount of scanning we have to do. No request starvation can happen with this design, as local threads are allowed to block on a single device.</p>
+<p>An experimental feature of this patch set is the ability to have multiple threads per backing device, with the file system directing the placement of inodes. Involvement from parties that suffer from pdflush being too slow for a single device will be required to finalize this.</p>
+<p>And finally, the new approach is a lot more flexible. Threads are created and exit lazily if no work has happened for a period of time. So it should be more flexible at both ends of the spectrum, having zero threads active on an writeback idle system and scaling to more threads than pdflush should it be needed.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Jens-Axboe-lpc2009-slides-axboe.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Per backing device dirty data writeback replaces pdflush driven writeback in an attempt to speed up this operation.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>46. Userspace RCU library : what linear multiprocessor scalability means for your application</h2><p class="meta">General · Thursday, September 24, 2009 2:20 – 3:05pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/46">https://blog.linuxplumbersconf.org/ocw/proposals/46</a></p><h3>Description</h3><div class="description"><p><span class="caps">RCU</span> is well-known at the kernel-level for providing a way to synchronize shared data structures in read-often, update-rarely scenarios.</p>
+<p>The development of a <span class="caps">RCU</span> library at the userspace application level has been mainly driven by the need for efficient synchronization of userspace tracing control data structures.</p>
+<p><span class="caps">IBM</span> kindly agreed to allow distribution of <span class="caps">RCU</span>-related code in a <span class="caps">LGPL</span> library, which makes it available for everyone to use. This can have large impact on the design of highly scalable applications performing caching of frequent requests, like domain name servers, proxy and web servers.</p>
+<p>This presentation will discuss about the class of applications which could benefit from using the userspace <span class="caps">RCU</span> library.</p>
+<p>The userspace <span class="caps">RCU</span> library is available under the <span class="caps">LGPL</span> license at <a href="http://www.lttng.org/urcu" rel="nofollow">http://www.lttng.org/urcu</a> .</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Mathieu-Desnoyers-talk-lpc2009.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>What can the Userspace RCU LGPL library do to help your application scale well on large multiprocessor systems ?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>47. PORTAL Case Study</h2><p class="meta">General · Friday, September 25, 2009 2:15 – 3:00pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/91">https://blog.linuxplumbersconf.org/ocw/proposals/91</a></p><h3>Description</h3><div class="description"><p>The Portland Oregon Regional Transportation Archive Listing (<span class="caps">PORTAL</span>) is the official transportation data archive for the Portland metropolitan region. <span class="caps">PORTAL</span> is being developed at Portland State University (<span class="caps">PSU</span>) by students and faculty in the Intelligent Transportation Systems Laboratory in cooperation with the Oregon Department of Transportation, Metro, the City of Portland, TriMet and other regional partners.  <span class="caps">PORTAL</span> contains almost one terabyte of transportation-related data for the Portland metropolitan region. The data includes freeway speed and volume data as well as incident, weather, transit and freight-related data. In addition to the data archive, <span class="caps">PORTAL</span> has a web site that provides dynamic, user-customizable graphs and reports for analyzing transportation including plots of congestion, bottlenecks, speed maps and incident analysis. Presented here is a performance study showing how PostgreSQL and Linux handle the demands of all the <span class="caps">PORTAL</span> archive and web site.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Mark_Wong,_Kristin_Tufte_-_Portal.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>A case study of the Portland Oregon Regional Transportation Archive Listing (PORTAL) database on PostgreSQL and Linux.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>48. Scalable Concurrent Hash Tables via Relativistic Programming</h2><p class="meta">General · Thursday, September 24, 2009 3:10 – 3:55pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/85">https://blog.linuxplumbersconf.org/ocw/proposals/85</a></p><h3>Description</h3><div class="description"><p>Existing approaches to concurrent programming often fail to account for synchronization costs on modern shared-memory multiprocessor architectures.  A new approach to concurrent programming, known as relativistic programming, can reduce or in some cases eliminate synchronization overhead on such architectures.  This approach avoids the costs of inter-processor communication and memory access by permitting processors to operate from a relativistic view of memory provided by their own caches, rather than from an absolute reference frame of memory as seen by all processors.  This research shows how relativistic programming techniques can provide the perceived advantages of optimistic synchronization without the useless parallelism caused by rollbacks and retries.</p>
+<p>Descriptions of several implementations of a concurrent hash table illustrate the differences between traditional and relativistic approaches to concurrent programming.  An analysis of the fundamental performance bottlenecks in existing concurrent programming techniques, both optimistic and pessimistic, directly motivates the key ideas of relativistic programming.  Relativistic techniques provide performance and scalability advantages over traditional synchronization, demonstrated through benchmarks of concurrent hash tables implemented in the Linux kernel.  The demonstrated relativistic hash table makes use of a novel relativistic hash table move operation.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Josh-Triplett-rphash.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>I present a new algorithm for scalable concurrent hash tables, performance results for this algorithm (2-10x more scalable than Linux), and potential applications.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>49. Managing KVM guests with the Common Information Model (CIM)</h2><p class="meta">General · Wednesday, September 23, 2009 10:45 – 11:30am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/40">https://blog.linuxplumbersconf.org/ocw/proposals/40</a></p><h3>Description</h3><div class="description"><p>Hypervisors each have their own set of command line tools, APIs, and interfaces – all of which are typically inoperable with other virtualization offerings.  This can provide a difficult challenge for users with multiple hypervisor types within a given managed environment.</p>
+<p>One solution to this issue is to provide an abstraction layer that conforms to the Common Information Model (<span class="caps">CIM</span>).  <span class="caps">CIM</span> is an open standard defined and published by the Distributed Management Task Force (<span class="caps">DMTF</span>) that describes how to control (and exchange information about) managed elements. Through the use of specification conformance, an administration client can interface with any <span class="caps">CIM</span> implementation using one set of APIs.</p>
+<p>The libvirt-cim project aims to provide such an abstraction layer for <span class="caps">KVM</span>, Xen, and Linux Containers.  This talk will cover how libvirt-cim uses <span class="caps">CIM</span>, the <span class="caps">DMTF</span> specifications, and libvirt to manage guests and maintain hypervisor neutrality.  The discussion will also include information on libcmpiutil – a library of utility functions, the goal of which is to reduce the amount of repetitive work typically done in most <span class="caps">CMPI</span>-style <span class="caps">CIM</span> providers.</p>
+<p>As <span class="caps">KVM</span> comes to the forefront, it has become increasingly important to provide ways to easily incorporate <span class="caps">KVM</span> into existing virtualization environments.  The goal of this talk is to discuss ways in which <span class="caps">CIM</span> can be leveraged for that purpose.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Kaitlin-Rupert-Plumbers_2009_Managing_KVM_with_CIM.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>A discussion on how to manage KVM guests using CIM.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>50. oFono - Open Source Telephony</h2><p class="meta">General · Friday, September 25, 2009 11:30am – 12:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/21">https://blog.linuxplumbersconf.org/ocw/proposals/21</a></p><h3>Description</h3><div class="description"><p>Open source telephony stack for embedded/mobile devices and desktop/laptop computers.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>oFono telephony stack</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>51. Challenges with Userspace USB Embedded Device Interfacing</h2><p class="meta">General · Friday, September 25, 2009 3:00 – 3:45pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/68">https://blog.linuxplumbersconf.org/ocw/proposals/68</a></p><h3>Description</h3><div class="description"><p>The Portland State Aerospace Society is developing a Linux based flight computer with sensor and operational nodes connected to the system through <span class="caps">USB</span> in isochronous mode.</p>
+<p>Most designs have margin to trade performance for reliability. Which choices in the Linux <span class="caps">USB</span> userspace interface will present which options? Is it better to write a kernelspace driver for known reliability or would it only be good for performance, or neither? There exists a finite amount of time in any design cycle to analyze these ideas for a given system.<br>
+Once a designer makes a choice what monitoring and analysis options are available in the api? How can a developer ensure they are following userspace<br>
+to kernel semantics, without intensive study of the kernel source code.</p>
+<p>Many people want to interface <span class="caps">USB</span> devices to host computers. Reducing the time and complexity involved in such integration can make it economical for manufacturers to write and provide drivers for their devices. Can the userspace api develop in a direction to support this?</p>
+<p>Discussing some of the challenges of the userspace interface to the Linux <span class="caps">USB</span> subsystem may provide some insight and ideas for improvement and encourage further use of Linux as a host system.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Dave_Camarillo_K_Wilson_Challenges_with_USB_Userspace_Device_Interfaces.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>It is compelling to integrate complex embedded systems
+
+with Linux USB userspace code. However, the complexity of userspace interface adds significant risk to the development cycle.
+
+
+
+Integrating a USB2.0 Isochronous mode ARM embedded system with Linux host software presents an end to end design challenge requiring not just a view of Linux from the 'inside' but also from the 'outside'. Some of the challenges Linux added to an already complex embedded system development will be presented, with some ideas to reduce the barries to entry and learning curve for embedded systems and host communication.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>52. Nesting the virtualized world</h2><p class="meta">General · Wednesday, September 23, 2009 11:30am – 12:15pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/74">https://blog.linuxplumbersconf.org/ocw/proposals/74</a></p><h3>Description</h3><div class="description"><p>Virtualization is usually only one level deep. So in a normal virtual environment you can not run a hypervisor again.</p>
+<p>While that is reasonable for most use cases, it can come in handy to have virtualization support within your virtual machine. Especially when you develop a virtualization product.</p>
+<p>So I implemented nested <span class="caps">SVM</span>. Basically, that exposes virtualization capabilities within the virtual machine and allows you to run any hypervisor within your VM that would work on a real machine, as long as you’re running on <span class="caps">AMD</span> hardware.</p>
+<p>This talk will give you an overview on how this is achieved (technically), what limitations there are and how fast we can get.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Running KVM in KVM, Xen in KVM, Hyper-V in KVM, ...</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>53. libv4l2 recent changes and future and v4l stream sharing</h2><p class="meta">General · Friday, September 25, 2009 10:45 – 11:30am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/30">https://blog.linuxplumbersconf.org/ocw/proposals/30</a></p><h3>Description</h3><div class="description"><p>Last years libv4l2 presentation ended with a slide future with<br>
+the following bullet points (abbreviated):</p>
+<ul>
+	<li>Add emulated controls</li>
+	<li>Better handle rotation</li>
+	<li>Software image quality enhancements:<br>
+  – White balance<br>
+  – Normalize</li>
+	<li>Emulated controls persistency</li>
+</ul>
+<p>Actually quite a few of these have materialized in the recent<br>
+0.5.9x releases of libv4l. The talk will start with a short<br>
+talk on what has been implemented, and more importantly how<br>
+and the impact of this on existing applications and drivers.</p>
+<p>Last year Brandon Philips gave a talk about sharing video devices between multiple applications using a userspace video server. This is the next frontier for v4l userspace, the second<br>
+part of this talk will describe several ideas how to handle<br>
+this and the advantages and disadvantages of each, after which<br>
+the intent is to further discuss this with the audience.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Hans-de-Goede-libv4l.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Last years libv4l2 presentation ended with a slide future with
+
+bullet points of features to be added, so where we stand today? And what will happen in the coming year?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>54. Performance counters on Linux: The tools</h2><p class="meta">General · Friday, September 25, 2009 10:00 – 10:45am 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/108">https://blog.linuxplumbersconf.org/ocw/proposals/108</a></p><h3>Description</h3><div class="description"><p>Modern CPUs have hardware dedicated to counting events associated with performance, special registers that allow pinpointing hotspots that can possibly be optimized. Recent developments in the Linux kernel explore these features, solving problems found in previous attempts, such as OProfile. The new tools developed to use it will be described and briefly demonstrated.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Arnaldo-Carvalho-de-Melo-perf.pdf">[slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>The perfcounters infrastructures is fast moving into being the unifying channel for hw and software performance analisys</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>55. Painless kernel - removing the HZ</h2><p class="meta">BoF · Wednesday, September 23rd, 2009 13:30 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/103">https://blog.linuxplumbersconf.org/ocw/proposals/103</a></p><h3>Description</h3><div class="description"><p>When a process does some number crunching for a while, without involving the kernel, the kernel still interrupts it HZ times per second to figure out if it has any work to do. With a system dedicated to doing such number crunching, the answer will almost always come up “no”; however, the kernel takes a while figuring out all the "no"s from various subsystems, every timer tick. On my system, the timer tick takes about 80us, every 1/HZ seconds; that represents a significant overhead. 80us out of every 1ms, for instance, means 8% overhead.  Furthermore, the time taken varies, and the timer interrupts lead to jitter in the performance of the number crunching.</p>
+<p>The kernel has long had a “tickless” or “nohz” mechanism to shut down the timer tick when not needed, but this mechanism only works when idle, not when running.  If every function currently polling from the timer tick could instead make use of an appropriate event, or just wait to get updated until the next time the kernel has work to do, the kernel could become entirely event-driven.</p>
+<p>A prototype<sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/103#fn1">1</a></sup> of a truly tickless Linux kernel demonstrated the improvement in performance and consistency demonstrated by removing the timer tick<sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/103#fn2">2</a></sup><sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/103#fn3">3</a></sup>.  Making this a reality, though, requires reworking all the bits hanging off the timer tick.</p>
+<p><sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/103#fn1">1</a></sup> <a href="http://lkml.org/lkml/2009/9/1/229" rel="nofollow">http://lkml.org/lkml/2009/9/1/229</a><br>
+<sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/103#fn2">2</a></sup> <a href="http://lkml.org/lkml/2009/9/3/7" rel="nofollow">http://lkml.org/lkml/2009/9/3/7</a><br>
+<sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/103#fn3">3</a></sup> <a href="http://ozlabs.org/~anton/linux/osjitter/" rel="nofollow">http://ozlabs.org/~anton/linux/osjitter/</a></p>
+<p>An event-driven kernel would improve throughput by decreasing interruptions, improve latency by removing large non-preemptible regions, improve consistency by eliminating the primary source of jitter, and improve power savings by getting done and back to sleep sooner.</p>
+<p>So, if the kernel has you ticked, come to this BoF, and we’ll get you ticked off in a jiffy.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Josh-Triplett-painless-kernel.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>The scheduler tick must die.
+
+
+
+The kernel has long had a “tickless” or “nohz” mechanism to shut down the timer tick when not needed, but this mechanism only works when idle, not when running. If every function currently polling from the timer tick could instead make use of an appropriate event, or just wait to get updated until the next time the kernel has work to do, the kernel could become entirely event-driven.
+
+
+
+An event-driven kernel would improve throughput by decreasing interruptions, improve latency by removing large non-preemptible regions, improve consistency by eliminating the primary source of jitter, and improve power savings by getting done and back to sleep sooner.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>56. Packaging Linux</h2><p class="meta">BoF · Wednesday, September 23rd, 2009 13:30 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/101">https://blog.linuxplumbersconf.org/ocw/proposals/101</a></p><h3>Description</h3><div class="description"><p>There are many decisions to make in packaging and maintaining Linux in distributions:<br>
+- which version to release with<br>
+- configuration options<br>
+  – how many different configurations<br>
+- drivers to backport<br>
+- bug fixes to backport (after the end of a stable series)</p>
+<p>How do we make this choices?<br>
+What can we learn from other distributions?<br>
+Can we cooperate to improve support over the lifetime of long-term releases?</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>BoF for Linux distributors involved in packaging the kernel</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>57. Plug and play multiseat</h2><p class="meta">BoF · Wednesday, September 23rd, 2009 13:30 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/110">https://blog.linuxplumbersconf.org/ocw/proposals/110</a></p><h3>Description</h3><div class="description"><p><a href="https://en.wikipedia.org/wiki/Multiseat_configuration">Multiseat</a> holds tons of promise, but it has been very hard for end-users to configure for each different hardware setup. To take off, it must get easier.</p>
+<p>Inspired by the <a href="http://www.ndiyo.org/news/open-source-hubster">Ndiyo project</a> involving Dr. Quentin Stafford-Fraser and others, good progress has been made.</p>
+<p>This BoF session will start with a demonstration of plug and play multiseat running today on Ubuntu 9.04, showing several sets of <span class="caps">USB</span> displays, keyboards, and mice, each being plugged into the PC to pop up an additional terminal.</p>
+<p>The solution uses a DisplayLink <span class="caps">USB</span> kernel framebuffer device and open source driver, per <a href="http://libdlo.freedesktop.org/wiki/MultiSeatTerminal">these instructions</a></p>
+<p>The BoF session will then open discussion up to the room on remaining problems — including better integration with coming ConsoleKit &amp; other changes, how best to tackle those problems, and how we can get this support widely integrated into Linux distros.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Bernie-Thompson-Plug-And-Play-Multiseat.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>Linux multiseat configurations hold the potential to get the cost per Linux user down to half or less of even the cheapest PCs.  But can we make multiseat plug and play?</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>58. Virtual Ethernet switch enhancements and configuration</h2><p class="meta">BoF · Wednesday, September 23rd, 2009 17:00 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/99">https://blog.linuxplumbersconf.org/ocw/proposals/99</a></p><h3>Description</h3><div class="description"><p>Extensions to <span class="caps">KVM</span> and kernel bridge support of adapter based virtual switch, <span class="caps">SNMP</span> MIBs for bridges, network filtering in sr-iov switch and linux bridge using libvirt extensions, external network switching (<span class="caps">VEPA</span>)</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Linux Virtual Ethernet switch enhancements, configuration of management including embedded switches in NICs, support for MIBs and ACLs</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>59. DRBD 8.3 and Beyond</h2><p class="meta">BoF · Thursday, September 24th, 2009 09:00 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/96">https://blog.linuxplumbersconf.org/ocw/proposals/96</a></p><h3>Description</h3><div class="description"><p>I want to give insights into the challenges of a “shared nothing” clustering storage replication solution has deal with. Besides the challenges some of the methods and algorithms used in <span class="caps">DRBD</span>-8 might get presented: data generation UUDIs, resync-bitmap, the activity log, detection of conflicting writes and barrier semantics mapping. The features that became available with the release of <span class="caps">DRBD</span>-8.3 will of course be presented as well: device stacking, checksum based resync. Which can be used to set up disaster recovery nodes in addition to a conventional cluster. <span class="caps">DRBD</span> can also be used to implement the “follow the sun” model.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>We aim for inclusion of DRBD 8.3 into Linux-2.6.32</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>60. OFFLINE SCHEDULER</h2><p class="meta">BoF ·   元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/100">https://blog.linuxplumbersconf.org/ocw/proposals/100</a></p><h3>Description</h3><div class="description"><p>In today’s computer world, we find that most processors have several embedded cores and hyper-threading. Most programmers do not really use these powerful features and let the operating system do the work.<br>
+At most, a programmer will bound an application to a certain processor or assign an interrupt to a different processor. At the end, we get system busy in maintaining tasks across processors, balancing interrupts, flushing TLBs and DTLBs<sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/100#fn1">1</a></sup> using atomic operations even when not needed and worst of all, spin locks across processors in vein; and the more processors the merrier. I argue that in some cases, part of this behavior is due to fact the multiple core operating system is not service oriented but a system oriented. There is no easy way to assign a processor to do a distinct service, undisturbed, accurate, and fast as long as the processor is an active part of an operating system and still be a part of most of the operating system address space.<br>
+ <br>
+<span class="caps">OFFSCHED</span> Purpose</p>
+<p>The purpose of the <span class="caps">OFFSCHED</span> is to create a platform for services. For example, assume a firewall is being attacked; the Linux operating system will generate endless number of interrupts and/or softirqs to analyze the traffic and throw out bad packets. This is on the expense of “good” packets. Have you ever tried to “ssh” to an attacked machine?  <br>
+What if we can simply do the packet analysis outside the operating system, without interrupts and still fast enough?<br>
+Why not assign a core to do only “firewalling”? Or just routing? Design a new type of Real Time system? Maybe assign it as an ultra accurate timer?  Create a delaying service that does not just spin? Offload a <span class="caps">TCP</span> stack?  perhaps a new type of a locking scheme? New type bottom-halves? Debug a running kernel through an offloaded processor? Maybe assign a <span class="caps">GPU</span> to do other things than just graphics? <br>
+Amdahl Law teaches us that linear speed-up is not very feasible <sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/100#fn2">2</a></sup> <sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/100#fn3">3</a></sup>, so why not spare a processor to do certain tasks better? <br>
+Technologically speaking, I am referring to the Linux kernel ability to virtually hot plug a (<span class="caps">SMT</span>) processor but instead of letting it wonder in endless “halts”, assign it a service.<br>
+<span class="caps">OFFSCHED</span> project can be found at :<br>
+<a href="http://sos-linux.svn.sourceforge.net/viewvc/sos-linux/offsched/" rel="nofollow">http://sos-linux.svn.sourceforge.net/viewvc/sos-linux/offsched/</a></p>
+<p>I have implemented:<br>
+1. <span class="caps">OFFSCHED</span>-RT. A different kind of a real time system.<br>
+2. <span class="caps">OFFSCHED</span>-<span class="caps">TIMER</span>. a 1us timer. <br>
+3. <span class="caps">OFFSCHED</span>-<span class="caps">RTOP</span>. remote top. <span class="caps">OFFSCHED</span> throws top-like information to a nother machine, while the <span class="caps">OFFSCHED</span> machine is not accessible<br>
+4. <span class="caps">OFFSCHED</span> <span class="caps">NAPI</span>. offloaded <span class="caps">NAPI</span><br>
+5. <span class="caps">OFFCSHED</span> <span class="caps">SECURED</span>. a firewall that protects the operating system.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Raz-Ben-Yehuda-OFFSCHED.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>offsched is a platform aimed to assign an assignment to an offloaded processor. offloaded processor is a processor that is hot un-plugged from the operating system.</p><p>一覧での掲載: program only</p></div></article><article><h2>61. Linux-iSCSI.org BoF discussion</h2><p class="meta">BoF · Friday, September 25th, 2009 09:00 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/102">https://blog.linuxplumbersconf.org/ocw/proposals/102</a></p><h3>Description</h3><div class="description"><p>There has been much work completed since the <span class="caps">LPC</span> 2008 decision to move <span class="caps">LIO</span> kernel code into to a generic target engine infrastructure using upstream configfs infrastructure as it’s base.   The Two major <span class="caps">SPC</span>-4 <span class="caps">SCSI</span><br>
+target mode fabric features that have been completed: Persistent Reservation <span class="caps">APTPL</span> and implict/explict <span class="caps">ALUA</span> are<br>
+now the first all optional SPC4 defined feature implementation of PR and <span class="caps">ALUA</span> in the Linux <span class="caps">OSS</span> target theatre using an upstream user-driven virtual filesystem directory hierarchy structure that can be configured in realtime in combination with interpreted userspace code.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Nicholas-A.-Bellinger-LIO-LPC-2009.pdf">slides</a> <small>file</small></li></ul><div><h3>Excerpt</h3><p>I) Milestones in LIO 3.1 since LPC 2008
+
+
+
+	*) A complete configfs enabled kernel-level codebase in lio-core-2.6.git consisting of a generic target engine (target_core_mod) and iSCSI Target fabric fabric module (iscsi_target_mod) including a fabric independent target engine and iSCSI Target python CLI API for real-time configuration and
+
+management of running Linux systems using k.o v2.6.3x code that is capable of scaling up to 10,000 unique virtual HBA+FILEIO objects and LIO-Target iSCSI fabric endpoints within a single KVM guest instance using 10 Gb/sec IOV capable hardware.</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>62. Paravirt I/O Drivers for Linux BoF</h2><p class="meta">BoF · Thursday, September 24th, 2009 17:30 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/113">https://blog.linuxplumbersconf.org/ocw/proposals/113</a></p><h3>Description</h3><div class="description"><p>Paravirt I/O Drivers for Linux BoF</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Paravirt I/O Drivers for Linux BoF</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>63. Audio BoF</h2><p class="meta">BoF · Thursday, September 24th, 2009 09:00 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/112">https://blog.linuxplumbersconf.org/ocw/proposals/112</a></p><h3>Description</h3><div class="description"><p>Audio BoF</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Audio BoF</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>64. Checkpoint/Restart BOF</h2><p class="meta">BoF · Thursday, September 24th, 2009 17:30 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/111">https://blog.linuxplumbersconf.org/ocw/proposals/111</a></p><h3>Description</h3><div class="description"><p>Several developers working on the implementation of Checkpoint/Restart plan to be at the Plumbers Conference. This offers a good opportunity to discuss<br>
+design, implementation, plans and priorities.</p>
+<p>A few other developers are interested in joining the<br>
+discussion remotely, if teleconferencing facility is<br>
+available.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Discuss design and plans for the ongoing implementation of Checkpoint/Restart in mainline linux</p><p>一覧での掲載: program and schedule</p></div></article><article><h2>65. Real Time Linux</h2><p class="meta">BoF · Thursday, September 24th, 2009 09:00 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/95">https://blog.linuxplumbersconf.org/ocw/proposals/95</a></p><h3>Description</h3><div class="description"><p>Real Time Linux</p>
+<p><span class="caps">OFFLINE</span> <span class="caps">SCHEDULER</span></p>
+<p>In today’s computer world, we find that most processors have several embedded cores and hyper-threading. Most programmers do not really use these powerful features and let the operating system do the work.<br>
+At most, a programmer will bound an application to a certain processor or assign an interrupt to a different processor. At the end, we get system busy in maintaining tasks across processors, balancing interrupts, flushing TLBs and DTLBs<sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/95#fn1">1</a></sup> using atomic operations even when not needed and worst of all, spin locks across processors in vein; and the more processors the merrier. I argue that in some cases, part of this behavior is due to fact the multiple core operating system is not service oriented but a system oriented. There is no easy way to assign a processor to do a distinct service, undisturbed, accurate, and fast as long as the processor is an active part of an operating system and still be a part of most of the operating system address space.<br>
+ <br>
+<span class="caps">OFFSCHED</span> Purpose</p>
+<p>The purpose of the <span class="caps">OFFSCHED</span> is to create a platform for services. For example, assume a firewall is being attacked; the Linux operating system will generate endless number of interrupts and/or softirqs to analyze the traffic and throw out bad packets. This is on the expense of “good” packets. Have you ever tried to “ssh” to an attacked machine?  <br>
+What if we can simply do the packet analysis outside the operating system, without interrupts and still fast enough?<br>
+Why not assign a core to do only “firewalling”? Or just routing? Design a new type of Real Time system? Maybe assign it as an ultra accurate timer?  Create a delaying service that does not just spin? Offload a <span class="caps">TCP</span> stack?  perhaps a new type of a locking scheme? New type bottom-halves? Debug a running kernel through an offloaded processor? Maybe assign a <span class="caps">GPU</span> to do other things than just graphics? <br>
+Amdahl Law teaches us that linear speed-up is not very feasible <sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/95#fn2">2</a></sup> <sup class="footnote"><a href="https://blog.linuxplumbersconf.org/ocw/proposals/95#fn3">3</a></sup>, so why not spare a processor to do certain tasks better? <br>
+Technologically speaking, I am referring to the Linux kernel ability to virtually hot plug a (<span class="caps">SMT</span>) processor but instead of letting it wonder in endless “halts”, assign it a service.<br>
+<span class="caps">OFFSCHED</span> project can be found at :<br>
+<a href="http://sos-linux.svn.sourceforge.net/viewvc/sos-linux/offsched/" rel="nofollow">http://sos-linux.svn.sourceforge.net/viewvc/sos-linux/offsched/</a></p>
+<p>I have implemented:<br>
+1. <span class="caps">OFFSCHED</span>-RT. A different kind of a real time system.<br>
+2. <span class="caps">OFFSCHED</span>-<span class="caps">TIMER</span>. a 1us timer. <br>
+3. <span class="caps">OFFSCHED</span>-<span class="caps">RTOP</span>. remote top. <span class="caps">OFFSCHED</span> throws top-like information to a nother machine, while the <span class="caps">OFFSCHED</span> machine is not accessible<br>
+4. <span class="caps">OFFSCHED</span> <span class="caps">NAPI</span>. offloaded <span class="caps">NAPI</span><br>
+5. <span class="caps">OFFCSHED</span> <span class="caps">SECURED</span>. a firewall that protects the operating system.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Real Time Linux (and Raz Ben Yehuda's Offline Scheduler)</p><p>一覧での掲載: schedule only</p></div></article><article><h2>66. Data Center Bridging</h2><p class="meta">BoF · Thursday, September 24th, 2009 17:30 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/114">https://blog.linuxplumbersconf.org/ocw/proposals/114</a></p><h3>Description</h3><div class="description"><p>Data Center Bridging</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>Data Center Bridging</p><p>一覧での掲載: schedule only</p></div></article><article><h2>67. A new V4L2 core framework: an overview and future plans</h2><p class="meta">BoF · Friday, September 25th, 2009 09:00 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/98">https://blog.linuxplumbersconf.org/ocw/proposals/98</a></p><h3>Description</h3><div class="description"><p>In order to support the much more complex media hardware like the omap or davinci SoCs a new framework is needed. The initial ideas were formed during last year’s Plumbers and I will give an overview of what has happened since then.</p>
+<p>During this year’s Plumbers we discussed the next phase: how to give embedded developers access to the hardware allowing them to control it optimally. I will present our plans to implement this. There will also be an overview of other proposals such as <span class="caps">HDTV</span> support.</p>
+
+  
+
+  
+
+  <div class="record-controls">
+    
+    <a href="https://blog.linuxplumbersconf.org/ocw/events/2009bofs/proposals.1" class="cancelable">Back to list of proposals</a>
+  </div>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>A new V4L2 core framework: an overview and future plans</p><p>一覧での掲載: schedule only</p></div></article><article><h2>68. Issues with Linux and large NUMA/COMA factor architectures</h2><p class="meta">BoF · Friday, September 25th, 2009 09:00 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/97">https://blog.linuxplumbersconf.org/ocw/proposals/97</a></p><h3>Description</h3><div class="description"><p>ScaleMP vSMP Foundation is a form of aggregation virtualization. vSMP Foundation is a distributed virtual machine monitor (<span class="caps">VMM</span>) aggregating multiple similar x86-64 systems to make a single large shared memory system. The multiple systems are interconnected to each other with a commodity fast interconnect (currently Infiniband). The vSMP Foundation <span class="caps">VMM</span> takes care of aggregating all the constituent hardware of the aggregated system. This implies that the <span class="caps">VMM</span> also takes care of the memory/cache coherency among the constituent systems. Currently Linux is the only guest operating system that is supported by the vSMP Foundation.</p>
+<p>The vSMP Foundation <span class="caps">VMM</span> implements multiple inter-node coherency mechanisms. The resulting shared memory architecture is both “NUMA” and “COMA” in nature. The<br>
+coherency mechanism chosen is transparent as far as the guest kernel is concerned (Applications can explicity choose a coherency mechanism though). Due to the software approach to coherency, and speeds of the existing commodity interconnects the <span class="caps">NUMA</span> factor of the aggregated system is fairly large. The <span class="caps">COMA</span> coherency domain results in a large internode cacheline size — 4kB usually. Due to the above two reasons, cache misses and cacheline ping-pongs are a major issue. This BoF will focus on solutions employed in the kernel and applications to overcome performance penalties due to the <span class="caps">NUMA</span> factors and large cacheline. The effects due to the large cacheline show up in different ways — from the classical false sharing cases where traditional solutions based on padding could be employed to true sharing/lock contention cases where workarounds based on certain features in the Linux kernel and userspace libraries like hugetlb, libhugetlbfs, arena based allocations, third party malloc replacements, make more sense. This BoF will surmise all these workarounds and techniques used to date, some of the techniques we plan to use, and solicit suggestions on some unsolved issues.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li>掲載なし</li></ul><div><h3>Excerpt</h3><p>This is a large SMP BoF where the speaker/moderator will be presenting his experience with performance issues and solutions employed on ScaleMP vSMP Foundation based large SMP/NUMA systems.  These issues are relevant to other large SMP/NUMA architectures as well.</p><p>一覧での掲載: schedule only</p></div></article><article><h2>69. Wayland - A New Display Server for Linux</h2><p class="meta">X Window System · Friday, September 25, 2009 2:20 – 2:45pm 元ページ表示（タイムゾーン未明記）</p><p><a href="https://blog.linuxplumbersconf.org/ocw/proposals/57">https://blog.linuxplumbersconf.org/ocw/proposals/57</a></p><h3>Description</h3><div class="description"><p>Over the last 10 years, a lot of functionality have slowly moved out of the X server and into libraries or kernel drivers.  It started with freetype and fontconfig providing an alternative to the core X fonts and direct rendering OpenGL as a graphics driver in a client side library.  Then cairo came along and provided a modern 2D rendering library independent of X and compositing managers took over control of the rendering of the desktop.  Recently with <span class="caps">GEM</span> and <span class="caps">KMS</span> in the Linux kernel, we can do modesetting outside X and schedule several direct rendering clients.  The end result is a highly modular graphics stack.</p>
+<p>Wayland is a new display server building on top of all those components.  We’re trying to distill out the functionality in the X server that is still used by the modern Linux desktop.  This turns out to be not a whole lot.  Applications can allocate their own off-screen buffers and render their window contents by themselves.  In the end, what’s needed is a way to present the resulting window surface to a compositor and a way to receive input.  This is what Wayland provides, by piecing together the components already in the eco-system in a slightly different way.</p>
+<p>X will always be relevant, in the same way Fortran compilers and <span class="caps">VRML</span> browsers are, but it’s time that we think about moving it out of the critical path and provide it as an optional component for legacy applications.</p>
+
+  
+    </div><h3>添付資料URL</h3><ul><li><a href="http://video.linuxfoundation.org/video/1571">video</a> <small>link</small></li></ul><div><h3>Excerpt</h3><p>Over the last few years the graphics stack have been split up and refactored into shared libraries, kernel drivers and other components.  The X server provides a lot of legacy functionality that isn't used by the modern, composited Linux desktop.  Wayland is a new display server that builds on top of all those components to provide a minimal foundation for a composited destkop.  X can run under Wayland with very little overhead for legacy applications.</p><p>一覧での掲載: program and schedule</p></div></article></main><script>const q=document.querySelector('#q'),cards=[...document.querySelectorAll('article')];function filter(){let words=q.value.toLowerCase().split(/\s+/).filter(Boolean),n=0;cards.forEach(c=>{let t=c.textContent.toLowerCase();c.hidden=!words.every(w=>t.includes(w));if(!c.hidden)n++});document.querySelector('#count').textContent=n+' / '+cards.length+' セッション';}q.addEventListener('input',filter);filter();</script><section><h2>個別URL未掲載の基調講演・チュートリアル</h2><details><summary>Networking Futures : Multiqueue Networking</summary><p>個別URL: 掲載なし。</p><h3>Description</h3><p>未掲載</p><h3>添付資料URL</h3><ul><li><a href="https://blog.linuxplumbersconf.org/2009/slides/Dave-Miller-davem_plumbers09.pdf">Networking Futures : Multiqueue Networking</a></li></ul><h3>参考URL</h3><p>掲載なし</p></details><details><summary>X Version 11, 22 Years and Counting</summary><p>個別URL: 掲載なし。</p><h3>Description</h3><p>未掲載</p><h3>添付資料URL</h3><p>掲載なし</p><h3>参考URL</h3><p>掲載なし</p></details><details><summary>An Advanced Git Tutorial</summary><p>個別URL: 掲載なし。</p><h3>Description</h3><p>As a follow on to his git tutorial in 2008, Linus Torvalds, founder of the Linux kernel and git projects, will be describing some more advanced features of git.</p><h3>添付資料URL</h3><ul><li><a href="http://video.linuxfoundation.org/video/1578">video</a></li></ul><h3>参考URL</h3><p>掲載なし</p></details></section><section><h2>LinuxCon合同枠</h2><details><summary>Lightning Talks (With LinuxCon)</summary><p>個別URL: 掲載なし。</p><h3>Description</h3><p>未掲載</p><h3>添付資料URL</h3><p>掲載なし</p><h3>参考URL</h3><ul><li><a href="http://linuxcon.linuxfoundation.org/meetings/1568">Details here as they become available</a></li></ul></details><details><summary>Keynote: Mark Shuttleworth (with LinuxCon)</summary><p>個別URL: 掲載なし。</p><h3>Description</h3><p>未掲載</p><h3>添付資料URL</h3><p>掲載なし</p><h3>参考URL</h3><ul><li><a href="http://events.linuxfoundation.org/lc09k3">Let's Get Together: Coordinated Software Releases, The Linux Ecosystem and the Impact on the Global Marketplace</a></li></ul></details></section></body></html>

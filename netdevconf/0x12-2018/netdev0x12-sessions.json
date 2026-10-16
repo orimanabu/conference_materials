@@ -1,0 +1,2171 @@
+{
+  "event": "Netdev 0x12",
+  "source_url": "https://netdevconf.info/0x12/accepted-sessions.html",
+  "retrieved_on": "2026-10-10",
+  "timezone": "Scheduleの表示時刻（モントリオール開催）",
+  "notes": "Accepted Sessionsの読み込み元generated-sessionsから全32個別URLを収録（Closing・Workshop Summary含む）。個別ページのloadsessions断片からTitle・Description原文を抽出。Descriptionは30件に掲載、Closing・Workshop Summaryは掲載なし。Scheduleの全セッションと照合し、QUICの別URLは内容がバイト単位で同一のため同一セッションとしてalternate_urlsに保持。複数枠はscheduled_slotsに保持。Contentsのスライド・論文・動画・関連資料リンクを抽出。資料URLは主にfiles.netdevconf.infoの共有ページであり、試行した1共有先はwww有無の両方で証明書検証エラーの502応答となったため、共有内のファイルURLは展開せず掲載URLをそのまま保持。全資料リンクの有効性は未検査。個別ページがないDaily Announcements・TBA・Bits, Nibbles, Bytes and Wordsの6枠は補足へ収録。TBAの空hrefは資料URLとして扱わない。 追補（2026-10-10）: 49共有リンクのWayback保存ページとfiles.netdevconf.info/.orgの保存URL索引を調査。AFAP 1本とTC Workshop 7本の計8PDFは本体取得・表題等を確認して追加。QUIC・Multipath TCPは保存済み閲覧ページ取得済みだがPDF本体は404。IoT Workshopは保存済み一覧から2ファイル名を確認、本体未取得。保存URL候補のみをPDF取得済みとは扱わない。その他の資料は今回の探索ではPDF本体未確認。",
+  "counts": {
+    "sessions": 32,
+    "with_description": 30,
+    "with_materials": 32,
+    "attachments": 97,
+    "files": 8,
+    "links": 89
+  },
+  "sessions": [
+    {
+      "id": "congestion-control-for-cellular-wireless-networks",
+      "url": "https://netdevconf.info/0x12/session.html?congestion-control-for-cellular-wireless-networks",
+      "title": "Congestion Control for Cellular Wireless Networks",
+      "listing_title": "Congestion Control for Cellular Wireless Networks",
+      "description": "Cellular networks exhibit significant variations in\nbottleneck link rates even over short time durations.\nOne would therefore expect that an active queue\nmanagement (AQM) scheme running at the cellular\nbottleneck router, sending explicit congestion\nnotification (ECN) signals to senders using direct\nknowledge of the time-varying link capacity, would\nachieve higher throughput and lower delays than\nend-to-end approaches. Yet, recent work has shown that\nschemes like Cubic-over-sfqCoDel do not significantly\noutperform end-to-end methods like Sprout and Verus.\n\nWe hypothesize that a well-designed signaling scheme\nrunning at the cellular bottleneck link, working in\nconcert with a suitable endpoint algorithm, can\nout-perform prior end-to-end and network-assisted\n(AQM) strategies. Our hypothesis is based on two key\ninsights. First, unlike end-to-end approaches, a\nrouter-based scheme can directly estimate link\ncapacity, without relying on end-to-end bandwidth\nmeasurements which fundamentally require some queue\nbuildup; on cellular networks, this queue buildup can\nadd significant delays when link capacity abruptly\ndecreases. Second, existing ECN-based AQM schemes send\nindications only when the sender should reduce its\nrate, but not when an increase is possible. The\nproblem in cellular networks is that the rate can\nincrease quickly, faster than endpoints (particularly\nwith linear or even Cubic-like increase) can discover\nsolely via end-to-end methods.\n\nThis BOF is an opportunity to discuss these issues.\nThe BOF will help formalize the constraints of the\nproblem and formulate ways in which the community\nshould evaluate congestion control protocols in\ncellular networks. To kick things off in this BoF and\nframe future discussions, we will use as motivation a\nrecently published HotNets position paper on\nAccel-Brake Control (ABC) [1].\n\nABC integrates a simple and deployable signaling\nscheme at cellular base stations with an endpoint\nmechanism to respond to these signals. The idea is for\nthe base station to enable each sender to achieve a\ncomputed target rate by marking each packet with an\n“accelerate\" or “brake\" notification,\nwhich causes the sender to either slightly increase or\nslightly reduce its congestion window. ABC is designed\nto rapidly acquire any capacity that opens up, a\ncommon occurrence in cellular networks, while\nresponding promptly to congestion.\n\nIt is challenging to properly evaluate congestion\ncontrol over cellular network paths, especially if it\ninvolves in-network mechanisms, because it is not easy\nto deploy even a test network running new\nnetwork-layer mechanisms. Simulation is one approach,\nbut it is not clear how representative results from\ncellular simulations are. Another possibility is to\nuse trace-based emulation, where the traces are\ngathered from real-world cellular networks and\nreplayed via a network emulator on top of which real\nimplementations of endpoints and Linux router software\nrun. This BOF will discuss the collection and use of\ntraces to further research and development in this\narea using a tool like Mahimahi [2].\n\n[1] Prateesh Goyal, Mohammad Alizadeh, Hari\nBalakrishnan, \"Rethinking Congestion Control for\nCellular Networks,” 16th ACM Workshop on Hot\nTopics in Networks (HotNets), Palo Alto, CA, November\n2017. http://nms.csail.mit.edu/papers/index.php?detail=248\n\n[2] Mahimahi — http://mahimahi.mit.edu/",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">Cellular networks exhibit significant variations in\nbottleneck link rates even over short time durations.\nOne would therefore expect that an active queue\nmanagement (AQM) scheme running at the cellular\nbottleneck router, sending explicit congestion\nnotification (ECN) signals to senders using direct\nknowledge of the time-varying link capacity, would\nachieve higher throughput and lower delays than\nend-to-end approaches. Yet, recent work has shown that\nschemes like Cubic-over-sfqCoDel do not significantly\noutperform end-to-end methods like Sprout and Verus.\n\nWe hypothesize that a well-designed signaling scheme\nrunning at the cellular bottleneck link, working in\nconcert with a suitable endpoint algorithm, can\nout-perform prior end-to-end and network-assisted\n(AQM) strategies. Our hypothesis is based on two key\ninsights. First, unlike end-to-end approaches, a\nrouter-based scheme can directly estimate link\ncapacity, without relying on end-to-end bandwidth\nmeasurements which fundamentally require some queue\nbuildup; on cellular networks, this queue buildup can\nadd significant delays when link capacity abruptly\ndecreases. Second, existing ECN-based AQM schemes send\nindications only when the sender should reduce its\nrate, but not when an increase is possible. The\nproblem in cellular networks is that the rate can\nincrease quickly, faster than endpoints (particularly\nwith linear or even Cubic-like increase) can discover\nsolely via end-to-end methods.\n\nThis BOF is an opportunity to discuss these issues.\nThe BOF will help formalize the constraints of the\nproblem and formulate ways in which the community\nshould evaluate congestion control protocols in\ncellular networks. To kick things off in this BoF and\nframe future discussions, we will use as motivation a\nrecently published HotNets position paper on\nAccel-Brake Control (ABC) [1].\n\nABC integrates a simple and deployable signaling\nscheme at cellular base stations with an endpoint\nmechanism to respond to these signals. The idea is for\nthe base station to enable each sender to achieve a\ncomputed target rate by marking each packet with an\n“accelerate\" or “brake\" notification,\nwhich causes the sender to either slightly increase or\nslightly reduce its congestion window. ABC is designed\nto rapidly acquire any capacity that opens up, a\ncommon occurrence in cellular networks, while\nresponding promptly to congestion.\n\nIt is challenging to properly evaluate congestion\ncontrol over cellular network paths, especially if it\ninvolves in-network mechanisms, because it is not easy\nto deploy even a test network running new\nnetwork-layer mechanisms. Simulation is one approach,\nbut it is not clear how representative results from\ncellular simulations are. Another possibility is to\nuse trace-based emulation, where the traces are\ngathered from real-world cellular networks and\nreplayed via a network emulator on top of which real\nimplementations of endpoints and Linux router software\nrun. This BOF will discuss the collection and use of\ntraces to further research and development in this\narea using a tool like Mahimahi [2].\n\n[1] Prateesh Goyal, Mohammad Alizadeh, Hari\nBalakrishnan, \"Rethinking Congestion Control for\nCellular Networks,” 16th ACM Workshop on Hot\nTopics in Networks (HotNets), Palo Alto, CA, November\n2017. <a href=\"http://nms.csail.mit.edu/papers/index.php?detail=248\">http://nms.csail.mit.edu/papers/index.php?detail=248</a>\n\n[2] Mahimahi — <a href=\"http://mahimahi.mit.edu/\">http://mahimahi.mit.edu/</a>\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/congestion-control-for-cellular-wireless-networks.html",
+      "track": "BoF",
+      "speakers": "",
+      "date": "2018-07-11",
+      "time": "17:45 - 18:30, BoF",
+      "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+      "attachments": [
+        {
+          "title": "video",
+          "url": "https://youtu.be/nO0nbIFEJqs",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/congestion-control-for-cellular-wireless-networks.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-11",
+          "time": "17:45 - 18:30, BoF",
+          "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+          "schedule_title": "Congestion Control for Cellular Wireless Networks",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?congestion-control-for-cellular-wireless-networks"
+        }
+      ]
+    },
+    {
+      "id": "kernel-tls-handshakes-for-https-ddos-mitigation",
+      "url": "https://netdevconf.info/0x12/session.html?kernel-tls-handshakes-for-https-ddos-mitigation",
+      "title": "Kernel TLS handshakes for HTTPS DDoS mitigation",
+      "listing_title": "Kernel TLS handshakes for HTTPS DDoS mitigation",
+      "description": "Efforts to offload TLS have resulted in KTLS [0]. KTLS focuses mostly on zero-copy data transfers and only offloads encryption and decryption and ignores TLS handshakes.\n\n\nHowever, TLS handshakes are susceptible to DDos attacks which are very effective at depleting resources. To alleviate this we ported onto the Tempesta FW a user-space TLS library to the kernel [1]. The TLS library porting took only 1 human month showing that it is quite easy to move TLS code into the kernel.\n\n\nIn our work we overcame memory allocation issues and other performance issues. We optimized the TLS code and merged the TLS handshakes code of the ported library with Linux kTLS. In this talk we'll discuss the performance issues which we had to solve, the resulting performance improvements for TLS handshakes which we got in Tempesta FW in comparison, and compare the results with TLS handshakes with traditional HTTP accelerators. Further directions in optimization of TLS handshakes on commodity hardware also will be covered.\n\n\n[0]. Kernel TLS (Transport Layer Security) Socket, Netdev 1.2,\nhttp://www.netdevconf.info/1.2/session.html?dave-watson\n\n\n[1]. Kernel HTTP/TCP/IP stack for HTTP DDoS mitigation, Netdev 2.1,\nhttps://www.netdevconf.info/2.1/session.html?krizhanovsky",
+      "description_html": "<div><div class=\"talk-alexander-krizhanosky-kernel-tls-handshakes-for-https-ddos-mitigation\">\n<div class=\"news-article\">\n<p>Efforts to offload TLS have resulted in KTLS [0]. KTLS focuses mostly on zero-copy data transfers and only offloads encryption and decryption and ignores TLS handshakes.</p>\n<p>However, TLS handshakes are susceptible to DDos attacks which are very effective at depleting resources. To alleviate this we ported onto the Tempesta FW a user-space TLS library to the kernel [1]. The TLS library porting took only 1 human month showing that it is quite easy to move TLS code into the kernel.</p>\n<p>In our work we overcame memory allocation issues and other performance issues. We optimized the TLS code and merged the TLS handshakes code of the ported library with Linux kTLS. In this talk we'll discuss the performance issues which we had to solve, the resulting performance improvements for TLS handshakes which we got in Tempesta FW in comparison, and compare the results with TLS handshakes with traditional HTTP accelerators. Further directions in optimization of TLS handshakes on commodity hardware also will be covered.</p>\n<p>[0]. Kernel TLS (Transport Layer Security) Socket, Netdev 1.2,<br><a href=\"http://www.netdevconf.info/1.2/session.html?dave-watson\">http://www.netdevconf.info/1.2/session.html?dave-watson</a></p>\n<p>[1]. Kernel HTTP/TCP/IP stack for HTTP DDoS mitigation, Netdev 2.1,<br><a href=\"https://www.netdevconf.info/2.1/session.html?krizhanovsky\">https://www.netdevconf.info/2.1/session.html?krizhanovsky</a></p>\n</div>\n</div>\n  \n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/kernel-tls-handshakes-for-https-ddos-mitigation.html",
+      "track": "Talk",
+      "speakers": "Alexander Krizhanosky",
+      "date": "2018-07-13",
+      "time": "12:00 - 12:30, Talk - Moonshot",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/5a7edc32c6a2461b9647/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/kernel-tls-handshakes-for-https-ddos-mitigation.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/f9b7fe14ea3a4fdbb3d3/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/kernel-tls-handshakes-for-https-ddos-mitigation.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/ruf61IL_eNA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/kernel-tls-handshakes-for-https-ddos-mitigation.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "12:00 - 12:30, Talk - Moonshot",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Kernel TLS handshakes for HTTPS DDoS mitigation",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?kernel-tls-handshakes-for-https-ddos-mitigation"
+        }
+      ]
+    },
+    {
+      "id": "subscriber-billing-system-over-commodity-hardware",
+      "url": "https://netdevconf.info/0x12/session.html?subscriber-billing-system-over-commodity-hardware",
+      "title": "Subscriber Billing System Over Commodity Hardware",
+      "listing_title": "Subscriber Billing System Over Commodity Hardware",
+      "description": "At Verizon we have built powerful billing system using\nthe Linux TC architecture. Typically such systems are\nconstructed with very expensive proprietary hardware\nand software both of which are inflexible. With the\nproprietary systems, new user service plan creation\nprocess is constrained by what the vendor provides and\nat times requires overhaul of both the proprietary\nhardware and software. Utilizing commodity X86 based\nhardware, the Linux kernel TC subsystem and user\ncontrol we were able to achieve our goals; we are able\nto quickly invent new service plans and build\ncomprehensive billing enforcements around them. In\nthis paper we will provide a high level discussion of\nour architecture, the challenges we faced in building\nthe system and changes we made to the Linux kernel and\nuser APIs to achieve our goals. All our patches are\nalready upstream.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">At Verizon we have built powerful billing system using\nthe Linux TC architecture. Typically such systems are\nconstructed with very expensive proprietary hardware\nand software both of which are inflexible. With the\nproprietary systems, new user service plan creation\nprocess is constrained by what the vendor provides and\nat times requires overhaul of both the proprietary\nhardware and software. Utilizing commodity X86 based\nhardware, the Linux kernel TC subsystem and user\ncontrol we were able to achieve our goals; we are able\nto quickly invent new service plans and build\ncomprehensive billing enforcements around them. In\nthis paper we will provide a high level discussion of\nour architecture, the challenges we faced in building\nthe system and changes we made to the Linux kernel and\nuser APIs to achieve our goals. All our patches are\nalready upstream.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/subscriber-billing-system-over-commodity-hardware.html",
+      "track": "Talk",
+      "speakers": "Vikram Siwach, Beomjun Kim, Jamal Hadi Salim, Roman Mashak, Craig Dillabaugh",
+      "date": "2018-07-12",
+      "time": "14:15 - 14:45, Talk - Nuts and bolts",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/3cd4aab468014f8ca378/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/subscriber-billing-system-over-commodity-hardware.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/ae12ae49731844ca98a9/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/subscriber-billing-system-over-commodity-hardware.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/sT7dssMcEAc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/subscriber-billing-system-over-commodity-hardware.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "14:15 - 14:45, Talk - Nuts and bolts",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Subscriber Billing System Over Commodity Hardware",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?subscriber-billing-system-over-commodity-hardware"
+        }
+      ]
+    },
+    {
+      "id": "communication-groups-in-tipc",
+      "url": "https://netdevconf.info/0x12/session.html?communication-groups-in-tipc",
+      "title": "Communication Groups in TIPC",
+      "listing_title": "Communication Groups in TIPC",
+      "description": "TIPC provides a very performant and scalable multicast\nservice, which however has been missing\nsocket-to-socket flow control. This had the effect\nthat messages might be dropped at the receiving end\nbecause of socket buffer overflow.\n\nIn our effort to overcome this problem, we realized\nthat the introduced sliding window based flow control\ncould be used even for other types of message\ntransport provided by TIPC: datagram unicast and\nanycast. This lead us to redefine what was initially a\nmulticast group to what we now call a \"Communication\nGroup\", where all sorts of reliable messaging is\npossible. We also realized that it would be possible\nto leverage the TIPC service tracking feature to let\ngroup members subscribe for join/leave events from\nother members.\n\nThe final result was a simple, but powerful, kernel\nbased brokerless message bus. We think this feature\ncould be useful both as is and as a base for other\nmessage buses wanting to provide a brokerless service.\nThe feature is present in Linux 4.14 and onwards.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">TIPC provides a very performant and scalable multicast\nservice, which however has been missing\nsocket-to-socket flow control. This had the effect\nthat messages might be dropped at the receiving end\nbecause of socket buffer overflow.\n\nIn our effort to overcome this problem, we realized\nthat the introduced sliding window based flow control\ncould be used even for other types of message\ntransport provided by TIPC: datagram unicast and\nanycast. This lead us to redefine what was initially a\nmulticast group to what we now call a \"Communication\nGroup\", where all sorts of reliable messaging is\npossible. We also realized that it would be possible\nto leverage the TIPC service tracking feature to let\ngroup members subscribe for join/leave events from\nother members.\n\nThe final result was a simple, but powerful, kernel\nbased brokerless message bus. We think this feature\ncould be useful both as is and as a base for other\nmessage buses wanting to provide a brokerless service.\nThe feature is present in Linux 4.14 and onwards.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/communication-groups-in-tipc.html",
+      "track": "Talk",
+      "speakers": "Jon Maloy",
+      "date": "2018-07-12",
+      "time": "15:25 - 15:55, Talk - Nuts and bolts",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/a21573ac988c42d1accf/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/communication-groups-in-tipc.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/6a0717f3a94e4645b903/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/communication-groups-in-tipc.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/j47gnGyGZRc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/communication-groups-in-tipc.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "15:25 - 15:55, Talk - Nuts and bolts",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Communication Groups in TIPC",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?communication-groups-in-tipc"
+        }
+      ]
+    },
+    {
+      "id": "bbrx-extending-bbr-for-customized-tcp-performance",
+      "url": "https://netdevconf.info/0x12/session.html?bbrx-extending-bbr-for-customized-tcp-performance",
+      "title": "BBRx: Extending BBR for Customized TCP Performance",
+      "listing_title": "BBRx: Extending BBR for Customized TCP Performance",
+      "description": "The most dominant Internet Protocol, TCP, has its\nperformance tied to the attributes of the network it\ndeployed on; in the past decades many congestion\ndetection and estimation techniques have been proposed\nto improve TCP performance over various network links.\nThese techniques have depended on packet loss or delay\nsensing to autonomously balance between fairness and\npeak performance. More recent congestion\ndetection/estimation approaches incorporate online\nand/or offline learning of the congestion states to\nachieve their end goals. This talk introduces a\npractical way to apply online-learning on TCP\ncongestion control domain without tightly coupling\nthem together.\n\n\nIn late 2016, Bottleneck Bandwidth and Round-trip time\n(BBR) congestion control has been presented as an\nimprovement, with the promise of higher throughputs\nand lower delays as compared to other TCP congestion\ncontrol algorithms. We extend BBR, referred to as BBRx\nin this paper, to react to the path RTT in addition to\nthe bottleneck bandwidth to help finding an optimal\nthroughput-delay operation point in wireless\nenvironment.\n\nIn order to ensure BBRx is continuously operating in\nan optimal point in ever changing network conditions,\nTCP flow statistics are monitored in real-time through\nNetlink socket by a user-space application which tunes\nBBRx parameters with online learning algorithms. The\nloosely coupled TCP tuning feedback control loop\nprovides a novel way to monitor and adjust TCP\nparameters per the performance goal in real time while\nminimizing the risk of deploying pre-tuned learning\nalgorithm in the fast path.\n\nPerformance of the auto-tuned BBRx is evaluated in LTE\nmobile environment as well as wireline environments\ncompared with CUBIC and BBR. The preliminary results\nshow the following: BBRx effectively manages the\nbottleneck queue yielding a low packet loss rate,\nespecially when multiple BBRx flows are contending at\na shallow buffer over a bottleneck link; the\nauto-tuned BBRx finds an optimal throughput-delay\noperation point in LTE environment to maximize\nper-flow throughput within a bounded loss rate and\ndelay.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif;\">The most dominant Internet Protocol, TCP, has its\nperformance tied to the attributes of the network it\ndeployed on; in the past decades many congestion\ndetection and estimation techniques have been proposed\nto improve TCP performance over various network links.\nThese techniques have depended on packet loss or delay\nsensing to autonomously balance between fairness and\npeak performance. More recent congestion\ndetection/estimation approaches incorporate online\nand/or offline learning of the congestion states to\nachieve their end goals. This talk introduces a\npractical way to apply online-learning on TCP\ncongestion control domain without tightly coupling\nthem together.\n\n\nIn late 2016, Bottleneck Bandwidth and Round-trip time\n(BBR) congestion control has been presented as an\nimprovement, with the promise of higher throughputs\nand lower delays as compared to other TCP congestion\ncontrol algorithms. We extend BBR, referred to as BBRx\nin this paper, to react to the path RTT in addition to\nthe bottleneck bandwidth to help finding an optimal\nthroughput-delay operation point in wireless\nenvironment.\n\nIn order to ensure BBRx is continuously operating in\nan optimal point in ever changing network conditions,\nTCP flow statistics are monitored in real-time through\nNetlink socket by a user-space application which tunes\nBBRx parameters with online learning algorithms. The\nloosely coupled TCP tuning feedback control loop\nprovides a novel way to monitor and adjust TCP\nparameters per the performance goal in real time while\nminimizing the risk of deploying pre-tuned learning\nalgorithm in the fast path.\n\nPerformance of the auto-tuned BBRx is evaluated in LTE\nmobile environment as well as wireline environments\ncompared with CUBIC and BBR. The preliminary results\nshow the following: BBRx effectively manages the\nbottleneck queue yielding a low packet loss rate,\nespecially when multiple BBRx flows are contending at\na shallow buffer over a bottleneck link; the\nauto-tuned BBRx finds an optimal throughput-delay\noperation point in LTE environment to maximize\nper-flow throughput within a bounded loss rate and\ndelay.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/bbrx-extending-bbr-for-customized-tcp-performance.html",
+      "track": "Talk",
+      "speakers": "Jae Won Chung, Feng Li, Beomjun Kim",
+      "date": "2018-07-13",
+      "time": "15:55 - 16:25, Talk - Moonshot",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/6c444c59e46e4ffcb674/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/bbrx-extending-bbr-for-customized-tcp-performance.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/0958911efab94618a1df/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/bbrx-extending-bbr-for-customized-tcp-performance.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/PeYPqnLhUuc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/bbrx-extending-bbr-for-customized-tcp-performance.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "15:55 - 16:25, Talk - Moonshot",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "BBRx: Extending BBR for Customized TCP Performance",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?bbrx-extending-bbr-for-customized-tcp-performance"
+        }
+      ]
+    },
+    {
+      "id": "using-ebpf-for-rds-filtering",
+      "url": "https://netdevconf.info/0x12/session.html?using-ebpf-for-rds-filtering",
+      "title": "Using eBPF for RDS filtering",
+      "listing_title": "Using eBPF for RDS filtering",
+      "description": "Reliable Datagram Socket (RDS) is an IPC protocol\nheavily used in Oracle Clustering and Relational\nDatabase Management Service Applications. There is a\nfeature request to implement RDS filtering and\nfirewall solution. The sort of things that we like to\ndo is to analyze every RDS packet through deep packet\ninspection and take appropriate actions. For example,\nif message is targeted for DB services, identified\nfrom RDS payload, then mangle the payload and/or\nheader as necessary and forward the message to\nappropriate service(s). If message doesn't belong to\nany services then re-inject, that is then process\nthrough normal path in RDS. Which either send it up to\nthe user stack and/or route it to appropriate\ndestination node. If no action is needed then drop the\npacket.\n\nWe have considered netfilter for RDS however it has a\nmajor disadvantage that it only deals with sk_buff.\nRDS module sits on top of TCP (rds_tcp) and IB\n(rds_rdma), so messages arrive in form of skb (over\nTCP) and scatterlist (over IB/RDMA). RDS messages over\nTCP works with netfilter however messages in form of\nscatterlist do not.\n\nAn alternative approach is to use eBPF for RDS packet\nfiltering. Using eBPF we can push RDS filters\ndynamically from user-space to build firewalls. We\nalready have existing set of eBPF skb helpers in\nkernel that we can use to process RDS messages in\nstruct sk_buff. Additionally, we like to add/extend\neBPF helpers to process messages that are in form\nstruct scatterlist. These eBPF helpers are also going\nto be useful to other kernel modules that don't deal\nwith skb but scatterlist. Besides, there is a side\nadvantage of eBPF in RDS observability. For example,\ntoday we don't have tool to dump full RDS packet.\nThere is tcpdump for rds_tcp however it is difficult\nto parse tcpdump output since it doesn't preserve RDS\nmessage boundaries.\n\nWith these set of goals, I am exploring adding eBPF\nhooks into RDS and I would like to get feedback from\ncommunity.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif;\">Reliable Datagram Socket (RDS) is an IPC protocol\nheavily used in Oracle Clustering and Relational\nDatabase Management Service Applications. There is a\nfeature request to implement RDS filtering and\nfirewall solution. The sort of things that we like to\ndo is to analyze every RDS packet through deep packet\ninspection and take appropriate actions. For example,\nif message is targeted for DB services, identified\nfrom RDS payload, then mangle the payload and/or\nheader as necessary and forward the message to\nappropriate service(s). If message doesn't belong to\nany services then re-inject, that is then process\nthrough normal path in RDS. Which either send it up to\nthe user stack and/or route it to appropriate\ndestination node. If no action is needed then drop the\npacket.\n\nWe have considered netfilter for RDS however it has a\nmajor disadvantage that it only deals with sk_buff.\nRDS module sits on top of TCP (rds_tcp) and IB\n(rds_rdma), so messages arrive in form of skb (over\nTCP) and scatterlist (over IB/RDMA). RDS messages over\nTCP works with netfilter however messages in form of\nscatterlist do not.\n\nAn alternative approach is to use eBPF for RDS packet\nfiltering. Using eBPF we can push RDS filters\ndynamically from user-space to build firewalls. We\nalready have existing set of eBPF skb helpers in\nkernel that we can use to process RDS messages in\nstruct sk_buff. Additionally, we like to add/extend\neBPF helpers to process messages that are in form\nstruct scatterlist. These eBPF helpers are also going\nto be useful to other kernel modules that don't deal\nwith skb but scatterlist. Besides, there is a side\nadvantage of eBPF in RDS observability. For example,\ntoday we don't have tool to dump full RDS packet.\nThere is tcpdump for rds_tcp however it is difficult\nto parse tcpdump output since it doesn't preserve RDS\nmessage boundaries.\n\nWith these set of goals, I am exploring adding eBPF\nhooks into RDS and I would like to get feedback from\ncommunity.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/using-ebpf-for-rds-filtering.html",
+      "track": "Talk",
+      "speakers": "Tushar Dave",
+      "date": "2018-07-13",
+      "time": "8:45 - 9:15, Talk - Nuts and bolts",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/26fbefba19594514bfb7/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/using-ebpf-for-rds-filtering.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/9b3ce270ff2747268e41/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/using-ebpf-for-rds-filtering.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/Cv0I_mHsoGA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/using-ebpf-for-rds-filtering.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "8:45 - 9:15, Talk - Nuts and bolts",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Using eBPF for RDS filtering",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?using-ebpf-for-rds-filtering"
+        }
+      ]
+    },
+    {
+      "id": "challenges-migrating-from-ndiv-to-xdp",
+      "url": "https://netdevconf.info/0x12/session.html?challenges-migrating-from-ndiv-to-xdp",
+      "title": "Challenges migrating from NDIV to XDP",
+      "listing_title": "Challenges migrating from NDIV to XDP",
+      "description": "We are currently studying the difficulty of porting of\nour anti-DDoS solution PacketShield from NDIV to XDP.\nGiven that NDIV provides us exactly what we need to\nachieve line-rate 10Gbps processing, we're extremely\ncareful not to lose too many aspects which have\nparticipated to its current performance level. Thus\nthe presentation will start with a quick overview of\nsome key points that make NDIV perform well for our\nuse case, such as standardizing on the fastest NICs\nand letting other ones implement missing features in\nsoftware, or how protocol elements are packed in\nfunction arguments to reduce data manipulation along\nthe chain.\n\nWe already identified a number of shortcomings in XDP\nthat we're willing to discuss before trying to perform\npossibly inappropriate changes. Some of them are\ntechnical stuff that probably only require some work\nor even maybe stealing code parts from NDIV, such as\npassing L3/L4 checksums or packet classification\nfrom/to the NIC. Some may require minor API updates,\nsuch as passing outgoing network packets to the XDP\napplication so that the application can see both\ndirections and perform stateful filtering. Other\nchanges aim at making it easier for the application to\nbatch Rx processing, which we use to produce PCAP\nnetwork traces for troubleshooting.\n\nOther limitations are probably much more philosophical\nand will need some debates, such as the inability to\nuse loops in eBPF (we're looking up IP addresses and\nVLANs from dynamic tables using a very fast and\nefficient dichotomic approach), or exchanging data\nwith userland (we currently support on-the-fly\nreconfiguration via /sys and we can sniff traffic at\nline rate for debugging with no loss at 10G), making\nus wonder if BPF is really suited to all use cases or\nif we should allow an alternative way to register\nnative applications like NDIV currently supports.\n\nSome preliminary information on NDIV :\n  https://www.slideshare.net/ennael/kr2014-ndiv\n  https://www.mail-archive.com/netdev@vger.kernel.org/msg129586.html\n  https://git.kernel.org/pub/scm/linux/kernel/git/wtarreau/ndiv.git/",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif;\">We are currently studying the difficulty of porting of\nour anti-DDoS solution PacketShield from NDIV to XDP.\nGiven that NDIV provides us exactly what we need to\nachieve line-rate 10Gbps processing, we're extremely\ncareful not to lose too many aspects which have\nparticipated to its current performance level. Thus\nthe presentation will start with a quick overview of\nsome key points that make NDIV perform well for our\nuse case, such as standardizing on the fastest NICs\nand letting other ones implement missing features in\nsoftware, or how protocol elements are packed in\nfunction arguments to reduce data manipulation along\nthe chain.\n\nWe already identified a number of shortcomings in XDP\nthat we're willing to discuss before trying to perform\npossibly inappropriate changes. Some of them are\ntechnical stuff that probably only require some work\nor even maybe stealing code parts from NDIV, such as\npassing L3/L4 checksums or packet classification\nfrom/to the NIC. Some may require minor API updates,\nsuch as passing outgoing network packets to the XDP\napplication so that the application can see both\ndirections and perform stateful filtering. Other\nchanges aim at making it easier for the application to\nbatch Rx processing, which we use to produce PCAP\nnetwork traces for troubleshooting.\n\nOther limitations are probably much more philosophical\nand will need some debates, such as the inability to\nuse loops in eBPF (we're looking up IP addresses and\nVLANs from dynamic tables using a very fast and\nefficient dichotomic approach), or exchanging data\nwith userland (we currently support on-the-fly\nreconfiguration via /sys and we can sniff traffic at\nline rate for debugging with no loss at 10G), making\nus wonder if BPF is really suited to all use cases or\nif we should allow an alternative way to register\nnative applications like NDIV currently supports.\n\nSome preliminary information on NDIV :\n  <a href=\"https://www.slideshare.net/ennael/kr2014-ndiv\">https://www.slideshare.net/ennael/kr2014-ndiv</a>\n  <a href=\"https://www.mail-archive.com/netdev@vger.kernel.org/msg129586.html\">https://www.mail-archive.com/netdev@vger.kernel.org/msg129586.html</a>\n  <a href=\"https://git.kernel.org/pub/scm/linux/kernel/git/wtarreau/ndiv.git/\">https://git.kernel.org/pub/scm/linux/kernel/git/wtarreau/ndiv.git/\n</a></pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/challenges-migrating-from-ndiv-to-xdp.html",
+      "track": "Talk",
+      "speakers": "Willy Tarreau, Emeric Brun",
+      "date": "2018-07-12",
+      "time": "10:40 - 11:10, Talk - Nuts and bolts",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/54f613f7b413472ba398/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/challenges-migrating-from-ndiv-to-xdp.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/vpv-sO6U5h8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/challenges-migrating-from-ndiv-to-xdp.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "10:40 - 11:10, Talk - Nuts and bolts",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Challenges migrating from NDIV to XDP",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?challenges-migrating-from-ndiv-to-xdp"
+        }
+      ]
+    },
+    {
+      "id": "a-pcc-vivace-kernel-module-for-congestion-control",
+      "url": "https://netdevconf.info/0x12/session.html?a-pcc-vivace-kernel-module-for-congestion-control",
+      "title": "A PCC-Vivace Kernel Module for Congestion Control",
+      "listing_title": "A PCC-Vivace Kernel Module for Congestion Control",
+      "description": "Many existing congestion control algorithms take a\nharmful one-size-fits-all approach to congestion\ncontrol. First, they treat all traffic equally and try\nto enforce fair sharing of bandwidth among competing\nflows. However, different applications may have\ndifferent requirements for high quality service.\nStreaming video can be sensitive to bandwidth\nfluctuations, voice chat relies on low latency and\nbulk downloads care only about flow completion time.\nSecond, congestion controllers need to deal with\nhighly dynamic and varied networks where hardwired\nassumptions about the cause of packet loss or latency\ninflation can be violated, leading to deficient\nperformance. Given such heterogeneity of application\ngoals and network conditions, applications stand to\nbenefit significantly from congestion control that\nallows them to adopt different rate control\nstrategies.\n\nIn this work, we present a prototype kernel module\nimplementing the PCC-Vivace congestion control\nalgorithm [1].  Unlike many of the existing TCP\ncongestion control algorithms, which allow only\nlimited configuration, PCC-Vivace provides an explicit\nutility function that allows developers to provide\nweights to different performance metrics like\nthroughput, latency, packet loss and jitter.\nPCC-Vivace then uses an online learning approach to\nchoose a connection bandwidth that maximizes utility.\nThis approach was recently shown to allow flexible\nbandwidth sharing, a promising feature of congestion\ncontrol as increasingly diverse classes of\napplications make use of the open Internet.\nPCC-Vivace's online learning framework also allows it\nto adapt to a variety of network conditions,\nconsistently delivering high performance.\n\nOur talk discusses the challenges of implementing\nPCC-Vivace in the Linux kernel and presents initial\nresults comparing the performance of this module with\nother congestion controllers. We also demonstrate our\nimplementation's flexibility by creating and testing a\nvariety of utility functions.\n\nReferences:\n[1]  Mo Dong,   Tong Meng,  Doron Zarchy,\nEngin Arslan, Yossi   Gilad, Philip Brighten Godfrey,\nand Michael Schapira.\nVivace:  Online-Learning Congestion Control.\nIn NSDI, 2018.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">Many existing congestion control algorithms take a\nharmful one-size-fits-all approach to congestion\ncontrol. First, they treat all traffic equally and try\nto enforce fair sharing of bandwidth among competing\nflows. However, different applications may have\ndifferent requirements for high quality service.\nStreaming video can be sensitive to bandwidth\nfluctuations, voice chat relies on low latency and\nbulk downloads care only about flow completion time.\nSecond, congestion controllers need to deal with\nhighly dynamic and varied networks where hardwired\nassumptions about the cause of packet loss or latency\ninflation can be violated, leading to deficient\nperformance. Given such heterogeneity of application\ngoals and network conditions, applications stand to\nbenefit significantly from congestion control that\nallows them to adopt different rate control\nstrategies.\n\nIn this work, we present a prototype kernel module\nimplementing the PCC-Vivace congestion control\nalgorithm [1].  Unlike many of the existing TCP\ncongestion control algorithms, which allow only\nlimited configuration, PCC-Vivace provides an explicit\nutility function that allows developers to provide\nweights to different performance metrics like\nthroughput, latency, packet loss and jitter.\nPCC-Vivace then uses an online learning approach to\nchoose a connection bandwidth that maximizes utility.\nThis approach was recently shown to allow flexible\nbandwidth sharing, a promising feature of congestion\ncontrol as increasingly diverse classes of\napplications make use of the open Internet.\nPCC-Vivace's online learning framework also allows it\nto adapt to a variety of network conditions,\nconsistently delivering high performance.\n\nOur talk discusses the challenges of implementing\nPCC-Vivace in the Linux kernel and presents initial\nresults comparing the performance of this module with\nother congestion controllers. We also demonstrate our\nimplementation's flexibility by creating and testing a\nvariety of utility functions.\n\nReferences:\n[1]  Mo Dong,   Tong Meng,  Doron Zarchy,\nEngin Arslan, Yossi   Gilad, Philip Brighten Godfrey,\nand Michael Schapira.\nVivace:  Online-Learning Congestion Control.\nIn NSDI, 2018.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/a-pcc-vivace-kernel-module-for-congestion-control.html",
+      "track": "Talk",
+      "speakers": "Nathan Jay, Nogah Frenkel, Sam Eidermann ,Tong Meng, Tomer Gilad, Brighten Godfrey, Michael Schapira, Jamal Hadi Salim, Jae Won Chung, Vikram Siwach",
+      "date": "2018-07-13",
+      "time": "14:25 - 14:50, Talk - Moonshot",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/b0a4dddb83364495b0ce/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/a-pcc-vivace-kernel-module-for-congestion-control.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/d53b3ff9c3b041099939/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/a-pcc-vivace-kernel-module-for-congestion-control.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/tx6zjv_RgMQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/a-pcc-vivace-kernel-module-for-congestion-control.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "14:25 - 14:50, Talk - Moonshot",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "A PCC-Vivace Kernel Module for Congestion Control",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?a-pcc-vivace-kernel-module-for-congestion-control"
+        }
+      ]
+    },
+    {
+      "id": "suricata-an-xdp-adventure",
+      "url": "https://netdevconf.info/0x12/session.html?suricata-an-xdp-adventure",
+      "title": "Suricata, an XDP adventure",
+      "listing_title": "Suricata, an XDP adventure",
+      "description": "Suricata is an open source network intrusion detection\nengine. It reconstructs the network traffic from level\n2 all the way to the application layer by getting\nindividual packets from the capture device. The\nupcoming 4.1 version will include eBPF and XDP\nsupport. Suricata will be one of the pioneer software\nsystems to include these technologies.\n\nThe development did span over 2 years with some\npreliminary works presented in previous Netdev events.\nSuricata uses libbpf to interact with eBPF and XDP.\nMultiple eBPF programs were created ranging from a\nsimple filter which was not possible with classic BPF\nto a flow bypass technique implemented as eBPF socket\nfilter and in XDP. The CPU redirect is also\nimplemented to fix issues linked with asymmetrical\nfunctions used in RSS load balancing.\n\nSome problems and potential optimizations surfaced\nduring the development phase. For instance, the flow\nbypass requires a flows table to be maintained by\nSuricata. The per CPU structure is adequate for the\ntask but the flow table update from userspace appears\nto be too costly as it requires a system call for each\nelement.  Another problem is the lack of an \"official\"\nlibrary for eBPF and XDP interaction. Libbpf is\nsupposed to go into that direction but had to be\nimproved to provide some basic services.\n\nTests results of eBPF and XDP integration show a\nperformance boost due to the bypass of an important\npart of the flows and, as planned, eBPF socket filter\nmethod has more CPU impact than the XDP one.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">Suricata is an open source network intrusion detection\nengine. It reconstructs the network traffic from level\n2 all the way to the application layer by getting\nindividual packets from the capture device. The\nupcoming 4.1 version will include eBPF and XDP\nsupport. Suricata will be one of the pioneer software\nsystems to include these technologies.\n\nThe development did span over 2 years with some\npreliminary works presented in previous Netdev events.\nSuricata uses libbpf to interact with eBPF and XDP.\nMultiple eBPF programs were created ranging from a\nsimple filter which was not possible with classic BPF\nto a flow bypass technique implemented as eBPF socket\nfilter and in XDP. The CPU redirect is also\nimplemented to fix issues linked with asymmetrical\nfunctions used in RSS load balancing.\n\nSome problems and potential optimizations surfaced\nduring the development phase. For instance, the flow\nbypass requires a flows table to be maintained by\nSuricata. The per CPU structure is adequate for the\ntask but the flow table update from userspace appears\nto be too costly as it requires a system call for each\nelement.  Another problem is the lack of an \"official\"\nlibrary for eBPF and XDP interaction. Libbpf is\nsupposed to go into that direction but had to be\nimproved to provide some basic services.\n\nTests results of eBPF and XDP integration show a\nperformance boost due to the bypass of an important\npart of the flows and, as planned, eBPF socket filter\nmethod has more CPU impact than the XDP one.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/suricata-an-xdp-adventure.html",
+      "track": "Talk",
+      "speakers": "Eric Leblond",
+      "date": "2018-07-12",
+      "time": "16:20 - 16:55, Talk - Nuts and bolts",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/38b6e2a3d8c3445daefb/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/suricata-an-xdp-adventure.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/1c4fd4306c7143249dbe/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/suricata-an-xdp-adventure.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/mrxBeo8bSdA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/suricata-an-xdp-adventure.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "16:20 - 16:55, Talk - Nuts and bolts",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Suricata, an XDP adventure",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?suricata-an-xdp-adventure"
+        }
+      ]
+    },
+    {
+      "id": "quic-developing-and-deploying-a-tcp-replacement-for-the-web",
+      "url": "https://netdevconf.info/0x12/session.html?quic-developing-and-deploying-a-tcp-replacement-for-the-web",
+      "title": "QUIC: Developing and Deploying a TCP Replacement for the Web",
+      "listing_title": "QUIC: Developing and Deploying a TCP Replacement for the Web",
+      "description": "QUIC is an encrypted, multiplexed, and low-latency\ntransport protocol designed from the ground up to\nimprove transport performance for HTTPS traffic and to\nenable rapid deployment and continued evolution of\ntransport mechanisms. QUIC has been globally deployed\nat Google on thousands of servers and is used to serve\ntraffic to a range of clients including the Chrome\nbrowser and the YouTube mobile video streaming app.\nWe estimate that 7% of Internet traffic is now QUIC.\nQUIC is now maturing from a Google experiment to a\nmore complete Internet standard at the IETF.\n\nThis talk will provide an overview of the QUIC\nprotocol and the current state of its development and\ndeployment. We will describe motivations for\ndeveloping a new transport, QUIC's design and the\nprinciples that guide it, and performance improvements\nseen by various Google services due to QUIC. We will\nalso talk about performance bottlenecks in Linux UDP\nseen at Google's servers, what we did to overcome\nthem, and what work remains to be done in the kernel\nas QUIC becomes more widely deployed.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">QUIC is an encrypted, multiplexed, and low-latency\ntransport protocol designed from the ground up to\nimprove transport performance for HTTPS traffic and to\nenable rapid deployment and continued evolution of\ntransport mechanisms. QUIC has been globally deployed\nat Google on thousands of servers and is used to serve\ntraffic to a range of clients including the Chrome\nbrowser and the YouTube mobile video streaming app.\nWe estimate that 7% of Internet traffic is now QUIC.\nQUIC is now maturing from a Google experiment to a\nmore complete Internet standard at the IETF.\n\nThis talk will provide an overview of the QUIC\nprotocol and the current state of its development and\ndeployment. We will describe motivations for\ndeveloping a new transport, QUIC's design and the\nprinciples that guide it, and performance improvements\nseen by various Google services due to QUIC. We will\nalso talk about performance bottlenecks in Linux UDP\nseen at Google's servers, what we did to overcome\nthem, and what work remains to be done in the kernel\nas QUIC becomes more widely deployed.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/quic-developing-and-deploying-a-tcp-replacement-for-the-web.html",
+      "track": "Talk",
+      "speakers": "Jana Iyengar, Ian Swett",
+      "date": "2018-07-13",
+      "time": "10:55 - 11:55, Talk - Moonshot",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/5aac7d058d5445e99357/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/quic-developing-and-deploying-a-tcp-replacement-for-the-web.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/cc219ab65c5944659118/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/quic-developing-and-deploying-a-tcp-replacement-for-the-web.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/LZipPUJELlM",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/quic-developing-and-deploying-a-tcp-replacement-for-the-web.html"
+        },
+        {
+          "session_id": "quic-developing-and-deploying-a-tcp-replacement-for-the-web",
+          "title": "Wayback保存済み閲覧ページ（PDF本体未取得）",
+          "url": "https://web.archive.org/web/20190212095811/https://www.files.netdevconf.org/d/4821d19eac8640039d15/files/?p=/QUIC%20-%20Developing%20and%20Deploying%20a%20TCP%20Replacement%20for%20the%20Web.pdf",
+          "kind": "archive_page",
+          "type": "link",
+          "verification": "archived HTML fetched; PDF not verified",
+          "original_url": "https://www.files.netdevconf.org/d/4821d19eac8640039d15/files/?p=/QUIC%20-%20Developing%20and%20Deploying%20a%20TCP%20Replacement%20for%20the%20Web.pdf"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "10:55 - 11:55, Talk - Moonshot",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "QUIC: Developing and Deploying a TCP Replacement for the Web",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?developing-and-deploying-a-tcp-replacement-for-the-web"
+        }
+      ],
+      "alternate_urls": [
+        "https://netdevconf.info/0x12/session.html?developing-and-deploying-a-tcp-replacement-for-the-web"
+      ],
+      "url_alias_note": "Both loadsessions HTML documents were verified byte-identical."
+    },
+    {
+      "id": "building-a-better-nos-with-linux-and-switchdev",
+      "url": "https://netdevconf.info/0x12/session.html?building-a-better-nos-with-linux-and-switchdev",
+      "title": "Building a Better NOS with Linux and switchdev",
+      "listing_title": "Building a Better NOS with Linux and switchdev",
+      "description": "Whitebox switches, disaggregation, and open networking\nare all the rage today. While the choice in white box\nswitches and \"open\" networking operating systems (NOS)\nhas proliferated in recent years, switching ASICs are\nstill predominantly programmed using SDKs and those\nSDKs are primarily driven by userspace controllers.\nThe adherence to SDKs imposes a design constraint that\nhas a huge impact on the architecture of a NOS, its\nchoices for user APIs (how the switch is configured,\ndebugged and monitored) and the performance of the\ncontrol plane.\n\nOver the past few years a lot of effort has been put\ninto a new approach for Linux - i.e., switchdev and\nrelated in-kernel APIs. The result allows for a\nsimpler, cleaner NOS that fully leverages the Linux\nkernel with the ASIC managed like any other hardware\nin the system -- by a driver running in the kernel.\nHowever, adoption of switchdev by ASIC vendors has\nbeen lacking, with only one ASIC vendor at this point\nwriting a driver that works with switchdev.\n\nThis talk discusses typical software architectures for\nnetwork operating systems and introduces a path for\ntransitioning SDK based solutions to the switchdev\nmodel.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">Whitebox switches, disaggregation, and open networking\nare all the rage today. While the choice in white box\nswitches and \"open\" networking operating systems (NOS)\nhas proliferated in recent years, switching ASICs are\nstill predominantly programmed using SDKs and those\nSDKs are primarily driven by userspace controllers.\nThe adherence to SDKs imposes a design constraint that\nhas a huge impact on the architecture of a NOS, its\nchoices for user APIs (how the switch is configured,\ndebugged and monitored) and the performance of the\ncontrol plane.\n\nOver the past few years a lot of effort has been put\ninto a new approach for Linux - i.e., switchdev and\nrelated in-kernel APIs. The result allows for a\nsimpler, cleaner NOS that fully leverages the Linux\nkernel with the ASIC managed like any other hardware\nin the system -- by a driver running in the kernel.\nHowever, adoption of switchdev by ASIC vendors has\nbeen lacking, with only one ASIC vendor at this point\nwriting a driver that works with switchdev.\n\nThis talk discusses typical software architectures for\nnetwork operating systems and introduces a path for\ntransitioning SDK based solutions to the switchdev\nmodel.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/building-a-better-nos-with-linux-and-switchdev.html",
+      "track": "Talk",
+      "speakers": "David Ahern, Shrijeet Mukherjee",
+      "date": "2018-07-12",
+      "time": "11:50 - 12:20, Talk - Nuts and bolts",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/7166ecf34141436a92f6/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/building-a-better-nos-with-linux-and-switchdev.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/f982086fdd6946d9b596/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/building-a-better-nos-with-linux-and-switchdev.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/CfgjbHivdQ8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/building-a-better-nos-with-linux-and-switchdev.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "11:50 - 12:20, Talk - Nuts and bolts",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Building a Better NOS with Linux and switchdev",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?building-a-better-nos-with-linux-and-switchdev"
+        }
+      ]
+    },
+    {
+      "id": "lsdn-manage-complex-virtual-networks-in-cloud-environment-with-linux-kernel-facilities",
+      "url": "https://netdevconf.info/0x12/session.html?lsdn-manage-complex-virtual-networks-in-cloud-environment-with-linux-kernel-facilities",
+      "title": "LSDN - Manage complex (virtual) networks in cloud environment with Linux kernel facilities",
+      "listing_title": "LSDN - Manage complex (virtual) networks in cloud environment with Linux kernel facilities",
+      "description": "We present a novel tool for effortless management of\ncomplex (virtual) networks, especially those present\nin todays cloud environment. The novelty comes from\nthe fact that we rely solely on the functionality\nprovided by the Linux kernel, mainly on the Traffic\nControl (TC) subsystem with its recent features. To\nour knowledge, this is the first tool of its kind\noffering rich functionality without any external\nmodules such as Open vSwitch.\n\nThe core of our tool is a C library with a clean API\nintended to be used with cloud orchestrators for\nmanaging the whole network of a cloud. The API allows\nyou to create a model of the desired network. The\nlibrary then converts the model into set of TC rules,\nmostly flower classifiers, which are loaded through a\nnetlink socket. This is a one-time action which does\nnot leave any running processes.  Also, the library\nallows you to validate the network model prior to\nloading it into the kernel, detecting common\nconfiguration errors such as duplicated MAC addresses\nof network nodes.\n\nIf support for machine migrations is required, our\nsimple daemon to keep the model in memory is used to\nallow smooth reconfiguration. (In the future we want\nto store needed metadata for migration in the kernel,\nhence no daemon will be needed at all.)\n\nFurthermore, we provide simple CLI tool which can read\nnetworks from configuration files. The intended\nuse-case for this tool is for deployment without\norchestrators and it is also for automated testing of\nthe library.\n\nThe tool supports several back-ends (VLAN, VXLAN,\nGeneve) for creating isolated virtual networks. In\nthese networks virtual ports can be configured via\nsimple API as well as stateless firewall (stateful\nfirewall is planned) and traffic shaping. The\ncorresponding part of virtual network on the\nparticular physical machine can be represented by\nstatic or learning Linux kernel switch.\n\n[1] https://github.com/asch/lsdn",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">We present a novel tool for effortless management of\ncomplex (virtual) networks, especially those present\nin todays cloud environment. The novelty comes from\nthe fact that we rely solely on the functionality\nprovided by the Linux kernel, mainly on the Traffic\nControl (TC) subsystem with its recent features. To\nour knowledge, this is the first tool of its kind\noffering rich functionality without any external\nmodules such as Open vSwitch.\n\nThe core of our tool is a C library with a clean API\nintended to be used with cloud orchestrators for\nmanaging the whole network of a cloud. The API allows\nyou to create a model of the desired network. The\nlibrary then converts the model into set of TC rules,\nmostly flower classifiers, which are loaded through a\nnetlink socket. This is a one-time action which does\nnot leave any running processes.  Also, the library\nallows you to validate the network model prior to\nloading it into the kernel, detecting common\nconfiguration errors such as duplicated MAC addresses\nof network nodes.\n\nIf support for machine migrations is required, our\nsimple daemon to keep the model in memory is used to\nallow smooth reconfiguration. (In the future we want\nto store needed metadata for migration in the kernel,\nhence no daemon will be needed at all.)\n\nFurthermore, we provide simple CLI tool which can read\nnetworks from configuration files. The intended\nuse-case for this tool is for deployment without\norchestrators and it is also for automated testing of\nthe library.\n\nThe tool supports several back-ends (VLAN, VXLAN,\nGeneve) for creating isolated virtual networks. In\nthese networks virtual ports can be configured via\nsimple API as well as stateless firewall (stateful\nfirewall is planned) and traffic shaping. The\ncorresponding part of virtual network on the\nparticular physical machine can be represented by\nstatic or learning Linux kernel switch.\n\n[1] <a href=\"https://github.com/asch/lsdn\">https://github.com/asch/lsdn</a>\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/lsdn-manage-complex-virtual-networks-in-cloud-environment-with-linux-kernel-facilities.html",
+      "track": "Talk",
+      "speakers": "Vojtech Aschenbrenner, Roman Kapl, Jan Matejek, Adam Vyskovsky",
+      "date": "2018-07-12",
+      "time": "13:40 - 14:10, Talk - Nuts and bolts",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/05a4a50846f4486fab35/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/lsdn-manage-complex-virtual-networks-in-cloud-environment-with-linux-kernel-facilities.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/244afd8141864eaebd31/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/lsdn-manage-complex-virtual-networks-in-cloud-environment-with-linux-kernel-facilities.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/FcUNp1IjV10",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/lsdn-manage-complex-virtual-networks-in-cloud-environment-with-linux-kernel-facilities.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "13:40 - 14:10, Talk - Nuts and bolts",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "LSDN - Manage complex (virtual) networks in cloud environment with Linux kernel facilities",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?lsdn-manage-complex-virtual-networks-in-cloud-environment-with-linux-kernel-facilities"
+        }
+      ]
+    },
+    {
+      "id": "toward-an-ebpf-based-clone-of-iptables",
+      "url": "https://netdevconf.info/0x12/session.html?toward-an-ebpf-based-clone-of-iptables",
+      "title": "Toward an eBPF-based clone of iptables",
+      "listing_title": "Toward an eBPF-based clone of iptables",
+      "description": "Recently, there have been discussions in the Linux\nnetworking community for the replacement of iptables\nwith an eBPF-based approach. So far, the submitted\nwork and ensuing discussions have been focused on the\nperformance impact of the equation - which favor the\neBPF approach. An approach to replace iptables with an\neBPF backend without disrupting the user control has\nalso been demonstrated [1].\n\nThis talk builds on the above context and proceeds by\npresenting additional challenges that we feel need to\nbe addressed so as to obtain a fully-compatible clone\nof iptables, i.e., to enable the eBPF-iptables tool to\naccept traditional iptables commands, which are\nemulated through the proper set of eBPF programs. Main\nchallenges here are:\n(1) how to preserve the semantic of iptables rules,\ngiven the different location of netfilter and eBPF\nhook points;\n(2) how to support (or at least cooperate) with\npossible NATting rules;\n(3) the selection of a matching algorithm that can\noutperform current implementation (linear search), but\nthat is feasible by exploiting one of the eBPF maps\navailable in the kernel.\nThe new eBPF-iptables will allow users to benefit from\nthe performance improvement and not having to worry\nabout the operational impact of continuing to use the\niptables control interface.\n\n[1]https://lwn.net/Articles/747551/",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">Recently, there have been discussions in the Linux\nnetworking community for the replacement of iptables\nwith an eBPF-based approach. So far, the submitted\nwork and ensuing discussions have been focused on the\nperformance impact of the equation - which favor the\neBPF approach. An approach to replace iptables with an\neBPF backend without disrupting the user control has\nalso been demonstrated [1].\n\nThis talk builds on the above context and proceeds by\npresenting additional challenges that we feel need to\nbe addressed so as to obtain a fully-compatible clone\nof iptables, i.e., to enable the eBPF-iptables tool to\naccept traditional iptables commands, which are\nemulated through the proper set of eBPF programs. Main\nchallenges here are:\n(1) how to preserve the semantic of iptables rules,\ngiven the different location of netfilter and eBPF\nhook points;\n(2) how to support (or at least cooperate) with\npossible NATting rules;\n(3) the selection of a matching algorithm that can\noutperform current implementation (linear search), but\nthat is feasible by exploiting one of the eBPF maps\navailable in the kernel.\nThe new eBPF-iptables will allow users to benefit from\nthe performance improvement and not having to worry\nabout the operational impact of continuing to use the\niptables control interface.\n\n[1]<a href=\"https://lwn.net/Articles/747551/\">https://lwn.net/Articles/747551/</a>\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/toward-an-ebpf-based-clone-of-iptables.html",
+      "track": "Talk",
+      "speakers": "Fulvio Risso, Matteo Bertrone, Sebastiano Miano, Massimo Tumolo",
+      "date": "2018-07-12",
+      "time": "11:15 - 11:45, Talk - Moonshot",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/26b9a6383a51449a80ae/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/toward-an-ebpf-based-clone-of-iptables.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/d749eb99d399454eb2e5/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/toward-an-ebpf-based-clone-of-iptables.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/Lfq9sXhNSDE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/toward-an-ebpf-based-clone-of-iptables.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "11:15 - 11:45, Talk - Moonshot",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Toward an eBPF-based clone of iptables",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?toward-an-ebpf-based-clone-of-iptables"
+        }
+      ]
+    },
+    {
+      "id": "dim-generic-dynamic-interrupt-moderation-library",
+      "url": "https://netdevconf.info/0x12/session.html?dim-generic-dynamic-interrupt-moderation-library",
+      "title": "DIM - Generic Dynamic Interrupt Moderation library",
+      "listing_title": "DIM - Generic Dynamic Interrupt Moderation library",
+      "description": "DIM lib is a net driver independent framework for\ndynamically tuning interrupt moderation. DIM lib\nexposes an API, which any net driver may use in order\nto optimize its throughput, packet rate, latency and\ninterrupt rate.\n\nThis talk will describe details of DIM’s flow,\nDIM’s algorithm, usage and performance benefits.\n\nDIM lib was introduced upstream on kernel-4.16.\nDrivers currently using it for dynamic interrupt\nmoderation include mlx5 (Mellanox), bcmsysport,\nbcmgenet and bnxt (Broadcom).",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">DIM lib is a net driver independent framework for\ndynamically tuning interrupt moderation. DIM lib\nexposes an API, which any net driver may use in order\nto optimize its throughput, packet rate, latency and\ninterrupt rate.\n\nThis talk will describe details of DIM’s flow,\nDIM’s algorithm, usage and performance benefits.\n\nDIM lib was introduced upstream on kernel-4.16.\nDrivers currently using it for dynamic interrupt\nmoderation include mlx5 (Mellanox), bcmsysport,\nbcmgenet and bnxt (Broadcom).\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/dim-generic-dynamic-interrupt-moderation-library.html",
+      "track": "Talk",
+      "speakers": "Tal Gilboa",
+      "date": "2018-07-12",
+      "time": "17:35 - 17:55, Talk - Nuts and bolts",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/60c7419aaf114da0b8fb/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/dim-generic-dynamic-interrupt-moderation-library.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/a75373780cb5476bab9a/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/dim-generic-dynamic-interrupt-moderation-library.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/ReY9qBP1iHE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/dim-generic-dynamic-interrupt-moderation-library.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "17:35 - 17:55, Talk - Nuts and bolts",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "DIM - Generic Dynamic Interrupt Moderation library",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?dim-generic-dynamic-interrupt-moderation-library"
+        }
+      ]
+    },
+    {
+      "id": "tc-connection-tracking-hardware-offload",
+      "url": "https://netdevconf.info/0x12/session.html?tc-connection-tracking-hardware-offload",
+      "title": "TC Connection tracking hardware offload",
+      "listing_title": "TC Connection tracking hardware offload",
+      "description": "A flow offload infrastructure was recently added to\nNetfilter. This infrastructure enables bypassing of\nthe kernel packets classification in nftables under\npredefined criteria such as connection-tracking.  TC\nalready has existing offloading mechanism by the means\nof tc_flower class which currently does not support\nconnection-tracking.\n\nIn netdev 2.2[1] we discussed and demonstrated\nenhancements of TC to add connection tracking support.\nIn this session we discuss briefly the existing\noffloading mechanisms already used by TC. The addition\nof Connection-Tracking within TC and in more detail\nways to implement offloading of connection tracking.\n\n[1]https://www.netdevconf.info/2.2/session.html?efraim-extendtctoct-talk",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">A flow offload infrastructure was recently added to\nNetfilter. This infrastructure enables bypassing of\nthe kernel packets classification in nftables under\npredefined criteria such as connection-tracking.  TC\nalready has existing offloading mechanism by the means\nof tc_flower class which currently does not support\nconnection-tracking.\n\nIn netdev 2.2[1] we discussed and demonstrated\nenhancements of TC to add connection tracking support.\nIn this session we discuss briefly the existing\noffloading mechanisms already used by TC. The addition\nof Connection-Tracking within TC and in more detail\nways to implement offloading of connection tracking.\n\n[1]<a href=\"https://www.netdevconf.info/2.2/session.html?efraim-extendtctoct-talk\">https://www.netdevconf.info/2.2/session.html?efraim-extendtctoct-talk</a>\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/tc-connection-tracking-hardware-offload.html",
+      "track": "Talk",
+      "speakers": "Guy Shattah, Rony Efraim",
+      "date": "2018-07-13",
+      "time": "9:20 - 9:50, Talk - Moonshot",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/3b992d5f38f6488e988e/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/tc-connection-tracking-hardware-offload.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/b6b3942d92cb4d44960c/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/tc-connection-tracking-hardware-offload.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/_EZ8-AcTJ4w",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/tc-connection-tracking-hardware-offload.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "9:20 - 9:50, Talk - Moonshot",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "TC Connection tracking hardware offload",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?tc-connection-tracking-hardware-offload"
+        }
+      ]
+    },
+    {
+      "id": "how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel",
+      "url": "https://netdevconf.info/0x12/session.html?how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel",
+      "title": "How hard can it be? Adding Multipath TCP to the upstream kernel",
+      "listing_title": "How hard can it be? Adding Multipath TCP to the upstream kernel",
+      "description": "A community project is underway to add Multipath TCP\nto the upstream Linux kernel. This talk will briefly\nintroduce the audience to this TCP extension (RFC\n6824) and mention some use cases already in\nproduction.  The rest of the talk will be dedicated to\ninteractive discussions of the challenges in\nconverging on an upstream MPTCP implementation.\n\nThe current MPTCP implementation, already used by\nmillions of devices, cannot be proposed upstream as it\nis due to its invasive architecture. This architecture\nstems from the needs that were established when MPTCP\nwas still a research project.  However, now that the\nprotocol has stabilized and the implementation is\nbeing used in production environments, the design\nneeds to be revamped for an upstream inclusion. But\nthis task is far from being easy as the MPTCP protocol\ndesign tightly couples with TCP in order to look like\nregular TCP on the wire, allowing it to traverse the\nInternet with all its middleboxes and firewalls. This\nmakes the complexity of this upstream project a bit\nunique in that additional protocols don't usually\noverlap so much with an existing protocol - especially\na protocol as heavily used and optimized as TCP.\n\nDuring this talk, we will present the different\nchallenges we have faced and we are still facing\ntoday:\n\n\n\nProtocol challenges, like a coupled receiver-window across the paths and a slightly changed dup-ACK behavior\n\n\nFitting within the existing TCP stack: performance, memory footprint, and maintenance should not be affected\n\n\nExtending TCP capabilities in a generic way\n\n\n\nFor more information about this project:\nhttps://github.com/multipath-tcp/mptcp_net-next/wiki",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">A community project is underway to add Multipath TCP\nto the upstream Linux kernel. This talk will briefly\nintroduce the audience to this TCP extension (RFC\n6824) and mention some use cases already in\nproduction.  The rest of the talk will be dedicated to\ninteractive discussions of the challenges in\nconverging on an upstream MPTCP implementation.\n\nThe current MPTCP implementation, already used by\nmillions of devices, cannot be proposed upstream as it\nis due to its invasive architecture. This architecture\nstems from the needs that were established when MPTCP\nwas still a research project.  However, now that the\nprotocol has stabilized and the implementation is\nbeing used in production environments, the design\nneeds to be revamped for an upstream inclusion. But\nthis task is far from being easy as the MPTCP protocol\ndesign tightly couples with TCP in order to look like\nregular TCP on the wire, allowing it to traverse the\nInternet with all its middleboxes and firewalls. This\nmakes the complexity of this upstream project a bit\nunique in that additional protocols don't usually\noverlap so much with an existing protocol - especially\na protocol as heavily used and optimized as TCP.\n\nDuring this talk, we will present the different\nchallenges we have faced and we are still facing\ntoday:</pre>\n<ul>\n<li>Protocol challenges, like a coupled receiver-window across the paths and a slightly changed dup-ACK behavior</li>\n<li>Fitting within the existing TCP stack: performance, memory footprint, and maintenance should not be affected</li>\n<li>Extending TCP capabilities in a generic way</li>\n</ul>\n<pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">For more information about this project:\n<a href=\"https://github.com/multipath-tcp/mptcp_net-next/wiki\">https://github.com/multipath-tcp/mptcp_net-next/wiki</a>\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel.html",
+      "track": "Talk",
+      "speakers": "Christoph Paasch, Mat Martineau, Peter Krystad, Matthieu Baerts",
+      "date": "2018-07-13",
+      "time": "9:55 - 10:25, Talk - Nuts and bolts",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/8a1f3727ff7e48d89ea4/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/4de7ab0bd1d543eb95b9/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/bwh5pr2uxgQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel.html"
+        },
+        {
+          "session_id": "how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel",
+          "title": "Wayback保存済み閲覧ページ（PDF本体未取得）",
+          "url": "https://web.archive.org/web/20220917180114/https://www.files.netdevconf.info/d/8a1f3727ff7e48d89ea4/files/?p=%2Fhow-hard-can-it-be-adding-multipath-tcp-upstream-k_HNs4aZh.pdf",
+          "kind": "archive_page",
+          "type": "link",
+          "verification": "archived HTML fetched; PDF not verified",
+          "original_url": "https://www.files.netdevconf.info/d/8a1f3727ff7e48d89ea4/files/?p=%2Fhow-hard-can-it-be-adding-multipath-tcp-upstream-k_HNs4aZh.pdf"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "9:55 - 10:25, Talk - Nuts and bolts",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "How hard can it be? Adding Multipath TCP to the upstream kernel",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel"
+        }
+      ]
+    },
+    {
+      "id": "smart-network-analytics-with-bpf-using-skydive-and-cognetive",
+      "url": "https://netdevconf.info/0x12/session.html?smart-network-analytics-with-bpf-using-skydive-and-cognetive",
+      "title": "Smart Network Analytics with BPF using Skydive and CogNETive",
+      "listing_title": "Smart Network Analytics with BPF using Skydive and CogNETive",
+      "description": "Efficient monitoring of large-scale networks poses a\ndelicate balance between capture granularity on the\none hand and the imposed overheads and performance\npenalties on the other. Skydive is an open source\nreal-time network topology and protocol analyzer,\nfeaturing smart network collection which is both\ngranular and efficient. Skydive allows for efficient\nnetwork monitoring@scale through Linux networking\nfeatures such as BPF and eBPF.  CogNETive is a\nresearch operational analytics service that use\nSkydive to create analytic insights.\n\nIn the talk we will present Skydive. Focus on the\nusage of BPF in Skydive, and show how to capture\nnetwork information efficiently. We will share some\nperformance results showing the efficiency of Skydive\nBPF capturing and will show how CogNETive uses that\ndata to produce useful analytic insights.\n\nCogNETive uses several common open source components\n(Grafana, ElasticSearch, Spark etc ...) to create a\nlayer of network analytics on top of Skydive.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">Efficient monitoring of large-scale networks poses a\ndelicate balance between capture granularity on the\none hand and the imposed overheads and performance\npenalties on the other. Skydive is an open source\nreal-time network topology and protocol analyzer,\nfeaturing smart network collection which is both\ngranular and efficient. Skydive allows for efficient\nnetwork monitoring@scale through Linux networking\nfeatures such as BPF and eBPF.  CogNETive is a\nresearch operational analytics service that use\nSkydive to create analytic insights.\n\nIn the talk we will present Skydive. Focus on the\nusage of BPF in Skydive, and show how to capture\nnetwork information efficiently. We will share some\nperformance results showing the efficiency of Skydive\nBPF capturing and will show how CogNETive uses that\ndata to produce useful analytic insights.\n\nCogNETive uses several common open source components\n(Grafana, ElasticSearch, Spark etc ...) to create a\nlayer of network analytics on top of Skydive.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/smart-network-analytics-with-bpf-using-skydive-and-cognetive.html",
+      "track": "Talk",
+      "speakers": "Liran Schour, Eran Raichstein, Sylvain Afchain",
+      "date": "2018-07-12",
+      "time": "17:00 - 17:30, Talk - Nuts and bolts",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/872969b0076e430a86be/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/smart-network-analytics-with-bpf-using-skydive-and-cognetive.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/Gswr3af5rOo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/smart-network-analytics-with-bpf-using-skydive-and-cognetive.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "17:00 - 17:30, Talk - Nuts and bolts",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Smart Network Analytics with BPF using Skydive and CogNETive",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?smart-network-analytics-with-bpf-using-skydive-and-cognetive"
+        }
+      ]
+    },
+    {
+      "id": "identifier-locator-addressing-under-the-hood",
+      "url": "https://netdevconf.info/0x12/session.html?identifier-locator-addressing-under-the-hood",
+      "title": "Identifier Locator Addressing under the hood",
+      "listing_title": "Identifier Locator Addressing under the hood",
+      "description": "ILA is a technique to do network virtualization\nwithout encapsulation. ILA leverages the large address\nspace of IPv6 to provide a very efficient and\ntransparent mechanisms to create overlay networks and\nprovide seamless mobility. This talk will explore the\ninternals and provide insights about this effort.\n\nIn this talk we will:\n\n\n\nProvide an overview of the ILA protocol, motivation, use cases, and standardization efforts\n\n\nExamine the internals of the ILA implemention including both the kernel and userspace code\n\n\nDemo a simulated RAN network with ILA \"in a box\". This will include examples of command usage and configuration",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">ILA is a technique to do network virtualization\nwithout encapsulation. ILA leverages the large address\nspace of IPv6 to provide a very efficient and\ntransparent mechanisms to create overlay networks and\nprovide seamless mobility. This talk will explore the\ninternals and provide insights about this effort.\n\nIn this talk we will:</pre>\n<ul>\n<li>Provide an overview of the ILA protocol, motivation, use cases, and standardization efforts</li>\n<li>Examine the internals of the ILA implemention including both the kernel and userspace code</li>\n<li>Demo a simulated RAN network with ILA \"in a box\". This will include examples of command usage and configuration</li>\n</ul>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/identifier-locator-addressing-under-the-hood.html",
+      "track": "Talk",
+      "speakers": "Tom Herbert",
+      "date": "2018-07-13",
+      "time": "13:50 - 14:20, Talk - Nuts and bolts",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/d6deb55f16204a078902/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/identifier-locator-addressing-under-the-hood.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/063555d0f4444c748836/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/identifier-locator-addressing-under-the-hood.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/XmIs8xTUnns",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/identifier-locator-addressing-under-the-hood.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "13:50 - 14:20, Talk - Nuts and bolts",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Identifier Locator Addressing under the hood",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?identifier-locator-addressing-under-the-hood"
+        }
+      ]
+    },
+    {
+      "id": "restructuring-endpoint-congestion-control",
+      "url": "https://netdevconf.info/0x12/session.html?restructuring-endpoint-congestion-control",
+      "title": "Restructuring Endpoint Congestion Control",
+      "listing_title": "Restructuring Endpoint Congestion Control",
+      "description": "This paper describes the implementation and evaluation\nof a Congestion Control Plane (CCP), a new way to\nstructure congestion control at the sender by\nrefactoring the logic between the kernel and a\nuserspace program. With CCP, each\n“datapath” that transmits and receives\npackets, such as the Linux Kernel TCP, flexibly\nsummarizes information about the round-trip time,\npacket receptions, losses, ECN, etc.  via a\nwell-defined interface.  Algorithms running atop CCP\nuse this information to control the datapath’s\ncongestion window or pacing rate.\n\nWe show that CCP enables, for the first time,\ncongestion control algorithms to be written once and\nrun on multiple datapaths. Experiments with our Linux\nCCP implementation show that CCP algorithms behave\nsimilarly to in-kernel algorithms, and incur modest\nCPU overhead of a few percent. We also describe some\nnovel capabilities enabled by CCP’s refactoring\nof congestion control functions, such as a congestion\nmanager for multiple flows and congestion control\nusing signal processing techniques, both running over\nthe Linux TCP stack.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">This paper describes the implementation and evaluation\nof a Congestion Control Plane (CCP), a new way to\nstructure congestion control at the sender by\nrefactoring the logic between the kernel and a\nuserspace program. With CCP, each\n“datapath” that transmits and receives\npackets, such as the Linux Kernel TCP, flexibly\nsummarizes information about the round-trip time,\npacket receptions, losses, ECN, etc.  via a\nwell-defined interface.  Algorithms running atop CCP\nuse this information to control the datapath’s\ncongestion window or pacing rate.\n\nWe show that CCP enables, for the first time,\ncongestion control algorithms to be written once and\nrun on multiple datapaths. Experiments with our Linux\nCCP implementation show that CCP algorithms behave\nsimilarly to in-kernel algorithms, and incur modest\nCPU overhead of a few percent. We also describe some\nnovel capabilities enabled by CCP’s refactoring\nof congestion control functions, such as a congestion\nmanager for multiple flows and congestion control\nusing signal processing techniques, both running over\nthe Linux TCP stack.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/restructuring-endpoint-congestion-control.html",
+      "track": "Talk",
+      "speakers": "Akshay Narayan, Deepti Raghavan, Frank Cangialosi, Prateesh Goyal, Srinivas Narayana, Mohammad Alizadeh, Hari Balakrishnan",
+      "date": "2018-07-13",
+      "time": "14:55 - 15:25, Talk - Moonshot",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/1a123477764e47949553/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/restructuring-endpoint-congestion-control.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/6cdc987223a04525b9de/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/restructuring-endpoint-congestion-control.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/XZKyOZunS0c",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/restructuring-endpoint-congestion-control.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "14:55 - 15:25, Talk - Moonshot",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Restructuring Endpoint Congestion Control",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?restructuring-endpoint-congestion-control"
+        }
+      ]
+    },
+    {
+      "id": "composing-and-configuring-complex-network-interfaces-exposed-from-network-devices-that-contain-a-switch",
+      "url": "https://netdevconf.info/0x12/session.html?composing-and-configuring-complex-network-interfaces-exposed-from-network-devices-that-contain-a-switch",
+      "title": "Composing and configuring complex network interfaces exposed from network devices that contain a switch.",
+      "listing_title": "Composing and configuring complex network interfaces exposed from network devices that contain a switch.",
+      "description": "With the addition of virtualization and the switch\ncontrol plane in the Linux kernel in the last few\nyears driven by the needs of the Cloud, the legacy\nmodels and legacy data structures may not be providing\nenough hooks for configuring and composing a network\ninterface.\n\nWith the switchdev model we are using netdevs both as\nswitch port representors and as the application's\nnetwork port in the VM/Container. Should the switch\nport representors also provide hooks for composing the\nnetwork interface resources such as queues and MSIX\nvectors? Will that scale well in future where network\ninterface in a VM or Container can be composed from\ncombination of pass-through and emulated queues and\nMSIX vectors even crossing PCIe device boundaries.\n\nTake the example of a multi-home network device; the\nmotivation is to spread a single switch port across\nmultiple PCIe devices so as to optimize\nCPU-interconnect bandwidth in multi-socket systems. In\nthis situation, if the NIC-Switch is treating these\nPCIE devices as one switch port and one network\ninterface, there will be a single netdev on top. If\none does not create separate netdevs per PCIe device,\nhow does one control the device resources, such as\nqueues per PCIe device? Does a 3-netdev model with\nsome level of stacking and hiding lower netdevs solve\nthis problem or we should be treating the queues per\nPCIe device as just separate channels? What happens to\nthe SRIOV interfaces coming from each PCIE device? Are\nwe composing the VF netdev as well with two PCIe\ndevice and it is backed by a single switch port in the\nHardware? How do we manage it's individual queue and\nMSIx vector resources coming from the two PCIe\ndevices? Should these resources be managed in the\nHypervisor plane or in the VM?  Based on a VM's use as\nan untrusted Tenant in the Cloud or it's use as an NFV\nappliance, the amount of hooks provided to the VM in\nterms of device composition and switching\nconfiguration can vary very widely. In the first case\nthe less hooks and controls the VM has the better it\nis because the network interface composition needs and\nthe switching configuration needs most likely will be\ncoming from the hypervisor needs such as live\nmigration and what traffic can flow to and from that\ntenant. In the second case a VM or a VF interface is\njust another fully configurable network and switch\nport interface from the VM, it will decide its own\ndestiny.\n\nThis paper's intent is to generate discussion around\nthese complex device-composition/configuration use\ncases, and how the existing switchdev port representor\nmodel might be being overextended to meet them and if\nthat is a good model.  The goal should be to come to a\nconsensus on how to address these going forward, so as\nto avoid having multiple ways to do the same things in\nthe kernel. The paper will put forward a proposal that\nwill cater to various device composition needs as well\nas device and switch configuration visibility needs,\nfor now and for future.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">With the addition of virtualization and the switch\ncontrol plane in the Linux kernel in the last few\nyears driven by the needs of the Cloud, the legacy\nmodels and legacy data structures may not be providing\nenough hooks for configuring and composing a network\ninterface.\n\nWith the switchdev model we are using netdevs both as\nswitch port representors and as the application's\nnetwork port in the VM/Container. Should the switch\nport representors also provide hooks for composing the\nnetwork interface resources such as queues and MSIX\nvectors? Will that scale well in future where network\ninterface in a VM or Container can be composed from\ncombination of pass-through and emulated queues and\nMSIX vectors even crossing PCIe device boundaries.\n\nTake the example of a multi-home network device; the\nmotivation is to spread a single switch port across\nmultiple PCIe devices so as to optimize\nCPU-interconnect bandwidth in multi-socket systems. In\nthis situation, if the NIC-Switch is treating these\nPCIE devices as one switch port and one network\ninterface, there will be a single netdev on top. If\none does not create separate netdevs per PCIe device,\nhow does one control the device resources, such as\nqueues per PCIe device? Does a 3-netdev model with\nsome level of stacking and hiding lower netdevs solve\nthis problem or we should be treating the queues per\nPCIe device as just separate channels? What happens to\nthe SRIOV interfaces coming from each PCIE device? Are\nwe composing the VF netdev as well with two PCIe\ndevice and it is backed by a single switch port in the\nHardware? How do we manage it's individual queue and\nMSIx vector resources coming from the two PCIe\ndevices? Should these resources be managed in the\nHypervisor plane or in the VM?  Based on a VM's use as\nan untrusted Tenant in the Cloud or it's use as an NFV\nappliance, the amount of hooks provided to the VM in\nterms of device composition and switching\nconfiguration can vary very widely. In the first case\nthe less hooks and controls the VM has the better it\nis because the network interface composition needs and\nthe switching configuration needs most likely will be\ncoming from the hypervisor needs such as live\nmigration and what traffic can flow to and from that\ntenant. In the second case a VM or a VF interface is\njust another fully configurable network and switch\nport interface from the VM, it will decide its own\ndestiny.\n\nThis paper's intent is to generate discussion around\nthese complex device-composition/configuration use\ncases, and how the existing switchdev port representor\nmodel might be being overextended to meet them and if\nthat is a good model.  The goal should be to come to a\nconsensus on how to address these going forward, so as\nto avoid having multiple ways to do the same things in\nthe kernel. The paper will put forward a proposal that\nwill cater to various device composition needs as well\nas device and switch configuration visibility needs,\nfor now and for future.  </pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/composing-and-configuring-complex-network-interfaces-exposed-from-network-devices-that-contain-a-switch.html",
+      "track": "Talk",
+      "speakers": "Anjali Singhai Jain, Sridhar Samudrala",
+      "date": "2018-07-12",
+      "time": "14:50 - 15:20, Talk - Moonshot",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/c73841523ecb4bb7a516/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/composing-and-configuring-complex-network-interfaces-exposed-from-network-devices-that-contain-a-switch.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/21af721ce5164efaa495/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/composing-and-configuring-complex-network-interfaces-exposed-from-network-devices-that-contain-a-switch.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/rFvVmkKmSes",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/composing-and-configuring-complex-network-interfaces-exposed-from-network-devices-that-contain-a-switch.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "14:50 - 15:20, Talk - Moonshot",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Composing and configuring complex network interfaces exposed from network devices that contain a switch.",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?composing-and-configuring-complex-network-interfaces-exposed-from-network-devices-that-contain-a-switch"
+        }
+      ]
+    },
+    {
+      "id": "udp-segmentation-offload",
+      "url": "https://netdevconf.info/0x12/session.html?udp-segmentation-offload",
+      "title": "UDP segmentation offload",
+      "listing_title": "UDP segmentation offload",
+      "description": "UDP segmentation was recently introduced to the Linux\nkernel. Even though this is a new netdev features,\nsome existing devices (e.g. ixgbe, ConnectX-4, and\nConnectX-5) may be able to support it.\n\nIn this talk we will present our efforts towards\nsupporting UDP segmentation offload with existing\ndevices.  The limitations we've encountered. How we\novercome these limitations, and suggest potential\nimprovements to the Linux networking stack to\ngeneralize our work and make driver development\neasier.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">UDP segmentation was recently introduced to the Linux\nkernel. Even though this is a new netdev features,\nsome existing devices (e.g. ixgbe, ConnectX-4, and\nConnectX-5) may be able to support it.\n\nIn this talk we will present our efforts towards\nsupporting UDP segmentation offload with existing\ndevices.  The limitations we've encountered. How we\novercome these limitations, and suggest potential\nimprovements to the Linux networking stack to\ngeneralize our work and make driver development\neasier.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/udp-segmentation-offload.html",
+      "track": "Talk",
+      "speakers": "Boris Pismenny, Yossi Kupperman",
+      "date": "2018-07-13",
+      "time": "16:30 - 16:55, Talk - Nuts and bolts",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/4c92dc6fe1c844948810/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/udp-segmentation-offload.html"
+        },
+        {
+          "title": "paper",
+          "url": "https://www.files.netdevconf.info/d/6beaf10d89c242bf8d66/",
+          "kind": "paper",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/udp-segmentation-offload.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/XveUxszErTY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/udp-segmentation-offload.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "16:30 - 16:55, Talk - Nuts and bolts",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "UDP segmentation offload",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?udp-segmentation-offload"
+        }
+      ]
+    },
+    {
+      "id": "closing",
+      "url": "https://netdevconf.info/0x12/session.html?closing",
+      "title": "Closing",
+      "listing_title": "Closing",
+      "description": "",
+      "description_html": "",
+      "description_status": "missing",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/closing.html",
+      "track": "Talk",
+      "speakers": "Jamal Hadi Salim",
+      "date": "2018-07-13",
+      "time": "17:00 - 17:30",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/72813d570e3e477a8fb9/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/closing.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/sib9oZ70TOA",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/closing.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-13",
+          "time": "17:00 - 17:30",
+          "room": "DAY 3/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "CLOSING CEREMONY",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?closing"
+        }
+      ]
+    },
+    {
+      "id": "workshop-summary",
+      "url": "https://netdevconf.info/0x12/session.html?workshop-summary",
+      "title": "Workshop Summary",
+      "listing_title": "Workshop Summary",
+      "description": "",
+      "description_html": "",
+      "description_status": "missing",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/workshop-summary.html",
+      "track": "Talk",
+      "speakers": "Sowmini Varadhan, Jamal Hadi Salim, Alexander Duyck, Roopa Prabhu, Stefan Schmidt",
+      "date": "2018-07-12",
+      "time": "8:45 - 9:15",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/18907561ea60411a9b9e/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/workshop-summary.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/1AjxH-jH8Jk",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/workshop-summary.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "8:45 - 9:15",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Workshop Summary",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?workshop-summary"
+        }
+      ]
+    },
+    {
+      "id": "ipsecike-tutoriallab",
+      "url": "https://netdevconf.info/0x12/session.html?ipsecike-tutoriallab",
+      "title": "IPsec/IKE tutorial/lab",
+      "listing_title": "IPsec/IKE tutorial/lab",
+      "description": "The goal of the tutorial is to give the audience a\ntour of the control and data-plane for IPsec in the\nLinux kernel.  The tutorial will have two parts:\n- one describing the kernel's datapath for IPsec, and,\n- the second that goes over libreswan based tools that\n  walk through the steps to set up the IKE (Internet\n  Key Exchange) control-plane for that datapath\n\nFor the data-plane description, Sowmini will walk\nthrough the basic network stack architecture for\ntraffic sent with IPsec. The goal will be to show the\n\"Life of a Packet\" when IPsec is involved. We will\nquickly go over the glossary/terminology around IPsec\nand then walk through the stack internals to go over\nthe key data-structures and functions involved in the\ndatapath for IPsec.\n\nThis will be followed by a a quick rundown by Paul\nWouters on how the IKE control plane works and how to\nconfigure IKE/IPsec using libreswan in some common\ndeployment scenarios such as remote access VPN,\nhub-spoke networking and meshed cloud encryption.\n\nParticipants will be walked through the steps for\nsetting up IKE/IPsec on their Virtual Machines on\ntheir laptop. A number of VMs will be made available\nas targets to connect to using the different IKE\nscenarios. These scenarios include some commonly\nencountered roadblocks that will be used to teach\nIPsec trouble-shooting issues. The lab session is\nintended to be fully interactive, so we can go into as\nmuch/little detail as time/interest permits.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">The goal of the tutorial is to give the audience a\ntour of the control and data-plane for IPsec in the\nLinux kernel.  The tutorial will have two parts:\n- one describing the kernel's datapath for IPsec, and,\n- the second that goes over libreswan based tools that\n  walk through the steps to set up the IKE (Internet\n  Key Exchange) control-plane for that datapath\n\nFor the data-plane description, Sowmini will walk\nthrough the basic network stack architecture for\ntraffic sent with IPsec. The goal will be to show the\n\"Life of a Packet\" when IPsec is involved. We will\nquickly go over the glossary/terminology around IPsec\nand then walk through the stack internals to go over\nthe key data-structures and functions involved in the\ndatapath for IPsec.\n\nThis will be followed by a a quick rundown by Paul\nWouters on how the IKE control plane works and how to\nconfigure IKE/IPsec using libreswan in some common\ndeployment scenarios such as remote access VPN,\nhub-spoke networking and meshed cloud encryption.\n\nParticipants will be walked through the steps for\nsetting up IKE/IPsec on their Virtual Machines on\ntheir laptop. A number of VMs will be made available\nas targets to connect to using the different IKE\nscenarios. These scenarios include some commonly\nencountered roadblocks that will be used to teach\nIPsec trouble-shooting issues. The lab session is\nintended to be fully interactive, so we can go into as\nmuch/little detail as time/interest permits.</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/ipsecike-tutoriallab.html",
+      "track": "Tutorial",
+      "speakers": "Sowmini Varadhan, Paul Wouters",
+      "date": "2018-07-11",
+      "time": "10:30 - 12:30, Tutorial - Hands on",
+      "room": "DAY 1/TRACK 1: Ovation (5th floor)",
+      "attachments": [
+        {
+          "title": "Wiki",
+          "url": "https://netdevconf.info/wiki/doku.php?id=0x12:ipsec_tutorial",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/ipsecike-tutoriallab.html"
+        },
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/39697c805e994b169748/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/ipsecike-tutoriallab.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/7oldcYljp4U",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/ipsecike-tutoriallab.html"
+        },
+        {
+          "title": "One to read/watch: IPsec and IKE Tutorial",
+          "url": "https://jon.sprig.gs/blog/post/847",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/ipsecike-tutoriallab.html"
+        },
+        {
+          "title": "netdev day 1: IPsec!",
+          "url": "https://jvns.ca/blog/2018/07/11/netdev-day-1--ipsec/",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/ipsecike-tutoriallab.html"
+        }
+      ],
+      "material_notes": [
+        "Coverage One to read/watch: IPsec and IKE Tutorial netdev day 1: IPsec!"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-11",
+          "time": "10:30 - 12:30, Tutorial - Hands on",
+          "room": "DAY 1/TRACK 1: Ovation (5th floor)",
+          "schedule_title": "IPsec/IKE tutorial/lab",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?ipsecike-tutoriallab"
+        }
+      ]
+    },
+    {
+      "id": "introduction-to-frrouting",
+      "url": "https://netdevconf.info/0x12/session.html?introduction-to-frrouting",
+      "title": "Introduction to FRRouting",
+      "listing_title": "Introduction to FRRouting",
+      "description": "The Free Range Routing(FRR) provides protocol daemons\nfor BGP, IS-IS, LDP, OSPF, PIM, and RIP. It is used by\nmany large ISPs, SaaS infrastructure data centres, and\nFortune 500 private clouds. More details at:\nhttps://frrouting.org/\n\nThis instructor-led tutorial will cover basic\nintroduction to the FRRouting Suite and lead towards\nadvanced features on how FRR fits into the classic\nData Center.\n\nThe tutorial first half will be introduction to the\ndifferent components in FRR and how to get a basic\nsetup running.  We will then venture into basic setup\nof OSPF/BGP/ISIS for a simple network.\n\nIn the second half we will discuss why and how OSPF\nand BGP fit into the classic Data Center Architecture.\nHow RFC-5549 and Unnumbered interfaces changed\naddressing and reachability in your network and how\nthis problem was solved in the Linux Kernel.  Finally\nwe will cover how EVPN solved L2 connectivity over L3\nnetworks.  Users will be presented with working\nexamples and general knowledge of how to approach\nusing FRR for their routing needs.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">The Free Range Routing(FRR) provides protocol daemons\nfor BGP, IS-IS, LDP, OSPF, PIM, and RIP. It is used by\nmany large ISPs, SaaS infrastructure data centres, and\nFortune 500 private clouds. More details at:\n<a href=\"https://frrouting.org/\">https://frrouting.org/</a>\n\nThis instructor-led tutorial will cover basic\nintroduction to the FRRouting Suite and lead towards\nadvanced features on how FRR fits into the classic\nData Center.\n\nThe tutorial first half will be introduction to the\ndifferent components in FRR and how to get a basic\nsetup running.  We will then venture into basic setup\nof OSPF/BGP/ISIS for a simple network.\n\nIn the second half we will discuss why and how OSPF\nand BGP fit into the classic Data Center Architecture.\nHow RFC-5549 and Unnumbered interfaces changed\naddressing and reachability in your network and how\nthis problem was solved in the Linux Kernel.  Finally\nwe will cover how EVPN solved L2 connectivity over L3\nnetworks.  Users will be presented with working\nexamples and general knowledge of how to approach\nusing FRR for their routing needs.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/introduction-to-frrouting.html",
+      "track": "Tutorial",
+      "speakers": "Donald Sharp",
+      "date": "2018-07-11",
+      "time": "17:00 - 18:30, Tutorial - Hands on",
+      "room": "DAY 1/TRACK 1: Ovation (5th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/91a859eaaa0249408e9a/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/introduction-to-frrouting.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/NxP9lBvoawE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/introduction-to-frrouting.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-11",
+          "time": "17:00 - 18:30, Tutorial - Hands on",
+          "room": "DAY 1/TRACK 1: Ovation (5th floor)",
+          "schedule_title": "Introduction to FRRouting",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?introduction-to-frrouting"
+        }
+      ]
+    },
+    {
+      "id": "tc-workshop",
+      "url": "https://netdevconf.info/0x12/session.html?tc-workshop",
+      "title": "TC workshop",
+      "listing_title": "TC workshop",
+      "description": "Face to Face discussions on different Traffic Control\ntopics.  Current WAG agenda (subject to update):\n\n\n\nNew tc features since netdev 2.2 summary\n\n\nNew features requests/improvements\n\n\nPerformance\n\n\nTesting Progress\n\n\nOthers to be added over time",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">Face to Face discussions on different Traffic Control\ntopics.  Current WAG agenda (subject to update):</pre>\n<ul>\n<li>New tc features since netdev 2.2 summary</li>\n<li>New features requests/improvements</li>\n<li>Performance</li>\n<li>Testing Progress</li>\n<li>Others to be added over time</li>\n</ul>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/tc-workshop.html",
+      "track": "Workshop",
+      "speakers": "Jamal Hadi Salim",
+      "date": "2018-07-11",
+      "time": "10:30 - 12:30, Workshop - Nuts and bolts",
+      "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/9535fba900604dcd9c93/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/tc-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/6-FLEpfQ7W8",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/tc-workshop.html"
+        },
+        {
+          "session_id": "tc-workshop",
+          "title": "linux_parser_2.pdf",
+          "url": "https://web.archive.org/web/20221209204750/https://files.netdevconf.info/seafhttp/files/0f03f643-4169-4239-966f-52b112a26255/linux_parser_2.pdf",
+          "kind": "slides",
+          "type": "file",
+          "verification": "PDF downloaded; first page extracted",
+          "original_url": "https://files.netdevconf.info/seafhttp/files/0f03f643-4169-4239-966f-52b112a26255/linux_parser_2.pdf",
+          "size_bytes": 603810,
+          "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+        },
+        {
+          "session_id": "tc-workshop",
+          "title": "TC Documentation.pdf",
+          "url": "https://web.archive.org/web/20221211024402/https://files.netdevconf.info/seafhttp/files/0fb96937-4ab2-4c26-a47d-6e04d29e70cf/TC%20Documentation.pdf",
+          "kind": "slides",
+          "type": "file",
+          "verification": "PDF downloaded; first page extracted",
+          "original_url": "https://files.netdevconf.info/seafhttp/files/0fb96937-4ab2-4c26-a47d-6e04d29e70cf/TC%20Documentation.pdf",
+          "size_bytes": 1298648,
+          "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+        },
+        {
+          "session_id": "tc-workshop",
+          "title": "TC arbitrary metadata.pdf",
+          "url": "https://web.archive.org/web/20221210071520/https://files.netdevconf.info/seafhttp/files/340f1957-db7c-4f19-950a-26b945fce3e7/TC%20arbitrary%20metadata.pdf",
+          "kind": "slides",
+          "type": "file",
+          "verification": "PDF downloaded; first page extracted",
+          "original_url": "https://files.netdevconf.info/seafhttp/files/340f1957-db7c-4f19-950a-26b945fce3e7/TC%20arbitrary%20metadata.pdf",
+          "size_bytes": 132651,
+          "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+        },
+        {
+          "session_id": "tc-workshop",
+          "title": "Instrumenting P4 in the Linux kernel.pdf",
+          "url": "https://web.archive.org/web/20221210102427/https://files.netdevconf.info/seafhttp/files/4ce233fc-98f6-4536-b4e6-647f7c8713c6/Instrumenting%20P4%20in%20the%20Linux%20kernel.pdf",
+          "kind": "slides",
+          "type": "file",
+          "verification": "PDF downloaded; first page extracted",
+          "original_url": "https://files.netdevconf.info/seafhttp/files/4ce233fc-98f6-4536-b4e6-647f7c8713c6/Instrumenting%20P4%20in%20the%20Linux%20kernel.pdf",
+          "size_bytes": 160368,
+          "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+        },
+        {
+          "session_id": "tc-workshop",
+          "title": "Locking in TC.pdf",
+          "url": "https://web.archive.org/web/20221210044145/https://files.netdevconf.info/seafhttp/files/87bc24c9-ef10-4d0f-b1c8-0b69dc0c0689/Locking%20in%20TC.pdf",
+          "kind": "slides",
+          "type": "file",
+          "verification": "PDF downloaded; first page extracted",
+          "original_url": "https://files.netdevconf.info/seafhttp/files/87bc24c9-ef10-4d0f-b1c8-0b69dc0c0689/Locking%20in%20TC.pdf",
+          "size_bytes": 297995,
+          "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+        },
+        {
+          "session_id": "tc-workshop",
+          "title": "Parallelizing TC rules update.pdf",
+          "url": "https://web.archive.org/web/20221209224341/https://files.netdevconf.info/seafhttp/files/bb97d184-f4c4-443a-ab3b-f0aa540cb81f/Parallelizing%20TC%20rules%20update.pdf",
+          "kind": "slides",
+          "type": "file",
+          "verification": "PDF downloaded; first page extracted",
+          "original_url": "https://files.netdevconf.info/seafhttp/files/bb97d184-f4c4-443a-ab3b-f0aa540cb81f/Parallelizing%20TC%20rules%20update.pdf",
+          "size_bytes": 1505417,
+          "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+        },
+        {
+          "session_id": "tc-workshop",
+          "title": "TC Workshop Agenda.pdf",
+          "url": "https://web.archive.org/web/20221210035105/https://files.netdevconf.info/seafhttp/files/c3dd6533-4c48-4bc6-9185-20f6ac5e166f/TC%20Workshop%20Agenda.pdf",
+          "kind": "slides",
+          "type": "file",
+          "verification": "PDF downloaded; first page extracted",
+          "original_url": "https://files.netdevconf.info/seafhttp/files/c3dd6533-4c48-4bc6-9185-20f6ac5e166f/TC%20Workshop%20Agenda.pdf",
+          "size_bytes": 30317,
+          "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-11",
+          "time": "10:30 - 12:30, Workshop - Nuts and bolts",
+          "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+          "schedule_title": "TC workshop",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?tc-workshop"
+        },
+        {
+          "date": "2018-07-11",
+          "time": "13:45 - 14:45, Workshop",
+          "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+          "schedule_title": "TC workshop",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?tc-workshop"
+        }
+      ]
+    },
+    {
+      "id": "workshop-on-iot-related-mac-layers-header-compression-and-routing-protocols",
+      "url": "https://netdevconf.info/0x12/session.html?workshop-on-iot-related-mac-layers-header-compression-and-routing-protocols",
+      "title": "Workshop on IoT related MAC layers, header compression and routing protocols",
+      "listing_title": "Workshop on IoT related MAC layers, header compression and routing protocols",
+      "description": "This workshop serves as a follow up and status update\non a similar workshop we have been running in an\nearlier NetDev conference edition. It will continue on\ntopics discussed and bring new ones on the table.\n\nIn no particular order the agenda would roughly\ncover:\n\n\n\nieee802154 and 6lowpan subsystem status update for the last kernel releases o Defining a userspace API to configure 6lowpan header compression options\n\n\nDiscuss what needs to be done for an ieee802154 hardMAC extension to the stack\n\n\nImprove test coverage with hwsim, tdc, scapy & TITAN\n\n\nThoughts on software fallback implementations for ieee802154 CSMA and AACK\n\n\nThoughts on a LoRa subsystem (with SCHC addition to 6lowpan) for Linux\n\n\n\nThis workshop also aims to identify generic\nrequirements for the networking subsystem for IoT and\nstarting the process of addressing the gaps found. The\nworkshop will encompass related MAC layers, networking\nprotocols, adaptation layers, header compression,\nrouting protocols and application layers.\n\nNote: We emphasize only on open protocols and\nspecifications as well as IPv6 instead of company\ngrown networking layers.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">This workshop serves as a follow up and status update\non a similar workshop we have been running in an\nearlier NetDev conference edition. It will continue on\ntopics discussed and bring new ones on the table.\n\nIn no particular order the agenda would roughly\ncover:</pre>\n<ul>\n<li>ieee802154 and 6lowpan subsystem status update for the last kernel releases o Defining a userspace API to configure 6lowpan header compression options</li>\n<li>Discuss what needs to be done for an ieee802154 hardMAC extension to the stack</li>\n<li>Improve test coverage with hwsim, tdc, scapy &amp; TITAN</li>\n<li>Thoughts on software fallback implementations for ieee802154 CSMA and AACK</li>\n<li>Thoughts on a LoRa subsystem (with SCHC addition to 6lowpan) for Linux</li>\n</ul>\n<pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">This workshop also aims to identify generic\nrequirements for the networking subsystem for IoT and\nstarting the process of addressing the gaps found. The\nworkshop will encompass related MAC layers, networking\nprotocols, adaptation layers, header compression,\nrouting protocols and application layers.\n\nNote: We emphasize only on open protocols and\nspecifications as well as IPv6 instead of company\ngrown networking layers.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/workshop-on-iot-related-mac-layers-header-compression-and-routing-protocols.html",
+      "track": "Workshop",
+      "speakers": "Stefan Schmidt",
+      "date": "2018-07-11",
+      "time": "15:00 - 16:30, Workshop - Nuts and bolts",
+      "room": "DAY 1/TRACK 1: Ovation (5th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/8189333e1cc24212bd74/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/workshop-on-iot-related-mac-layers-header-compression-and-routing-protocols.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/xnhvll2BSHQ",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/workshop-on-iot-related-mac-layers-header-compression-and-routing-protocols.html"
+        },
+        {
+          "session_id": "workshop-on-iot-related-mac-layers-header-compression-and-routing-protocols",
+          "title": "Wayback保存済み資料一覧（2ファイル、本体未取得）",
+          "url": "https://web.archive.org/web/20220521135929/https://www.files.netdevconf.info/d/8189333e1cc24212bd74/",
+          "kind": "archive_page",
+          "type": "link",
+          "verification": "archived HTML fetched; PDF not verified",
+          "original_url": "https://www.files.netdevconf.info/d/8189333e1cc24212bd74/"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-11",
+          "time": "15:00 - 16:30, Workshop - Nuts and bolts",
+          "room": "DAY 1/TRACK 1: Ovation (5th floor)",
+          "schedule_title": "Workshop on IoT related MAC layers, header compression and routing protocols",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?workshop-on-iot-related-mac-layers-header-compression-and-routing-protocols"
+        }
+      ]
+    },
+    {
+      "id": "iov-workshop",
+      "url": "https://netdevconf.info/0x12/session.html?iov-workshop",
+      "title": "IOV Workshop",
+      "listing_title": "IOV Workshop",
+      "description": "This workshop is meant to allow for discussion of\nseveral ongoing efforts related to IO Virtualization\nas it pertains to networking.\n\nTopics will include:\n\n\n\nUsing virtio_net as a standby path for SR-IOV Live Migration support\n\n\nvHost Data Path Acceleration (vDPA)\n\n\nMACVLAN offload updates",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">This workshop is meant to allow for discussion of\nseveral ongoing efforts related to IO Virtualization\nas it pertains to networking.\n\nTopics will include:</pre>\n<ul>\n<li>Using virtio_net as a standby path for SR-IOV Live Migration support</li>\n<li>vHost Data Path Acceleration (vDPA)</li>\n<li>MACVLAN offload updates</li>\n</ul>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/iov-workshop.html",
+      "track": "Workshop",
+      "speakers": "Alexander Duyck",
+      "date": "2018-07-11",
+      "time": "8:40 - 10:10, Workshop - Nuts and bolts",
+      "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/2fa6a77e718b406782b8/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/iov-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/mivtCZhjRxY",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/iov-workshop.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-11",
+          "time": "8:40 - 10:10, Workshop - Nuts and bolts",
+          "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+          "schedule_title": "IOV Workshop",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?iov-workshop"
+        }
+      ]
+    },
+    {
+      "id": "netfilter-mini-workshop",
+      "url": "https://netdevconf.info/0x12/session.html?netfilter-mini-workshop",
+      "title": "netfilter mini-workshop",
+      "listing_title": "netfilter mini-workshop",
+      "description": "Netfilter development progress summary, current agenda\n(subject to update):\n\n\n\nNew netfilter features since netdev 2.2 summary\n\n\nNew feature requests/improvements\n\n\nPerformance\n\n\nOthers to be added over time",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">Netfilter development progress summary, current agenda\n(subject to update):</pre>\n<ul>\n<li>New netfilter features since netdev 2.2 summary</li>\n<li>New feature requests/improvements</li>\n<li>Performance</li>\n<li>Others to be added over time</li>\n</ul>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/netfilter-mini-workshop.html",
+      "track": "Workshop",
+      "speakers": "Pablo Neira Ayuso",
+      "date": "2018-07-11",
+      "time": "13:45 - 14:45, Workshop - Nuts and bolts",
+      "room": "DAY 1/TRACK 1: Ovation (5th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/b9a504d7b9a64452b77e/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/netfilter-mini-workshop.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/0hqfzp6tpZo",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/netfilter-mini-workshop.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-11",
+          "time": "13:45 - 14:45, Workshop - Nuts and bolts",
+          "room": "DAY 1/TRACK 1: Ovation (5th floor)",
+          "schedule_title": "netfilter mini-workshop",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?netfilter-mini-workshop"
+        }
+      ]
+    },
+    {
+      "id": "open-linux-network-operating-system-for-switch-asics",
+      "url": "https://netdevconf.info/0x12/session.html?open-linux-network-operating-system-for-switch-asics",
+      "title": "Open Linux Network Operating System for switch ASICs",
+      "listing_title": "Open Linux Network Operating System for switch ASICs",
+      "description": "The primary goal of this workshop is to discuss recent\nupdates, challenges and futures to promote switch ASIC\noffloads via Linux kernel native interfaces. Kernel\nswitchdev, notifiers, and netlink API are the\ninterfaces used today to offload to switch ASICs.\n\nThe workshop discussions will be centered around\nthe below topics:\n\n\n\nNew hardware support\n\n\nHardware Resource management updates\n\n\nScaling routing fib and bridge forwarding database\n\n\nBuilding Network virtualization solutions: E-VPN\n\n\nNetwork Configuration Mangement, Debugging and troubleshooting\n\n\nFutures\n\n\n\nIf time permits, networking updates around, Policy\nbased routing, multi-chassis link aggregation, PIM\n(multicast), igmp snooping, private vlans",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">The primary goal of this workshop is to discuss recent\nupdates, challenges and futures to promote switch ASIC\noffloads via Linux kernel native interfaces. Kernel\nswitchdev, notifiers, and netlink API are the\ninterfaces used today to offload to switch ASICs.\n\nThe workshop discussions will be centered around\nthe below topics:</pre>\n<ul>\n<li>New hardware support</li>\n<li>Hardware Resource management updates</li>\n<li>Scaling routing fib and bridge forwarding database</li>\n<li>Building Network virtualization solutions: E-VPN</li>\n<li>Network Configuration Mangement, Debugging and troubleshooting</li>\n<li>Futures</li>\n</ul>\n<pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">If time permits, networking updates around, Policy\nbased routing, multi-chassis link aggregation, PIM\n(multicast), igmp snooping, private vlans\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/open-linux-network-operating-system-for-switch-asics.html",
+      "track": "Workshop",
+      "speakers": "Roopa Prabhu",
+      "date": "2018-07-11",
+      "time": "15:00 - 16:00, Workshop - Nuts and bolts",
+      "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/46b2a82a5dbf42d49938/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/open-linux-network-operating-system-for-switch-asics.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/sJvUfoFuGFc",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/open-linux-network-operating-system-for-switch-asics.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-11",
+          "time": "15:00 - 16:00, Workshop - Nuts and bolts",
+          "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+          "schedule_title": "Open Linux Network Operating System for switch ASICs",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?open-linux-network-operating-system-for-switch-asics"
+        }
+      ]
+    },
+    {
+      "id": "achieving-super-low-latency-for-critical-real-world-internet-applications",
+      "url": "https://netdevconf.info/0x12/session.html?achieving-super-low-latency-for-critical-real-world-internet-applications",
+      "title": "Achieving super low latency for critical real world Internet applications",
+      "listing_title": "Achieving super low latency for critical real world Internet applications",
+      "description": "This will be a discussion on the\npossibilities and effort that is going to be required\nto achieve super low latency (sub 10 msecs), high\nthroughput, secure, and highly reliable communications\nfor field applications and IoT. Applications include\nreal time safety (like traffic intersection\nmonitoring), remote surgery, industrial robotics,\nsensitive control systems, etc. Emerging networking\ntechnologies, such as 5G, are intended to provide the\ntransmission and network path latencies as low as 1\nms. In another dimension, machine learning is becoming\nincreasingly pervasive and will play a large role.\n\nTo facilitate discussion, we will (attempt :-) ) to do\na live physical demo of traffic intersection using a\nslot car track. This will highlight the convergence of\nmachine learning, real time computation, and the need\nfor highly reliable, low latency communications in a\ncritical environments.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">This will be a discussion on the\npossibilities and effort that is going to be required\nto achieve super low latency (sub 10 msecs), high\nthroughput, secure, and highly reliable communications\nfor field applications and IoT. Applications include\nreal time safety (like traffic intersection\nmonitoring), remote surgery, industrial robotics,\nsensitive control systems, etc. Emerging networking\ntechnologies, such as 5G, are intended to provide the\ntransmission and network path latencies as low as 1\nms. In another dimension, machine learning is becoming\nincreasingly pervasive and will play a large role.\n\nTo facilitate discussion, we will (attempt :-) ) to do\na live physical demo of traffic intersection using a\nslot car track. This will highlight the convergence of\nmachine learning, real time computation, and the need\nfor highly reliable, low latency communications in a\ncritical environments.  </pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/achieving-super-low-latency-for-critical-real-world-internet-applications.html",
+      "track": "Workshop",
+      "speakers": "Tom Herbert",
+      "date": "2018-07-11",
+      "time": "16:30 - 17:30, Workshop - Moonshot",
+      "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/d5af12d3133e4dfdb5dd/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/achieving-super-low-latency-for-critical-real-world-internet-applications.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/qFk3xArSIzU",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/achieving-super-low-latency-for-critical-real-world-internet-applications.html"
+        }
+      ],
+      "material_notes": [],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-11",
+          "time": "16:30 - 17:30, Workshop - Moonshot",
+          "room": "DAY 1/TRACK 2: Inspiration (6th floor)",
+          "schedule_title": "Achieving super low latency for critical real world Internet applications",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?achieving-super-low-latency-for-critical-real-world-internet-applications"
+        }
+      ]
+    },
+    {
+      "id": "evolving-from-afap-teaching-nics-about-time",
+      "url": "https://netdevconf.info/0x12/session.html?evolving-from-afap-teaching-nics-about-time",
+      "title": "Evolving from AFAP: Teaching NICs about time",
+      "listing_title": "Evolving from AFAP: Teaching NICs about time",
+      "description": "Network protocol designers of the 1970s all knew how\nimportant it was to tailor each design to match the\nspeed & prop time of the links it was expected to\nrun over. Or rather, all designers except for a small\nlunatic fringe who believed there was only one time\n(As Long As It Takes) and only one speed (As Fast As\nPossible). They called their protocol TCP/IP and the\nInternet's success rests on their mania.\n\nFrom the 80s through the early millennium, IP's AFAP\ndesign let networks evolve painlessly as link\nbandwidths doubled every year.  But the same physics\nthat limits processor clocks to around 2GHz makes\nlinks >100Gbps a challenge. These limits mean we're\nnot only distributing computation over more CPUs\n(which means more links since CPUs have to talk to\neach other) but also adding additional links for\ncomplex interconnect fabrics (since we can no longer\naggregate per-CPU traffic via a TOR with a 10x fatter\nuplink).\n\n'More links' rather than 'faster links' shifts the\nnetwork engineering focus from 'filling the link' to\n'filling the network'. AFAP is great for filling\nlinks. Unfortunately almost everything we know about\nincreasing network efficiency (e.g., minimize\nhead-of-line blocking by maximizing traffic entropy,\nmaximize total flow & minimize buffer pressure by\nmaximizing 'power') suggests that AFAP is a disaster\nwhile AFAN -- As Fast as Necessary (but no faster) --\nis close to optimal.\n\nIP's AFAP model is embodied in our current NIC API --\nwe tell the NIC what to send but not when to send it.\nI believe that our ability to build future high\nefficiency networks depends critically on evolving the\nNIC API to cover both 'what' & 'when'.  I'll try\nto explain why and how, at least in Linux, the\nevolution could be easy.",
+      "description_html": "<div><pre style=\"font-family: 'Raleway', sans-serif; font-size: 1.08em;\">Network protocol designers of the 1970s all knew how\nimportant it was to tailor each design to match the\nspeed &amp; prop time of the links it was expected to\nrun over. Or rather, all designers except for a small\nlunatic fringe who believed there was only one time\n(As Long As It Takes) and only one speed (As Fast As\nPossible). They called their protocol TCP/IP and the\nInternet's success rests on their mania.\n\nFrom the 80s through the early millennium, IP's AFAP\ndesign let networks evolve painlessly as link\nbandwidths doubled every year.  But the same physics\nthat limits processor clocks to around 2GHz makes\nlinks &gt;100Gbps a challenge. These limits mean we're\nnot only distributing computation over more CPUs\n(which means more links since CPUs have to talk to\neach other) but also adding additional links for\ncomplex interconnect fabrics (since we can no longer\naggregate per-CPU traffic via a TOR with a 10x fatter\nuplink).\n\n'More links' rather than 'faster links' shifts the\nnetwork engineering focus from 'filling the link' to\n'filling the network'. AFAP is great for filling\nlinks. Unfortunately almost everything we know about\nincreasing network efficiency (e.g., minimize\nhead-of-line blocking by maximizing traffic entropy,\nmaximize total flow &amp; minimize buffer pressure by\nmaximizing 'power') suggests that AFAP is a disaster\nwhile AFAN -- As Fast as Necessary (but no faster) --\nis close to optimal.\n\nIP's AFAP model is embodied in our current NIC API --\nwe tell the NIC what to send but not when to send it.\nI believe that our ability to build future high\nefficiency networks depends critically on evolving the\nNIC API to cover both 'what' &amp; 'when'.  I'll try\nto explain why and how, at least in Linux, the\nevolution could be easy.\n</pre>\n  \n   \n    <hr>\n  \n\n</div>",
+      "description_status": "abstract",
+      "description_source": "https://netdevconf.info/0x12/loadsessions/evolving-from-afap-teaching-nics-about-time.html",
+      "track": "Keynote",
+      "speakers": "Van Jacobson",
+      "date": "2018-07-12",
+      "time": "9:20 - 10:20, Keynote",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+      "attachments": [
+        {
+          "title": "slides",
+          "url": "https://www.files.netdevconf.info/d/4ee0a09788fe49709855/",
+          "kind": "slides",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/evolving-from-afap-teaching-nics-about-time.html"
+        },
+        {
+          "title": "video",
+          "url": "https://youtu.be/MAni0_lN7zE",
+          "kind": "video",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/evolving-from-afap-teaching-nics-about-time.html"
+        },
+        {
+          "title": "netdev day 2: moving away from \"as fast as possible\" in networking code",
+          "url": "https://jvns.ca/blog/2018/07/12/netdev-day-2--moving-away-from--as-fast-as-possible/",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/evolving-from-afap-teaching-nics-about-time.html"
+        },
+        {
+          "title": "[PATCH net-next 0/9] tcp: switch to Early Departure Time model",
+          "url": "https://lwn.net/ml/netdev/20180921155154.49489-1-edumazet@google.com/",
+          "kind": "material",
+          "type": "link",
+          "source_url": "https://netdevconf.info/0x12/loadsessions/evolving-from-afap-teaching-nics-about-time.html"
+        },
+        {
+          "session_id": "evolving-from-afap-teaching-nics-about-time",
+          "title": "Evolving from AFAP – Teaching NICs about time.pdf",
+          "url": "https://web.archive.org/web/20220516232408/https://files.netdevconf.info/seafhttp/files/5a1d792d-0ab8-4042-8618-1ba14e6e0fcb/Evolving%20from%20AFAP%20%E2%80%93%20Teaching%20NICs%20about%20time.pdf",
+          "kind": "slides",
+          "type": "file",
+          "verification": "PDF downloaded; title, Van Jacobson, netdev 0x12 Montreal July 2018 verified",
+          "source_url": "user-provided archive URL"
+        }
+      ],
+      "material_notes": [
+        "Coverage netdev day 2: moving away from \"as fast as possible\" in networking code [PATCH net-next 0/9] tcp: switch to Early Departure Time model"
+      ],
+      "scheduled_slots": [
+        {
+          "date": "2018-07-12",
+          "time": "9:20 - 10:20, Keynote",
+          "room": "DAY 2/TRACK 1: Grand Salon (4th floor)",
+          "schedule_title": "Evolving from AFAP: Teaching NICs about time",
+          "schedule_url": "https://netdevconf.info/0x12/session.html?evolving-from-afap-teaching-nics-about-time"
+        }
+      ]
+    }
+  ],
+  "source_urls": [
+    "https://netdevconf.info/0x12/accepted-sessions.html",
+    "https://netdevconf.info/0x12/loadhtml/generated-sessions.html",
+    "https://netdevconf.info/0x12/schedule.html"
+  ],
+  "additional_sessions": [
+    {
+      "title": "Daily Announcements",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2018-07-11",
+      "time": "8:30 - 8:40",
+      "room": "DAY 1/TRACK 1: Ovation (5th floor)"
+    },
+    {
+      "title": "TBA",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2018-07-11",
+      "time": "8:40 - 10:10, Tutorial - Hands on",
+      "room": "DAY 1/TRACK 1: Ovation (5th floor)"
+    },
+    {
+      "title": "Daily Announcements",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2018-07-11",
+      "time": "8:30 - 8:40",
+      "room": "DAY 1/TRACK 2: Inspiration (6th floor)"
+    },
+    {
+      "title": "Daily Announcements",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2018-07-12",
+      "time": "8:30 - 8:40",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)"
+    },
+    {
+      "title": "Bits, Nibbles, Bytes and Words",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2018-07-12",
+      "time": "18:30 - 21:30",
+      "room": "DAY 2/TRACK 1: Grand Salon (4th floor)"
+    },
+    {
+      "title": "Daily Announcements",
+      "url": null,
+      "description": "",
+      "attachments": [],
+      "date": "2018-07-13",
+      "time": "8:30 - 8:40",
+      "room": "DAY 3/TRACK 1: Grand Salon (4th floor)"
+    }
+  ],
+  "additional_materials": [],
+  "common_materials": [],
+  "public_directory_links": [],
+  "material_counts": {
+    "video": 32,
+    "slides": 39,
+    "paper": 18,
+    "archive_page": 3,
+    "material": 5
+  },
+  "supplemental_material_counts": {},
+  "description_counts": {
+    "abstract": 30,
+    "missing": 2
+  },
+  "archive_recovery": {
+    "checked_share_links": 49,
+    "verified_pdfs": [
+      {
+        "session_id": "tc-workshop",
+        "title": "linux_parser_2.pdf",
+        "url": "https://web.archive.org/web/20221209204750/https://files.netdevconf.info/seafhttp/files/0f03f643-4169-4239-966f-52b112a26255/linux_parser_2.pdf",
+        "kind": "slides",
+        "type": "file",
+        "verification": "PDF downloaded; first page extracted",
+        "original_url": "https://files.netdevconf.info/seafhttp/files/0f03f643-4169-4239-966f-52b112a26255/linux_parser_2.pdf",
+        "size_bytes": 603810,
+        "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+      },
+      {
+        "session_id": "tc-workshop",
+        "title": "TC Documentation.pdf",
+        "url": "https://web.archive.org/web/20221211024402/https://files.netdevconf.info/seafhttp/files/0fb96937-4ab2-4c26-a47d-6e04d29e70cf/TC%20Documentation.pdf",
+        "kind": "slides",
+        "type": "file",
+        "verification": "PDF downloaded; first page extracted",
+        "original_url": "https://files.netdevconf.info/seafhttp/files/0fb96937-4ab2-4c26-a47d-6e04d29e70cf/TC%20Documentation.pdf",
+        "size_bytes": 1298648,
+        "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+      },
+      {
+        "session_id": "tc-workshop",
+        "title": "TC arbitrary metadata.pdf",
+        "url": "https://web.archive.org/web/20221210071520/https://files.netdevconf.info/seafhttp/files/340f1957-db7c-4f19-950a-26b945fce3e7/TC%20arbitrary%20metadata.pdf",
+        "kind": "slides",
+        "type": "file",
+        "verification": "PDF downloaded; first page extracted",
+        "original_url": "https://files.netdevconf.info/seafhttp/files/340f1957-db7c-4f19-950a-26b945fce3e7/TC%20arbitrary%20metadata.pdf",
+        "size_bytes": 132651,
+        "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+      },
+      {
+        "session_id": "tc-workshop",
+        "title": "Instrumenting P4 in the Linux kernel.pdf",
+        "url": "https://web.archive.org/web/20221210102427/https://files.netdevconf.info/seafhttp/files/4ce233fc-98f6-4536-b4e6-647f7c8713c6/Instrumenting%20P4%20in%20the%20Linux%20kernel.pdf",
+        "kind": "slides",
+        "type": "file",
+        "verification": "PDF downloaded; first page extracted",
+        "original_url": "https://files.netdevconf.info/seafhttp/files/4ce233fc-98f6-4536-b4e6-647f7c8713c6/Instrumenting%20P4%20in%20the%20Linux%20kernel.pdf",
+        "size_bytes": 160368,
+        "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+      },
+      {
+        "session_id": "tc-workshop",
+        "title": "Locking in TC.pdf",
+        "url": "https://web.archive.org/web/20221210044145/https://files.netdevconf.info/seafhttp/files/87bc24c9-ef10-4d0f-b1c8-0b69dc0c0689/Locking%20in%20TC.pdf",
+        "kind": "slides",
+        "type": "file",
+        "verification": "PDF downloaded; first page extracted",
+        "original_url": "https://files.netdevconf.info/seafhttp/files/87bc24c9-ef10-4d0f-b1c8-0b69dc0c0689/Locking%20in%20TC.pdf",
+        "size_bytes": 297995,
+        "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+      },
+      {
+        "session_id": "tc-workshop",
+        "title": "Parallelizing TC rules update.pdf",
+        "url": "https://web.archive.org/web/20221209224341/https://files.netdevconf.info/seafhttp/files/bb97d184-f4c4-443a-ab3b-f0aa540cb81f/Parallelizing%20TC%20rules%20update.pdf",
+        "kind": "slides",
+        "type": "file",
+        "verification": "PDF downloaded; first page extracted",
+        "original_url": "https://files.netdevconf.info/seafhttp/files/bb97d184-f4c4-443a-ab3b-f0aa540cb81f/Parallelizing%20TC%20rules%20update.pdf",
+        "size_bytes": 1505417,
+        "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+      },
+      {
+        "session_id": "tc-workshop",
+        "title": "TC Workshop Agenda.pdf",
+        "url": "https://web.archive.org/web/20221210035105/https://files.netdevconf.info/seafhttp/files/c3dd6533-4c48-4bc6-9185-20f6ac5e166f/TC%20Workshop%20Agenda.pdf",
+        "kind": "slides",
+        "type": "file",
+        "verification": "PDF downloaded; first page extracted",
+        "original_url": "https://files.netdevconf.info/seafhttp/files/c3dd6533-4c48-4bc6-9185-20f6ac5e166f/TC%20Workshop%20Agenda.pdf",
+        "size_bytes": 30317,
+        "source_url": "https://web.archive.org/web/20221209193205/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/"
+      },
+      {
+        "session_id": "evolving-from-afap-teaching-nics-about-time",
+        "title": "Evolving from AFAP – Teaching NICs about time.pdf",
+        "url": "https://web.archive.org/web/20220516232408/https://files.netdevconf.info/seafhttp/files/5a1d792d-0ab8-4042-8618-1ba14e6e0fcb/Evolving%20from%20AFAP%20%E2%80%93%20Teaching%20NICs%20about%20time.pdf",
+        "kind": "slides",
+        "type": "file",
+        "verification": "PDF downloaded; title, Van Jacobson, netdev 0x12 Montreal July 2018 verified",
+        "source_url": "user-provided archive URL"
+      }
+    ],
+    "archived_html_only": [
+      {
+        "session_id": "workshop-on-iot-related-mac-layers-header-compression-and-routing-protocols",
+        "title": "Wayback保存済み資料一覧（2ファイル、本体未取得）",
+        "url": "https://web.archive.org/web/20220521135929/https://www.files.netdevconf.info/d/8189333e1cc24212bd74/",
+        "kind": "archive_page",
+        "type": "link",
+        "verification": "archived HTML fetched; PDF not verified",
+        "original_url": "https://www.files.netdevconf.info/d/8189333e1cc24212bd74/"
+      },
+      {
+        "session_id": "how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel",
+        "title": "Wayback保存済み閲覧ページ（PDF本体未取得）",
+        "url": "https://web.archive.org/web/20220917180114/https://www.files.netdevconf.info/d/8a1f3727ff7e48d89ea4/files/?p=%2Fhow-hard-can-it-be-adding-multipath-tcp-upstream-k_HNs4aZh.pdf",
+        "kind": "archive_page",
+        "type": "link",
+        "verification": "archived HTML fetched; PDF not verified",
+        "original_url": "https://www.files.netdevconf.info/d/8a1f3727ff7e48d89ea4/files/?p=%2Fhow-hard-can-it-be-adding-multipath-tcp-upstream-k_HNs4aZh.pdf"
+      },
+      {
+        "session_id": "quic-developing-and-deploying-a-tcp-replacement-for-the-web",
+        "title": "Wayback保存済み閲覧ページ（PDF本体未取得）",
+        "url": "https://web.archive.org/web/20190212095811/https://www.files.netdevconf.org/d/4821d19eac8640039d15/files/?p=/QUIC%20-%20Developing%20and%20Deploying%20a%20TCP%20Replacement%20for%20the%20Web.pdf",
+        "kind": "archive_page",
+        "type": "link",
+        "verification": "archived HTML fetched; PDF not verified",
+        "original_url": "https://www.files.netdevconf.org/d/4821d19eac8640039d15/files/?p=/QUIC%20-%20Developing%20and%20Deploying%20a%20TCP%20Replacement%20for%20the%20Web.pdf"
+      }
+    ],
+    "unverified_pdf_attempts": [
+      {
+        "key": "mptcp",
+        "url": "https://web.archive.org/web/20220917180114/https://files.netdevconf.info/seafhttp/files/01ba2800-7f4f-4198-8fbf-5f1cf5cb0905/how-hard-can-it-be-adding-multipath-tcp-upstream-k_HNs4aZh.pdf",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "key": "quic",
+        "url": "https://web.archive.org/web/20190212095811/https://www.files.netdevconf.org/seafhttp/files/763486b7-0cbe-4f8a-9762-c78cabc54afe/QUIC%20-%20Developing%20and%20Deploying%20a%20TCP%20Replacement%20for%20the%20Web.pdf",
+        "error": "HTTP Error 404: NOT FOUND"
+      }
+    ],
+    "shared_page_checks": [
+      {
+        "session_id": "kernel-tls-handshakes-for-https-ddos-mitigation",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/5a7edc32c6a2461b9647/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/5a7edc32c6a2461b9647/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "kernel-tls-handshakes-for-https-ddos-mitigation",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/f9b7fe14ea3a4fdbb3d3/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/f9b7fe14ea3a4fdbb3d3/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "subscriber-billing-system-over-commodity-hardware",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/3cd4aab468014f8ca378/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/3cd4aab468014f8ca378/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "subscriber-billing-system-over-commodity-hardware",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/ae12ae49731844ca98a9/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/ae12ae49731844ca98a9/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "communication-groups-in-tipc",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/a21573ac988c42d1accf/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/a21573ac988c42d1accf/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "communication-groups-in-tipc",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/6a0717f3a94e4645b903/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/6a0717f3a94e4645b903/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "bbrx-extending-bbr-for-customized-tcp-performance",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/6c444c59e46e4ffcb674/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/6c444c59e46e4ffcb674/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "bbrx-extending-bbr-for-customized-tcp-performance",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/0958911efab94618a1df/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/0958911efab94618a1df/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "using-ebpf-for-rds-filtering",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/26fbefba19594514bfb7/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/26fbefba19594514bfb7/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "using-ebpf-for-rds-filtering",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/9b3ce270ff2747268e41/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/9b3ce270ff2747268e41/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "challenges-migrating-from-ndiv-to-xdp",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/54f613f7b413472ba398/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/54f613f7b413472ba398/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "a-pcc-vivace-kernel-module-for-congestion-control",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/b0a4dddb83364495b0ce/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/b0a4dddb83364495b0ce/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "a-pcc-vivace-kernel-module-for-congestion-control",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/d53b3ff9c3b041099939/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/d53b3ff9c3b041099939/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "suricata-an-xdp-adventure",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/38b6e2a3d8c3445daefb/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/38b6e2a3d8c3445daefb/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "suricata-an-xdp-adventure",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/1c4fd4306c7143249dbe/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/1c4fd4306c7143249dbe/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "quic-developing-and-deploying-a-tcp-replacement-for-the-web",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/5aac7d058d5445e99357/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/5aac7d058d5445e99357/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "quic-developing-and-deploying-a-tcp-replacement-for-the-web",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/cc219ab65c5944659118/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/cc219ab65c5944659118/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "building-a-better-nos-with-linux-and-switchdev",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/7166ecf34141436a92f6/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/7166ecf34141436a92f6/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "building-a-better-nos-with-linux-and-switchdev",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/f982086fdd6946d9b596/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/f982086fdd6946d9b596/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "lsdn-manage-complex-virtual-networks-in-cloud-environment-with-linux-kernel-facilities",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/05a4a50846f4486fab35/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/05a4a50846f4486fab35/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "lsdn-manage-complex-virtual-networks-in-cloud-environment-with-linux-kernel-facilities",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/244afd8141864eaebd31/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/244afd8141864eaebd31/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "toward-an-ebpf-based-clone-of-iptables",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/26b9a6383a51449a80ae/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/26b9a6383a51449a80ae/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "toward-an-ebpf-based-clone-of-iptables",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/d749eb99d399454eb2e5/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/d749eb99d399454eb2e5/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "dim-generic-dynamic-interrupt-moderation-library",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/60c7419aaf114da0b8fb/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/60c7419aaf114da0b8fb/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "dim-generic-dynamic-interrupt-moderation-library",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/a75373780cb5476bab9a/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/a75373780cb5476bab9a/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "tc-connection-tracking-hardware-offload",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/3b992d5f38f6488e988e/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/3b992d5f38f6488e988e/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "tc-connection-tracking-hardware-offload",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/b6b3942d92cb4d44960c/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/b6b3942d92cb4d44960c/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/8a1f3727ff7e48d89ea4/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/8a1f3727ff7e48d89ea4/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "how-hard-can-it-be-adding-multipath-tcp-to-the-upstream-kernel",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/4de7ab0bd1d543eb95b9/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/4de7ab0bd1d543eb95b9/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "smart-network-analytics-with-bpf-using-skydive-and-cognetive",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/872969b0076e430a86be/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/872969b0076e430a86be/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "identifier-locator-addressing-under-the-hood",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/d6deb55f16204a078902/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/d6deb55f16204a078902/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "identifier-locator-addressing-under-the-hood",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/063555d0f4444c748836/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/063555d0f4444c748836/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "restructuring-endpoint-congestion-control",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/1a123477764e47949553/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/1a123477764e47949553/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "restructuring-endpoint-congestion-control",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/6cdc987223a04525b9de/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/6cdc987223a04525b9de/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "composing-and-configuring-complex-network-interfaces-exposed-from-network-devices-that-contain-a-switch",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/c73841523ecb4bb7a516/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/c73841523ecb4bb7a516/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "composing-and-configuring-complex-network-interfaces-exposed-from-network-devices-that-contain-a-switch",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/21af721ce5164efaa495/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/21af721ce5164efaa495/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "udp-segmentation-offload",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/4c92dc6fe1c844948810/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/4c92dc6fe1c844948810/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "udp-segmentation-offload",
+        "title": "paper",
+        "url": "https://www.files.netdevconf.info/d/6beaf10d89c242bf8d66/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/6beaf10d89c242bf8d66/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "closing",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/72813d570e3e477a8fb9/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/72813d570e3e477a8fb9/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "workshop-summary",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/18907561ea60411a9b9e/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/18907561ea60411a9b9e/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "ipsecike-tutoriallab",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/39697c805e994b169748/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/39697c805e994b169748/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "introduction-to-frrouting",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/91a859eaaa0249408e9a/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/91a859eaaa0249408e9a/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "tc-workshop",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/9535fba900604dcd9c93/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/9535fba900604dcd9c93/",
+        "archive_page_url": "https://web.archive.org/web/20221209193205id_/https://www.files.netdevconf.info/d/9535fba900604dcd9c93/",
+        "status": 200
+      },
+      {
+        "session_id": "workshop-on-iot-related-mac-layers-header-compression-and-routing-protocols",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/8189333e1cc24212bd74/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/8189333e1cc24212bd74/",
+        "archive_page_url": "https://web.archive.org/web/20220521135929id_/https://www.files.netdevconf.info/d/8189333e1cc24212bd74/",
+        "status": 200
+      },
+      {
+        "session_id": "iov-workshop",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/2fa6a77e718b406782b8/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/2fa6a77e718b406782b8/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "netfilter-mini-workshop",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/b9a504d7b9a64452b77e/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/b9a504d7b9a64452b77e/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "open-linux-network-operating-system-for-switch-asics",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/46b2a82a5dbf42d49938/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/46b2a82a5dbf42d49938/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "achieving-super-low-latency-for-critical-real-world-internet-applications",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/d5af12d3133e4dfdb5dd/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/d5af12d3133e4dfdb5dd/",
+        "error": "HTTP Error 404: NOT FOUND"
+      },
+      {
+        "session_id": "evolving-from-afap-teaching-nics-about-time",
+        "title": "slides",
+        "url": "https://www.files.netdevconf.info/d/4ee0a09788fe49709855/",
+        "archive_request_url": "https://web.archive.org/web/20220516000000id_/https://files.netdevconf.info/d/4ee0a09788fe49709855/",
+        "archive_page_url": "https://web.archive.org/web/20220516231159id_/https://www.files.netdevconf.info/d/4ee0a09788fe49709855/",
+        "status": 200
+      }
+    ],
+    "iot_directory_filenames": [
+      "IoT related MAC layers, header compression and routing protocols.pdf",
+      "LoRaWAN Class Module & Subsystem.pdf"
+    ]
+  }
+}

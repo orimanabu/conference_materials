@@ -3,10 +3,10 @@
   "source_url": "https://kernel-recipes.org/en/2025/schedule/",
   "retrieved_on": "2026-10-11",
   "timezone": "Europe/Paris",
-  "notes": "旧 Document Library に Tag=2025 がないため、公式の2025年 Schedule に掲載された全20講演を収録。歓迎、休憩、昼食、朝食、チャリティオークションは講演ではないため除外。個別ページの SpeakerDeck・PDF・YouTube・本文リンクを資料に収録し、リンク先の閲覧可否は未検査。 Program verification for the Linux kernel の個別ページには BPFize Your Kernel Subsystem と同じ説明文が掲載されているが、原文を保持した。",
+  "notes": "旧 Document Library に Tag=2025 がないため、公式の2025年 Schedule に掲載された全20講演を収録。歓迎、休憩、昼食、朝食、チャリティオークションは講演ではないため除外。個別ページの SpeakerDeck・PDF・YouTube・本文リンクを資料に収録し、リンク先の閲覧可否は未検査。 Program verification for the Linux kernel の個別ページには BPFize Your Kernel Subsystem と同じ説明文が掲載されているが、原文を保持した。 Virtual Xen: Using Linux/KVM to host Xen guests without them noticing は Schedule ページのナビゲーションメニューに掲載されているが、スケジュールグリッドには掲載されておらず、動画・スライドリンクも存在しない。日時不明のため date のみ 2025-09-23 とし、time は空とした。",
   "counts": {
-    "sessions": 20,
-    "with_description": 20,
+    "sessions": 21,
+    "with_description": 21,
     "with_materials": 20,
     "attachments": 36,
     "files": 0,
@@ -459,6 +459,27 @@
           "source_url": "https://kernel-recipes.org/en/2025/schedule/program-verification-for-the-linux-kernel-potential-costs-and-benefits-tentative/"
         }
       ]
+    },
+    {
+      "id": "virtual-xen-using-linux-kvm-to-host-xen-guests-without-them-noticing",
+      "url": "https://kernel-recipes.org/en/2025/schedule/virtual-xen-using-linux-kvm-to-host-xen-guests-without-them-noticing/",
+      "title": "Virtual Xen: Using Linux/KVM to host Xen guests without them noticing.",
+      "listing_title": "Virtual Xen: Using Linux/KVM to host Xen guests without them noticing.",
+      "description": "This talk looks at what it means to be a \"Xen guest\", and how we emulate the Xen environment in KVM and QEMU to support customer virtual machines that still think they're running under real Xen. It will cover the initial detection of Xen through CPUID, the Xen \"event channel\" mechanism for interrupts, important hypercalls and enlightenments that a guest uses, XenStore and the paravirtualised disk and network devices.",
+      "description_html": "<p>This talk looks at what it means to be a &#8220;Xen guest&#8221;, and how we emulate the Xen environment in KVM and QEMU to support customer virtual machines that still think they&#8217;re running under real Xen.</p>\n<p>It will cover the initial detection of Xen through CPUID, the Xen &#8220;event channel&#8221; mechanism for interrupts, important hypercalls and enlightenments that a guest uses, XenStore and the paravirtualised disk and network devices.</p>",
+      "description_source": "https://kernel-recipes.org/en/2025/schedule/virtual-xen-using-linux-kvm-to-host-xen-guests-without-them-noticing/",
+      "description_status": "abstract",
+      "track": "Talk",
+      "speakers": "David WOODHOUSE",
+      "metadata": {
+        "Speakers": "David WOODHOUSE",
+        "Session Type": "Talk",
+        "Year": "2025"
+      },
+      "date": "2025-09-23",
+      "time": "",
+      "room": "",
+      "attachments": []
     },
     {
       "id": "modernizing-virtio-gpu",
